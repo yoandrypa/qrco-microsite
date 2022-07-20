@@ -102,3 +102,15 @@ dist
 
 # TernJS port file
 .tern-port
+
+.vscode/
+client/.next/
+client/config.js
+client/old.config.js
+server/config.js
+server/old.config.js
+production-server
+.idea/
+dump.rdb
+docs/api/*.js
+docs/api/static
