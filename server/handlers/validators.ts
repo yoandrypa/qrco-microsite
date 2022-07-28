@@ -1,16 +1,14 @@
 import { body, param } from "express-validator";
-import { isAfter, subDays, subHours, addMilliseconds } from "date-fns";
+import { addMilliseconds, isAfter, subDays, subHours } from "date-fns";
 import urlRegex from "url-regex";
 import { promisify } from "util";
-import bcrypt from "bcryptjs";
 import axios from "axios";
 import dns from "dns";
 import URL from "url";
 import ms from "ms";
 
-import { CustomError, addProtocol, removeWww } from "../utils";
+import { addProtocol, CustomError, removeWww } from "../utils";
 import query from "../queries";
-import knex from "../knex";
 import env from "../env";
 
 const dnsLookup = promisify(dns.lookup);
@@ -37,8 +35,6 @@ export const preservedUrls = [
   "report",
   "pricing"
 ];
-
-export const checkUser = (value, { req }) => !!req.user;
 
 export const createLink = [
   body("target")
@@ -120,7 +116,7 @@ export const createLink = [
 
       const domain = await query.domain.find({
         address,
-        user_id: 1234
+        user_id: { eq: "1234" }
       });
       req.body.domain = domain || null;
 
@@ -287,81 +283,6 @@ export const getStats = [
     .isLength({ min: 36, max: 36 })
 ];
 
-export const signup = [
-  body("password", "Password is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .isLength({ min: 8, max: 64 })
-    .withMessage("Password length must be between 8 and 64."),
-  body("email", "Email is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .trim()
-    .isEmail()
-    .isLength({ min: 0, max: 255 })
-    .withMessage("Email length must be max 255.")
-    .custom(async (value, { req }) => {
-      const user = await query.user.find({ email: value });
-
-      if (user) {
-        req.user = user;
-      }
-
-      if (user?.verified) return Promise.reject();
-    })
-    .withMessage("You can't use this email address.")
-];
-
-export const login = [
-  body("password", "Password is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .isLength({ min: 8, max: 64 })
-    .withMessage("Password length must be between 8 and 64."),
-  body("email", "Email is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .trim()
-    .isEmail()
-    .isLength({ min: 0, max: 255 })
-    .withMessage("Email length must be max 255.")
-];
-
-export const changePassword = [
-  body("password", "Password is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .isLength({ min: 8, max: 64 })
-    .withMessage("Password length must be between 8 and 64.")
-];
-
-export const resetPasswordRequest = [
-  body("email", "Email is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .trim()
-    .isEmail()
-    .isLength({ min: 0, max: 255 })
-    .withMessage("Email length must be max 255."),
-  body("password", "Password is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .isLength({ min: 8, max: 64 })
-    .withMessage("Password length must be between 8 and 64.")
-];
-
-export const resetEmailRequest = [
-  body("email", "Email is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .trim()
-    .isEmail()
-    .isLength({ min: 0, max: 255 })
-    .withMessage("Email length must be max 255.")
-];
-
-export const deleteUser = [
-  body("password", "Password is not valid.")
-    .exists({ checkFalsy: true, checkNull: true })
-    .isLength({ min: 8, max: 64 })
-    .custom(async (password, { req }) => {
-      const isMatch = await bcrypt.compare(password, req.user.password);
-      if (!isMatch) return Promise.reject();
-    })
-];
-
 export const cooldown = (user: User) => {
   if (!env.GOOGLE_SAFE_BROWSING_KEY || !user || !user.cooldowns) return;
 
@@ -379,7 +300,7 @@ export const malware = async (user: User, target: string) => {
   if (!env.GOOGLE_SAFE_BROWSING_KEY) return;
 
   const isMalware = await axios.post(
-    `http://safebrowsing.googleapis.com/v4/threatMatches:find?key=${env.GOOGLE_SAFE_BROWSING_KEY}`,
+    `https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${env.GOOGLE_SAFE_BROWSING_KEY}`,
     {
       client: {
         clientId: env.DEFAULT_DOMAIN.toLowerCase().replace(".", ""),
@@ -406,12 +327,11 @@ export const malware = async (user: User, target: string) => {
   if (!isMalware.data || !isMalware.data.matches) return;
 
   if (user) {
-    const [updatedUser] = await query.user.update(
+    const userExist = await query.user.find({ id: user.id });
+    const updatedUser = await query.user.update(
       { id: user.id },
       {
-        cooldowns: knex.raw("array_append(cooldowns, ?)", [
-          new Date().toISOString()
-        ]) as any
+        cooldowns: userExist.cooldowns.concat(new Date().toISOString())
       }
     );
 
@@ -431,8 +351,8 @@ export const linksCount = async (user?: User) => {
   if (!user) return;
 
   const count = await query.link.total({
-    user_id: 1234,
-    created_at: [">", subDays(new Date(), 1).toISOString()]
+    user_id: { eq: "1234" },
+    created_at: { gt: subDays(new Date(), 1).toISOString() }
   });
 
   if (count > env.USER_LIMIT_PER_DAY) {
@@ -444,8 +364,8 @@ export const linksCount = async (user?: User) => {
 
 export const bannedDomain = async (domain: string) => {
   const isBanned = await query.domain.find({
-    address: domain,
-    banned: true
+    address: { eq: domain },
+    banned: { eq: true }
   });
 
   if (isBanned) {
@@ -462,8 +382,8 @@ export const bannedHost = async (domain: string) => {
     if (!dnsRes || !dnsRes.address) return;
 
     isBanned = await query.host.find({
-      address: dnsRes.address,
-      banned: true
+      address: { eq: dnsRes.address },
+      banned: { eq: true }
     });
   } catch (error) {
     isBanned = null;

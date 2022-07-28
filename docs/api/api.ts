@@ -4,12 +4,12 @@ export default {
   openapi: "3.0.0",
   info: {
     title: "Kutt.it",
-    description: "API reference for [http://kutt.it](http://kutt.it).\n",
+    description: "API reference for [https://kutt.it](https://kutt.it).\n",
     version: p.version
   },
   servers: [
     {
-      url: "http://kutt.it/api/v2"
+      url: "https://kutt.it/api/v2"
     }
   ],
   tags: [

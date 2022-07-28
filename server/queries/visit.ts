@@ -1,8 +1,8 @@
-import { isAfter, subDays, set } from "date-fns";
+import { isAfter, set, subDays } from "date-fns";
 
 import * as utils from "../utils";
 import * as redis from "../redis";
-import knex from "../knex";
+import { Visit as VisitModel } from "../models";
 
 interface Add {
   browser: string;
@@ -19,35 +19,23 @@ export const add = async (params: Add) => {
     country: params.country.toLowerCase(),
     referrer: params.referrer.toLowerCase()
   };
-
-  const visit = await knex<Visit>("visits")
-    .where({ link_id: params.id })
-    .andWhere(
-      knex.raw("date_trunc('hour', created_at) = date_trunc('hour', ?)", [
-        knex.fn.now()
-      ])
-    )
-    .first();
+  const visit = await VisitModel.findOne({ link_id: { eq: params.id } }); //TODO include above full query
 
   if (visit) {
-    await knex("visits")
-      .where({ id: visit.id })
-      .increment(`br_${data.browser}`, 1)
-      .increment(`os_${data.os}`, 1)
-      .increment("total", 1)
-      .update({
-        updated_at: new Date().toISOString(),
-        countries: knex.raw(
-          "jsonb_set(countries, '{??}', (COALESCE(countries->>?,'0')::int + 1)::text::jsonb)",
-          [data.country, data.country]
-        ),
-        referrers: knex.raw(
-          "jsonb_set(referrers, '{??}', (COALESCE(referrers->>?,'0')::int + 1)::text::jsonb)",
-          [data.referrer, data.referrer]
-        )
-      });
+    await VisitModel.update(visit.id, {
+      [`br_${data.browser}`]: visit[`br_${data.browser}`] + 1,
+      [`os_${data.os}`]: visit[`os_${data.os}`] + 1,
+      total: visit.total + 1,
+      countries: Object.assign({}, visit.countries, {
+        [data.country]: visit.countries[data.country] + 1
+      }),
+      referrers: Object.assign({}, visit.referrers, {
+        [data.referrer]: visit.referrers[data.referrer] + 1
+      }),
+      updated_at: new Date().toISOString()
+    });
   } else {
-    await knex<Visit>("visits").insert({
+    await VisitModel.create({
       [`br_${data.browser}`]: 1,
       countries: { [data.country]: 1 },
       referrers: { [data.referrer]: 1 },
@@ -104,9 +92,9 @@ export const find = async (match: Partial<Visit>, total: number) => {
     }
   };
 
-  const visitsStream: any = knex<Visit>("visits")
-    .where(match)
-    .stream();
+  const visitsStream = await VisitModel.scan({
+    link_id: { eq: match.link_id }
+  }).exec();
   const nowUTC = utils.getUTCDate();
   const now = new Date();
 
@@ -118,7 +106,7 @@ export const find = async (match: Partial<Visit>, total: number) => {
       );
       if (isIncluded) {
         const diffFunction = utils.getDifferenceFunction(type);
-        const diff = diffFunction(now, visit.created_at);
+        const diff = diffFunction(now, new Date(visit.created_at));
         const index = stats[type].views.length - diff - 1;
         const view = stats[type].views[index];
         const period = stats[type].stats;

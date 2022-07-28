@@ -6,7 +6,7 @@ export interface CreateLinkReq extends Request {
     password?: string;
     customurl?: string;
     description?: string;
-    expire_in?: string;
+    expire_in?: number;
     domain?: Domain;
     target: string;
   };

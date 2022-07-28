@@ -1,7 +1,7 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
 
-import * as validators from "../handlers/validators";
+//import * as validators from "../handlers/validators";
 import * as helpers from "../handlers/helpers";
 import * as user from "../handlers/users";
 //import * as auth from "../handlers/auth";
@@ -19,7 +19,7 @@ router.post(
   "/delete",
   //asyncHandler(auth.apikey),
   //asyncHandler(auth.jwt),
-  validators.deleteUser,
+  //validators.deleteUser,
   asyncHandler(helpers.verify),
   asyncHandler(user.remove)
 );

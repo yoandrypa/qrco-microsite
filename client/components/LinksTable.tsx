@@ -1,6 +1,6 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useFormState } from "react-use-form-state";
 import { Flex } from "reflexbox/styled-components";
 import styled, { css } from "styled-components";
@@ -11,11 +11,11 @@ import Link from "next/link";
 import differenceInMilliseconds from "date-fns/differenceInMilliseconds";
 import ms from "ms";
 
-import { removeProtocol, withComma, errorMessage } from "../utils";
+import { errorMessage, removeProtocol, withComma } from "../utils";
 import { useStoreActions, useStoreState } from "../store";
 import { Link as LinkType } from "../store/links";
 import { Checkbox, TextInput } from "./Input";
-import { NavButton, Button } from "./Button";
+import { Button, NavButton } from "./Button";
 import { Col, RowCenter } from "./Layout";
 import Text, { H2, Span } from "./Text";
 import { useMessage } from "../hooks";
@@ -516,7 +516,7 @@ interface Form {
 }
 
 const LinksTable: FC = () => {
-  const isAdmin = true; //useStoreState(s => s.auth.isAdmin);
+  const isAdmin = true; //useStoreState(s => s.auth.isAdmin); //TODO
   const links = useStoreState(s => s.links);
   const { get, remove } = useStoreActions(s => s.links);
   const [tableMessage, setTableMessage] = useState("No links to show.");
