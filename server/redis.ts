@@ -25,12 +25,12 @@ export const del: (key: string) => Promise<any> = promisify(client.del).bind(
 );
 
 export const key = {
-  link: (address: string, domain_id?: number, user_id?: number) =>
+  link: (address: object, domain_id?: object, user_id?: object) =>
     `${address}-${domain_id || ""}-${user_id || ""}`,
   domain: (address: string) => `d-${address}`,
-  stats: (link_id: number) => `s-${link_id}`,
+  stats: (link_id: number | string) => `s-${link_id}`,
   host: (address: string) => `h-${address}`,
-  user: (emailOrKey: string) => `u-${emailOrKey}`
+  user: (id: string) => `u-${id}`
 };
 
 export const remove = {
@@ -44,11 +44,10 @@ export const remove = {
   },
   link: (link?: Link) => {
     if (!link) return;
-    del(key.link(link.address, link.domain_id));
+    del(key.link({ eq: link.address }, { eq: link.domain_id }));
   },
   user: (user?: User) => {
     if (!user) return;
-    del(key.user(user.email));
-    del(key.user(user.apikey));
+    del(key.user(user.id));
   }
 };

@@ -1,86 +1,106 @@
-import * as Knex from "knex";
+import dynamoose from "../libs/dynamoose";
+import { v4 } from "uuid";
+import { Link } from "./link";
 
-export async function createVisitTable(knex: Knex) {
-  const hasTable = await knex.schema.hasTable("visits");
-  if (!hasTable) {
-    await knex.schema.createTable("visits", table => {
-      table.increments("id").primary();
-      table.jsonb("countries").defaultTo("{}");
-      table
-        .dateTime("created_at")
-        .notNullable()
-        .defaultTo(knex.fn.now());
-      table.dateTime("updated_at").defaultTo(knex.fn.now());
-      table
-        .integer("link_id")
-        .references("id")
-        .inTable("links")
-        .notNullable()
-        .onDelete("CASCADE");
-      table.jsonb("referrers").defaultTo("{}");
-      table
-        .integer("total")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_chrome")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_edge")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_firefox")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_ie")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_opera")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_other")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("br_safari")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("os_android")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("os_ios")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("os_linux")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("os_macos")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("os_other")
-        .notNullable()
-        .defaultTo(0);
-      table
-        .integer("os_windows")
-        .notNullable()
-        .defaultTo(0);
-    });
+// instantiate a dynamoose schema
+const created_at = new Date().toISOString();
+const VisitSchema = new dynamoose.Schema({
+  id: {
+    type: String,
+    hashKey: true,
+    default: v4
+  },
+  countries: {
+    type: Object
+  },
+  link_id: {
+    type: Link
+  },
+  referrers: {
+    type: Object
+  },
+  total: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_chrome: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_edge: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_firefox: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_ie: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_opera: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_other: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  br_safari: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  os_android: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  os_ios: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  os_linux: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  os_macos: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  os_other: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  created_at: {
+    type: String,
+    required: true,
+    default: created_at
+  },
+  updated_at: {
+    type: String,
+    required: true,
+    default: created_at
   }
+});
 
-  const hasUpdatedAt = await knex.schema.hasColumn("visits", "updated_at");
-  if (!hasUpdatedAt) {
-    await knex.schema.alterTable("visits", table => {
-      table.dateTime("updated_at").defaultTo(knex.fn.now());
-    });
-  }
-}
+// create a model from schema and export it
+export const Visit =
+  dynamoose.model.visits || dynamoose.model("visits", VisitSchema);
+
+Visit.methods.set("findOne", async function(criteria) {
+  const results = await this.scan(criteria).exec();
+  return results[0];
+});

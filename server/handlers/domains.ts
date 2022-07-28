@@ -9,17 +9,17 @@ export const add: Handler = async (req, res) => {
   const domain = await query.domain.add({
     address,
     homepage,
-    user_id: 1234
+    user_id: "1234"
   });
 
   return res.status(200).send(sanitize.domain(domain));
 };
 
 export const remove: Handler = async (req, res) => {
-  const [domain] = await query.domain.update(
+  const domain = await query.domain.update(
     {
-      uuid: req.params.id,
-      user_id: 1234
+      id: { eq: req.params.id },
+      user_id: { eq: "1234" }
     },
     { user_id: null }
   );

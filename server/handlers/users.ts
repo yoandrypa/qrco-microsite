@@ -2,7 +2,7 @@ import query from "../queries";
 import * as utils from "../utils";
 
 export const get = async (req, res) => {
-  const domains = await query.domain.get({ user_id: 1234 });
+  const domains = await query.domain.get({ user_id: { eq: "1234" } });
 
   const data = {
     apikey: req.user.apikey,
