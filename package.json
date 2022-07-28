@@ -19,10 +19,6 @@
       "pre-commit": "npm run lint:nofix"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ebanux/url-shortener"
-  },
   "keywords": [
     "url-shortener"
   ],
