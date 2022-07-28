@@ -30,7 +30,7 @@ services:
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: kutt
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/libs/postgresql/data
 
 volumes:
   redis_data:

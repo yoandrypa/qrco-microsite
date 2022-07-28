@@ -1,85 +1,87 @@
-import uuid from "uuid/v4";
-import { addMinutes } from "date-fns";
-
 import * as redis from "../redis";
-import knex from "../knex";
+import { User as UserModel } from "../models";
+import dynamoose from "../libs/dynamoose";
+import { CustomError } from "../utils";
 
 export const find = async (match: Partial<User>) => {
-  if (match.email || match.apikey) {
-    const key = redis.key.user(match.email || match.apikey);
+  if (match.id) {
+    const key = redis.key.user(match.id);
     const cachedUser = await redis.get(key);
     if (cachedUser) return JSON.parse(cachedUser) as User;
   }
 
-  const user = await knex<User>("users")
-    .where(match)
-    .first();
+  const user = await UserModel.findOne(match);
 
   if (user) {
-    const emailKey = redis.key.user(user.email);
-    redis.set(emailKey, JSON.stringify(user), "EX", 60 * 60 * 1);
-
-    if (user.apikey) {
-      const apikeyKey = redis.key.user(user.apikey);
-      redis.set(apikeyKey, JSON.stringify(user), "EX", 60 * 60 * 1);
-    }
+    const id = redis.key.user(user.id);
+    redis.set(id, user.toJSON(), "EX", 60 * 60 * 1);
   }
 
   return user;
 };
 
 interface Add {
-  email: string;
-  password: string;
+  id: string;
 }
 
 export const add = async (params: Add, user?: User) => {
   const data = {
-    email: params.email,
-    password: params.password,
-    verification_token: uuid(),
-    verification_expires: addMinutes(new Date(), 60).toISOString()
+    id: params.id
   };
 
   if (user) {
-    await knex<User>("users")
-      .where("id", user.id)
-      .update({ ...data, updated_at: new Date().toISOString() });
+    await UserModel.update(data.id, {
+      ...data,
+      updated_at: new Date().toISOString()
+    });
   } else {
-    await knex<User>("users").insert(data);
+    await UserModel.create(data);
   }
 
   redis.remove.user(user);
 
-  return {
-    ...user,
-    ...data
-  };
+  return user;
 };
 
 export const update = async (match: Match<User>, update: Partial<User>) => {
-  const query = knex<User>("users");
-
-  Object.entries(match).forEach(([key, value]) => {
-    query.andWhere(key, ...(Array.isArray(value) ? value : [value]));
+  let condition = new dynamoose.Condition();
+  Object.entries(match).forEach(([key, value], index) => {
+    if (index === 0) {
+      condition = condition.where(key).eq(value);
+    } else {
+      condition = condition
+        .and()
+        .where(key)
+        .eq(value);
+    }
   });
 
-  const users = await query.update(
-    { ...update, updated_at: new Date().toISOString() },
-    "*"
+  const user = await UserModel.update(
+    match.id,
+    {
+      ...update,
+      updated_at: new Date().toISOString()
+    },
+    { condition }
   );
-
-  users.forEach(redis.remove.user);
-
-  return users;
-};
-
-export const remove = async (user: User) => {
-  const deletedUser = await knex<User>("users")
-    .where("id", user.id)
-    .delete();
 
   redis.remove.user(user);
 
-  return !!deletedUser;
+  return user;
+};
+
+export const remove = async (user: User) => {
+  const userToRemove = await UserModel.findOne({
+    id: { eq: user.id }
+  });
+
+  if (!userToRemove) {
+    throw new CustomError("User was not found.");
+  }
+
+  redis.remove.user(user);
+
+  const deletedUser = await UserModel.delete(userToRemove.id);
+
+  return !deletedUser;
 };

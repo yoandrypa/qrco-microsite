@@ -1,11 +1,9 @@
 import ms from "ms";
 import generate from "nanoid/generate";
-import JWT from "jsonwebtoken";
 import {
   differenceInDays,
   differenceInHours,
-  differenceInMonths,
-  addDays
+  differenceInMonths
 } from "date-fns";
 
 import query from "../queries";
@@ -14,6 +12,7 @@ import env from "../env";
 export class CustomError extends Error {
   public statusCode?: number;
   public data?: any;
+
   public constructor(message: string, statusCode = 500, data?: any) {
     super(message);
     this.name = this.constructor.name;
@@ -27,43 +26,33 @@ export const isAdmin = (email: string): boolean =>
     .map(e => e.trim())
     .includes(email);
 
-export const signToken = (user: UserJoined) =>
-  JWT.sign(
-    {
-      iss: "ApiAuth",
-      sub: user.email,
-      domain: user.domain || "",
-      admin: isAdmin(user.email),
-      iat: parseInt((new Date().getTime() / 1000).toFixed(0)),
-      exp: parseInt((addDays(new Date(), 7).getTime() / 1000).toFixed(0))
-    } as Record<string, any>,
-    env.JWT_SECRET
-  );
-
-export const generateId = async (domain_id: number = null) => {
+export const generateId = async (domain_id: string = null) => {
   const address = generate(
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
     env.LINK_LENGTH
   );
-  const link = await query.link.find({ address, domain_id });
+  const link = await query.link.find({
+    address: { contains: address },
+    domain_id: { eq: domain_id }
+  });
   if (!link) return address;
   return generateId(domain_id);
 };
 
 export const addProtocol = (url: string): string => {
   const hasProtocol = /^\w+:\/\//.test(url);
-  return hasProtocol ? url : `http://${url}`;
+  return hasProtocol ? url : `https://${url}`;
 };
 
 export const generateShortLink = (id: string, domain?: string): string => {
   const protocol =
-    env.CUSTOM_DOMAIN_USE_HTTPS || !domain ? "http://" : "http://";
+    env.CUSTOM_DOMAIN_USE_HTTPS || !domain ? "http://" : "https://";
   return `${protocol}${domain || env.DEFAULT_DOMAIN}/${id}`;
 };
 
 export const getRedisKey = {
   // TODO: remove user id and make domain id required
-  link: (address: string, domain_id?: number, user_id?: number) =>
+  link: (address: string, domain_id?: string, user_id?: string) =>
     `${address}-${domain_id || ""}-${user_id || ""}`,
   domain: (address: string) => `d-${address}`,
   host: (address: string) => `h-${address}`,
@@ -148,8 +137,7 @@ export const getInitStats = (): Stats => {
 export const sanitize = {
   domain: (domain: Domain): DomainSanitized => ({
     ...domain,
-    id: domain.uuid,
-    uuid: undefined,
+    id: domain.id,
     user_id: undefined,
     banned_by_id: undefined
   }),
@@ -159,7 +147,7 @@ export const sanitize = {
     domain_id: undefined,
     user_id: undefined,
     uuid: undefined,
-    id: link.uuid,
+    id: link.id,
     password: !!link.password,
     link: generateShortLink(link.address, link.domain)
   })

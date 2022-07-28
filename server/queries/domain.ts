@@ -1,15 +1,15 @@
 import * as redis from "../redis";
-import knex from "../knex";
+import { Domain as DomainModel } from "../models";
 
-export const find = async (match: Partial<Domain>): Promise<Domain> => {
+export const find = async (match: Partial<DomainQuery>): Promise<Domain> => {
   if (match.address) {
-    const cachedDomain = await redis.get(redis.key.domain(match.address));
+    const cachedDomain = await redis.get(
+      redis.key.domain(Object.values(match.address)[0])
+    );
     if (cachedDomain) return JSON.parse(cachedDomain);
   }
 
-  const domain = await knex<Domain>("domains")
-    .where(match)
-    .first();
+  const domain = await DomainModel.findOne(match);
 
   if (domain) {
     redis.set(
@@ -23,8 +23,8 @@ export const find = async (match: Partial<Domain>): Promise<Domain> => {
   return domain;
 };
 
-export const get = async (match: Partial<Domain>): Promise<Domain[]> => {
-  return knex<Domain>("domains").where(match);
+export const get = async (match: Partial<DomainQuery>): Promise<Domain[]> => {
+  return await DomainModel.scan(match).exec();
 };
 
 interface Add extends Partial<Domain> {
@@ -34,34 +34,24 @@ interface Add extends Partial<Domain> {
 export const add = async (params: Add) => {
   params.address = params.address.toLowerCase();
 
-  const exists = await knex<Domain>("domains")
-    .where("address", params.address)
-    .first();
+  const exists = await DomainModel.findOne({ address: { eq: params.address } });
 
   const newDomain = {
     address: params.address,
     homepage: params.homepage || null,
-    user_id: params.user_id || 1234,
+    user_id: params.user_id || "1234",
     banned: !!params.banned
   };
 
   let domain: Domain;
   if (exists) {
-    const [response]: Domain[] = await knex<Domain>("domains")
-      .where("id", exists.id)
-      .update(
-        {
-          ...newDomain,
-          updated_at: params.updated_at || new Date().toISOString()
-        },
-        "*"
-      );
+    const response: Domain = await DomainModel.update(exists.id, {
+      ...newDomain,
+      updated_at: params.updated_at || new Date().toISOString()
+    });
     domain = response;
   } else {
-    const [response]: Domain[] = await knex<Domain>("domains").insert(
-      newDomain,
-      "*"
-    );
+    const response: Domain = await DomainModel.create(newDomain);
     domain = response;
   }
 
@@ -71,14 +61,15 @@ export const add = async (params: Add) => {
 };
 
 export const update = async (
-  match: Partial<Domain>,
+  match: Partial<DomainQuery>,
   update: Partial<Domain>
 ) => {
-  const domains = await knex<Domain>("domains")
-    .where(match)
-    .update({ ...update, updated_at: new Date().toISOString() }, "*");
+  const domain = await DomainModel.update(match, {
+    ...update,
+    updated_at: new Date().toISOString()
+  });
 
-  domains.forEach(redis.remove.domain);
+  redis.remove.domain(domain);
 
-  return domains;
+  return domain;
 };

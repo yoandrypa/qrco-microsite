@@ -1,47 +1,35 @@
 import { subMinutes } from "date-fns";
 
-import knex from "../knex";
+import { Ip as IpModel } from "../models";
 import env from "../env";
 
 export const add = async (ipToAdd: string) => {
   const ip = ipToAdd.toLowerCase();
 
-  const currentIP = await knex<IP>("ips")
-    .where("ip", ip)
-    .first();
+  const currentIP = await IpModel.findOne({ ip: { eq: ip } });
 
   if (currentIP) {
     const currentDate = new Date().toISOString();
-    await knex<IP>("ips")
-      .where({ ip })
-      .update({
-        created_at: currentDate,
-        updated_at: currentDate
-      });
+    await IpModel.update(ip, {
+      created_at: currentDate,
+      updated_at: currentDate
+    });
   } else {
-    await knex<IP>("ips").insert({ ip });
+    await IpModel.create({ ip });
   }
 
   return ip;
 };
 
-export const find = async (match: Match<IP>) => {
-  const query = knex<IP>("ips");
+export const find = async (match: Match<IPQuery>) => {
+  const ip = await IpModel.findOne(match);
 
-  Object.entries(match).forEach(([key, value]) => {
-    query.andWhere(key, ...(Array.isArray(value) ? value : [value]));
-  });
-
-  const ip = await query.first();
-
-  return ip;
+  return ip[0];
 };
 
 export const clear = async () =>
-  knex<IP>("ips")
-    .where(
-      "created_at",
-      "<",
-      subMinutes(new Date(), env.NON_USER_COOLDOWN).toISOString()
-    )
-    .delete();
+  IpModel.batchDeletes({
+    created_at: {
+      lt: subMinutes(new Date(), env.NON_USER_COOLDOWN).toISOString()
+    }
+  });

@@ -5,8 +5,6 @@ import cors from "cors";
 import * as validators from "../handlers/validators";
 import * as helpers from "../handlers/helpers";
 import * as link from "../handlers/links";
-import * as auth from "../handlers/auth";
-import env from "../env";
 
 const router = Router();
 
@@ -21,10 +19,6 @@ router.get(
 router.post(
   "/",
   cors(),
-  //asyncHandler(auth.apikey),
-  asyncHandler(env.DISALLOW_ANONYMOUS_LINKS ? auth.jwt : auth.jwtLoose),
-  //asyncHandler(auth.recaptcha),
-  //asyncHandler(auth.cooldown),
   validators.createLink,
   asyncHandler(helpers.verify),
   asyncHandler(link.create)
@@ -32,8 +26,6 @@ router.post(
 
 router.patch(
   "/:id",
-  //asyncHandler(auth.apikey),
-  //asyncHandler(auth.jwt),
   validators.editLink,
   asyncHandler(helpers.verify),
   asyncHandler(link.edit)
