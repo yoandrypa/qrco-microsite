@@ -1,5 +1,5 @@
 import React from "react";
-import { Heading, Image, View, useTheme } from '@aws-amplify/ui-react';
+import { Heading, Image, View, useTheme } from "@aws-amplify/ui-react";
 
 const components = {
   Header() {
@@ -19,7 +19,10 @@ const components = {
     Header() {
       const { tokens } = useTheme();
       return (
-        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={5}>
+        <Heading
+          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+          level={5}
+        >
           Email
         </Heading>
       );
@@ -29,7 +32,10 @@ const components = {
     Header() {
       const { tokens } = useTheme();
       return (
-        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={5}>
+        <Heading
+          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+          level={5}
+        >
           Create a new account
         </Heading>
       );
