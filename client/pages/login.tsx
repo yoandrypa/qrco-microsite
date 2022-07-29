@@ -32,8 +32,7 @@ const Email = styled.span`
 `;
 
 const LoginPage = () => {
-  //const { isAuthenticated } = useStoreState(s => s.auth);
-  const isAuthenticated = true;
+  const isAuthenticated = true; //useStoreState(s => s.auth);
   const login = useStoreActions(s => s.auth.login);
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
