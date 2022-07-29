@@ -30,6 +30,6 @@ export const find = async (match: Match<IPQuery>) => {
 export const clear = async () =>
   IpModel.batchDeletes({
     created_at: {
-      lt: subMinutes(new Date(), env.NON_USER_COOLDOWN).toISOString()
+      lt: subMinutes(new Date(), env.REACT_NON_USER_COOLDOWN).toISOString()
     }
   });

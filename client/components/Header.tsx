@@ -5,7 +5,7 @@ import Router from "next/router";
 import useMedia from "use-media";
 import Link from "next/link";
 
-import { DISALLOW_REGISTRATION } from "../consts";
+import { REACT_DISALLOW_REGISTRATION } from "../consts";
 import { useStoreState } from "../store";
 import styled from "styled-components";
 import { RowCenterV } from "./Layout";
@@ -58,11 +58,11 @@ const Header: FC = () => {
       <Link href="/login">
         <ALink
           href="/login"
-          title={!DISALLOW_REGISTRATION ? "login / signup" : "login"}
+          title={!REACT_DISALLOW_REGISTRATION ? "login / signup" : "login"}
           forButton
         >
           <Button height={[32, 40]}>
-            {!DISALLOW_REGISTRATION ? "Log in / Sign up" : "Log in"}
+            {!REACT_DISALLOW_REGISTRATION ? "Log in / Sign up" : "Log in"}
           </Button>
         </ALink>
       </Link>
@@ -111,7 +111,7 @@ const Header: FC = () => {
             }}
           >
             <img src="/images/logo.svg" alt="" />
-            {publicRuntimeConfig.SITE_NAME}
+            {publicRuntimeConfig.REACT_SITE_NAME}
           </a>
         </LogoImage>
         {!isMobile && (

@@ -8,7 +8,7 @@ import Link from "next/link";
 import axios from "axios";
 
 import { useStoreState, useStoreActions } from "../store";
-import { APIv2, DISALLOW_REGISTRATION } from "../consts";
+import { APIv2, REACT_DISALLOW_REGISTRATION } from "../consts";
 import { ColCenterV } from "../components/Layout";
 import AppWrapper from "../components/AppWrapper";
 import { TextInput } from "../components/Input";
@@ -78,7 +78,7 @@ const LoginPage = () => {
         }
       }
 
-      if (type === "signup" && !DISALLOW_REGISTRATION) {
+      if (type === "signup" && !REACT_DISALLOW_REGISTRATION) {
         setLoading(s => ({ ...s, signup: true }));
         try {
           await axios.post(APIv2.AuthSignup, { email, password });
@@ -121,7 +121,7 @@ const LoginPage = () => {
               autoFocus
             />
             <Text {...label("password")} as="label" mb={2} bold>
-              Password{!DISALLOW_REGISTRATION ? " (min chars: 8)" : ""}:
+              Password{!REACT_DISALLOW_REGISTRATION ? " (min chars: 8)" : ""}:
             </Text>
             <TextInput
               {...password("password")}
@@ -136,7 +136,7 @@ const LoginPage = () => {
             <Flex justifyContent="center">
               <Button
                 flex="1 1 auto"
-                mr={!DISALLOW_REGISTRATION ? ["8px", 16] : 0}
+                mr={!REACT_DISALLOW_REGISTRATION ? ["8px", 16] : 0}
                 height={[44, 56]}
                 onClick={onSubmit("login")}
               >
@@ -147,7 +147,7 @@ const LoginPage = () => {
                 />
                 Log in
               </Button>
-              {!DISALLOW_REGISTRATION && (
+              {!REACT_DISALLOW_REGISTRATION && (
                 <Button
                   flex="1 1 auto"
                   ml={["8px", 16]}
