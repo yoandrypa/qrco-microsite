@@ -61,6 +61,11 @@ app.prepare().then(async () => {
 
   server.listen(port, err => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
+    const protocol = env.REACT_CUSTOM_DOMAIN_USE_HTTPS ? "https" : "http";
+    console.log(
+      `> Ready on ${protocol}://${
+        env.REACT_DEFAULT_DOMAIN.split(":")[0]
+      }:${port}`
+    );
   });
 });
