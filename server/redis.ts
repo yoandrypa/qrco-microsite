@@ -6,7 +6,8 @@ import env from "./env";
 const client = redis.createClient({
   host: env.REACT_REDIS_HOST,
   port: env.REACT_REDIS_PORT,
-  ...(env.REACT_REDIS_PASSWORD && { password: env.REACT_REDIS_PASSWORD })
+  ...(env.REACT_REDIS_PASSWORD && { password: env.REACT_REDIS_PASSWORD }),
+  tls: {}
 });
 
 export const get: (key: string) => Promise<any> = promisify(client.get).bind(
