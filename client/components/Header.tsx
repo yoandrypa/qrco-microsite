@@ -50,7 +50,7 @@ const LogoImage = styled.div`
 `;
 
 const Header: FC = () => {
-  const { isAuthenticated } = true; //useStoreState(s => s.auth);
+  const isAuthenticated = true; //useStoreState(s => s.auth);
   const isMobile = useMedia({ maxWidth: 640 });
 
   const login = !isAuthenticated && (
