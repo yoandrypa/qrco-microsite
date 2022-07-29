@@ -21,7 +21,7 @@ export const error: ErrorRequestHandler = (error, req, res, next) => {
     return res.status(error.statusCode || 500).json({ error: error.message });
   }
 
-  if (env.SENTRY_PRIVATE_DSN) {
+  if (env.REACT_SENTRY_PRIVATE_DSN) {
     Sentry.captureException(error);
   }
 

@@ -22,14 +22,14 @@ export class CustomError extends Error {
 }
 
 export const isAdmin = (email: string): boolean =>
-  env.ADMIN_EMAILS.split(",")
+  env.REACT_ADMIN_EMAILS.split(",")
     .map(e => e.trim())
     .includes(email);
 
 export const generateId = async (domain_id: string = null) => {
   const address = generate(
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-    env.LINK_LENGTH
+    env.REACT_LINK_LENGTH
   );
   const link = await query.link.find({
     address: { contains: address },
@@ -46,8 +46,8 @@ export const addProtocol = (url: string): string => {
 
 export const generateShortLink = (id: string, domain?: string): string => {
   const protocol =
-    env.CUSTOM_DOMAIN_USE_HTTPS || !domain ? "http://" : "https://";
-  return `${protocol}${domain || env.DEFAULT_DOMAIN}/${id}`;
+    env.REACT_CUSTOM_DOMAIN_USE_HTTPS || !domain ? "http://" : "https://";
+  return `${protocol}${domain || env.REACT_DEFAULT_DOMAIN}/${id}`;
 };
 
 export const getRedisKey = {
@@ -61,7 +61,7 @@ export const getRedisKey = {
 
 // TODO: Add statsLimit
 export const getStatsLimit = (): number =>
-  env.DEFAULT_MAX_STATS_PER_LINK || 100000000;
+  env.REACT_DEFAULT_MAX_STATS_PER_LINK || 100000000;
 
 export const getStatsCacheTime = (total?: number): number => {
   return (total > 50000 ? ms("5 minutes") : ms("1 minutes")) / 1000;

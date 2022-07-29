@@ -1,13 +1,13 @@
 const dynamoose = require("dynamoose");
 
 dynamoose.aws.sdk.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION
+  accessKeyId: process.env.REACT_REACT_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.REACT_AWS_SECRET_ACCESS_KEY,
+  region: process.env.REACT_AWS_REGION
 });
 
-if (process.env.AWS_DYNAMODB_URL) {
-  dynamoose.aws.ddb.local(process.env.AWS_DYNAMODB_URL);
+if (process.env.REACT_AWS_DYNAMODB_URL) {
+  dynamoose.aws.ddb.local(process.env.REACT_AWS_DYNAMODB_URL);
 }
 dynamoose.model.defaults.set({
   create: true,

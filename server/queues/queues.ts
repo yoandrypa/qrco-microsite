@@ -4,9 +4,9 @@ import path from "path";
 import env from "../env";
 
 const redis = {
-  port: env.REDIS_PORT,
-  host: env.REDIS_HOST,
-  ...(env.REDIS_PASSWORD && { password: env.REDIS_PASSWORD })
+  port: env.REACT_REDIS_PORT,
+  host: env.REACT_REDIS_HOST,
+  ...(env.REACT_REDIS_PASSWORD && { password: env.REACT_REDIS_PASSWORD })
 };
 
 const removeJob = job => job.remove();

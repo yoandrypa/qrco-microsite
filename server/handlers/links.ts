@@ -103,7 +103,7 @@ export const create: Handler = async (req: CreateLinkReq, res) => {
       user_id: "1234" //req.user.id
     });
 
-    if (!req.user && env.NON_USER_COOLDOWN) {
+    if (!req.user && env.REACT_NON_USER_COOLDOWN) {
       query.ip.add(req.realIP);
     }
 
@@ -283,7 +283,7 @@ export const redirect = (app: ReturnType<typeof next>): Handler => async (
     // 1. If custom domain, get domain info
     const host = utils.removeWww(req.headers.host);
     const domain =
-      host !== env.DEFAULT_DOMAIN
+      host !== env.REACT_DEFAULT_DOMAIN
         ? await query.domain.find({ address: { eq: host } })
         : null;
 
@@ -330,8 +330,8 @@ export const redirect = (app: ReturnType<typeof next>): Handler => async (
     }
 
     // 8. Create Google Analytics visit
-    if (env.GOOGLE_ANALYTICS_UNIVERSAL && !isBot) {
-      ua(env.GOOGLE_ANALYTICS_UNIVERSAL)
+    if (env.REACT_GOOGLE_ANALYTICS_UNIVERSAL && !isBot) {
+      ua(env.REACT_GOOGLE_ANALYTICS_UNIVERSAL)
         .pageview({
           dp: `/${address}`,
           ua: req.headers["user-agent"],
@@ -376,8 +376,8 @@ export const redirectProtected: Handler = async (req, res) => {
   }
 
   // 5. Create Google Analytics visit
-  if (env.GOOGLE_ANALYTICS_UNIVERSAL) {
-    ua(env.GOOGLE_ANALYTICS_UNIVERSAL)
+  if (env.REACT_GOOGLE_ANALYTICS_UNIVERSAL) {
+    ua(env.REACT_GOOGLE_ANALYTICS_UNIVERSAL)
       .pageview({
         dp: `/${link.address}`,
         ua: req.headers["user-agent"],
@@ -395,7 +395,7 @@ export const redirectCustomDomain: Handler = async (req, res, next) => {
   const { path } = req;
   const host = utils.removeWww(req.headers.host);
 
-  if (host === env.DEFAULT_DOMAIN) {
+  if (host === env.REACT_DEFAULT_DOMAIN) {
     return next();
   }
 
@@ -408,7 +408,7 @@ export const redirectCustomDomain: Handler = async (req, res, next) => {
     const domain = await query.domain.find({ address: { eq: host } });
     const redirectURL = domain
       ? domain.homepage
-      : `https://${env.DEFAULT_DOMAIN + path}`;
+      : `https://${env.REACT_DEFAULT_DOMAIN + path}`;
 
     return res.redirect(301, redirectURL);
   }

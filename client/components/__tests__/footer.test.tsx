@@ -33,7 +33,7 @@ describe("<Footer /> component test", () => {
 
   it("should show contact email if defined", () => {
     const config = getConfig();
-    config.publicRuntimeConfig.CONTACT_EMAIL = 'foobar';
+    config.publicRuntimeConfig.REACT_CONTACT_EMAIL = 'foobar';
     const screen = render(app);
     const emailLink = screen.getByRole("link", { name: "Contact us" });
 
@@ -42,7 +42,7 @@ describe("<Footer /> component test", () => {
 
   it("should NOT show contact email if none is defined", () => {
     const config = getConfig();
-    delete(config.publicRuntimeConfig.CONTACT_EMAIL);
+    delete(config.publicRuntimeConfig.REACT_CONTACT_EMAIL);
     const screen = render(app);
     const emailLink= screen.queryByRole("link", { name: "Contact us" });
 

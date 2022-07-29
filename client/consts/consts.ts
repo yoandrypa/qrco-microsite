@@ -2,11 +2,11 @@ import getConfig from "next/config";
 
 const { publicRuntimeConfig } = getConfig();
 
-export const DISALLOW_ANONYMOUS_LINKS =
-  publicRuntimeConfig.DISALLOW_ANONYMOUS_LINKS === "true";
+export const REACT_DISALLOW_ANONYMOUS_LINKS =
+  publicRuntimeConfig.REACT_DISALLOW_ANONYMOUS_LINKS === "true";
 
-export const DISALLOW_REGISTRATION =
-  publicRuntimeConfig.DISALLOW_REGISTRATION === "true";
+export const REACT_DISALLOW_REGISTRATION =
+  publicRuntimeConfig.REACT_DISALLOW_REGISTRATION === "true";
 
 export enum API {
   BAN_LINK = "/api/url/admin/ban",

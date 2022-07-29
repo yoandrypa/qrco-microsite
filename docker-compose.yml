@@ -16,7 +16,7 @@ services:
       DB_NAME: kutt
       DB_USER: user
       DB_PASSWORD: pass
-      REDIS_HOST: redis
+      REACT_REDIS_HOST: redis
 
   redis:
     image: redis:6.0-alpine
