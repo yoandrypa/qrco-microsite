@@ -15,7 +15,7 @@ import { stream } from "./config/winston";
 
 import "./cron";
 
-const port = env.PORT;
+const port = env.REACT_PORT;
 const app = nextApp({ dir: "./client", dev: env.isDev });
 const handle = app.getRequestHandler();
 
@@ -26,9 +26,9 @@ app.prepare().then(async () => {
 
   if (env.isDev) {
     server.use(morgan("combined", { stream }));
-  } else if (env.SENTRY_PRIVATE_DSN) {
+  } else if (env.REACT_SENTRY_PRIVATE_DSN) {
     Sentry.init({
-      dsn: env.SENTRY_PRIVATE_DSN,
+      dsn: env.REACT_SENTRY_PRIVATE_DSN,
       environment: process.env.NODE_ENV
     });
 

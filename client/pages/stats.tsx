@@ -23,8 +23,7 @@ interface Props {
 }
 
 const StatsPage: NextPage<Props> = ({ id }) => {
-  //const { isAuthenticated } = useStoreState(s => s.auth);
-  const isAuthenticated = true;
+  const isAuthenticated = true; //useStoreState(s => s.auth);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState<Record<string, any> | undefined>();

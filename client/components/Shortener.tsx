@@ -60,11 +60,10 @@ interface Form {
   showAdvanced?: boolean;
 }
 
-const defaultDomain = publicRuntimeConfig.DEFAULT_DOMAIN;
+const defaultDomain = publicRuntimeConfig.REACT_DEFAULT_DOMAIN;
 
 const Shortener = () => {
-  //const { isAuthenticated } = useStoreState(s => s.auth);
-  const isAuthenticated = true;
+  const isAuthenticated = true; //useStoreState(s => s.auth);
   const domains = useStoreState(s => s.settings.domains);
   const submit = useStoreActions(s => s.links.submit);
   const [link, setLink] = useState<Link | null>(null);
@@ -107,7 +106,7 @@ const Shortener = () => {
 
     if (
       process.env.NODE_ENV === "production" &&
-      !!publicRuntimeConfig.RECAPTCHA_SITE_KEY &&
+      !!publicRuntimeConfig.REACT_RECAPTCHA_SITE_KEY &&
       !isAuthenticated
     ) {
       window.grecaptcha.execute(window.captchaId);

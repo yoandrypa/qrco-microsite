@@ -11,7 +11,7 @@ import Text from "./Text";
 const { publicRuntimeConfig } = getConfig();
 
 const Footer: FC = () => {
-  const { isAuthenticated } = true; //useStoreState(s => s.auth);
+  const isAuthenticated = true; //useStoreState(s => s.auth);
 
   useEffect(() => {
     showRecaptcha();
@@ -46,11 +46,11 @@ const Footer: FC = () => {
         <ALink href="/report" title="Report abuse">
           Report Abuse
         </ALink>
-        {publicRuntimeConfig.CONTACT_EMAIL && (
+        {publicRuntimeConfig.REACT_CONTACT_EMAIL && (
           <>
             {" | "}
             <ALink
-              href={`mailto:${publicRuntimeConfig.CONTACT_EMAIL}`}
+              href={`mailto:${publicRuntimeConfig.REACT_CONTACT_EMAIL}`}
               title="Contact us"
             >
               Contact us

@@ -6,7 +6,7 @@ import { Integrations } from '@sentry/apm';
 const { publicRuntimeConfig } = getConfig();
 
 export const initGA = () => {
-  ReactGA.initialize(publicRuntimeConfig.GOOGLE_ANALYTICS);
+  ReactGA.initialize(publicRuntimeConfig.REACT_GOOGLE_ANALYTICS);
 };
 
 export const logPageView = () => {
@@ -15,9 +15,9 @@ export const logPageView = () => {
 };
 
 export const initSentry = () => {
-  if (publicRuntimeConfig.SENTRY_PUBLIC_DSN) {
+  if (publicRuntimeConfig.REACT_SENTRY_PUBLIC_DSN) {
     Sentry.init({
-      dsn: publicRuntimeConfig.SENTRY_PUBLIC_DSN,
+      dsn: publicRuntimeConfig.REACT_SENTRY_PUBLIC_DSN,
       environment: process.env.NODE_ENV,
       integrations: [
         new Integrations.Tracing(),
