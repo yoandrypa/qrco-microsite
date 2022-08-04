@@ -23,8 +23,8 @@ interface Props {
 }
 
 const ResetPassword: NextPage<Props> = ({ token }) => {
-  const auth = useStoreState(s => s.auth);
-  const addAuth = useStoreActions(s => s.auth.add);
+  //const auth = useStoreState(s => s.auth);
+  //const addAuth = useStoreActions(s => s.auth.add);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useMessage();
   const [formState, { email, label }] = useFormState<{ email: string }>(null, {
@@ -32,14 +32,14 @@ const ResetPassword: NextPage<Props> = ({ token }) => {
   });
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
+    /*if (auth.isAuthenticated) {
       Router.push("/settings");
-    }
+    }*/
 
     if (token) {
       cookie.set("token", token, { expires: 7 });
       const decoded: TokenPayload = decode(token);
-      addAuth(decoded);
+      //addAuth(decoded);
       Router.push("/settings");
     }
   }, []);

@@ -23,7 +23,7 @@ const Wrapper = styled(Flex)`
 
 const AppWrapper = ({ children }: { children: any }) => {
   const isAuthenticated = true; //useStoreState(s => s.auth.isAuthenticated);
-  const logout = useStoreActions(s => s.auth.logout);
+  //const logout = useStoreActions(s => s.auth.logout);
   const fetched = useStoreState(s => s.settings.fetched);
   const loading = useStoreState(s => s.loading.loading);
   const getSettings = useStoreActions(s => s.settings.getSettings);
@@ -32,11 +32,11 @@ const AppWrapper = ({ children }: { children: any }) => {
     typeof window !== "undefined" &&
     window.location.pathname.includes("verify-email");*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (isAuthenticated && !fetched && !isVerifyEmailPage) {
       getSettings().catch(() => logout());
     }
-  }, [isVerifyEmailPage]);
+  }, [isVerifyEmailPage]);*/
 
   return (
     <Wrapper

@@ -7,7 +7,7 @@ import Router from "next/router";
 import Link from "next/link";
 import axios from "axios";
 
-import { useStoreState, useStoreActions } from "../store";
+import { useStoreActions } from "../store";
 import { APIv2, REACT_DISALLOW_REGISTRATION } from "../consts";
 import { ColCenterV } from "../components/Layout";
 import AppWrapper from "../components/AppWrapper";
@@ -33,7 +33,7 @@ const Email = styled.span`
 
 const LoginPage = () => {
   const isAuthenticated = true; //useStoreState(s => s.auth);
-  const login = useStoreActions(s => s.auth.login);
+  //const login = useStoreActions(s => s.auth.login);
   const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [loading, setLoading] = useState({ login: false, signup: false });
@@ -70,7 +70,7 @@ const LoginPage = () => {
       if (type === "login") {
         setLoading(s => ({ ...s, login: true }));
         try {
-          await login(formState.values);
+          //await login(formState.values);
           Router.push("/");
         } catch (error) {
           setError(error.response.data.error);
