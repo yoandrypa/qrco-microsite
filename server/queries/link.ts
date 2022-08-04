@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 
 import { CustomError } from "../utils";
-import * as redis from "../redis";
+//import * as redis from "../redis";
 import { Link as LinkModel } from "../models";
 import dynamoose from "../libs/dynamoose";
 
@@ -105,19 +105,18 @@ export const get = async (match: Partial<LinkQuery>, params: GetParams) => {
 };
 
 export const find = async (match: Partial<LinkQuery>): Promise<Link> => {
-  if (match.address && match.domain_id) {
+  /*if (match.address && match.domain_id) {
     const key = redis.key.link(match.address, match.domain_id);
     const cachedLink = await redis.get(key);
     if (cachedLink) return JSON.parse(cachedLink);
-  }
+  }*/
 
   const link = await LinkModel.findOne(match);
 
-  /**/
-  if (link) {
+  /*if (link) {
     const key = redis.key.link(link.address, link.domain_id);
     redis.set(key, JSON.stringify(link), "EX", 60 * 60 * 2);
-  }
+  }*/
 
   return link;
 };
@@ -159,7 +158,7 @@ export const remove = async (match: Partial<Link>) => {
       throw new CustomError("Link was not found.");
     }
 
-    redis.remove.link(link);
+    //redis.remove.link(link);
 
     const deletedLink = await LinkModel.delete(match);
 
@@ -199,7 +198,7 @@ export const update = async (
     })
   ];
 
-  links.forEach(redis.remove.link);
+  //links.forEach(redis.remove.link);
 
   return links;
 };

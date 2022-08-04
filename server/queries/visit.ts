@@ -1,7 +1,7 @@
 import { isAfter, set, subDays } from "date-fns";
 
 import * as utils from "../utils";
-import * as redis from "../redis";
+//import * as redis from "../redis";
 import { Visit as VisitModel } from "../models";
 
 interface Add {
@@ -67,11 +67,11 @@ interface IGetStatsResponse {
 }
 
 export const find = async (match: Partial<Visit>, total: number) => {
-  if (match.link_id) {
+  /*if (match.link_id) {
     const key = redis.key.stats(match.link_id);
     const cached = await redis.get(key);
     if (cached) return JSON.parse(cached);
-  }
+  }*/
 
   const stats = {
     lastDay: {
@@ -223,11 +223,11 @@ export const find = async (match: Partial<Visit>, total: number) => {
     updatedAt: new Date().toISOString()
   };
 
-  if (match.link_id) {
+  /*if (match.link_id) {
     const cacheTime = utils.getStatsCacheTime(total);
     const key = redis.key.stats(match.link_id);
     redis.set(key, JSON.stringify(response), "EX", cacheTime);
-  }
+  }*/
 
   return response;
 };
