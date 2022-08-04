@@ -50,14 +50,14 @@ export const generateShortLink = (id: string, domain?: string): string => {
   return `${protocol}${domain || env.REACT_DEFAULT_DOMAIN}/${id}`;
 };
 
-export const getRedisKey = {
+/*export const getRedisKey = {
   // TODO: remove user id and make domain id required
   link: (address: string, domain_id?: string, user_id?: string) =>
     `${address}-${domain_id || ""}-${user_id || ""}`,
   domain: (address: string) => `d-${address}`,
   host: (address: string) => `h-${address}`,
   user: (emailOrKey: string) => `u-${emailOrKey}`
-};
+};*/
 
 // TODO: Add statsLimit
 export const getStatsLimit = (): number =>

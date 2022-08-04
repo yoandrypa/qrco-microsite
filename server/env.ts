@@ -5,9 +5,9 @@ const env = cleanEnv(process.env, {
   REACT_SITE_NAME: str({ example: "Ebanux" }),
   REACT_DEFAULT_DOMAIN: str({ example: "ebanux.com" }),
   REACT_LINK_LENGTH: num({ default: 6 }),
-  REACT_REDIS_HOST: str({ default: "127.0.0.1" }),
-  REACT_REDIS_PORT: num({ default: 6379 }),
-  REACT_REDIS_PASSWORD: str({ default: "" }),
+  //REACT_REDIS_HOST: str({ default: "127.0.0.1" }),
+  //REACT_REDIS_PORT: num({ default: 6379 }),
+  //REACT_REDIS_PASSWORD: str({ default: "" }),
   REACT_USER_LIMIT_PER_DAY: num({ default: 50 }),
   REACT_NON_USER_COOLDOWN: num({ default: 10 }),
   REACT_DEFAULT_MAX_STATS_PER_LINK: num({ default: 5000 }),
@@ -21,7 +21,7 @@ const env = cleanEnv(process.env, {
   REACT_GOOGLE_ANALYTICS: str({ default: "" }),
   REACT_GOOGLE_ANALYTICS_UNIVERSAL: str({ default: "" }),
   REACT_MAIL_FROM: str({
-    default: "",
+    default: "Ebanux Team <info@ebanux.com>",
     example: "Ebanux Team <info@ebanux.com>"
   }),
   REACT_REPORT_EMAIL: str({ default: "" }),

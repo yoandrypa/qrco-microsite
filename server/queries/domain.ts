@@ -1,24 +1,24 @@
-import * as redis from "../redis";
+//import * as redis from "../redis";
 import { Domain as DomainModel } from "../models";
 
 export const find = async (match: Partial<DomainQuery>): Promise<Domain> => {
-  if (match.address) {
+  /*if (match.address) {
     const cachedDomain = await redis.get(
       redis.key.domain(Object.values(match.address)[0])
     );
     if (cachedDomain) return JSON.parse(cachedDomain);
-  }
+  }*/
 
   const domain = await DomainModel.findOne(match);
 
-  if (domain) {
+  /*if (domain) {
     redis.set(
       redis.key.domain(domain.address),
       JSON.stringify(domain),
       "EX",
       60 * 60 * 6
     );
-  }
+  }*/
 
   return domain;
 };
@@ -55,7 +55,7 @@ export const add = async (params: Add) => {
     domain = response;
   }
 
-  redis.remove.domain(domain);
+  //redis.remove.domain(domain);
 
   return domain;
 };
@@ -69,7 +69,7 @@ export const update = async (
     updated_at: new Date().toISOString()
   });
 
-  redis.remove.domain(domain);
+  //redis.remove.domain(domain);
 
   return domain;
 };

@@ -1,3 +1,4 @@
+/*
 import { promisify } from "util";
 import redis from "redis";
 
@@ -51,3 +52,4 @@ export const remove = {
     del(key.user(user.id));
   }
 };
+*/

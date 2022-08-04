@@ -6,7 +6,7 @@ import { links, Links } from "./links";
 import { auth, Auth } from "./auth";
 
 export interface StoreModel {
-  auth: Auth;
+  //auth: Auth;
   links: Links;
   loading: Loading;
   settings: Settings;
@@ -16,7 +16,7 @@ export interface StoreModel {
 let initState: any = {};
 
 export const store: StoreModel = {
-  auth,
+  //auth,
   links,
   loading,
   settings,

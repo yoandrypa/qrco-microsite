@@ -1,21 +1,21 @@
-import * as redis from "../redis";
+//import * as redis from "../redis";
 import { User as UserModel } from "../models";
 import dynamoose from "../libs/dynamoose";
 import { CustomError } from "../utils";
 
 export const find = async (match: Partial<User>) => {
-  if (match.id) {
+  /*if (match.id) {
     const key = redis.key.user(match.id);
     const cachedUser = await redis.get(key);
     if (cachedUser) return JSON.parse(cachedUser) as User;
-  }
+  }*/
 
   const user = await UserModel.findOne(match);
 
-  if (user) {
+  /*if (user) {
     const id = redis.key.user(user.id);
     redis.set(id, user.toJSON(), "EX", 60 * 60 * 1);
-  }
+  }*/
 
   return user;
 };
@@ -38,7 +38,7 @@ export const add = async (params: Add, user?: User) => {
     await UserModel.create(data);
   }
 
-  redis.remove.user(user);
+  //redis.remove.user(user);
 
   return user;
 };
@@ -65,7 +65,7 @@ export const update = async (match: Match<User>, update: Partial<User>) => {
     { condition }
   );
 
-  redis.remove.user(user);
+  //redis.remove.user(user);
 
   return user;
 };
@@ -79,7 +79,7 @@ export const remove = async (user: User) => {
     throw new CustomError("User was not found.");
   }
 
-  redis.remove.user(user);
+  //redis.remove.user(user);
 
   const deletedUser = await UserModel.delete(userToRemove.id);
 
