@@ -17,13 +17,13 @@ interface Props {
 }
 
 const VerifyEmail: NextPage<Props> = ({ token }) => {
-  const addAuth = useStoreActions(s => s.auth.add);
+  //const addAuth = useStoreActions(s => s.auth.add);
 
   useEffect(() => {
     if (token) {
       cookie.set("token", token, { expires: 7 });
-      const decoded: TokenPayload = decode(token);
-      addAuth(decoded);
+      //const decoded: TokenPayload = decode(token);
+      //addAuth(decoded);
     }
   }, []);
 

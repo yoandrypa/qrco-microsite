@@ -4,11 +4,11 @@ import Router from "next/router";
 import { useStoreActions } from "../store";
 
 const LogoutPage: FC = () => {
-  const logout = useStoreActions(s => s.auth.logout);
+  //const logout = useStoreActions(s => s.auth.logout);
   const reset = useStoreActions(s => s.reset);
 
   useEffect(() => {
-    logout();
+    //logout();
     reset();
     Router.push("/");
   }, []);

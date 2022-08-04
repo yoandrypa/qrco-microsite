@@ -33,9 +33,9 @@ class MyApp extends App<any> {
       ctx.req && (ctx.req as any).cookies && (ctx.req as any).cookies.token;
     const tokenPayload: TokenPayload = token ? decode(token) : null;
 
-    if (tokenPayload) {
+    /*if (tokenPayload) {
       store.dispatch.auth.add(tokenPayload);
-    }
+    }*/
 
     return { pageProps, tokenPayload, initialState: store.getState() };
   }
@@ -47,17 +47,17 @@ class MyApp extends App<any> {
   }
 
   componentDidMount() {
-    const { loading, auth } = this.store.dispatch;
+    const { loading } = this.store.dispatch;
     const token = cookie.get("token");
     const isVerifyEmailPage =
       typeof window !== "undefined" &&
       window.location.pathname.includes("verify-email");
 
-    if (token && !isVerifyEmailPage) {
+    /*if (token && !isVerifyEmailPage) {
       auth.renew().catch(() => {
         auth.logout();
       });
-    }
+    }*/
 
     if (isProd) {
       initGA();

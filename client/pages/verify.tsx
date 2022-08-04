@@ -35,13 +35,13 @@ const Message = styled.p`
 `;
 
 const Verify: NextPage<Props> = ({ token }) => {
-  const addAuth = useStoreActions(s => s.auth.add);
+  //const addAuth = useStoreActions(s => s.auth.add);
 
   useEffect(() => {
     if (token) {
       cookie.set("token", token, { expires: 7 });
       const payload: TokenPayload = decode(token);
-      addAuth(payload);
+      //addAuth(payload);
     }
   }, []);
 

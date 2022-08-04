@@ -11,10 +11,10 @@ import { H1, Span } from "../components/Text";
 import Divider from "../components/Divider";
 import { Col } from "../components/Layout";
 import Footer from "../components/Footer";
-import { useStoreState } from "../store";
+//import { useStoreState } from "../store";
 
 const SettingsPage: NextPage = () => {
-  const email = useStoreState(s => s.auth.email);
+  const email = "default@ebanux.com"; //useStoreState(s => s.auth.email);
 
   return (
     <AppWrapper>
