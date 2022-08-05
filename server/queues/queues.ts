@@ -1,5 +1,5 @@
-import Queue from "bull";
-import path from "path";
+//import Queue from "bull";
+//import path from "path";
 
 /*import env from "../env";
 
@@ -9,12 +9,12 @@ const redis = {
   ...(env.REACT_REDIS_PASSWORD && { password: env.REACT_REDIS_PASSWORD })
 };*/
 
-const removeJob = job => job.remove();
+//const removeJob = job => job.remove();
 
-export const visit = new Queue("visit", {});
+export const visit = {}; //new Queue("visit", {});
 
-visit.clean(5000, "completed");
+//visit.clean(5000, "completed");
 
-visit.process(8, path.resolve(__dirname, "visit.js"));
+//visit.process(8, path.resolve(__dirname, "visit.js"));
 
-visit.on("completed", removeJob);
+//visit.on("completed", removeJob);
