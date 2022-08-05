@@ -12,7 +12,7 @@ import { CreateLinkReq } from "./types";
 import * as utils from "../utils";
 import { CustomError } from "../utils";
 import query from "../queries";
-import queue from "../queues";
+//import queue from "../queues";
 import env from "../env";
 
 const dnsLookup = promisify(dns.lookup);
@@ -320,14 +320,14 @@ export const redirect = (app: ReturnType<typeof next>): Handler => async (
     }
 
     // 7. Create link visit
-    if (link.user_id && !isBot) {
+    /*if (link.user_id && !isBot) {
       queue.visit.add({
         headers: req.headers,
         realIP: req.realIP,
         referrer: req.get("Referrer"),
         link
       });
-    }
+    }*/
 
     // 8. Create Google Analytics visit
     if (env.REACT_GOOGLE_ANALYTICS_UNIVERSAL && !isBot) {
@@ -366,14 +366,14 @@ export const redirectProtected: Handler = async (req, res) => {
   }
 
   // 4. Create visit
-  if (link.user_id) {
+  /*if (link.user_id) {
     queue.visit.add({
       headers: req.headers,
       realIP: req.realIP,
       referrer: req.get("Referrer"),
       link
     });
-  }
+  }*/
 
   // 5. Create Google Analytics visit
   if (env.REACT_GOOGLE_ANALYTICS_UNIVERSAL) {
