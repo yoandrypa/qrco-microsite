@@ -28,7 +28,7 @@ const IpSchema = new dynamoose.Schema({
 });
 
 // create a model from schema and export it
-export const Ip = dynamoose.model.ips || dynamoose.model("ips", IpSchema);
+export const Ip = dynamoose.model("ips", IpSchema);
 
 Ip.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore

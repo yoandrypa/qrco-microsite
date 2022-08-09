@@ -6,9 +6,9 @@ module.exports = {
   webpack: (config) => {
     // Fixes yarn packages that depend on `fs` module
     config.resolve.fallback = {fs: false};
-    // Fix top-level-await experiment enable
     config.experiments = {
-      topLevelAwait: true,
+      topLevelAwait: true, // Fix top-level-await experiment enable
+      layers: true // Fix layers experiment enable
     };
     return config;
   },

@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { RowCenterV } from "./Layout";
 import { Button } from "./Button";
 import ALink from "./ALink";
+import Image from "next/image";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -104,7 +105,7 @@ const Header: FC = () => {
         alignItems={["flex-start", "stretch"]}
       >
         <LogoImage>
-          <a
+          <Link
             href="/"
             title="Homepage"
             onClick={e => {
@@ -112,9 +113,9 @@ const Header: FC = () => {
               if (window.location.pathname !== "/") Router.push("/");
             }}
           >
-            <img src="/images/logo.svg" alt="" />
+            <Image src="/images/logo.svg" alt="" />
             {publicRuntimeConfig.SITE_NAME}
-          </a>
+          </Link>
         </LogoImage>
         {!isMobile && (
           <Flex

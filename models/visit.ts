@@ -98,8 +98,7 @@ const VisitSchema = new dynamoose.Schema({
 });
 
 // create a model from schema and export it
-export const Visit =
-  dynamoose.model.visits || dynamoose.model("visits", VisitSchema);
+export const Visit = dynamoose.model("visits", VisitSchema);
 
 Visit.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore

@@ -478,7 +478,7 @@ const Row: FC<RowProps> = ({ index, link, setDeleteModal }) => {
           </H2>
           <Text mb={24} textAlign="center">
             Are you sure do you want to ban the link{" "}
-            <Span bold>"{removeProtocol(link.link)}"</Span>?
+            <Span bold>&quot;{removeProtocol(link.link)}&quot;</Span>?
           </Text>
           <RowCenter>
             {/*@ts-ignore*/}
@@ -528,7 +528,6 @@ const data = await queries.link.get({ user_id: { eq: "1234" } }, { limit: 10 });
 const LinksTable: FC = () => {
   const isAdmin = true; //useStoreState(s => s.auth.isAdmin);
   // @ts-ignore
-
   const links = {
     items: data[0].map((item: any) => {
       const protocol = process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS ? "https" : "http";

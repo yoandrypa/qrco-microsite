@@ -44,8 +44,7 @@ const DomainSchema = new dynamoose.Schema({
 });
 
 // create a model from schema and export it
-export const Domain =
-  dynamoose.model.domains || dynamoose.model("domains", DomainSchema);
+export const Domain = dynamoose.model("domains", DomainSchema);
 
 Domain.methods.set("findOne", async function(criteria: object) {
   // @ts-ignore

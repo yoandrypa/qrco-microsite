@@ -31,8 +31,7 @@ const HostSchema = new dynamoose.Schema({
 });
 
 // create a model from schema and export it
-export const Host =
-  dynamoose.model.hosts || dynamoose.model("hosts", HostSchema);
+export const Host = dynamoose.model("hosts", HostSchema);
 
 Host.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore
