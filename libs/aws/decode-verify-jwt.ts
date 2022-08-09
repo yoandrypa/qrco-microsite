@@ -52,8 +52,8 @@ interface Claim {
     client_id: string;
 }
 
-const cognitoPoolId = process.env.AWS_COGNITO_POOL_ID || '';
-const cognitoRegion = process.env.AWS_REGION || '';
+const cognitoPoolId = process.env.REACT_AWS_COGNITO_POOL_ID || '';
+const cognitoRegion = process.env.REACT_AWS_REGION || '';
 if (!cognitoPoolId) {
     throw new Error('env var required for cognito pool');
 }

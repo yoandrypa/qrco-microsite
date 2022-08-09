@@ -4,13 +4,13 @@
 const awsExports = {
   Auth: {
       // REQUIRED - Amazon Cognito Region
-      region: process.env.AWS_COGNITO_REGION,
+      region: process.env.REACT_AWS_COGNITO_REGION,
 
       // OPTIONAL - Amazon Cognito User Pool ID
-      userPoolId: process.env.AWS_COGNITO_POOL_ID,
+      userPoolId: process.env.REACT_AWS_COGNITO_POOL_ID,
 
       // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-      userPoolWebClientId: process.env.AWS_COGNITO_CLIENT_ID,
+      userPoolWebClientId: process.env.REACT_AWS_COGNITO_CLIENT_ID,
 
 
       // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
@@ -20,7 +20,7 @@ const awsExports = {
       // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
       cookieStorage: {
           // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-          domain: process.env.APP_COOKIES_DOMAIN,
+          domain: process.env.REACT_APP_COOKIES_DOMAIN,
           // OPTIONAL - Cookie path
           path: '/',
           // OPTIONAL - Cookie expiration in days
@@ -43,11 +43,11 @@ const awsExports = {
 
       // OPTIONAL - Hosted UI configuration
       oauth: {
-          domain: process.env.AWS_COGNITO_DOMAIN,
+          domain: process.env.REACT_AWS_COGNITO_DOMAIN,
           scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-          redirectSignIn: process.env.APP_DEFAULT_DOMAIN,
-          redirectSignOut: process.env.AWS_COGNITO_LOGOUT_REDIRECT_URI,
-          clientId: process.env.AWS_COGNITO_CLIENT_ID,
+          redirectSignIn: process.env.REACT_APP_DEFAULT_DOMAIN,
+          redirectSignOut: process.env.REACT_AWS_COGNITO_LOGOUT_REDIRECT_URI,
+          clientId: process.env.REACT_AWS_COGNITO_CLIENT_ID,
           responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
       }
   }

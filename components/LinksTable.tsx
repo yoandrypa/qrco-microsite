@@ -531,8 +531,8 @@ const LinksTable: FC = () => {
 
   const links = {
     items: data[0].map((item: any) => {
-      const protocol = process.env.APP_CUSTOM_DOMAIN_USE_HTTPS ? "https" : "http";
-      const baseDomain = protocol + "://" + process.env.APP_DEFAULT_DOMAIN;
+      const protocol = process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS ? "https" : "http";
+      const baseDomain = protocol + "://" + process.env.REACT_APP_DEFAULT_DOMAIN;
       return { ...item, link: baseDomain + "/" + item.address };
     }), total: data[1], loading: false, link: ""
   }; // TODO useStoreState(s => s.links);

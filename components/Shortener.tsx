@@ -107,7 +107,7 @@ const Shortener = () => {
     setLoading(true);
 
     if (
-      process.env.NODE_ENV === "production" &&
+      process.env.REACT_NODE_ENV === "production" &&
       !!publicRuntimeConfig.RECAPTCHA_SITE_KEY &&
       !isAuthenticated
     ) {
