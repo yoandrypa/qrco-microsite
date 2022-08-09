@@ -1,11 +1,11 @@
 import type {NextPage} from "next";
 import Link from "next/link";
 import Head from "next/head";
-import Layout from "../../components/layout";
+//import Layout from "../../components/layout";
 
 const FirstPost: NextPage = () => {
     return (
-        <Layout>
+        /*<Layout>
             <Head>
                 <title>First Post</title>
             </Head>
@@ -15,7 +15,8 @@ const FirstPost: NextPage = () => {
                     <a>Back to home</a>
                 </Link>
             </h2>
-        </Layout>
+        </Layout>*/
+      <></>
     )
 }
 
