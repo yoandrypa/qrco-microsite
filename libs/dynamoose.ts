@@ -6,7 +6,7 @@ dynamoose.aws.sdk.config.update({
   region: process.env.REACT_AWS_REGION
 });
 
-if (process.env.REACT_REACT_AWS_DYNAMODB_URL) {
+if (process.env.REACT_AWS_DYNAMODB_URL) {
   dynamoose.aws.ddb.local(process.env.REACT_AWS_DYNAMODB_URL);
 }
 dynamoose.model.defaults.set({

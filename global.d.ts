@@ -96,7 +96,6 @@ interface Link {
   target: string;
   updated_at: string;
   user_id?: string;
-  uuid: string;
   visit_count: number;
 }
 

@@ -1,22 +1,23 @@
-import type { NextPage } from 'next'
-
-/*import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link'*/
-
-
-import AppWrapper from "../components/AppWrapper";
-import Shortener from "../components/Shortener";
 import LinksTable from "../components/LinksTable";
+import styles from "../styles/Home.module.css";
+import { Box } from "@mui/material";
+import { GetStaticProps } from "next";
+import queries from "../queries";
 
-const Home: NextPage = () => {
+export default function Index({ linksData }: any) {
+  const [links, total] = JSON.parse(linksData)
   return (
-    <AppWrapper>
-      <Shortener />
-      <LinksTable />
-    </AppWrapper>
-  )
-}
+    <Box className={styles.container}>
+      {links && <LinksTable links={links} total={total}/>}
+    </Box>
+  );
+};
 
-export default Home
+export const getStaticProps: GetStaticProps = async () => {
+  const links = await queries.link.get({ user_id: { eq: "1234" } }, { limit: 10 });
+  const linksData = JSON.stringify(links)
+
+  return {
+    props: { linksData }
+  };
+};
