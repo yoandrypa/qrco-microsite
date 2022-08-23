@@ -8,7 +8,7 @@ const components = {
       <View textAlign="center" padding={tokens.space.large}>
         <Image
           alt="Ebanux logo"
-          src="/icons/ebanux.svg"
+          src="/ebanux.svg"
           height="50%"
           width="50%"
         />

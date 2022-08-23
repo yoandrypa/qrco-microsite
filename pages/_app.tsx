@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
@@ -11,10 +12,8 @@ Amplify.configure(awsExports);
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Authenticator components={components}>
-      {({ signOut, user }) => (
-        <Component {...pageProps} signOut={signOut} user={user} />
-      )}
-    </Authenticator>
+    <StyledEngineProvider injectFirst>
+      <Component {...pageProps} />
+    </StyledEngineProvider>
   );
 }
