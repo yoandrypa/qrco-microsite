@@ -45,6 +45,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     cookies[key.split(".").pop()] = value;
   }
   // @ts-ignore
+  if (!cookies.userData) {
+    return { props: {} };
+  }
+  // @ts-ignore
   const userData = JSON.parse(cookies.userData as string);
   const userId = userData.UserAttributes[0].Value;
   const links = await queries.link.get({ user_id: { eq: userId } }, { limit: 10 });
