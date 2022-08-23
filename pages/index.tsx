@@ -38,9 +38,16 @@ export default function Index({ linksData }: InferGetServerSidePropsType<typeof 
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log({ context });
-  const links = await queries.link.get({ user_id: { eq: "52406b73-58be-4257-8e7e-418b62f31f3a" } }, { limit: 10 });
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  let cookies = {};
+  for (const [key, value] of Object.entries(req.cookies)) {
+    // @ts-ignore
+    cookies[key.split(".").pop()] = value;
+  }
+  // @ts-ignore
+  const userData = JSON.parse(cookies.userData as string);
+  const userId = userData.UserAttributes[0].Value;
+  const links = await queries.link.get({ user_id: { eq: userId } }, { limit: 10 });
   const linksData = JSON.stringify(links);
 
   return {
