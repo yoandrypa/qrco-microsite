@@ -46,7 +46,7 @@ const LinksCreateForm = ({ user }: any) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  const validUrl = (values.target && !isValidUrl(values.target)) === true
+  const validUrl = (values.target && !isValidUrl(values.target)) === true;
 
   return (
     <FormControl fullWidth>

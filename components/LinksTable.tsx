@@ -10,7 +10,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { formatRelative, subDays } from "date-fns";
 import Link from "next/link";
-import { generateShortLink, isValidUrl } from "../utils";
+import { generateShortLink } from "../utils";
 import Stack from "@mui/material/Stack";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import PieChartIcon from "@mui/icons-material/PieChart";

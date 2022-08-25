@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
   // @ts-ignore
   if (!cookies.userData) {
-    return { props: {} };
+    return { props: {linksData: JSON.stringify({})} };
   }
   // @ts-ignore
   const userData = JSON.parse(cookies.userData as string);

@@ -29,7 +29,7 @@ export const create = async (data: CreateLinkData) => {
       domain,
       expire_in
     } = data.body;
-    const domain_id = domain ? domain.id : "";
+    const domain_id = domain ? domain.id : null;
 
     // @ts-ignore
     const targetDomain = utils.removeWww(URL.parse(target).hostname);

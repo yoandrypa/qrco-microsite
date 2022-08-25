@@ -3,7 +3,8 @@ import queries from "../queries";
 
 export const generateShortLink = (id: string, domain?: string): string => {
   const protocol =
-    process.env.REACT_CUSTOM_DOMAIN_USE_HTTPS || !domain ? "http://" : "https://";
+    //process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" || !domain ? "https://" : "http://";
+    process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" ? "https://" : "http://";
   return `${protocol}${domain || process.env.REACT_APP_DEFAULT_DOMAIN}/${id}`;
 };
 
@@ -63,11 +64,11 @@ export const addProtocol = (url: string): string => {
 };
 
 export const isValidUrl = (urlString: string) => {
-  let urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
-    '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+  let urlPattern = new RegExp("^(https?:\\/\\/)?" + // validate protocol
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+    "(\\#[-a-z\\d_]*)?$", "i"); // validate fragment locator
   return urlPattern.test(urlString);
 };
