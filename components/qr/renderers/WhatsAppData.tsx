@@ -2,7 +2,7 @@ import TextField from '@mui/material/TextField';
 import Common from '../helperComponents/Common';
 import MultiLineDetails from '../helperComponents/MultiLineDetails';
 
-type WhatsAppDataProps = {
+interface WhatsAppDataProps {
   data: { number?: string, message?: string };
   setData: Function
 };

@@ -1,7 +1,7 @@
-import React from 'react';
+import {ReactNode} from 'react';
 import Typography from '@mui/material/Typography';
 
-type CommonProps = {
+interface CommonProps {
   msg: string;
   children: React.ReactNode;
 };

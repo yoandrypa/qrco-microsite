@@ -7,6 +7,7 @@ import frame4 from '../../components/qr/frames/frame4';
 import frame5 from '../../components/qr/frames/frame5';
 import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
+import { FramesType } from '../../components/qr/types/types';
 
 export const handleDesignerString = (selected: string | null | undefined, data: any, value: string | null | undefined): string => {
   let designerString = '';
@@ -237,22 +238,25 @@ export const downloadAsPNG = async (svgData: { outerHTML: string | number | bool
   }
 };
 
-export const getFrame = (frame: {type: string; color: string; text?: string; textColor?: string; textUp?: boolean | false}): string => {
+export const getFrame = (frame: FramesType): string => {
   let result = null;
+  const defaultText:string = 'SCAN ME';
+  const defaultColor:string = '#000000'
+
   if (frame.type === '/frame/frame0.svg') {
     result = frame0(frame.color);
   } else if (frame.type === '/frame/frame1.svg') {
-    result = frame1(frame.color, frame.text || 'SCAN ME', frame.textColor || '#ffffff', frame.textUp);
+    result = frame1(frame.color, frame.text || defaultText, frame.textColor || '#ffffff', frame.textUp);
   } else if (frame.type === '/frame/frame2.svg') {
-    result = frame2(frame.color, frame.text, frame.textColor, frame.textUp);
+    result = frame2(frame.color, frame.text || defaultText, frame.textColor || defaultColor, frame.textUp);
   } else if (frame.type === '/frame/frame3.svg') {
-    result = frame3(frame.color, frame.text, frame.textColor, frame.textUp);
+    result = frame3(frame.color, frame.text || defaultText, frame.textColor || defaultColor, frame.textUp);
   } else if (frame.type === '/frame/frame4.svg') {
-    result = frame4(frame.color, frame.text, frame.textColor, frame.textUp);
+    result = frame4(frame.color, frame.text || defaultText, frame.textColor || defaultColor, frame.textUp);
   } else if (frame.type === '/frame/frame5.svg') {
     result = frame5(frame.color);
   } else if (frame.type === '/frame/frame6.svg') {
-    result = frame6(frame.color, frame.text || 'SCAN ME', frame.textColor || '#000000');
+    result = frame6(frame.color, frame.text || defaultText, frame.textColor || defaultColor);
   } else {
     result = frame7(frame.color);
   }

@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+// @ts-nocheck
+
+import { useEffect, useRef, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 
-import ColorPicker from 'rc-color-picker';
-import 'rc-color-picker/assets/index.css';
+import { ColorPicker } from '@programmerraj/rc-color-picker';
 
 const hex = /^#?([0-9A-Fa-f]{3}){1,2}$/;
 
@@ -16,16 +17,16 @@ const handleValue = (value: string): string => {
   return result;
 };
 
-interface ColorSelectorProps {
-  handleData: Function;
+interface ColorSelProps {
+  color: string | undefined | null;
   label: string;
   property: string;
-  color?: string;
-}
+  handleData: Function;
+};
 
-const ColorSelector = ({ handleData, label, property, color = '#000000' }: ColorSelectorProps) => {
-  const [value, setValue] = useState<string>(color);
-  const ref = useRef<{selectionStart: number, selectionEnd: number}>(null);
+const ColorSelector = ({ color, handleData, label, property }: ColorSelProps) => {
+  const [value, setValue] = useState(color || '#000000');
+  const ref = useRef(null);
   const cursorPos = useRef<number>(0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +34,8 @@ const ColorSelector = ({ handleData, label, property, color = '#000000' }: Color
     setValue(handleValue(event.target.value));
   };
 
-  const handlePaste = (event: any) => {
-    const text = event.clipboardData.getData('text/plain');
+  const handlePaste = ({ clipboardData }) => {
+    const text = clipboardData.getData('text/plain');
     if (text.length && hex.test(value)) {
       setValue(handleValue(text));
     }
@@ -81,7 +82,7 @@ const ColorSelector = ({ handleData, label, property, color = '#000000' }: Color
         endAdornment: (
           <InputAdornment position="end" sx={{ mt: '5px', mr: '-5px' }}>
             <ColorPicker
-              animation="slide-up"
+              animated
               color={color}
               onChange={handleData(property)}
               mode="RGB"

@@ -3,9 +3,10 @@ import { useRef, useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
-import QRGeneratorContext from '../../utils/QRGeneratorContext';
+import QRGeneratorContext from '../../components/qr/context/QRGeneratorContext';
 import QrTypeSelector from '../../components/qr/QrTypeSelector';
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
+import { OptionsType } from '../../components/qr/types/types';
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
@@ -17,9 +18,9 @@ const handleInitialData = (value: string | null | undefined) => {
 };
 
 export default function QrGen() {
-  const [value, setValue] = useState('Ebanux');
+  const [value, setValue] = useState<string>('Ebanux');
   const [data, setData] = useState({});
-  const [options, setOptions] = useState(handleInitialData(value));
+  const [options, setOptions] = useState<OptionsType>(handleInitialData(value));
   const [logoData, setLogoData] = useState(null);
   const [background, setBackground] = useState(initialBackground);
   const [cornersData, setCornersData] = useState(null);

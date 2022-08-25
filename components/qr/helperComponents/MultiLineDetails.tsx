@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 
-type MultiLineDetailsProps = {
+interface MultiLineDetailsProps {
   top: number;
   data?: string;
 };

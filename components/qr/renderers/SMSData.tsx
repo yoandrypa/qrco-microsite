@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Common from '../helperComponents/Common';
 import MultiLineDetails from '../helperComponents/MultiLineDetails';
 
-type SMSDataProps = {
+interface SMSDataProps {
   data: {
     number?: string;
     message?: string;

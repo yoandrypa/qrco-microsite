@@ -1,4 +1,6 @@
-import { SetStateAction, useMemo, useRef, useState } from 'react';
+// @ts-nocheck
+
+import { SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -9,32 +11,27 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BrushIcon from '@mui/icons-material/Brush';
 import Fab from '@mui/material/Fab';
 import CropFreeIcon from '@mui/icons-material/CropFree';
-import { Accordion, AccordionSummary, Alert } from '../renderers/Renderers';
+
+import { Accordion, AccordionDetails, AccordionSummary, Alert } from '../renderers/Renderers';
+
 import { checkForAlpha, convertBase64, downloadAsSVGOrVerify } from '../../helpers/qr/helpers';
+import { BackgroundType, FramesType, OptionsType } from './types/types';
+import Code from './sections/Code';
+import Frames from './sections/Frames';
+import Logos from './sections/Logos';
+import QrGenerator from './QrGenerator';
+import { initialFrame } from '../../helpers/qr/data';
 
 interface GeneratorProps {
   allowEdit?: boolean;
-  options: {
-    width: number;
-    height: number;
-    type: string;
-    data: string;
-    image: string | null;
-    margin: number;
-    qrOptions: { typeNumber: numeber; mode: string; errorCorrectionLevel: string; };
-    imageOptions: { hideBackgroundDots: boolean; imageSize: number; margin: number; crossOrigin: string; };
-    dotsOptions: { color: string; type: string; };
-    backgroundOptions: { color: string; };
-    cornersSquareOptions: { color: string; type: string; };
-    cornersDotOptions: { color: string; type: string; };
-  };
+  options: OptionsType;
   goBack?: Function | undefined;
   setOptions: Function;
   logoData?: any;
   setLogoData: Function;
-  background: { type: string | null; opacity: number; size: number; file: string; x: number; y: number; imgSize: number; };
+  background: BackgroundType;
   setBackground: Function;
-  frame: { type: string | null; text: string; color: string; textColor: string; };
+  frame: FramesType;
   setFrame: Function;
   overrideValue?: string | undefined;
 };
@@ -53,15 +50,15 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
   const fileInput = useRef<any>();
   const mustReload = useRef<boolean>(false);
 
-  const handleExpand = (panel: SetStateAction<string>) => (_: any, newExpanded: any) => {
+  const handleExpand = (panel: SetStateAction<string>) => (_: any, newExpanded: SetStateAction<string> | boolean) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  const handleDownload = ({ currentTarget }): void => {
+  const handleDownload = ({ currentTarget }) => {
     setAnchor(currentTarget);
   };
 
-  const onLoadFile = ({ target }): void => {
+  const onLoadFile = ({ target }) => {
     const f = target.files[0];
     const img = new Image();
     img.src = URL.createObjectURL(f);
@@ -70,10 +67,10 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
       const check = await checkForAlpha(f);
       const back = { ...background, file: base };
       if (check?.hasAlpha) {
-        if (!back.backColor) {
+        if (!Boolean(back.backColor)) {
           back.backColor = '#ffffff';
         }
-      } else if (back.backColor) {
+      } else if (Boolean(back.backColor)) {
         delete back.backColor;
       }
       setBackground(back);
@@ -98,6 +95,148 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
   const checkForReadability = () => {
     downloadAsSVGOrVerify(qrImageData.current, setIsReadable, contrastColors);
   };
+
+  const handleBackground = (item: string) => (event: { target: { value: string; checked: any; }; color: any; }) => {
+    if (event.target) {
+      const back = { ...background, [item]: item !== 'invert' ? event.target.value : event.target.checked };
+      if (event.target.value === 'solid') {
+        back.opacity = 50;
+        back.size = 1;
+        back.file = null;
+        if (back.invert !== undefined) {
+          delete back.invert;
+        }
+        if (back.backColor) {
+          delete back.backColor;
+        }
+      }
+      setBackground(back);
+    } else if (event.color) {
+      setBackground({ ...background, backColor: event.color });
+    }
+  };
+
+  const handleUpload = () => {
+    fileInput.current.click();
+  };
+
+  const handleReset = () => {
+    setBackground({ ...background, opacity: 50, size: 1, invert: false, x: 0, y: 0, imgSize: 1 });
+  };
+
+  const handleMainFrame = (elem: string, payload: any) => {
+    if (payload !== null) {
+      if (elem === 'image') {
+        const selectedFrame = { ...frame, type: payload };
+        if (payload === '/frame/frame1.svg' && frame.textColor === '#000000') {
+          selectedFrame.textColor = '#ffffff';
+        } else if (['/frame/frame2.svg', '/frame/frame3.svg', '/frame/frame4.svg'].includes(payload) && frame.textColor === '#ffffff') {
+          selectedFrame.textColor = '#000000';
+        }
+        setFrame(selectedFrame);
+      } else {
+        setFrame({ ...frame, [elem]: payload });
+      }
+    } else {
+      setFrame({ ...frame, ...initialFrame });
+    }
+  };
+
+  const handleFrame = (item: string) => (payload: any) => {
+    let value = undefined;
+    if (item !== 'text' && payload?.target?.checked !== undefined) {
+      value = payload.target.checked;
+    } else {
+      value = payload?.target?.value || payload?.color || payload?.textColor || payload;
+    }
+    handleMainFrame(item, value);
+  };
+
+  const handleMainData = (item: string, payload: any, icon = null) => {
+    const opts = { ...options };
+    if (!payload || !payload.file) {
+      opts[item] = payload;
+      if (logoData) {
+        setLogoData(null);
+      }
+    } else {
+      if (icon) {
+        setLogoData(icon);
+      }
+      opts.image = payload.file;
+    }
+    setOptions(opts);
+  };
+
+  const handleData = (item: string) => (payload: any) => {
+    const opts = { ...options };
+    if (item.includes('.')) {
+      const x = item.split('.');
+      if (!opts[x[0]]) {
+        opts[x[0]] = '';
+      }
+      if (typeof payload === 'string') {
+        opts[x[0]][x[1]] = payload;
+      } else if (payload.color) {
+        opts[x[0]][x[1]] = payload.color;
+      } else {
+        opts[x[0]][x[1]] = payload.target.value !== '-1' ? payload.target.value : null;
+      }
+    } else if (!payload || typeof payload === 'string') {
+      opts[item] = payload;
+    } else if (item === 'data') {
+      opts[item] = payload.target.value.length ? payload.target.value : 'ebanux';
+    }
+    setOptions(opts);
+  };
+
+  useEffect(() => {
+    if (isReadable) {
+      setTimeout(() => { setIsReadable(null); }, [3700]);
+    }
+  }, [isReadable]);
+
+  useEffect(() => {
+    if (doneFirst.current) {
+      const opts = { ...options };
+      if (background.type === 'solid') {
+        handleReset();
+      } else {
+        handleUpload();
+      }
+      setOptions(opts);
+    }
+  }, [background.type]);
+
+  useEffect(() => {
+    if (background.type === 'image') {
+      setBackground({ ...background, opacity: background.invert ? 100 : 50 });
+    }
+  }, [background.invert]);
+
+  useEffect(() => {
+    if (doneFirst.current) {
+      const opts = { ...options };
+      opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
+      setOptions(opts);
+    }
+  }, [background.file]);
+
+  useEffect(() => {
+    mustReload.current = Boolean(options.image);
+    if (isReadable) {
+      setIsReadable(null);
+    }
+  }, [options, background]);
+
+  useEffect(() => {
+    if (updating) {
+      setTimeout(() => { setUpdating(false); }, [350]);
+    }
+    if (!doneFirst.current) {
+      doneFirst.current = true;
+    }
+  }, [updating]);
 
   return (
     <>
