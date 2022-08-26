@@ -9,6 +9,7 @@ import QRGeneratorContext from '../../components/qr/context/QRGeneratorContext';
 import QrTypeSelector from '../../components/qr/QrTypeSelector';
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
 import { OptionsType } from '../../components/qr/types/types';
+import Generator from "../../components/qr/Generator";
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
@@ -93,17 +94,31 @@ export default function QrGen() {
       <QRGeneratorContext.Provider value={{ cornersData, setCornersData, dotsData, setDotsData }}>
         <Box sx={{ p: 1, width: { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto' }}>
           <h1>QR Generator</h1>
-          <QrTypeSelector
-            data={data}
-            expanded={expanded}
-            setOpenDesigner={handleOpenDesigner}
-            setData={setData}
-            setExpanded={setExpanded}
-            setSelected={setSelected}
-            setValue={setValue}
-            selected={selected}
-            value={value}
-          />
+          {tabSelected === 0 ? (
+            <QrTypeSelector
+              data={data}
+              expanded={expanded}
+              setOpenDesigner={handleOpenDesigner}
+              setData={setData}
+              setExpanded={setExpanded}
+              setSelected={setSelected}
+              setValue={setValue}
+              selected={selected}
+              value={value}
+            />
+          ) : (
+            <Generator
+              options={options}
+              setOptions={setOptions}
+              logoData={logoData}
+              setLogoData={setLogoData}
+              background={background}
+              setBackground={setBackground}
+              frame={frame}
+              goBack={goBack}
+              setFrame={setFrame}
+            />
+          )}
         </Box>
       </QRGeneratorContext.Provider>
     </Container>
