@@ -81,7 +81,7 @@ The `docker-compose.yml` uses the official kutt docker image available on [Docke
 
 For the minimal configuration the following settings have to be changed in the `.env`-file:
 
-- **REACT_DEFAULT_DOMAIN**: The domain of your kutt instance
+- **REACT_APP_DEFAULT_DOMAIN**: The domain of your kutt instance
 - **DB_**: The DB credentials (when you use docker-compose you can skip these)
 - **REACT_ADMIN_EMAILS**: A comma-separated list of the administrator-accounts
 - **RECAPTCHA_**: Enter your credentials to use reCaptchas or delete this setting if you don't want to use it
@@ -97,7 +97,7 @@ Download Kutt's extension for web browsers via below links. You can also find th
 
 ## API
 
-Visit API v2 documentation on [docs.kutt.it](https://docs.kutt.it)
+VisitType API v2 documentation on [docs.kutt.it](https://docs.kutt.it)
 
 ## Integrations
 
@@ -110,7 +110,7 @@ You can use Kutt as your default URL shortener in [ShareX](https://getsharex.com
 Download Kutt's official workflow for [Alfred](https://www.alfredapp.com/) app from [alfred-kutt](https://github.com/thedevs-network/alfred-kutt) repository.
 
 ## 3rd Party packages
-| Language   | Link                                                                              | Description                                        |
+| Language   | LinkType                                                                              | Description                                        |
 | ---------- | --------------------------------------------------------------------------------- | -------------------------------------------------- |
 | C# (.NET)  | [KuttSharp](https://github.com/0xaryan/KuttSharp)                                 | .NET package for Kutt.it url shortener             |
 | C# (.NET)  | [Kutt.NET](https://github.com/AlphaNecron/Kutt.NET)                               | ✂️🔗 C# API Wrapper for Kutt

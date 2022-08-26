@@ -6,6 +6,8 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
 import components from "../libs/aws/components";
+import * as UserHandler from "../handlers/users";
+import * as LinkHandler from "../handlers/links";
 
 Amplify.configure(awsExports);
 
@@ -14,8 +16,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { MAIN_CONFIG } from "../consts";
 import { themeConfig } from "../utils/theme";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import queries from "../queries";
 import Home from "../components/Home";
+import { UserContext } from "../utils/contexts";
 
 export default function Index({ linksData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [mainConfig, setMainConfig] = useState(MAIN_CONFIG);
@@ -30,7 +32,10 @@ export default function Index({ linksData }: InferGetServerSidePropsType<typeof 
         <ThemeProvider theme={mainTheme}>
           {/*@ts-ignore*/}
           <IntlProvider locale={locale} messages={messages}>
-            <Home user={user} signOut={signOut} linksData={linksData} />
+            {/*@ts-ignore*/}
+            <UserContext.Provider value={{ user, signOut }}>
+              <Home linksData={linksData} />
+            </UserContext.Provider>
           </IntlProvider>
         </ThemeProvider>
       )}
@@ -46,12 +51,16 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
   // @ts-ignore
   if (!cookies.userData) {
-    return { props: {} };
+    return { props: {linksData: JSON.stringify({})} };
   }
   // @ts-ignore
   const userData = JSON.parse(cookies.userData as string);
   const userId = userData.UserAttributes[0].Value;
-  const links = await queries.link.get({ user_id: { eq: userId } }, { limit: 10 });
+  let user = await UserHandler.find(userId);
+  if (!user) {
+    user = await UserHandler.create({ id: userId });
+  }
+  const links = await LinkHandler.list({ limit: 10, user_id: user.id });
   const linksData = JSON.stringify(links);
 
   return {

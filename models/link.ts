@@ -3,6 +3,7 @@ import dynamoose from "../libs/dynamoose";
 import { v4 } from "uuid";
 //const Unique = require("./unique");
 import { User } from "./user";
+import { Domain } from "./domain";
 
 // instantiate a dynamoose schema
 const created_at = new Date().toISOString();
@@ -25,7 +26,7 @@ const LinkSchema = new dynamoose.Schema({
     default: false
   },
   banned_by_id: {
-    type: User //TODO Include reference to User
+    type: User
   },
   domain_id: {
     type: [String, dynamoose.NULL] //TODO Include reference to Domain
@@ -42,7 +43,7 @@ const LinkSchema = new dynamoose.Schema({
     required: true
   },
   user_id: {
-    type: User //TODO Include reference to User
+    type: User
     //TODO delete in cascade if user reference is deleted
   },
   visit_count: {

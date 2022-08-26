@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as helpers from "../../../handlers/helpers";
 import * as link from "../../../handlers/links";
-import { list } from "../../../handlers/links";
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,6 +14,7 @@ export default async function handler(
     if (req.method === "GET") {
       helpers.query;
 
+      // @ts-ignore
       res.status(200).json(link.list(req.query));
     }
   } catch (e) {

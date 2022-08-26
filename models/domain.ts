@@ -17,7 +17,7 @@ const DomainSchema = new dynamoose.Schema({
     default: false
   },
   banned_by_id: {
-    type: User //TODO Include reference to User
+    type: User
   },
   address: {
     type: String,
@@ -28,7 +28,7 @@ const DomainSchema = new dynamoose.Schema({
     type: [String, dynamoose.NULL]
   },
   user_id: {
-    type: User //TODO Include reference to User
+    type: User
     //TODO delete in cascade if user reference is deleted
   },
   created_at: {
