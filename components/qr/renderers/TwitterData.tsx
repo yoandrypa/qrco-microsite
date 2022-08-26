@@ -4,7 +4,7 @@ import { Object } from 'aws-sdk/clients/s3';
 
 import Common from '../helperComponents/Common';
 
-type TwitterDataProps = {
+export type TwitterDataProps = {
   data: {
     text?: string;
     via?: string;

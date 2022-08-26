@@ -13,7 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Common from '../helperComponents/Common';
 
-type WifiDataProps = {
+export type WifiDataProps = {
   data: {
     name?: string;
     hidden?: string;

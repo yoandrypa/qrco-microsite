@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Common from "../helperComponents/Common";
 
-interface FacebookDataProps {
+export type FacebookDataProps = {
   data: { message: string; };
   setData: Function;
 };

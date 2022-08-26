@@ -1,13 +1,14 @@
 import TextField from '@mui/material/TextField';
 import Common from '../helperComponents/Common';
+
 import MultiLineDetails from '../helperComponents/MultiLineDetails';
 
-interface WhatsAppDataProps {
+export type WhatsAppProps = {
   data: { number?: string, message?: string };
   setData: Function
 };
 
-function WhatsAppData({ data, setData }: WhatsAppDataProps) {
+function WhatsAppData({ data, setData }: WhatsAppProps) {
   const handleValues = (item: 'number' | 'message') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const tempo = { ...data };

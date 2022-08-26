@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // formerly known as QrTemplate
-import React from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -14,17 +14,17 @@ import Fab from '@mui/material/Fab';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 
-import { handleDesignerString } from '../../helpers/helpers';
 import SingleData from './renderers/SingleData';
-import WhatsAppData from './renderers/WhatsAppData';
-import FacebookData from './renderers/FacebookData';
-import WifiData from './renderers/WifiData';
-import CardData from './renderers/CardData';
-import EmailData from './renderers/EmailData';
-import SMSData from './renderers/SMSData';
-import TwitterData, { availableTwittChars } from './renderers/TwitterData';
+import WhatsAppData, { WhatsAppProps } from './renderers/WhatsAppData';
+import FacebookData, { FacebookDataProps } from './renderers/FacebookData';
+import WifiData, { WifiDataProps } from './renderers/WifiData';
+import CardData, { CardDataProps } from './renderers/CardData';
+import EmailData, { EmailDataProps } from './renderers/EmailData';
+import SMSData, { SMSDataProps } from './renderers/SMSData';
+import TwitterData, { TwitterDataProps, availableTwittChars } from './renderers/TwitterData';
 import TypeSelector from './helperComponents/TypeSelector';
 import RenderIcon from './helperComponents/RenderIcon';
+import { handleDesignerString } from '../../helpers/qr/helpers';
 
 interface QrTypeSelectorProps {
   data: object;
@@ -39,23 +39,21 @@ interface QrTypeSelectorProps {
 };
 
 const QrTypeSelector = ({ data, setData, setValue, setOpenDesigner, setSelected, expanded, setExpanded, value = null, selected = null }: QrTypeSelectorProps) => {
-  const doneFirst = React.useRef<boolean | false>(false);
-
-  const handleChange = () => {
+  const handleChange = (): void => {
     if (selected) {
       setExpanded((prev: boolean) => !prev);
     }
   };
 
-  const handleSelect = (payload: string) => {
+  const handleSelect = (payload: string): void => {
     setSelected((prev: string) => prev === payload ? null : payload);
   };
 
-  const handleOpenDesigner = () => {
+  const handleOpenDesigner = (): void => {
     setOpenDesigner(handleDesignerString(selected, data, value));
   };
 
-  const renderSel = React.useCallback(() => {
+  const renderSel = useCallback(() => {
     if (!selected) {
       return null;
     }
@@ -76,37 +74,28 @@ const QrTypeSelector = ({ data, setData, setValue, setOpenDesigner, setSelected,
           setData={payload => setValue(payload.slice(0, 300))} />);
       }
       case 'whatsapp': {
-        return <WhatsAppData data={data} setData={payload => setData(payload)} />;
+        return <WhatsAppData data={data} setData={(payload: WhatsAppProps) => setData(payload)} />;
       }
       case 'facebook': {
-        return <FacebookData data={data} setData={payload => setData(payload)} />;
+        return <FacebookData data={data} setData={(payload: FacebookDataProps) => setData(payload)} />;
       }
       case 'wifi': {
-        return <WifiData data={data} setData={payload => setData(payload)} />;
+        return <WifiData data={data} setData={(payload: WifiDataProps) => setData(payload)} />;
       }
       case 'vcard': {
-        return <CardData data={data} setData={payload => setData(payload)} />;
+        return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
       }
       case 'email': {
-        return <EmailData data={data} setData={payload => setData(payload)} />;
+        return <EmailData data={data} setData={(payload: EmailDataProps) => setData(payload)} />;
       }
       case 'sms': {
-        return <SMSData data={data} setData={payload => setData(payload)} />;
+        return <SMSData data={data} setData={(payload: SMSDataProps) => setData(payload)} />;
       }
       case 'twitter': {
-        return <TwitterData data={data} setData={payload => setData(payload)} />;
+        return <TwitterData data={data} setData={(payload: TwitterDataProps) => setData(payload)} />;
       }
     }
   }, [selected, value, data]);
-
-  React.useEffect(() => {
-    if (doneFirst.current) {
-
-    } else {
-      doneFirst.current = true;
-    }
-    setExpanded(!selected);
-  }, [!selected]);
 
   return (
     <>
@@ -184,10 +173,5 @@ const QrTypeSelector = ({ data, setData, setValue, setOpenDesigner, setSelected,
     </>
   );
 }
-
-QrTypeSelector.defaultProps = {
-  value: null,
-  selected: null
-};
 
 export default QrTypeSelector;

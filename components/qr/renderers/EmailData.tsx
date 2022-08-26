@@ -2,7 +2,7 @@ import TextField from '@mui/material/TextField';
 import Common from '../helperComponents/Common';
 import MultiLineDetails from '../helperComponents/MultiLineDetails';
 
-type EmailDataProps = {
+export type EmailDataProps = {
   data: {
     email?: string;
     subject?: string;

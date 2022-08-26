@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 
 import Common from '../helperComponents/Common';
 
-interface CardDataProps {
+export type CardDataProps = {
   data: {
     prefix?: string;
     firstName?: string;
