@@ -1,10 +1,8 @@
 // @ts-nocheck
 
 import { forwardRef, useEffect, useCallback, useContext, useMemo, useState } from 'react';
-// import dynamic from 'next/dynamic';
 
 import parse from 'html-react-parser';
-// import QRCodeStyling from 'qr-code-styling';
 
 import { originalDimensions } from '../../helpers/qr/data';
 import { BackgroundType, FramesType, OptionsType } from './types/types';
@@ -19,7 +17,7 @@ const handleQrData = (qrObject: OptionsType, overrideValue: string | undefined) 
   opts.qrOptions.typeNumber = opts.data.length > 24 ? 0 : 3;
 
   if (typeof window !== undefined) {
-    const QRCodeStyling = require("qr-code-styling");
+    const QRCodeStyling = require('qr-code-styling');
     return new QRCodeStyling(opts);
   }
 
