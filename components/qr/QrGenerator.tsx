@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { forwardRef, useEffect, useCallback, useContext, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import parse from 'html-react-parser';
 import QRCodeStyling from 'qr-code-styling';
@@ -16,7 +17,8 @@ const handleQrData = (qrObject: OptionsType, overrideValue: string | undefined) 
     opts.data = overrideValue;
   }
   opts.qrOptions.typeNumber = opts.data.length > 24 ? 0 : 3;
-  return new QRCodeStyling(opts);
+  // return new QRCodeStyling(opts);
+  return null;
 };
 
 interface QrGeneratorProps {
@@ -26,10 +28,10 @@ interface QrGeneratorProps {
   overrideValue?: string | undefined;
   command: () => void;
   frame: FramesType | null;
-};
+}
 
 const QrGenerator = ({ hidden, data, frame, background, command, overrideValue }: QrGeneratorProps, ref: HTMLDivElement) => {
-  const [qrCode, setQrCode] = useState<QRCodeStyling>(handleQrData(data, overrideValue));
+  const [qrCode, setQrCode] = useState(handleQrData(data, overrideValue));
   const isFramed = useMemo(() => Boolean(frame?.type), [frame?.type]);
 
   const { cornersData, dotsData } = useContext(QRGeneratorContext);
@@ -120,10 +122,8 @@ const QrGenerator = ({ hidden, data, frame, background, command, overrideValue }
       command();
 
       return (
-        <svg
-          viewBox={`0 0 ${originalDimensions} ${!isFramed || frame.type === '/frame/frame0.svg' ? originalDimensions : '330'}`}
-          xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink" ref={ref}>
+        <svg viewBox={`0 0 ${originalDimensions} ${!isFramed || frame.type === '/frame/frame0.svg' ? originalDimensions : '330'}`}
+             xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" ref={ref}>
           {back && background.invert && (
             <filter id="inverse-difference" colorInterpolationFilters="sRGB">
               <feComponentTransfer result="invert">

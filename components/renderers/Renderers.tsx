@@ -1,12 +1,13 @@
 // @ts-nocheck
+import { forwardRef } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion from '@mui/material/Accordion';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAlert from '@mui/material/Alert';
 import { styled } from '@mui/material/styles';
 
-export const Accordion = styled(props => (
+export const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -15,7 +16,7 @@ export const Accordion = styled(props => (
   }
 }));
 
-export const AccordionSummary = styled(props => (
+export const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
     expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
     {...props}
@@ -38,6 +39,6 @@ export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderBottom: '1px solid rgba(0, 0, 0, .125)'
 }));
 
-export const Alert = React.forwardRef(function Alert(props, ref) {
+export const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
