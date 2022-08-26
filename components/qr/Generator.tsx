@@ -34,7 +34,7 @@ interface GeneratorProps {
   frame: FramesType;
   setFrame: Function;
   overrideValue?: string | undefined;
-};
+}
 
 const Generator = ({ options, setOptions, setLogoData, background, setBackground,
   frame, setFrame, overrideValue = undefined, goBack = undefined, allowEdit = false, logoData = null }: GeneratorProps) => {
@@ -45,7 +45,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
   const [generatePdf, setGeneratePdf] = useState<object | null>(null);
   const [isReadable, setIsReadable] = useState<{readable: boolean;} | boolean | null>(null);
 
-  const qrImageData = useRef<object | { outerHTML: string | null; } | null>(null);
+  const qrImageData = useRef<any>(null);
   const doneFirst = useRef<boolean>(false);
   const fileInput = useRef<any>();
   const mustReload = useRef<boolean>(false);
