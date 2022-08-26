@@ -5,7 +5,8 @@ export const generateShortLink = (id: string, domain?: string): string => {
   const protocol =
     //process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" || !domain ? "https://" : "http://";
     process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" ? "https://" : "http://";
-  return `${protocol}${domain || process.env.REACT_APP_DEFAULT_DOMAIN}/${id}`;
+  const baseDomain = process.env.REACT_APP_SHORT_URL_DOMAIN || process.env.REACT_APP_DEFAULT_DOMAIN;
+  return `${protocol}${domain || baseDomain }/${id}`;
 };
 
 // @ts-ignore

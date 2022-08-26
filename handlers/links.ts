@@ -114,6 +114,9 @@ export const list = async (query: Query) => {
 
 export const get = async (address: string) => {
   const link = await queries.link.find({ address: { eq: address } });
+  if (!link){
+    return;
+  }
   return utils.sanitize.link(link);
 };
 
