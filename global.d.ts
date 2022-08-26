@@ -2,23 +2,27 @@ type Match<T> = {
   [K in keyof T]?: T[K] | [">" | ">=" | "<=" | "<", T[K]];
 };
 
-interface User {
+interface UserType {
   banned_by_id?: string;
-  banned: boolean;
+  banned?: boolean;
   cooldowns?: string[];
-  created_at: string;
+  created_at?: string;
   id: string;
-  updated_at: string;
+  updated_at?: string;
 }
 
-interface UserJoined extends User {
+interface UserQueryType {
+  id: object;
+}
+
+interface UserJoinedType extends UserType {
   admin?: boolean;
   homepage?: string;
   domain?: string;
   domain_id?: string;
 }
 
-interface Domain {
+interface DomainType {
   id: string;
   address: string;
   banned: boolean;
@@ -29,7 +33,7 @@ interface Domain {
   user_id?: string;
 }
 
-interface DomainQuery {
+interface DomainQueryType {
   id: object;
   address: object;
   banned: object;
@@ -40,7 +44,7 @@ interface DomainQuery {
   user_id?: object;
 }
 
-interface DomainSanitized {
+interface DomainSanitizedType {
   id: string;
   address: string;
   banned: boolean;
@@ -51,7 +55,7 @@ interface DomainSanitized {
   user_id?: undefined;
 }
 
-interface Host {
+interface HostType {
   id: string;
   address: string;
   banned: boolean;
@@ -60,7 +64,7 @@ interface Host {
   updated_at: string;
 }
 
-interface HostQuery {
+interface HostQueryType {
   id: object;
   address: object;
   banned: object;
@@ -69,21 +73,21 @@ interface HostQuery {
   updated_at: object;
 }
 
-interface IP {
+interface IPType {
   id: number;
   created_at: string;
   updated_at: string;
   ip: string;
 }
 
-interface IPQuery {
+interface IPQueryType {
   id: object;
   created_at: object;
   updated_at: object;
   ip: object;
 }
 
-interface Link {
+interface LinkType {
   address: string;
   banned_by_id?: string;
   banned: boolean;
@@ -96,11 +100,10 @@ interface Link {
   target: string;
   updated_at: string;
   user_id?: string;
-  uuid: string;
   visit_count: number;
 }
 
-interface LinkQuery {
+interface LinkQueryType {
   id: object;
   address: object;
   domain_id?: object;
@@ -110,7 +113,7 @@ interface LinkQuery {
   expire_in?: object
 }
 
-interface LinkSanitized {
+interface LinkSanitizedType {
   address: string;
   banned_by_id?: undefined;
   banned: boolean;
@@ -126,11 +129,11 @@ interface LinkSanitized {
   visit_count: number;
 }
 
-interface LinkJoinedDomain extends Link {
+interface LinkJoinedDomainType extends LinkType {
   domain?: string;
 }
 
-interface Visit {
+interface VisitType {
   id: number;
   countries: Record<string, number>;
   created_at: string;
@@ -152,7 +155,7 @@ interface Visit {
   os_windows: number;
 }
 
-interface Stats {
+interface StatsType {
   browser: Record<
     "chrome" | "edge" | "firefox" | "ie" | "opera" | "other" | "safari",
     number
@@ -172,6 +175,6 @@ declare namespace Express {
     linkTarget?: string;
     protectedLink?: string;
     token?: string;
-    user: UserJoined;
+    user: UserJoinedType;
   }
 }
