@@ -1,4 +1,6 @@
-import { useRef, useState } from 'react';
+// @ts-nocheck
+
+import { useEffect, useRef, useState } from 'react';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -27,7 +29,7 @@ export default function QrGen() {
   const [dotsData, setDotsData] = useState(null);
   const [frame, setFrame] = useState(initialFrame);
   const [tabSelected, setTabtabSelected] = useState(0);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(true);
 
   const doneInitialRender = useRef<boolean>(false);
@@ -41,6 +43,50 @@ export default function QrGen() {
       setTabtabSelected(1);
     }
   };
+
+  const goBack = () => {
+    setTabtabSelected(0);
+  };
+
+  useEffect(() => {
+    if (doneInitialRender.current) {
+      if (selected) {
+        if (selected === 'web') {
+          setValue('https://www.example.com');
+        } else if (selected === 'facebook') {
+          setData({ ...data, message: 'https://www.example.com' });
+        } else {
+          setValue('Enter any text here');
+        }
+      } else {
+        setValue('Ebanux');
+        setData({});
+        setLogoData(null);
+        setBackground(initialBackground);
+        setFrame(initialFrame);
+      }
+    }
+    setExpanded(!Boolean(selected));
+  }, [selected]);
+
+  useEffect(() => {
+    if (doneInitialRender.current) {
+      setOptions({ ...options, data: value });
+    } else {
+      doneInitialRender.current = true;
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (forceOpenDesigner.current) {
+      forceOpenDesigner.current = false;
+      setTabtabSelected(1);
+    }
+  }, [options]);
+
+  useEffect(() => {
+    forceOpenDesigner.current = false;
+  }, [tabSelected]);
 
   return (
     <Container>
