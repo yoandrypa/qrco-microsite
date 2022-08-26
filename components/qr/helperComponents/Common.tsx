@@ -1,9 +1,9 @@
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
 import Typography from '@mui/material/Typography';
 
 interface CommonProps {
   msg: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function Common({ msg, children }: CommonProps) {
