@@ -11,28 +11,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 
-interface State {
-  password: string;
-  showPassword: boolean;
-}
-
-const LinksCreateFormOptions = () => {
-  const [values, setValues] = useState({
-    password: "",
-    showPassword: false
-  });
-
-  const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
-    };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword
-    });
-  };
+const LinksCreateFormOptions = ({ domains, parentValues, parentHandleChange }: any) => {
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -46,24 +26,23 @@ const LinksCreateFormOptions = () => {
           <Select
             labelId="domain-select-label"
             id="domain-select"
-            value={""}
+            value={parentValues.domain}
             label="Domain"
-            onChange={() => null}
+            onChange={parentHandleChange("domain")}
             size="small"
             fullWidth
           >
-            <MenuItem value="1">Domain 1</MenuItem>
-            <MenuItem value="2">Domain 2</MenuItem>
-            <MenuItem value="3">Domain 3</MenuItem>
+            {domains && domains.map((domain: DomainType) => <MenuItem key={domain.id} value={domain.id}>{domain.address}</MenuItem>)}
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={4}>
         <TextField
           id="address-text"
-          value={null}
+          autoComplete="off"
+          value={parentValues.customurl}
           label="/"
-          onChange={() => null}
+          onChange={parentHandleChange("customurl")}
           size="small"
           fullWidth
         />
@@ -73,18 +52,19 @@ const LinksCreateFormOptions = () => {
           <InputLabel htmlFor="password-text-label">Password</InputLabel>
           <OutlinedInput
             id="password-text"
-            type={values.showPassword ? "text" : "password"}
-            value={values.password}
-            onChange={handleChange("password")}
+            autoComplete="off"
+            type={showPassword ? "text" : "password"}
+            value={parentValues.password}
+            onChange={parentHandleChange("password")}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
+                  onClick={() => setShowPassword(!showPassword)}
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
-                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
@@ -96,9 +76,10 @@ const LinksCreateFormOptions = () => {
       <Grid item xs={4}>
         <TextField
           id="expires-in-text"
-          value={""}
+          value={parentValues.expire_in}
           label="Expires in"
-          onChange={() => null}
+          placeholder="2 minutes/hours/days"
+          onChange={parentHandleChange("expire_in")}
           size="small"
           fullWidth
         />
@@ -106,9 +87,9 @@ const LinksCreateFormOptions = () => {
       <Grid item xs={8}>
         <TextField
           id="description-text"
-          value={""}
+          value={parentValues.description}
           label="Description"
-          onChange={() => null}
+          onChange={parentHandleChange("description")}
           size="small"
           fullWidth
         />

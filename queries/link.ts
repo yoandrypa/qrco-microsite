@@ -2,6 +2,7 @@ import { Link as LinkModel } from "../models";
 import dynamoose from "../libs/dynamoose";
 // @ts-ignore
 import bcrypt from "bcryptjs";
+import { CustomError } from "../utils";
 
 interface TotalParams {
   search?: string;
@@ -69,7 +70,7 @@ export const find = async (match: Partial<LinkQueryType>): Promise<LinkType> => 
 };
 
 interface Create extends Partial<LinkType> {
-  address: string;
+  address: string | undefined;
   target: string;
 }
 
@@ -83,11 +84,76 @@ export const create = async (params: Create) => {
 
   return await LinkModel.create({
     password: encryptedPassword,
-    domain_id: params.domain_id || null,
+    domain_id: params.domain_id,
     user_id: params.user_id,
     address: params.address,
-    description: params.description || null,
-    expire_in: params.expire_in || null,
+    description: params.description,
+    expire_in: params.expire_in,
     target: params.target
   });
+};
+
+export const remove = async (match: Partial<LinkType>) => {
+  try {
+    const link = await LinkModel.findOne({
+      id: { eq: match.id },
+      user_id: { eq: match.user_id }
+    });
+
+    if (!link) {
+      throw new CustomError("Link was not found.");
+    }
+
+    const deletedLink = await link.delete();
+
+    return !deletedLink;
+  } catch (e) {
+    // @ts-ignore
+    throw new CustomError(e.message);
+  }
+};
+
+export const batchUpdate = async (
+  match: string | Partial<LinkType>,
+  data: Partial<LinkType>
+) => {
+  try {
+    const links = await LinkModel.scan(match).exec();
+    links.forEach(link => {
+      update(link.id, data);
+    });
+    return true;
+  } catch (e) {
+    // @ts-ignore
+    throw new CustomError(e.message);
+  }
+};
+
+export const batchRemove = async (match: Match<LinkQueryType>) => {
+  await LinkModel.batchDeletes(match); //deleteQuery.delete();
+};
+
+export const update = async (match: string | Partial<LinkType>, update: Partial<LinkType>
+) => {
+  // @ts-ignore
+  return await LinkModel.update(match, {
+    ...update,
+    updated_at: new Date().toISOString()
+  });
+};
+
+export const increamentVisit = async (match: Partial<LinkQueryType>) => {
+  try {
+    let link = await find(match);
+    if (!link) {
+      throw new CustomError("Link was not found.");
+    }
+    const visit_count = link.visit_count + 1;
+    // @ts-ignore
+    link = await update(link.id, { visit_count })[0];
+    return link.visit_count;
+  } catch (e) {
+    // @ts-ignore
+    throw new CustomError(e.message);
+  }
 };

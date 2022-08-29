@@ -3,9 +3,7 @@ import { AnyDocument } from "dynamoose/dist/Document";
 import { ScanResponse } from "dynamoose/dist/DocumentRetriever";
 
 export const find = async (match: Partial<DomainQueryType>): Promise<DomainType> => {
-  const domain = await DomainModel.findOne(match);
-
-  return domain;
+  return await DomainModel.findOne(match);
 };
 
 export const get = async (match: Partial<DomainQueryType>): Promise<ScanResponse<AnyDocument>> => {
@@ -23,7 +21,7 @@ export const add = async (params: Add) => {
 
   const newDomain = {
     address: params.address,
-    homepage: params.homepage || null,
+    homepage: params.homepage || undefined,
     user_id: params.user_id || "1234",
     banned: !!params.banned
   };

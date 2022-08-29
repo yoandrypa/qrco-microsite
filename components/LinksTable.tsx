@@ -10,7 +10,6 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { formatRelative, subDays } from "date-fns";
 import Link from "next/link";
-import { generateShortLink } from "../utils";
 import Stack from "@mui/material/Stack";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import PieChartIcon from "@mui/icons-material/PieChart";
@@ -20,7 +19,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import KeyIcon from "@mui/icons-material/Key";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -30,6 +28,9 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Router from "next/router";
+import * as LinkHandler from "../handlers/links";
+import LinkEditForm from "./LinkEditForm";
 
 interface Column {
   id: "address" |
@@ -62,8 +63,8 @@ const columns: readonly Column[] = [
   {
     id: "target",
     label: "Original URL",
-    minWidth: 310,
-    maxWidth: 310,
+    minWidth: 300,
+    maxWidth: 300,
     format: (value: string) => (
       <Link href={value}>
         <a style={{ color: "blue" }}>
@@ -75,82 +76,36 @@ const columns: readonly Column[] = [
   {
     id: "created_at",
     label: "Created",
-    minWidth: 140,
-    maxWidth: 140,
+    minWidth: 150,
+    maxWidth: 150,
     format: (value: string) => formatRelative(subDays(new Date(value), 3), new Date(value))
   },
   {
     id: "link",
     label: "Short URL",
-    minWidth: 170,
-    maxWidth: 170,
+    minWidth: 158,
+    maxWidth: 158,
     format: (value: string) => <Link href={value}><a style={{ color: "blue" }}>{value}</a></Link>
   },
   {
     id: "visit_count",
     label: "Views",
-    minWidth: 10,
-    maxWidth: 10,
-    align: "right"
+    minWidth: 5,
+    maxWidth: 5,
+    align: "center"
   },
   {
     id: "actions",
     label: "",
-    minWidth: 130,
-    maxWidth: 130,
-    align: "left"
+    minWidth: 140,
+    maxWidth: 140,
+    align: "right"
   }
 ];
 
 interface Data extends LinkType {
   link: string;
   actions: any;
-}
-
-function createData(
-  address: string,
-  banned_by_id: string | undefined,
-  banned: boolean,
-  created_at: string,
-  description: string | undefined,
-  domain_id: string | undefined,
-  expire_in: number,
-  id: string,
-  password: string | undefined,
-  target: string,
-  updated_at: string,
-  user_id: string | undefined,
-  visit_count: number
-): Data {
-  const link = generateShortLink(address);
-  const actions = (
-    <Stack direction="row" spacing={0.5} justifyContent="flex-end"
-           divider={<Divider orientation="vertical" flexItem />}>
-      {visit_count > 0 && <PieChartIcon fontSize="small" color="info" onClick={() => alert("Show stats")} />}
-      {password && <KeyIcon fontSize="small" color="info" />}
-      <QrCodeIcon fontSize="small" color="action" onClick={() => alert("Show QR")} />
-      <EditIcon fontSize="small" color="warning" onClick={() => alert("Edit link")} />
-      <DoNotDisturbIcon fontSize="small" color="error" onClick={() => alert("Banned link")} />
-      <DeleteIcon fontSize="small" color="error" onClick={() => alert("Delete link")} />
-    </Stack>
-  );
-  return {
-    address,
-    banned_by_id,
-    banned,
-    created_at,
-    description,
-    domain_id,
-    expire_in,
-    id,
-    password,
-    target,
-    updated_at,
-    user_id,
-    visit_count,
-    link,
-    actions
-  };
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -160,14 +115,93 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
 }));
 
+const deleteLink = async (linkId: string, userId: string) => {
+  const deleted = await LinkHandler.remove({ id: linkId, user_id: userId });
+  if (deleted) {
+    Router.push("/");
+  }
+};
+
 // @ts-ignore
-const LinksTable = ({ links, total }) => {
+const LinksTable = ({ domains, links, total, user }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [values, setValues] = useState({
     search: ""
   });
   const [checked, setChecked] = React.useState(false);
+  const [openEditForm, setOpenEditForm] = React.useState(false);
+  const [linkForEdit, setLinkForEdit] = React.useState({
+    id: "",
+    target: "",
+    description: "",
+    expire_in: "",
+    address: ""
+  });
+
+  const createData = (
+    address: string | undefined,
+    banned_by_id: string | undefined,
+    banned: boolean,
+    created_at: string,
+    description: string | undefined,
+    domain_id: string | undefined,
+    expire_in: string | undefined,
+    id: string,
+    password: string | undefined,
+    target: string,
+    updated_at: string,
+    user_id: string,
+    visit_count: number,
+    link: string
+  ): Data => {
+    const actions = (
+      <Stack direction="row" justifyContent="flex-end"
+      >
+        {visit_count > 0 &&
+          <IconButton size="small" onClick={() => alert("Show stats")}>
+            <PieChartIcon fontSize="small" color="info"
+            /></IconButton>}
+        {password &&
+          <IconButton size="small" disabled>
+            <KeyIcon fontSize="small" color="info" />
+          </IconButton>}
+        <IconButton size="small" onClick={() => alert("Show QR")}>
+          <QrCodeIcon fontSize="small" color="action" />
+        </IconButton>
+        <IconButton size="small" onClick={() => {
+          // @ts-ignore
+          setLinkForEdit({ id, target, address, expire_in, description });
+          setOpenEditForm(true);
+        }}>
+          <EditIcon fontSize="small" color="warning" />
+        </IconButton>
+        <IconButton size="small" onClick={() => alert("Banned link")}>
+          <DoNotDisturbIcon fontSize="small" color="error" />
+        </IconButton>
+        <IconButton size="small" onClick={() => deleteLink(id, user_id)}>
+          <DeleteIcon fontSize="small" color="error" />
+        </IconButton>
+      </Stack>
+    );
+    return {
+      address,
+      banned_by_id,
+      banned,
+      created_at,
+      description,
+      domain_id,
+      expire_in,
+      id,
+      password,
+      target,
+      updated_at,
+      user_id,
+      visit_count,
+      link,
+      actions
+    };
+  };
 
   const rows = links.map((link: LinkType) => {
     return createData(
@@ -183,7 +217,9 @@ const LinksTable = ({ links, total }) => {
       link.target,
       link.updated_at,
       link.user_id,
-      link.visit_count
+      link.visit_count,
+      // @ts-ignore
+      link.link
     );
   });
 
@@ -201,111 +237,115 @@ const LinksTable = ({ links, total }) => {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }} variant="outlined">
-      <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
-        <Grid item xs={0.1}></Grid>
-        <Grid item xs={5.7}>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="input-link-search">Search</InputLabel>
-            <OutlinedInput
-              id="input-link-search"
-              size="small"
-              type="text"
-              value={values.search}
-              onChange={handleChange("search")}
-              label="Search"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="create new short link"
-                    onClick={() => null} //TODO
-                    edge="end"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
+    <>
+      <Paper sx={{ width: "100%", overflow: "hidden" }} variant="outlined">
+        <Grid container justifyContent="flex-end" alignItems="center" spacing={1}>
+          <Grid item xs={0.1}></Grid>
+          <Grid item xs={5.7}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor="input-link-search">Search</InputLabel>
+              <OutlinedInput
+                id="input-link-search"
+                size="small"
+                type="text"
+                value={values.search}
+                onChange={handleChange("search")}
+                label="Search"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="search short links"
+                      onClick={() => undefined} //TODO
+
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={1.2}>
+            <FormControlLabel control={
+              <Checkbox
+                checked={checked}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setChecked(event.target.checked);
+                }}
+              />}
+                              label="All links"
             />
-          </FormControl>
+          </Grid>
+          <Grid item xs={1.0}>
+            <IconButton onClick={() => Router.push("/")}>
+              <ReplayIcon />
+            </IconButton>
+          </Grid>
+          <Grid item xs={4}>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50, 100]}
+              component="div"
+              count={total}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={1.2}>
-          <FormControlLabel control={
-            <Checkbox
-              checked={checked}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setChecked(event.target.checked);
-              }}
-            />}
-                            label="All links"
-          />
-        </Grid>
-        <Grid item xs={1.0}>
-          <IconButton>
-            <ReplayIcon />
-          </IconButton>
-        </Grid>
-        <Grid item xs={4}>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            component="div"
-            count={total}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Grid>
-      </Grid>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader size="small">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <StyledTableCell
-                  key={column.id}
-                  align={column.align}
-                >
-                  {column.label}
-                </StyledTableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: Data) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.target}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <StyledTableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
-                        >
-                          {column.format && typeof value === "string"
-                            ? column.format(value)
-                            : value}
-                        </StyledTableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50, 100]}
-        component="div"
-        count={total}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader size="small">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <StyledTableCell
+                    key={column.id + "_head"}
+                    align={column.align}
+                  >
+                    {column.label}
+                  </StyledTableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: Data) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <StyledTableCell
+                            key={column.id + "_body"}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
+                          >
+                            {column.format && typeof value === "string"
+                              ? column.format(value)
+                              : value}
+                          </StyledTableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          component="div"
+          count={total}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      {openEditForm &&
+        <LinkEditForm open={openEditForm} setOpen={setOpenEditForm} linkForEdit={linkForEdit} user={user} />}
+    </>
   );
 };
 

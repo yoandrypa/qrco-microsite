@@ -1,16 +1,16 @@
 import { customAlphabet } from "nanoid";
 import queries from "../queries";
 
-export const generateShortLink = (id: string, domain?: string): string => {
+export const generateShortLink = (id: string | undefined, customDomain?: string | undefined): string => {
   const protocol =
-    //process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" || !domain ? "https://" : "http://";
-    process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" ? "https://" : "http://";
-  const baseDomain = process.env.REACT_APP_SHORT_URL_DOMAIN || process.env.REACT_APP_DEFAULT_DOMAIN;
-  return `${protocol}${domain || baseDomain }/${id}`;
+    process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" || customDomain ? "https://" : "http://";
+    //process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" ? "https://" : "http://";
+  const domain = process.env.REACT_APP_SHORT_URL_DOMAIN || process.env.REACT_APP_DEFAULT_DOMAIN;
+  return `${protocol}${customDomain || domain }/${id}`;
 };
 
 // @ts-ignore
-export const generateId = async (domain_id: string = "") => {
+export const generateId = async (domain_id: string | undefined = "") => {
   const nanoid = customAlphabet(
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
     parseInt(<string>process.env.REACT_APP_LINK_LENGTH)
@@ -25,20 +25,16 @@ export const generateId = async (domain_id: string = "") => {
 };
 
 export const sanitize = {
+  //@ts_ignore
   domain: (domain: DomainType): DomainSanitizedType => ({
     ...domain,
     id: domain.id,
     user_id: undefined,
     banned_by_id: undefined
   }),
-  link: (link: LinkJoinedDomainType): LinkSanitizedType => ({
+  link: (link: LinkJoinedDomainType): LinkSanitizedType => <LinkSanitizedType>({
     ...link,
     banned_by_id: undefined,
-    domain_id: undefined,
-    user_id: undefined,
-    uuid: undefined,
-    id: link.id,
-    password: !!link.password,
     link: generateShortLink(link.address, link.domain)
   })
 };

@@ -7,8 +7,10 @@ import React, { useState } from "react";
 import LinksCreateForm from "./LinksCreateForm";
 import { UserContext } from "../utils/contexts";
 
-export default function Home({ linksData }: any) {
+export default function Home({ linksData, domainsData }: any) {
   const { data, total } = JSON.parse(linksData);
+  const domains = JSON.parse(domainsData);
+  console.log({data, domains})
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -20,12 +22,14 @@ export default function Home({ linksData }: any) {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <UserContext.Consumer>
-              {({ user }) => <LinksCreateForm user={user} />}
+              {({ user }) => <LinksCreateForm user={user} domains={domains} />}
             </UserContext.Consumer>
           </Grid>
           {data &&
             <Grid item xs={12}>
-              <LinksTable links={data} total={total} />
+              <UserContext.Consumer>
+                {({ user }) => <LinksTable links={data} total={total} user={user} domains={domains} />}
+              </UserContext.Consumer>
             </Grid>
           }
         </Grid>
