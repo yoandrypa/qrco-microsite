@@ -21,6 +21,8 @@ import Frames from './sections/Frames';
 import Logos from './sections/Logos';
 import QrGenerator from './QrGenerator';
 import { initialFrame } from '../../helpers/qr/data';
+import RenderDownload from './helperComponents/RenderDownload';
+import PDFGenDlg from './helperComponents/PDFGenDlg';
 
 interface GeneratorProps {
   allowEdit?: boolean;
@@ -346,6 +348,30 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
           </Box>
         </Box>
       </Box>
+      {Boolean(anchor) && (
+        <RenderDownload
+          frame={frame}
+          qrImageData={qrImageData.current}
+          anchor={anchor}
+          setAnchor={setAnchor}
+          setGeneratePdf={setGeneratePdf} />
+      )}
+      {Boolean(generatePdf) && (
+        <PDFGenDlg 
+          data={qrImageData.current} 
+          handleClose={() => setGeneratePdf(false)} 
+          isFramed={frame.type && frame.type !== '/frame/frame0.svg'} />
+      )}
+      {Boolean(goBack) && (<Fab
+        sx={{ position: 'fixed', bottom: '20px', right: '20px' }}
+        onClick={goBack}
+        variant="extended"
+        size="small"
+        color="primary"
+      >
+        <ArrowBackIcon sx={{ mr: { sm: 1, xs: 0 } }} />
+        <Typography sx={{ display: { sm: 'block', xs: 'none' } }}>QR Type</Typography>
+      </Fab>)}
     </>
   );
 };
