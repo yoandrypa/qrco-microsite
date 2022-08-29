@@ -208,13 +208,13 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
       }
       setOptions(opts);
     }
-  }, [background.type]);
+  }, [background.type]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (background.type === 'image') {
       setBackground({ ...background, opacity: background.invert ? 100 : 50 });
     }
-  }, [background.invert]);
+  }, [background.invert]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneFirst.current) {
@@ -222,14 +222,14 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
       opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
       setOptions(opts);
     }
-  }, [background.file]);
+  }, [background.file]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     mustReload.current = Boolean(options.image);
     if (isReadable) {
       setIsReadable(null);
     }
-  }, [options, background]);
+  }, [options, background]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (updating) {

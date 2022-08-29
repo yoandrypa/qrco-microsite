@@ -90,7 +90,7 @@ const PDFGenDlg = ({ handleClose, data, isFramed }: PDFGenDlgProps) => {
 
   useEffect(() => {
     generatePdf();
-  }, [settings]);
+  }, [settings]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog onClose={handleClose} open maxWidth="md">

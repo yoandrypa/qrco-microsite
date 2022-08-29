@@ -22,7 +22,7 @@ const RenderDownload = ({ anchor, qrImageData, frame, setAnchor, setGeneratePdf,
 
   useEffect(() => {
     downloadAsSVGOrVerify(qrImageData, setIsReadable, contrast);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Popover
