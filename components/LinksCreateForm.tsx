@@ -12,30 +12,51 @@ import * as UserHandler from "../handlers/users";
 import LinksCreateFormOptions from "./LinksCreateFormOptions";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import * as DomainHandler from "../handlers/domains";
+import dynamoose from "dynamoose";
 
 interface State {
+  password?: string;
+  customurl?: string;
+  description?: string;
+  expire_in?: string;
+  domain?: string;
   target: string;
-  user_id: string;
 }
 
-const initialState = (user: { attributes: { sub: string }; }) => {
-  return {
-    target: "",
-    user_id: user?.attributes?.sub
-  };
+const initialState: State = {
+  password: "",
+  customurl: "",
+  description: "",
+  expire_in: "",
+  domain: "",
+  target: ""
 };
 
-const LinksCreateForm = ({ user }: any) => {
-  const [values, setValues] = React.useState<State>(initialState(user));
+const LinksCreateForm = ({ domains, user }: any) => {
+  const [values, setValues] = React.useState<State>(initialState);
+  const [loading, setLoading] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
 
   const handleCreateLink = async () => {
     try {
       const address = await generateId();
       const userData = await UserHandler.find(user?.attributes?.sub);
-      const link = await LinkHandler.create({ body: { ...values, customurl: address }, user: userData });//queries.link.create({ ...values, address });
+      const domain = await DomainHandler.find({ id: values.domain }) || null;
+      const link = await LinkHandler.create({
+        // @ts-ignore
+        body: {
+          ...values,
+          reuse: true,
+          // @ts-ignore
+          domain,
+          customurl: values.customurl || address
+        },
+        user: userData
+      });
       if (link) {
-        setValues(initialState(user));
+        setValues(initialState);
+        setChecked(false);
         await Router.push("/");
       }
     } catch (e) {
@@ -81,7 +102,7 @@ const LinksCreateForm = ({ user }: any) => {
         />}
                         label="Show advanced options"
       />
-      {checked && <LinksCreateFormOptions />}
+      {checked && <LinksCreateFormOptions domains={domains} parentValues={values} parentHandleChange={handleChange} />}
     </FormControl>
   );
 };

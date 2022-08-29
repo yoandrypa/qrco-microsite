@@ -15,8 +15,8 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Image from "next/image";
 
 const ResponsiveAppBar = ({ signOut }: any) => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<undefined | HTMLElement>(undefined);
+  const [anchorElUser, setAnchorElUser] = React.useState<undefined | HTMLElement>(undefined);
   const pages: string[] = [];
   const settings: { label: string, action: Function }[] = [{ label: "Logout", action: signOut }];
 
@@ -28,11 +28,11 @@ const ResponsiveAppBar = ({ signOut }: any) => {
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorElNav(undefined);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchorElUser(undefined);
   };
 
   return (

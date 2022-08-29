@@ -63,7 +63,7 @@ export interface LinksListRes {
 }
 
 export interface Links {
-  link?: Link | null;
+  link?: Link | undefined;
   items: Link[];
   total: number;
   loading: boolean;
@@ -79,7 +79,7 @@ export interface Links {
 }
 
 export const links: Links = {
-  link: null,
+  link: undefined,
   items: [],
   total: 0,
   loading: true,

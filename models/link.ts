@@ -29,7 +29,7 @@ const LinkSchema = new dynamoose.Schema({
     type: User
   },
   domain_id: {
-    type: [String, dynamoose.NULL] //TODO Include reference to Domain
+    type: [Domain, dynamoose.NULL] //TODO Include reference to Domain
   },
   password: {
     type: [String, dynamoose.NULL]
@@ -72,7 +72,7 @@ Link.methods.set("findOne", async function(criteria: any) {
   return results[0];
 });
 
-Link.methods.set("batchDeletes", async function(conditions = null) {
+Link.methods.set("batchDeletes", async function(conditions = undefined) {
   let results;
   if (conditions) {
     // @ts-ignore

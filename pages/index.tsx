@@ -8,6 +8,7 @@ import awsExports from "../libs/aws/aws-exports";
 import components from "../libs/aws/components";
 import * as UserHandler from "../handlers/users";
 import * as LinkHandler from "../handlers/links";
+import * as DomainHandler from "../handlers/domains";
 
 Amplify.configure(awsExports);
 
@@ -19,9 +20,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Home from "../components/Home";
 import { UserContext } from "../utils/contexts";
 
-export default function Index({ linksData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Index({ linksData, domainsData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [mainConfig, setMainConfig] = useState(MAIN_CONFIG);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState(undefined);
   const { locale, theme } = mainConfig;
   // @ts-ignore
   const mainTheme = createTheme(themeConfig(theme));
@@ -34,7 +35,7 @@ export default function Index({ linksData }: InferGetServerSidePropsType<typeof 
           <IntlProvider locale={locale} messages={messages}>
             {/*@ts-ignore*/}
             <UserContext.Provider value={{ user, signOut }}>
-              <Home linksData={linksData} />
+              <Home linksData={linksData} domainsData={domainsData} />
             </UserContext.Provider>
           </IntlProvider>
         </ThemeProvider>
@@ -51,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
   // @ts-ignore
   if (!cookies.userData) {
-    return { props: {linksData: JSON.stringify({})} };
+    return { props: { linksData: JSON.stringify({}) } };
   }
   // @ts-ignore
   const userData = JSON.parse(cookies.userData as string);
@@ -61,11 +62,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     user = await UserHandler.create({ id: userId });
   }
   const links = await LinkHandler.list({ limit: 10, user_id: user.id });
-  const linksData = JSON.stringify(links);
+  const domains = await DomainHandler.list({ user_id: user.id });
 
   return {
     props: {
-      linksData,
+      linksData: JSON.stringify(links || []),
+      domainsData: JSON.stringify(domains || []),
       revalidate: 10
     }
   };

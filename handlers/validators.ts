@@ -114,7 +114,7 @@ export const bannedHost = async (domain: string) => {
       banned: { eq: true }
     });
   } catch (error) {
-    isBanned = null;
+    isBanned = undefined;
   }
 
   if (isBanned) {
