@@ -63,7 +63,7 @@ const ColorSelector = ({ color, handleData, label, property }: ColorSelProps) =>
       ref.current.selectionStart = cursorPos.current;
       ref.current.selectionEnd = cursorPos.current;
     }
-  }, [color]);
+  }, [color]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let val = '';
@@ -73,7 +73,7 @@ const ColorSelector = ({ color, handleData, label, property }: ColorSelProps) =>
     if (val.length && val !== color && hex.test(val)) {
       handleData(property)(val);
     }
-  }, [value]);
+  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

@@ -68,7 +68,7 @@ export default function QrGen() {
       }
     }
     setExpanded(!Boolean(selected));
-  }, [selected]);
+  }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current) {
@@ -76,7 +76,7 @@ export default function QrGen() {
     } else {
       doneInitialRender.current = true;
     }
-  }, [value]);
+  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (forceOpenDesigner.current) {
