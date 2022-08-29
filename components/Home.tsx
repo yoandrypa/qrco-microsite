@@ -10,7 +10,6 @@ import { UserContext } from "../utils/contexts";
 export default function Home({ linksData, domainsData }: any) {
   const { data, total } = JSON.parse(linksData);
   const domains = JSON.parse(domainsData);
-  console.log({data, domains})
 
   return (
     <Box sx={{ flexGrow: 1 }}>
