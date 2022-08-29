@@ -52,7 +52,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
   // @ts-ignore
   if (!cookies.userData) {
-    return { props: { linksData: JSON.stringify({}) } };
+    return {
+      props: {
+        linksData: JSON.stringify({}),
+        domainsData: JSON.stringify([])
+      }
+    };
   }
   // @ts-ignore
   const userData = JSON.parse(cookies.userData as string);
@@ -66,8 +71,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      linksData: JSON.stringify(links || []),
-      domainsData: JSON.stringify(domains || []),
+      linksData: JSON.stringify(links),
+      domainsData: JSON.stringify(domains),
       revalidate: 10
     }
   };
