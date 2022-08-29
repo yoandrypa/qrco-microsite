@@ -67,7 +67,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
     };
     return (
       <Button onClick={handleEdit} sx={{ mt: '8.5px', mb: '7px', width: '100%' }} color="primary" variant="contained">
-        {editColor !== handler ? `${handler} color` : `Close ${handler}`}
+        {editColor !== handler ? handler : `Close ${handler}`}
       </Button>
     );
   }, [editColor]);
