@@ -44,7 +44,7 @@ const QrGenerator = ({ hidden, data, frame, background, command, overrideValue }
       return parse(getFrame(frame));
     }
     return null;
-  }, [frame]);
+  }, [frame]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderSVG = () => {
     if (qrCode?._svg?.outerHTML) {
@@ -171,7 +171,7 @@ const QrGenerator = ({ hidden, data, frame, background, command, overrideValue }
     if (qrCode) {
       setQrCode(handleQrData(data, overrideValue));
     }
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

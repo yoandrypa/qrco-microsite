@@ -95,7 +95,7 @@ const QrTypeSelector = ({ data, setData, setValue, setOpenDesigner, setSelected,
         return <TwitterData data={data} setData={(payload: TwitterDataProps) => setData(payload)} />;
       }
     }
-  }, [selected, value, data]);
+  }, [selected, value, data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

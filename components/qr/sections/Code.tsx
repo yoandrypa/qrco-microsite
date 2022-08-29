@@ -83,11 +83,11 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
               handleData={handleData}
               selected={options.dotsOptions.type}
               options={[
-                { label: 'Squares', value: 'square' },
-                { label: 'Rounded', value: 'rounded' },
-                { label: 'Smooth', value: 'extra-rounded' },
-                { label: 'Elegant', value: 'classy-rounded' },
-                { label: 'Dots', value: 'dots' }
+                { label: 'Squares', value: 'square', image: true },
+                { label: 'Rounded', value: 'rounded', image: true },
+                { label: 'Smooth', value: 'extra-rounded', image: true },
+                { label: 'Elegant', value: 'classy-rounded', image: true },
+                { label: 'Dots', value: 'dots', image: true }
               ]}
             />
             <ColorSelector
@@ -137,11 +137,11 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
               handleData={handleData}
               selected={options.cornersSquareOptions.type || '-1'}
               options={[
-                { label: 'Squares', value: 'square' },
-                { label: 'Smooth', value: 'extra-rounded' },
-                { label: 'Dots', value: 'dot' },
+                { label: 'Squares', value: 'square', image: true },
+                { label: 'Smooth', value: 'extra-rounded', image: true },
+                { label: 'Dots', value: 'dot', image: true },
                 // { label: 'Point to center', value: 'center' },
-                { label: 'Same as code', value: '-1' }
+                { label: 'Same as code', value: '-1', image: true }
               ]}
             />
             {renderSwitches(true)}
@@ -161,10 +161,10 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
               handleData={handleData}
               selected={options.cornersDotOptions.type || '-1'}
               options={[
-                { label: 'Squares', value: 'square' },
-                { label: 'Dots', value: 'dot' },
+                { label: 'Squares', value: 'square', image: true },
+                { label: 'Dots', value: 'dot', image: true },
                 // { label: 'Point to center', value: 'center' },
-                { label: 'Same as code', value: '-1' }
+                { label: 'Same as code', value: '-1', image: true }
               ]}
             />
             {renderSwitches(false)}
