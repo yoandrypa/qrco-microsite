@@ -30,7 +30,7 @@ export interface Settings {
   email: string;
   fetched: boolean;
   setSettings: Action<Settings, SettingsResp>;
-  getSettings: Thunk<Settings, null, null, StoreModel>;
+  getSettings: Thunk<Settings, undefined, undefined, StoreModel>;
   addDomain: Action<Settings, Domain>;
   removeDomain: Action<Settings, string>;
   saveDomain: Thunk<Settings, NewDomain>;

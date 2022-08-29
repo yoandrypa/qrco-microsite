@@ -2,12 +2,13 @@ import * as utils from "../utils";
 import * as validators from "./validators";
 import queries from "../queries";
 import URL from "url";
-import { CreateLinkData } from "./types";
+import { CreateLinkData, UpdateLinkData } from "./types";
 import { CustomError } from "../utils";
 import next from "next";
 import { IncomingMessage, ServerResponse } from "http";
 import { BaseNextRequest, BaseNextResponse } from "next/dist/server/base-http";
 import isbot from "isbot";
+import * as DomainHandler from "./domains";
 
 interface Query {
   user_id: string;
@@ -29,7 +30,7 @@ export const create = async (data: CreateLinkData) => {
       domain,
       expire_in
     } = data.body;
-    const domain_id = domain ? domain.id : null;
+    const domain_id = domain ? domain.id : "";
 
     // @ts-ignore
     const targetDomain = utils.removeWww(URL.parse(target).hostname);
@@ -59,6 +60,7 @@ export const create = async (data: CreateLinkData) => {
     if (queriesBatch[3]) {
       return utils.sanitize.link(queriesBatch[3]);
     }
+    ;
 
     // Check if custom link already exists
     if (queriesBatch[4]) {
@@ -99,7 +101,13 @@ export const list = async (query: Query) => {
     // @ts-ignore
     const [links, total] = await queries.link.get(match, { limit, search, skip });
 
-    const data = links.map(utils.sanitize.link);
+    const data = await Promise.all(links.map(async (link: LinkJoinedDomainType) => {
+      if (link.domain_id) {
+        const domain = await DomainHandler.find({ id: link.domain_id });
+        link.domain = domain.address;
+      }
+      return utils.sanitize.link(link);
+    }));
 
     return {
       total,
@@ -114,7 +122,7 @@ export const list = async (query: Query) => {
 
 export const get = async (address: string) => {
   const link = await queries.link.find({ address: { eq: address } });
-  if (!link){
+  if (!link) {
     return;
   }
   return utils.sanitize.link(link);
@@ -142,7 +150,7 @@ export const get = async (address: string) => {
     const domain =
       host !== process.env.REACT_APP_DEFAULT_DOMAIN
         ? await queries.domain.find({ address: { eq: host } })
-        : null;
+        : undefined;
 
     // 2. Get link
     const address = req.params.id.replace("+", "");
@@ -205,3 +213,76 @@ export const get = async (address: string) => {
     return res.status(500).send(e);
   }
 };*/
+
+export const edit = async (data: UpdateLinkData) => {
+  try {
+    const { id, address, target, description, expire_in } = data.body;
+
+    if (!address && !target) {
+      throw new CustomError("Should at least update one field.");
+    }
+
+    const link = await queries.link.find({
+      id: { eq: id },
+      user_id: { eq: data.user.id }
+    });
+
+    if (!link) {
+      throw new CustomError("Link was not found.");
+    }
+
+    // @ts-ignore
+    const targetDomain = utils.removeWww(URL.parse(target).hostname);
+    const domain_id = link.domain_id || null;
+
+    const queriesBatch = await Promise.all([
+      validators.coolDown(data.user),
+      // @ts-ignore
+      validators.malware(data.user, target),
+      address !== link.address &&
+      queries.link.find({
+        address: { eq: address },
+        domain_id: { eq: domain_id }
+      }),
+      validators.bannedDomain(targetDomain),
+      validators.bannedHost(targetDomain)
+    ]);
+
+    // Check if custom link already exists
+    if (queriesBatch[2]) {
+      throw new CustomError("Custom URL is already in use.");
+    }
+
+    // Update link
+    const updatedLink = await queries.link.update(
+      {
+        id: link.id
+      },
+      {
+        ...(address && { address }),
+        ...(description && { description }),
+        ...(target && { target }),
+        ...(expire_in && { expire_in })
+      }
+    );
+
+    // @ts-ignore
+    return utils.sanitize.link({ ...link, ...updatedLink });
+  } catch (e) {
+    // @ts-ignore
+    throw new CustomError(e.message, 500, e);
+  }
+};
+
+export const remove = async (params: { id: any; user_id?: any; }) => {
+  const link = await queries.link.remove({
+    id: params.id,
+    user_id: params.user_id
+  });
+
+  if (!link) {
+    throw new CustomError("Could not delete the link");
+  }
+
+  return { message: "Link has been deleted successfully." };
+};

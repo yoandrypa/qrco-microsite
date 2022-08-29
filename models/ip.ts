@@ -36,7 +36,7 @@ Ip.methods.set("findOne", async function(criteria: any) {
   return results[0];
 });
 
-Ip.methods.set("batchDeletes", async function(conditions = null) {
+Ip.methods.set("batchDeletes", async function(conditions = undefined) {
   let results;
   if (conditions) {
     // @ts-ignore
