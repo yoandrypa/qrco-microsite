@@ -1,15 +1,17 @@
-// @ts-nocheck
-
-import { useEffect, useRef, useState } from 'react';
-
-import Container from '@mui/material/Container';
+import { ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
-import QRGeneratorContext from '../../components/qr/context/QRGeneratorContext';
-import QrTypeSelector from '../../components/qr/QrTypeSelector';
+import { useRouter } from 'next/router';
+
+import QRGeneratorContext from './context/QRGeneratorContext';
+
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
-import { OptionsType } from '../../components/qr/types/types';
-import Generator from "../../components/qr/Generator";
+import { OptionsType } from './types/types';
+
+interface MainQrContextProps {
+  children: ReactNode;
+};
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
@@ -20,33 +22,42 @@ const handleInitialData = (value: string | null | undefined) => {
   return opts;
 };
 
-export default function QrGen() {
+const MainQrContext = ({ children }: MainQrContextProps) => {
+  const context = useContext(QRGeneratorContext);
+
   const [value, setValue] = useState<string>('Ebanux');
-  const [data, setData] = useState({});
   const [options, setOptions] = useState<OptionsType>(handleInitialData(value));
-  const [logoData, setLogoData] = useState(null);
-  const [background, setBackground] = useState(initialBackground);
   const [cornersData, setCornersData] = useState(null);
   const [dotsData, setDotsData] = useState(null);
+  const [logoData, setLogoData] = useState(null);
+  const [background, setBackground] = useState(initialBackground);
   const [frame, setFrame] = useState(initialFrame);
-  const [tabSelected, setTabtabSelected] = useState(0);
+  const [data, setData] = useState({});
+
   const [selected, setSelected] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(true);
 
   const doneInitialRender = useRef<boolean>(false);
   const forceOpenDesigner = useRef<boolean>(false);
 
-  const handleOpenDesigner = (payload: string | null) => {
+  const router = useRouter();
+
+  const navigateForward = useCallback((): void => {
+    router.push('/qr/new');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleOpenDesigner = (payload: string | null): void => {
     if (payload !== value) {
       forceOpenDesigner.current = true;
+      // @ts-ignore
       setOptions({ ...options, data: !selected ? value : payload });
     } else {
-      setTabtabSelected(1);
+      navigateForward
     }
   };
 
-  const goBack = () => {
-    setTabtabSelected(0);
+  const goBack = (): void => {
+    router.push('/qr');
   };
 
   useEffect(() => {
@@ -81,46 +92,33 @@ export default function QrGen() {
   useEffect(() => {
     if (forceOpenDesigner.current) {
       forceOpenDesigner.current = false;
-      setTabtabSelected(1);
+      navigateForward();
     }
-  }, [options]);
+  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    forceOpenDesigner.current = false;
-  }, [tabSelected]);
-
-  return (
-    <Container>
-      <QRGeneratorContext.Provider value={{ cornersData, setCornersData, dotsData, setDotsData }}>
+  const render = () => {
+    return (
+      <Container>
         <Box sx={{ p: 1, width: { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto' }}>
           <h1>QR Generator</h1>
-          {tabSelected === 0 ? (
-            <QrTypeSelector
-              data={data}
-              expanded={expanded}
-              setOpenDesigner={handleOpenDesigner}
-              setData={setData}
-              setExpanded={setExpanded}
-              setSelected={setSelected}
-              setValue={setValue}
-              selected={selected}
-              value={value}
-            />
-          ) : (
-            <Generator
-              options={options}
-              setOptions={setOptions}
-              logoData={logoData}
-              setLogoData={setLogoData}
-              background={background}
-              setBackground={setBackground}
-              frame={frame}
-              goBack={goBack}
-              setFrame={setFrame}
-            />
-          )}
+          {children}
         </Box>
-      </QRGeneratorContext.Provider>
-    </Container>
+      </Container>
+    );
+  };
+
+  if (context && Object.keys(context).length) {
+    return render();
+  }
+
+  return (
+    <QRGeneratorContext.Provider value={{
+      cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground, options, 
+      setOptions, selected, setSelected, expanded, setExpanded, setOpenDesigner: handleOpenDesigner, goBack, value, setValue
+    }}>
+      {render()}
+    </QRGeneratorContext.Provider>
   );
-};
+}
+
+export default MainQrContext;
