@@ -201,14 +201,14 @@ export const downloadAsSVGOrVerify = (qrImageData: { outerHTML: string; }, verif
   }
 };
 
-export const downloadAsPNG = async (svgData: { outerHTML: string | number | boolean; }, frame: { type: string; }, verify: Function | undefined, contrast = undefined): Promise<void> => {
+export const downloadAsPNG = async (svgData: { outerHTML: string | number | boolean; }, frame: FramesType | { type: string; }, verify: Function | undefined, contrast: any | undefined): Promise<void> => {
   const base64doc = window.btoa(decodeURIComponent(encodeURIComponent(svgData.outerHTML)));
   const imageToHandle = document.createElement('img');
   imageToHandle.src = 'data:image/svg+xml;base64,' + base64doc;
   const canvas = document.createElement('canvas');
   imageToHandle.onload = () => {
     const w: number = 280;
-    const h: number = frame.type && frame.type !== '/frame/frame0.svg' ? 330 : 280;
+    const h: number = frame.type !== '' && frame.type !== '/frame/frame0.svg' ? 330 : 280;
     // @ts-ignore
     canvas.setAttribute('width', w);
     // @ts-ignore
