@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -20,26 +20,28 @@ interface DistinctColorsSettingsProps {
 const DistinctColorsSettings = ({ editKind, setClose }: DistinctColorsSettingsProps) => {
   const { cornersData, setCornersData, dotsData, setDotsData } = useContext(QRGeneratorContext);
 
-  const data = useMemo(() => {
+  const getData = () => {
     if (editKind === 'corners' && cornersData) {
       return cornersData;
     }
     if (dotsData) {
       return dotsData;
     }
-  }, [cornersData, dotsData, editKind]);
+  };
 
-  const handler = (elem: string) => (payload: {color: string}) => {
+  const handler = (elem: string) => (payload: {color: string} | string) => {
     const [kind, item] = elem.split('.');
     const isCorners = kind === 'corners';
     const mainObj = isCorners ? { ...cornersData } : { ...dotsData };
-    mainObj[item] = payload.color;
+    mainObj[item] = payload.color || payload;
     if (isCorners) {
       setCornersData(mainObj);
     } else {
       setDotsData(mainObj);
     }
   };
+
+  const data = getData();
 
   return (
     <Grid item xs={12}>
@@ -60,21 +62,21 @@ const DistinctColorsSettings = ({ editKind, setClose }: DistinctColorsSettingsPr
           <Grid item xs={12} sm={6}>
             <ColorSelector
               label="Top left"
-              color={data?.topL || '#000000'}
+              color={data.topL || '#000000'}
               handleData={handler}
               property={`${editKind}.topL`} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <ColorSelector
               label="Top right"
-              color={data?.topR || '#000000'}
+              color={data.topR || '#000000'}
               handleData={handler}
               property={`${editKind}.topR`} />
           </Grid>
           <Grid item sm={12} sx={{ pt: '3px' }}>
             <ColorSelector
               label="Bottom left"
-              color={data?.bottom || '#000000'}
+              color={data.bottom || '#000000'}
               handleData={handler}
               property={`${editKind}.bottom`} />
           </Grid>

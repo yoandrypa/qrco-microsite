@@ -273,7 +273,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
                 command={command}
                 overrideValue={overrideValue}
                 background={!background.file ? null : background} />
-              <Box sx={{ width: '100%', height: '35px', mt: '-2px' }}>
+              <Box sx={{ width: '100%', height: '35px', mt: '-2px', textAlign: 'center' }}>
                 {isReadable ? (
                   <Typography sx={{ color: theme => isReadable.readable ? theme.palette.success.dark : theme.palette.error.dark, height: '25px' }}>
                     {`${isReadable.readable ? 'High' : 'Low'} chance to be readable.`}
