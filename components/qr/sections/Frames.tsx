@@ -23,6 +23,7 @@ const Frames = ({ frame, handleFrame, handleMainFrame }: FramesProps) => {
       <Box sx={{ width: '100%', overflow: 'auto' }}>
         <Stack direction="row" spacing={2}>
           <SectionSelector
+            icon={null}
             label="No frame"
             isFrame
             selected={!frame?.type}

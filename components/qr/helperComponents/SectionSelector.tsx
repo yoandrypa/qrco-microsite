@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import UploadIcon from '@mui/icons-material/Upload';
 import { alpha } from '@mui/material/styles';
 
@@ -24,7 +24,7 @@ const SectionSelector = ({ label, handleSelect, icon, selected, isUpload, isFram
     if (isUpload) {
       return <UploadIcon />
     } else if (icon === null) {
-      return <DoDisturbIcon />
+      return <DoNotDisturbIcon />
     } else {
       return <Box component="img" src={icon} sx={{ width: '30px' }} />
     }
