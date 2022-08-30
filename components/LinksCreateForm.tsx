@@ -19,7 +19,7 @@ interface State {
   password?: string;
   customurl?: string;
   description?: string;
-  expire_in?: string;
+  expire_in?: string | null;
   domain?: string;
   target: string;
 }
@@ -28,7 +28,7 @@ const initialState: State = {
   password: "",
   customurl: "",
   description: "",
-  expire_in: "",
+  expire_in: null,
   domain: "",
   target: ""
 };
@@ -42,7 +42,7 @@ const LinksCreateForm = ({ domains, user }: any) => {
     try {
       const address = await generateId();
       const userData = await UserHandler.find(user?.attributes?.sub);
-      const domain = await DomainHandler.find({ id: values.domain }) || null;
+      const domain = await DomainHandler.find({ id: values.domain });
       const link = await LinkHandler.create({
         // @ts-ignore
         body: {
