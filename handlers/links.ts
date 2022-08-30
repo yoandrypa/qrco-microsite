@@ -104,7 +104,7 @@ export const list = async (query: Query) => {
     const data = await Promise.all(links.map(async (link: LinkJoinedDomainType) => {
       if (link.domain_id) {
         const domain = await DomainHandler.find({ id: link.domain_id });
-        link.domain = domain.address;
+        link.domain = domain?.address;
       }
       return utils.sanitize.link(link);
     }));
