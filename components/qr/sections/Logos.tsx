@@ -15,6 +15,7 @@ const Logos = ({ image, handleMainData }: LogosProps) => (
     <Stack direction="row" spacing={2}>
       <SectionSelector
         label="No logo"
+        icon={null}
         selected={!image}
         handleSelect={handleMainData} />
       <SectionSelector
