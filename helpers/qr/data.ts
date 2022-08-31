@@ -21,7 +21,7 @@ const initialData = {
   width: originalDimensions,
   height: originalDimensions,
   type: 'svg',
-  data: 'QWERTY',
+  data: 'Ebanux',
   image: null,
   margin: 15,
   qrOptions: {

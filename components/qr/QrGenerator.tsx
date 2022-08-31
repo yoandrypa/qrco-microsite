@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { forwardRef, useEffect, useContext, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useContext, useMemo, useState } from 'react';
 
 import parse from 'html-react-parser';
 
@@ -10,8 +10,6 @@ import QRGeneratorContext from './context/QRGeneratorContext';
 import { getFrame } from '../../helpers/qr/helpers';
 
 const handleQrData = (qrObject: OptionsType, overrideValue: string | null) => {
-  debugger;
-
   const opts = JSON.parse(JSON.stringify(qrObject));
   if (Boolean(overrideValue)) {
     opts.data = overrideValue;
@@ -41,12 +39,12 @@ const QrGenerator = ({ hidden, options, frame, background, command, overrideValu
 
   const { cornersData, dotsData } = useContext(QRGeneratorContext);
 
-  const renderFrame = () => {
+  const renderFrame = useCallback(() => {
     if (isFramed) {
       return parse(getFrame(frame));
     }
     return null;
-  };
+  }, [frame]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderSVG = () => {
     if (qrCode?._svg?.outerHTML) {
