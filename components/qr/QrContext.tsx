@@ -46,7 +46,6 @@ const QrContext = ({ children }: MainQrContextProps) => {
   };
 
   const handleOpenDesigner = (payload: string | null): void => {
-    debugger;
     if (payload !== value) {
       forceOpenDesigner.current = true;
       // @ts-ignore
