@@ -32,3 +32,33 @@ export type FramesType = {
   textColor: string; 
   textUp?: boolean | false;
 }
+
+export type DataType = {
+  number?: string;
+  message?: string;
+  subject?: string;
+  body?: string;
+  email?: string;
+  name?: string;
+  password?: string;
+  encription?: string;
+  hidden?: string;
+  prefix?: string;
+  lastName?: string;
+  firstName?: string;
+  cell?: string;
+  phone?: string;
+  fax?: string;
+  organization?: string;
+  position?: string;
+  address?: string;
+  city?: string;
+  zip?: string;
+  state?: string;
+  country?: string;
+  web?: string;
+  url?: string;
+  via?: string;
+  hashtags?: string;
+  text?: string;
+}

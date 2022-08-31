@@ -31,16 +31,16 @@ const SMSData = ({ data, setData }: SMSDataProps) => {
           size="small"
           fullWidth
           margin="dense"
-          value={data.number || ''}
+          value={data?.number || ''}
           onChange={handleValues('number')} />
         <TextField
           label="Message"
           size="small"
           fullWidth
           margin="dense"
-          value={data.message || ''}
+          value={data?.message || ''}
           onChange={handleValues('message')} />
-        <MultiLineDetails top={160} data={data.message} />
+        <MultiLineDetails top={160} data={data?.message || ''} />
       </>
     </Common>);
 }

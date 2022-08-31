@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
+import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -23,6 +23,7 @@ import QrGenerator from './QrGenerator';
 import { initialFrame } from '../../helpers/qr/data';
 import RenderDownload from './helperComponents/RenderDownload';
 import PDFGenDlg from './helperComponents/PDFGenDlg';
+import QRGeneratorContext from './context/QRGeneratorContext';
 
 interface GeneratorProps {
   allowEdit?: boolean;
@@ -35,17 +36,18 @@ interface GeneratorProps {
   setBackground: Function;
   frame: FramesType;
   setFrame: Function;
-  overrideValue?: string | undefined;
 }
 
-const Generator = ({ options, setOptions, setLogoData, background, setBackground,
-  frame, setFrame, overrideValue = undefined, goBack = undefined, allowEdit = false, logoData = null }: GeneratorProps) => {
-  const [expanded, setExpanded] = useState<string>('style');
+const Generator = () => {
+  const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack = undefined, 
+    allowEdit = false, logoData = null }: GeneratorProps = useContext(QRGeneratorContext);
+
+    const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
   const [anchor, setAnchor] = useState<object | null>(null);
   const [updating, setUpdating] = useState<boolean>(false);
   const [generatePdf, setGeneratePdf] = useState<object | null>(null);
-  const [isReadable, setIsReadable] = useState<{readable: boolean;} | boolean | null>(null);
+  const [isReadable, setIsReadable] = useState<{ readable: boolean; } | boolean | null>(null);
 
   const qrImageData = useRef<any>(null);
   const doneFirst = useRef<boolean>(false);
@@ -65,7 +67,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
     const img = new Image();
     img.src = URL.createObjectURL(f);
     img.onload = async () => {
-      const base:object = await convertBase64(f);
+      const base: object = await convertBase64(f);
       const check = await checkForAlpha(f);
       const back = { ...background, file: base };
       if (check?.hasAlpha) {
@@ -155,7 +157,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
   };
 
   const handleMainData = (item: string, payload: any, icon = null) => {
-    const opts = { ...options };
+    const opts = JSON.parse(JSON.stringify(options));
     if (!payload || !payload.file) {
       opts[item] = payload;
       if (logoData) {
@@ -171,7 +173,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
   };
 
   const handleData = (item: string) => (payload: any) => {
-    const opts = { ...options };
+    const opts = JSON.parse(JSON.stringify(options));;
     if (item.includes('.')) {
       const x = item.split('.');
       if (!opts[x[0]]) {
@@ -200,7 +202,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = { ...options };
+      const opts = JSON.parse(JSON.stringify(options));;
       if (background.type === 'solid') {
         handleReset();
       } else {
@@ -218,7 +220,7 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = { ...options };
+      const opts = JSON.parse(JSON.stringify(options));;
       opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
       setOptions(opts);
     }
@@ -239,6 +241,8 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
       doneFirst.current = true;
     }
   }, [updating]);
+
+  console.log('!>!>!>!>!>!>!>!>!>!>!>!>',options?.data)
 
   return (
     <>
@@ -267,11 +271,11 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
             <Box sx={{ mt: { sm: 0, xs: 1 } }}>
               <QrGenerator
                 ref={qrImageData}
-                data={options}
+                options={options}
                 frame={frame}
                 hidden={updating}
                 command={command}
-                overrideValue={overrideValue}
+                overrideValue={null}
                 background={!background.file ? null : background} />
               <Box sx={{ width: '100%', height: '35px', mt: '-2px', textAlign: 'center' }}>
                 {isReadable ? (
@@ -357,9 +361,9 @@ const Generator = ({ options, setOptions, setLogoData, background, setBackground
           setGeneratePdf={setGeneratePdf} />
       )}
       {Boolean(generatePdf) && (
-        <PDFGenDlg 
-          data={qrImageData.current} 
-          handleClose={() => setGeneratePdf(false)} 
+        <PDFGenDlg
+          data={qrImageData.current}
+          handleClose={() => setGeneratePdf(false)}
           isFramed={frame.type && frame.type !== '/frame/frame0.svg'} />
       )}
       {Boolean(goBack) && (<Fab

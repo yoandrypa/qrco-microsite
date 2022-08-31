@@ -53,18 +53,18 @@ function WifiData({ data, setData }: WifiDataProps) {
           size="small"
           fullWidth
           margin="dense"
-          value={data.name || ''}
+          value={data?.name || ''}
           onChange={handleValues('name')} />
         <FormControlLabel
           sx={{ marginTop: '-12px', marginLeft: '-9px' }}
-          control={<Checkbox checked={data.hidden === 'true'} onChange={handleValues('hidden')} />}
+          control={<Checkbox checked={data?.hidden === 'true'} onChange={handleValues('hidden')} />}
           label="SSID network is hidden?" />
         <FormControl sx={{ width: '100%', mt: '4px' }} size="small">
           <InputLabel id="select-Enc">Encription</InputLabel>
           <Select
             labelId="select-Enc"
             id="select-Enc"
-            value={data.encription || 'none'}
+            value={data?.encription || 'none'}
             label="Encription"
             onChange={handleValues('encription')}
           >
@@ -79,7 +79,7 @@ function WifiData({ data, setData }: WifiDataProps) {
           size="small"
           fullWidth
           margin="dense"
-          value={data.password || ''}
+          value={data?.password || ''}
           onChange={handleValues('password')}
           InputProps={{
             endAdornment: (

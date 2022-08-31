@@ -50,7 +50,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.prefix || ''}
+              value={data?.prefix || ''}
               onChange={handleValues('prefix')} />
           </Grid>
           <Grid item sm={5} xs={12} style={{ paddingTop: 0 }}>
@@ -59,7 +59,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.firstName || ''}
+              value={data?.firstName || ''}
               onChange={handleValues('firstName')} />
           </Grid>
           <Grid item sm={5} xs={12} style={{ paddingTop: 0 }}>
@@ -68,7 +68,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.lastName || ''}
+              value={data?.lastName || ''}
               onChange={handleValues('lastName')} />
           </Grid>
         </Grid>
@@ -80,7 +80,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.cell || ''}
+              value={data?.cell || ''}
               onChange={handleValues('cell')} />
           </Grid>
           <Grid item sm={4} xs={12} style={{ paddingTop: 0 }}>
@@ -89,7 +89,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.phone || ''}
+              value={data?.phone || ''}
               onChange={handleValues('phone')} />
           </Grid>
           <Grid item sm={4} xs={12} style={{ paddingTop: 0 }}>
@@ -98,7 +98,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.fax || ''}
+              value={data?.fax || ''}
               onChange={handleValues('fax')} />
           </Grid>
         </Grid>
@@ -110,7 +110,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.organization || ''}
+              value={data?.organization || ''}
               onChange={handleValues('organization')} />
           </Grid>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
@@ -119,7 +119,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.position || ''}
+              value={data?.position || ''}
               onChange={handleValues('position')} />
           </Grid>
         </Grid>
@@ -131,7 +131,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.address || ''}
+              value={data?.address || ''}
               onChange={handleValues('address')} />
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
@@ -140,7 +140,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.city || ''}
+              value={data?.city || ''}
               onChange={handleValues('city')} />
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
@@ -149,7 +149,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.zip || ''}
+              value={data?.zip || ''}
               onChange={handleValues('zip')} />
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
@@ -158,7 +158,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.state || ''}
+              value={data?.state || ''}
               onChange={handleValues('state')} />
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
@@ -167,7 +167,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.country || ''}
+              value={data?.country || ''}
               onChange={handleValues('country')} />
           </Grid>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
@@ -176,7 +176,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.email || ''}
+              value={data?.email || ''}
               onChange={handleValues('email')} />
           </Grid>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
@@ -185,7 +185,7 @@ export default function CardData({data, setData}: CardDataProps) {
               size="small"
               fullWidth
               margin="dense"
-              value={data.web || ''}
+              value={data?.web || ''}
               onChange={handleValues('web')} />
           </Grid>
         </Grid>
