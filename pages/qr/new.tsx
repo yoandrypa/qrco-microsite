@@ -1,11 +1,11 @@
-import CommonGenerator from '../../components/qr/CommonGenerator';
-import MainQrContext from '../../components/qr/MainQrContext';
+import Generator from '../../components/qr/Generator';
+import QrWrapper from '../../components/qr/QrWrapper';
 
 const QrDesigner = () => {
   return (
-    <MainQrContext>
-      <CommonGenerator newOne />
-    </MainQrContext>
+    <QrWrapper>
+      <Generator />
+    </QrWrapper>
   );
 }
 

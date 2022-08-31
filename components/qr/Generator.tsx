@@ -36,14 +36,13 @@ interface GeneratorProps {
   setBackground: Function;
   frame: FramesType;
   setFrame: Function;
-  overrideValue?: string | undefined;
 }
 
 const Generator = () => {
-  const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, overrideValue = undefined, 
-    goBack = undefined, allowEdit = false, logoData = null }: GeneratorProps = useContext(QRGeneratorContext);
+  const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack = undefined, 
+    allowEdit = false, logoData = null }: GeneratorProps = useContext(QRGeneratorContext);
 
-  const [expanded, setExpanded] = useState<string>('style');
+    const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
   const [anchor, setAnchor] = useState<object | null>(null);
   const [updating, setUpdating] = useState<boolean>(false);
@@ -158,7 +157,7 @@ const Generator = () => {
   };
 
   const handleMainData = (item: string, payload: any, icon = null) => {
-    const opts = { ...options };
+    const opts = JSON.parse(JSON.stringify(options));
     if (!payload || !payload.file) {
       opts[item] = payload;
       if (logoData) {
@@ -174,7 +173,7 @@ const Generator = () => {
   };
 
   const handleData = (item: string) => (payload: any) => {
-    const opts = { ...options };
+    const opts = JSON.parse(JSON.stringify(options));;
     if (item.includes('.')) {
       const x = item.split('.');
       if (!opts[x[0]]) {
@@ -203,7 +202,7 @@ const Generator = () => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = { ...options };
+      const opts = JSON.parse(JSON.stringify(options));;
       if (background.type === 'solid') {
         handleReset();
       } else {
@@ -221,7 +220,7 @@ const Generator = () => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = { ...options };
+      const opts = JSON.parse(JSON.stringify(options));;
       opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
       setOptions(opts);
     }
@@ -242,6 +241,8 @@ const Generator = () => {
       doneFirst.current = true;
     }
   }, [updating]);
+
+  console.log('!>!>!>!>!>!>!>!>!>!>!>!>',options?.data)
 
   return (
     <>
@@ -270,11 +271,11 @@ const Generator = () => {
             <Box sx={{ mt: { sm: 0, xs: 1 } }}>
               <QrGenerator
                 ref={qrImageData}
-                data={options}
+                options={options}
                 frame={frame}
                 hidden={updating}
                 command={command}
-                overrideValue={overrideValue}
+                overrideValue={null}
                 background={!background.file ? null : background} />
               <Box sx={{ width: '100%', height: '35px', mt: '-2px', textAlign: 'center' }}>
                 {isReadable ? (

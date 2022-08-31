@@ -29,7 +29,7 @@ function WhatsAppData({ data, setData }: WhatsAppProps) {
           required
           fullWidth
           margin="dense"
-          value={data.number || ''}
+          value={data?.number || ''}
           onChange={handleValues('number')} />
         <TextField
           rows={3}
@@ -38,9 +38,9 @@ function WhatsAppData({ data, setData }: WhatsAppProps) {
           size="small"
           fullWidth
           margin="dense"
-          value={data.message || ''}
+          value={data?.message || ''}
           onChange={handleValues('message')} />
-        <MultiLineDetails top={500} data={data.message} />
+        <MultiLineDetails top={500} data={data?.message || ''} />
       </>
     </Common>
   );

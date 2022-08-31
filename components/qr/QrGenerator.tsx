@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { forwardRef, useEffect, useCallback, useContext, useMemo, useState } from 'react';
+import { forwardRef, useEffect, useContext, useMemo, useState } from 'react';
 
 import parse from 'html-react-parser';
 
@@ -9,14 +9,16 @@ import { BackgroundType, FramesType, OptionsType } from './types/types';
 import QRGeneratorContext from './context/QRGeneratorContext';
 import { getFrame } from '../../helpers/qr/helpers';
 
-const handleQrData = (qrObject: OptionsType, overrideValue: string | undefined) => {
+const handleQrData = (qrObject: OptionsType, overrideValue: string | null) => {
+  debugger;
+
   const opts = JSON.parse(JSON.stringify(qrObject));
   if (Boolean(overrideValue)) {
     opts.data = overrideValue;
   }
   opts.qrOptions.typeNumber = opts.data.length > 24 ? 0 : 3;
 
-  if (typeof window !== undefined) {
+  if (typeof window !== "undefined") {
     const QRCodeStyling = require('qr-code-styling');
     return new QRCodeStyling(opts);
   }
@@ -25,7 +27,7 @@ const handleQrData = (qrObject: OptionsType, overrideValue: string | undefined) 
 };
 
 interface QrGeneratorProps {
-  data: OptionsType;
+  options: OptionsType;
   background?: BackgroundType | null;
   hidden?: boolean | false;
   overrideValue?: string | undefined;
@@ -33,18 +35,18 @@ interface QrGeneratorProps {
   frame: FramesType | null;
 }
 
-const QrGenerator = ({ hidden, data, frame, background, command, overrideValue }: QrGeneratorProps, ref: HTMLDivElement) => {
-  const [qrCode, setQrCode] = useState(handleQrData(data, overrideValue));
+const QrGenerator = ({ hidden, options, frame, background, command, overrideValue }: QrGeneratorProps, ref: HTMLDivElement) => {
+  const [qrCode, setQrCode] = useState(handleQrData(options, overrideValue));
   const isFramed = useMemo(() => Boolean(frame?.type), [frame?.type]);
 
   const { cornersData, dotsData } = useContext(QRGeneratorContext);
 
-  const renderFrame = useCallback(() => {
+  const renderFrame = () => {
     if (isFramed) {
       return parse(getFrame(frame));
     }
     return null;
-  }, [frame]); // eslint-disable-line react-hooks/exhaustive-deps
+  };
 
   const renderSVG = () => {
     if (qrCode?._svg?.outerHTML) {
@@ -169,9 +171,9 @@ const QrGenerator = ({ hidden, data, frame, background, command, overrideValue }
 
   useEffect(() => {
     if (qrCode) {
-      setQrCode(handleQrData(data, overrideValue));
+      setQrCode(handleQrData(options, overrideValue));
     }
-  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

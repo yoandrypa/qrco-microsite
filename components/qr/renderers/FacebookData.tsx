@@ -28,7 +28,7 @@ function FacebookData({ data, setData }: FacebookDataProps) {
         size="small"
         fullWidth
         margin="dense"
-        value={data.message || ''}
+        value={data?.message || ''}
         onChange={handleValues('message')} />
     </Common>
   );

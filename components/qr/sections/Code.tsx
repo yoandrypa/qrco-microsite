@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { useCallback, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Grid from '@mui/material/Grid';
@@ -57,7 +57,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
       label="Distinct color" />
   );
 
-  const renderEditButtons = useCallback((handler: string) => {
+  const renderEditButtons = (handler: string) => {
     const handleEdit = () => {
       if (editColor !== handler) {
         setEditColors(handler);
@@ -70,7 +70,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
         {editColor !== handler ? handler : `Close ${handler}`}
       </Button>
     );
-  }, [editColor]);
+  };
 
   return (
     <Grid container spacing={1}>

@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // formerly known as QrTemplate
-import { useCallback, useEffect, useRef, useContext } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -57,7 +57,7 @@ const QrTypeSelector = () => {
     setOpenDesigner(handleDesignerString(selected, data, value));
   };
 
-  const renderSel = useCallback(() => {
+  const renderSel = () => {
     if (!selected) {
       return null;
     }
@@ -99,7 +99,7 @@ const QrTypeSelector = () => {
         return <TwitterData data={data} setData={(payload: TwitterDataProps) => setData(payload)} />;
       }
     }
-  }, [selected, value, data]); // eslint-disable-line react-hooks/exhaustive-deps
+  };
 
   return (
     <>
