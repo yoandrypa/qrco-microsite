@@ -30,7 +30,7 @@ interface DomainType {
   created_at?: string;
   homepage?: string;
   updated_at?: string;
-  user_id: string;
+  user_id?: string;
 }
 
 interface DomainQueryType {
@@ -47,7 +47,7 @@ interface DomainQueryType {
 interface DomainSanitizedType {
   address: string;
   updated_at?: string;
-  user_id: undefined;
+  user_id?: string;
   created_at?: string;
   id: string;
   banned?: boolean;

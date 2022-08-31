@@ -1,5 +1,10 @@
 import { customAlphabet } from "nanoid";
 import queries from "../queries";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMonths
+} from "date-fns";
 
 export const generateShortLink = (id: string | undefined, customDomain?: string | undefined): string => {
   const protocol =
@@ -29,7 +34,6 @@ export const sanitize = {
   domain: (domain: DomainType): DomainSanitizedType => ({
     ...domain,
     id: domain.id,
-    user_id: undefined,
     banned_by_id: undefined
   }),
   link: (link: LinkJoinedDomainType): LinkSanitizedType => <LinkSanitizedType>({
@@ -39,7 +43,8 @@ export const sanitize = {
   })
 };
 
-export const removeWww = (host = "") => {
+export const removeWww = (host?: string | null) => {
+  // @ts-ignore
   return host.replace("www.", "");
 };
 
@@ -68,4 +73,76 @@ export const isValidUrl = (urlString: string) => {
     "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
     "(\\#[-a-z\\d_]*)?$", "i"); // validate fragment locator
   return urlPattern.test(urlString);
+};
+
+export const getStatsLimit = (): number =>
+  parseInt(<string>process.env.REACT_DEFAULT_MAX_STATS_PER_LINK) || 100000000;
+
+export const getInitStats = (): StatsType => {
+  return Object.create({
+    browser: {
+      chrome: 0,
+      edge: 0,
+      firefox: 0,
+      ie: 0,
+      opera: 0,
+      other: 0,
+      safari: 0
+    },
+    os: {
+      android: 0,
+      ios: 0,
+      linux: 0,
+      macos: 0,
+      other: 0,
+      windows: 0
+    },
+    country: {},
+    referrer: {}
+  });
+};
+
+export const getUTCDate = (dateString?: Date) => {
+  const date = new Date(dateString || Date.now());
+  return new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    date.getUTCHours()
+  );
+};
+
+export const STATS_PERIODS: [number, "lastDay" | "lastWeek" | "lastMonth"][] = [
+  [1, "lastDay"],
+  [7, "lastWeek"],
+  [30, "lastMonth"]
+];
+
+export const getDifferenceFunction = (
+  type: "lastDay" | "lastWeek" | "lastMonth" | "allTime"
+): Function => {
+  if (type === "lastDay") return differenceInHours;
+  if (type === "lastWeek") return differenceInDays;
+  if (type === "lastMonth") return differenceInDays;
+  if (type === "allTime") return differenceInMonths;
+  throw new Error("Unknown type.");
+};
+
+export const statsObjectToArray = (obj: StatsType) => {
+  const objToArr = (key: string) =>
+    // @ts-ignore
+    Array.from(Object.keys(obj[key]))
+      .map(name => ({
+        name,
+        // @ts-ignore
+        value: obj[key][name]
+      }))
+      .sort((a, b) => b.value - a.value);
+
+  return {
+    browser: objToArr("browser"),
+    os: objToArr("os"),
+    country: objToArr("country"),
+    referrer: objToArr("referrer")
+  };
 };
