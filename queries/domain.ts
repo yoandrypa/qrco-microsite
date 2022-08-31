@@ -1,6 +1,7 @@
 import { Domain as DomainModel } from "../models";
 import { AnyDocument } from "dynamoose/dist/Document";
 import { ScanResponse } from "dynamoose/dist/DocumentRetriever";
+import { CustomError } from "../utils";
 
 export const find = async (match: Partial<DomainQueryType>): Promise<DomainType> => {
   return await DomainModel.findOne(match);
@@ -51,4 +52,24 @@ export const update = async (
   });
 
   return domain;
+};
+
+export const remove = async (match: Partial<DomainType>) => {
+  try {
+    const domain = await DomainModel.findOne({
+      id: { eq: match.id },
+      user_id: { eq: match.user_id }
+    });
+
+    if (!domain) {
+      throw new CustomError("domain was not found.");
+    }
+
+    const deletedDomain = await domain.delete();
+
+    return !deletedDomain;
+  } catch (e) {
+    // @ts-ignore
+    throw new CustomError(e.message);
+  }
 };
