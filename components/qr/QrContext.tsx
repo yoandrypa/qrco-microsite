@@ -3,16 +3,13 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import QRGeneratorContext from './context/QRGeneratorContext';
-
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
 import { DataType, OptionsType } from './types/types';
+import { QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from './constants';
 
 interface MainQrContextProps {
   children: ReactNode;
 };
-
-const baseRoute = '/qr' as string;
-const editorNewRoute = `${baseRoute}/new` as string;
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
@@ -23,7 +20,9 @@ const handleInitialData = (value: string | null | undefined) => {
   return opts;
 };
 
-const QrContext = ({ children }: MainQrContextProps) => {
+const QrContext = (props: MainQrContextProps) => {
+  const { children } = props;
+
   const [value, setValue] = useState<string>('Ebanux');
   const [options, setOptions] = useState<OptionsType>(handleInitialData(value));
   const [cornersData, setCornersData] = useState(null);
@@ -42,7 +41,7 @@ const QrContext = ({ children }: MainQrContextProps) => {
   const router = useRouter();
 
   const navigateForward = (): void => {
-    router.push(editorNewRoute);
+    router.push(QR_DESIGNER_NEW_ROUTE, undefined, { shallow: true });
   };
 
   const handleOpenDesigner = (payload: string | null): void => {
@@ -59,11 +58,11 @@ const QrContext = ({ children }: MainQrContextProps) => {
   };
 
   const goBack = (): void => {
-    router.push(baseRoute);
+    router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
   };
 
   useEffect(() => {
-    if (router.pathname === baseRoute) {
+    if (router.pathname === QR_TYPE_ROUTE) {
       if (doneInitialRender.current) {
         if (Boolean(selected)) {
           if (selected === 'web') {
@@ -96,16 +95,17 @@ const QrContext = ({ children }: MainQrContextProps) => {
   }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    debugger;
     if (forceOpenDesigner.current) {
       forceOpenDesigner.current = false;
       navigateForward();
     }
-  }, [options.data]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <QRGeneratorContext.Provider value={{
-      cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground, 
-      options, setOptions, selected, setSelected, expanded, setExpanded, setOpenDesigner: handleOpenDesigner, goBack, 
+      cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground,
+      options, setOptions, selected, setSelected, expanded, setExpanded, setOpenDesigner: handleOpenDesigner, goBack,
       value, setValue, data, setData
     }}>
       {children}

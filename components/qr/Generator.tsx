@@ -242,8 +242,6 @@ const Generator = () => {
     }
   }, [updating]);
 
-  console.log('!>!>!>!>!>!>!>!>!>!>!>!>',options?.data)
-
   return (
     <>
       {error && (
