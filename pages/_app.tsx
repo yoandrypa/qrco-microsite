@@ -9,7 +9,7 @@ import { themeConfig } from "../utils/theme";
 import '@aws-amplify/ui-react/styles.css';
 import '../styles/globals.css';
 
-import QrContext from '../components/qr/QrContext';
+import AppContextProvider from '../components/context/AppContextProvider';
 import { MAIN_CONFIG } from '../consts';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -22,11 +22,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={mainTheme}>
-        <QrContext>
+        <AppContextProvider>
           <IntlProvider locale={locale} messages={messages}>
             <Component {...pageProps} />
           </IntlProvider>
-        </QrContext>
+        </AppContextProvider>
       </ThemeProvider>
     </StyledEngineProvider>
   );

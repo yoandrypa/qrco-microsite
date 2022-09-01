@@ -1,15 +1,23 @@
+import { useContext, useEffect } from 'react';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import LinksTable from "./LinksTable";
 import AppBar from "./AppBar";
-import React, { useState } from "react";
 import LinksCreateForm from "./LinksCreateForm";
 import { UserContext } from "../utils/contexts";
+import Context from "./context/Context";
 
-export default function Home({ linksData, domainsData }: any) {
+export default function Home({ linksData, domainsData, userInformation, signOut }: any) {
   const { data, total } = JSON.parse(linksData);
   const domains = JSON.parse(domainsData);
+
+  // @ts-ignore
+  const { setUserInfo } = useContext(Context);
+
+  useEffect(() => {
+    setUserInfo(userInformation);
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

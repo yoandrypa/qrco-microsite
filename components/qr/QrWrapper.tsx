@@ -1,4 +1,4 @@
-import { ReactNode, cloneElement } from 'react';
+import {ReactNode, cloneElement, useCallback, useContext} from 'react';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
@@ -6,8 +6,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from '@mui/icons-material/Login';
+
+import Context from '../context/Context';
+
+import {useRouter} from 'next/router';
 
 interface Props {
   window?: () => Window;
@@ -33,6 +38,15 @@ interface QrWrapperProps {
 export default function QrWrapper(props: QrWrapperProps) {
   const { children } = props;
 
+  const router = useRouter();
+
+  // @ts-ignore
+  const { userInfo } = useContext(Context);
+
+  const handleLogin = useCallback(() => {
+    router.push({ pathname: '/', query: { login: true } });
+  }, []);
+
   return (
     <>
       <CssBaseline />
@@ -42,6 +56,11 @@ export default function QrWrapper(props: QrWrapperProps) {
             <Box sx={{ display: 'flex' }}>
               <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
               <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>QR Link</Typography>
+              {!Boolean(userInfo) && (
+                <Button startIcon={<LoginIcon />} onClick={handleLogin}>
+                  Login
+                </Button>
+              )}
             </Box>
             <Box sx={{ display: 'flex' }}>
               <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>

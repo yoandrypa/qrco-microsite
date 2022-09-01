@@ -10,7 +10,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-import QRGeneratorContext from '../context/QRGeneratorContext';
+import Context from '../../context/Context';
 import { BackgroundType, OptionsType } from '../types/types';
 import ColorSelector from '../helperComponents/ColorSelector';
 import OptionsSelector from '../helperComponents/OptionsSelector';
@@ -24,12 +24,12 @@ interface CodeProps {
   handleBackground: Function;
   handleReset: Function;
   background: BackgroundType;
-};
+}
 
 const Code = ({ options, handleData, background, handleBackground, handleReset, handleUpload }: CodeProps) => {
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [editColor, setEditColors] = useState<string | null>(null);
-  const { cornersData, dotsData, setCornersData, setDotsData } = useContext(QRGeneratorContext);
+  const { cornersData, dotsData, setCornersData, setDotsData } = useContext(Context);
 
   const handleSettings = () => {
     setShowSettings(prev => !prev);

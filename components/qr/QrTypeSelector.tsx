@@ -26,7 +26,7 @@ import TypeSelector from './helperComponents/TypeSelector';
 import RenderIcon from './helperComponents/RenderIcon';
 import { handleDesignerString } from '../../helpers/qr/helpers';
 
-import QRGeneratorContext from './context/QRGeneratorContext';
+import Context from '../context/Context';
 
 interface QrTypeSelectorProps {
   data: object;
@@ -41,7 +41,7 @@ interface QrTypeSelectorProps {
 };
 
 const QrTypeSelector = () => {
-  const { data, expanded, setData, setExpanded, setSelected, setValue, selected, value, setOpenDesigner }: QrTypeSelectorProps = useContext(QRGeneratorContext);
+  const { data, expanded, setData, setExpanded, setSelected, setValue, selected, value, setOpenDesigner }: QrTypeSelectorProps = useContext(Context);
 
   const handleChange = (): void => {
     if (selected) {

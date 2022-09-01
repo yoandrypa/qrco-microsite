@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 
 import ColorSelector from './ColorSelector';
-import QRGeneratorContext from '../context/QRGeneratorContext';
+import Context from '../../context/Context';
 
 interface DistinctColorsSettingsProps {
   editKind: string;
@@ -18,7 +18,7 @@ interface DistinctColorsSettingsProps {
 };
 
 const DistinctColorsSettings = ({ editKind, setClose }: DistinctColorsSettingsProps) => {
-  const { cornersData, setCornersData, dotsData, setDotsData } = useContext(QRGeneratorContext);
+  const { cornersData, setCornersData, dotsData, setDotsData } = useContext(Context);
 
   const getData = () => {
     if (editKind === 'corners' && cornersData) {
