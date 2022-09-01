@@ -6,7 +6,7 @@ import parse from 'html-react-parser';
 
 import { originalDimensions } from '../../helpers/qr/data';
 import { BackgroundType, FramesType, OptionsType } from './types/types';
-import QRGeneratorContext from './context/QRGeneratorContext';
+import Context from '../context/Context';
 import { getFrame } from '../../helpers/qr/helpers';
 
 const handleQrData = (qrObject: OptionsType, overrideValue: string | null) => {
@@ -37,7 +37,7 @@ const QrGenerator = ({ hidden, options, frame, background, command, overrideValu
   const [qrCode, setQrCode] = useState(handleQrData(options, overrideValue));
   const isFramed = useMemo(() => Boolean(frame?.type), [frame?.type]);
 
-  const { cornersData, dotsData } = useContext(QRGeneratorContext);
+  const { cornersData, dotsData } = useContext(Context);
 
   const renderFrame = useCallback(() => {
     if (isFramed) {

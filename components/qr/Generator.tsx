@@ -23,7 +23,7 @@ import QrGenerator from './QrGenerator';
 import { initialFrame } from '../../helpers/qr/data';
 import RenderDownload from './helperComponents/RenderDownload';
 import PDFGenDlg from './helperComponents/PDFGenDlg';
-import QRGeneratorContext from './context/QRGeneratorContext';
+import Context from '../context/Context';
 
 interface GeneratorProps {
   allowEdit?: boolean;
@@ -39,8 +39,8 @@ interface GeneratorProps {
 }
 
 const Generator = () => {
-  const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack = undefined, 
-    allowEdit = false, logoData = null }: GeneratorProps = useContext(QRGeneratorContext);
+  const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack = undefined,
+    allowEdit = false, logoData = null }: GeneratorProps = useContext(Context);
 
     const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);

@@ -2,14 +2,16 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import QRGeneratorContext from './context/QRGeneratorContext';
-import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
-import { DataType, OptionsType } from './types/types';
-import { QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from './constants';
+import { Auth } from 'aws-amplify';
 
-interface MainQrContextProps {
+import Context from './Context';
+import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
+import { DataType, OptionsType } from '../qr/types/types';
+import { QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from '../qr/constants';
+
+interface ContextProps {
   children: ReactNode;
-};
+}
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
@@ -20,7 +22,7 @@ const handleInitialData = (value: string | null | undefined) => {
   return opts;
 };
 
-const QrContext = (props: MainQrContextProps) => {
+const AppContextProvider = (props: ContextProps) => {
   const { children } = props;
 
   const [value, setValue] = useState<string>('Ebanux');
@@ -34,6 +36,8 @@ const QrContext = (props: MainQrContextProps) => {
 
   const [selected, setSelected] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(true);
+
+  const [userInfo, setUserInfo] = useState(null);
 
   const doneInitialRender = useRef<boolean>(false);
   const forceOpenDesigner = useRef<boolean>(false);
@@ -59,6 +63,14 @@ const QrContext = (props: MainQrContextProps) => {
 
   const goBack = (): void => {
     router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+  };
+
+  const logout = async () => {
+    try {
+      await Auth.signOut();
+    } catch (error) {
+      console.log('error signing out: ', error);
+    }
   };
 
   useEffect(() => {
@@ -95,7 +107,6 @@ const QrContext = (props: MainQrContextProps) => {
   }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    debugger;
     if (forceOpenDesigner.current) {
       forceOpenDesigner.current = false;
       navigateForward();
@@ -103,14 +114,14 @@ const QrContext = (props: MainQrContextProps) => {
   }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <QRGeneratorContext.Provider value={{
+    <Context.Provider value={{
       cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground,
       options, setOptions, selected, setSelected, expanded, setExpanded, setOpenDesigner: handleOpenDesigner, goBack,
-      value, setValue, data, setData
+      value, setValue, data, setData, userInfo, setUserInfo, logout
     }}>
       {children}
-    </QRGeneratorContext.Provider>
+    </Context.Provider>
   );
 }
 
-export default QrContext;
+export default AppContextProvider;
