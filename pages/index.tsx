@@ -30,6 +30,25 @@ export default function Index({ linksData, domainsData }: InferGetServerSideProp
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
+  const getUserInfo = async () => {
+    try {
+      return await Auth.currentAuthenticatedUser();
+    } catch {
+      return null;
+    }
+  }
+
+  const userInfo = await getUserInfo();
+
+  if (!Boolean(userInfo) && !Boolean(query.login)) {
+    return {
+      redirect: {
+        destination: QR_TYPE_ROUTE,
+        permanent: false
+      }
+    };
+  }
+
   let cookies = {};
   for (const [key, value] of Object.entries(req.cookies)) {
     // @ts-ignore
@@ -41,28 +60,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
       props: {
         linksData: JSON.stringify({}),
         domainsData: JSON.stringify([])
-      }
-    };
-  }
-
-  const getUserInfo = async () => {
-    try {
-      return await Auth.currentAuthenticatedUser();
-    } catch {
-      return null;
-    }
-  }
-
-  let userInfo = null;
-  if (query.login) {
-    userInfo = await getUserInfo();
-  }
-
-  if (!Boolean(query.login) && !Boolean(userInfo)) {
-    return {
-      redirect: {
-        destination: QR_TYPE_ROUTE,
-        permanent: false
       }
     };
   }
