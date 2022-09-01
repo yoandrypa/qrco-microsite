@@ -5,38 +5,31 @@ import Container from "@mui/material/Container";
 import LinksTable from "./LinksTable";
 import AppBar from "./AppBar";
 import LinksCreateForm from "./LinksCreateForm";
-import { UserContext } from "../utils/contexts";
 import Context from "./context/Context";
 
-export default function Home({ linksData, domainsData, userInformation, signOut }: any) {
+export default function Home({ linksData, domainsData, userInformation }: any) {
   const { data, total } = JSON.parse(linksData);
   const domains = JSON.parse(domainsData);
 
   // @ts-ignore
-  const { setUserInfo } = useContext(Context);
+  const { setUserInfo, logout } = useContext(Context);
 
   useEffect(() => {
     setUserInfo(userInformation);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <UserContext.Consumer>
-        {({ signOut }) => <AppBar signOut={signOut} />}
-      </UserContext.Consumer>
+      <AppBar signOut={logout} />
       <br />
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <UserContext.Consumer>
-              {({ user }) => <LinksCreateForm user={user} domains={domains} />}
-            </UserContext.Consumer>
+            <LinksCreateForm user={userInformation} domains={domains} />
           </Grid>
           {data &&
             <Grid item xs={12}>
-              <UserContext.Consumer>
-                {({ user }) => <LinksTable links={data} total={total} user={user} domains={domains} />}
-              </UserContext.Consumer>
+              <LinksTable links={data} total={total} user={userInformation} domains={domains} />
             </Grid>
           }
         </Grid>

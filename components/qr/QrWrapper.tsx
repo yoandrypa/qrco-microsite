@@ -45,7 +45,7 @@ export default function QrWrapper(props: QrWrapperProps) {
 
   const handleLogin = useCallback(() => {
     router.push({ pathname: '/', query: { login: true } });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
