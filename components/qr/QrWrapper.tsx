@@ -1,18 +1,63 @@
-import { ReactNode } from 'react';
+import { ReactNode, cloneElement } from 'react';
 
-import Box from '@mui/material/Box';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+// import LoginIcon from '@mui/icons-material/Login';
+
+interface Props {
+  window?: () => Window;
+  children: React.ReactElement;
+}
+
+function ElevationScroll({ children, window }: Props) {
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+    target: window ? window() : undefined
+  });
+
+  return cloneElement(children, {
+    elevation: trigger ? 4 : 1
+  });
+}
 
 interface QrWrapperProps {
   children: ReactNode;
 }
 
-export default function QrWrapper({ children }: QrWrapperProps) {
+export default function QrWrapper(props: QrWrapperProps) {
+  const { children } = props;
+
   return (
-    <Container>
-      <Box sx={{ p: 1, width: { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto' }}>
-        {children}
-      </Box>
-    </Container>
+    <>
+      <CssBaseline />
+      <ElevationScroll {...props}>
+        <AppBar component="nav" sx={{ background: 'inherit' }}>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
+            <Box sx={{ display: 'flex' }}>
+              <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
+              <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>QR Link</Typography>
+            </Box>
+            <Box sx={{ display: 'flex' }}>
+              <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
+                {'Powered by'}
+              </Typography>
+              <Box component="img" alt="EBANUX" src="/ebanux.svg" sx={{ width: '95px', mt: '-2px', ml: '7px' }} />
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
+      <Container>
+        <Toolbar/>
+        <Box sx={{ p: 1, width: { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto' }}>
+          {children}
+        </Box>
+      </Container>
+    </>
   );
 }

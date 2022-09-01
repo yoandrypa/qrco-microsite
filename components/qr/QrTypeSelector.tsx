@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // formerly known as QrTemplate
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
