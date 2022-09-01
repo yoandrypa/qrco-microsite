@@ -68,6 +68,7 @@ const AppContextProvider = (props: ContextProps) => {
   const logout = async () => {
     try {
       await Auth.signOut();
+      router.push('/');
     } catch (error) {
       console.log('error signing out: ', error);
     }
