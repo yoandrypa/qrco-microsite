@@ -1,11 +1,11 @@
 import Generator from '../../components/qr/Generator';
-import QrWrapper from '../../components/qr/QrWrapper';
+import AppWrapper from '../../components/AppWrapper';
 
 const QrDesigner = () => {
   return (
-    <QrWrapper>
+    <AppWrapper>
       <Generator />
-    </QrWrapper>
+    </AppWrapper>
   );
 }
 
