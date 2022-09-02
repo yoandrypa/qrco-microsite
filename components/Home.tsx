@@ -1,9 +1,7 @@
 import { useContext, useEffect } from 'react';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 import LinksTable from "./LinksTable";
-import AppBar from "./AppBar";
 import LinksCreateForm from "./LinksCreateForm";
 import Context from "./context/Context";
 
@@ -16,7 +14,7 @@ export default function Home({ linksData, domainsData, userInformation }: any) {
   const router = useRouter();
 
   // @ts-ignore
-  const { setUserInfo, logout } = useContext(Context);
+  const { setUserInfo } = useContext(Context);
 
   useEffect(() => {
     if (router.query.login) {
@@ -26,21 +24,17 @@ export default function Home({ linksData, domainsData, userInformation }: any) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar signOut={logout} />
-      <br />
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <LinksCreateForm user={userInformation} domains={domains} />
-          </Grid>
-          {data &&
-            <Grid item xs={12}>
-              <LinksTable links={data} total={total} user={userInformation} domains={domains} />
-            </Grid>
-          }
+    <Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <LinksCreateForm user={userInformation} domains={domains} />
         </Grid>
-      </Container>
+        {data &&
+          <Grid item xs={12}>
+            <LinksTable links={data} total={total} user={userInformation} domains={domains} />
+          </Grid>
+        }
+      </Grid>
     </Box>
   );
 };
