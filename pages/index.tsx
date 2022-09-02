@@ -1,17 +1,17 @@
-import components from '../libs/aws/components';
-import * as UserHandler from '../handlers/users';
-import * as LinkHandler from '../handlers/links';
-import * as DomainHandler from '../handlers/domains';
+import components from "../libs/aws/components";
+import * as UserHandler from "../handlers/users";
+import * as LinkHandler from "../handlers/links";
+import * as DomainHandler from "../handlers/domains";
 
-import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-import Home from '../components/Home';
+import Home from "../components/Home";
 
-import {Amplify, Auth} from 'aws-amplify';
-import {Authenticator} from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import awsExports from '../libs/aws/aws-exports';
-import {QR_TYPE_ROUTE} from '../components/qr/constants';
+import { Amplify, Auth } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import awsExports from "../libs/aws/aws-exports";
+import { QR_TYPE_ROUTE } from "../components/qr/constants";
 
 Amplify.configure(awsExports);
 
@@ -32,14 +32,24 @@ export default function Index({ linksData, domainsData }: InferGetServerSideProp
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
   const getUserInfo = async () => {
     try {
-      return await Auth.currentAuthenticatedUser();
-    } catch {
+      let userInfo = {};
+      for (const [key, value] of Object.entries(req.cookies)) {
+        // @ts-ignore
+        userInfo[key.split(".").pop()] = value;
+      }
+      // @ts-ignore
+      if (!userInfo.userData) {
+        return null;
+      }
+      return userInfo;
+    } catch (e) {
       return null;
     }
-  }
+  };
 
   const userInfo = await getUserInfo();
 
+  // @ts-ignore
   if (!Boolean(userInfo) && !Boolean(query.login)) {
     return {
       redirect: {
@@ -49,13 +59,8 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
     };
   }
 
-  let cookies = {};
-  for (const [key, value] of Object.entries(req.cookies)) {
-    // @ts-ignore
-    cookies[key.split('.').pop()] = value;
-  }
   // @ts-ignore
-  if (!cookies.userData) {
+  if (!userInfo?.userData) {
     return {
       props: {
         linksData: JSON.stringify({}),
@@ -65,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   }
 
   // @ts-ignore
-  const userData = JSON.parse(cookies.userData as string);
+  const userData = JSON.parse(userInfo.userData as string);
   const userId = userData.UserAttributes[0].Value;
   let user = await UserHandler.find(userId);
   if (!user) {
