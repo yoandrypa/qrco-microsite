@@ -1,10 +1,10 @@
 import QrTypeSelector from '../../components/qr/QrTypeSelector';
-import QrWrapper from '../../components/qr/QrWrapper';
+import AppWrapper from '../../components/AppWrapper';
 
 export default function QrGen() {
   return (
-    <QrWrapper>
+    <AppWrapper>
       <QrTypeSelector />
-    </QrWrapper>
+    </AppWrapper>
   );
 };
