@@ -1,4 +1,4 @@
-import {ReactNode, cloneElement, useCallback, useContext} from 'react';
+import {ReactNode, cloneElement, useCallback, useMemo} from 'react';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
@@ -9,8 +9,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import LoginIcon from '@mui/icons-material/Login';
-
-import Context from './context/Context';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import {useRouter} from 'next/router';
 
@@ -33,19 +32,20 @@ function ElevationScroll({ children, window }: Props) {
 
 interface QrWrapperProps {
   children: ReactNode;
+  userInfo: any;
+  handleLogout: () => void;
 }
 
 export default function AppWrapper(props: QrWrapperProps) {
-  const { children } = props;
+  const { children, userInfo, handleLogout } = props;
 
   const router = useRouter();
-
-  // @ts-ignore
-  const { userInfo } = useContext(Context);
 
   const handleLogin = useCallback(() => {
     router.push({ pathname: '/', query: { login: true } });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const isLoggin = useMemo(() => (router.pathname === '/' && !Boolean(userInfo)), [userInfo, router.pathname]);
 
   return (
     <>
@@ -58,8 +58,8 @@ export default function AppWrapper(props: QrWrapperProps) {
                 <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
                 <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>QR Link</Typography>
               </Box>
-              <Box>
-                {!Boolean(userInfo) && (
+              {!isLoggin && (<Box>
+                {!Boolean(userInfo) ? (
                   <Button
                     startIcon={<LoginIcon />}
                     onClick={handleLogin}
@@ -67,25 +67,33 @@ export default function AppWrapper(props: QrWrapperProps) {
                     sx={{ height: '28px', marginLeft: '10px', my: 'auto' }}>
                     Login
                   </Button>
+                ) : (
+                  <Button
+                    startIcon={<LogoutIcon />}
+                    onClick={handleLogout}
+                    variant="contained"
+                    sx={{ height: '28px', marginLeft: '10px', my: 'auto' }}>
+                    Logout
+                  </Button>
                 )}
-              </Box>
+              </Box>)}
             </Toolbar>
           </Container>
         </AppBar>
       </ElevationScroll>
-      <Container>
-        <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
+      <Container disableGutters sx={{ width: '100%' }}>
+        <Box sx={{ height: '60px', mt: '10px' }}/> {/* Aims to fill the header's gap */}
         <Box sx={{ p: 1, width: { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
-        <Box sx={{ height: '40px', mt: '10px' }}>
+        {!isLoggin && (<Box sx={{ height: '40px', mt: '10px' }}>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
               {'Fueled by'}
             </Typography>
             <Box component="img" alt="EBANUX" src="/ebanux.svg" sx={{ width: '95px', mt: '-2px', ml: '7px' }} />
           </Box>
-        </Box>
+        </Box>)}
       </Container>
     </>
   );
