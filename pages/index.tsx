@@ -7,7 +7,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import Home from "../components/Home";
 
-import { Amplify, Auth } from "aws-amplify";
+import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
@@ -19,7 +19,7 @@ export default function Index({ linksData, domainsData }: InferGetServerSideProp
   return (
     <Authenticator components={components}>
       {/* @ts-ignore */}
-      {({ signOut, user }) => (
+      {({ user }) => (
         <Home linksData={linksData} domainsData={domainsData} userInformation={user} />
       )}
       {/*{({ signOut, user }) => (<UserContext.Provider value={{ user, signOut }}>*/}
