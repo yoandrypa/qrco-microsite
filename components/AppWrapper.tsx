@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import HomeIcon from '@mui/icons-material/Home';
 
 import {useRouter} from 'next/router';
 
@@ -46,9 +47,9 @@ export default function AppWrapper(props: QrWrapperProps) {
     router.push({ pathname: '/', query: { login: true } });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleQrEditor = useCallback(() => {
-    router.push('/qr/type', undefined, { shallow: true });
-  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+  const handleNavigation = useCallback(() => {
+    router.push((router.pathname === '/' ? '/qr/type' : '/'), undefined, { shallow: true });
+  }, [router.pathname]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const isLoggin = useMemo(() => (router.pathname === '/' && !Boolean(userInfo)), [userInfo, router.pathname]);
 
@@ -64,13 +65,13 @@ export default function AppWrapper(props: QrWrapperProps) {
                 <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>QR Link</Typography>
               </Box>
               {!isLoggin && (<Box>
-                {router.pathname === '/' && (<Button
-                  startIcon={<QrCodeIcon />}
-                  onClick={handleQrEditor}
+                <Button
+                  startIcon={router.pathname === '/' ? <QrCodeIcon /> : <HomeIcon />}
+                  onClick={handleNavigation}
                   variant="outlined"
                   sx={{height: '28px', my: 'auto'}}>
-                  QR Editor
-                </Button>)}
+                  {router.pathname === '/' ? 'QR Editor' : 'Go Home'}
+                </Button>
                 {!Boolean(userInfo) ? (
                   <Button
                     startIcon={<LoginIcon />}
