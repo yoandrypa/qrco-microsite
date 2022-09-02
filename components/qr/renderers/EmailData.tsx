@@ -31,16 +31,16 @@ export default function EmailData({ data, setData }: EmailDataProps) {
           size="small"
           fullWidth
           margin="dense"
-          value={data.email || ''}
+          value={data?.email || ''}
           onChange={handleValues('email')} />
         <TextField
           label="Subject"
           size="small"
           fullWidth
           margin="dense"
-          value={data.subject || ''}
+          value={data?.subject || ''}
           onChange={handleValues('subject')} />
-        <MultiLineDetails top={50} data={data.subject} />
+        <MultiLineDetails top={50} data={data?.subject || ''} />
         <TextField
           rows={3}
           multiline={true}
@@ -48,9 +48,9 @@ export default function EmailData({ data, setData }: EmailDataProps) {
           size="small"
           fullWidth
           margin="dense"
-          value={data.body || ''}
+          value={data?.body || ''}
           onChange={handleValues('body')} />
-        <MultiLineDetails top={200} data={data.body} />
+        <MultiLineDetails top={200} data={data?.body || ''} />
       </>
     </Common>);
 };

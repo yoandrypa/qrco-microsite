@@ -1,5 +1,6 @@
 import * as LinkHandler from "../handlers/links";
 import { GetServerSideProps } from "next";
+import requestIp from "request-ip";
 
 const Redirect = () => {
   return;
@@ -7,20 +8,25 @@ const Redirect = () => {
 
 export default Redirect;
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  // @ts-ignore
-  const { address } = params;
-  const link = await LinkHandler.get(address);
-  if (!link) {
-    return {
-      notFound: true,
+// @ts-ignore
+export const getServerSideProps: GetServerSideProps = async ({ params = {}, req }) => {
+  try {
+    // @ts-ignore
+    params.realIP = requestIp.getClientIp(req);
+    const redirectUrl: string | undefined = await LinkHandler.redirect(params, req);
+    if (redirectUrl === "/404") {
+      return {
+        notFound: true
+      };
     }
-  } else {
     return {
       redirect: {
-        destination: link.target,
-        permanent: false,
-      },
-    }
+        destination: redirectUrl,
+        permanent: false
+      }
+    };
+
+  } catch (e) {
+    throw e;
   }
 };

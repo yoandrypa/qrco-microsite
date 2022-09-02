@@ -28,8 +28,7 @@ const DomainSchema = new dynamoose.Schema({
     type: [String, dynamoose.NULL]
   },
   user_id: {
-    type: User,
-    required: true
+    type: User
     //TODO delete in cascade if user reference is deleted
   },
   created_at: {

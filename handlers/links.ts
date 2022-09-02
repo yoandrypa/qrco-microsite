@@ -4,11 +4,9 @@ import queries from "../queries";
 import URL from "url";
 import { CreateLinkData, UpdateLinkData } from "./types";
 import { CustomError } from "../utils";
-import next from "next";
-import { IncomingMessage, ServerResponse } from "http";
-import { BaseNextRequest, BaseNextResponse } from "next/dist/server/base-http";
 import isbot from "isbot";
 import * as DomainHandler from "./domains";
+import * as VisitHandler from "../handlers/visit";
 
 interface Query {
   user_id: string;
@@ -128,14 +126,11 @@ export const get = async (address: string) => {
   return utils.sanitize.link(link);
 };
 
-/*export const redirect = (app: ReturnType<typeof next>) => async (
-  req: BaseNextRequest<any> | IncomingMessage,
-  res: BaseNextResponse<any> | ServerResponse,
-  next: () => any
-) => {
+// @ts-ignore
+export const redirect = async (params, req) => {
   try {
     const isBot = isbot(req.headers["user-agent"]);
-    const isPreservedUrl = validators.preservedUrls.some(
+    /*const isPreservedUrl = validators.preservedUrls.some(
       item => {
         // @ts-ignore
         const path = new URL(req.url).pathname
@@ -143,7 +138,7 @@ export const get = async (address: string) => {
       }
     );
 
-    if (isPreservedUrl) return next();
+    if (isPreservedUrl) return next();*/ // TODO check this
 
     // 1. If custom domain, get domain info
     const host = utils.removeWww(req.headers.host);
@@ -153,7 +148,7 @@ export const get = async (address: string) => {
         : undefined;
 
     // 2. Get link
-    const address = req.params.id.replace("+", "");
+    const address = params.address.replace("+", "");
     const match = {
       address: { eq: address }
     };
@@ -166,37 +161,37 @@ export const get = async (address: string) => {
     // 3. When no link, if has domain redirect to domain's homepage
     // otherwise redirect to 404
     if (!link) {
-      return res.redirect(301, domain ? domain.homepage : "/404");
+      return domain ? domain.homepage : "/404";
     }
 
-    // 4. If link is banned, redirect to banned page.
+    // 4. If link is banned, return the banned page.
     if (link.banned) {
-      return res.redirect("/banned");
+      return '/banned';
     }
 
     // 5. If wants to see link info, then redirect
-    const doesRequestInfo = /.*\+$/gi.test(req.params.id);
+    /*const doesRequestInfo = /.*\+$/gi.test(params.id);
     if (doesRequestInfo && !link.password) {
       return app.render(req, res, "/url-info", { target: link.target });
-    }
+    }*/ // TODO check this
 
-    // 6. If link is protected, redirect to password page
+    // 6. If link is protected, return the password page
     if (link.password) {
-      return res.redirect(`/protected/${link.id}`);
+      return `/protected/${link.id}`;
     }
 
     // 7. Create link visit
-    /!*if (link.user_id && !isBot) {
-      queue.visit.add({
+    if (link.user_id && !isBot) {
+      await VisitHandler.add({
         headers: req.headers,
-        realIP: req.realIP,
-        referrer: req.get("Referrer"),
+        realIP: params.realIP,
+        referrer: req.headers.referer,
         link
       });
-    }*!/
+    }
 
     // 8. Create Google Analytics visit
-    if (env.REACT_GOOGLE_ANALYTICS_UNIVERSAL && !isBot) {
+    /*if (proccess.env.REACT_GOOGLE_ANALYTICS_UNIVERSAL && !isBot) {
       ua(env.REACT_GOOGLE_ANALYTICS_UNIVERSAL)
         .pageview({
           dp: `/${address}`,
@@ -205,14 +200,14 @@ export const get = async (address: string) => {
           aip: 1
         })
         .send();
-    }
+    }*/
 
-    // 10. Redirect to target
-    return res.redirect(link.target);
+    // 10. Return the target
+    return link.target;
   } catch (e) {
-    return res.status(500).send(e);
+    return ;
   }
-};*/
+};
 
 export const edit = async (data: UpdateLinkData) => {
   try {

@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // formerly known as QrTemplate
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useContext } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -26,6 +26,8 @@ import TypeSelector from './helperComponents/TypeSelector';
 import RenderIcon from './helperComponents/RenderIcon';
 import { handleDesignerString } from '../../helpers/qr/helpers';
 
+import Context from '../context/Context';
+
 interface QrTypeSelectorProps {
   data: object;
   setData: Function;
@@ -38,7 +40,9 @@ interface QrTypeSelectorProps {
   value?: string | null;
 };
 
-const QrTypeSelector = ({ data, setData, setValue, setOpenDesigner, setSelected, expanded, setExpanded, value = null, selected = null }: QrTypeSelectorProps) => {
+const QrTypeSelector = () => {
+  const { data, expanded, setData, setExpanded, setSelected, setValue, selected, value, setOpenDesigner }: QrTypeSelectorProps = useContext(Context);
+
   const handleChange = (): void => {
     if (selected) {
       setExpanded((prev: boolean) => !prev);

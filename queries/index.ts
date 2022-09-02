@@ -3,11 +3,13 @@ import * as ip from "./ip";
 import * as user from "./user";
 import * as domain from "./domain";
 import * as host from "./host";
+import * as visit from "./visit";
 
 export default {
   link,
   ip,
   user,
   domain,
-  host
+  host,
+  visit
 };

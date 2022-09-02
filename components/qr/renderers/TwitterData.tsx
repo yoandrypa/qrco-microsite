@@ -15,8 +15,8 @@ export type TwitterDataProps = {
 };
 
 export const availableTwittChars = (data: {text?: string; via?: string; hashtags?: string; url?: string;}) => {
-  return 280 - ((data.text || '').length + (data.via ? `@${data.via}` : '').length +
-    (data.url || '').length + (data.hashtags ? data.hashtags.split(',').map((x: string) => `#${x}`).join(' ') : '').length);
+  return 280 - ((data?.text || '').length + (data?.via ? `@${data?.via}` : '').length +
+    (data?.url || '').length + (data?.hashtags ? data.hashtags.split(',').map((x: string) => `#${x}`).join(' ') : '').length);
 }
 
 const TwitterData = ({ data, setData }: TwitterDataProps) => {
@@ -48,28 +48,28 @@ const TwitterData = ({ data, setData }: TwitterDataProps) => {
           size="small"
           fullWidth
           margin="dense"
-          value={data.text || ''}
+          value={data?.text || ''}
           onChange={handleValues('text')} />
         <TextField
           label="Mention username (do not include the @ symbol)"
           size="small"
           fullWidth
           margin="dense"
-          value={data.via || ''}
+          value={data?.via || ''}
           onChange={handleValues('via')} />
         <TextField
           label="Hashtags (comma separated, do not include the # symbol)"
           size="small"
           fullWidth
           margin="dense"
-          value={data.hashtags || ''}
+          value={data?.hashtags || ''}
           onChange={handleValues('hashtags')} />
         <TextField
           label="URL"
           size="small"
           fullWidth
           margin="dense"
-          value={data.url || ''}
+          value={data?.url || ''}
           onChange={handleValues('url')} />
         {renderAvailability()}
       </>

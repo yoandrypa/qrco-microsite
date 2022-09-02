@@ -150,7 +150,7 @@ export const increamentVisit = async (match: Partial<LinkQueryType>) => {
     }
     const visit_count = link.visit_count + 1;
     // @ts-ignore
-    link = await update(link.id, { visit_count })[0];
+    link = await update(link.id, { visit_count });
     return link.visit_count;
   } catch (e) {
     // @ts-ignore
