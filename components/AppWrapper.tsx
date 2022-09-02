@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 
 import {useRouter} from 'next/router';
 
@@ -45,6 +46,10 @@ export default function AppWrapper(props: QrWrapperProps) {
     router.push({ pathname: '/', query: { login: true } });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const handleQrEditor = useCallback(() => {
+    router.push('/qr/type', undefined, { shallow: true });
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
+
   const isLoggin = useMemo(() => (router.pathname === '/' && !Boolean(userInfo)), [userInfo, router.pathname]);
 
   return (
@@ -59,12 +64,19 @@ export default function AppWrapper(props: QrWrapperProps) {
                 <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>QR Link</Typography>
               </Box>
               {!isLoggin && (<Box>
+                {router.pathname === '/' && (<Button
+                  startIcon={<QrCodeIcon />}
+                  onClick={handleQrEditor}
+                  variant="outlined"
+                  sx={{height: '28px', my: 'auto'}}>
+                  QR Editor
+                </Button>)}
                 {!Boolean(userInfo) ? (
                   <Button
                     startIcon={<LoginIcon />}
                     onClick={handleLogin}
                     variant="contained"
-                    sx={{ height: '28px', marginLeft: '10px', my: 'auto' }}>
+                    sx={{ height: '28px', mr: '5px', my: 'auto' }}>
                     Login
                   </Button>
                 ) : (
@@ -81,15 +93,15 @@ export default function AppWrapper(props: QrWrapperProps) {
           </Container>
         </AppBar>
       </ElevationScroll>
-      <Container disableGutters sx={{ width: '100%' }}>
-        <Box sx={{ height: '60px', mt: '10px' }}/> {/* Aims to fill the header's gap */}
-        <Box sx={{ p: 1, width: { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
+      <Container sx={{ width: '100%' }}>
+        <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
+        <Box sx={{ p: 2, width: router.pathname === '/' && !isLoggin ? '100%' : { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
         {!isLoggin && (<Box sx={{ height: '40px', mt: '10px' }}>
           <Box sx={{ display: 'flex' }}>
             <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
-              {'Fueled by'}
+              {'Powered by'}
             </Typography>
             <Box component="img" alt="EBANUX" src="/ebanux.svg" sx={{ width: '95px', mt: '-2px', ml: '7px' }} />
           </Box>

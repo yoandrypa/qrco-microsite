@@ -42,7 +42,7 @@ const Generator = () => {
   const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack = undefined,
     allowEdit = false, logoData = null }: GeneratorProps = useContext(Context);
 
-    const [expanded, setExpanded] = useState<string>('style');
+  const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
   const [anchor, setAnchor] = useState<object | null>(null);
   const [updating, setUpdating] = useState<boolean>(false);
