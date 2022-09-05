@@ -18,13 +18,9 @@ Amplify.configure(awsExports);
 export default function Index({ linksData, domainsData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Authenticator components={components}>
-      {/* @ts-ignore */}
       {({ user }) => (
         <Home linksData={linksData} domainsData={domainsData} userInformation={user} />
       )}
-      {/*{({ signOut, user }) => (<UserContext.Provider value={{ user, signOut }}>*/}
-      {/*  <Home linksData={linksData} domainsData={domainsData} userInformation={userInfo} />*/}
-      {/*</UserContext.Provider>)}*/}
     </Authenticator>
   );
 };

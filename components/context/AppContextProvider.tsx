@@ -8,6 +8,7 @@ import Context from './Context';
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
 import { DataType, OptionsType } from '../qr/types/types';
 import { QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from '../qr/constants';
+import AppWrapper from "../AppWrapper";
 
 interface ContextProps {
   children: ReactNode;
@@ -119,9 +120,11 @@ const AppContextProvider = (props: ContextProps) => {
     <Context.Provider value={{
       cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground,
       options, setOptions, selected, setSelected, expanded, setExpanded, setOpenDesigner: handleOpenDesigner, goBack,
-      value, setValue, data, setData, userInfo, setUserInfo, logout
+      value, setValue, data, setData, userInfo, setUserInfo
     }}>
-      {children}
+      <AppWrapper userInfo={userInfo} handleLogout={logout}>
+        {children}
+      </AppWrapper>
     </Context.Provider>
   );
 }
