@@ -1,7 +1,7 @@
 /** @type {import("next").NextConfig} */
 
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   webpack: (config) => {
     // Fixes yarn packages that depend on `fs` module
