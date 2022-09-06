@@ -1,15 +1,13 @@
 // @ts-nocheck
 
-import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { SetStateAction, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import DownloadIcon from '@mui/icons-material/Download';
 import Snackbar from '@mui/material/Snackbar';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BrushIcon from '@mui/icons-material/Brush';
-import Fab from '@mui/material/Fab';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 
 import { Accordion, AccordionDetails, AccordionSummary, Alert } from '../renderers/Renderers';
@@ -36,11 +34,12 @@ interface GeneratorProps {
   setBackground: Function;
   frame: FramesType;
   setFrame: Function;
+  selected: string;
 }
 
 const Generator = () => {
-  const { options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack = undefined,
-    allowEdit = false, logoData = null }: GeneratorProps = useContext(Context);
+  const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack, allowEdit,
+    logoData, selected }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
@@ -124,9 +123,9 @@ const Generator = () => {
     fileInput.current.click();
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setBackground({ ...background, opacity: 50, size: 1, invert: false, x: 0, y: 0, imgSize: 1 });
-  };
+  }, [background]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMainFrame = (elem: string, payload: any) => {
     if (payload !== null) {
@@ -193,6 +192,10 @@ const Generator = () => {
     }
     setOptions(opts);
   };
+
+  const handleDynamic = useCallback(() => {
+
+  }, []);
 
   useEffect(() => {
     if (isReadable) {
@@ -287,9 +290,14 @@ const Generator = () => {
                 )}
               </Box>
             </Box>
-            <Button sx={{ mt: '10px' }} variant="outlined" onClick={handleDownload} startIcon={<DownloadIcon />}>
-              {'Download'}
-            </Button>
+            <Box sx={{ mt: '10px', display: 'flex' }} >
+              <Button variant="outlined" onClick={handleDownload} startIcon={<DownloadIcon />}>
+                {'Download'}
+              </Button>
+              {/*{selected === 'web' && (<Button variant="outlined" onClick={handleDynamic} sx={{ ml: '5px', width: '50%' }}>*/}
+              {/*  {'Dynamic'}*/}
+              {/*</Button>)}*/}
+            </Box>
           </Box>
           <Box sx={{
             width: { sm: '450px', xs: '100%' },
@@ -364,16 +372,6 @@ const Generator = () => {
           handleClose={() => setGeneratePdf(false)}
           isFramed={frame.type && frame.type !== '/frame/frame0.svg'} />
       )}
-      {Boolean(goBack) && (<Fab
-        sx={{ position: 'fixed', bottom: '20px', right: '20px' }}
-        onClick={goBack}
-        variant="extended"
-        size="small"
-        color="primary"
-      >
-        <ArrowBackIcon sx={{ mr: { sm: 1, xs: 0 } }} />
-        <Typography sx={{ display: { sm: 'block', xs: 'none' } }}>QR Type</Typography>
-      </Fab>)}
     </>
   );
 };

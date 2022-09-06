@@ -7,7 +7,7 @@ import { Auth } from 'aws-amplify';
 import Context from './Context';
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
 import { DataType, OptionsType } from '../qr/types/types';
-import { QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from '../qr/constants';
+import {QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE} from '../qr/constants';
 import AppWrapper from "../AppWrapper";
 
 interface ContextProps {
@@ -36,7 +36,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [data, setData] = useState<DataType>({});
 
   const [selected, setSelected] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState(true);
+  const [step, setStep] = useState<number>(0);
 
   const [userInfo, setUserInfo] = useState(null);
 
@@ -44,10 +44,6 @@ const AppContextProvider = (props: ContextProps) => {
   const forceOpenDesigner = useRef<boolean>(false);
 
   const router = useRouter();
-
-  const navigateForward = (): void => {
-    router.push(QR_DESIGNER_NEW_ROUTE, undefined, { shallow: true });
-  };
 
   const handleOpenDesigner = (payload: string | null): void => {
     if (payload !== value) {
@@ -57,13 +53,7 @@ const AppContextProvider = (props: ContextProps) => {
       const opts = JSON.parse(JSON.stringify(options));
       opts.data = newData;
       setOptions(opts);
-    } else {
-      navigateForward();
     }
-  };
-
-  const goBack = (): void => {
-    router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
   };
 
   const logout = async () => {
@@ -95,9 +85,39 @@ const AppContextProvider = (props: ContextProps) => {
           setFrame(initialFrame);
         }
       }
-      setExpanded(!Boolean(selected));
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (doneInitialRender.current && data?.isDynamic !== undefined) {
+      setSelected(null);
+    }
+  }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (doneInitialRender.current) {
+      switch (step) {
+        case 0: {
+          router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+          break;
+        }
+        case 1: {
+          router.push(QR_CONTENT_ROUTE, undefined, { shallow: true });
+          break;
+        }
+        default: {
+          router.push(QR_DESIGNER_NEW_ROUTE, undefined, { shallow: true });
+          break;
+        }
+      }
+    }
+  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (doneInitialRender.current && [QR_CONTENT_ROUTE,QR_DESIGNER_NEW_ROUTE].includes(router.pathname) && !Boolean(selected)) {
+      router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+    }
+  }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current) {
@@ -112,15 +132,14 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (forceOpenDesigner.current) {
       forceOpenDesigner.current = false;
-      navigateForward();
     }
   }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Context.Provider value={{
       cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground,
-      options, setOptions, selected, setSelected, expanded, setExpanded, setOpenDesigner: handleOpenDesigner, goBack,
-      value, setValue, data, setData, userInfo, setUserInfo
+      options, setOptions, selected, setSelected, setOpenDesigner: handleOpenDesigner, value, setValue, data, setData,
+      userInfo, setUserInfo, step, setStep
     }}>
       <AppWrapper userInfo={userInfo} handleLogout={logout}>
         {children}

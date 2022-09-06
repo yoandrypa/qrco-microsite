@@ -13,23 +13,23 @@ export type OptionsType = {
   cornersDotOptions: { color: string; type: string; };
 }
 
-export type BackgroundType = { 
-  type: string | null; 
-  opacity: number; 
-  size: number; 
-  file: string | null; 
-  x: number; 
-  y: number; 
+export type BackgroundType = {
+  type: string | null;
+  opacity: number;
+  size: number;
+  file: string | null;
+  x: number;
+  y: number;
   imgSize: number;
   invert?: boolean | false;
   backColor?: string | null;
 }
 
-export type FramesType = { 
-  type: string | null; 
-  text: string; 
-  color: string; 
-  textColor: string; 
+export type FramesType = {
+  type: string | null;
+  text: string;
+  color: string;
+  textColor: string;
   textUp?: boolean | false;
 }
 
@@ -61,4 +61,5 @@ export type DataType = {
   via?: string;
   hashtags?: string;
   text?: string;
+  isDynamic?: boolean;
 }

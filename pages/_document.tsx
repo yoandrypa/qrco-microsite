@@ -4,10 +4,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>
-          <title>The QR Link</title>
-          <link rel="icon" href="/ebanuxQr.svg" />
-        </Head>
+        <Head />
         <body>
         <Main />
         <NextScript />
