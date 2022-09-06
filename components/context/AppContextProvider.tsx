@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import * as linkHandler from '../../handlers/links';
 
 import { useRouter } from 'next/router';
 
@@ -135,6 +134,10 @@ const AppContextProvider = (props: ContextProps) => {
       forceOpenDesigner.current = false;
     }
   }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (router.pathname.startsWith('/qr') && !['/qr/type', '/qr/content', '/qr/new'].includes(router.pathname)) {
+    return (<>{children}</>);
+  }
 
   return (
     <Context.Provider value={{
