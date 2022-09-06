@@ -1,4 +1,5 @@
 import {ReactNode, cloneElement, useCallback, useMemo} from 'react';
+import Head from 'next/head';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
@@ -11,9 +12,11 @@ import Typography from '@mui/material/Typography';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import QrCodeIcon from '@mui/icons-material/QrCode';
-import HomeIcon from '@mui/icons-material/Home';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
 
 import {useRouter} from 'next/router';
+import Link from 'next/link'
+import {CUSTOM_WIDTH, QR_TYPE_ROUTE} from "./qr/constants";
 
 interface Props {
   window?: () => Window;
@@ -48,30 +51,29 @@ export default function AppWrapper(props: QrWrapperProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = useCallback(() => {
-    router.push((router.pathname === '/' ? '/qr/type' : '/'), undefined, { shallow: true });
+    router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
   }, [router.pathname]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const isLoggin = useMemo(() => (router.pathname === '/' && !Boolean(userInfo)), [userInfo, router.pathname]);
 
   return (
     <>
+      <Head>
+        <title>The QR Link</title>
+        <link rel="icon" href="/ebanuxQr.svg" />
+      </Head>
       <CssBaseline />
       <ElevationScroll {...props}>
         <AppBar component="nav" sx={{ background: '#fff' }}>
           <Container>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
-              <Box sx={{ display: 'flex' }}>
-                <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
-                <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>QR Link</Typography>
-              </Box>
-              {!isLoggin && (<Box>
-                <Button
-                  startIcon={router.pathname === '/' ? <QrCodeIcon /> : <HomeIcon />}
-                  onClick={handleNavigation}
-                  variant="outlined"
-                  sx={{height: '28px', my: 'auto'}}>
-                  {router.pathname === '/' ? 'QR Editor' : 'Go Home'}
-                </Button>
+              <Link href={{ pathname: '/', query: !Boolean(userInfo) ? { login: true } : {} }}>
+                <Box sx={{ display: 'flex', cursor: 'pointer' }}>
+                  <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
+                  <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>The QR Link</Typography>
+                </Box>
+              </Link>
+              {!isLoggin && (<>
                 {!Boolean(userInfo) ? (
                   <Button
                     startIcon={<LoginIcon />}
@@ -81,22 +83,31 @@ export default function AppWrapper(props: QrWrapperProps) {
                     Login
                   </Button>
                 ) : (
-                  <Button
-                    startIcon={<LogoutIcon />}
-                    onClick={handleLogout}
-                    variant="contained"
-                    sx={{ height: '28px', marginLeft: '10px', my: 'auto' }}>
-                    Logout
-                  </Button>
+                  <Box sx={{ display: 'flex' }}>
+                    <Button
+                      startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
+                      onClick={handleNavigation}
+                      variant="outlined"
+                      sx={{height: '28px', my: 'auto'}}>
+                      {router.pathname === '/' ? 'QR Editor' : 'Admin'}
+                    </Button>
+                    <Button
+                      startIcon={<LogoutIcon />}
+                      onClick={handleLogout}
+                      variant="contained"
+                      sx={{ height: '28px', ml: '10px', my: 'auto' }}>
+                      {'Logout'}
+                    </Button>
+                  </Box>
                 )}
-              </Box>)}
+              </>)}
             </Toolbar>
           </Container>
         </AppBar>
       </ElevationScroll>
       <Container sx={{ width: '100%' }}>
         <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
-        <Box sx={{ p: 2, width: router.pathname === '/' && !isLoggin ? '100%' : { sm: '780px', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
+        <Box sx={{ p: 2, width: router.pathname === '/' && !isLoggin ? '100%' : { sm: CUSTOM_WIDTH, xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
         {!isLoggin && (<Box sx={{ height: '40px', mt: '10px' }}>

@@ -1,5 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+
+import { grey } from "@mui/material/colors";
 import { alpha } from '@mui/material/styles';
 
 import RenderIcon from './RenderIcon';
@@ -10,36 +12,46 @@ interface TypeSelectorProps {
   description: string;
   icon: string;
   selected: boolean;
-};
+  enabled?: boolean;
+}
 
-const TypeSelector = ({ handleSelect, label, description, icon, selected }: TypeSelectorProps) => {
+const TypeSelector = ({ handleSelect, label, description, icon, selected, enabled = true }: TypeSelectorProps) => {
   const beforeHandle = () => {
-    handleSelect(icon);
+    if (enabled) {
+      handleSelect(icon);
+    }
   };
 
   return (
     <Box
       sx={{
-        cursor: 'pointer',
+        cursor: enabled ? 'pointer' : 'default',
         width: '100%',
         height: '95px',
         borderRadius: '5px',
         border: theme => `solid 1px ${theme.palette.text.disabled}`,
-        backgroundColor: theme => alpha(theme.palette.info.light, selected ? 0.5 : 0.05),
-        '&:hover': {
+        backgroundColor: enabled ? theme => alpha(theme.palette.info.light, selected ? 0.5 : 0.05) : grey[400],
+        '&:hover': enabled ? {
           backgroundColor: theme => alpha(theme.palette.info.light, 0.3)
-        }
+        } : grey[100]
       }}
       onClick={beforeHandle}
     >
       <Box sx={{ display: 'flex', p: 1 }}>
         <Box sx={{ mt: '3px' }}>
-          {<RenderIcon icon={icon} />}
+          <RenderIcon icon={icon} enabled={enabled} />
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1 }}>
-          <Typography sx={{ width: '100%', fontWeight: 'bold' }} variant="h6">
-            {label}
-          </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1, width: '100%' }}>
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+            <Typography sx={{ width: '100%', fontWeight: 'bold', color: !enabled ? theme => theme.palette.text.disabled : 'default' }} variant="h6">
+              {label}
+            </Typography>
+            {/*{Boolean(allowDynamic) && (*/}
+            {/*  <Tooltip title="Can handle dynamic QRs">*/}
+            {/*    <BoltIcon color="primary" fontSize="small" />*/}
+            {/*  </Tooltip>*/}
+            {/*)}*/}
+          </Box>
           <Typography sx={{ width: '100%', color: theme => theme.palette.text.disabled }}>
             {description}
           </Typography>

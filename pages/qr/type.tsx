@@ -1,7 +1,10 @@
 import QrTypeSelector from '../../components/qr/QrTypeSelector';
+import QrWizard from '../../components/qr/QrWizard';
 
-const QrGen = () => (
-  <QrTypeSelector />
-);
-
-export default QrGen;
+export default function QrGen() {
+  return (
+    <QrWizard>
+      <QrTypeSelector/>
+    </QrWizard>
+  );
+};
