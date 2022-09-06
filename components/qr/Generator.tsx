@@ -12,7 +12,7 @@ import CropFreeIcon from '@mui/icons-material/CropFree';
 
 import { Accordion, AccordionDetails, AccordionSummary, Alert } from '../renderers/Renderers';
 
-import { checkForAlpha, convertBase64, downloadAsSVGOrVerify } from '../../helpers/qr/helpers';
+import {checkForAlpha, convertBase64, downloadAsSVGOrVerify, handleDesignerString} from '../../helpers/qr/helpers';
 import { BackgroundType, FramesType, OptionsType } from './types/types';
 import Code from './sections/Code';
 import Frames from './sections/Frames';
@@ -26,7 +26,6 @@ import Context from '../context/Context';
 interface GeneratorProps {
   allowEdit?: boolean;
   options: OptionsType;
-  goBack?: Function | undefined;
   setOptions: Function;
   logoData?: any;
   setLogoData: Function;
@@ -38,7 +37,7 @@ interface GeneratorProps {
 }
 
 const Generator = () => {
-  const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, goBack, allowEdit,
+  const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, allowEdit, data,
     logoData, selected }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
@@ -193,9 +192,7 @@ const Generator = () => {
     setOptions(opts);
   };
 
-  const handleDynamic = useCallback(() => {
-
-  }, []);
+  const dataToOverride = useMemo(() => Object.keys(data).length ? handleDesignerString(selected, data) : null, [data, selected]);
 
   useEffect(() => {
     if (isReadable) {
@@ -205,7 +202,7 @@ const Generator = () => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = JSON.parse(JSON.stringify(options));;
+      const opts = JSON.parse(JSON.stringify(options));
       if (background.type === 'solid') {
         handleReset();
       } else {
@@ -276,7 +273,7 @@ const Generator = () => {
                 frame={frame}
                 hidden={updating}
                 command={command}
-                overrideValue={null}
+                overrideValue={dataToOverride}
                 background={!background.file ? null : background} />
               <Box sx={{ width: '100%', height: '35px', mt: '-2px', textAlign: 'center' }}>
                 {isReadable ? (
@@ -290,14 +287,9 @@ const Generator = () => {
                 )}
               </Box>
             </Box>
-            <Box sx={{ mt: '10px', display: 'flex' }} >
-              <Button variant="outlined" onClick={handleDownload} startIcon={<DownloadIcon />}>
-                {'Download'}
-              </Button>
-              {/*{selected === 'web' && (<Button variant="outlined" onClick={handleDynamic} sx={{ ml: '5px', width: '50%' }}>*/}
-              {/*  {'Dynamic'}*/}
-              {/*</Button>)}*/}
-            </Box>
+            <Button sx={{ mt: '10px', width: '100%' }} variant="outlined" onClick={handleDownload} startIcon={<DownloadIcon />}>
+              {'Download'}
+            </Button>
           </Box>
           <Box sx={{
             width: { sm: '450px', xs: '100%' },
