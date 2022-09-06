@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import * as linkHandler from '../../handlers/links';
 
 import { useRouter } from 'next/router';
 

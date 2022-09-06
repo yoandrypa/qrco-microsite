@@ -1,4 +1,4 @@
-import {ReactNode, cloneElement, useCallback, useMemo} from 'react';
+import {ReactElement, ReactNode, cloneElement, useCallback, useMemo} from 'react';
 import Head from 'next/head';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
@@ -20,7 +20,7 @@ import {CUSTOM_WIDTH, QR_TYPE_ROUTE} from "./qr/constants";
 
 interface Props {
   window?: () => Window;
-  children: React.ReactElement;
+  children: ReactElement;
 }
 
 function ElevationScroll({ children, window }: Props) {
