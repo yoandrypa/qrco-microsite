@@ -1,8 +1,12 @@
+import {ChangeEvent, useMemo} from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import Common from '../helperComponents/Common';
+import RenderIcon from "../helperComponents/RenderIcon";
+import {capitalize} from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
 
 export type CardDataProps = {
   data: {
@@ -21,14 +25,21 @@ export type CardDataProps = {
     country?: string;
     email?: string;
     web?: string;
+    facebook?: string;
+    whatsapp?: string;
+    linkedin?: string;
+    pinterest?: string;
+    telegram?: string;
+    twitter?: string;
+    isDynamic?: boolean;
   };
   setData: Function;
 };
 
 export default function CardData({data, setData}: CardDataProps) {
   const handleValues = (item: 'prefix' | 'firstName' | 'lastName' | 'cell' | 'phone' | 'fax' |
-    'organization' | 'position' | 'address' | 'city' | 'zip' | 'state' | 'country' | 'email' | 
-    'web') => (event: React.ChangeEvent<HTMLInputElement>) => {
+    'organization' | 'position' | 'address' | 'city' | 'zip' | 'state' | 'country' | 'email' |
+    'web' | 'facebook' | 'whatsapp' | 'linkedin' | 'pinterest' | 'telegram' | 'twitter') => (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const tempo = { ...data };
     if (value.length) {
@@ -39,6 +50,27 @@ export default function CardData({data, setData}: CardDataProps) {
     setData(tempo);
   };
 
+  const isDynamic = useMemo(() => Boolean(data?.isDynamic), []);  // eslint-disable-line react-hooks/exhaustive-deps
+  const renderSocial = (item: string) => (
+    <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+      <TextField
+        label={capitalize(item)}
+        size="small"
+        fullWidth
+        margin="dense"
+        // @ts-ignore
+        value={data?.[item] || ''}
+        // @ts-ignore
+        onChange={handleValues(item)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <RenderIcon icon={item} enabled/>
+            </InputAdornment>
+          )
+        }}
+      />
+    </Grid>);
   return (
     <Common msg="Your contact details. Users can store your info or contact you right away.">
       <>
@@ -188,6 +220,21 @@ export default function CardData({data, setData}: CardDataProps) {
               value={data?.web || ''}
               onChange={handleValues('web')} />
           </Grid>
+          {isDynamic && (
+            <Grid item xs={12}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <Typography sx={{ fontWeight: 'bold' }}>{'Social Information'}</Typography>
+                </Grid>
+                {renderSocial('facebook')}
+                {renderSocial('whatsapp')}
+                {renderSocial('twitter')}
+                {renderSocial('linkedin')}
+                {renderSocial('pinterest')}
+                {renderSocial('telegram')}
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </>
     </Common>
