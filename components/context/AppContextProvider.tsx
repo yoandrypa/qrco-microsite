@@ -85,6 +85,7 @@ const AppContextProvider = (props: ContextProps) => {
           setFrame(initialFrame);
         }
       }
+      setData({});
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
