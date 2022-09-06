@@ -17,24 +17,25 @@ import { grey } from "@mui/material/colors";
 type RenderIconProp = {
   icon: string;
   enabled: boolean;
+  adjust?: boolean;
 };
 
-const RenderIcon = ({ icon, enabled }: RenderIconProp) => {
+const RenderIcon = ({ icon, enabled, adjust }: RenderIconProp) => {
   const renderIcon = () => {
     switch (icon) {
-      case 'email': { return <AlternateEmailIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'facebook': { return <FacebookIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} /> }
-      case 'sms': { return <SmsOutlinedIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'twitter': { return <TwitterIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} /> }
-      case 'vcard': { return <ContactPhoneOutlinedIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'vcard+': { return <ContactPhoneIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'web': { return <WebIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'whatsapp': { return <WhatsAppIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} /> }
-      case 'wifi': { return <WifiIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'pdf': { return <PictureAsPdfIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'mp3': { return <VolumeUpIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      case 'jpg': { return <PhotoIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
-      default: { return <TextSnippetOutlinedIcon sx={{ color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'email': { return <AlternateEmailIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'facebook': { return <FacebookIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} /> }
+      case 'sms': { return <SmsOutlinedIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'twitter': { return <TwitterIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} /> }
+      case 'vcard': { return <ContactPhoneOutlinedIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'vcard+': { return <ContactPhoneIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'web': { return <WebIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'whatsapp': { return <WhatsAppIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} /> }
+      case 'wifi': { return <WifiIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'pdf': { return <PictureAsPdfIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'mp3': { return <VolumeUpIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'jpg': { return <PhotoIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      default: { return <TextSnippetOutlinedIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
     }
   };
 
