@@ -25,7 +25,7 @@ const StepperButtons = styled(Button)(() => ({ width: "80px", height: "30px", mt
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo, setOptions, options }: StepsProps = useContext(Context);
+  const { selected, step, setStep, data, userInfo, options, setOptions }: StepsProps = useContext(Context);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -45,7 +45,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
   };
 
   const handleNext = async () => {
-    if (step === 1 && selected === "vcard+" && data?.isDynamic) {
+    //if (step === 1 && selected === "vcard+" && data?.isDynamic) { TODO check why isDynamic dont appear into data
+    if (step === 1 && selected === "vcard+") {
       setLoading(true);
       //Generate an Id (Code) using the short link solution
       const id = await generateId();
@@ -55,13 +56,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
         ...data
       });
       // Autogenerate the target url
-      const targetUrl = generateShortLink("qr/" + id);
+      const targetUrl = generateShortLink("qr/" + qr.id);
       const value = await handleShort(targetUrl);
       setLoading(false);
       // @ts-ignore
       if (!value.error) {
         // @ts-ignore
-        setOptions({...options, data: value?.link})
+        setOptions({ ...options, data: value?.link });
         setStep(2);
       }
     } else {
