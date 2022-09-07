@@ -20,7 +20,14 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const qrType = (event.target as HTMLInputElement).value as string;
-    setData({ ...data, isDynamic: qrType === "dynamic" });
+    const isDynamic = qrType === 'dynamic';
+    if (isDynamic) {
+      setData({ ...data, isDynamic });
+    } else if (data.isDynamic !== undefined) {
+      const tempoData = { ...data };
+      delete tempoData.isDynamic;
+      setData(tempoData);
+    }
   };
 
   const value = useMemo(() => Boolean(data.isDynamic) ? "dynamic" : "static", [data.isDynamic]);
