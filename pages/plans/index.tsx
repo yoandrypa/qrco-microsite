@@ -8,7 +8,7 @@ import  Tabs from '@mui/material/Tabs'
 import Box from '@mui/material/Box'
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from '../../libs/aws/aws-exports'
-import  Button from '@mui/material/Button'
+import Button from '@mui/material/Button'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Dialog from '@mui/material/Dialog'
@@ -21,12 +21,17 @@ Amplify.configure(awsconfig);
 const Plans = (props: Props) => {
   const [user, setUser] = useState(null);
   const [mustLogInDlg,setMustLogInDlg] = useState(false)
-
+ //@ts-ignore
+  const {userInfo} = useContext(Context)
+  console.log(userInfo)
+  
   useEffect(() => {
       Auth.currentAuthenticatedUser()
           .then(currentUser => setUser(currentUser.attributes.email))
           .catch(() => setUser(null));
-    }, []);
+
+      console.log(user)        
+    }, [user]);
 
 const [activeTab, setActiveTab] = useState(0);
 const router = useRouter()
@@ -71,8 +76,7 @@ const router = useRouter()
       "Up to 100 Dinamic QR Codes",
       "Unlimited statc QR Codes",
       "Unlimited scans"
-    ],
-
+    ],    
   }
   const businessAnnual = {
     title:"Business Account",
