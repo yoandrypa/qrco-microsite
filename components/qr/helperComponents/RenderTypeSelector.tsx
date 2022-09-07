@@ -31,6 +31,7 @@ const RenderTypeSelector = ({selected, handleSelect}: RenderTypeSelectorProps) =
         <TypeSelector
           icon="web"
           label="Website"
+          enabled={value === 'static'}
           description="Link to any page on the web"
           selected={selected === 'web'}
           handleSelect={handleSelect} />

@@ -23,7 +23,7 @@ const StepperButtons = styled(Button)(() => ({ width: '80px', height: '30px', mt
 
 const QrWizard = ({children}: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo }: StepsProps = useContext(Context);
+  const { selected, step, setStep, data, userInfo, options, setOptions }: StepsProps = useContext(Context);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -49,7 +49,11 @@ const QrWizard = ({children}: QrWizardProps) => {
       setLoading(false);
       // @ts-ignore
       if (!value.error) {
-
+        /**
+         * we need to persist "data" object and if there are no errors, then we move on
+         * "value" should be the shortlink to be processed in the QR generator
+         * */
+        setOptions({ ...options, data: value });
       }
     } else {
       setStep((prev: number) => prev + 1);
