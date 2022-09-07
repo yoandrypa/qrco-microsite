@@ -21,17 +21,22 @@ Amplify.configure(awsconfig);
 const Plans = (props: Props) => {
   const [user, setUser] = useState(null);
   const [mustLogInDlg,setMustLogInDlg] = useState(false)
- //@ts-ignore
+  // @ts-ignore
   const {userInfo} = useContext(Context)
-  console.log(userInfo)
+ 
   
   useEffect(() => {
-      Auth.currentAuthenticatedUser()
-          .then(currentUser => setUser(currentUser.attributes.email))
-          .catch(() => setUser(null));
+      // Auth.currentAuthenticatedUser()
+      //     .then(currentUser => setUser(currentUser.attributes.email))
+      //     .catch(() => setUser(null));
 
-      console.log(user)        
-    }, []);
+      // console.log(user)       
+       //@ts-ignore
+  userInfo != null && setUser(userInfo)
+  console.log("Current user data", userInfo)
+    }, [userInfo]);
+
+
 
 const [activeTab, setActiveTab] = useState(0);
 const router = useRouter()
@@ -124,8 +129,9 @@ const router = useRouter()
 const click = (plan: string) =>{
   if (user === null){
     setMustLogInDlg(true)
+  } else {
+    //TODO
   }
-  console.log(plan)
 }
 
 const handleTabChange = (event: React.SyntheticEvent, value:number)=>{
@@ -158,19 +164,19 @@ setActiveTab(value)
      </Tabs>
      </Box>
     <Grid container alignContent='center' display='flex' spacing={3} justifyContent={'center'}>
-      <Grid item>
-      <PlanCard data={activeTab == 0 ?  basic : basicAnnual}
-    isCurrentPlan={false}
+      <Grid item xs={12} md={6} lg={4}>
+      <PlanCard data={activeTab == 0 ?  basic : basicAnnual}  
+    isCurrentPlan={false} 
     clickAction={click}/>
       </Grid>
-      <Grid item>
-      <PlanCard data={activeTab == 0 ? business : businessAnnual}
-    isCurrentPlan={false}
+      <Grid item xs={12} md={6} lg={4}> 
+      <PlanCard data={activeTab == 0 ? business : businessAnnual} 
+    isCurrentPlan={false} 
     clickAction={click}/>
       </Grid>
-      <Grid item>
-      <PlanCard data={activeTab == 0 ? premium : premiumAnnual}
-    isCurrentPlan={false}
+      <Grid item xs={12} md={4} lg={4}>
+      <PlanCard data={activeTab == 0 ? premium : premiumAnnual} 
+    isCurrentPlan={false} 
     clickAction={click}/>
       </Grid>
     </Grid>
