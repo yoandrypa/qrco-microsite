@@ -31,7 +31,7 @@ const Plans = (props: Props) => {
           .catch(() => setUser(null));
 
       console.log(user)        
-    }, [user]);
+    }, []);
 
 const [activeTab, setActiveTab] = useState(0);
 const router = useRouter()
