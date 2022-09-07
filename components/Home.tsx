@@ -6,6 +6,7 @@ import LinksCreateForm from "./LinksCreateForm";
 import Context from "./context/Context";
 
 import { useRouter } from 'next/router';
+import PleaseWait from "./PleaseWait";
 
 export default function Home({ linksData, domainsData, userInformation }: any) {
   const { data, total } = JSON.parse(linksData);
@@ -14,14 +15,20 @@ export default function Home({ linksData, domainsData, userInformation }: any) {
   const router = useRouter();
 
   // @ts-ignore
-  const { setUserInfo } = useContext(Context);
+  const { userInfo, setUserInfo } = useContext(Context);
 
   useEffect(() => {
     if (router.query.login) {
       router.push('/', undefined, {shallow: true});
     }
-    setUserInfo(userInformation);
+    if (!userInfo) {
+      setUserInfo(userInformation);
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!userInfo) {
+    return (<PleaseWait />);
+  }
 
   return (
     <Box>
