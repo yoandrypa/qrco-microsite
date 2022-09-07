@@ -41,7 +41,6 @@ const LinksCreateForm = ({ domains, user }: any) => {
   const handleCreateLink = async () => {
     try {
       const address = await generateId();
-      const userData = await UserHandler.find(user?.attributes?.sub);
       const domain = await DomainHandler.find({ id: values.domain });
       const link = await LinkHandler.create({
         // @ts-ignore
@@ -52,7 +51,7 @@ const LinksCreateForm = ({ domains, user }: any) => {
           domain,
           customurl: values.customurl || address
         },
-        user: userData
+        user: { id: user?.attributes?.sub }
       });
       if (link) {
         setValues(initialState);

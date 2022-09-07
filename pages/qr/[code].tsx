@@ -1,50 +1,301 @@
-import {GetServerSideProps} from 'next';
+import { GetServerSideProps } from "next";
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import RenderIcon from "../../components/qr/helperComponents/RenderIcon";
+import { handleDesignerString } from "../../helpers/qr/helpers";
+import { QrVCardPlus } from "../../models/qr/QrVCardPlus";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import CardActions from "@mui/material/CardActions";
+import Image from "next/image";
 
 // @ts-ignore
 export default function Handler({ data }) {
+  const newData = JSON.parse(data);
+  const downloadFile = () => {
+    if (newData.facebook) {
+      delete newData.facebook;
+    }
+    if (newData.whatsapp) {
+      delete newData.whatsapp;
+    }
+    if (newData.twitter) {
+      delete newData.twitter;
+    }
+    if (newData.linkedin) {
+      delete newData.linkedin;
+    }
+    if (newData.pinterest) {
+      delete newData.pinterest;
+    }
+    if (newData.telegram) {
+      delete newData.telegram;
+    }
 
+    const contents = handleDesignerString("vcard", newData, null);
+    const file = new File([contents], "my vcard.vcf", {
+      type: "text/plain"
+    });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(file);
 
+    link.href = url;
+    link.download = file.name;
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
 
   return (
-    <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-      <Box sx={{ border: 'solid 1px #e3d7d7', borderRadius: '5px', p: 2, maxWidth: '350px' }}>
-        {'ASASASASA'}
-        <Button variant="outlined">Get Contact</Button>
-      </Box>
-    </Box>
+    <Card sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", maxWidth: "460px" }}>
+      <CardMedia title="Your title">
+        <Image src="/qr/vcard+.png" height={220} width={460} alt="VCARD+" />
+      </CardMedia>
+      <CardContent>
+        <Grid container spacing={1}>
+          {newData.prefix && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Prefix"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.prefix} />
+          </Grid>)}
+          {newData.firstName && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="First name"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.firstName} />
+          </Grid>)}
+          {newData.lastName && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Last name"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.lastName} />
+          </Grid>)}
+          {newData.cell && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Cell number"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.cell} />
+          </Grid>)}
+          {newData.phone && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Phone number"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.phone} />
+          </Grid>)}
+          {newData.fax && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Fax"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.fax} />
+          </Grid>)}
+          {newData.organization && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Organization"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.organization} />
+          </Grid>)}
+          {newData.position && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Position"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.position} />
+          </Grid>)}
+          {newData.address && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Address"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.address} />
+          </Grid>)}
+          {newData.city && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="City"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.city} />
+          </Grid>)}
+          {newData.zip && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Zip code"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.zip} />
+          </Grid>)}
+          {newData.state && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="State/Province"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.state} />
+          </Grid>)}
+          {newData.country && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Country"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.country || ""} />
+          </Grid>)}
+          {newData.email && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Email"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.email} />
+          </Grid>)}
+          {newData.web && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Web"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.web} />
+          </Grid>)}
+          {newData.facebook && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Facebook"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.facebook}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="facebook" enabled />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}
+          {newData.whatsapp && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Whatsapp"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.whatsapp}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="whatsapp" enabled />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}
+          {newData.twitter && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Twitter"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.twitter}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="twitter" enabled />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}
+          {newData.linkedin && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="LinkedIn"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.linkedin}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="linkedin" enabled />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}
+          {newData.pinterest && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Pinterest"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.pinterest}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="pinterest" enabled />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}
+          {newData.telegram && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Telegram"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.telegram}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="telegram" enabled />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}
+        </Grid>
+      </CardContent>
+      <CardActions>
+        <Button variant="outlined" sx={{ mt: "10px" }} onClick={downloadFile}>Get Contact</Button>
+      </CardActions>
+    </Card>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
-  const data = `BEGIN:VCARD
-  VERSION:3.0
-  N:rr;ee
-  FN:ee rr
-  ORG:
-  ADR:;; ;;;;
-  TEL;FAX:22222
-  TEL;WORK;VOICE:4443
-  TEL;CELL:342424324
-  EMAIL;WORK;INTERNET:rrrerewer@gggmm.com
-  END:VCARD
-  facebook: http://myfacebook.com
-  twitter: @username
-  whatsapp: 5454545454
-  linkedin: http://linkedin.com
-  pinterest: http://pinterest.com
-  telegram: http://telegram.com
-  `;
+export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
+  // @ts-ignore
+  const { code } = params;
 
-  const object = {};
-
-  const lines = data.split(/\r?\n/);
-  lines.forEach(x => {
-
-  });
-
-  console.log(data.split('\n'))
-  return { props: { data } };
-}
+  // "code" is the id
+  const data = await QrVCardPlus.get(code);
+  return { props: { data: JSON.stringify(data) } };
+};
