@@ -58,6 +58,7 @@ const QrContentHandler = () => {
       case 'wifi': {
         return <WifiData data={data} setData={(payload: WifiDataProps) => setData(payload)} />;
       }
+      case 'vcard+':
       case 'vcard': {
         return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
       }
@@ -75,10 +76,12 @@ const QrContentHandler = () => {
 
   return (
     <Box>
-      <RenderIcon icon={selected || ''} enabled />
+      <Box sx={{ display: 'inline' }}>
+        <RenderIcon icon={selected || ''} enabled adjust />
+      </Box>
       <Typography sx={{ fontWeight: 'bold', display: 'inline', ml: '5px' }}>{selected?.toUpperCase() || ''}</Typography>
       <Typography sx={{ display: 'inline' }}>: Enter the QR data</Typography>
-      <Divider sx={{ mt: '-14px', mb: '10px' }} />
+      <Divider sx={{ my: '10px' }} />
       <Box sx={{ textAlign: 'left', width: '100%' }}>
         {renderSel()}
       </Box>

@@ -85,6 +85,7 @@ const AppContextProvider = (props: ContextProps) => {
           setFrame(initialFrame);
         }
       }
+      setData({});
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -134,6 +135,10 @@ const AppContextProvider = (props: ContextProps) => {
       forceOpenDesigner.current = false;
     }
   }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (router.pathname.startsWith('/qr') && !['/qr/type', '/qr/content', '/qr/new'].includes(router.pathname)) {
+    return (<>{children}</>);
+  }
 
   return (
     <Context.Provider value={{

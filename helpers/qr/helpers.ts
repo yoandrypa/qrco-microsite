@@ -38,7 +38,8 @@ export const handleDesignerString = (selected: string | null | undefined, data: 
       designerString += ';'
       break;
     }
-    case 'vcard': {
+    case 'vcard':
+    case 'vcard+': {
       designerString = 'BEGIN:VCARD\n';
       if (data.prefix || data.lastName || data.firstName) {
         designerString += `N:${data.lastName || ''};${data.prefix ? `${data.prefix};` : ''}${data.firstName || ''};\n`;
@@ -53,7 +54,13 @@ export const handleDesignerString = (selected: string | null | undefined, data: 
       }
       if (data.email) { designerString += `EMAIL:${data.email}\n`; }
       if (data.web) { designerString += `URL:${data.web}\n`; }
-      designerString += 'VERSION:3.0\nEND:VCARD';
+      designerString += 'VERSION:3.0\nEND:VCARD\n';
+      if (data.facebook) { designerString += `facebook:${data.facebook}\n` }
+      if (data.twitter) { designerString += `twitter:${data.twitter.startsWith('@') ? data.twitter : `@${data.twitter}`}\n` }
+      if (data.whatsapp) { designerString += `whatsapp:${data.whatsapp}\n` }
+      if (data.linkedin) { designerString += `linkedin:${data.linkedin}\n` }
+      if (data.pinterest) { designerString += `pinterest:${data.pinterest}\n` }
+      if (data.telegram) { designerString += `facebook:${data.telegram}\n` }
       break;
     }
     case 'twitter': {

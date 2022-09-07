@@ -61,5 +61,11 @@ export type DataType = {
   via?: string;
   hashtags?: string;
   text?: string;
+  facebook?: string;
+  whatsapp?: string;
+  linkedin?: string;
+  pinterest?: string;
+  telegram?: string;
+  twitter?: string;
   isDynamic?: boolean;
 }
