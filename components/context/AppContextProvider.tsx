@@ -79,18 +79,26 @@ const AppContextProvider = (props: ContextProps) => {
           }
         } else {
           setValue('Ebanux');
-          setData({});
+          // setData({});
           setLogoData(null);
           setBackground(initialBackground);
           setFrame(initialFrame);
         }
+        if (Object.keys(data).length) {
+          const { isDynamic } = data;
+          const newData = {};
+          if (isDynamic !== undefined) {
+            // @ts-ignore
+            newData.isDynamic = isDynamic;
+          }
+          setData(newData);
+        }
       }
-      setData({});
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current && data?.isDynamic !== undefined) {
+    if (doneInitialRender.current) {
       setSelected(null);
     }
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
