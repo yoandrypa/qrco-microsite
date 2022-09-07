@@ -2,13 +2,17 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Auth } from 'aws-amplify';
+import {Amplify, Auth} from 'aws-amplify';
 
 import Context from './Context';
 import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
 import { DataType, OptionsType } from '../qr/types/types';
 import {QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE} from '../qr/constants';
-import AppWrapper from "../AppWrapper";
+import AppWrapper from '../AppWrapper';
+import awsExports from '../../libs/aws/aws-exports';
+import PleaseWait from "../PleaseWait";
+
+Amplify.configure(awsExports);
 
 interface ContextProps {
   children: ReactNode;
@@ -39,6 +43,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [step, setStep] = useState<number>(0);
 
   const [userInfo, setUserInfo] = useState(null);
+  const [verifying, setVerifying] = useState<boolean>(true);
 
   const doneInitialRender = useRef<boolean>(false);
   const forceOpenDesigner = useRef<boolean>(false);
@@ -144,8 +149,32 @@ const AppContextProvider = (props: ContextProps) => {
     }
   }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const verify = async () => {
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      setUserInfo(userData);
+    } catch {
+      setUserInfo(null);
+      setVerifying(false);
+    }
+  }
+
+  useEffect(() => {
+    if (Boolean(userInfo) && verifying) {
+      setVerifying(false);
+    }
+  }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    verify();
+  }, []);
+
   if (router.pathname.startsWith('/qr') && !['/qr/type', '/qr/content', '/qr/new'].includes(router.pathname)) {
     return (<>{children}</>);
+  }
+
+  if (verifying) {
+    return (<PleaseWait />);
   }
 
   return (
