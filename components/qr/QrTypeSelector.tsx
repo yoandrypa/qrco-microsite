@@ -6,10 +6,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 
-import { handleDesignerString } from '../../helpers/qr/helpers';
-
 import Context from '../context/Context';
-import {DataType} from "./types/types";
 import RenderTypeSelector from "./helperComponents/RenderTypeSelector";
 
 interface QrTypeSelectorProps {
