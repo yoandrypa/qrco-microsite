@@ -269,9 +269,14 @@ export default function Handler({ data }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
+  const { code } = query;
+
+  // "code" is the id
+
   const data = {
     firstName: 'Test',
     organization: 'Cenit/Ebanux',
+    position: code,
     cell: '1234567890'
   };
   return { props: { data } };
