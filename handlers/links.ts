@@ -69,6 +69,7 @@ export const create = async (data: CreateLinkData) => {
     const address = customurl || queriesBatch[5];
     const link = await queries.link.create({
       password,
+      //@ts-ignore
       address,
       domain_id,
       description,
@@ -166,7 +167,7 @@ export const redirect = async (params, req) => {
 
     // 4. If link is banned, return the banned page.
     if (link.banned) {
-      return '/banned';
+      return "/banned";
     }
 
     // 5. If wants to see link info, then redirect
@@ -205,7 +206,7 @@ export const redirect = async (params, req) => {
     // 10. Return the target
     return link.target;
   } catch (e) {
-    return ;
+    return;
   }
 };
 
