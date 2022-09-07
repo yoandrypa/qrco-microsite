@@ -192,7 +192,9 @@ const Generator = () => {
     setOptions(opts);
   };
 
-  const dataToOverride = useMemo(() => Object.keys(data).length ? handleDesignerString(selected, data) : null, [data, selected]);
+  const dataToOverride = useMemo(() => (
+    !Boolean(data.isDynamic) && Object.keys(data).length ? handleDesignerString(selected, data) : null
+  ), [data, selected]);
 
   useEffect(() => {
     if (isReadable) {
