@@ -6,10 +6,7 @@ import  Typography  from '@mui/material/Typography'
 import  Tab from '@mui/material/Tab'
 import  Tabs from '@mui/material/Tabs'
 import Box from '@mui/material/Box'
-import { useContext } from 'react'
-import Context from '../../components/context/Context'
-import { Auth } from 'aws-amplify';
-import { Amplify,Hub } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from '../../libs/aws/aws-exports'
 import  Button from '@mui/material/Button'
 import DialogActions from '@mui/material/DialogActions'
@@ -46,7 +43,7 @@ const router = useRouter()
       "Unlimited statc QR Codes",
       "Unlimited scans"
     ],
-    
+
   }
   const basicAnnual = {
     title:"Basic Account",
@@ -60,7 +57,7 @@ const router = useRouter()
       "Unlimited statc QR Codes",
       "Unlimited scans"
     ],
-    
+
   }
 
   const business = {
@@ -75,7 +72,7 @@ const router = useRouter()
       "Unlimited statc QR Codes",
       "Unlimited scans"
     ],
-    
+
   }
   const businessAnnual = {
     title:"Business Account",
@@ -89,7 +86,7 @@ const router = useRouter()
       "Unlimited statc QR Codes",
       "Unlimited scans"
     ],
-    
+
   }
 
   const premium = {
@@ -103,7 +100,7 @@ const router = useRouter()
       "Unlimited dynamic QR codes",
       "Unlimited statc QR Codes",
       "Unlimited scans"
-    ],    
+    ],
   }
   const premiumAnnual = {
     title:"Premium Account",
@@ -116,9 +113,9 @@ const router = useRouter()
       "Unlimited dynamic QR codes",
       "Unlimited statc QR Codes",
       "Unlimited scans"
-    ],    
+    ],
   }
- 
+
 
 const click = (plan: string) =>{
   if (user === null){
@@ -128,7 +125,7 @@ const click = (plan: string) =>{
 }
 
 const handleTabChange = (event: React.SyntheticEvent, value:number)=>{
-setActiveTab(value) 
+setActiveTab(value)
 }
   return (
     <>
@@ -153,28 +150,28 @@ setActiveTab(value)
      <Box sx={{alignContent:'center', display:'flex' ,spacing:3, justifyContent: 'center'}}>
      <Tabs value={activeTab} onChange={handleTabChange}>
      <Tab  label='Monthly'/>
-     <Tab label='Annual'/>  
+     <Tab label='Annual'/>
      </Tabs>
      </Box>
     <Grid container alignContent='center' display='flex' spacing={3} justifyContent={'center'}>
       <Grid item>
-      <PlanCard data={activeTab == 0 ?  basic : basicAnnual}  
-    isCurrentPlan={false} 
+      <PlanCard data={activeTab == 0 ?  basic : basicAnnual}
+    isCurrentPlan={false}
     clickAction={click}/>
       </Grid>
       <Grid item>
-      <PlanCard data={activeTab == 0 ? business : businessAnnual} 
-    isCurrentPlan={false} 
+      <PlanCard data={activeTab == 0 ? business : businessAnnual}
+    isCurrentPlan={false}
     clickAction={click}/>
       </Grid>
       <Grid item>
-      <PlanCard data={activeTab == 0 ? premium : premiumAnnual} 
-    isCurrentPlan={false} 
+      <PlanCard data={activeTab == 0 ? premium : premiumAnnual}
+    isCurrentPlan={false}
     clickAction={click}/>
       </Grid>
-    </Grid>   
+    </Grid>
     </>
-    
+
 
   )
 }

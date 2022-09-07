@@ -5,12 +5,14 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Context from "../context/Context";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { styled } from "@mui/material/styles";
+
 import * as linkHandler from "../../handlers/links";
 import { generateId, generateShortLink } from "../../utils";
 import { QrVCardPlus } from "../../models/qr/QrVCardPlus";
-
-const steps = ["Type of QR", "QR content", "QR design"];
+const steps = ["QR type", "QR content", "QR design"];
 
 interface QrWizardProps {
   children: ReactNode;
@@ -21,7 +23,7 @@ interface StepsProps {
   setStep: Function;
 }
 
-const StepperButtons = styled(Button)(() => ({ width: "80px", height: "30px", mt: "-5px" }));
+const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-5px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
@@ -81,8 +83,12 @@ const QrWizard = ({ children }: QrWizardProps) => {
         {children}
       </Box>
       <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2 }}>
-        <StepperButtons variant="contained" disabled={loading || step === 0 || !Boolean(selected)} onClick={handleBack}>
-          Back
+        <StepperButtons
+          variant="contained"
+          startIcon={<ChevronLeftIcon />}
+          disabled={loading || step === 0 || !Boolean(selected)}
+          onClick={handleBack}>
+          {'Back'}
         </StepperButtons>
         <Stepper activeStep={step} alternativeLabel sx={{ width: "100%" }}>
           {steps.map((label: string, index: number) => (
@@ -92,8 +98,12 @@ const QrWizard = ({ children }: QrWizardProps) => {
           ))}
         </Stepper>
         {/* @ts-ignore */}
-        <StepperButtons onClick={handleNext} disabled={loading || step === 2 || !Boolean(selected)} variant="contained">
-          Next
+        <StepperButtons
+          onClick={handleNext}
+          endIcon={<ChevronRightIcon />}
+          disabled={loading || step === 2 || !Boolean(selected)}
+          variant="contained">
+          {'Next'}
         </StepperButtons>
       </Box>
     </>

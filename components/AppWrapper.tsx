@@ -107,7 +107,7 @@ export default function AppWrapper(props: QrWrapperProps) {
       </ElevationScroll>
       <Container sx={{ width: '100%' }}>
         <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
-        <Box sx={{ p: 2, width: router.pathname === '/' && !isLoggin ? '100%' : { sm: CUSTOM_WIDTH, xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
+        <Box sx={{ p: 2, width: { sm: '100%', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
         {!isLoggin && (<Box sx={{ height: '40px', mt: '10px' }}>

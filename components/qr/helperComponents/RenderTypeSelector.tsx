@@ -37,7 +37,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
   const value = useMemo(() => Boolean(data.isDynamic) ? "dynamic" : "static", [data.isDynamic]);
 
   const renderTypeSelector = (item: string, label: string, description: string, enabled: boolean) => (
-    <Grid item sm={4} xs={12}>
+    <Grid item sm={3} xs={12}>
       <TypeSelector
         icon={item}
         label={label}
