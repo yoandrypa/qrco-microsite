@@ -7,50 +7,31 @@ import Common from '../helperComponents/Common';
 import RenderIcon from "../helperComponents/RenderIcon";
 import {capitalize} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import {DataType} from "../types/types";
+import RenderQRName from "./RenderQRName";
 
 export type CardDataProps = {
-  data: {
-    prefix?: string;
-    firstName?: string;
-    lastName?: string;
-    cell?: string;
-    phone?: string;
-    fax?: string;
-    organization?: string;
-    position?: string;
-    address?: string;
-    city?: string;
-    zip?: string;
-    state?: string;
-    country?: string;
-    email?: string;
-    web?: string;
-    facebook?: string;
-    whatsapp?: string;
-    linkedin?: string;
-    pinterest?: string;
-    telegram?: string;
-    twitter?: string;
-    isDynamic?: boolean;
-  };
+  data: DataType;
   setData: Function;
 };
 
 export default function CardData({data, setData}: CardDataProps) {
-  const handleValues = (item: 'prefix' | 'firstName' | 'lastName' | 'cell' | 'phone' | 'fax' |
-    'organization' | 'position' | 'address' | 'city' | 'zip' | 'state' | 'country' | 'email' |
-    'web' | 'facebook' | 'whatsapp' | 'linkedin' | 'pinterest' | 'telegram' | 'twitter') => (event: ChangeEvent<HTMLInputElement>) => {
+  const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const tempo = { ...data };
     if (value.length) {
+      // @ts-ignore
       tempo[item] = value;
+      // @ts-ignore
     } else if (tempo[item]) {
+      // @ts-ignore
       delete tempo[item];
     }
     setData(tempo);
   };
 
   const isDynamic = useMemo(() => Boolean(data?.isDynamic), []);  // eslint-disable-line react-hooks/exhaustive-deps
+
   const renderSocial = (item: string) => (
     <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
       <TextField
@@ -70,155 +51,83 @@ export default function CardData({data, setData}: CardDataProps) {
           )
         }}
       />
-    </Grid>);
-  return (
+    </Grid>
+  );
+
+  const renderItem = (item: string, label: string) => {
+    let isError = false as boolean;
+
+    return (<TextField
+      label={label}
+      size="small"
+      fullWidth
+      error={isError}
+      margin="dense"
+      // @ts-ignore
+      value={data?.[item] || ''}
+      onChange={handleValues(item)}/>);
+  };
+
+  return (<>
+    {/* @ts-ignore */}
+    <RenderQRName handleValues={handleValues} qrName={data?.qrName} />
     <Common msg="Your contact details. Users can store your info or contact you right away.">
       <>
         <Typography sx={{ fontWeight: 'bold' }}>{'Presentation'}</Typography>
         <Grid container spacing={1}>
           <Grid item sm={2} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Prefix"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.prefix || ''}
-              onChange={handleValues('prefix')} />
+            {renderItem('prefix', 'Prefix')}
           </Grid>
           <Grid item sm={5} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="First name"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.firstName || ''}
-              onChange={handleValues('firstName')} />
+            {renderItem('firstName', 'First name')}
           </Grid>
           <Grid item sm={5} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Last name"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.lastName || ''}
-              onChange={handleValues('lastName')} />
+            {renderItem('lastName', 'Last name')}
           </Grid>
         </Grid>
         <Typography sx={{ fontWeight: 'bold' }}>{'Phones'}</Typography>
         <Grid container spacing={1}>
           <Grid item sm={4} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Cell number"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.cell || ''}
-              onChange={handleValues('cell')} />
+            {renderItem('cell', 'Cell number')}
           </Grid>
           <Grid item sm={4} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Phone number"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.phone || ''}
-              onChange={handleValues('phone')} />
+            {renderItem('phone', 'Phone number')}
           </Grid>
           <Grid item sm={4} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Fax"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.fax || ''}
-              onChange={handleValues('fax')} />
+            {renderItem('fax', 'Fax')}
           </Grid>
         </Grid>
         <Typography sx={{ fontWeight: 'bold' }}>{'Organization'}</Typography>
         <Grid container spacing={1}>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Organization"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.organization || ''}
-              onChange={handleValues('organization')} />
+            {renderItem('organization', 'Organization')}
           </Grid>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Position"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.position || ''}
-              onChange={handleValues('position')} />
+            {renderItem('position', 'Position')}
           </Grid>
         </Grid>
         <Typography sx={{ fontWeight: 'bold' }}>{'Other info'}</Typography>
         <Grid container spacing={1}>
           <Grid item sm={8} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Address"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.address || ''}
-              onChange={handleValues('address')} />
+            {renderItem('address', 'Address')}
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
-            <TextField
-              label="City"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.city || ''}
-              onChange={handleValues('city')} />
+            {renderItem('city', 'City')}
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Zip code"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.zip || ''}
-              onChange={handleValues('zip')} />
+            {renderItem('zip', 'Zip code')}
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
-            <TextField
-              label="State/Province"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.state || ''}
-              onChange={handleValues('state')} />
+            {renderItem('state', 'State/Province')}
           </Grid>
           <Grid item sm={4} xs={6} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Country"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.country || ''}
-              onChange={handleValues('country')} />
+            {renderItem('country', 'Country')}
           </Grid>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Email"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.email || ''}
-              onChange={handleValues('email')} />
+            {renderItem('email', 'Email')}
           </Grid>
           <Grid item sm={6} xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Web"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={data?.web || ''}
-              onChange={handleValues('web')} />
+            {renderItem('web', 'Web')}
           </Grid>
           {isDynamic && (
             <Grid item xs={12}>
@@ -229,6 +138,8 @@ export default function CardData({data, setData}: CardDataProps) {
                 {renderSocial('facebook')}
                 {renderSocial('whatsapp')}
                 {renderSocial('twitter')}
+                {renderSocial('instagram')}
+                {renderSocial('youtube')}
                 {renderSocial('linkedin')}
                 {renderSocial('pinterest')}
                 {renderSocial('telegram')}
@@ -238,5 +149,5 @@ export default function CardData({data, setData}: CardDataProps) {
         </Grid>
       </>
     </Common>
-  );
+  </>);
 }

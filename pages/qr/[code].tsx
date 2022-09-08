@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -18,24 +17,11 @@ import Image from "next/image";
 export default function Handler({ data }) {
   const newData = JSON.parse(data);
   const downloadFile = () => {
-    if (newData.facebook) {
-      delete newData.facebook;
-    }
-    if (newData.whatsapp) {
-      delete newData.whatsapp;
-    }
-    if (newData.twitter) {
-      delete newData.twitter;
-    }
-    if (newData.linkedin) {
-      delete newData.linkedin;
-    }
-    if (newData.pinterest) {
-      delete newData.pinterest;
-    }
-    if (newData.telegram) {
-      delete newData.telegram;
-    }
+    ['facebook', 'whatsapp', 'twitter', 'instagram', 'linkedin', 'pinterest', 'telegram', 'youtube'].forEach((x: string) => {
+      if (newData[x]) {
+        delete newData[x];
+      }
+    });
 
     const contents = handleDesignerString("vcard", newData, null);
     const file = new File([contents], "my vcard.vcf", {
@@ -61,124 +47,49 @@ export default function Handler({ data }) {
       <CardContent>
         <Grid container spacing={1}>
           {newData.prefix && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Prefix"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.prefix} />
+            <TextField label="Prefix" size="small" fullWidth margin="dense" value={newData.prefix} />
           </Grid>)}
           {newData.firstName && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="First name"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.firstName} />
+            <TextField label="First name" size="small" fullWidth margin="dense" value={newData.firstName} />
           </Grid>)}
           {newData.lastName && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Last name"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.lastName} />
+            <TextField label="Last name" size="small" fullWidth margin="dense" value={newData.lastName} />
           </Grid>)}
           {newData.cell && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Cell number"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.cell} />
+            <TextField label="Cell number" size="small" fullWidth margin="dense" value={newData.cell} />
           </Grid>)}
           {newData.phone && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Phone number"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.phone} />
+            <TextField label="Phone number" size="small" fullWidth margin="dense" value={newData.phone} />
           </Grid>)}
           {newData.fax && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Fax"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.fax} />
+            <TextField label="Fax" size="small" fullWidth margin="dense" value={newData.fax} />
           </Grid>)}
           {newData.organization && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Organization"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.organization} />
+            <TextField label="Organization" size="small" fullWidth margin="dense" value={newData.organization} />
           </Grid>)}
           {newData.position && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Position"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.position} />
+            <TextField label="Position" size="small" fullWidth margin="dense" value={newData.position} />
           </Grid>)}
           {newData.address && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Address"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.address} />
+            <TextField label="Address" size="small" fullWidth margin="dense" value={newData.address} />
           </Grid>)}
           {newData.city && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="City"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.city} />
+            <TextField label="City" size="small" fullWidth margin="dense" value={newData.city} />
           </Grid>)}
           {newData.zip && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Zip code"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.zip} />
+            <TextField label="Zip code" size="small" fullWidth margin="dense" value={newData.zip} />
           </Grid>)}
           {newData.state && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="State/Province"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.state} />
+            <TextField label="State/Province" size="small" fullWidth margin="dense" value={newData.state} />
           </Grid>)}
           {newData.country && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Country"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.country || ""} />
+            <TextField label="Country" size="small" fullWidth margin="dense" value={newData.country || ""} />
           </Grid>)}
           {newData.email && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Email"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.email} />
+            <TextField label="Email" size="small" fullWidth margin="dense" value={newData.email} />
           </Grid>)}
           {newData.web && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Web"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.web} />
+            <TextField label="Web" size="small" fullWidth margin="dense" value={newData.web} />
           </Grid>)}
           {newData.facebook && (<Grid item xs={12} style={{ paddingTop: 0 }}>
             <TextField
@@ -190,9 +101,7 @@ export default function Handler({ data }) {
               value={newData.facebook}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="facebook" enabled />
-                  </InputAdornment>
+                  <InputAdornment position="start"><RenderIcon icon="facebook" enabled /></InputAdornment>
                 )
               }}
             />
@@ -207,9 +116,7 @@ export default function Handler({ data }) {
               value={newData.whatsapp}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="whatsapp" enabled />
-                  </InputAdornment>
+                  <InputAdornment position="start"><RenderIcon icon="whatsapp" enabled /></InputAdornment>
                 )
               }}
             />
@@ -224,9 +131,7 @@ export default function Handler({ data }) {
               value={newData.twitter}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="twitter" enabled />
-                  </InputAdornment>
+                  <InputAdornment position="start"><RenderIcon icon="twitter" enabled /></InputAdornment>
                 )
               }}
             />
@@ -241,13 +146,40 @@ export default function Handler({ data }) {
               value={newData.linkedin}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="linkedin" enabled />
-                  </InputAdornment>
+                  <InputAdornment position="start"><RenderIcon icon="linkedin" enabled /></InputAdornment>
                 )
               }}
             />
           </Grid>)}
+          {newData.instagram && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+            <TextField
+              label="Instagram"
+              size="small"
+              fullWidth
+              margin="dense"
+              // @ts-ignore
+              value={newData.instagram}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"><RenderIcon icon="instagram" enabled /></InputAdornment>
+                )
+              }}
+            />
+          </Grid>)}{newData.youtube && (<Grid item xs={12} style={{ paddingTop: 0 }}>
+          <TextField
+            label="YouTube"
+            size="small"
+            fullWidth
+            margin="dense"
+            // @ts-ignore
+            value={newData.youtube}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start"><RenderIcon icon="youtube" enabled /></InputAdornment>
+              )
+            }}
+          />
+        </Grid>)}
           {newData.pinterest && (<Grid item xs={12} style={{ paddingTop: 0 }}>
             <TextField
               label="Pinterest"
@@ -258,9 +190,7 @@ export default function Handler({ data }) {
               value={newData.pinterest}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="pinterest" enabled />
-                  </InputAdornment>
+                  <InputAdornment position="start"><RenderIcon icon="pinterest" enabled /></InputAdornment>
                 )
               }}
             />
@@ -275,9 +205,7 @@ export default function Handler({ data }) {
               value={newData.telegram}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="telegram" enabled />
-                  </InputAdornment>
+                  <InputAdornment position="start"><RenderIcon icon="telegram" enabled /></InputAdornment>
                 )
               }}
             />

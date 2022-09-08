@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -7,11 +7,15 @@ import Button from "@mui/material/Button";
 import Context from "../context/Context";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DoneIcon from '@mui/icons-material/Done';
 import { styled } from "@mui/material/styles";
+
+import { useRouter } from "next/router";
 
 import * as linkHandler from "../../handlers/links";
 import { generateId, generateShortLink } from "../../utils";
 import { QrVCardPlus } from "../../models/qr/QrVCardPlus";
+
 const steps = ["QR type", "QR content", "QR design"];
 
 interface QrWizardProps {
@@ -23,13 +27,12 @@ interface StepsProps {
   setStep: Function;
 }
 
-const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-5px" }));
+const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo, options, setOptions }: StepsProps = useContext(Context);
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const { setLoading, selected, step, setStep, data, userInfo, options, setOptions }: StepsProps = useContext(Context);
+  const router = useRouter();
 
   const handleBack = () => {
     setStep((prev: number) => prev - 1);
@@ -47,8 +50,9 @@ const QrWizard = ({ children }: QrWizardProps) => {
   };
 
   const handleNext = async () => {
-    //if (step === 1 && selected === "vcard+" && data?.isDynamic) { TODO check why isDynamic dont appear into data
-    if (step === 1 && selected === "vcard+") {
+    if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
+      router.push({ pathname: '/', query: { path: router.pathname, login: true }}, '/');
+    } else if (step === 1 && selected === "vcard+") {
       setLoading(true);
       //Generate an Id (Code) using the short link solution
       const id = await generateId();
@@ -74,11 +78,6 @@ const QrWizard = ({ children }: QrWizardProps) => {
 
   return (
     <>
-      {loading && (
-        <Box sx={{ position: "fixed", top: "10px", left: "10px" }}>
-          Fetching data. Please wait...
-        </Box>
-      )}
       <Box sx={{ minHeight: "calc(100vh - 220px)" }}>
         {children}
       </Box>
@@ -86,7 +85,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         <StepperButtons
           variant="contained"
           startIcon={<ChevronLeftIcon />}
-          disabled={loading || step === 0 || !Boolean(selected)}
+          disabled={step === 0 || !Boolean(selected)}
           onClick={handleBack}>
           {'Back'}
         </StepperButtons>
@@ -100,10 +99,10 @@ const QrWizard = ({ children }: QrWizardProps) => {
         {/* @ts-ignore */}
         <StepperButtons
           onClick={handleNext}
-          endIcon={<ChevronRightIcon />}
-          disabled={loading || step === 2 || !Boolean(selected)}
+          endIcon={step === 2 ? <DoneIcon /> : <ChevronRightIcon />}
+          disabled={!Boolean(selected)}
           variant="contained">
-          {'Next'}
+          {step === 2 ? 'Done' : 'Next'}
         </StepperButtons>
       </Box>
     </>

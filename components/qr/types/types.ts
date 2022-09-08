@@ -34,6 +34,7 @@ export type FramesType = {
 }
 
 export type DataType = {
+  qrName?: string;
   number?: string;
   message?: string;
   subject?: string;
@@ -64,6 +65,8 @@ export type DataType = {
   facebook?: string;
   whatsapp?: string;
   linkedin?: string;
+  instagram?: string;
+  youtube?: string;
   pinterest?: string;
   telegram?: string;
   twitter?: string;
