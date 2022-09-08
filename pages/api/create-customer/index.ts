@@ -1,8 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 
+<<<<<<< HEAD
 import {User} from '../../../models/user'
 
+=======
+>>>>>>> 06742ef (create customer endpoint)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     // https://github.com/stripe/stripe-node#configuration
     apiVersion: '2022-08-01',
@@ -14,6 +17,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   ) {
 
     if (req.method === 'POST') {
+<<<<<<< HEAD
 try {
   const users = User
 
@@ -37,6 +41,8 @@ try {
 } catch (error) {
   
 }
+=======
+>>>>>>> 06742ef (create customer endpoint)
 
         try {
             //TODO validate params
