@@ -29,8 +29,9 @@ import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Router from "next/router";
-import * as LinkHandler from "../handlers/links";
+import * as LinkHandler from "../../handlers/links";
 import LinkEditForm from "./LinkEditForm";
+import Context from "../context/Context";
 
 interface Column {
   id: "address" |
@@ -115,13 +116,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
 }));
 
-const deleteLink = async (linkId: string, userId: string) => {
-  const deleted = await LinkHandler.remove({ id: linkId, user_id: userId });
-  if (deleted) {
-    Router.push("/");
-  }
-};
-
 // @ts-ignore
 const LinksTable = ({ domains, links, total, user }) => {
   const [page, setPage] = useState(0);
@@ -138,6 +132,8 @@ const LinksTable = ({ domains, links, total, user }) => {
     expire_in: "",
     address: ""
   });
+  // @ts-ignore
+  const { setLoading } = React.useContext(Context);
 
   const createData = (
     address: string | undefined,
@@ -236,6 +232,14 @@ const LinksTable = ({ domains, links, total, user }) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const deleteLink = async (linkId: string, userId: string) => {
+    setLoading(true);
+    const deleted = await LinkHandler.remove({ id: linkId, user_id: userId });
+    if (deleted) {
+      Router.push("/").then(() => setLoading(false));
+    }
+  };
+
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }} variant="outlined">
@@ -277,7 +281,10 @@ const LinksTable = ({ domains, links, total, user }) => {
             />
           </Grid>
           <Grid item xs={1.0}>
-            <IconButton onClick={() => Router.push("/")}>
+            <IconButton onClick={() => {
+              setLoading(true);
+              Router.push("/").then(() => setLoading(false));
+            }}>
               <ReplayIcon />
             </IconButton>
           </Grid>

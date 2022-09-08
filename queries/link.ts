@@ -1,4 +1,4 @@
-import { Link as LinkModel } from "../models";
+import { Link as LinkModel } from "../models/link";
 import dynamoose from "../libs/dynamoose";
 // @ts-ignore
 import bcrypt from "bcryptjs";

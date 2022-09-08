@@ -1,7 +1,7 @@
-import dynamoose from "../libs/dynamoose";
+import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
-import { User } from "./user";
+import { User } from "../user";
 
 // instantiate a dynamoose schema
 const HostSchema = new dynamoose.Schema({

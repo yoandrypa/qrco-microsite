@@ -1,12 +1,12 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LinksTable from "./LinksTable";
 import LinksCreateForm from "./LinksCreateForm";
-import Context from "./context/Context";
+import Context from "../context/Context";
 
-import { useRouter } from 'next/router';
-import PleaseWait from "./PleaseWait";
+import { useRouter } from "next/router";
+import PleaseWait from "../PleaseWait";
 
 export default function Home({ linksData, domainsData, userInformation }: any) {
   const { data, total } = JSON.parse(linksData);
@@ -15,20 +15,16 @@ export default function Home({ linksData, domainsData, userInformation }: any) {
   const router = useRouter();
 
   // @ts-ignore
-  const { userInfo, setUserInfo } = useContext(Context);
+  const { userInfo, setUserInfo, setLoading } = useContext(Context);
 
   useEffect(() => {
     if (router.query.login) {
-      router.push('/', undefined, {shallow: true});
+      router.push("/", undefined, { shallow: false });
     }
     if (!userInfo) {
       setUserInfo(userInformation);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  if (!userInfo) {
-    return (<PleaseWait />);
-  }
 
   return (
     <Box>

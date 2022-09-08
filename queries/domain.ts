@@ -1,4 +1,4 @@
-import { Domain as DomainModel } from "../models";
+import { Domain as DomainModel } from "../models/link";
 import { AnyDocument } from "dynamoose/dist/Document";
 import { ScanResponse } from "dynamoose/dist/DocumentRetriever";
 import { CustomError } from "../utils";

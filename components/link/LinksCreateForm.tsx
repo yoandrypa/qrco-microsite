@@ -5,15 +5,18 @@ import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import FormControl from "@mui/material/FormControl";
 import React from "react";
-import { generateId, isValidUrl } from "../utils";
+import { generateId, isValidUrl } from "../../utils";
 import Router from "next/router";
-import * as LinkHandler from "../handlers/links";
-import * as UserHandler from "../handlers/users";
+import * as LinkHandler from "../../handlers/links";
+import * as UserHandler from "../../handlers/users";
 import LinksCreateFormOptions from "./LinksCreateFormOptions";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import * as DomainHandler from "../handlers/domains";
+import * as DomainHandler from "../../handlers/domains";
 import dynamoose from "dynamoose";
+import PleaseWait from "../PleaseWait";
+import { Backdrop, CircularProgress } from "@mui/material";
+import Context from "../context/Context";
 
 interface State {
   password?: string;
@@ -35,11 +38,13 @@ const initialState: State = {
 
 const LinksCreateForm = ({ domains, user }: any) => {
   const [values, setValues] = React.useState<State>(initialState);
-  const [loading, setLoading] = React.useState(false);
   const [checked, setChecked] = React.useState(false);
+  // @ts-ignore
+  const { setLoading } = React.useContext(Context);
 
   const handleCreateLink = async () => {
     try {
+      setLoading(true);
       const address = await generateId();
       const domain = await DomainHandler.find({ id: values.domain });
       const link = await LinkHandler.create({
@@ -56,7 +61,7 @@ const LinksCreateForm = ({ domains, user }: any) => {
       if (link) {
         setValues(initialState);
         setChecked(false);
-        await Router.push("/");
+        Router.push("/").then(() => setLoading(false));
       }
     } catch (e) {
       console.error(e);

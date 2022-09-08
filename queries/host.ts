@@ -1,4 +1,4 @@
-import { Host as HostModel } from "../models";
+import { Host as HostModel } from "../models/link";
 
 interface Add extends Partial<HostType> {
   address: string;
