@@ -15,11 +15,13 @@ export default function Home({ linksData, domainsData, userInformation }: any) {
   const router = useRouter();
 
   // @ts-ignore
-  const { userInfo, setUserInfo, setLoading } = useContext(Context);
+  const { userInfo, setUserInfo } = useContext(Context);
 
   useEffect(() => {
     if (router.query.login) {
-      router.push("/", undefined, { shallow: false });
+      const { path } = router.query;
+      // @ts-ignore
+      router.push(Boolean(path) ? path : '/', undefined, { shallow: false });
     }
     if (!userInfo) {
       setUserInfo(userInformation);

@@ -16,7 +16,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 
 import {useRouter} from 'next/router';
 import Link from 'next/link'
-import {CUSTOM_WIDTH, QR_TYPE_ROUTE} from "./qr/constants";
+import {QR_TYPE_ROUTE} from "./qr/constants";
 
 interface Props {
   window?: () => Window;
@@ -47,7 +47,7 @@ export default function AppWrapper(props: QrWrapperProps) {
   const router = useRouter();
 
   const handleLogin = useCallback(() => {
-    router.push({ pathname: '/', query: { login: true } });
+    router.push({ pathname: '/', query: { login: true } }, '/');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = useCallback(() => {

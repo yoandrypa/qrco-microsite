@@ -86,10 +86,12 @@ const AppContextProvider = (props: ContextProps) => {
           }
         } else {
           setValue("Ebanux");
-          // setData({});
           setLogoData(null);
           setBackground(initialBackground);
           setFrame(initialFrame);
+        }
+        if (step !== 0) {
+          setStep(0);
         }
         if (Object.keys(data).length) {
           const { isDynamic } = data;
@@ -114,15 +116,15 @@ const AppContextProvider = (props: ContextProps) => {
     if (doneInitialRender.current) {
       switch (step) {
         case 0: {
-          router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+          router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
           break;
         }
         case 1: {
-          router.push(QR_CONTENT_ROUTE, undefined, { shallow: true });
+          router.push(QR_CONTENT_ROUTE, undefined, {shallow: true});
           break;
         }
         default: {
-          router.push(QR_DESIGNER_NEW_ROUTE, undefined, { shallow: true });
+          router.push(QR_DESIGNER_NEW_ROUTE, undefined, {shallow: true});
           break;
         }
       }
@@ -130,9 +132,18 @@ const AppContextProvider = (props: ContextProps) => {
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current && [QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname) && !Boolean(selected)) {
-      router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+    // if (doneInitialRender.current) {
+    if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
+      if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
+        router.push({ pathname: '/', query: { path: router.pathname, login: true }}, '/');
+      } else if (!Boolean(selected)) {
+        router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+      }
     }
+    if (router.pathname === '/' && !Boolean(router.query.login) && step !== 0) {
+      setStep(0);
+    }
+    // }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
