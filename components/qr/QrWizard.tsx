@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Context from "../context/Context";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DoneIcon from '@mui/icons-material/Done';
 import { styled } from "@mui/material/styles";
 
 import * as linkHandler from "../../handlers/links";
@@ -47,7 +48,6 @@ const QrWizard = ({ children }: QrWizardProps) => {
   };
 
   const handleNext = async () => {
-    //if (step === 1 && selected === "vcard+" && data?.isDynamic) { TODO check why isDynamic dont appear into data
     if (step === 1 && selected === "vcard+") {
       setLoading(true);
       //Generate an Id (Code) using the short link solution
@@ -100,10 +100,10 @@ const QrWizard = ({ children }: QrWizardProps) => {
         {/* @ts-ignore */}
         <StepperButtons
           onClick={handleNext}
-          endIcon={<ChevronRightIcon />}
-          disabled={loading || step === 2 || !Boolean(selected)}
+          endIcon={step === 2 ? <DoneIcon /> : <ChevronRightIcon />}
+          disabled={loading || !Boolean(selected)}
           variant="contained">
-          {'Next'}
+          {step === 2 ? 'Done' : 'Next'}
         </StepperButtons>
       </Box>
     </>
