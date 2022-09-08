@@ -1,7 +1,7 @@
 import { isAfter, set, subDays } from "date-fns";
 
 import * as utils from "../utils";
-import { Visit as VisitModel } from "../models";
+import { Visit as VisitModel } from "../models/link";
 
 interface Add {
   browser: string;

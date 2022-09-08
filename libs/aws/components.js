@@ -1,25 +1,27 @@
-import React from 'react';
-import { Heading, Image, View, useTheme } from '@aws-amplify/ui-react';
+import React from "react";
+import { Heading, Image, useTheme } from "@aws-amplify/ui-react";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 
 const components = {
   Header() {
-    const { tokens } = useTheme();
     return (
-      <View textAlign="center" padding={tokens.space.large}>
+      <Stack direction="row" padding={ 2 } spacing={ 2 } alignItems="flex-end" justifyContent="center">
         <Image
           alt="Ebanux logo"
-          src="/ebanux.svg"
-          height="50%"
-          width="50%"
+          src="/ebanuxQr.svg"
+          height="12%"
+          width="12%"
         />
-      </View>
+        <Typography variant="h4" sx={ { fontWeight: "bold" } }>The QR Link</Typography>
+      </Stack>
     );
   },
   SignIn: {
     Header() {
       const { tokens } = useTheme();
       return (
-        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={5}>
+        <Heading padding={ `${ tokens.space.xl } 0 0 ${ tokens.space.xl }` } level={ 5 }>
           Email
         </Heading>
       );
@@ -29,7 +31,7 @@ const components = {
     Header() {
       const { tokens } = useTheme();
       return (
-        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={5}>
+        <Heading padding={ `${ tokens.space.xl } 0 0 ${ tokens.space.xl }` } level={ 5 }>
           Create a new account
         </Heading>
       );

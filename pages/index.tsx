@@ -5,21 +5,22 @@ import * as DomainHandler from "../handlers/domains";
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-import Home from "../components/Home";
+import Home from "../components/link/Home";
 
 import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
 import { QR_TYPE_ROUTE } from "../components/qr/constants";
+import React from "react";
 
 Amplify.configure(awsExports);
 
 export default function Index({ linksData, domainsData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  //@ts-ignore
   return (
     <Authenticator components={components}>
-      {({ user }) => (
-        <Home linksData={linksData} domainsData={domainsData} userInformation={user} />
+      {({ user }) => (<Home linksData={linksData} domainsData={domainsData} userInformation={user} />
       )}
     </Authenticator>
   );

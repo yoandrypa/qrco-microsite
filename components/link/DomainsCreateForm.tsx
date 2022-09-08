@@ -1,8 +1,8 @@
 import FormControl from "@mui/material/FormControl";
 import React from "react";
-import { isValidUrl } from "../utils";
+import { isValidUrl } from "../../utils";
 import Router from "next/router";
-import * as DomainHandler from "../handlers/domains";
+import * as DomainHandler from "../../handlers/domains";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";

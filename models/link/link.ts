@@ -1,8 +1,8 @@
-import dynamoose from "../libs/dynamoose";
+import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
 //const Unique = require("./unique");
-import { User } from "./user";
+import { User } from "../user";
 import { Domain } from "./domain";
 
 // instantiate a dynamoose schema

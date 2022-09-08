@@ -1,5 +1,5 @@
 //import * as redis from "../redis";
-import { User as UserModel } from "../models";
+import { User as UserModel } from "../models/link";
 import dynamoose from "../libs/dynamoose";
 import { CustomError } from "../utils";
 

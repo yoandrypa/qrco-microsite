@@ -1,6 +1,6 @@
 import { subMinutes } from "date-fns";
 
-import { Ip as IpModel } from "../models";
+import { Ip as IpModel } from "../models/link";
 
 export const add = async (ipToAdd: string | undefined) => {
   const ip = ipToAdd?.toLowerCase();
