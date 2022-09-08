@@ -1,4 +1,4 @@
-import dynamoose from "../libs/dynamoose";
+import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
 import { Link } from "./link";

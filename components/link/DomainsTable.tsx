@@ -11,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Router from "next/router";
-import * as DomainHandler from "../handlers/domains";
+import * as DomainHandler from "../../handlers/domains";
 
 interface Column {
   id: "id" |

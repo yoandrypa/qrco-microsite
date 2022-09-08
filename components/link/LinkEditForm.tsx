@@ -5,15 +5,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { PRIMARY_LIGHT_COLOR } from "../consts";
+import { PRIMARY_LIGHT_COLOR } from "../../consts";
 import Grid from "@mui/material/Grid";
 
-import * as UserHandler from "../handlers/users";
-import * as LinkHandler from "../handlers/links";
+import * as UserHandler from "../../handlers/users";
+import * as LinkHandler from "../../handlers/links";
 import Router from "next/router";
+import Context from "../context/Context";
 
 export default function LinkEditForm({ open, setOpen, linkForEdit, user }: any) {
   const [values, setValues] = useState(linkForEdit);
+  // @ts-ignore
+  const { setLoading } = React.useContext(Context);
 
   const handleChange = (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -25,6 +28,7 @@ export default function LinkEditForm({ open, setOpen, linkForEdit, user }: any) 
 
   const handleUpdateLink = async () => {
     try {
+      setLoading(true);
       const userData = await UserHandler.find(user?.attributes?.sub);
       //const domain = await DomainHandler.find({ id: values.domain }) || null;
       const link = await LinkHandler.edit({
@@ -35,8 +39,8 @@ export default function LinkEditForm({ open, setOpen, linkForEdit, user }: any) 
         user: userData
       });
       if (link) {
-        await Router.push("/");
         setOpen(false);
+        Router.push("/").then(() => setLoading(false));
       }
     } catch (e) {
       console.error(e);

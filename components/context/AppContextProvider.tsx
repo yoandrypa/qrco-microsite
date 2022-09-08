@@ -1,15 +1,15 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from "react";
 
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
-import {Amplify, Auth} from 'aws-amplify';
+import { Amplify, Auth } from "aws-amplify";
 
-import Context from './Context';
-import initialData, { initialBackground, initialFrame } from '../../helpers/qr/data';
-import { DataType, OptionsType } from '../qr/types/types';
-import {QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE} from '../qr/constants';
-import AppWrapper from '../AppWrapper';
-import awsExports from '../../libs/aws/aws-exports';
+import Context from "./Context";
+import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
+import { DataType, OptionsType } from "../qr/types/types";
+import { QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
+import AppWrapper from "../AppWrapper";
+import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 
 Amplify.configure(awsExports);
@@ -30,7 +30,7 @@ const handleInitialData = (value: string | null | undefined) => {
 const AppContextProvider = (props: ContextProps) => {
   const { children } = props;
 
-  const [value, setValue] = useState<string>('Ebanux');
+  const [value, setValue] = useState<string>("Ebanux");
   const [options, setOptions] = useState<OptionsType>(handleInitialData(value));
   const [cornersData, setCornersData] = useState(null);
   const [dotsData, setDotsData] = useState(null);
@@ -44,6 +44,8 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [userInfo, setUserInfo] = useState(null);
   const [verifying, setVerifying] = useState<boolean>(true);
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const doneInitialRender = useRef<boolean>(false);
   const forceOpenDesigner = useRef<boolean>(false);
@@ -65,9 +67,9 @@ const AppContextProvider = (props: ContextProps) => {
     try {
       await Auth.signOut();
       setUserInfo(null);
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.log('error signing out: ', error);
+      console.log("error signing out: ", error);
     }
   };
 
@@ -75,15 +77,15 @@ const AppContextProvider = (props: ContextProps) => {
     if (router.pathname === QR_TYPE_ROUTE) {
       if (doneInitialRender.current) {
         if (Boolean(selected)) {
-          if (selected === 'web') {
-            setValue('https://www.example.com');
-          } else if (selected === 'facebook') {
-            setData({ ...data, message: 'https://www.example.com' });
-          } else if (selected === 'text') {
-            setValue('Enter any text here');
+          if (selected === "web") {
+            setValue("https://www.example.com");
+          } else if (selected === "facebook") {
+            setData({ ...data, message: "https://www.example.com" });
+          } else if (selected === "text") {
+            setValue("Enter any text here");
           }
         } else {
-          setValue('Ebanux');
+          setValue("Ebanux");
           // setData({});
           setLogoData(null);
           setBackground(initialBackground);
@@ -128,7 +130,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current && [QR_CONTENT_ROUTE,QR_DESIGNER_NEW_ROUTE].includes(router.pathname) && !Boolean(selected)) {
+    if (doneInitialRender.current && [QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname) && !Boolean(selected)) {
       router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
     }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -157,7 +159,7 @@ const AppContextProvider = (props: ContextProps) => {
       setUserInfo(null);
       setVerifying(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (Boolean(userInfo) && verifying) {
@@ -169,7 +171,7 @@ const AppContextProvider = (props: ContextProps) => {
     verify();
   }, []);
 
-  if (router.pathname.startsWith('/qr') && !['/qr/type', '/qr/content', '/qr/new'].includes(router.pathname)) {
+  if (router.pathname.startsWith("/qr") && !["/qr/type", "/qr/content", "/qr/new"].includes(router.pathname)) {
     return (<>{children}</>);
   }
 
@@ -179,15 +181,37 @@ const AppContextProvider = (props: ContextProps) => {
 
   return (
     <Context.Provider value={{
-      cornersData, setCornersData, dotsData, setDotsData, logoData, setLogoData, frame, setFrame, background, setBackground,
-      options, setOptions, selected, setSelected, setOpenDesigner: handleOpenDesigner, value, setValue, data, setData,
-      userInfo, setUserInfo, step, setStep
+      cornersData,
+      setCornersData,
+      dotsData,
+      setDotsData,
+      logoData,
+      setLogoData,
+      frame,
+      setFrame,
+      background,
+      setBackground,
+      options,
+      setOptions,
+      selected,
+      setSelected,
+      setOpenDesigner: handleOpenDesigner,
+      value,
+      setValue,
+      data,
+      setData,
+      userInfo,
+      setUserInfo,
+      step,
+      setStep,
+      loading,
+      setLoading
     }}>
       <AppWrapper userInfo={userInfo} handleLogout={logout}>
         {children}
       </AppWrapper>
     </Context.Provider>
   );
-}
+};
 
 export default AppContextProvider;
