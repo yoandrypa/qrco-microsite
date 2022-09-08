@@ -113,18 +113,20 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    switch (step) {
-      case 0: {
-        router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
-        break;
-      }
-      case 1: {
-        router.push(QR_CONTENT_ROUTE, undefined, {shallow: true});
-        break;
-      }
-      default: {
-        router.push(QR_DESIGNER_NEW_ROUTE, undefined, {shallow: true});
-        break;
+    if (doneInitialRender.current) {
+      switch (step) {
+        case 0: {
+          router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+          break;
+        }
+        case 1: {
+          router.push(QR_CONTENT_ROUTE, undefined, {shallow: true});
+          break;
+        }
+        default: {
+          router.push(QR_DESIGNER_NEW_ROUTE, undefined, {shallow: true});
+          break;
+        }
       }
     }
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
