@@ -1,9 +1,9 @@
-import { MouseEvent, useContext, useMemo } from 'react';
+import { MouseEvent, useCallback, useContext, useMemo } from 'react';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import MUIButton from '@mui/material/Button';
-import BoltIcon from '@mui/icons-material/Bolt';
-import CropFreeIcon from '@mui/icons-material/CropFree';
+import CheckBoxEmpty from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import CheckBoxChecked from '@mui/icons-material/CheckBoxTwoTone';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import TypeSelector from './TypeSelector';
@@ -15,7 +15,7 @@ interface RenderTypeSelectorProps {
   handleSelect: Function;
 }
 
-const Button = styled(MUIButton)(() => ({ width: '50%', height: '27px' }));
+const Button = styled(MUIButton)(() => ({ width: 'calc(50% - 5px)', height: '32px' }));
 
 const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps) => {
   // @ts-ignore
@@ -48,25 +48,28 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
     </Grid>
   );
 
+  const renderNo = useCallback(() => (<CheckBoxEmpty color="error" />), []);
+  const renderYes = useCallback(() => (<CheckBoxChecked color="success" />), []);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <ButtonGroup sx={{ width: '100%'}}>
-          {[
-            <Button
-              onClick={handleClick}
-              startIcon={<CropFreeIcon />}
-              key="static"
-              id="static"
-              variant={!data.isDynamic ? 'contained' : 'outlined'}>{isWide ? 'Only static QR Codes' : 'Static'}</Button>,
-            <Button
-              onClick={handleClick}
-              startIcon={<BoltIcon />}
-              key="dynamic"
-              id="dynamic"
-              variant={data.isDynamic ? 'contained' : 'outlined'}>{isWide ? 'Only dynamic QR Codes' : 'Dynamic'}</Button>
-          ]}
-        </ButtonGroup>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button
+            sx={{ borderColor: value === 'static' ? 'green' : 'default' }}
+            onClick={handleClick}
+            startIcon={value === 'static' ? renderYes() : renderNo()}
+            key="static"
+            id="static"
+            variant="outlined">{isWide ? 'Static QR Codes' : 'Static'}</Button>
+          <Button
+            sx={{ borderColor: value !== 'static' ? 'green' : 'default' }}
+            onClick={handleClick}
+            startIcon={value === 'static' ? renderNo() : renderYes()}
+            key="dynamic"
+            id="dynamic"
+            variant="outlined">{isWide ? 'Dynamic QR Codes' : 'Dynamic'}</Button>
+        </Box>
       </Grid>
       {renderTypeSelector('web','Website','Link to any page on the web', value === 'static')}
       {renderTypeSelector('email', 'Email', 'Receive email messages', value === 'static')}

@@ -8,55 +8,58 @@ const QrOptionsSchema = new dynamoose.Schema({
     type: String,
     default: v4
   },
-  width: Number,
-  height: Number,
-  type: String,
-  data: String,
-  image: {
-    type: String,
-    required: false
-  },
-  margin: Number,
+  width: { type: Number, required: true },
+  height: { type: Number, required: true },
+  type: { type: String, required: true },
+  data: { type: String, required: true },
+  image: String,
+  margin: { type: Number, required: true },
   qrOptions: {
     type: Object,
+    required: true,
     schema: {
-      typeNumber: Number,
-      mode: String,
-      errorCorrectionLevel: String
+      typeNumber: { type: Number, required: true },
+      mode: { type: String, required: true },
+      errorCorrectionLevel: { type: String, required: true }
     }
   },
   imageOptions: {
     type: Object,
+    required: true,
     schema: {
-      hideBackgroundDots: Boolean,
-      imageSize: Number,
-      margin: Number,
-      crossOrigin: String
+      hideBackgroundDots: { type: Boolean, required: true, default: true },
+      imageSize: { type: Number, required: true },
+      margin: { type: Number, required: true },
+      crossOrigin: { type: String, required: true }
     }
   },
   dotsOptions: {
     type: Object,
+    required: true,
     schema: {
-      color: String,
-      type: String
+      color: { type: String, required: true },
+      type: { type: String, required: true }
     }
   },
   backgroundOptions: {
     type: Object,
-    schema: {color: String}
+    required: true,
+    schema: {color: { type: String, required: true }}
   },
   cornersSquareOptions: {
     type: Object,
+    required: true,
     schema: {
-      color: String,
-      type: String
+      color: { type: String, required: true },
+      type: { type: String, required: true }
     }
   },
   cornersDotOptions: {
     type: Object,
+    required: true,
     schema: {
-      color: String,
-      type: String
+      color: { type: String, required: true },
+      type: { type: String, required: true }
     }
   }
 }, {
