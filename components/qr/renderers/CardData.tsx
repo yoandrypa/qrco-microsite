@@ -7,32 +7,11 @@ import Common from '../helperComponents/Common';
 import RenderIcon from "../helperComponents/RenderIcon";
 import {capitalize} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import {DataType} from "../types/types";
+import RenderQRName from "./RenderQRName";
 
 export type CardDataProps = {
-  data: {
-    prefix?: string;
-    firstName?: string;
-    lastName?: string;
-    cell?: string;
-    phone?: string;
-    fax?: string;
-    organization?: string;
-    position?: string;
-    address?: string;
-    city?: string;
-    zip?: string;
-    state?: string;
-    country?: string;
-    email?: string;
-    web?: string;
-    facebook?: string;
-    whatsapp?: string;
-    linkedin?: string;
-    pinterest?: string;
-    telegram?: string;
-    twitter?: string;
-    isDynamic?: boolean;
-  };
+  data: DataType;
   setData: Function;
 };
 
@@ -89,7 +68,9 @@ export default function CardData({data, setData}: CardDataProps) {
       onChange={handleValues(item)}/>);
   };
 
-  return (
+  return (<>
+    {/* @ts-ignore */}
+    <RenderQRName handleValues={handleValues} qrName={data?.qrName} />
     <Common msg="Your contact details. Users can store your info or contact you right away.">
       <>
         <Typography sx={{ fontWeight: 'bold' }}>{'Presentation'}</Typography>
@@ -157,6 +138,8 @@ export default function CardData({data, setData}: CardDataProps) {
                 {renderSocial('facebook')}
                 {renderSocial('whatsapp')}
                 {renderSocial('twitter')}
+                {renderSocial('instagram')}
+                {renderSocial('youtube')}
                 {renderSocial('linkedin')}
                 {renderSocial('pinterest')}
                 {renderSocial('telegram')}
@@ -166,5 +149,5 @@ export default function CardData({data, setData}: CardDataProps) {
         </Grid>
       </>
     </Common>
-  );
+  </>);
 }
