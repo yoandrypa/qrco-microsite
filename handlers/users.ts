@@ -12,3 +12,8 @@ export const remove = async (userId: string) => {
   await query.user.remove(userId);
   return "OK";
 };
+
+export const update = async (user: Match<UserType>, data: Partial<UserType>) => {
+const updatedUser = await query.user.update(user,data)
+return updatedUser
+}
