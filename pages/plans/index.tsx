@@ -1,5 +1,5 @@
 import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import PlanCard from '../../components/plans/plancard'
 import Grid from '@mui/material/Grid'
 import  Typography  from '@mui/material/Typography'
@@ -13,6 +13,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Dialog from '@mui/material/Dialog'
 import { useRouter } from 'next/router';
+import Context from '../../components/context/Context'
 
 type Props = {}
 
