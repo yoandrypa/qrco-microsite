@@ -46,6 +46,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [verifying, setVerifying] = useState<boolean>(true);
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [isWrong, setIsWrong] = useState<boolean>(false);
 
   const doneInitialRender = useRef<boolean>(false);
   const forceOpenDesigner = useRef<boolean>(false);
@@ -93,6 +94,9 @@ const AppContextProvider = (props: ContextProps) => {
         if (step !== 0) {
           setStep(0);
         }
+        if (isWrong) {
+          setIsWrong(false);
+        }
         if (Object.keys(data).length) {
           const { isDynamic } = data;
           const newData = {};
@@ -123,8 +127,12 @@ const AppContextProvider = (props: ContextProps) => {
           router.push(QR_CONTENT_ROUTE, undefined, {shallow: true});
           break;
         }
-        default: {
+        case 2: {
           router.push(QR_DESIGNER_NEW_ROUTE, undefined, {shallow: true});
+          break;
+        }
+        default: {
+          router.push(Boolean(userInfo) ? '/' : QR_TYPE_ROUTE, undefined, {shallow: true});
           break;
         }
       }
@@ -192,31 +200,20 @@ const AppContextProvider = (props: ContextProps) => {
 
   return (
     <Context.Provider value={{
-      cornersData,
-      setCornersData,
-      dotsData,
-      setDotsData,
-      logoData,
-      setLogoData,
-      frame,
-      setFrame,
-      background,
-      setBackground,
-      options,
-      setOptions,
-      selected,
-      setSelected,
+      cornersData, setCornersData,
+      dotsData, setDotsData,
+      logoData, setLogoData,
+      frame, setFrame,
+      background, setBackground,
+      options, setOptions,
+      selected, setSelected,
       setOpenDesigner: handleOpenDesigner,
-      value,
-      setValue,
-      data,
-      setData,
-      userInfo,
-      setUserInfo,
-      step,
-      setStep,
-      loading,
-      setLoading
+      value, setValue,
+      data, setData,
+      userInfo, setUserInfo,
+      step, setStep,
+      loading, setLoading,
+      isWrong, setIsWrong
     }}>
       <AppWrapper userInfo={userInfo} handleLogout={logout}>
         {children}

@@ -30,6 +30,7 @@ interface StepsProps {
   userInfo: object;
   options: object;
   setOptions: Function;
+  isWrong: boolean;
 }
 
 const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
@@ -43,7 +44,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
     data,
     userInfo,
     options,
-    setOptions
+    setOptions,
+    isWrong
   }: StepsProps = useContext(Context);
 
   // @ts-ignore
@@ -124,9 +126,9 @@ const QrWizard = ({ children }: QrWizardProps) => {
         <StepperButtons
           onClick={handleNext}
           endIcon={step === 2 ? <DoneIcon /> : <ChevronRightIcon />}
-          disabled={loading || !Boolean(selected)}
+          disabled={loading || isWrong || !Boolean(selected)}
           variant="contained">
-          {step === 2 ? "Done" : "Next"}
+          {step === 2 ? 'Done' : 'Next'}
         </StepperButtons>
       </Box>
     </>

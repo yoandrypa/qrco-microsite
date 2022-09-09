@@ -11,13 +11,18 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardActions from "@mui/material/CardActions";
+import IconButton from '@mui/material/IconButton';
+import ForwardIcon from '@mui/icons-material/Forward';
+
 import Image from "next/image";
+import { SOCIALS } from "../../components/qr/constants";
 
 // @ts-ignore
 export default function Handler({ data }) {
   const newData = JSON.parse(data);
+
   const downloadFile = () => {
-    ['facebook', 'whatsapp', 'twitter', 'instagram', 'linkedin', 'pinterest', 'telegram', 'youtube'].forEach((x: string) => {
+    SOCIALS.forEach((x: string) => {
       if (newData[x]) {
         delete newData[x];
       }
@@ -38,6 +43,48 @@ export default function Handler({ data }) {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   };
+
+  const renderSocials = (item: string, label: string) => {
+    let value = newData[item] as string;
+    value = value.slice(value.indexOf(':') + 1);
+
+    let url = '' as string;
+    switch (item) {
+      case 'facebook': { url = 'https://www.facebook.com/'; break; }
+      case 'twitter': { url = 'https://twitter.com/'; break; }
+      case 'pinterest': { url = 'https://www.pinterest.com/'; break; }
+      case 'whatsapp': { url = 'https://wa.me/'; break; }
+      case 'telegram': { url = 'https://t.me/'; break; }
+      case 'linkedin': { url = 'https://www.linkedin.com/in/'; break; }
+      case 'instagram': { url = 'https://www.instagram.com/'; break; }
+      case 'youtube': { url = 'https://www.youtube.com/'; break; }
+    }
+
+    url += value;
+
+    return (
+      <Grid item xs={12} style={{ paddingTop: 0 }}>
+        <TextField
+          label={label}
+          size="small"
+          fullWidth
+          margin="dense"
+          // @ts-ignore
+          value={value}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start"><RenderIcon icon={item} enabled /></InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton target="_blank" component="a" href={url}><ForwardIcon /></IconButton>
+              </InputAdornment>
+            )
+          }}
+        />
+      </Grid>
+    );
+  }
 
   return (
     <Card sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", maxWidth: "460px" }}>
@@ -91,125 +138,14 @@ export default function Handler({ data }) {
           {newData.web && (<Grid item xs={12} style={{ paddingTop: 0 }}>
             <TextField label="Web" size="small" fullWidth margin="dense" value={newData.web} />
           </Grid>)}
-          {newData.facebook && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Facebook"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.facebook}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="facebook" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.whatsapp && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Whatsapp"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.whatsapp}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="whatsapp" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.twitter && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Twitter"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.twitter}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="twitter" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.linkedin && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="LinkedIn"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.linkedin}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="linkedin" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.instagram && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Instagram"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.instagram}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="instagram" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}{newData.youtube && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-          <TextField
-            label="YouTube"
-            size="small"
-            fullWidth
-            margin="dense"
-            // @ts-ignore
-            value={newData.youtube}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start"><RenderIcon icon="youtube" enabled /></InputAdornment>
-              )
-            }}
-          />
-        </Grid>)}
-          {newData.pinterest && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Pinterest"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.pinterest}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="pinterest" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.telegram && (<Grid item xs={12} style={{ paddingTop: 0 }}>
-            <TextField
-              label="Telegram"
-              size="small"
-              fullWidth
-              margin="dense"
-              // @ts-ignore
-              value={newData.telegram}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"><RenderIcon icon="telegram" enabled /></InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
+          {newData.facebook && renderSocials('facebook', 'Facebook')}
+          {newData.whatsapp && renderSocials('whatsapp', 'Whatsapp')}
+          {newData.twitter && renderSocials('twitter', 'Twitter')}
+          {newData.linkedin && renderSocials('linkedin', 'LinkedIn')}
+          {newData.instagram && renderSocials('instagram', 'Instagram')}
+          {newData.youtube && renderSocials('youtube', 'Youtube')}
+          {newData.pinterest && renderSocials('pinterest', 'Pinterest')}
+          {newData.telegram && renderSocials('telegram', 'Telegram')}
         </Grid>
       </CardContent>
       <CardActions>
