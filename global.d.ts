@@ -7,6 +7,10 @@ interface UserType {
   banned?: boolean;
   coolDowns?: string[];
   id: string;
+  email?: string;
+  planType?: string;
+  CustomerId?: string;
+  subcriptionData?: object;
 }
 
 interface UserQueryType {
