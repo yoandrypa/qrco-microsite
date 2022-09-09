@@ -17,8 +17,6 @@ import ForwardIcon from '@mui/icons-material/Forward';
 import Image from "next/image";
 import { SOCIALS } from "../../components/qr/constants";
 
-const ButtonLink = prop => <IconButton target="_blank" component="a" {...prop} />;
-
 // @ts-ignore
 export default function Handler({ data }) {
   const newData = JSON.parse(data);
@@ -78,7 +76,9 @@ export default function Handler({ data }) {
               <InputAdornment position="start"><RenderIcon icon={item} enabled /></InputAdornment>
             ),
             endAdornment: (
-              <InputAdornment position="end"><ButtonLink href={url}><ForwardIcon /></ButtonLink></InputAdornment>
+              <InputAdornment position="end">
+                <IconButton target="_blank" component="a" href={url}><ForwardIcon /></IconButton>
+              </InputAdornment>
             )
           }}
         />
