@@ -34,7 +34,7 @@ export default function LinkEditForm({ open, setOpen, linkForEdit, user }: any) 
       const link = await LinkHandler.edit({
         body: {
           ...values,
-          expire_in: null
+          expireIn: null
         },
         user: userData
       });
@@ -84,10 +84,10 @@ export default function LinkEditForm({ open, setOpen, linkForEdit, user }: any) 
             <Grid item xs={4}>
               <TextField
                 id="expires-in-text"
-                value={values.expire_in}
+                value={values.expireIn}
                 label="Expire in"
                 placeholder="2 minutes/hours/days"
-                onChange={handleChange("expire_in")}
+                onChange={handleChange("expireIn")}
                 size="small"
                 fullWidth
               />
