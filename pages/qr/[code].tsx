@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import RenderIcon from "../../components/qr/helperComponents/RenderIcon";
 import { handleDesignerString } from "../../helpers/qr/helpers";
-import { QrVCardPlus } from "../../models/qr/QrVCardPlus";
+import { QrDataModel } from "../../models/qr/QrDataModel";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -224,6 +224,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req }) =>
   const { code } = params;
 
   // "code" is the id
-  const data = await QrVCardPlus.get(code);
+  const data = await QrDataModel.get(code);
   return { props: { data: JSON.stringify(data) } };
 };

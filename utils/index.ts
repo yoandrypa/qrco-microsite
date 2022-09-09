@@ -33,11 +33,11 @@ export const sanitize = {
   domain: (domain: DomainType): DomainSanitizedType => ({
     ...domain,
     id: domain.id,
-    banned_by_id: undefined
+    bannedById: undefined
   }),
   link: (link: LinkJoinedDomainType): LinkSanitizedType => <LinkSanitizedType>({
     ...link,
-    banned_by_id: undefined,
+    bannedById: undefined,
     link: generateShortLink(link.address, link.domain)
   })
 };

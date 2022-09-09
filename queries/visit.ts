@@ -1,7 +1,7 @@
 import { isAfter, set, subDays } from "date-fns";
 
 import * as utils from "../utils";
-import { Visit as VisitModel } from "../models/link";
+import { VisitModel as VisitModel } from "../models/link";
 
 interface Add {
   browser: string;
@@ -31,7 +31,7 @@ export const add = async (params: Add) => {
       referrers: Object.assign({}, visit.referrers, {
         [data.referrer]: visit.referrers[data.referrer] + 1
       }),
-      updated_at: new Date().toISOString()
+      updatedAt: new Date().toISOString()
     });
   } else {
     await VisitModel.create({
@@ -100,12 +100,12 @@ export const find = async (match: Partial<VisitType>, total: number) => {
   for await (const visit of visitsStream as unknown as VisitType[]) {
     utils.STATS_PERIODS.forEach(([days, type]) => {
       const isIncluded = isAfter(
-        new Date(visit.created_at),
+        new Date(visit.createdAt),
         subDays(nowUTC, days)
       );
       if (isIncluded) {
         const diffFunction = utils.getDifferenceFunction(type);
-        const diff = diffFunction(now, new Date(visit.created_at));
+        const diff = diffFunction(now, new Date(visit.createdAt));
         const index = stats[type].views.length - diff - 1;
         const view = stats[type].views[index];
         const period = stats[type].stats;
@@ -156,7 +156,7 @@ export const find = async (match: Partial<VisitType>, total: number) => {
     const diffFunction = utils.getDifferenceFunction("allTime");
     const diff = diffFunction(
       set(new Date(), { date: 1 }),
-      set(new Date(visit.created_at), { date: 1 })
+      set(new Date(visit.createdAt), { date: 1 })
     );
     const index = stats.allTime.views.length - diff - 1;
     const view = stats.allTime.views[index];

@@ -27,7 +27,7 @@ const DomainsCreateForm = ({ user }: any) => {
         // @ts-ignore
         body: {
           ...values,
-          user_id: user?.attributes?.sub
+          userId: user?.attributes?.sub
         }
       });
       if (domain) {
@@ -54,7 +54,7 @@ const DomainsCreateForm = ({ user }: any) => {
           type="text"
           value={values.address}
           onChange={handleChange("address")}
-          label="Domain"
+          label="DomainModel"
           fullWidth
         />
       </Grid>

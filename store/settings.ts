@@ -9,9 +9,9 @@ export interface Domain {
   id: string;
   address: string;
   banned: boolean;
-  created_at: string;
+  createdAt: string;
   homepage?: string;
-  updated_at: string;
+  updatedAt: string;
 }
 
 export interface NewDomain {

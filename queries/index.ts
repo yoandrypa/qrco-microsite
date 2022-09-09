@@ -1,3 +1,4 @@
+import * as qr from "./qr";
 import * as link from "./link";
 import * as ip from "./ip";
 import * as user from "./user";
@@ -6,10 +7,11 @@ import * as host from "./host";
 import * as visit from "./visit";
 
 export default {
+  qr,
   link,
   ip,
   user,
   domain,
   host,
-  visit
+  visit,
 };

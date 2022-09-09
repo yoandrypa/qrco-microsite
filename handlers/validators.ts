@@ -6,10 +6,10 @@ import queries from "../queries";
 //import { promisify } from "util";
 
 export const coolDown = (user: UserType) => {
-  if (!process.env.REACT_APP_GOOGLE_SAFE_BROWSING_KEY || !user || !user.cooldowns) return;
+  if (!process.env.REACT_APP_GOOGLE_SAFE_BROWSING_KEY || !user || !user.coolDowns) return;
 
   // If it has active cooldown then throw error
-  const hasCooldownNow = user.cooldowns.some(coolDown =>
+  const hasCooldownNow = user.coolDowns.some(coolDown =>
     isAfter(subHours(new Date(), 12), new Date(coolDown))
   );
 
@@ -54,13 +54,13 @@ export const malware = async (user: UserType, target: string) => {
     const updatedUser = await queries.user.update(
       { id: user.id },
       {
-        cooldowns: userExist.cooldowns.concat(new Date().toISOString())
+        coolDowns: userExist.coolDowns.concat(new Date().toISOString())
       }
     );
 
-    // Ban if too many cooldowns
+    // Ban if too many coolDowns
     // @ts-ignore
-    if (updatedUser.cooldowns.length > 2) {
+    if (updatedUser.coolDowns.length > 2) {
       await queries.user.update({ id: user.id }, { banned: true });
       throw new CustomError("Too much malware requests. You are now banned.");
     }
@@ -75,8 +75,8 @@ export const linksCount = async (user?: UserType) => {
   if (!user) return;
 
   const count = await queries.link.total({
-    user_id: { eq: "1234" }, //todo
-    created_at: { gt: subDays(new Date(), 1).toISOString() }
+    userId: { eq: "1234" }, //todo
+    createdAt: { gt: subDays(new Date(), 1).toISOString() }
   });
 
   // @ts-ignore

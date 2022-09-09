@@ -1,4 +1,4 @@
-import { Host as HostModel } from "../models/link";
+import { HostModel as HostModel } from "../models/link";
 
 interface Add extends Partial<HostType> {
   address: string;
@@ -43,7 +43,7 @@ export const add = async (params: Add) => {
     // @ts-ignore
     host = await HostModel.update(exists.id, {
       ...newHost,
-      updated_at: params.updated_at || new Date().toISOString()
+      updatedAt: params.updatedAt || new Date().toISOString()
     });
   } else {
     // @ts-ignore

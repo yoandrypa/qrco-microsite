@@ -1,5 +1,5 @@
 //import * as redis from "../redis";
-import { User as UserModel } from "../models/link";
+import { UserModel as UserModel } from "../models/link";
 import dynamoose from "../libs/dynamoose";
 import { CustomError } from "../utils";
 
@@ -37,7 +37,7 @@ export const update = async (match: Match<UserType>, update: Partial<UserType>) 
     match.id,
     {
       ...update,
-      updated_at: new Date().toISOString()
+      updatedAt: new Date().toISOString()
     },
     { condition }
   );

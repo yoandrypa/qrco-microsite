@@ -70,27 +70,27 @@ const DomainsTable = ({ domains }) => {
   const createData = (
     id: string,
     banned: boolean | undefined,
-    banned_by_id: string | undefined,
+    bannedById: string | undefined,
     address: string,
     homepage: string | undefined,
-    user_id: string | undefined,
-    created_at: string | undefined,
-    updated_at: string | undefined
+    userId: string | undefined,
+    createdAt: string | undefined,
+    updatedAt: string | undefined
   ): Data => {
     const actions = (
-      <IconButton size="small" onClick={() => deleteDomain(id, user_id)}>
+      <IconButton size="small" onClick={() => deleteDomain(id, userId)}>
         <DeleteIcon fontSize="small" color="error" />
       </IconButton>
     );
     return {
       id,
       banned,
-      banned_by_id,
+      bannedById,
       address,
       homepage,
-      user_id,
-      created_at,
-      updated_at,
+      userId,
+      createdAt,
+      updatedAt,
       actions
     };
   };
@@ -99,12 +99,12 @@ const DomainsTable = ({ domains }) => {
     return createData(
       domain.id,
       domain.banned,
-      domain.banned_by_id,
+      domain.bannedById,
       domain.address,
       domain.homepage,
-      domain.user_id,
-      domain.created_at,
-      domain.updated_at
+      domain.userId,
+      domain.createdAt,
+      domain.updatedAt
     );
   });
 

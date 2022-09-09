@@ -22,12 +22,12 @@ const LinksCreateFormOptions = ({ domains, parentValues, parentHandleChange }: a
     <Grid container spacing={2}>
       <Grid item xs={4}>
         <FormControl fullWidth>
-          <InputLabel id="domain-select-label">Domain</InputLabel>
+          <InputLabel id="domain-select-label">DomainModel</InputLabel>
           <Select
             labelId="domain-select-label"
             id="domain-select"
             value={parentValues.domain}
-            label="Domain"
+            label="DomainModel"
             onChange={parentHandleChange("domain")}
             size="small"
             fullWidth
@@ -41,9 +41,9 @@ const LinksCreateFormOptions = ({ domains, parentValues, parentHandleChange }: a
         <TextField
           id="address-text"
           autoComplete="off"
-          value={parentValues.customurl}
+          value={parentValues.customUrl}
           label="/"
-          onChange={parentHandleChange("customurl")}
+          onChange={parentHandleChange("customUrl")}
           size="small"
           fullWidth
         />
@@ -77,10 +77,10 @@ const LinksCreateFormOptions = ({ domains, parentValues, parentHandleChange }: a
       <Grid item xs={4}>
         <TextField
           id="expires-in-text"
-          value={parentValues.expire_in}
+          value={parentValues.expireIn}
           label="Expires in"
           placeholder="2 minutes/hours/days"
-          onChange={parentHandleChange("expire_in")}
+          onChange={parentHandleChange("expireIn")}
           size="small"
           fullWidth
         />

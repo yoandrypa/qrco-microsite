@@ -3,7 +3,7 @@ import dynamoose from "../../libs/dynamoose";
 import { v4 } from "uuid";
 
 // instantiate a dynamoose schema
-const created_at = new Date().toISOString();
+const createdAt = new Date().toISOString();
 const IpSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -15,28 +15,28 @@ const IpSchema = new dynamoose.Schema({
     //TODO unique
     required: true
   },
-  created_at: {
+  createdAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   },
-  updated_at: {
+  updatedAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   }
 });
 
 // create a model from schema and export it
-export const Ip = dynamoose.model("ips", IpSchema);
+export const IpModel = dynamoose.model("ips", IpSchema);
 
-Ip.methods.set("findOne", async function(criteria: any) {
+IpModel.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore
   const results = await this.scan(criteria).exec();
   return results[0];
 });
 
-Ip.methods.set("batchDeletes", async function(conditions = undefined) {
+IpModel.methods.set("batchDeletes", async function(conditions = undefined) {
   let results;
   if (conditions) {
     // @ts-ignore

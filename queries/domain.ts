@@ -1,4 +1,4 @@
-import { Domain as DomainModel } from "../models/link";
+import { DomainModel as DomainModel } from "../models/link";
 import { AnyDocument } from "dynamoose/dist/Document";
 import { ScanResponse } from "dynamoose/dist/DocumentRetriever";
 import { CustomError } from "../utils";
@@ -23,7 +23,7 @@ export const add = async (params: Add) => {
   const newDomain = {
     address: params.address,
     homepage: params.homepage || undefined,
-    user_id: params.user_id || "1234",
+    userId: params.userId || "1234",
     banned: !!params.banned
   };
 
@@ -32,7 +32,7 @@ export const add = async (params: Add) => {
     // @ts-ignore
     domain = await DomainModel.update(exists.id, {
       ...newDomain,
-      updated_at: params.updated_at || new Date().toISOString()
+      updatedAt: params.updatedAt || new Date().toISOString()
     });
   } else {
     // @ts-ignore
@@ -48,7 +48,7 @@ export const update = async (
 ) => {
   const domain = await DomainModel.update(match, {
     ...update,
-    updated_at: new Date().toISOString()
+    updatedAt: new Date().toISOString()
   });
 
   return domain;
@@ -58,7 +58,7 @@ export const remove = async (match: Partial<DomainType>) => {
   try {
     const domain = await DomainModel.findOne({
       id: { eq: match.id },
-      user_id: { eq: match.user_id }
+      userId: { eq: match.userId }
     });
 
     if (!domain) {

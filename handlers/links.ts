@@ -9,7 +9,7 @@ import * as DomainHandler from "./domains";
 import * as VisitHandler from "../handlers/visit";
 
 interface Query {
-  user_id: string;
+  userId: string;
   link?: any;
   limit?: any;
   skip?: any;
@@ -22,11 +22,12 @@ export const create = async (data: CreateLinkData) => {
     const {
       reuse,
       password,
-      customurl,
+      customUrl,
       description,
       target,
       domain,
-      expire_in
+      expireIn,
+      type
     } = data.body;
     const domain_id = domain ? domain.id : "";
 
@@ -40,15 +41,15 @@ export const create = async (data: CreateLinkData) => {
       reuse &&
       queries.link.find({
         target: { eq: target },
-        user_id: { eq: data.user.id },
+        userId: { eq: data.user.id },
         domain_id: { eq: domain_id }
       }),
-      customurl &&
+      customUrl &&
       queries.link.find({
-        address: { eq: customurl },
+        address: { eq: customUrl },
         domain_id: { eq: domain_id }
       }),
-      !customurl && utils.generateId(domain_id),
+      !customUrl && utils.generateId(domain_id),
       validators.bannedDomain(targetDomain),
       validators.bannedHost(targetDomain)
     ]);
@@ -66,7 +67,7 @@ export const create = async (data: CreateLinkData) => {
     }
 
     // Create new link
-    const address = customurl || queriesBatch[5];
+    const address = customUrl || queriesBatch[5];
     const link = await queries.link.create({
       password,
       //@ts-ignore
@@ -74,8 +75,9 @@ export const create = async (data: CreateLinkData) => {
       domain_id,
       description,
       target,
-      expire_in,
-      user_id: data.user.id
+      expireIn,
+      type,
+      userId: data.user.id
     });
 
     if (!data.user && process.env.REACT_APP_NON_USER_COOLDOWN) {
@@ -91,10 +93,10 @@ export const create = async (data: CreateLinkData) => {
 
 export const list = async (query: Query) => {
   try {
-    const { limit, skip, search, all, user_id } = query;
+    const { limit, skip, search, all, userId } = query;
 
     const match = {
-      ...(!all && { user_id: { eq: user_id } })
+      ...(!all && { userId: { eq: userId } })
     };
 
     // @ts-ignore
@@ -182,7 +184,7 @@ export const redirect = async (params, req) => {
     }
 
     // 7. Create link visit
-    if (link.user_id && !isBot) {
+    if (link.userId && !isBot) {
       await VisitHandler.add({
         headers: req.headers,
         realIP: params.realIP,
@@ -212,7 +214,7 @@ export const redirect = async (params, req) => {
 
 export const edit = async (data: UpdateLinkData) => {
   try {
-    const { id, address, target, description, expire_in } = data.body;
+    const { id, address, target, description, expireIn } = data.body;
 
     if (!address && !target) {
       throw new CustomError("Should at least update one field.");
@@ -220,11 +222,11 @@ export const edit = async (data: UpdateLinkData) => {
 
     const link = await queries.link.find({
       id: { eq: id },
-      user_id: { eq: data.user.id }
+      userId: { eq: data.user.id }
     });
 
     if (!link) {
-      throw new CustomError("Link was not found.");
+      throw new CustomError("LinkModel was not found.");
     }
 
     // @ts-ignore
@@ -258,7 +260,7 @@ export const edit = async (data: UpdateLinkData) => {
         ...(address && { address }),
         ...(description && { description }),
         ...(target && { target }),
-        ...(expire_in && { expire_in })
+        ...(expireIn && { expireIn })
       }
     );
 
@@ -270,15 +272,15 @@ export const edit = async (data: UpdateLinkData) => {
   }
 };
 
-export const remove = async (params: { id: any; user_id?: any; }) => {
+export const remove = async (params: { id: any; userId?: any; }) => {
   const link = await queries.link.remove({
     id: params.id,
-    user_id: params.user_id
+    userId: params.userId
   });
 
   if (!link) {
     throw new CustomError("Could not delete the link");
   }
 
-  return { message: "Link has been deleted successfully." };
+  return { message: "LinkModel has been deleted successfully." };
 };

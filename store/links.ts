@@ -9,23 +9,23 @@ export interface Link {
   id: string;
   address: string;
   banned: boolean;
-  banned_by_id?: number;
-  created_at: string;
+  bannedById?: number;
+  createdAt: string;
   link: string;
   domain?: string;
   domain_id?: number;
   password?: string;
   description?: string;
-  expire_in?: string;
+  expireIn?: string;
   target: string;
-  updated_at: string;
-  user_id?: number;
+  updatedAt: string;
+  userId?: number;
   visit_count: number;
 }
 
 export interface NewLink {
   target: string;
-  customurl?: string;
+  customUrl?: string;
   password?: string;
   domain?: string;
   reuse?: boolean;
@@ -45,7 +45,7 @@ export interface EditLink {
   target: string;
   address: string;
   description?: string;
-  expire_in?: string;
+  expireIn?: string;
 }
 
 export interface LinksQuery {
