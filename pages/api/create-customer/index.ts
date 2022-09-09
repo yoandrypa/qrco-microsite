@@ -35,8 +35,8 @@ async function createCheckoutSession(
           quantity: 1
         }
       ],
-      success_url: `${DOMAIN}/plans/account?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${DOMAIN}/plans/`
+      success_url: `/plans/account?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `/plans/`
      })
   } catch (error) {
     
