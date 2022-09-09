@@ -8,7 +8,7 @@ import Context from "../context/Context";
 import { useRouter } from "next/router";
 import PleaseWait from "../PleaseWait";
 
-export default function Home({ linksData, domainsData, userInformation }: any) {
+export default function LinkHome({ linksData, domainsData, userInformation }: any) {
   const { data, total } = JSON.parse(linksData);
   const domains = JSON.parse(domainsData);
 

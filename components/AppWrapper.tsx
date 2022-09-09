@@ -63,48 +63,46 @@ export default function AppWrapper(props: QrWrapperProps) {
         <link rel="icon" href="/ebanuxQr.svg" />
       </Head>
       <CssBaseline />
-      <ElevationScroll {...props}>
+      {!isLoggin && (<ElevationScroll {...props}>
         <AppBar component="nav" sx={{ background: '#fff' }}>
           <Container>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
-              <Link href={{ pathname: '/', query: !Boolean(userInfo) ? { login: true } : {} }}>
+              <Link href={{ pathname: !Boolean(userInfo) ? QR_TYPE_ROUTE : '/' }}>
                 <Box sx={{ display: 'flex', cursor: 'pointer' }}>
                   <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
                   <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>The QR Link</Typography>
                 </Box>
               </Link>
-              {!isLoggin && (<>
-                {!Boolean(userInfo) ? (
+              {!Boolean(userInfo) ? (
+                <Button
+                  startIcon={<LoginIcon />}
+                  onClick={handleLogin}
+                  variant="contained"
+                  sx={{ height: '28px', mr: '5px', my: 'auto' }}>
+                  {'Login'}
+                </Button>
+              ) : (
+                <Box sx={{ display: 'flex' }}>
                   <Button
-                    startIcon={<LoginIcon />}
-                    onClick={handleLogin}
-                    variant="contained"
-                    sx={{ height: '28px', mr: '5px', my: 'auto' }}>
-                    Login
+                    startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
+                    onClick={handleNavigation}
+                    variant="outlined"
+                    sx={{height: '28px', my: 'auto'}}>
+                    {router.pathname === '/' ? 'QR Editor' : 'Admin'}
                   </Button>
-                ) : (
-                  <Box sx={{ display: 'flex' }}>
-                    <Button
-                      startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                      onClick={handleNavigation}
-                      variant="outlined"
-                      sx={{height: '28px', my: 'auto'}}>
-                      {router.pathname === '/' ? 'QR Editor' : 'Admin'}
-                    </Button>
-                    <Button
-                      startIcon={<LogoutIcon />}
-                      onClick={handleLogout}
-                      variant="contained"
-                      sx={{ height: '28px', ml: '10px', my: 'auto' }}>
-                      {'Logout'}
-                    </Button>
-                  </Box>
-                )}
-              </>)}
+                  <Button
+                    startIcon={<LogoutIcon />}
+                    onClick={handleLogout}
+                    variant="contained"
+                    sx={{ height: '28px', ml: '10px', my: 'auto' }}>
+                    {'Logout'}
+                  </Button>
+                </Box>
+              )}
             </Toolbar>
           </Container>
         </AppBar>
-      </ElevationScroll>
+      </ElevationScroll>)}
       <Container sx={{ width: '100%' }}>
         <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
         <Box sx={{ p: 2, width: { sm: '100%', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>

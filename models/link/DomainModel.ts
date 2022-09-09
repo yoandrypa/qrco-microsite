@@ -1,10 +1,10 @@
 import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
-import { User } from "../user";
+import { UserModel } from "../UserModel";
 
 // instantiate a dynamoose schema
-const created_at = new Date().toISOString();
+const createdAt = new Date().toISOString();
 const DomainSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -16,8 +16,8 @@ const DomainSchema = new dynamoose.Schema({
     required: true,
     default: false
   },
-  banned_by_id: {
-    type: User
+  bannedById: {
+    type: UserModel
   },
   address: {
     type: String,
@@ -27,26 +27,26 @@ const DomainSchema = new dynamoose.Schema({
   homepage: {
     type: [String, dynamoose.NULL]
   },
-  user_id: {
-    type: User
+  userId: {
+    type: UserModel
     //TODO delete in cascade if user reference is deleted
   },
-  created_at: {
+  createdAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   },
-  updated_at: {
+  updatedAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   }
 });
 
 // create a model from schema and export it
-export const Domain = dynamoose.model("domains", DomainSchema);
+export const DomainModel = dynamoose.model("domains", DomainSchema);
 
-Domain.methods.set("findOne", async function(criteria: object) {
+DomainModel.methods.set("findOne", async function(criteria: object) {
   // @ts-ignore
   const results = await this.scan(criteria).exec();
   return results[0];

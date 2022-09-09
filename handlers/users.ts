@@ -1,5 +1,4 @@
 import query from "../queries";
-import * as utils from "../utils";
 
 export const create = async (data: UserType) => {
   return await query.user.create(data);

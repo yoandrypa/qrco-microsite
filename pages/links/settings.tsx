@@ -1,24 +1,24 @@
 import { GetServerSideProps, NextPage } from "next";
-import * as DomainHandler from "../handlers/domains";
-import * as UserHandler from "../handlers/users";
-import components from "../libs/aws/components";
+import * as DomainHandler from "../../handlers/domains";
+import * as UserHandler from "../../handlers/users";
+import components from "../../libs/aws/components";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IntlProvider } from "react-intl";
-import { UserContext } from "../utils/contexts";
+import { UserContext } from "../../utils/contexts";
 import { Authenticator } from "@aws-amplify/ui-react";
 import React, { useState } from "react";
-import { MAIN_CONFIG } from "../consts";
-import { themeConfig } from "../utils/theme";
-import SettingsDomain from "../components/link/SettingsDomain";
+import { MAIN_CONFIG } from "../../consts";
+import { themeConfig } from "../../utils/theme";
+import SettingsDomain from "../../components/link/SettingsDomain";
 import { Amplify } from "aws-amplify";
-import awsExports from "../libs/aws/aws-exports";
-import AppBar from "../components/AppBar";
+import awsExports from "../../libs/aws/aws-exports";
+import AppBar from "../../components/AppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import LinksCreateForm from "../components/link/LinksCreateForm";
-import LinksTable from "../components/link/LinksTable";
+import LinksCreateForm from "../../components/link/LinksCreateForm";
+import LinksTable from "../../components/link/LinksTable";
 import Box from "@mui/material/Box";
-import DomainsTable from "../components/link/DomainsTable";
+import DomainsTable from "../../components/link/DomainsTable";
 import requestIp from "request-ip";
 
 Amplify.configure(awsExports);
@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   if (!user) {
     user = await UserHandler.create({ id: userId });
   }
-  const domains = await DomainHandler.list({ user_id: user.id });
+  const domains = await DomainHandler.list({ userId: user.id });
   return {
     props: {
       domains: JSON.stringify(domains),

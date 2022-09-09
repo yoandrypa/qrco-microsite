@@ -1,6 +1,6 @@
 import { subMinutes } from "date-fns";
 
-import { Ip as IpModel } from "../models/link";
+import { IpModel as IpModel } from "../models/link";
 
 export const add = async (ipToAdd: string | undefined) => {
   const ip = ipToAdd?.toLowerCase();
@@ -11,8 +11,8 @@ export const add = async (ipToAdd: string | undefined) => {
     const currentDate = new Date().toISOString();
     // @ts-ignore
     await IpModel.update(ip, {
-      created_at: currentDate,
-      updated_at: currentDate
+      createdAt: currentDate,
+      updatedAt: currentDate
     });
   } else {
     await IpModel.create({ ip });
@@ -29,7 +29,7 @@ export const find = async (match: Match<IPQueryType>) => {
 
 export const clear = async () => {
   return IpModel.batchDeletes({
-    created_at: {
+    createdAt: {
       lt: subMinutes(new Date(), parseInt(<string>process.env.REACT_APP_NON_USER_COOLDOWN)).toISOString()
     }
   });

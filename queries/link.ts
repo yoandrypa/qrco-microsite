@@ -1,4 +1,4 @@
-import { Link as LinkModel } from "../models/link";
+import { LinkModel as LinkModel } from "../models/link";
 import dynamoose from "../libs/dynamoose";
 // @ts-ignore
 import bcrypt from "bcryptjs";
@@ -85,11 +85,12 @@ export const create = async (params: Create) => {
   return await LinkModel.create({
     password: encryptedPassword,
     domain_id: params.domain_id,
-    user_id: params.user_id,
+    userId: params.userId,
     address: params.address,
     description: params.description,
-    expire_in: params.expire_in,
-    target: params.target
+    expireIn: params.expireIn,
+    target: params.target,
+    type: params.type
   });
 };
 
@@ -97,11 +98,11 @@ export const remove = async (match: Partial<LinkType>) => {
   try {
     const link = await LinkModel.findOne({
       id: { eq: match.id },
-      user_id: { eq: match.user_id }
+      userId: { eq: match.userId }
     });
 
     if (!link) {
-      throw new CustomError("Link was not found.");
+      throw new CustomError("LinkModel was not found.");
     }
 
     const deletedLink = await link.delete();
@@ -138,7 +139,7 @@ export const update = async (match: string | Partial<LinkType>, update: Partial<
   // @ts-ignore
   return await LinkModel.update(match, {
     ...update,
-    updated_at: new Date().toISOString()
+    updatedAt: new Date().toISOString()
   });
 };
 
@@ -146,7 +147,7 @@ export const increamentVisit = async (match: Partial<LinkQueryType>) => {
   try {
     let link = await find(match);
     if (!link) {
-      throw new CustomError("Link was not found.");
+      throw new CustomError("LinkModel was not found.");
     }
     const visit_count = link.visit_count + 1;
     // @ts-ignore

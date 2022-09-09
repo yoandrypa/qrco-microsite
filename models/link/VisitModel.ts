@@ -1,10 +1,10 @@
 import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
-import { Link } from "./link";
+import { LinkModel } from "./LinkModel";
 
 // instantiate a dynamoose schema
-const created_at = new Date().toISOString();
+const createdAt = new Date().toISOString();
 const VisitSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -15,7 +15,7 @@ const VisitSchema = new dynamoose.Schema({
     type: Object
   },
   link_id: {
-    type: Link
+    type: LinkModel
   },
   referrers: {
     type: Object
@@ -85,22 +85,22 @@ const VisitSchema = new dynamoose.Schema({
     required: true,
     default: 0
   },
-  created_at: {
+  createdAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   },
-  updated_at: {
+  updatedAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   }
 });
 
 // create a model from schema and export it
-export const Visit = dynamoose.model("visits", VisitSchema);
+export const VisitModel = dynamoose.model("visits", VisitSchema);
 
-Visit.methods.set("findOne", async function(criteria: any) {
+VisitModel.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore
   const results = await this.scan(criteria).exec();
   return results[0];

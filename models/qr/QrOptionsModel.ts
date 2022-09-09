@@ -65,3 +65,6 @@ const QrOptionsSchema = new dynamoose.Schema({
 }, {
   "timestamps": true
 });
+
+// create a model from schema and export it
+export const QrOptionsModel = dynamoose.model("qr_options", QrOptionsSchema);
