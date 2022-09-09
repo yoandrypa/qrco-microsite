@@ -5,3 +5,4 @@ export const QR_DESIGNER_NEW_ROUTE = '/qr/new' as string;
 export const CUSTOM_WIDTH = '780px' as string;
 
 export const DYNAMIC_QR = ['twitter', 'whatsapp', 'facebook', 'web'] as string[];
+export const SOCIALS = ['facebook', 'whatsapp', 'twitter', 'instagram', 'linkedin', 'pinterest', 'telegram', 'youtube'] as string[];
