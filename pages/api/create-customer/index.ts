@@ -35,11 +35,12 @@ async function createCheckoutSession(
           quantity: 1
         }
       ],
-      success_url: `/plans/account?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `/plans/`
+      success_url: `${process.env.REACT_APP_DEFAULT_DOMAIN}/plans/account?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.REACT_APP_DEFAULT_DOMAIN}/plans/`
      })
+     return session
   } catch (error) {
-    
+    return error as Error
   }
 }
 
@@ -51,29 +52,32 @@ async function createCheckoutSession(
     if (req.method === 'POST') {
       if (!req.body.id || !req.body.email || !req.body.plan_type){
         return res.status(400).send('Missing parameters in request (email, plan_type and id)')
-      } 
-     
+      }      
       const userData = await find(req.body.id)  
-
       if(!userData){
         return res.status(404).send('No user found for this id ' + req.body.id )
       }
-
       console.log('user data ',JSON.stringify(userData))  
-         //creating new customer 
+
+         //creating new customer
           if (!userData.plan_customer_id){ 
-            const customer_id = await createCustomerInStripe(req.body.email);
+           const customer_id = await createCustomerInStripe(req.body.email);
             if (customer_id instanceof Error ){
-               return res.status(500).json({error: true, message: customer_id.message})
-            }
+               return res.status(500).json(customer_id)
+               }
            const updateResult = await update({id: req.body.id}, {plan_customer_id: customer_id})
             if(!updateResult){
-              return res.status(500).json({message: 'Could not save customer in database'})
-            }
+              return res.status(500).json(updateResult)
+            }            
           }
-
-          res.status(200)
-      } else {
+           
+      const session = await createCheckoutSession(userData.plan_customer_id,req.body.plan_type) 
+      if (session instanceof Error ) {
+        return res.status(500).json(session)
+      } 
+        res.status(200).json({session})
+  } else {
+    //Incorrect method
     res.setHeader('Allow', 'POST')
     res.status(405).end('Method Not Allowed')
   }
