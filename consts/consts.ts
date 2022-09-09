@@ -23,5 +23,17 @@ export const MAIN_CONFIG = {
 export const PLAN_TEST_MODE_PRICES = {
 basic:"",
 business:"",
-premium:""
+premium:"",
+annualbasic:"",
+annualbusiness:"",
+annualpremium:""
+}
+
+export const PLAN_LIVE_MODE_PRICES = {
+basic:"",
+business:"",
+premium:"",
+annualbasic:"",
+annualbusiness:"",
+annualpremium:""
 }
