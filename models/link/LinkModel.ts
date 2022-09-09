@@ -2,16 +2,21 @@ import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
 //const Unique = require("./unique");
-import { User } from "../user";
-import { Domain } from "./domain";
+import { UserModel } from "../UserModel";
+import { DomainModel } from "./DomainModel";
 
 // instantiate a dynamoose schema
-const created_at = new Date().toISOString();
+const createdAt = new Date().toUTCString();
 const LinkSchema = new dynamoose.Schema({
   id: {
     type: String,
     hashKey: true,
     default: v4
+  },
+  type: {
+    type: String,
+    enum: ["short_link", "qr_link"],
+    default: "short_link"
   },
   address: {
     type: String,
@@ -25,16 +30,16 @@ const LinkSchema = new dynamoose.Schema({
     required: true,
     default: false
   },
-  banned_by_id: {
-    type: User
+  bannedById: {
+    type: UserModel
   },
   domain_id: {
-    type: [Domain, dynamoose.NULL] //TODO Include reference to Domain
+    type: [DomainModel, dynamoose.NULL] //TODO Include reference to DomainModel
   },
   password: {
     type: [String, dynamoose.NULL]
   },
-  expire_in: {
+  expireIn: {
     type: [Date, dynamoose.NULL]
   },
   target: {
@@ -42,8 +47,8 @@ const LinkSchema = new dynamoose.Schema({
     //TODO including limit of 2040 characters
     required: true
   },
-  user_id: {
-    type: User
+  userId: {
+    type: UserModel
     //TODO delete in cascade if user reference is deleted
   },
   visit_count: {
@@ -51,28 +56,28 @@ const LinkSchema = new dynamoose.Schema({
     required: true,
     default: 0
   },
-  created_at: {
+  createdAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   },
-  updated_at: {
+  updatedAt: {
     type: String,
     required: true,
-    default: created_at
+    default: createdAt
   }
 });
 
 // create a model from schema and export it
-export const Link = dynamoose.model("links", LinkSchema);
+export const LinkModel = dynamoose.model("links", LinkSchema);
 
-Link.methods.set("findOne", async function(criteria: any) {
+LinkModel.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore
   const results = await this.scan(criteria).exec();
   return results[0];
 });
 
-Link.methods.set("batchDeletes", async function(conditions = undefined) {
+LinkModel.methods.set("batchDeletes", async function(conditions = undefined) {
   let results;
   if (conditions) {
     // @ts-ignore

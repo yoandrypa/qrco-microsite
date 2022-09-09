@@ -8,30 +8,26 @@ import React from "react";
 import { generateId, isValidUrl } from "../../utils";
 import Router from "next/router";
 import * as LinkHandler from "../../handlers/links";
-import * as UserHandler from "../../handlers/users";
 import LinksCreateFormOptions from "./LinksCreateFormOptions";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import * as DomainHandler from "../../handlers/domains";
-import dynamoose from "dynamoose";
-import PleaseWait from "../PleaseWait";
-import { Backdrop, CircularProgress } from "@mui/material";
 import Context from "../context/Context";
 
 interface State {
   password?: string;
-  customurl?: string;
+  customUrl?: string;
   description?: string;
-  expire_in?: string | null;
+  expireIn?: string | null;
   domain?: string;
   target: string;
 }
 
 const initialState: State = {
   password: "",
-  customurl: "",
+  customUrl: "",
   description: "",
-  expire_in: null,
+  expireIn: null,
   domain: "",
   target: ""
 };
@@ -54,7 +50,7 @@ const LinksCreateForm = ({ domains, user }: any) => {
           reuse: true,
           // @ts-ignore
           domain,
-          customurl: values.customurl || address
+          customUrl: values.customUrl || address
         },
         user: { id: user?.attributes?.sub }
       });

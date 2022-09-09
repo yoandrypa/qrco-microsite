@@ -1,7 +1,7 @@
 import dynamoose from "../../libs/dynamoose";
 // @ts-ignore
 import { v4 } from "uuid";
-import { User } from "../user";
+import { UserModel } from "../UserModel";
 
 // instantiate a dynamoose schema
 const HostSchema = new dynamoose.Schema({
@@ -20,10 +20,10 @@ const HostSchema = new dynamoose.Schema({
     required: true,
     default: false
   },
-  banned_by_id: {
-    type: User //TODO Include reference to User
+  bannedById: {
+    type: UserModel //TODO Include reference to User
   },
-  updated_at: {
+  updatedAt: {
     type: String,
     required: true,
     default: new Date().toISOString()
@@ -31,9 +31,9 @@ const HostSchema = new dynamoose.Schema({
 });
 
 // create a model from schema and export it
-export const Host = dynamoose.model("hosts", HostSchema);
+export const HostModel = dynamoose.model("hosts", HostSchema);
 
-Host.methods.set("findOne", async function(criteria: any) {
+HostModel.methods.set("findOne", async function(criteria: any) {
   // @ts-ignore
   const results = await this.scan(criteria).exec();
   return results[0];

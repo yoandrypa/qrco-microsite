@@ -18,10 +18,10 @@ export default async function handler(
     }
 
     if (req.method === "POST") {
-      const { user_id, ...body } = req.body;
+      const { userId, ...body } = req.body;
       const link = await linkHandler.create({
         body,
-        user: { id: user_id }
+        user: { id: userId }
       });
       res.status(200).json(link);
     }

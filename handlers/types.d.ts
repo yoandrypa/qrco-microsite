@@ -3,13 +3,23 @@ export interface CreateLinkData {
   body: {
     reuse?: boolean;
     password?: string | undefined;
-    customurl?: string | undefined;
+    customUrl?: string | undefined;
     description?: string | undefined;
-    expire_in?: string | undefined;
+    expireIn?: string | undefined;
     domain?: DomainType | undefined;
+    type?: string;
     target: string;
   };
-  user: User
+  user: User;
+}
+
+export interface CreateQrDataType {
+  qrName: string;
+  qrType: string;
+  userId: string;
+  isDynamic?: boolean;
+  shortLinkId?: string;
+  qrOptionsId?: object;
 }
 
 export interface UpdateLinkData {
@@ -18,7 +28,17 @@ export interface UpdateLinkData {
     address?: string;
     target?: string;
     description?: string;
-    expire_in?: string
+    expireIn?: string
   };
-  user: User
+  user: User;
+}
+
+export interface UpdateQrDataType {
+  id: string;
+  qrName: string;
+  qrType: string;
+  userId?: string;
+  isDynamic?: boolean;
+  shortLinkId?: string;
+  qrOptionsId?: object;
 }

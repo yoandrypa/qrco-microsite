@@ -30,7 +30,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Router from "next/router";
 import * as LinkHandler from "../../handlers/links";
-import LinkEditForm from "./LinkEditForm";
+//import LinkEditForm from "./LinkEditForm";
 import Context from "../context/Context";
 
 interface Column {
@@ -117,7 +117,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 // @ts-ignore
-const LinksTable = ({ domains, links, total, user }) => {
+const QrTable = ({ domains, links, total, user }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [values, setValues] = useState({
@@ -350,10 +350,10 @@ const LinksTable = ({ domains, links, total, user }) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {openEditForm &&
-        <LinkEditForm open={openEditForm} setOpen={setOpenEditForm} linkForEdit={linkForEdit} user={user} />}
+      {/*{openEditForm &&*/}
+      {/*  <LinkEditForm open={openEditForm} setOpen={setOpenEditForm} linkForEdit={linkForEdit} user={user} />}*/}
     </>
   );
 };
 
-export default LinksTable;
+export default QrTable;
