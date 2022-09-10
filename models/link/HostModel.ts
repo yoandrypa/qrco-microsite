@@ -22,13 +22,8 @@ const HostSchema = new dynamoose.Schema({
   },
   bannedById: {
     type: UserModel //TODO Include reference to User
-  },
-  updatedAt: {
-    type: String,
-    required: true,
-    default: new Date().toISOString()
   }
-});
+}, { "timestamps": true });
 
 // create a model from schema and export it
 export const HostModel = dynamoose.model("hosts", HostSchema);

@@ -10,15 +10,13 @@ export interface Link {
   address: string;
   banned: boolean;
   bannedById?: number;
-  createdAt: string;
   link: string;
   domain?: string;
-  domain_id?: number;
+  domainId?: number;
   password?: string;
   description?: string;
   expireIn?: string;
   target: string;
-  updatedAt: string;
   userId?: number;
   visit_count: number;
 }

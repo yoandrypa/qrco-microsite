@@ -31,8 +31,7 @@ export const add = async (params: Add) => {
   if (exists) {
     // @ts-ignore
     domain = await DomainModel.update(exists.id, {
-      ...newDomain,
-      updatedAt: params.updatedAt || new Date().toISOString()
+      ...newDomain
     });
   } else {
     // @ts-ignore
@@ -47,8 +46,7 @@ export const update = async (
   update: Partial<DomainType>
 ) => {
   const domain = await DomainModel.update(match, {
-    ...update,
-    updatedAt: new Date().toISOString()
+    ...update
   });
 
   return domain;

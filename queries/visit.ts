@@ -30,9 +30,7 @@ export const add = async (params: Add) => {
       }),
       referrers: Object.assign({}, visit.referrers, {
         [data.referrer]: visit.referrers[data.referrer] + 1
-      }),
-      updatedAt: new Date().toISOString()
-    });
+      })});
   } else {
     await VisitModel.create({
       [`br_${data.browser}`]: 1,
@@ -62,7 +60,6 @@ interface IGetStatsResponse {
   lastDay: StatsResult;
   lastMonth: StatsResult;
   lastWeek: StatsResult;
-  updatedAt: string;
 }
 
 export const find = async (match: Partial<VisitType>, total: number) => {
@@ -218,8 +215,7 @@ export const find = async (match: Partial<VisitType>, total: number) => {
     lastWeek: {
       stats: utils.statsObjectToArray(stats.lastWeek.stats),
       views: stats.lastWeek.views
-    },
-    updatedAt: new Date().toISOString()
+    }
   };
 
   /*if (match.link_id) {

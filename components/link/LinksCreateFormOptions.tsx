@@ -22,12 +22,12 @@ const LinksCreateFormOptions = ({ domains, parentValues, parentHandleChange }: a
     <Grid container spacing={2}>
       <Grid item xs={4}>
         <FormControl fullWidth>
-          <InputLabel id="domain-select-label">DomainModel</InputLabel>
+          <InputLabel id="domain-select-label">Domain</InputLabel>
           <Select
             labelId="domain-select-label"
             id="domain-select"
             value={parentValues.domain}
-            label="DomainModel"
+            label="Domain"
             onChange={parentHandleChange("domain")}
             size="small"
             fullWidth

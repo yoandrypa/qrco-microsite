@@ -6,7 +6,6 @@ import { UserModel } from "../UserModel";
 import { DomainModel } from "./DomainModel";
 
 // instantiate a dynamoose schema
-const createdAt = new Date().toUTCString();
 const LinkSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -33,8 +32,8 @@ const LinkSchema = new dynamoose.Schema({
   bannedById: {
     type: UserModel
   },
-  domain_id: {
-    type: [DomainModel, dynamoose.NULL] //TODO Include reference to DomainModel
+  domainId: {
+    type: [DomainModel, dynamoose.NULL]
   },
   password: {
     type: [String, dynamoose.NULL]
@@ -55,18 +54,8 @@ const LinkSchema = new dynamoose.Schema({
     type: Number,
     required: true,
     default: 0
-  },
-  createdAt: {
-    type: String,
-    required: true,
-    default: createdAt
-  },
-  updatedAt: {
-    type: String,
-    required: true,
-    default: createdAt
   }
-});
+}, { "timestamps": true });
 
 // create a model from schema and export it
 export const LinkModel = dynamoose.model("links", LinkSchema);

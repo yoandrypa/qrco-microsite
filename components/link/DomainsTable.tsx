@@ -73,9 +73,7 @@ const DomainsTable = ({ domains }) => {
     bannedById: string | undefined,
     address: string,
     homepage: string | undefined,
-    userId: string | undefined,
-    createdAt: string | undefined,
-    updatedAt: string | undefined
+    userId: string | undefined
   ): Data => {
     const actions = (
       <IconButton size="small" onClick={() => deleteDomain(id, userId)}>
@@ -89,8 +87,6 @@ const DomainsTable = ({ domains }) => {
       address,
       homepage,
       userId,
-      createdAt,
-      updatedAt,
       actions
     };
   };
@@ -102,9 +98,7 @@ const DomainsTable = ({ domains }) => {
       domain.bannedById,
       domain.address,
       domain.homepage,
-      domain.userId,
-      domain.createdAt,
-      domain.updatedAt
+      domain.userId
     );
   });
 

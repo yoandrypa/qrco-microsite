@@ -89,7 +89,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       const targetUrl = generateShortLink("qr/" + qr.id);
       const shortLink = await handleShort(targetUrl);
       // @ts-ignore
-      await QrHandler.edit({ id: qr.id, userId: userInfo.attributes.sub, shortLink: shortLink.id });
+      await QrHandler.edit({ id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id });
       setLoading(false);
       // @ts-ignore
       if (!shortLink.error) {

@@ -37,14 +37,12 @@ interface Column {
   id: "address" |
     "bannedById" |
     "banned" |
-    "createdAt" |
     "description" |
-    "domain_id" |
+    "domainId" |
     "expireIn" |
     "id" |
     "password" |
     "target" |
-    "updatedAt" |
     "userId" |
     "visit_count" |
     "link" |
@@ -73,13 +71,6 @@ const columns: readonly Column[] = [
         </a>
       </Link>
     )
-  },
-  {
-    id: "createdAt",
-    label: "Created",
-    minWidth: 150,
-    maxWidth: 150,
-    format: (value: string) => formatRelative(subDays(new Date(value), 3), new Date(value))
   },
   {
     id: "link",
@@ -139,14 +130,12 @@ const LinksTable = ({ domains, links, total, user }) => {
     address: string | undefined,
     bannedById: string | undefined,
     banned: boolean,
-    createdAt: string,
     description: string | undefined,
-    domain_id: string | undefined,
+    domainId: string | undefined,
     expireIn: string | undefined,
     id: string,
     password: string | undefined,
     target: string,
-    updatedAt: string,
     userId: string,
     visit_count: number,
     link: string
@@ -184,14 +173,12 @@ const LinksTable = ({ domains, links, total, user }) => {
       address,
       bannedById,
       banned,
-      createdAt,
       description,
-      domain_id,
+      domainId,
       expireIn,
       id,
       password,
       target,
-      updatedAt,
       userId,
       visit_count,
       link,
@@ -204,14 +191,12 @@ const LinksTable = ({ domains, links, total, user }) => {
       link.address,
       link.bannedById,
       link.banned,
-      link.createdAt,
       link.description,
-      link.domain_id,
+      link.domainId,
       link.expireIn,
       link.id,
       link.password,
       link.target,
-      link.updatedAt,
       link.userId,
       link.visit_count,
       // @ts-ignore
@@ -236,7 +221,7 @@ const LinksTable = ({ domains, links, total, user }) => {
     setLoading(true);
     const deleted = await LinkHandler.remove({ id: linkId, userId: userId });
     if (deleted) {
-      Router.push("/").then(() => setLoading(false));
+      Router.push("/links").then(() => setLoading(false));
     }
   };
 
@@ -283,7 +268,7 @@ const LinksTable = ({ domains, links, total, user }) => {
           <Grid item xs={1.0}>
             <IconButton onClick={() => {
               setLoading(true);
-              Router.push("/").then(() => setLoading(false));
+              Router.push("/links").then(() => setLoading(false));
             }}>
               <ReplayIcon />
             </IconButton>

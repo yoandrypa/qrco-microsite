@@ -34,7 +34,8 @@ export const list = async (query: Query) => {
       total,
       limit,
       skip,
-      qrs
+      // @ts-ignore
+      qrs: await qrs.populate({properties: "shortLinkId"})
     };
   } catch (e) {
     // @ts-ignore

@@ -1,31 +1,33 @@
 import components from "../libs/aws/components";
 import * as UserHandler from "../handlers/users";
-import * as LinkHandler from "../handlers/links";
-import * as DomainHandler from "../handlers/domains";
-
+import * as QrHandler from "../handlers/qrs";
+import { QR_TYPE_ROUTE } from "../components/qr/constants";
+import QrHome from "../components/qr/QrHome";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-
-import LinkHome from "../components/link/LinkHome";
 
 import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
-import { QR_TYPE_ROUTE } from "../components/qr/constants";
 
 Amplify.configure(awsExports);
 
-export default function Index({ linksData, domainsData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Authenticator components={components}>
       {({ user }) => (
-        <LinkHome linksData={linksData} domainsData={domainsData} userInformation={user} />
+        <QrHome qrData={qrData} />
       )}
     </Authenticator>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
+  res.setHeader(
+    "Cache-Control",
+    "private, s-maxage=10, stale-while-revalidate=59"
+  );
+
   const getUserInfo = async () => {
     try {
       let userInfo = {};
@@ -59,8 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   if (!userInfo?.userData) {
     return {
       props: {
-        linksData: JSON.stringify({}),
-        domainsData: JSON.stringify([]),
+        qrData: JSON.stringify({}),
         revalidate: 1
       }
     };
@@ -73,13 +74,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   if (!user) {
     user = await UserHandler.create({ id: userId });
   }
-  const links = await LinkHandler.list({ limit: 10, userId: user.id });
-  const domains = await DomainHandler.list({ userId: user.id });
+  const qrs = await QrHandler.list({ userId: user.id });
 
   return {
     props: {
-      linksData: JSON.stringify(links),
-      domainsData: JSON.stringify(domains),
+      qrData: JSON.stringify(qrs),
       revalidate: 10
     }
   };
