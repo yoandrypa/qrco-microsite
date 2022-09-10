@@ -73,10 +73,9 @@ export const malware = async (user: UserType, target: string) => {
 
 export const linksCount = async (user?: UserType) => {
   if (!user) return;
-
   const count = await queries.link.total({
-    userId: { eq: "1234" }, //todo
-    createdAt: { gt: subDays(new Date(), 1).toISOString() }
+    userId: { eq: user.id }, //todo
+    createdAt: { gt: subDays(new Date(), 1).valueOf()}
   });
 
   // @ts-ignore
@@ -103,7 +102,7 @@ export const bannedHost = async (domain: string) => {
   let isBanned;
 
   try {
-    const dnsRes = {} //TODO await dnsLookup(domain);
+    const dnsRes = {}; //TODO await dnsLookup(domain);
 
     // @ts-ignore
     if (!dnsRes || !dnsRes.address) return;

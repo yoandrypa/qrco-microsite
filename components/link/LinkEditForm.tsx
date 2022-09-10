@@ -40,7 +40,7 @@ export default function LinkEditForm({ open, setOpen, linkForEdit, user }: any) 
       });
       if (link) {
         setOpen(false);
-        Router.push("/").then(() => setLoading(false));
+        Router.push("/links").then(() => setLoading(false));
       }
     } catch (e) {
       console.error(e);

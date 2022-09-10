@@ -7,14 +7,7 @@ export const add = async (ipToAdd: string | undefined) => {
 
   const currentIP = await IpModel.findOne({ ip: { eq: ip } });
 
-  if (currentIP) {
-    const currentDate = new Date().toISOString();
-    // @ts-ignore
-    await IpModel.update(ip, {
-      createdAt: currentDate,
-      updatedAt: currentDate
-    });
-  } else {
+  if (!currentIP) {
     await IpModel.create({ ip });
   }
 
@@ -30,7 +23,7 @@ export const find = async (match: Match<IPQueryType>) => {
 export const clear = async () => {
   return IpModel.batchDeletes({
     createdAt: {
-      lt: subMinutes(new Date(), parseInt(<string>process.env.REACT_APP_NON_USER_COOLDOWN)).toISOString()
+      lt: subMinutes(new Date(), parseInt(<string>process.env.REACT_APP_NON_USER_COOLDOWN)).valueOf()
     }
   });
 };

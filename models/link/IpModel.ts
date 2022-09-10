@@ -3,7 +3,6 @@ import dynamoose from "../../libs/dynamoose";
 import { v4 } from "uuid";
 
 // instantiate a dynamoose schema
-const createdAt = new Date().toISOString();
 const IpSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -14,18 +13,8 @@ const IpSchema = new dynamoose.Schema({
     type: String,
     //TODO unique
     required: true
-  },
-  createdAt: {
-    type: String,
-    required: true,
-    default: createdAt
-  },
-  updatedAt: {
-    type: String,
-    required: true,
-    default: createdAt
   }
-});
+}, { "timestamps": true });
 
 // create a model from schema and export it
 export const IpModel = dynamoose.model("ips", IpSchema);

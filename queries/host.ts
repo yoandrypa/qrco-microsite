@@ -42,8 +42,7 @@ export const add = async (params: Add) => {
   if (exists) {
     // @ts-ignore
     host = await HostModel.update(exists.id, {
-      ...newHost,
-      updatedAt: params.updatedAt || new Date().toISOString()
+      ...newHost
     });
   } else {
     // @ts-ignore

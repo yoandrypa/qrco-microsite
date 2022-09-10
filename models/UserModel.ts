@@ -4,7 +4,6 @@ const { v4 } = require("uuid");
 //const Unique = require("./unique")
 
 // user schema
-const createdAt = new Date().toISOString();
 const UserSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
@@ -22,18 +21,8 @@ const UserSchema = new dynamoose.Schema({
   coolDowns: {
     type: Array,
     schema: [String]
-  },
-  createdAt: {
-    type: String,
-    required: true,
-    default: createdAt
-  },
-  updatedAt: {
-    type: String,
-    required: true,
-    default: createdAt
   }
-});
+}, { "timestamps": true });
 
 export const UserModel = dynamoose.model("users", UserSchema);
 

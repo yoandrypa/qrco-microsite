@@ -26,7 +26,12 @@ export default function Index({ linksData, domainsData }: InferGetServerSideProp
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    "Cache-Control",
+    "private, s-maxage=10, stale-while-revalidate=59"
+  );
+
   const getUserInfo = async () => {
     try {
       let userInfo = {};
@@ -69,8 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
   return {
     props: {
       linksData: JSON.stringify(links),
-      domainsData: JSON.stringify(domains),
-      revalidate: 10
+      domainsData: JSON.stringify(domains)
     }
   };
 };

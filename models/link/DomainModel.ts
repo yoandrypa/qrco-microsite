@@ -4,7 +4,6 @@ import { v4 } from "uuid";
 import { UserModel } from "../UserModel";
 
 // instantiate a dynamoose schema
-const createdAt = new Date().toISOString();
 const DomainSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -30,18 +29,8 @@ const DomainSchema = new dynamoose.Schema({
   userId: {
     type: UserModel
     //TODO delete in cascade if user reference is deleted
-  },
-  createdAt: {
-    type: String,
-    required: true,
-    default: createdAt
-  },
-  updatedAt: {
-    type: String,
-    required: true,
-    default: createdAt
   }
-});
+}, { "timestamps": true });
 
 // create a model from schema and export it
 export const DomainModel = dynamoose.model("domains", DomainSchema);

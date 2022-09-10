@@ -36,8 +36,7 @@ export const update = async (match: Match<UserType>, update: Partial<UserType>) 
     // @ts-ignore
     match.id,
     {
-      ...update,
-      updatedAt: new Date().toISOString()
+      ...update
     },
     { condition }
   );

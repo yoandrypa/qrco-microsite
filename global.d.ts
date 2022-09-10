@@ -6,9 +6,7 @@ interface UserType {
   bannedById?: string;
   banned?: boolean;
   coolDowns?: string[];
-  createdAt?: string;
   id: string;
-  updatedAt?: string;
 }
 
 interface UserQueryType {
@@ -19,7 +17,7 @@ interface UserJoinedType extends UserType {
   admin?: boolean;
   homepage?: string;
   domain?: string;
-  domain_id?: string;
+  domainId?: string;
 }
 
 interface DomainType {
@@ -27,9 +25,7 @@ interface DomainType {
   address: string;
   banned?: boolean;
   bannedById?: string;
-  createdAt?: string;
   homepage?: string;
-  updatedAt?: string;
   userId?: string;
 }
 
@@ -38,17 +34,13 @@ interface DomainQueryType {
   address?: object;
   banned?: object;
   bannedById?: object;
-  createdAt?: object;
   homepage?: object;
-  updatedAt?: object;
   userId?: object;
 }
 
 interface DomainSanitizedType {
   address: string;
-  updatedAt?: string;
   userId?: string;
-  createdAt?: string;
   id: string;
   banned?: boolean;
   bannedById: undefined;
@@ -60,8 +52,6 @@ interface HostType {
   address: string;
   banned: boolean;
   bannedById?: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 interface HostQueryType {
@@ -69,21 +59,15 @@ interface HostQueryType {
   address: object;
   banned: object;
   bannedById?: object;
-  createdAt: object;
-  updatedAt: object;
 }
 
 interface IPType {
   id: number;
-  createdAt: string;
-  updatedAt: string;
   ip: string;
 }
 
 interface IPQueryType {
   id: object;
-  createdAt: object;
-  updatedAt: object;
   ip: object;
 }
 
@@ -91,15 +75,13 @@ interface LinkType {
   address?: string | undefined;
   bannedById?: string;
   banned: boolean;
-  createdAt: string;
   description?: string | undefined;
-  domain_id?: string | undefined;
+  domainId?: string | undefined;
   expireIn?: string | undefined;
   id: string;
   password?: string | undefined;
   type?: string;
   target: string;
-  updatedAt: string;
   userId: string;
   visit_count: number;
 }
@@ -117,9 +99,9 @@ interface QrDataType {
 interface LinkQueryType {
   id: object;
   address?: object;
-  domain_id?: object;
+  createdAt?: object;
+  domainId?: object;
   userId?: object;
-  createdAt?: object
   target?: object,
   expireIn?: object
 }
@@ -133,13 +115,11 @@ interface LinkSanitizedType {
   visit_count: number;
   address?: string | undefined;
   link: string;
-  createdAt: string;
   description?: string | undefined;
   expireIn: number | undefined;
   target: string;
-  domain_id: string | undefined;
+  domainId: string | undefined;
   password: string | undefined;
-  updatedAt: string;
   userId: string;
   domain?: string | undefined;
   banned: boolean;
@@ -154,7 +134,7 @@ interface LinkJoinedDomainType extends LinkType {
 interface VisitType {
   id: number;
   countries: Record<string, number>;
-  createdAt: string;
+  createdAt: Date;
   link_id: string;
   referrers: object; //Record<string, number>;
   total: number;

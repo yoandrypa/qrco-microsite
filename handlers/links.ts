@@ -7,6 +7,7 @@ import { CustomError } from "../utils";
 import isbot from "isbot";
 import * as DomainHandler from "./domains";
 import * as VisitHandler from "../handlers/visit";
+import query from "../queries";
 
 interface Query {
   userId: string;
@@ -29,7 +30,7 @@ export const create = async (data: CreateLinkData) => {
       expireIn,
       type
     } = data.body;
-    const domain_id = domain ? domain.id : "";
+    const domainId = domain ? domain.id : "";
 
     // @ts-ignore
     const targetDomain = utils.removeWww(URL.parse(target).hostname);
@@ -42,14 +43,14 @@ export const create = async (data: CreateLinkData) => {
       queries.link.find({
         target: { eq: target },
         userId: { eq: data.user.id },
-        domain_id: { eq: domain_id }
+        domainId: { eq: domainId }
       }),
       customUrl &&
       queries.link.find({
         address: { eq: customUrl },
-        domain_id: { eq: domain_id }
+        domainId: { eq: domainId }
       }),
-      !customUrl && utils.generateId(domain_id),
+      !customUrl && utils.generateId(domainId),
       validators.bannedDomain(targetDomain),
       validators.bannedHost(targetDomain)
     ]);
@@ -59,7 +60,6 @@ export const create = async (data: CreateLinkData) => {
     if (queriesBatch[3]) {
       return utils.sanitize.link(queriesBatch[3]);
     }
-    ;
 
     // Check if custom link already exists
     if (queriesBatch[4]) {
@@ -72,7 +72,7 @@ export const create = async (data: CreateLinkData) => {
       password,
       //@ts-ignore
       address,
-      domain_id,
+      domainId,
       description,
       target,
       expireIn,
@@ -103,8 +103,8 @@ export const list = async (query: Query) => {
     const [links, total] = await queries.link.get(match, { limit, search, skip });
 
     const data = await Promise.all(links.map(async (link: LinkJoinedDomainType) => {
-      if (link.domain_id) {
-        const domain = await DomainHandler.find({ id: link.domain_id });
+      if (link.domainId) {
+        const domain = await DomainHandler.find({ id: link.domainId });
         link.domain = domain?.address;
       }
       return utils.sanitize.link(link);
@@ -128,6 +128,11 @@ export const get = async (address: string) => {
   }
   return utils.sanitize.link(link);
 };
+
+export const find = async (linkId: string) => {
+  return await query.link.find({ id: { eq: linkId } });
+};
+
 
 // @ts-ignore
 export const redirect = async (params, req) => {
@@ -157,7 +162,7 @@ export const redirect = async (params, req) => {
     };
     if (domain) {
       // @ts-ignore
-      match["domain_id"] = { eq: domain.id };
+      match["domainId"] = { eq: domain.id };
     }
     const link = await queries.link.find(match);
 
@@ -231,7 +236,7 @@ export const edit = async (data: UpdateLinkData) => {
 
     // @ts-ignore
     const targetDomain = utils.removeWww(URL.parse(target).hostname);
-    const domain_id = link.domain_id || null;
+    const domainId = link.domainId || null;
 
     const queriesBatch = await Promise.all([
       validators.coolDown(data.user),
@@ -240,7 +245,7 @@ export const edit = async (data: UpdateLinkData) => {
       address !== link.address &&
       queries.link.find({
         address: { eq: address },
-        domain_id: { eq: domain_id }
+        domainId: { eq: domainId }
       }),
       validators.bannedDomain(targetDomain),
       validators.bannedHost(targetDomain)
