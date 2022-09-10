@@ -37,8 +37,8 @@ const UserSchema = new dynamoose.Schema({
 },{
   "saveUnknown":[
     "subscriptionData.**"
-  ]
-});
+  ],
+  "timestamps": true });
 
 export const UserModel = dynamoose.model("users", UserSchema);
 
