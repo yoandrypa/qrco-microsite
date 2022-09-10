@@ -57,7 +57,7 @@ const LinksCreateForm = ({ domains, user }: any) => {
       if (link) {
         setValues(initialState);
         setChecked(false);
-        Router.push("/").then(() => setLoading(false));
+        Router.push("/links").then(() => setLoading(false));
       }
     } catch (e) {
       console.error(e);

@@ -4,7 +4,6 @@ import { v4 } from "uuid";
 import { LinkModel } from "./LinkModel";
 
 // instantiate a dynamoose schema
-const createdAt = new Date().toISOString();
 const VisitSchema = new dynamoose.Schema({
   id: {
     type: String,
@@ -84,18 +83,8 @@ const VisitSchema = new dynamoose.Schema({
     type: Number,
     required: true,
     default: 0
-  },
-  createdAt: {
-    type: String,
-    required: true,
-    default: createdAt
-  },
-  updatedAt: {
-    type: String,
-    required: true,
-    default: createdAt
   }
-});
+}, { "timestamps": true });
 
 // create a model from schema and export it
 export const VisitModel = dynamoose.model("visits", VisitSchema);

@@ -23,18 +23,18 @@ export const add = async (params: { body: { address?: string; userId: any; homep
   return sanitize.domain(domain);
 };
 
-export const remove = async (domain_id: string, userId?: string) => {
+export const remove = async (domainId: string, userId?: string) => {
   //TODO review this logic
   /*const domain = await query.domain.update(
     {
-      id: { eq: domain_id },
+      id: { eq: domainId },
       userId: { eq: userId }
     },
     { userId: "" }
   );*/
 
   const domain = await queries.domain.remove({
-    id: domain_id,
+    id: domainId,
     userId: userId
   });
 

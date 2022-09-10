@@ -6,7 +6,6 @@ import LinksCreateForm from "./LinksCreateForm";
 import Context from "../context/Context";
 
 import { useRouter } from "next/router";
-import PleaseWait from "../PleaseWait";
 
 export default function LinkHome({ linksData, domainsData, userInformation }: any) {
   const { data, total } = JSON.parse(linksData);

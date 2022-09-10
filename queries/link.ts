@@ -84,7 +84,7 @@ export const create = async (params: Create) => {
 
   return await LinkModel.create({
     password: encryptedPassword,
-    domain_id: params.domain_id,
+    domainId: params.domainId,
     userId: params.userId,
     address: params.address,
     description: params.description,
@@ -138,8 +138,7 @@ export const update = async (match: string | Partial<LinkType>, update: Partial<
 ) => {
   // @ts-ignore
   return await LinkModel.update(match, {
-    ...update,
-    updatedAt: new Date().toISOString()
+    ...update
   });
 };
 

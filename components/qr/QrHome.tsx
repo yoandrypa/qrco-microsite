@@ -1,22 +1,24 @@
 import { useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LinksTable from "./QrTable";
 import Context from "../context/Context";
 
 import { useRouter } from "next/router";
+import QrList from "./QrList";
 
-export default function QrHome({ qrsData, userInformation }: any) {
-  const { data, total } = JSON.parse(qrsData);
+export default function QrHome({ qrData, userInformation }: any) {
+  const { qrs } = JSON.parse(qrData);
 
   const router = useRouter();
 
   // @ts-ignore
-  const { userInfo, setUserInfo, setLoading } = useContext(Context);
+  const { userInfo, setUserInfo } = useContext(Context);
 
   useEffect(() => {
     if (router.query.login) {
-      router.push("/", undefined, { shallow: false });
+      const { path } = router.query;
+      // @ts-ignore
+      router.push(Boolean(path) ? path : '/', undefined, { shallow: false });
     }
     if (!userInfo) {
       setUserInfo(userInformation);
@@ -26,12 +28,10 @@ export default function QrHome({ qrsData, userInformation }: any) {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          {/*<LinksCreateForm user={userInformation} domains={domains} />*/}
-        </Grid>
-        {data &&
+        {qrs &&
           <Grid item xs={12}>
-            {/*<LinksTable links={data} total={total} user={userInformation} domains={domains} />*/}
+            {/*@ts-ignore*/}
+            <QrList qrs={qrs} />
           </Grid>
         }
       </Grid>
