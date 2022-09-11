@@ -24,6 +24,22 @@ interface UserJoinedType extends UserType {
   domainId?: string;
 }
 
+interface UserSubscription {
+  id: string,
+  priceId: string,
+  status: string,
+  currency: string,
+  interval: 'day' | 'week' | 'month' | 'year' | null,
+  intervalCount: number | undefined | null,
+  createdAt: number,
+  periodStartsAt: number,
+  periodEndsAt: EpochTimeStamp,
+  trialStartsAt: number | null,
+  trialEndsAt: number | null,
+
+}
+
+
 interface DomainType {
   id: string;
   address: string;
