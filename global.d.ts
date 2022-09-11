@@ -10,6 +10,7 @@ interface UserType {
   updatedAt?: string;
   subscriptionData?: UserSubscription;
   customerId?: string;
+  planType?: string;
 }
 
 interface UserQueryType {
@@ -37,7 +38,7 @@ interface UserSubscription {
   trialStartsAt: number | null,
   trialEndsAt: number | null,
 
-}
+} 
 
 
 interface DomainType {
