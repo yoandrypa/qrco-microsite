@@ -30,15 +30,12 @@ const UserSchema = new dynamoose.Schema({
     type: Object,
     required: false
   },
-  planType:{
-    type: String,
-    required: false
-  }
 },{
   "saveUnknown":[
     "subscriptionData.**"
-  ],
-  "timestamps": true });
+  ]
+,
+ "timestamps": true });
 
 export const UserModel = dynamoose.model("users", UserSchema);
 
