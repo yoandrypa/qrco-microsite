@@ -33,7 +33,7 @@ const Plans = (props: Props) => {
 
       // console.log(user)       
        //@ts-ignore
-  userInfo != null && setUser(userInfo)
+  (userInfo != null && userInfo != undefined) && setUser(userInfo)
   console.log("Current user data", userInfo)
     }, [userInfo]);
 
