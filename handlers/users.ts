@@ -17,3 +17,7 @@ export const update = async (user: Match<UserType>, data: Partial<UserType>) => 
 const updatedUser = await query.user.update(user,data)
 return updatedUser
 }
+
+export const findByCustomerId = async (customerId: string): Promise<UserType> => {
+  return await query.user.findByCustomerId({ customerId: { eq: customerId } })
+};
