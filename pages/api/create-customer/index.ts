@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   })
 
 
-  async function createCustomerInStripe(email: string) {
+  async function createCustomerInStripe(email: string): Promise<string | Error> {
   try {
     const params: Stripe.CustomerCreateParams = {
       email: email
