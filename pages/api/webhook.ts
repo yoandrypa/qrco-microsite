@@ -2,7 +2,7 @@ import { buffer } from 'micro'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import getRawBody from 'raw-body';
-import { onCheckoutCompleted } from '../../handlers/webhooks';
+import { onCheckoutCompleted ,onDeleteSubscription } from '../../handlers/webhooks';
 
 // disable body parser to receive the raw body string. The raw body
 // is fundamental to verify that the request is genuine
@@ -79,8 +79,8 @@ export default async function handler(
 
       case StripeWebhooks.SubscriptionDeleted: {
         const subscription = event.data.object as Stripe.Subscription;
-
-        await deleteUserSubscription(subscription.customer);
+        //casting to string      
+        await onDeleteSubscription(subscription.customer as string);
 
         break;
       }
@@ -88,7 +88,7 @@ export default async function handler(
       case StripeWebhooks.SubscriptionUpdated: {
         const subscription = event.data.object as Stripe.Subscription;
 
-        await onSubscriptionUpdated(subscription);
+        //await onSubscriptionUpdated(subscription);
 
         break;
       }
@@ -97,7 +97,7 @@ export default async function handler(
         const session = event.data.object as Stripe.Checkout.Session;
 
         // TODO: handle this properly
-        onPaymentFailed(session);
+       // onPaymentFailed(session);
 
         break;
       }
