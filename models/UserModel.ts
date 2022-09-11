@@ -30,6 +30,10 @@ const UserSchema = new dynamoose.Schema({
     type: Object,
     required: false
   },
+  planType:{
+    type: String,
+    required: false
+  }
 },{
   "saveUnknown":[
     "subscriptionData.**"
