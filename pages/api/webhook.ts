@@ -65,23 +65,22 @@ export default async function handler(
         );
 
         await onCheckoutCompleted(session, subscription);
-
         break;
       }
 
-      case StripeWebhooks.AsyncPaymentSuccess: {
-        const session = event.data.object as Stripe.Checkout.Session;
-        const customerId = session.customer as string;
+      // case StripeWebhooks.AsyncPaymentSuccess: {
+      //   const session = event.data.object as Stripe.Checkout.Session;
+      //   const customerId = session.customer as string;
 
-        await activatePendingSubscription(customerId);
+      //   await activatePendingSubscription(customerId);
 
-        break;
-      }
+      //   break;
+      // }
 
       case StripeWebhooks.SubscriptionDeleted: {
         const subscription = event.data.object as Stripe.Subscription;
 
-        await deleteOrganizationSubscription(subscription.id);
+        await deleteUserSubscription(subscription.customer);
 
         break;
       }
