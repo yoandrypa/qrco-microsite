@@ -1,6 +1,6 @@
 
 import Stripe from 'stripe'
-import {update as updateUserInDB, find} from '../handlers/users'
+import {update as updateUserInDB, find, deleteUserSubscription} from '../handlers/users'
 import { findByCustomerId as findUserByCustomerId } from '../handlers/users';
 
 
@@ -26,6 +26,11 @@ function buildUserSubscription(
   };
 }
 
+/**
+ * Set subscription data into de DB
+ * @param customerId 
+ * @param subscription 
+ */
 async function setUserSubscription(
     customerId: string,
     subscription: UserSubscription,
@@ -37,6 +42,10 @@ async function setUserSubscription(
   } catch (error) {
     console.log('error saving user data')
   }
+}
+
+export async function onDeleteSubscription(customerId: string){
+await deleteUserSubscription({customerId: customerId})
 }
 
 export async function onCheckoutCompleted(
@@ -57,11 +66,5 @@ export async function onCheckoutCompleted(
     );
   }
 
-  export async function deleteUserSubscription(customerId){
-    return setUserSubscription(
-      customerId,
-      '',
-    );
 
-  }
 
