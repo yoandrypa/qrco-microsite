@@ -7,14 +7,14 @@ interface UserType {
   banned?: boolean;
   coolDowns?: string[];
   id: string;
-  email?: string;
-  planType?: string;
-  CustomerId?: string;
-  subcriptionData?: object;
+  updatedAt?: string;
+  subscriptionData?: UserSubscription;
+  customerId?: string;
 }
 
 interface UserQueryType {
   id: object;
+  customerId: object
 }
 
 interface UserJoinedType extends UserType {
