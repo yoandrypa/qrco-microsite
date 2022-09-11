@@ -60,12 +60,12 @@ async function createCheckoutSession(
       console.log('user data ',JSON.stringify(userData))  
 
          //creating new customer
-          if (!userData.plan_customer_id){ 
+          if (!userData.customerId){ 
            const customer_id = await createCustomerInStripe(req.body.email);
             if (customer_id instanceof Error ){
                return res.status(500).json(customer_id)
                }
-           const updateResult = await update({id: req.body.id}, {plan_customer_id: customer_id})
+           const updateResult = await update({id: req.body.id}, {customerId: customer_id})
             if(!updateResult){
               return res.status(500).json(updateResult)
             }            
