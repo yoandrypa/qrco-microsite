@@ -6,6 +6,9 @@ import { CustomError } from "../utils";
 export const find = async (match: Partial<UserQueryType>) => {
   return await UserModel.findOne(match);
 };
+export const findByCustomerId = async (match: Partial<UserQueryType>) => {
+  return await UserModel.findOne(match);
+};
 
 interface CreateData {
   id: string;
