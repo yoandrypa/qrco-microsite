@@ -1,4 +1,4 @@
-import { buffer } from 'micro'
+// import { buffer } from 'micro'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import getRawBody from 'raw-body';
@@ -79,7 +79,7 @@ export default async function handler(
 
       case StripeWebhooks.SubscriptionDeleted: {
         const subscription = event.data.object as Stripe.Subscription;
-        //casting to string      
+        //casting to string
         await onDeleteSubscription(subscription.customer as string);
 
         break;
@@ -102,7 +102,7 @@ export default async function handler(
         break;
       }
     }
-  
+
 
     // Return a response to acknowledge receipt of the event.
     res.status(200).json({ success: true, message: "Payload decoded successfully" })
