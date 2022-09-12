@@ -11,7 +11,7 @@ export type OptionsType = {
   backgroundOptions: { color: string; };
   cornersSquareOptions: { color: string; type: string; };
   cornersDotOptions: { color: string; type: string; };
-}
+};
 
 export type BackgroundType = {
   type: string | null;
@@ -23,7 +23,13 @@ export type BackgroundType = {
   imgSize: number;
   invert?: boolean | false;
   backColor?: string | null;
-}
+};
+
+export type CornersAndDotsType = {
+  topL: string;
+  topR: string;
+  bottom: string;
+} | null;
 
 export type FramesType = {
   type: string | null;
@@ -31,7 +37,7 @@ export type FramesType = {
   color: string;
   textColor: string;
   textUp?: boolean | false;
-}
+};
 
 export type DataType = {
   qrName?: string;
@@ -71,4 +77,4 @@ export type DataType = {
   telegram?: string;
   twitter?: string;
   isDynamic?: boolean;
-}
+};

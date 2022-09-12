@@ -15,7 +15,7 @@ import Context from '../../context/Context';
 interface DistinctColorsSettingsProps {
   editKind: string;
   setClose: () => void;
-};
+}
 
 const DistinctColorsSettings = ({ editKind, setClose }: DistinctColorsSettingsProps) => {
   const { cornersData, setCornersData, dotsData, setDotsData } = useContext(Context);
@@ -62,21 +62,21 @@ const DistinctColorsSettings = ({ editKind, setClose }: DistinctColorsSettingsPr
           <Grid item xs={12} sm={6}>
             <ColorSelector
               label="Top left"
-              color={data.topL || '#000000'}
+              color={data?.topL || '#000000'}
               handleData={handler}
               property={`${editKind}.topL`} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <ColorSelector
               label="Top right"
-              color={data.topR || '#000000'}
+              color={data?.topR || '#000000'}
               handleData={handler}
               property={`${editKind}.topR`} />
           </Grid>
           <Grid item sm={12} sx={{ pt: '3px' }}>
             <ColorSelector
               label="Bottom left"
-              color={data.bottom || '#000000'}
+              color={data?.bottom || '#000000'}
               handleData={handler}
               property={`${editKind}.bottom`} />
           </Grid>

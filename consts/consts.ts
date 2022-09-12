@@ -20,3 +20,20 @@ export const MAIN_CONFIG = {
   locale: LANGUAGES[0],
   theme: THEMES_VARIANTS.light
 };
+export const PLAN_TEST_MODE_PRICES = {
+basic:"",
+business:"",
+premium:"",
+annualbasic:"",
+annualbusiness:"",
+annualpremium:""
+}
+
+export const PLAN_LIVE_MODE_PRICES = {
+basic:"",
+business:"",
+premium:"",
+annualbasic:"",
+annualbusiness:"",
+annualpremium:""
+}

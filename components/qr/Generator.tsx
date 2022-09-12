@@ -38,7 +38,11 @@ interface GeneratorProps {
   userInfo: object;
 }
 
-const Generator = () => {
+interface GenProps {
+  forceOverride?: string | undefined;
+}
+
+const Generator = ({ forceOverride }: GenProps) => {
   const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, allowEdit, data,
     logoData, selected, userInfo }: GeneratorProps = useContext(Context);
 
@@ -157,7 +161,7 @@ const Generator = () => {
   };
 
   const handleMainData = (item: string, payload: any, icon = null) => {
-    const opts = JSON.parse(JSON.stringify(options));
+    const opts = {...options};
     if (!payload || !payload.file) {
       opts[item] = payload;
       if (logoData) {
@@ -173,7 +177,7 @@ const Generator = () => {
   };
 
   const handleData = (item: string) => (payload: any) => {
-    const opts = JSON.parse(JSON.stringify(options));;
+    const opts = {...options};
     if (item.includes('.')) {
       const x = item.split('.');
       if (!opts[x[0]]) {
@@ -195,8 +199,8 @@ const Generator = () => {
   };
 
   const dataToOverride = useMemo(() => (
-    !Boolean(data.isDynamic) && Object.keys(data).length ? handleDesignerString(selected, data) : null
-  ), [data, selected]);
+    Boolean(forceOverride) ? forceOverride : (!Boolean(data.isDynamic) && Object.keys(data).length ? handleDesignerString(selected, data) : null)
+  ), [data, selected, forceOverride]);
 
   useEffect(() => {
     if (isReadable) {
@@ -206,7 +210,7 @@ const Generator = () => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = JSON.parse(JSON.stringify(options));
+      const opts = {...options};
       if (background.type === 'solid') {
         handleReset();
       } else {
@@ -224,7 +228,7 @@ const Generator = () => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = JSON.parse(JSON.stringify(options));;
+      const opts = {...options};
       opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
       setOptions(opts);
     }
@@ -260,7 +264,7 @@ const Generator = () => {
       )}
       {background.type === 'image' && <input ref={fileInput} type="file" accept="image/*" style={{ display: 'none' }} onChange={onLoadFile} />}
       <Box sx={{ border: '1px solid rgba(0, 0, 0, .125)', borderRadius: '5px', p: 1 }}>
-        {!Boolean(userInfo) && <RenderNoUserWarning />}
+        {!Boolean(userInfo) && forceOverride === undefined && <RenderNoUserWarning />}
         <Box sx={{ display: 'flex' }}>
           <BrushIcon sx={{ fontSize: '53px', mt: '2px', color: theme => theme.palette.primary.dark }} />
           <Box sx={{ textAlign: 'left', display: 'block' }}>

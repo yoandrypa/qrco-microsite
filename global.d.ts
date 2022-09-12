@@ -6,19 +6,41 @@ interface UserType {
   bannedById?: string;
   banned?: boolean;
   coolDowns?: string[];
+  createdAt?: Date;
   id: string;
+  updatedAt?: string;
+  subscriptionData?: UserSubscription;
+  customerId?: string;
+  planType?: string;
+  
 }
 
 interface UserQueryType {
   id: object;
+  customerId: object
 }
 
 interface UserJoinedType extends UserType {
   admin?: boolean;
   homepage?: string;
   domain?: string;
-  domainId?: string;
+  domain_id?: string;
 }
+
+interface UserSubscription {
+  id: string,
+  priceId: string,
+  status: string,
+  currency: string,
+  interval: 'day' | 'week' | 'month' | 'year' | null,
+  intervalCount: number | undefined | null,
+  createdDate: number,
+  periodStartsAt: number,
+  periodEndsAt: EpochTimeStamp,
+  trialStartsAt: number | null,
+  trialEndsAt: number | null,
+
+} 
 
 interface DomainType {
   id: string;

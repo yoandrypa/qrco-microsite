@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
   const userInfo = await getUserInfo();
 
   // @ts-ignore
-  if (!Boolean(userInfo) && !Boolean(query.login)) {
+  if (!Boolean(userInfo) && !Boolean(query.login) && !Boolean(query.qr_text)) {
     return {
       redirect: {
         destination: QR_TYPE_ROUTE,

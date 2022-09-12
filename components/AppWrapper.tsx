@@ -16,7 +16,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 
 import {useRouter} from 'next/router';
 import Link from 'next/link'
-import {QR_TYPE_ROUTE} from "./qr/constants";
+import {PARAM_QR_TEXT, QR_TYPE_ROUTE} from "./qr/constants";
 
 interface Props {
   window?: () => Window;
@@ -37,8 +37,8 @@ function ElevationScroll({ children, window }: Props) {
 
 interface QrWrapperProps {
   children: ReactNode;
-  userInfo: any;
-  handleLogout: () => void;
+  userInfo?: any;
+  handleLogout?: () => void;
 }
 
 export default function AppWrapper(props: QrWrapperProps) {
@@ -52,9 +52,11 @@ export default function AppWrapper(props: QrWrapperProps) {
 
   const handleNavigation = useCallback(() => {
     router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
-  }, [router.pathname]);  // eslint-disable-line react-hooks/exhaustive-deps
+  }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const isLoggin = useMemo(() => (router.pathname === '/' && !Boolean(userInfo)), [userInfo, router.pathname]);
+  const isLoggin = useMemo(() => (
+    router.pathname === '/' && router.query[PARAM_QR_TEXT] === undefined && !Boolean(userInfo)
+  ), [userInfo, router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -73,32 +75,34 @@ export default function AppWrapper(props: QrWrapperProps) {
                   <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>The QR Link</Typography>
                 </Box>
               </Link>
-              {!Boolean(userInfo) ? (
-                <Button
-                  startIcon={<LoginIcon />}
-                  onClick={handleLogin}
-                  variant="contained"
-                  sx={{ height: '28px', mr: '5px', my: 'auto' }}>
-                  {'Login'}
-                </Button>
-              ) : (
-                <Box sx={{ display: 'flex' }}>
+              {router.query[PARAM_QR_TEXT] === undefined && (<>
+                {!Boolean(userInfo) ? (
                   <Button
-                    startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                    onClick={handleNavigation}
-                    variant="outlined"
-                    sx={{height: '28px', my: 'auto'}}>
-                    {router.pathname === '/' ? 'QR Editor' : 'Admin'}
-                  </Button>
-                  <Button
-                    startIcon={<LogoutIcon />}
-                    onClick={handleLogout}
+                    startIcon={<LoginIcon />}
+                    onClick={handleLogin}
                     variant="contained"
-                    sx={{ height: '28px', ml: '10px', my: 'auto' }}>
-                    {'Logout'}
+                    sx={{ height: '28px', mr: '5px', my: 'auto' }}>
+                    {'Login'}
                   </Button>
-                </Box>
-              )}
+                ) : (
+                  <Box sx={{ display: 'flex' }}>
+                    <Button
+                      startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
+                      onClick={handleNavigation}
+                      variant="outlined"
+                      sx={{height: '28px', my: 'auto'}}>
+                      {router.pathname === '/' ? 'QR Editor' : 'Admin'}
+                    </Button>
+                    <Button
+                      startIcon={<LogoutIcon />}
+                      onClick={handleLogout}
+                      variant="contained"
+                      sx={{ height: '28px', ml: '10px', my: 'auto' }}>
+                      {'Logout'}
+                    </Button>
+                  </Box>
+                )}
+              </>)}
             </Toolbar>
           </Container>
         </AppBar>
