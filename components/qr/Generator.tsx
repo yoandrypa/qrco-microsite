@@ -22,6 +22,7 @@ import { initialFrame } from '../../helpers/qr/data';
 import RenderDownload from './helperComponents/RenderDownload';
 import PDFGenDlg from './helperComponents/PDFGenDlg';
 import Context from '../context/Context';
+import RenderNoUserWarning from "./helperComponents/RenderNoUserWarning";
 
 interface GeneratorProps {
   allowEdit?: boolean;
@@ -34,11 +35,12 @@ interface GeneratorProps {
   frame: FramesType;
   setFrame: Function;
   selected: string;
+  userInfo: object;
 }
 
 const Generator = () => {
   const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, allowEdit, data,
-    logoData, selected }: GeneratorProps = useContext(Context);
+    logoData, selected, userInfo }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
@@ -258,6 +260,7 @@ const Generator = () => {
       )}
       {background.type === 'image' && <input ref={fileInput} type="file" accept="image/*" style={{ display: 'none' }} onChange={onLoadFile} />}
       <Box sx={{ border: '1px solid rgba(0, 0, 0, .125)', borderRadius: '5px', p: 1 }}>
+        {!Boolean(userInfo) && <RenderNoUserWarning />}
         <Box sx={{ display: 'flex' }}>
           <BrushIcon sx={{ fontSize: '53px', mt: '2px', color: theme => theme.palette.primary.dark }} />
           <Box sx={{ textAlign: 'left', display: 'block' }}>
@@ -266,7 +269,7 @@ const Generator = () => {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: { sm: 'row', xs: 'column' }, m: { sm: 2, xs: 0 } }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: { sm: '280px', xs: '100%' } }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: { sm: '430px', xs: '100%' } }}>
             {updating ? <Typography sx={{ position: 'absolute', ml: 1, mt: 1, color: theme => theme.palette.text.disabled }}>{'Generating QR...'}</Typography> : null}
             <Box sx={{ mt: { sm: 0, xs: 1 } }}>
               <QrGenerator
@@ -294,7 +297,7 @@ const Generator = () => {
             </Button>
           </Box>
           <Box sx={{
-            width: { sm: '450px', xs: '100%' },
+            width: '100%',
             ml: { sm: 2, xs: 0 },
             mt: { sm: 0, xs: 2 },
             overflow: 'auto',
