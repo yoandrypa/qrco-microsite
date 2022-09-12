@@ -18,7 +18,7 @@ function buildUserSubscription(
     currency: lineItem.price.currency ?? null,
     interval: price?.recurring?.interval ?? null,
     intervalCount: price?.recurring?.interval_count ?? null,
-    createdAt: subscription.created,
+    createdDate: subscription.created,
     periodStartsAt: subscription.current_period_start,
     periodEndsAt: subscription.current_period_end,
     trialStartsAt: subscription.trial_start ?? null,
