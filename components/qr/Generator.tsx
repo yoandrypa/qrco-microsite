@@ -161,7 +161,7 @@ const Generator = ({ forceOverride }: GenProps) => {
   };
 
   const handleMainData = (item: string, payload: any, icon = null) => {
-    const opts = JSON.parse(JSON.stringify(options));
+    const opts = {...options};
     if (!payload || !payload.file) {
       opts[item] = payload;
       if (logoData) {
@@ -177,7 +177,7 @@ const Generator = ({ forceOverride }: GenProps) => {
   };
 
   const handleData = (item: string) => (payload: any) => {
-    const opts = JSON.parse(JSON.stringify(options));;
+    const opts = {...options};
     if (item.includes('.')) {
       const x = item.split('.');
       if (!opts[x[0]]) {
@@ -210,7 +210,7 @@ const Generator = ({ forceOverride }: GenProps) => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = JSON.parse(JSON.stringify(options));
+      const opts = {...options};
       if (background.type === 'solid') {
         handleReset();
       } else {
@@ -228,7 +228,7 @@ const Generator = ({ forceOverride }: GenProps) => {
 
   useEffect(() => {
     if (doneFirst.current) {
-      const opts = JSON.parse(JSON.stringify(options));;
+      const opts = {...options};
       opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
       setOptions(opts);
     }
