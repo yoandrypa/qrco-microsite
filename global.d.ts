@@ -11,6 +11,7 @@ interface UserType {
   subscriptionData?: UserSubscription;
   customerId?: string;
   planType?: string;
+  
 }
 
 interface UserQueryType {
