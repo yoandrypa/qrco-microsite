@@ -16,6 +16,7 @@ interface RenderTypeSelectorProps {
 }
 
 const Button = styled(MUIButton)(() => ({ width: 'calc(50% - 5px)', height: '32px' }));
+const getColor = (condition: boolean): string => (condition ? 'green' : 'default');
 
 const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps) => {
   // @ts-ignore
@@ -34,7 +35,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
     }
   };
 
-  const value = useMemo(() => Boolean(data.isDynamic) ? "dynamic" : "static", [data.isDynamic]);
+  const isDynamic = useMemo(() => Boolean(data.isDynamic), [data.isDynamic]);
 
   const renderTypeSelector = (item: string, label: string, description: string, enabled: boolean) => (
     <Grid item sm={3} xs={12}>
@@ -56,33 +57,33 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
       <Grid item xs={12}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
-            sx={{ borderColor: value === 'static' ? 'green' : 'default' }}
+            sx={{ borderColor: getColor(!isDynamic), color: getColor(!isDynamic) }}
             onClick={handleClick}
-            startIcon={value === 'static' ? renderYes() : renderNo()}
+            startIcon={!isDynamic ? renderYes() : renderNo()}
             key="static"
             id="static"
             variant="outlined">{isWide ? 'Static QR Codes' : 'Static'}</Button>
           <Button
-            sx={{ borderColor: value !== 'static' ? 'green' : 'default' }}
+            sx={{ borderColor: getColor(isDynamic), color: getColor(isDynamic) }}
             onClick={handleClick}
-            startIcon={value === 'static' ? renderNo() : renderYes()}
+            startIcon={isDynamic ? renderYes() : renderNo()}
             key="dynamic"
             id="dynamic"
             variant="outlined">{isWide ? 'Dynamic QR Codes' : 'Dynamic'}</Button>
         </Box>
       </Grid>
-      {renderTypeSelector('web','Website','LinkModel to any page on the web', value === 'static')}
-      {renderTypeSelector('email', 'Email', 'Receive email messages', value === 'static')}
-      {renderTypeSelector('sms', 'SMS', 'Receive text messages', value === 'static')}
-      {value === 'static' ?
+      {renderTypeSelector('web','Website','LinkModel to any page on the web', !isDynamic)}
+      {renderTypeSelector('email', 'Email', 'Receive email messages', !isDynamic)}
+      {renderTypeSelector('sms', 'SMS', 'Receive text messages', !isDynamic)}
+      {!isDynamic ?
         renderTypeSelector('vcard', 'VCard', 'Share your contact details', true) :
         renderTypeSelector('vcard+', 'VCard Plus', 'Share your contact and social details', true)
       }
-      {renderTypeSelector('text', 'Text', 'Display a short text message', value === 'static')}
-      {renderTypeSelector('wifi', 'WiFi', 'Get connected to a WiFi network', value === 'static')}
-      {renderTypeSelector('twitter', 'Twitter', 'Post a tweet', value === 'static')}
-      {renderTypeSelector('whatsapp', 'Whatsapp', 'Send a Whatsapp message', value === 'static')}
-      {renderTypeSelector('facebook', 'Facebook', 'Share an URL in your wall', value === 'static')}
+      {renderTypeSelector('text', 'Text', 'Display a short text message', !isDynamic)}
+      {renderTypeSelector('wifi', 'WiFi', 'Get connected to a WiFi network', !isDynamic)}
+      {renderTypeSelector('twitter', 'Twitter', 'Post a tweet', !isDynamic)}
+      {renderTypeSelector('whatsapp', 'Whatsapp', 'Send a Whatsapp message', !isDynamic)}
+      {renderTypeSelector('facebook', 'Facebook', 'Share an URL in your wall', !isDynamic)}
       {renderTypeSelector('pdf', 'PDF file', 'Share a PDF file', false)}
       {renderTypeSelector('audio', 'Audio file', 'Share an audio file', false)}
       {renderTypeSelector('image', 'Imagefile', 'Share an image file', false)}
