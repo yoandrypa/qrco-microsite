@@ -63,7 +63,7 @@ async function createCheckoutSession(
           if (!userData.customerId){ 
            const customer_id = await createCustomerInStripe(req.body.email);
             if (customer_id instanceof Error ){
-               return res.status(500).json(customer_id)
+               return res.status(500).json({error: true,message: customer_id.message})
                }
            const updateResult = await update({id: req.body.id}, {customerId: customer_id})
             if(!updateResult){
@@ -73,7 +73,7 @@ async function createCheckoutSession(
            
       const session = await createCheckoutSession(userData.plan_customer_id,req.body.plan_type) 
       if (session instanceof Error ) {
-        return res.status(500).json(session)
+        return res.status(500).json({error: true, message: session.message})
       } 
         res.status(200).json({session})
   } else {
