@@ -114,7 +114,7 @@ interface LinkType {
   banned: boolean;
   createdAt: string;
   description?: string | undefined;
-  domain_id?: string | undefined;
+  domainId?: string | undefined;
   expireIn?: string | undefined;
   id: string;
   password?: string | undefined;
@@ -138,7 +138,7 @@ interface QrDataType {
 interface LinkQueryType {
   id: object;
   address?: object;
-  domain_id?: object;
+  domainId?: object;
   userId?: object;
   createdAt?: object
   target?: object,
