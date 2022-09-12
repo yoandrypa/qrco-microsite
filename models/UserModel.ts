@@ -21,8 +21,21 @@ const UserSchema = new dynamoose.Schema({
   coolDowns: {
     type: Array,
     schema: [String]
-  }
-}, { "timestamps": true });
+  },
+  customerId: {
+    type: String,
+    required: false,
+  },
+  subscriptionData: {
+    type: Object,
+    required: false
+  },
+},{
+  "saveUnknown":[
+    "subscriptionData.**"
+  ]
+,
+ "timestamps": true });
 
 export const UserModel = dynamoose.model("users", UserSchema);
 

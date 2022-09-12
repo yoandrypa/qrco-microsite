@@ -6,6 +6,13 @@ import { CustomError } from "../utils";
 export const find = async (match: Partial<UserQueryType>) => {
   return await UserModel.findOne(match);
 };
+export const findByCustomerId = async (match: Partial<UserQueryType>) => {
+  return await UserModel.findOne(match);
+};
+
+export const deleteSubscription = async (match: Partial<UserQueryType>)=>{
+  return await UserModel.update(match,{"$REMOVE":"subscriptionData"})
+}
 
 interface CreateData {
   id: string;

@@ -169,6 +169,7 @@ const LinksTable = ({ domains, links, total, user }) => {
         </IconButton>
       </Stack>
     );
+    //@ts-ignore
     return {
       address,
       bannedById,
