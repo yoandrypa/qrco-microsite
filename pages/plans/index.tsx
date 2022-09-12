@@ -14,17 +14,30 @@ import DialogContent from '@mui/material/DialogContent'
 import Dialog from '@mui/material/Dialog'
 import { useRouter } from 'next/router';
 import Context from '../../components/context/Context'
+import axios, { Axios } from 'axios'
 
 type Props = {}
 
 Amplify.configure(awsconfig);
 
 const Plans = (props: Props) => {
-  const [user, setUser] = useState(null);
+  interface UserAuthData {
+    username: string; 
+    id: string;
+  }
+
+  const [user, setUser] = useState<any>(null);
   const [mustLogInDlg,setMustLogInDlg] = useState(false)
   // @ts-ignore
   const {userInfo} = useContext(Context)
+  const API = axios.create({
+    baseURL:  process.env.REACT_APP_DEFAULT_DOMAIN === 'localhost:3000' ? 
+    `http://${process.env.REACT_APP_DEFAULT_DOMAIN}` :
+    `https://${process.env.REACT_APP_DEFAULT_DOMAIN}`
  
+  });
+
+
   
   useEffect(() => {
       // Auth.currentAuthenticatedUser()
@@ -127,11 +140,17 @@ const router = useRouter()
   }
 
 
-const click = (plan: string) =>{
+const handleClick = (plan: string) =>{
   if (user === null){
     setMustLogInDlg(true)
   } else {
-    //TODO
+const response = API.post(`/api/create-customer`,{
+  id: user.attributes.sub,
+  email: user.attributes.email,
+  plan_type: plan
+})
+console.log(response)
+
   }
 }
 
@@ -168,17 +187,17 @@ setActiveTab(value)
       <Grid item xs={12} md={6} lg={4}>
       <PlanCard data={activeTab == 0 ?  basic : basicAnnual}  
     isCurrentPlan={false} 
-    clickAction={click}/>
+    clickAction={handleClick}/>
       </Grid>
       <Grid item xs={12} md={6} lg={4}> 
       <PlanCard data={activeTab == 0 ? business : businessAnnual} 
     isCurrentPlan={false} 
-    clickAction={click}/>
+    clickAction={handleClick}/>
       </Grid>
       <Grid item xs={12} md={4} lg={4}>
       <PlanCard data={activeTab == 0 ? premium : premiumAnnual} 
     isCurrentPlan={false} 
-    clickAction={click}/>
+    clickAction={handleClick}/>
       </Grid>
     </Grid>
     </>
