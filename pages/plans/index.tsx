@@ -144,13 +144,17 @@ const handleClick = (plan: string) =>{
   if (user === null){
     setMustLogInDlg(true)
   } else {
-const response = API.post(`/api/create-customer`,{
-  id: user.attributes.sub,
-  email: user.attributes.email,
-  plan_type: plan
-})
+    const response = API.post(`/api/create-customer`,{
+              id: user.attributes.sub,
+              email: user.attributes.email,
+              plan_type: plan
+            })
 console.log(response)
-
+//@ts-ignore
+if (response.error || response.status! > 200 ) {
+    console.log('error')
+    return
+ }     
   }
 }
 
