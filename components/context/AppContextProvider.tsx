@@ -7,10 +7,11 @@ import { Amplify, Auth } from "aws-amplify";
 import Context from "./Context";
 import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
 import { DataType, OptionsType } from "../qr/types/types";
-import { QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
+import {PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE} from "../qr/constants";
 import AppWrapper from "../AppWrapper";
 import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
+import Generator from "../qr/Generator";
 
 Amplify.configure(awsExports);
 
@@ -140,7 +141,6 @@ const AppContextProvider = (props: ContextProps) => {
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    // if (doneInitialRender.current) {
     if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
       if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
         router.push({ pathname: '/', query: { path: router.pathname, login: true }}, '/');
@@ -151,7 +151,6 @@ const AppContextProvider = (props: ContextProps) => {
     if (router.pathname === '/' && !Boolean(router.query.login) && step !== 0) {
       setStep(0);
     }
-    // }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -198,6 +197,25 @@ const AppContextProvider = (props: ContextProps) => {
     return (<PleaseWait />);
   }
 
+  const renderContent = () => {
+    if (router.pathname === '/' && router.query[PARAM_QR_TEXT] !== undefined) {
+      const qrText = router.query[PARAM_QR_TEXT] as string;
+      if (qrText !== undefined && qrText.length) {
+        return (
+          <AppWrapper>
+            <Generator forceOverride={qrText} />
+          </AppWrapper>
+        );
+      }
+    } else {
+      return (
+        <AppWrapper userInfo={userInfo} handleLogout={logout}>
+          {children}
+        </AppWrapper>
+      );
+    }
+  }
+
   return (
     <Context.Provider value={{
       cornersData, setCornersData,
@@ -215,9 +233,7 @@ const AppContextProvider = (props: ContextProps) => {
       loading, setLoading,
       isWrong, setIsWrong
     }}>
-      <AppWrapper userInfo={userInfo} handleLogout={logout}>
-        {children}
-      </AppWrapper>
+      {renderContent()}
     </Context.Provider>
   );
 };
