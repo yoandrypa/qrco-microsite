@@ -1,15 +1,14 @@
 import dynamoose from "../../libs/dynamoose";
 import { QrOptionsModel } from "./QrOptionsModel";
-// @ts-ignore
-import { v4 } from "uuid";
 import { LinkModel } from "../link";
 import { UserModel } from "../UserModel";
+import {getUuid} from "../../helpers/qr/helpers";
 
 const QrDataSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
     type: String,
-    default: v4
+    default: getUuid()
   },
   qrName: { type: String, required: true },
   qrType: { type: String, required: true },

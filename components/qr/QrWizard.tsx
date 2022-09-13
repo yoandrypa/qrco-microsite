@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import * as linkHandler from "../../handlers/links";
 import { generateId, generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
+import {DataType} from "./types/types";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -26,7 +27,7 @@ interface StepsProps {
   step: number;
   setStep: Function;
   selected: string;
-  data: object;
+  data: DataType;
   userInfo: object;
   options: object;
   setOptions: Function;
@@ -37,16 +38,7 @@ const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", m
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const {
-    selected,
-    step,
-    setStep,
-    data,
-    userInfo,
-    options,
-    setOptions,
-    isWrong
-  }: StepsProps = useContext(Context);
+  const { selected, step, setStep, data, userInfo, options, setOptions, isWrong }: StepsProps = useContext(Context);
 
   // @ts-ignore
   const { loading, setLoading } = useContext(Context);
@@ -73,18 +65,24 @@ const QrWizard = ({ children }: QrWizardProps) => {
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && selected === "vcard+") {
+    } else if (step === 1 && Boolean(userInfo) && ['vcard+', 'web'].includes(selected)) {
+      debugger;
+
       setLoading(true);
-      //Generate an Id (Code) using the short link solution
-      const id = await generateId();
       // First create a Record of QR Model
-      const qr = await QrHandler.create({
-        qrName: selected + " - " + id,
-        qrType: selected,
+      // @ts-ignore
+      const model = { qrType: selected, userId: userInfo.attributes.sub, ...data };
+
+      // @ts-ignore
+      if (Boolean(data.isDynamic)) {
+        //Generate an Id (Code) using the short link solution
+        const id = await generateId();
         // @ts-ignore
-        userId: userInfo.attributes.sub,
-        ...data
-      });
+        model.qrName = `${selected} - ${id}`;
+      }
+
+      // @ts-ignore
+      const qr = await QrHandler.create(model);
       // Autogenerate the target url
       const targetUrl = generateShortLink("qr/" + qr.id);
       const shortLink = await handleShort(targetUrl);
@@ -126,9 +124,12 @@ const QrWizard = ({ children }: QrWizardProps) => {
         <StepperButtons
           onClick={handleNext}
           endIcon={step === 2 ? <DoneIcon /> : <ChevronRightIcon />}
-          disabled={loading || isWrong || !Boolean(selected)}
+          disabled={
+            loading || isWrong || !Boolean(selected) ||
+            (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
+          }
           variant="contained">
-          {step === 2 ? 'Done' : 'Next'}
+          {step === 2 ? 'Last' : 'Next'}
         </StepperButtons>
       </Box>
     </>

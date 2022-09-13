@@ -76,5 +76,6 @@ export type DataType = {
   pinterest?: string;
   telegram?: string;
   twitter?: string;
+  value?: string;
   isDynamic?: boolean;
 };
