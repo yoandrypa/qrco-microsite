@@ -1,14 +1,16 @@
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
-import { useContext } from "react";
+import {ChangeEvent, useContext} from "react";
 import Context from "../../context/Context";
+import InputAdornment from "@mui/material/InputAdornment";
+import Typography from "@mui/material/Typography";
 
 interface QRNameProps {
   qrName?: string;
-  handleValues: Function;
+  handleValue: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function RenderQRName({qrName, handleValues}: QRNameProps) {
+export default function RenderQRName({qrName, handleValue}: QRNameProps) {
   // @ts-ignore
   const { userInfo } = useContext(Context);
 
@@ -25,7 +27,15 @@ export default function RenderQRName({qrName, handleValues}: QRNameProps) {
         fullWidth
         margin="dense"
         value={qrName || ''}
-        onChange={handleValues('qrName')} />
+        onChange={handleValue}
+        InputProps={{
+          endAdornment: (
+            !Boolean(qrName?.trim().length) ? (<InputAdornment position="end">
+              <Typography color="error">REQUIRED</Typography>
+            </InputAdornment>) : null
+          )
+        }}
+      />
       <Divider sx={{ my: '10px' }} />
     </>
   );
