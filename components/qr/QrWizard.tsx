@@ -82,11 +82,14 @@ const QrWizard = ({ children }: QrWizardProps) => {
 
       // @ts-ignore
       const qr = await QrHandler.create(model);
-      // Autogenerate the target url
-      const targetUrl = generateShortLink("qr/" + qr.id);
-      const shortLink = await handleShort(targetUrl);
-      // @ts-ignore
-      await QrHandler.edit({ id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id });
+
+      if (data?.isDynamic) {
+        // Autogenerate the target url
+        const targetUrl = generateShortLink("qr/" + qr.id);
+        const shortLink = await handleShort(targetUrl);
+        // @ts-ignore
+        await QrHandler.edit({id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id});
+      }
       setLoading(false);
       // @ts-ignore
       if (!shortLink.error) {
