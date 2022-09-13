@@ -13,7 +13,7 @@ export const config = {
 };
 
 
-const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY || 'sk_test_51Ksb3LCHh3XhfaZr2tgzaQKAQtuTF9vRtgdXBS7X2rAaPC6FNoLQ3hyPFVmlnRhsif0FDdbi5cdgEh7Y1Wt9Umo900w9YPUGo6', {
   // https://github.com/stripe/stripe-node#configuration
   apiVersion: '2022-08-01',
 })
