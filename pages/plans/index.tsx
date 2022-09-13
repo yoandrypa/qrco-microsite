@@ -14,8 +14,10 @@ import DialogContent from '@mui/material/DialogContent'
 import Dialog from '@mui/material/Dialog'
 import { useRouter } from 'next/router';
 import Context from '../../components/context/Context'
-import axios, { Axios } from 'axios'
-
+import axios, { Axios, AxiosError } from 'axios'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
+import SnackbarContent from '@mui/material/SnackbarContent'
 type Props = {}
 
 Amplify.configure(awsconfig);
@@ -28,6 +30,8 @@ const Plans = (props: Props) => {
 
   const [user, setUser] = useState<any>(null);
   const [mustLogInDlg,setMustLogInDlg] = useState(false)
+  const [error,setError] = useState<string | null >(null)
+
   // @ts-ignore
   const {userInfo} = useContext(Context)
   const API = axios.create({
@@ -140,29 +144,46 @@ const router = useRouter()
   }
 
 
-const handleClick = (plan: string) =>{
+const handleClick = async (plan: string) =>{
   if (user === null){
     setMustLogInDlg(true)
   } else {
-    const response = API.post(`/api/create-customer`,{
-              id: user.attributes.sub,
-              email: user.attributes.email,
-              plan_type: plan
-            })
-console.log(response)
-//@ts-ignore
-if (response.error || response.status! > 200 ) {
-    console.log('error')
-    return
- }     
+
+    try {
+      const response = await API.post(`/api/create-customer`,{
+        id: user.attributes.sub,
+        email: user.attributes.email,
+        plan_type: plan
+      })
+      console.log(response)     
+     
+    } catch (error ) {    
+      const errorMessage = error instanceof AxiosError ? error.message : 'Something went wrong'
+      setError(errorMessage)     
+    }
+ 
+
+     
   }
 }
 
 const handleTabChange = (event: React.SyntheticEvent, value:number)=>{
 setActiveTab(value)
 }
+
+const action = (
+  <Button color="primary" variant='contained' sx={{marginLeft: 2}} size="small">
+    Support
+  </Button>
+);
+
   return (
     <>
+    <Snackbar  open={!!error}  autoHideDuration={6000} action={action}>
+  <Alert onClose={()=> setError(null)} variant="filled" severity="error" sx={{ width: '100%' }}>
+    {error}{action}
+ </Alert> 
+</Snackbar>
     <Dialog open={mustLogInDlg}>
       <DialogContent>
        In order to buy a plan, you must login first!
