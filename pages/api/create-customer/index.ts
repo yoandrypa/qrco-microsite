@@ -3,7 +3,7 @@ import Stripe from 'stripe'
 import {update, find} from '../../../handlers/users'
 // import {PLAN_TEST_MODE_PRICES} from '../../../consts'
 //init stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY!, {
     // https://github.com/stripe/stripe-node#configuration
     apiVersion: '2022-08-01',
   })
