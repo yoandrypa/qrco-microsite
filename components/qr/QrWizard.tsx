@@ -66,20 +66,19 @@ const QrWizard = ({ children }: QrWizardProps) => {
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
     } else if (step === 1 && Boolean(userInfo) && ['vcard+', 'web'].includes(selected)) {
-      debugger;
-
       setLoading(true);
       // First create a Record of QR Model
       // @ts-ignore
       const model = { qrType: selected, userId: userInfo.attributes.sub, ...data };
 
       // @ts-ignore
-      if (Boolean(data.isDynamic)) {
-        //Generate an Id (Code) using the short link solution
-        const id = await generateId();
-        // @ts-ignore
-        model.qrName = `${selected} - ${id}`;
-      }
+      // if (Boolean(data.isDynamic)) {
+      //   //Generate an Id (Code) using the short link solution
+      //   const id = await generateId();
+      //   // @ts-ignore
+      //   model.qrName = data.qrName;
+      //   // model.qrName = data.qrName || `${selected} - ${id}`;
+      // }
 
       // @ts-ignore
       const qr = await QrHandler.create(model);
