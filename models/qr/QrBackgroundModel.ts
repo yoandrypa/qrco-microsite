@@ -1,21 +1,39 @@
 import dynamoose from '../../libs/dynamoose';
-// @ts-ignore
-import { v4 } from 'uuid';
+import {getUuid} from "../../helpers/qr/helpers";
 
 const QrBackgroundSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
     type: String,
-    default: v4
+    default: getUuid()
   },
   type: String,
-  opacity: { type: Number, required: true },
-  size: { type: Number, required: true },
+  opacity: {
+    type: Number,
+    required: true
+  },
+  size: {
+    type: Number,
+    required: true
+  },
   file: String,
-  x: { type: Number, required: true },
-  y: { type: Number, required: true },
-  imageSize: { type: Number, required: true },
-  invert: { type: Boolean, required: false, default: false },
+  x: {
+    type: Number,
+    required: true
+  },
+  y: {
+    type: Number,
+    required: true
+  },
+  imageSize: {
+    type: Number,
+    required: true
+  },
+  invert: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   backColor: String
 }, {
   "timestamps": true

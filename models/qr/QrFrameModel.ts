@@ -1,12 +1,11 @@
 import dynamoose from '../../libs/dynamoose';
-// @ts-ignore
-import { v4 } from 'uuid';
+import {getUuid} from "../../helpers/qr/helpers";
 
 const QrFrameShcema = new dynamoose.Schema({
   id: {
     hashKey: true,
     type: String,
-    default: v4
+    default: getUuid()
   },
   type: String,
   text: {

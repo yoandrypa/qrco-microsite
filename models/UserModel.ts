@@ -1,14 +1,12 @@
 import dynamoose from "../libs/dynamoose";
-
-const { v4 } = require("uuid");
-//const Unique = require("./unique")
+import {getUuid} from "../helpers/qr/helpers";
 
 // user schema
 const UserSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
     type: String,
-    default: v4
+    default: getUuid()
   },
   banned: {
     type: Boolean,

@@ -8,13 +8,18 @@ type SingleDataProps = {
   limit?: number;
   msg: string;
   label: string;
-  data: string;
-  setData: (payload: string) => void;
+  data: { value: string };
+  setData: Function;
 };
 
 function SingleData({ label, data, setData, msg, limit = -1 }: SingleDataProps) {
   const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setData(event.target.value);
+    let { value } = event.target;
+    if (limit !== -1) {
+      value = value.slice(0, limit);
+    }
+    // @ts-ignore
+    setData({ ...data, value });
   };
 
   return (
@@ -27,9 +32,9 @@ function SingleData({ label, data, setData, msg, limit = -1 }: SingleDataProps) 
           size="small"
           fullWidth
           margin="dense"
-          value={data}
+          value={data?.value || ''}
           onChange={handleValue}/>
-        {limit !== -1 && <MultiLineDetails top={limit} data={data} />}
+        {limit !== -1 && <MultiLineDetails top={limit} data={data?.value || ''} />}
       </>
     </Common>
   );

@@ -1,12 +1,14 @@
 import dynamoose from '../../libs/dynamoose';
-// @ts-ignore
-import { v4 } from 'uuid';
+import {QrBackgroundModel} from "./QrBackgroundModel";
+import {QrFrameModel} from "./QrFrameModel";
+import {QrCornersModel} from "./QrCornesModel";
+import {getUuid} from "../../helpers/qr/helpers";
 
 const QrOptionsSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
     type: String,
-    default: v4
+    default: getUuid()
   },
   width: { type: Number, required: true },
   height: { type: Number, required: true },
@@ -61,7 +63,11 @@ const QrOptionsSchema = new dynamoose.Schema({
       color: { type: String, required: true },
       type: { type: String, required: true }
     }
-  }
+  },
+  qrBackgroundId: QrBackgroundModel,
+  qrBackFrameId: QrFrameModel,
+  qrCornersId: QrCornersModel,
+  qrCordersDotId: QrCornersModel
 }, {
   "timestamps": true
 });
