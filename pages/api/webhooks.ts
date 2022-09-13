@@ -13,7 +13,7 @@ export const config = {
 };
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
   apiVersion: '2022-08-01',
 })
@@ -22,7 +22,7 @@ type ResponseData = {
 
 }
 
-const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!
+const webhookSecret: string = process.env.REACT_STRIPE_WEBHOOK_SECRET!
 
 export enum StripeWebhooks {
   AsyncPaymentSuccess = 'checkout.session.async_payment_succeeded',
