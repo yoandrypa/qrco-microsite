@@ -157,7 +157,7 @@ const handleClick = async (plan: string) =>{
         email: user.attributes.email,
         plan_type: plan
       })
-      console.log(response)     
+      if (response.status === 200) window.location.href = response.data.result.url    
      
     } catch (error ) {    
       const errorMessage = error instanceof AxiosError ? error.message : 'Something went wrong'
