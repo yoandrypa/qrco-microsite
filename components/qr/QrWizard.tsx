@@ -18,6 +18,8 @@ import * as QrHandler from "../../handlers/qrs";
 import {BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType, UpdaterType} from "./types/types";
 import {createMainDesign, updateDesign} from "../../handlers/qrDesign";
 import {QR_TYPE_ROUTE} from "./constants";
+import {areEquals} from "../helpers/generalFunctions";
+import initialData, {initialBackground, initialFrame} from "../../helpers/qr/data";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -37,20 +39,17 @@ interface StepsProps {
   cornersData: CornersAndDotsType;
   dotsData: CornersAndDotsType;
   setOptions: (opt: OptionsType) => void;
-  clearData: () => void;
   isWrong: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
-  idDesignRef: string | null;
-  setIdDesignRef: (id: null | string) => void;
 }
 
 const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo, options, setOptions, frame, background, cornersData, dotsData,
-    isWrong, loading, setLoading, idDesignRef, setIdDesignRef, clearData }: StepsProps = useContext(Context);
+  const { selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
+    dotsData, isWrong, loading, setLoading }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
@@ -77,16 +76,21 @@ const QrWizard = ({ children }: QrWizardProps) => {
     } else if (step === 1 && Boolean(userInfo) && ['vcard+', 'web'].includes(selected)) {
       setLoading(true);
       // First create a Record of QR Model
-      // @ts-ignore
-      const design = await createMainDesign(options);
-      // @ts-ignore
-      setIdDesignRef(design.id);
 
       // @ts-ignore
-      const model = { ...data, qrType: selected, userId: userInfo.attributes.sub, qrOptionsId: design };
+      const model = { ...data, qrType: selected, userId: userInfo.attributes.sub };
+
+      if (!options.id) {
+        const design = await createMainDesign(options);
+        // @ts-ignore
+        model.qrOptionsId = design;
+        // @ts-ignore
+        setOptions({ ...options, id: design.id });
+      }
 
       // @ts-ignore
       const qr = await QrHandler.create(model);
+      setData({ ...data, id: qr.id });
 
       let shortLink;
       if (data?.isDynamic) {
@@ -100,23 +104,69 @@ const QrWizard = ({ children }: QrWizardProps) => {
       // @ts-ignore
       if (!shortLink?.error) {
         // @ts-ignore
-        setOptions({ ...options, data: shortLink?.link });
+        if (shortLink?.link) { setOptions({ ...options, data: shortLink?.link }); }
         setStep(2);
       }
     } else if (step === 2) {
-      if (Boolean(userInfo) && Boolean(idDesignRef)) {
-        const updater = {options, frame, background} as UpdaterType;
+      if (Boolean(userInfo) && Boolean(options.id)) {
+        // @ts-ignore
+        let updater = undefined;
+
+        const initializeUpdater = () => {
+          // @ts-ignore
+          if (!Boolean(updater)) {
+            updater = { ...options };
+          }
+        }
+
+        const areTheSame = () => {
+          const cleaner = (obj: OptionsType) => {
+            const o = JSON.parse(JSON.stringify(obj));
+            // @ts-ignore
+            if (o.data !== undefined) { delete o.data; }
+            // @ts-ignore
+            if (o.qrOptions.typeNumber !== undefined) { delete o.qrOptions.typeNumber; }
+            return o;
+          }
+
+          const o1 = cleaner(options);
+          const o2 = cleaner(initialData);
+
+          return areEquals(o1, o2);
+        }
+
+        if (!areTheSame) {
+          initializeUpdater();
+        }
+
+        // const updater = {options, frame, background} as UpdaterType;
+        if (!areEquals(frame, initialFrame)) {
+          initializeUpdater();
+          // @ts-ignore
+          updater.frame = frame;
+        }
+        if (!areEquals(background, initialBackground)) {
+          initializeUpdater();
+          // @ts-ignore
+          updater.background = background;
+        }
         if (cornersData !== null) {
+          initializeUpdater();
+          // @ts-ignore
           updater.corners = cornersData;
         }
         if (dotsData !== null) {
+          initializeUpdater();
+          // @ts-ignore
           updater.cornersDot = dotsData;
         }
 
         try {
           setLoading(true);
           // const result = await updateDesign(idDesignRef || '', updater);
-          await updateDesign(idDesignRef || '', updater);
+          if (updater !== undefined) {
+            await updateDesign(options.id || '', updater);
+          }
           router.push({pathname: '/', query: { clear: true }}, '/', { shallow: true });
         } catch (error) {
           console.log(error);

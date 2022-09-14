@@ -48,7 +48,6 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isWrong, setIsWrong] = useState<boolean>(false);
-  const [idDesignRef, setIdDesignRef] = useState<string | null>(null);
 
   const doneInitialRender = useRef<boolean>(false);
 
@@ -212,10 +211,9 @@ const AppContextProvider = (props: ContextProps) => {
       selected, setSelected,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep, clearData,
+      step, setStep,
       loading, setLoading,
-      isWrong, setIsWrong,
-      idDesignRef, setIdDesignRef
+      isWrong, setIsWrong
     }}>
       {renderContent()}
     </Context.Provider>
