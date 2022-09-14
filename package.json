@@ -26,7 +26,6 @@
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.29.1",
     "dynamoose": "^2.8.6",
-    "easy-peasy": "^5.0.4",
     "fast-geoip": "^1.1.88",
     "html-react-parser": "^3.0.4",
     "isbot": "^3.5.2",
