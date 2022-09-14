@@ -73,6 +73,7 @@ const AppContextProvider = (props: ContextProps) => {
     setCornersData(null);
     setOptions(handleInitialData('Ebanux'));
     setData({});
+    setIdDesignRef(null);
     setIsWrong(false);
     setLoading(false);
   }, []);
@@ -212,7 +213,7 @@ const AppContextProvider = (props: ContextProps) => {
       selected, setSelected,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep, clearData,
+      step, setStep,
       loading, setLoading,
       isWrong, setIsWrong,
       idDesignRef, setIdDesignRef

@@ -18,6 +18,8 @@ import * as QrHandler from "../../handlers/qrs";
 import {BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType, UpdaterType} from "./types/types";
 import {createMainDesign, updateDesign} from "../../handlers/qrDesign";
 import {QR_TYPE_ROUTE} from "./constants";
+import {areEquals} from "../helpers/generalFunctions";
+import initialData, {initialBackground, initialFrame} from "../../helpers/qr/data";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -37,7 +39,6 @@ interface StepsProps {
   cornersData: CornersAndDotsType;
   dotsData: CornersAndDotsType;
   setOptions: (opt: OptionsType) => void;
-  clearData: () => void;
   isWrong: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
@@ -50,7 +51,7 @@ const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", m
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
   const { selected, step, setStep, data, userInfo, options, setOptions, frame, background, cornersData, dotsData,
-    isWrong, loading, setLoading, idDesignRef, setIdDesignRef, clearData }: StepsProps = useContext(Context);
+    isWrong, loading, setLoading, idDesignRef, setIdDesignRef }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
@@ -79,14 +80,15 @@ const QrWizard = ({ children }: QrWizardProps) => {
       // First create a Record of QR Model
       // @ts-ignore
       const design = await createMainDesign(options);
-      // @ts-ignore
-      setIdDesignRef(design.id);
 
       // @ts-ignore
       const model = { ...data, qrType: selected, userId: userInfo.attributes.sub, qrOptionsId: design };
 
       // @ts-ignore
       const qr = await QrHandler.create(model);
+
+      // @ts-ignore
+      setIdDesignRef(design.id);
 
       let shortLink;
       if (data?.isDynamic) {
@@ -105,18 +107,56 @@ const QrWizard = ({ children }: QrWizardProps) => {
       }
     } else if (step === 2) {
       if (Boolean(userInfo) && Boolean(idDesignRef)) {
-        const updater = {options, frame, background} as UpdaterType;
+        // @ts-ignore
+        let updater = undefined;
+
+        const initializeUpdater = () => {
+          // @ts-ignore
+          if (!Boolean(updater)) {
+            updater = { ...options };
+          }
+        }
+
+        const cleanObject = (obj: OptionsType) => {
+          // @ts-ignore
+          if (obj.data !== undefined) { delete obj.data; }
+          // @ts-ignore
+          if (obj.qrOptions.typeNumber !== undefined) { delete obj.qrOptions.typeNumber; }
+          return obj;
+        }
+
+        if (!areEquals(cleanObject({ ...options }), cleanObject({ ...initialData }))) {
+          initializeUpdater();
+        }
+
+        // const updater = {options, frame, background} as UpdaterType;
+        if (!areEquals(frame, initialFrame)) {
+          initializeUpdater();
+          // @ts-ignore
+          updater.frame = frame;
+        }
+        if (!areEquals(background, initialBackground)) {
+          initializeUpdater();
+          // @ts-ignore
+          updater.background = background;
+        }
         if (cornersData !== null) {
+          initializeUpdater();
+          // @ts-ignore
           updater.corners = cornersData;
         }
         if (dotsData !== null) {
+          initializeUpdater();
+          // @ts-ignore
           updater.cornersDot = dotsData;
         }
 
         try {
           setLoading(true);
           // const result = await updateDesign(idDesignRef || '', updater);
-          await updateDesign(idDesignRef || '', updater);
+          if (updater !== undefined) {
+            await updateDesign(idDesignRef || '', updater);
+          }
           router.push({pathname: '/', query: { clear: true }}, '/', { shallow: true });
         } catch (error) {
           console.log(error);
