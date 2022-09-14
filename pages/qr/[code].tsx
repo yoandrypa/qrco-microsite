@@ -28,7 +28,7 @@ export default function Handler({ data }) {
       }
     });
 
-    const contents = handleDesignerString("vcard", newData, null);
+    const contents = handleDesignerString("vcard", newData);
     const file = new File([contents], "my vcard.vcf", {
       type: "text/plain"
     });
