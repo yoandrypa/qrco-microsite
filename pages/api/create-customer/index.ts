@@ -110,7 +110,7 @@ async function createCheckoutSession(
             res.status(200).json({result: session})
           } catch (error) {
             if (error instanceof Error ) {
-              return res.status(500).json({error: true, message: session.message})
+              return res.status(500).json({error: true, message: error.message})
             } 
             
           }
