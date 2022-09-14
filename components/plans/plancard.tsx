@@ -3,14 +3,14 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import Done from '@mui/icons-material/Done'
 import Paper from '@mui/material/Paper'
-import CardMedia from '@mui/material/CardMedia'
-import Box from '@mui/material/Box'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useIntl } from 'react-intl'
+
 
 interface CardOptions  { 
         title: string,
         description:string,
+        plan_type: PlanType,
         priceAmount: string,
         period:string,
         buttonText:string,
@@ -58,7 +58,7 @@ type PlanCardProps = {
         <LoadingButton loading={innerLoading} 
           onClick={()=> {
             setInnerLoading(true)
-            clickAction(data.title)  
+            clickAction(data.plan_type)  
             setInnerLoading(false)        
           }}
           variant={data.highlighted ? 'contained':'outlined'} >     

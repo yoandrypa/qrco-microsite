@@ -14,19 +14,15 @@ import DialogContent from '@mui/material/DialogContent'
 import Dialog from '@mui/material/Dialog'
 import { useRouter } from 'next/router';
 import Context from '../../components/context/Context'
-import axios, { Axios, AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
-import SnackbarContent from '@mui/material/SnackbarContent'
 type Props = {}
 
 Amplify.configure(awsconfig);
 
 const Plans = (props: Props) => {
-  interface UserAuthData {
-    username: string; 
-    id: string;
-  }
+
 
   const [user, setUser] = useState<any>(null);
   const [mustLogInDlg,setMustLogInDlg] = useState(false)
@@ -63,6 +59,7 @@ const router = useRouter()
     title:"Basic Account",
     description:"For small teams or group who need to build a website",
     buttonText: "Subscribe",
+    plan_type:"basic",
     period: "Per month & subscription yearly",
     highlighted: false,
     priceAmount: "$9",
@@ -77,6 +74,7 @@ const router = useRouter()
     title:"Basic Account",
     description:"For small teams or group who need to build a website",
     buttonText: "Subscribe",
+    plan_type:"basicAnnual",
     period: "Save two months",
     highlighted: false,
     priceAmount: "$90",
@@ -92,6 +90,7 @@ const router = useRouter()
     title:"Business Account",
     description:"For medium team or grup who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"business",
     period: "Save two months",
     highlighted: false,
     priceAmount: "$15",
@@ -105,6 +104,7 @@ const router = useRouter()
     title:"Business Account",
     description:"For medium team or grup who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"businessAnnual",
     period: "Save two months",
     highlighted: false,
     priceAmount: "$150",
@@ -120,6 +120,7 @@ const router = useRouter()
     title:"Premium Account",
     description:"For large teams or group who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"premium",
     period: "Per month & subscription yearly",
     highlighted: true,
     priceAmount: "$45",
@@ -131,8 +132,9 @@ const router = useRouter()
   }
   const premiumAnnual = {
     title:"Premium Account",
-    description:"For large teams or group who need to build a website.",
+    description:"For large business who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"premiumAnnual",
     period: "Per month & subscription yearly",
     highlighted: true,
     priceAmount: "$360",
@@ -210,7 +212,7 @@ const action = (
      </Box>
     <Grid container alignContent='center' display='flex' spacing={3} justifyContent={'center'}>
       <Grid item xs={12} md={6} lg={4}>
-      <PlanCard data={activeTab == 0 ?  basic : basicAnnual}  
+      <PlanCard data={activeTab == 0 ?  basic  : basicAnnual }  
     isCurrentPlan={false} 
     clickAction={handleClick}/>
       </Grid>

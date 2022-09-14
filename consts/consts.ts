@@ -21,19 +21,19 @@ export const MAIN_CONFIG = {
   theme: THEMES_VARIANTS.light
 };
 export const PLAN_TEST_MODE_PRICES = {
-basic:"",
-business:"",
-premium:"",
-annualbasic:"",
-annualbusiness:"",
-annualpremium:""
+basic:"price_1LecysCHh3XhfaZr0xh4P1JM",
+business:"price_1LedMoCHh3XhfaZrTSi8Z5Bb",
+premium:"price_1LectfCHh3XhfaZr9k2POClc",
+basicAnnual:"price_1Lf9EoCHh3XhfaZra11UYGgn",
+businessAnnual:"price_1Lf9DaCHh3XhfaZro7S6wRVr",
+premiumAnnual:"price_1Lf9A1CHh3XhfaZr1k1ZJUu8"
 }
 
 export const PLAN_LIVE_MODE_PRICES = {
-basic:"",
-business:"",
-premium:"",
-annualbasic:"",
-annualbusiness:"",
-annualpremium:""
+  basic:"price_1Lh8QICHh3XhfaZr1kwU4rc7",
+  business:"price_1Lh8Q5CHh3XhfaZruiDFYMB7",
+  premium:"price_1Lh8QRCHh3XhfaZrjAFxzmvL",
+  basicAnnual:"price_1Lh8QICHh3XhfaZrJ1FCs2k1",
+  businessAnnual:"price_1Lh8Q5CHh3XhfaZrG91l2Q66",
+  premiumAnnual:"price_1Lh8QRCHh3XhfaZrjhtNHx2F"
 }
