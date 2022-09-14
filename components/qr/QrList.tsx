@@ -109,7 +109,7 @@ const QrList = ({ qrs }: any) => {
           : <Alert severity="info" variant="outlined"
                    action={<Button size="small" variant="outlined"
                                    onClick={() => router.push(QR_TYPE_ROUTE)}>Check</Button>}>
-            <AlertTitle>What? You still don't have any own QR?</AlertTitle>
+            <AlertTitle>What? You still don&apos;t have any own QR?</AlertTitle>
             Take a look at our wonderful proposals that we have for you, surely
             some of them will be of great interest to you.
           </Alert>
