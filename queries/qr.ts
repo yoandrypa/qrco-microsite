@@ -1,6 +1,7 @@
 import { QrDataModel } from "../models/qr/QrDataModel";
 import dynamoose from "../libs/dynamoose";
 import { CustomError } from "../utils";
+import { LinkModel } from "../models/link";
 
 interface TotalParams {
   search?: string;
@@ -109,9 +110,12 @@ export const remove = async (match: Partial<QrDataType>) => {
       throw new CustomError("QR Code was not found.");
     }
 
-    const deletedQr = await qr.delete();
+    const deleteCascade = await dynamoose.transaction([
+      LinkModel.transaction.delete(qr.shortLinkId),
+      QrDataModel.transaction.delete(qr.id)
+    ]);
 
-    return !deletedQr;
+    return !deleteCascade;
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);
