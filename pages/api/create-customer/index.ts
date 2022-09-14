@@ -25,7 +25,7 @@ const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY || 'sk_test_51Ksb3
 
 function getCurrentPrices(){
   if (process.env.REACT_APP_MODE != 'PROD'){
-    return PLAN_LIVE_MODE_PRICES
+    return PLAN_TEST_MODE_PRICES
   } else 
   {
     return PLAN_TEST_MODE_PRICES
