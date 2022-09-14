@@ -60,8 +60,9 @@ const QrList = ({ qrs }: any) => {
                     <Stack direction="column">
                       <Typography variant="subtitle2" style={{ color: "orange" }}>{qr.qrType}</Typography>
                       <Typography variant="h6" style={{ fontWeight: "bold" }}>{qr.qrName}</Typography>
-                      <Typography variant="caption" style={{ color: "gray" }}>Created
-                        at: {format(new Date(qr.createdAt), "do 'of' MMMM 'of' yyyy")}</Typography>
+                      <Typography variant="caption" style={{ color: "gray" }}>
+                        Created at: {format(new Date(qr.createdAt), "E do, MMM 'of' yyyy")}
+                      </Typography>
                     </Stack>
                   </Grid>
                   <Divider orientation="vertical" flexItem />
@@ -75,7 +76,7 @@ const QrList = ({ qrs }: any) => {
                         <Public fontSize="inherit" /> <Link href={qrLink.link}>{qrLink.link}</Link>
                       </Typography> : <></>}
                       <Typography variant="caption" style={{ color: "gray" }}>
-                        <Edit fontSize="inherit" /> Updated at: {format(new Date(qr.updatedAt), "do 'of' MMMM 'of' yyyy")}
+                        <Edit fontSize="inherit" /> Updated at: {format(new Date(qr.updatedAt), "E do, MMM 'of' yyyy")}
                       </Typography>
                     </Stack>
                   </Grid>
@@ -109,7 +110,7 @@ const QrList = ({ qrs }: any) => {
           : <Alert severity="info" variant="outlined"
                    action={<Button size="small" variant="outlined"
                                    onClick={() => router.push(QR_TYPE_ROUTE)}>Check</Button>}>
-            <AlertTitle>What? You still don't have any own QR?</AlertTitle>
+            <AlertTitle>What? You still don&apos;t have any own QR?</AlertTitle>
             Take a look at our wonderful proposals that we have for you, surely
             some of them will be of great interest to you.
           </Alert>
