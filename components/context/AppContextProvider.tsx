@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -48,9 +48,9 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isWrong, setIsWrong] = useState<boolean>(false);
+  const [idDesignRef, setIdDesignRef] = useState<string | null>(null);
 
   const doneInitialRender = useRef<boolean>(false);
-  const forceOpenDesigner = useRef<boolean>(false);
 
   const router = useRouter();
 
@@ -64,6 +64,19 @@ const AppContextProvider = (props: ContextProps) => {
     }
   };
 
+  const clearData = useCallback(() => {
+    setStep(0)
+    setLogoData(null);
+    setBackground(initialBackground);
+    setFrame(initialFrame);
+    setDotsData(null);
+    setCornersData(null);
+    setOptions(handleInitialData('Ebanux'));
+    setData({});
+    setIsWrong(false);
+    setLoading(false);
+  }, []);
+
   useEffect(() => {
     if (router.pathname === QR_TYPE_ROUTE) {
       if (doneInitialRender.current) {
@@ -76,9 +89,7 @@ const AppContextProvider = (props: ContextProps) => {
             setData({ ...data, value: "Enter any text here" });
           }
         } else {
-          setLogoData(null);
-          setBackground(initialBackground);
-          setFrame(initialFrame);
+          clearData();
         }
         if (step !== 0) {
           setStep(0);
@@ -106,7 +117,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current) {
+    if (doneInitialRender.current && !Boolean(router.query.clear)) {
       switch (step) {
         case 0: {
           router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
@@ -118,10 +129,6 @@ const AppContextProvider = (props: ContextProps) => {
         }
         case 2: {
           router.push(QR_DESIGNER_NEW_ROUTE, undefined, {shallow: true});
-          break;
-        }
-        default: {
-          router.push(Boolean(userInfo) ? '/' : QR_TYPE_ROUTE, undefined, {shallow: true});
           break;
         }
       }
@@ -138,16 +145,14 @@ const AppContextProvider = (props: ContextProps) => {
         router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
       }
     }
-    if (router.pathname === '/' && !Boolean(router.query.login) && step !== 0) {
-      setStep(0);
+    if (router.pathname === '/') {
+      if (Boolean(router.query.clear)) {
+        clearData();
+      } else if (!Boolean(router.query.login) && step !== 0) {
+        setStep(0);
+      }
     }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (forceOpenDesigner.current) {
-      forceOpenDesigner.current = false;
-    }
-  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (Boolean(userInfo) && verifying) {
@@ -207,9 +212,10 @@ const AppContextProvider = (props: ContextProps) => {
       selected, setSelected,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep,
+      step, setStep, clearData,
       loading, setLoading,
-      isWrong, setIsWrong
+      isWrong, setIsWrong,
+      idDesignRef, setIdDesignRef
     }}>
       {renderContent()}
     </Context.Provider>
