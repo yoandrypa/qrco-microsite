@@ -105,11 +105,16 @@ async function createCheckoutSession(
           }
            
           //create checkout session
-      const session = await createCheckoutSession({ customer_id: userData.plan_customer_id, plan_type: req.body.plan_type }) 
-      if (session instanceof Error ) {
-        return res.status(500).json({error: true, message: session.message})
-      } 
-        res.status(200).json({result: session})
+          try {
+            const session = await createCheckoutSession({ customer_id: userData.plan_customer_id, plan_type: req.body.plan_type }) 
+            res.status(200).json({result: session})
+          } catch (error) {
+            if (error instanceof Error ) {
+              return res.status(500).json({error: true, message: session.message})
+            } 
+            
+          }
+     
   } else {
     //Incorrect method
     res.setHeader('Allow', 'POST')
