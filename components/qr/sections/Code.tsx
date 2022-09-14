@@ -81,7 +81,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
               label="Code"
               property="dotsOptions.type"
               handleData={handleData}
-              selected={options.dotsOptions.type}
+              selected={options.dotsOptions?.type || 'square'}
               options={[
                 { label: 'Squares', value: 'square', image: true },
                 { label: 'Rounded', value: 'rounded', image: true },
@@ -92,7 +92,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
             />
             <ColorSelector
               label="Code color"
-              color={options.dotsOptions.color}
+              color={options.dotsOptions?.color || '#000000'}
               handleData={handleData}
               property="dotsOptions.color"
             />
@@ -135,7 +135,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
               label="Corner"
               property="cornersSquareOptions.type"
               handleData={handleData}
-              selected={options.cornersSquareOptions.type || '-1'}
+              selected={options.cornersSquareOptions?.type || '-1'}
               options={[
                 { label: 'Squares', value: 'square', image: true },
                 { label: 'Smooth', value: 'extra-rounded', image: true },
@@ -147,7 +147,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
             {renderSwitches(true)}
             {!cornersData ? (<ColorSelector
               label="Corner color"
-              color={options.cornersSquareOptions.color}
+              color={options.cornersSquareOptions?.color || '#000000'}
               handleData={handleData}
               property="cornersSquareOptions.color"
             />) : renderEditButtons('corners')}
@@ -159,7 +159,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
               label="Dot"
               property="cornersDotOptions.type"
               handleData={handleData}
-              selected={options.cornersDotOptions.type || '-1'}
+              selected={options.cornersDotOptions?.type || '-1'}
               options={[
                 { label: 'Squares', value: 'square', image: true },
                 { label: 'Dots', value: 'dot', image: true },
@@ -170,7 +170,7 @@ const Code = ({ options, handleData, background, handleBackground, handleReset, 
             {renderSwitches(false)}
             {!dotsData ? (<ColorSelector
               label="Dot color"
-              color={options.cornersDotOptions.color}
+              color={options.cornersDotOptions?.color}
               handleData={handleData}
               property="cornersDotOptions.color"
             />) : renderEditButtons('dots')}

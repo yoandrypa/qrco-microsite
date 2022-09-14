@@ -15,8 +15,9 @@ import { useRouter } from "next/router";
 import * as linkHandler from "../../handlers/links";
 import { generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
-import {DataType} from "./types/types";
-import {createMainDesign} from "../../handlers/qrDesign";
+import {BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType, UpdaterType} from "./types/types";
+import {createMainDesign, updateDesign} from "../../handlers/qrDesign";
+import {QR_TYPE_ROUTE} from "./constants";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -30,18 +31,26 @@ interface StepsProps {
   selected: string;
   data: DataType;
   userInfo: object;
-  options: object;
-  setOptions: Function;
+  options: OptionsType;
+  frame: FramesType;
+  background: BackgroundType;
+  cornersData: CornersAndDotsType;
+  dotsData: CornersAndDotsType;
+  setOptions: (opt: OptionsType) => void;
+  clearData: () => void;
   isWrong: boolean;
   loading: boolean;
-  setLoading: Function;
+  setLoading: (isLoading: boolean) => void;
+  idDesignRef: string | null;
+  setIdDesignRef: (id: null | string) => void;
 }
 
 const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo, options, setOptions, isWrong, loading, setLoading }: StepsProps = useContext(Context);
+  const { selected, step, setStep, data, userInfo, options, setOptions, frame, background, cornersData, dotsData,
+    isWrong, loading, setLoading, idDesignRef, setIdDesignRef, clearData }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
@@ -64,12 +73,14 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const handleNext = async () => {
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
-      await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
+      router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
     } else if (step === 1 && Boolean(userInfo) && ['vcard+', 'web'].includes(selected)) {
       setLoading(true);
       // First create a Record of QR Model
       // @ts-ignore
       const design = await createMainDesign(options);
+      // @ts-ignore
+      setIdDesignRef(design.id);
 
       // @ts-ignore
       const model = { ...data, qrType: selected, userId: userInfo.attributes.sub, qrOptionsId: design };
@@ -91,6 +102,30 @@ const QrWizard = ({ children }: QrWizardProps) => {
         // @ts-ignore
         setOptions({ ...options, data: shortLink?.link });
         setStep(2);
+      }
+    } else if (step === 2) {
+      if (Boolean(userInfo) && Boolean(idDesignRef)) {
+        const updater = {options, frame, background} as UpdaterType;
+        if (cornersData !== null) {
+          updater.corners = cornersData;
+        }
+        if (dotsData !== null) {
+          updater.cornersDot = dotsData;
+        }
+
+        try {
+          setLoading(true);
+          // const result = await updateDesign(idDesignRef || '', updater);
+          await updateDesign(idDesignRef || '', updater);
+          router.push({pathname: '/', query: { clear: true }}, '/', { shallow: true });
+        } catch (error) {
+          console.log(error);
+
+        }
+        setLoading(false);
+      }
+      if (!Boolean(userInfo)) {
+        router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
       }
     } else {
       setStep((prev: number) => prev + 1);
@@ -120,13 +155,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
         {/* @ts-ignore */}
         <StepperButtons
           onClick={handleNext}
-          endIcon={step === 2 ? <DoneIcon /> : <ChevronRightIcon />}
+          endIcon={step >= 2 ? <DoneIcon /> : <ChevronRightIcon />}
           disabled={
             loading || isWrong || !Boolean(selected) ||
             (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
           }
           variant="contained">
-          {step === 2 ? 'Last' : 'Next'}
+          {step >= 2 ? 'Last' : 'Next'}
         </StepperButtons>
       </Box>
     </>

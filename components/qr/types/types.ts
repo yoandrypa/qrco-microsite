@@ -79,3 +79,11 @@ export type DataType = {
   value?: string;
   isDynamic?: boolean;
 };
+
+export type UpdaterType = {
+  options: OptionsType;
+  background?: BackgroundType;
+  corners?: CornersAndDotsType;
+  cornersDot?: CornersAndDotsType;
+  frame?: FramesType;
+};

@@ -1,6 +1,6 @@
 import {CustomError} from "../utils";
 import {QrOptionsModel} from "../models/qr/QrOptionsModel";
-import {BackgroundType, CornersAndDotsType, FramesType, OptionsType} from "../components/qr/types/types";
+import {OptionsType, UpdaterType} from "../components/qr/types/types";
 
 export const createMainDesign = async (mainDesign: OptionsType) => {
   try {
@@ -8,21 +8,14 @@ export const createMainDesign = async (mainDesign: OptionsType) => {
     if (design.image === null) {
       design.image = '';
     }
-    return await QrOptionsModel.create(design);;
+    return await QrOptionsModel.create(design);
   } catch (error) {
     // @ts-ignore
     throw new CustomError(error.message);
   }
 }
 
-type updaterType = {
-  background?: BackgroundType;
-  corners?: CornersAndDotsType;
-  cornersDot?: CornersAndDotsType;
-  frame?: FramesType;
-}
-
-export const updateDesign = async (id: string, incomingDesign: updaterType) => {
+export const updateDesign = async (id: string, incomingDesign: UpdaterType) => {
   try {
     return await QrOptionsModel.update({ id }, { incomingDesign });
   } catch (error) {

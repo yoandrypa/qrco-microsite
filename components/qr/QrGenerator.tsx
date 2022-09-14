@@ -14,11 +14,14 @@ const handleQrData = (qrObject: OptionsType, overrideValue: string | null) => {
   if (Boolean(overrideValue)) {
     opts.data = overrideValue;
   }
-  opts.qrOptions.typeNumber = opts.data.length > 24 ? 0 : 3;
 
-  if (typeof window !== "undefined") {
-    const QRCodeStyling = require('qr-code-styling');
-    return new QRCodeStyling(opts);
+  if (Boolean(opts.qrOptions)) {
+    opts.qrOptions.typeNumber = opts.data.length > 24 ? 0 : 3;
+
+    if (typeof window !== "undefined") {
+      const QRCodeStyling = require('qr-code-styling');
+      return new QRCodeStyling(opts);
+    }
   }
 
   return null;
