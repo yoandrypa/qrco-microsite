@@ -107,7 +107,7 @@ async function createCheckoutSession(
           //create checkout session
           try {
             const session = await createCheckoutSession({ customer_id: userData.plan_customer_id, plan_type: req.body.plan_type }) 
-            if (!(session instanceof Error)) res.status(200).json({result: session.url})
+            if (!(session instanceof Error)) res.status(200).json({result: {url: session.url}})
           } catch (error) {
             if (error instanceof Error ) {
               return res.status(500).json({error: true, message: error.message})
