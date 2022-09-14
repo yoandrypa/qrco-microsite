@@ -33,16 +33,15 @@ interface StepsProps {
   options: object;
   setOptions: Function;
   isWrong: boolean;
+  loading: boolean;
+  setLoading: Function;
 }
 
 const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo, options, setOptions, isWrong }: StepsProps = useContext(Context);
-
-  // @ts-ignore
-  const { loading, setLoading } = useContext(Context);
+  const { selected, step, setStep, data, userInfo, options, setOptions, isWrong, loading, setLoading }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
