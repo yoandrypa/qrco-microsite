@@ -17,7 +17,11 @@ export const createMainDesign = async (mainDesign: OptionsType) => {
 
 export const updateDesign = async (id: string, incomingDesign: UpdaterType) => {
   try {
-    return await QrOptionsModel.update({ id }, { incomingDesign });
+    const data = {...incomingDesign} as unknown as OptionsType;
+    // @ts-ignore
+    if (data.id) { delete data.id; }
+    if (data.image === null) { data.image = ''; }
+    return await QrOptionsModel.update({ id }, data);
   } catch (error) {
     // @ts-ignore
     throw new CustomError(error.message);

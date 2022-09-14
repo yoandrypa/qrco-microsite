@@ -42,16 +42,14 @@ interface StepsProps {
   isWrong: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
-  idDesignRef: string | null;
-  setIdDesignRef: (id: null | string) => void;
 }
 
 const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
-  const { selected, step, setStep, data, userInfo, options, setOptions, frame, background, cornersData, dotsData,
-    isWrong, loading, setLoading, idDesignRef, setIdDesignRef }: StepsProps = useContext(Context);
+  const { selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
+    dotsData, isWrong, loading, setLoading }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
@@ -78,17 +76,21 @@ const QrWizard = ({ children }: QrWizardProps) => {
     } else if (step === 1 && Boolean(userInfo) && ['vcard+', 'web'].includes(selected)) {
       setLoading(true);
       // First create a Record of QR Model
-      // @ts-ignore
-      const design = await createMainDesign(options);
 
       // @ts-ignore
-      const model = { ...data, qrType: selected, userId: userInfo.attributes.sub, qrOptionsId: design };
+      const model = { ...data, qrType: selected, userId: userInfo.attributes.sub };
+
+      if (!options.id) {
+        const design = await createMainDesign(options);
+        // @ts-ignore
+        model.qrOptionsId = design;
+        // @ts-ignore
+        setOptions({ ...options, id: design.id });
+      }
 
       // @ts-ignore
       const qr = await QrHandler.create(model);
-
-      // @ts-ignore
-      setIdDesignRef(design.id);
+      setData({ ...data, id: qr.id });
 
       let shortLink;
       if (data?.isDynamic) {
@@ -102,11 +104,11 @@ const QrWizard = ({ children }: QrWizardProps) => {
       // @ts-ignore
       if (!shortLink?.error) {
         // @ts-ignore
-        setOptions({ ...options, data: shortLink?.link });
+        if (shortLink?.link) { setOptions({ ...options, data: shortLink?.link }); }
         setStep(2);
       }
     } else if (step === 2) {
-      if (Boolean(userInfo) && Boolean(idDesignRef)) {
+      if (Boolean(userInfo) && Boolean(options.id)) {
         // @ts-ignore
         let updater = undefined;
 
@@ -117,15 +119,23 @@ const QrWizard = ({ children }: QrWizardProps) => {
           }
         }
 
-        const cleanObject = (obj: OptionsType) => {
-          // @ts-ignore
-          if (obj.data !== undefined) { delete obj.data; }
-          // @ts-ignore
-          if (obj.qrOptions.typeNumber !== undefined) { delete obj.qrOptions.typeNumber; }
-          return obj;
+        const areTheSame = () => {
+          const cleaner = (obj: OptionsType) => {
+            const o = JSON.parse(JSON.stringify(obj));
+            // @ts-ignore
+            if (o.data !== undefined) { delete o.data; }
+            // @ts-ignore
+            if (o.qrOptions.typeNumber !== undefined) { delete o.qrOptions.typeNumber; }
+            return o;
+          }
+
+          const o1 = cleaner(options);
+          const o2 = cleaner(initialData);
+
+          return areEquals(o1, o2);
         }
 
-        if (!areEquals(cleanObject({ ...options }), cleanObject({ ...initialData }))) {
+        if (!areTheSame) {
           initializeUpdater();
         }
 
@@ -155,7 +165,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
           setLoading(true);
           // const result = await updateDesign(idDesignRef || '', updater);
           if (updater !== undefined) {
-            await updateDesign(idDesignRef || '', updater);
+            await updateDesign(options.id || '', updater);
           }
           router.push({pathname: '/', query: { clear: true }}, '/', { shallow: true });
         } catch (error) {
