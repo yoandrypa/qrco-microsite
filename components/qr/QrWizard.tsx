@@ -13,9 +13,10 @@ import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 
 import * as linkHandler from "../../handlers/links";
-import { generateId, generateShortLink } from "../../utils";
+import { generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
 import {DataType} from "./types/types";
+import {createMainDesign} from "../../handlers/qrDesign";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -69,30 +70,25 @@ const QrWizard = ({ children }: QrWizardProps) => {
       setLoading(true);
       // First create a Record of QR Model
       // @ts-ignore
-      const model = { qrType: selected, userId: userInfo.attributes.sub, ...data };
+      const design = await createMainDesign(options);
 
       // @ts-ignore
-      // if (Boolean(data.isDynamic)) {
-      //   //Generate an Id (Code) using the short link solution
-      //   const id = await generateId();
-      //   // @ts-ignore
-      //   model.qrName = data.qrName;
-      //   // model.qrName = data.qrName || `${selected} - ${id}`;
-      // }
+      const model = { ...data, qrType: selected, userId: userInfo.attributes.sub, qrOptionsId: design };
 
       // @ts-ignore
       const qr = await QrHandler.create(model);
 
+      let shortLink;
       if (data?.isDynamic) {
         // Autogenerate the target url
         const targetUrl = generateShortLink("qr/" + qr.id);
-        const shortLink = await handleShort(targetUrl);
+        shortLink = await handleShort(targetUrl);
         // @ts-ignore
         await QrHandler.edit({id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id});
       }
       setLoading(false);
       // @ts-ignore
-      if (!shortLink.error) {
+      if (!shortLink?.error) {
         // @ts-ignore
         setOptions({ ...options, data: shortLink?.link });
         setStep(2);
