@@ -9,7 +9,6 @@ export const createMainDesign = async (mainDesign: OptionsType) => {
       design.image = '';
     }
     const item = await QrOptionsModel.create(design);
-    debugger;
     return item;
   } catch (error) {
     // @ts-ignore

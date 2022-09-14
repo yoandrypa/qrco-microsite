@@ -9,15 +9,12 @@ import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
 
-export const handleDesignerString = (selected: string | null | undefined, data: DataType, value: string | null | undefined): string => {
+export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
   switch (selected) {
+    case 'text':
     case 'web': {
-      designerString = value || '';
-      break;
-    }
-    case 'text': {
-      designerString = value || '';
+      designerString = data.value || '';
       break;
     }
     case 'sms': {
