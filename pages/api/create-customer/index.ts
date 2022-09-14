@@ -18,6 +18,7 @@ const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY || 'sk_test_51Ksb3
     return customer.id
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : 'Internal server error'
+    console.log('Error creating customer in stripe',err)
     return err as Error
   }
 }
@@ -70,6 +71,7 @@ async function createCheckoutSession(
      })
      return session
   } catch (error) {
+    console.log('Error creating customer in stripe',error)
     return error as Error
   }
 }
@@ -97,6 +99,7 @@ async function createCheckoutSession(
                }
             const updateResult = await update({id: req.body.id}, {customerId: customer_id})
             if(!updateResult){
+              console.log('Error saving customer_id in database')
               return res.status(500).json(updateResult)
             }            
           }
