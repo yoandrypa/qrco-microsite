@@ -1,8 +1,11 @@
 import dynamoose from '../../libs/dynamoose';
-import {QrBackgroundModel} from "./QrBackgroundModel";
-import {QrFrameModel} from "./QrFrameModel";
-import {QrCornersModel} from "./QrCornesModel";
 import {getUuid} from "../../helpers/qr/helpers";
+
+const CornersSchema = new dynamoose.Schema({
+  topL: String,
+  topR: String,
+  bottom: String
+});
 
 const QrOptionsSchema = new dynamoose.Schema({
   id: {
@@ -64,10 +67,42 @@ const QrOptionsSchema = new dynamoose.Schema({
       type: { type: String, required: true }
     }
   },
-  qrBackgroundId: QrBackgroundModel,
-  qrBackFrameId: QrFrameModel,
-  qrCornersId: QrCornersModel,
-  qrCordersDotId: QrCornersModel
+  background: {
+    type: Object,
+    required: false,
+    schema: {
+      type: String,
+      opacity: Number,
+      size: Number,
+      file: String,
+      x: Number,
+      y: Number,
+      imageSize: Number,
+      invert: { type: Boolean, required: false, default: false },
+      backColor: String
+    }
+  },
+  frame: {
+    type: Object,
+    required: false,
+    schema: {
+      type: String,
+      text: String,
+      color: String,
+      textColor: String,
+      textUp: { type: Boolean, required: false, default: false }
+    }
+  },
+  corners: {
+    type: Object,
+    required: false,
+    schema: CornersSchema
+  },
+  cornersDots: {
+    type: Object,
+    required: false,
+    schema: CornersSchema
+  }
 }, {
   "timestamps": true
 });
