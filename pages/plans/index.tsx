@@ -47,7 +47,7 @@ const Plans = (props: Props) => {
       // console.log(user)       
        //@ts-ignore
   (userInfo != null && userInfo != undefined) && setUser(userInfo)
-  console.log("Current user data", userInfo)
+ 
     }, [userInfo]);
 
 
@@ -157,7 +157,7 @@ const handleClick = async (plan: string) =>{
         email: user.attributes.email,
         plan_type: plan
       })
-      console.log(response)
+     
       if (response.status === 200 && response.data.result.url){
         window.location.href = response.data.result.url    
       } 
