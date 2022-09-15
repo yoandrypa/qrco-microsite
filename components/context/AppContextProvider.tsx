@@ -41,6 +41,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
+  const [forceClear, setForceClear] = useState<boolean>(false);
 
   const [userInfo, setUserInfo] = useState(null);
   const [verifying, setVerifying] = useState<boolean>(true);
@@ -63,7 +64,8 @@ const AppContextProvider = (props: ContextProps) => {
   };
 
   const clearData = () => {
-    setStep(0)
+    setStep(0);
+    setSelected(null);
     setLogoData(null);
     setBackground(initialBackground);
     setFrame(initialFrame);
@@ -73,6 +75,8 @@ const AppContextProvider = (props: ContextProps) => {
     setData({});
     setIsWrong(false);
     setLoading(false);
+
+    setForceClear(false);
   };
 
   useEffect(() => {
@@ -144,9 +148,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     }
     if (router.pathname === '/') {
-      if (Boolean(router.query.clear)) {
-        clearData();
-      } else if (!Boolean(router.query.login) && step !== 0) {
+      if (!Boolean(router.query.login) && step !== 0) {
         setStep(0);
       }
     }
@@ -157,6 +159,12 @@ const AppContextProvider = (props: ContextProps) => {
       setVerifying(false);
     }
   }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (forceClear) {
+      clearData();
+    }
+  }, [forceClear]);
 
   const verify = async () => {
     try {
@@ -192,7 +200,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     } else {
       return (
-        <AppWrapper userInfo={userInfo} handleLogout={logout}>
+        <AppWrapper userInfo={userInfo} handleLogout={logout} clearData={clearData}>
           {children}
         </AppWrapper>
       );
@@ -210,7 +218,7 @@ const AppContextProvider = (props: ContextProps) => {
       selected, setSelected,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep, clearData,
+      step, setStep, setForceClear,
       loading, setLoading,
       isWrong, setIsWrong
     }}>
