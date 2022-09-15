@@ -80,6 +80,10 @@ export type DataType = {
   value?: string;
   id?: string;
   isDynamic?: boolean;
+  images?: any[];
+  videos?: any[];
+  pdfs?: any[];
+  audios?: any[];
 };
 
 export type UpdaterType = {

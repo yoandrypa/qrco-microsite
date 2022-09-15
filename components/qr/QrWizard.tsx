@@ -15,11 +15,11 @@ import { useRouter } from "next/router";
 import * as linkHandler from "../../handlers/links";
 import { generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
-import {BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType, UpdaterType} from "./types/types";
-import {createMainDesign, updateDesign} from "../../handlers/qrDesign";
-import {QR_TYPE_ROUTE} from "./constants";
-import {areEquals} from "../helpers/generalFunctions";
-import initialData, {initialBackground, initialFrame} from "../../helpers/qr/data";
+import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "./types/types";
+import { createMainDesign, updateDesign } from "../../handlers/qrDesign";
+import { QR_TYPE_ROUTE } from "./constants";
+import { areEquals } from "../helpers/generalFunctions";
+import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -49,7 +49,8 @@ const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", m
 const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
   const { selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
-    dotsData, isWrong, loading, setLoading }: StepsProps = useContext(Context);
+    dotsData, isWrong, loading, setLoading
+  }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
@@ -72,8 +73,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const handleNext = async () => {
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
-      router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && Boolean(userInfo) && ['vcard+', 'web'].includes(selected)) {
+      await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
+    } else if (step === 1 && Boolean(userInfo) && ["vcard+", "web", "image", "video", "pdf", "audio"].includes(selected)) {
       setLoading(true);
       // First create a Record of QR Model
 
@@ -98,13 +99,16 @@ const QrWizard = ({ children }: QrWizardProps) => {
         const targetUrl = generateShortLink("qr/" + qr.id);
         shortLink = await handleShort(targetUrl);
         // @ts-ignore
-        await QrHandler.edit({id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id});
+        await QrHandler.edit({ id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id });
       }
       setLoading(false);
       // @ts-ignore
       if (!shortLink?.error) {
         // @ts-ignore
-        if (shortLink?.link) { setOptions({ ...options, data: shortLink?.link }); }
+        if (shortLink?.link) {
+          // @ts-ignore
+          setOptions({ ...options, data: shortLink.link });
+        }
         setStep(2);
       }
     } else if (step === 2) {
@@ -117,23 +121,27 @@ const QrWizard = ({ children }: QrWizardProps) => {
           if (!Boolean(updater)) {
             updater = { ...options };
           }
-        }
+        };
 
         const areTheSame = () => {
           const cleaner = (obj: OptionsType) => {
             const o = JSON.parse(JSON.stringify(obj));
             // @ts-ignore
-            if (o.data !== undefined) { delete o.data; }
+            if (o.data !== undefined) {
+              delete o.data;
+            }
             // @ts-ignore
-            if (o.qrOptions.typeNumber !== undefined) { delete o.qrOptions.typeNumber; }
+            if (o.qrOptions.typeNumber !== undefined) {
+              delete o.qrOptions.typeNumber;
+            }
             return o;
-          }
+          };
 
           const o1 = cleaner(options);
           const o2 = cleaner(initialData);
 
           return areEquals(o1, o2);
-        }
+        };
 
         if (!areTheSame) {
           initializeUpdater();
@@ -165,9 +173,9 @@ const QrWizard = ({ children }: QrWizardProps) => {
           setLoading(true);
           // const result = await updateDesign(idDesignRef || '', updater);
           if (updater !== undefined) {
-            await updateDesign(options.id || '', updater);
+            await updateDesign(options.id || "", updater);
           }
-          router.push({pathname: '/', query: { clear: true }}, '/', { shallow: true });
+          await router.push({ pathname: "/", query: { clear: true } }, "/", { shallow: true });
         } catch (error) {
           console.log(error);
 
@@ -175,7 +183,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         setLoading(false);
       }
       if (!Boolean(userInfo)) {
-        router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+        await router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
       }
     } else {
       setStep((prev: number) => prev + 1);
@@ -211,7 +219,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
             (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
           }
           variant="contained">
-          {step >= 2 ? 'Last' : 'Next'}
+          {step >= 2 ? "Last" : "Next"}
         </StepperButtons>
       </Box>
     </>
