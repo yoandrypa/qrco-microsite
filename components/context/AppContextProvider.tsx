@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -31,7 +31,6 @@ const handleInitialData = (value: string | null | undefined) => {
 const AppContextProvider = (props: ContextProps) => {
   const { children } = props;
 
-  // const [value, setValue] = useState<string>("Ebanux");
   const [options, setOptions] = useState<OptionsType>(handleInitialData('Ebanux'));
   const [cornersData, setCornersData] = useState<CornersAndDotsType>(null);
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
@@ -63,7 +62,7 @@ const AppContextProvider = (props: ContextProps) => {
     }
   };
 
-  const clearData = useCallback(() => {
+  const clearData = () => {
     setStep(0)
     setLogoData(null);
     setBackground(initialBackground);
@@ -74,7 +73,7 @@ const AppContextProvider = (props: ContextProps) => {
     setData({});
     setIsWrong(false);
     setLoading(false);
-  }, []);
+  };
 
   useEffect(() => {
     if (router.pathname === QR_TYPE_ROUTE) {
@@ -211,7 +210,7 @@ const AppContextProvider = (props: ContextProps) => {
       selected, setSelected,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep,
+      step, setStep, clearData,
       loading, setLoading,
       isWrong, setIsWrong
     }}>
