@@ -51,7 +51,7 @@ interface StepsProps {
   setLoading: (isLoading: boolean) => void;
 }
 
-const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
+const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   const [isError, setIsError] = useState<boolean>(false);
@@ -230,32 +230,34 @@ const QrWizard = ({ children }: QrWizardProps) => {
     </StepperButtons>
   );
 
+  const renderSteps = () => (
+    <Stepper
+      activeStep={step}
+      alternativeLabel={!isWide}
+      sx={{ width: "100%", mt: { xs: 2, sm: 0 }, mb: { xs: 1, sm: 0 } }}
+    >
+      {steps.map((label: string) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>
+  );
+
   return (
     <>
-      <Box sx={{ minHeight: "calc(100vh - 220px)" }}>
+      <Box sx={{ minHeight: "calc(100vh - 188px)" }}>
         {children}
       </Box>
       {isWide ? (
         <Box sx={{width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2}}>
           {renderBack()}
-          <Stepper activeStep={step} alternativeLabel sx={{width: "100%"}}>
-            {steps.map((label: string) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+          {renderSteps()}
           {renderNext()}
         </Box>
       ) : (
         <>
-          <Stepper activeStep={step} alternativeLabel sx={{ width: "100%", mt: 2, mb: 1 }}>
-            {steps.map((label: string) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+          {renderSteps()}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             {renderBack()}
             {renderNext()}
