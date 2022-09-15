@@ -3,6 +3,7 @@ import dynamoose from "../libs/dynamoose";
 import { CustomError } from "../utils";
 import { LinkModel } from "../models/link";
 import { QrOptionsModel } from "../models/qr/QrOptionsModel";
+import { ObjectType } from "dynamoose/dist/General";
 
 interface TotalParams {
   search?: string;
@@ -91,9 +92,13 @@ interface Create extends Partial<QrDataType> {
   userId: string;
 }
 
-export const create = async (params: Create) => {
+export const create = async (shortLink: ObjectType, qrDesign: ObjectType, qrData: ObjectType) => {
   try {
-    return await QrDataModel.create(params);
+    return await dynamoose.transaction([
+      LinkModel.transaction.create(shortLink),
+      QrOptionsModel.transaction.create(qrDesign),
+      QrDataModel.transaction.create(qrData)
+    ]);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);

@@ -10,9 +10,13 @@ interface Query {
   all?: any;
 }
 
-export const create = async (data: CreateQrDataType) => {
+// @ts-ignore
+export const create = async (shortLink, qrDesign, qrData) => {
   try {
-    return await queries.qr.create(data);
+    const tempo = {...qrDesign};
+    if (tempo.image === null) { tempo.image = ''; }
+
+    return await queries.qr.create(shortLink, tempo, qrData);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message);
