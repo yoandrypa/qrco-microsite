@@ -40,7 +40,7 @@ async function setUserSubscription(
   try {
    await updateUserInDB({id: id},{subscriptionData: subscription})      
   } catch (error) {
-    console.log('error saving user data')
+    console.log('Error saving user subscription data')
   }
 }
 
@@ -60,7 +60,7 @@ export async function onCheckoutCompleted(
       = buildUserSubscription(subscription, status);    
     // use your DB methods to 
     // set user.subscription=subscriptionData  
-    return setUserSubscription(
+    return await setUserSubscription(
       customerId,
       subscriptionData,
     );
