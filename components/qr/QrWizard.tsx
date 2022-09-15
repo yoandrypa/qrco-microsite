@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState, forwardRef } from "react";
+import { forwardRef, ReactNode, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -14,15 +14,14 @@ import { styled } from "@mui/material/styles";
 
 import { useRouter } from "next/router";
 
-import * as linkHandler from "../../handlers/links";
-import { generateShortLink } from "../../utils";
+import { generateId, generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
 import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "./types/types";
-import { createMainDesign, updateDesign } from "../../handlers/qrDesign";
 import { QR_TYPE_ROUTE } from "./constants";
 import { areEquals } from "../helpers/generalFunctions";
-import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
+import { initialBackground, initialFrame } from "../../helpers/qr/data";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { getUuid } from "../../helpers/qr/helpers";
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -46,6 +45,7 @@ interface StepsProps {
   cornersData: CornersAndDotsType;
   dotsData: CornersAndDotsType;
   setOptions: (opt: OptionsType) => void;
+  setForceClear: (clear: boolean) => void;
   isWrong: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
@@ -58,8 +58,9 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
 
   // @ts-ignore
-  const {selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
-    dotsData, isWrong, loading, setLoading
+  const {
+    selected, step, setStep, data, userInfo, options, frame, background, cornersData,
+    dotsData, isWrong, loading, setOptions, setLoading, setForceClear
   }: StepsProps = useContext(Context);
 
   const router = useRouter();
@@ -68,140 +69,73 @@ const QrWizard = ({ children }: QrWizardProps) => {
     setStep((prev: number) => prev - 1);
   };
 
-  const handleShort = async (target: string) => {
-    try {
-      return await linkHandler.create({
-        body: { target, type: "qr_link" },
-        // @ts-ignore
-        user: { id: userInfo.attributes.sub }
-      });
-    } catch (error) {
-      return { error };
-    }
-  };
-
   const handleNext = async () => {
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
+    } else if (step === 1 && Boolean(userInfo) && Boolean(data.isDynamic) && !Boolean(options.id)) {
+      const id = getUuid();
+      setOptions({ ...options, id, data: generateShortLink(`qr/${id}`) });
+      setStep(2);
+    } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       setLoading(true);
-      // @ts-ignore
-      const model = { ...data, qrType: selected, userId: userInfo.attributes.sub };
+
+      const qrDesignId = getUuid();
+      const qrId = options.id || getUuid();
+      const shortLinkId = getUuid();
+
+      const qrData = {
+        ...data,
+        qrType: selected,
+        // @ts-ignore
+        userId: userInfo.attributes.sub,
+        id: qrId,
+        qrOptionsId: qrDesignId,
+        shortLinkId
+      };
+
+      const qrDesign = { ...options, id: qrDesignId };
+      if (!areEquals(frame, initialFrame)) {
+        // @ts-ignore
+        qrDesign.frame = frame;
+      }
+      if (!areEquals(background, initialBackground)) {
+        // @ts-ignore
+        qrDesign.background = background;
+      }
+      if (cornersData !== null) {
+        // @ts-ignore
+        qrDesign.corners = cornersData;
+      }
+      if (dotsData !== null) {
+        // @ts-ignore
+        qrDesign.cornersDot = dotsData;
+      }
+
+      let shortLink;
+      if (data.isDynamic) {
+        shortLink = {
+          id: shortLinkId,
+          target: options.id ? options.data : generateShortLink(`qr/${qrId}`),
+          address: await generateId(),
+          // @ts-ignore
+          userId: userInfo.attributes.sub
+        };
+      }
 
       try {
-        if (!options.id) {
-          const design = await createMainDesign(options);
-          // @ts-ignore
-          model.qrOptionsId = design;
-          // @ts-ignore
-          setOptions({ ...options, id: design.id });
-        }
+        await QrHandler.create({ shortLink, qrDesign, qrData });
 
-        let qr;
-        if (!data.id) {
-          // @ts-ignore
-          qr = await QrHandler.create(model);
-        } else {
-          // @ts-ignore
-          qr = await QrHandler.edit({ ...data, id: data.id });
-        }
-
-        setData({ ...data, id: qr.id });
-
-        let shortLink;
-        if (data?.isDynamic) {
-          // Autogenerate the target url
-          const targetUrl = generateShortLink("qr/" + qr.id);
-          shortLink = await handleShort(targetUrl);
-          // @ts-ignore
-          await QrHandler.edit({ id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id });
-        }
-
-        setLoading(false);
+        setForceClear(true);
         // @ts-ignore
-        if (!shortLink?.error) {
-          // @ts-ignore
-          if (shortLink?.link) {
-            // @ts-ignore
-            setOptions({ ...options, data: shortLink?.link });
-          }
-          setStep(2);
-        }
+        await router.push("/", undefined, {shallow: true});
       } catch {
-        setLoading(false);
         setIsError(true);
-      }
-    } else if (step === 2) {
-      if (Boolean(userInfo) && Boolean(options.id)) {
-        setLoading(true);
-
-        // @ts-ignore
-        let updater = undefined;
-
-        const initializeUpdater = () => {
-          // @ts-ignore
-          if (!Boolean(updater)) {
-            updater = { ...options };
-          }
-        };
-
-        const areTheSame = () => {
-          const cleaner = (obj: OptionsType) => {
-            const o = JSON.parse(JSON.stringify(obj));
-            // @ts-ignore
-            if (o.data !== undefined) {
-              delete o.data;
-            }
-            // @ts-ignore
-            if (o.qrOptions.typeNumber !== undefined) {
-              delete o.qrOptions.typeNumber;
-            }
-            return o;
-          };
-
-          return areEquals(cleaner(options), cleaner(initialData));
-        };
-
-        if (!areTheSame) {
-          initializeUpdater();
-        }
-
-        if (!areEquals(frame, initialFrame)) {
-          initializeUpdater();
-          // @ts-ignore
-          updater.frame = frame;
-        }
-        if (!areEquals(background, initialBackground)) {
-          initializeUpdater();
-          // @ts-ignore
-          updater.background = background;
-        }
-        if (cornersData !== null) {
-          initializeUpdater();
-          // @ts-ignore
-          updater.corners = cornersData;
-        }
-        if (dotsData !== null) {
-          initializeUpdater();
-          // @ts-ignore
-          updater.cornersDot = dotsData;
-        }
-
-        try {
-          // const result = await updateDesign(idDesignRef || '', updater);
-          if (updater !== undefined) {
-            await updateDesign(options.id || "", updater);
-          }
-          await router.push({ pathname: "/", query: { clear: true } }, "/", { shallow: true });
-        } catch {
-          setIsError(true);
-        }
         setLoading(false);
       }
-      if (!Boolean(userInfo)) {
-        await router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
-      }
+    } else if (step === 2 && !Boolean(userInfo)) {
+      setForceClear(true);
+      await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
     } else {
       setStep((prev: number) => prev + 1);
     }
@@ -210,7 +144,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const renderBack = () => (
     <StepperButtons
       variant="contained"
-      startIcon={<ChevronLeftIcon/>}
+      startIcon={<ChevronLeftIcon />}
       disabled={loading || step === 0 || !Boolean(selected)}
       onClick={handleBack}>
       {"Back"}
@@ -220,7 +154,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const renderNext = () => (
     <StepperButtons
       onClick={handleNext}
-      endIcon={step >= 2 ? <DoneIcon/> : <ChevronRightIcon/>}
+      endIcon={step >= 2 ? <DoneIcon /> : <ChevronRightIcon />}
       disabled={
         loading || isWrong || !Boolean(selected) ||
         (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
@@ -250,7 +184,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         {children}
       </Box>
       {isWide ? (
-        <Box sx={{width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2}}>
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2 }}>
           {renderBack()}
           {renderSteps()}
           {renderNext()}
@@ -258,14 +192,15 @@ const QrWizard = ({ children }: QrWizardProps) => {
       ) : (
         <>
           {renderSteps()}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             {renderBack()}
             {renderNext()}
           </Box>
         </>
       )}
       {isError && (
-        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
+                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
           <Alert onClose={() => setIsError(false)} severity="error">
             Error accessing data.
           </Alert>

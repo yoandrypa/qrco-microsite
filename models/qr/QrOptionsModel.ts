@@ -1,5 +1,4 @@
 import dynamoose from '../../libs/dynamoose';
-import {getUuid} from "../../helpers/qr/helpers";
 
 const CornersSchema = new dynamoose.Schema({
   topL: String,
@@ -10,8 +9,7 @@ const CornersSchema = new dynamoose.Schema({
 const QrOptionsSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
-    type: String,
-    default: getUuid()
+    type: String
   },
   width: { type: Number, required: true },
   height: { type: Number, required: true },

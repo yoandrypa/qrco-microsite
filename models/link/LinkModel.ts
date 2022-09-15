@@ -2,7 +2,7 @@ import dynamoose from "../../libs/dynamoose";
 //const Unique = require("./unique");
 import { UserModel } from "../UserModel";
 import { DomainModel } from "./DomainModel";
-import {getUuid} from "../../helpers/qr/helpers";
+import { getUuid } from "../../helpers/qr/helpers";
 
 // instantiate a dynamoose schema
 const LinkSchema = new dynamoose.Schema({
@@ -13,7 +13,7 @@ const LinkSchema = new dynamoose.Schema({
   },
   type: {
     type: String,
-    enum: ["short_link", "qr_link"],
+    enum: ["short_link", "qr_link", "download_link"],
     default: "short_link"
   },
   address: {

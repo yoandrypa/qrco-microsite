@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -31,7 +31,6 @@ const handleInitialData = (value: string | null | undefined) => {
 const AppContextProvider = (props: ContextProps) => {
   const { children } = props;
 
-  // const [value, setValue] = useState<string>("Ebanux");
   const [options, setOptions] = useState<OptionsType>(handleInitialData('Ebanux'));
   const [cornersData, setCornersData] = useState<CornersAndDotsType>(null);
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
@@ -42,6 +41,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
+  const [forceClear, setForceClear] = useState<boolean>(false);
 
   const [userInfo, setUserInfo] = useState(null);
   const [verifying, setVerifying] = useState<boolean>(true);
@@ -50,6 +50,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [isWrong, setIsWrong] = useState<boolean>(false);
 
   const doneInitialRender = useRef<boolean>(false);
+  const doNotNavigate = useRef<boolean>(false);
 
   const router = useRouter();
 
@@ -63,8 +64,13 @@ const AppContextProvider = (props: ContextProps) => {
     }
   };
 
-  const clearData = useCallback(() => {
-    setStep(0)
+  const clearData = () => {
+    setForceClear(false);
+
+    setIsWrong(false);
+    setLoading(false);
+    setStep(0);
+    setSelected(null);
     setLogoData(null);
     setBackground(initialBackground);
     setFrame(initialFrame);
@@ -72,9 +78,7 @@ const AppContextProvider = (props: ContextProps) => {
     setCornersData(null);
     setOptions(handleInitialData('Ebanux'));
     setData({});
-    setIsWrong(false);
-    setLoading(false);
-  }, []);
+  };
 
   useEffect(() => {
     if (router.pathname === QR_TYPE_ROUTE) {
@@ -116,7 +120,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current && !Boolean(router.query.clear)) {
+    if (doneInitialRender.current && !doNotNavigate.current) {
       switch (step) {
         case 0: {
           router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
@@ -133,6 +137,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     } else {
       doneInitialRender.current = true;
+      doNotNavigate.current = false;
     }
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -145,9 +150,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     }
     if (router.pathname === '/') {
-      if (Boolean(router.query.clear)) {
-        clearData();
-      } else if (!Boolean(router.query.login) && step !== 0) {
+      if (!Boolean(router.query.login) && step !== 0) {
         setStep(0);
       }
     }
@@ -158,6 +161,13 @@ const AppContextProvider = (props: ContextProps) => {
       setVerifying(false);
     }
   }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (forceClear) {
+      doNotNavigate.current = true;
+      clearData();
+    }
+  }, [forceClear]);
 
   const verify = async () => {
     try {
@@ -193,7 +203,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     } else {
       return (
-        <AppWrapper userInfo={userInfo} handleLogout={logout}>
+        <AppWrapper userInfo={userInfo} handleLogout={logout} clearData={clearData}>
           {children}
         </AppWrapper>
       );
@@ -211,7 +221,7 @@ const AppContextProvider = (props: ContextProps) => {
       selected, setSelected,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep,
+      step, setStep, setForceClear,
       loading, setLoading,
       isWrong, setIsWrong
     }}>

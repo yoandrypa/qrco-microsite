@@ -78,7 +78,6 @@ export type DataType = {
   telegram?: string;
   twitter?: string;
   value?: string;
-  id?: string;
   isDynamic?: boolean;
   images?: any[];
   videos?: any[];
