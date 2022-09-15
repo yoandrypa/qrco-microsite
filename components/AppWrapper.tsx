@@ -46,10 +46,11 @@ interface QrWrapperProps {
   children: ReactNode;
   userInfo?: any;
   handleLogout?: () => void;
+  clearData?: (clear: true) => void;
 }
 
 export default function AppWrapper(props: QrWrapperProps) {
-  const { children, userInfo, handleLogout } = props;
+  const { children, userInfo, handleLogout, clearData } = props;
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -69,6 +70,9 @@ export default function AppWrapper(props: QrWrapperProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = useCallback(() => {
+    if (clearData !== undefined) {
+      clearData(true);
+    }
     router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 

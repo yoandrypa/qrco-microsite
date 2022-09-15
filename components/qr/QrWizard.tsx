@@ -45,6 +45,7 @@ interface StepsProps {
   cornersData: CornersAndDotsType;
   dotsData: CornersAndDotsType;
   setOptions: (opt: OptionsType) => void;
+  setForceClear: (clear: boolean) => void;
   isWrong: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
@@ -59,7 +60,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
   const {
     selected, step, setStep, data, userInfo, options, frame, background, cornersData,
-    dotsData, isWrong, loading, setLoading
+    dotsData, isWrong, loading, setLoading, setForceClear
   }: StepsProps = useContext(Context);
 
   const router = useRouter();
@@ -118,10 +119,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
 
       await QrHandler.create(shorLink, designToStore, model);
 
-      setStep(2);
+      setForceClear(true);
+      // @ts-ignore
+      await router.push("/", undefined, {shallow: true});
       setLoading(false);
     } else if (step === 2 && !Boolean(userInfo)) {
-      await router.push(QR_TYPE_ROUTE);
+      setForceClear(true);
+      await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
     } else {
       setStep((prev: number) => prev + 1);
     }
