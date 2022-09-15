@@ -93,7 +93,7 @@ interface Create extends Partial<QrDataType> {
 
 export const create = async (params: Create) => {
   try {
-    return await QrDataModel.create(params, { overwrite: true });
+    return await QrDataModel.create(params);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);
