@@ -22,6 +22,7 @@ import { createMainDesign, updateDesign } from "../../handlers/qrDesign";
 import { QR_TYPE_ROUTE } from "./constants";
 import { areEquals } from "../helpers/generalFunctions";
 import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -50,10 +51,11 @@ interface StepsProps {
   setLoading: (isLoading: boolean) => void;
 }
 
-const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
+const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
   const [isError, setIsError] = useState<boolean>(false);
+  const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
 
   // @ts-ignore
   const {selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
@@ -205,41 +207,65 @@ const QrWizard = ({ children }: QrWizardProps) => {
     }
   };
 
+  const renderBack = () => (
+    <StepperButtons
+      variant="contained"
+      startIcon={<ChevronLeftIcon/>}
+      disabled={loading || step === 0 || !Boolean(selected)}
+      onClick={handleBack}>
+      {"Back"}
+    </StepperButtons>
+  );
+
+  const renderNext = () => (
+    <StepperButtons
+      onClick={handleNext}
+      endIcon={step >= 2 ? <DoneIcon/> : <ChevronRightIcon/>}
+      disabled={
+        loading || isWrong || !Boolean(selected) ||
+        (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
+      }
+      variant="contained">
+      {step >= 2 ? "Last" : "Next"}
+    </StepperButtons>
+  );
+
+  const renderSteps = () => (
+    <Stepper
+      activeStep={step}
+      alternativeLabel={!isWide}
+      sx={{ width: "100%", mt: { xs: 2, sm: 0 }, mb: { xs: 1, sm: 0 } }}
+    >
+      {steps.map((label: string) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>
+  );
+
   return (
     <>
-      <Box sx={{ minHeight: "calc(100vh - 220px)" }}>
+      <Box sx={{ minHeight: "calc(100vh - 188px)" }}>
         {children}
       </Box>
-      <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2 }}>
-        <StepperButtons
-          variant="contained"
-          startIcon={<ChevronLeftIcon />}
-          disabled={loading || step === 0 || !Boolean(selected)}
-          onClick={handleBack}>
-          {"Back"}
-        </StepperButtons>
-        <Stepper activeStep={step} alternativeLabel sx={{ width: "100%" }}>
-          {steps.map((label: string) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        {/* @ts-ignore */}
-        <StepperButtons
-          onClick={handleNext}
-          endIcon={step >= 2 ? <DoneIcon /> : <ChevronRightIcon />}
-          disabled={
-            loading || isWrong || !Boolean(selected) ||
-            (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
-          }
-          variant="contained">
-          {step >= 2 ? "Last" : "Next"}
-        </StepperButtons>
-      </Box>
+      {isWide ? (
+        <Box sx={{width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2}}>
+          {renderBack()}
+          {renderSteps()}
+          {renderNext()}
+        </Box>
+      ) : (
+        <>
+          {renderSteps()}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            {renderBack()}
+            {renderNext()}
+          </Box>
+        </>
+      )}
       {isError && (
-        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
           <Alert onClose={() => setIsError(false)} severity="error">
             Error accessing data.
           </Alert>
