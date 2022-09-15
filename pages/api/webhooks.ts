@@ -1,4 +1,4 @@
-// import { buffer } from 'micro'
+// // import { buffer } from 'micro'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import getRawBody from 'raw-body';
@@ -40,6 +40,10 @@ export default async function handler(
     const rawBody = await getRawBody(req);
     const sig = req.headers['stripe-signature']!
     let event: Stripe.Event
+
+    if (!process.env.REACT_STRIPE_WEBHOOK_SECRET){
+     return res.status(500).send('No secret webhook key is available')
+    }
 
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret)
