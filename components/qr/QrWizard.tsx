@@ -23,6 +23,7 @@ import { QR_TYPE_ROUTE } from "./constants";
 import { areEquals } from "../helpers/generalFunctions";
 import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {getUuid} from "../../helpers/qr/helpers";
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -132,73 +133,42 @@ const QrWizard = ({ children }: QrWizardProps) => {
         setLoading(false);
         setIsError(true);
       }
-    } else if (step === 2) {
-      if (Boolean(userInfo) && Boolean(options.id)) {
+    } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
         setLoading(true);
 
+        const qrDesignId = getUuid();
+        const qrId = getUuid();
+
         // @ts-ignore
-        let updater = undefined;
+        const model = { ...data, qrType: selected, userId: userInfo.attributes.sub, id: qrId };
 
-        const initializeUpdater = () => {
-          // @ts-ignore
-          if (!Boolean(updater)) {
-            updater = { ...options };
-          }
-        };
-
-        const areTheSame = () => {
-          const cleaner = (obj: OptionsType) => {
-            const o = JSON.parse(JSON.stringify(obj));
-            // @ts-ignore
-            if (o.data !== undefined) {
-              delete o.data;
-            }
-            // @ts-ignore
-            if (o.qrOptions.typeNumber !== undefined) {
-              delete o.qrOptions.typeNumber;
-            }
-            return o;
-          };
-
-          return areEquals(cleaner(options), cleaner(initialData));
-        };
-
-        if (!areTheSame) {
-          initializeUpdater();
-        }
-
+        const designToStore = { ...options, id: qrDesignId };
         if (!areEquals(frame, initialFrame)) {
-          initializeUpdater();
           // @ts-ignore
-          updater.frame = frame;
+          designToStore.frame = frame;
         }
         if (!areEquals(background, initialBackground)) {
-          initializeUpdater();
           // @ts-ignore
-          updater.background = background;
+          designToStore.background = background;
         }
         if (cornersData !== null) {
-          initializeUpdater();
           // @ts-ignore
-          updater.corners = cornersData;
+          designToStore.corners = cornersData;
         }
         if (dotsData !== null) {
-          initializeUpdater();
           // @ts-ignore
-          updater.cornersDot = dotsData;
+          designToStore.cornersDot = dotsData;
         }
 
-        try {
-          // const result = await updateDesign(idDesignRef || '', updater);
-          if (updater !== undefined) {
-            await updateDesign(options.id || "", updater);
-          }
-          await router.push({ pathname: "/", query: { clear: true } }, "/", { shallow: true });
-        } catch {
-          setIsError(true);
-        }
+        await createMainDesign(options);
+        // @ts-ignore
+        model.qrOptionsId = qrDesignId;
+
+        // @ts-ignore
+      const qr = await QrHandler.create(model);
+
+        await router.push({ pathname: "/", query: { clear: true } }, "/", { shallow: true });
         setLoading(false);
-      }
       if (!Boolean(userInfo)) {
         await router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
       }
