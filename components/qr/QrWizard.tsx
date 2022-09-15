@@ -56,8 +56,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const [isError, setIsError] = useState<boolean>(false);
 
   // @ts-ignore
-  const {
-    selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
+  const {selected, step, setStep, data, setData, userInfo, options, setOptions, frame, background, cornersData,
     dotsData, isWrong, loading, setLoading
   }: StepsProps = useContext(Context);
 
@@ -122,6 +121,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         if (!shortLink?.error) {
           // @ts-ignore
           if (shortLink?.link) {
+            // @ts-ignore
             setOptions({ ...options, data: shortLink?.link });
           }
           setStep(2);
