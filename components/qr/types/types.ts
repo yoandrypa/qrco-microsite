@@ -1,5 +1,4 @@
 export type OptionsType = {
-  id?: string;
   width: number;
   height: number;
   type: string;
@@ -78,7 +77,6 @@ export type DataType = {
   telegram?: string;
   twitter?: string;
   value?: string;
-  id?: string;
   isDynamic?: boolean;
   images?: any[];
   videos?: any[];
