@@ -81,7 +81,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       const shortLinkId = getUuid();
 
 
-      const model = {
+      const qrData = {
         ...data,
         qrType: selected,
         // @ts-ignore
@@ -91,37 +91,40 @@ const QrWizard = ({ children }: QrWizardProps) => {
         shortLinkId
       };
 
-      const designToStore = { ...options, id: qrDesignId };
+      const qrDesign = { ...options, id: qrDesignId };
       if (!areEquals(frame, initialFrame)) {
         // @ts-ignore
-        designToStore.frame = frame;
+        qrDesign.frame = frame;
       }
       if (!areEquals(background, initialBackground)) {
         // @ts-ignore
-        designToStore.background = background;
+        qrDesign.background = background;
       }
       if (cornersData !== null) {
         // @ts-ignore
-        designToStore.corners = cornersData;
+        qrDesign.corners = cornersData;
       }
       if (dotsData !== null) {
         // @ts-ignore
-        designToStore.cornersDot = dotsData;
+        qrDesign.cornersDot = dotsData;
       }
 
-      const shorLink = {
-        id: shortLinkId,
-        target: generateShortLink(`qr/${qrId}`),
-        address: await generateId(),
-        // @ts-ignore
-        userId: userInfo.attributes.sub
-      };
+      let shortLink;
+      if (data.isDynamic) {
+        shortLink = {
+          id: shortLinkId,
+          target: generateShortLink(`qr/${qrId}`),
+          address: await generateId(),
+          // @ts-ignore
+          userId: userInfo.attributes.sub
+        };
+      }
 
-      await QrHandler.create(shorLink, designToStore, model);
+      await QrHandler.create({ shortLink, qrDesign, qrData });
 
       setForceClear(true);
       // @ts-ignore
-      await router.push("/", undefined, {shallow: true});
+      await router.push("/", undefined, { shallow: true });
       setLoading(false);
     } else if (step === 2 && !Boolean(userInfo)) {
       setForceClear(true);

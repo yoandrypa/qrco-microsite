@@ -11,12 +11,15 @@ interface Query {
 }
 
 // @ts-ignore
-export const create = async (shortLink, qrDesign, qrData) => {
+export const create = async (data) => {
   try {
-    const tempo = {...qrDesign};
-    if (tempo.image === null) { tempo.image = ''; }
+    if (data.qrDesign) {
+      if (data.qrDesign.image === null) {
+        data.qrDesign.image = "";
+      }
+    }
 
-    return await queries.qr.create(shortLink, tempo, qrData);
+    return await queries.qr.create(data);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message);
@@ -33,13 +36,23 @@ export const list = async (query: Query) => {
 
     // @ts-ignore
     const [qrs, total] = await queries.qr.get(match, { limit, search, skip });
+    // @ts-ignore
+
+    for (const qr of qrs) {
+      // @ts-ignore
+      const index = qrs.indexOf(qr);
+      if (qr.isDynamic) {
+        // @ts-ignore
+        qrs[index] = await qr.populate({ properties: "shortLinkId" });
+      }
+    }
 
     return {
       total,
       limit,
       skip,
       // @ts-ignore
-      qrs: await qrs.populate({properties: "shortLinkId"})
+      qrs
     };
   } catch (e) {
     // @ts-ignore

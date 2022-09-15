@@ -92,13 +92,20 @@ interface Create extends Partial<QrDataType> {
   userId: string;
 }
 
-export const create = async (shortLink: ObjectType, qrDesign: ObjectType, qrData: ObjectType) => {
+export const create = async (data: { shortLink: ObjectType; qrDesign: ObjectType; qrData: ObjectType; }) => {
   try {
-    return await dynamoose.transaction([
-      LinkModel.transaction.create(shortLink),
-      QrOptionsModel.transaction.create(qrDesign),
-      QrDataModel.transaction.create(qrData)
-    ]);
+    let transactions = [];
+    if (data.shortLink) {
+      transactions.push(LinkModel.transaction.create(data.shortLink));
+    }
+    if (data.qrDesign) {
+      transactions.push(QrOptionsModel.transaction.create(data.qrDesign));
+    }
+    if (data.qrData) {
+      transactions.push(QrDataModel.transaction.create(data.qrData));
+    }
+    console.debug({ transactions });
+    return await dynamoose.transaction(transactions);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);
