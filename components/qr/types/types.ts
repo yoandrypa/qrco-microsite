@@ -1,4 +1,5 @@
 export type OptionsType = {
+  id?: string;
   width: number;
   height: number;
   type: string;

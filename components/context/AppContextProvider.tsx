@@ -50,6 +50,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [isWrong, setIsWrong] = useState<boolean>(false);
 
   const doneInitialRender = useRef<boolean>(false);
+  const doNotNavigate = useRef<boolean>(false);
 
   const router = useRouter();
 
@@ -64,6 +65,10 @@ const AppContextProvider = (props: ContextProps) => {
   };
 
   const clearData = () => {
+    setForceClear(false);
+
+    setIsWrong(false);
+    setLoading(false);
     setStep(0);
     setSelected(null);
     setLogoData(null);
@@ -73,10 +78,6 @@ const AppContextProvider = (props: ContextProps) => {
     setCornersData(null);
     setOptions(handleInitialData('Ebanux'));
     setData({});
-    setIsWrong(false);
-    setLoading(false);
-
-    setForceClear(false);
   };
 
   useEffect(() => {
@@ -119,7 +120,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current && !Boolean(router.query.clear)) {
+    if (doneInitialRender.current && !doNotNavigate.current) {
       switch (step) {
         case 0: {
           router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
@@ -136,6 +137,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     } else {
       doneInitialRender.current = true;
+      doNotNavigate.current = false;
     }
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -162,6 +164,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   useEffect(() => {
     if (forceClear) {
+      doNotNavigate.current = true;
       clearData();
     }
   }, [forceClear]);

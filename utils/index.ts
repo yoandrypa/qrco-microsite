@@ -15,10 +15,9 @@ export const generateShortLink = (id: string | undefined, customDomain?: string 
 
 // @ts-ignore
 export const generateId = async (domainId: string | undefined = "") => {
-  const nanoid = customAlphabet(
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-    parseInt(<string>process.env.REACT_APP_LINK_LENGTH)
-  );
+  const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+    parseInt(`${process.env.REACT_APP_LINK_LENGTH}`));
+
   const address = nanoid();
   const link = await queries.link.find({
     address: { contains: address },
