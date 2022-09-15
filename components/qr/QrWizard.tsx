@@ -60,7 +60,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
   const {
     selected, step, setStep, data, userInfo, options, frame, background, cornersData,
-    dotsData, isWrong, loading, setLoading, setForceClear
+    dotsData, isWrong, loading, setOptions, setLoading, setForceClear
   }: StepsProps = useContext(Context);
 
   const router = useRouter();
@@ -73,13 +73,16 @@ const QrWizard = ({ children }: QrWizardProps) => {
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
+    } else if (step === 1 && Boolean(userInfo) && Boolean(data.isDynamic) && !Boolean(options.id)) {
+      const id = getUuid();
+      setOptions({ ...options, id, data: generateShortLink(`qr/${id}`) });
+      setStep(2);
     } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       setLoading(true);
 
       const qrDesignId = getUuid();
-      const qrId = getUuid();
+      const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
-
 
       const qrData = {
         ...data,
@@ -113,19 +116,23 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (data.isDynamic) {
         shortLink = {
           id: shortLinkId,
-          target: generateShortLink(`qr/${qrId}`),
+          target: options.id ? options.data : generateShortLink(`qr/${qrId}`),
           address: await generateId(),
           // @ts-ignore
           userId: userInfo.attributes.sub
         };
       }
 
-      await QrHandler.create({ shortLink, qrDesign, qrData });
+      try {
+        await QrHandler.create({ shortLink, qrDesign, qrData });
 
-      setForceClear(true);
-      // @ts-ignore
-      await router.push("/", undefined, { shallow: true });
-      setLoading(false);
+        setForceClear(true);
+        // @ts-ignore
+        await router.push("/", undefined, {shallow: true});
+      } catch {
+        setIsError(true);
+        setLoading(false);
+      }
     } else if (step === 2 && !Boolean(userInfo)) {
       setForceClear(true);
       await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
