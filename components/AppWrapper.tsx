@@ -24,6 +24,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
+import RenderNewQrButton from "./renderers/RenderNewQrButton";
 
 interface Props {
   window?: () => Window;
@@ -109,13 +110,7 @@ export default function AppWrapper(props: QrWrapperProps) {
                     </Button>
                   ) : (
                     <Box sx={{ display: 'flex' }}>
-                      <Button
-                        startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                        onClick={handleNavigation}
-                        variant="outlined"
-                        sx={{height: '28px', my: 'auto'}}>
-                        {router.pathname === '/' ? 'Create QR' : 'Admin'}
-                      </Button>
+                      <RenderNewQrButton pathname={router.pathname} handleNavigation={handleNavigation} />
                       <Button
                         startIcon={<LogoutIcon />}
                         onClick={handleLogout}
