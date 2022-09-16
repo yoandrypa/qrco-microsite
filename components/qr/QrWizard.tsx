@@ -203,8 +203,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </>
       )}
       {isError && (
-        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
           <Alert onClose={() => setIsError(false)} severity="error">
             Error accessing data.
           </Alert>

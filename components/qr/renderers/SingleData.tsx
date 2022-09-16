@@ -1,22 +1,34 @@
-import React from 'react';
+import {ChangeEvent} from 'react';
 import TextField from '@mui/material/TextField';
 
 import Common from '../helperComponents/Common';
 import MultiLineDetails from '../helperComponents/MultiLineDetails';
+import {WEB} from "../constants";
+import {DataType} from "../types/types";
 
 type SingleDataProps = {
   limit?: number;
   msg: string;
   label: string;
   data: { value: string };
-  setData: Function;
+  setData: (value: DataType) => void;
+  isWrong: boolean;
+  setIsWrong: (isWrong: boolean) => void;
 };
 
-function SingleData({ label, data, setData, msg, limit = -1 }: SingleDataProps) {
-  const handleValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+function SingleData({ isWrong, setIsWrong, label, data, setData, msg, limit = -1 }: SingleDataProps) {
+  const handleValue = (event: ChangeEvent<HTMLInputElement>) => {
     let { value } = event.target;
     if (limit !== -1) {
       value = value.slice(0, limit);
+    }
+
+    if (label === 'Website') {
+      let error = false;
+      if (value.trim().length && !WEB.test(value)) {
+        error = true;
+      }
+      setIsWrong(error);
     }
     // @ts-ignore
     setData({ ...data, value });
@@ -32,6 +44,7 @@ function SingleData({ label, data, setData, msg, limit = -1 }: SingleDataProps) 
           size="small"
           fullWidth
           margin="dense"
+          error={isWrong}
           value={data?.value || ''}
           onChange={handleValue}/>
         {limit !== -1 && <MultiLineDetails top={limit} data={data?.value || ''} />}

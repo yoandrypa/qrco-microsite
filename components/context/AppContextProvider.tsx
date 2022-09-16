@@ -12,6 +12,7 @@ import AppWrapper from "../AppWrapper";
 import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
+import Loading from "../Loading";
 
 Amplify.configure(awsExports);
 
@@ -81,34 +82,23 @@ const AppContextProvider = (props: ContextProps) => {
   };
 
   useEffect(() => {
-    if (router.pathname === QR_TYPE_ROUTE) {
-      if (doneInitialRender.current) {
-        if (Boolean(selected)) {
-          if (selected === "web") {
-            setData({ ...data, value: "https://www.example.com" });
-          } else if (selected === "facebook") {
-            setData({ ...data, message: "https://www.example.com" });
-          } else if (selected === "text") {
-            setData({ ...data, value: "Enter any text here" });
-          }
-        } else {
-          clearData();
+    if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
+      if (Boolean(selected)) {
+        if (selected === "web") {
+          setData({ ...data, value: "https://www.example.com" });
+        } else if (selected === "facebook") {
+          setData({ ...data, message: "https://www.example.com" });
+        } else if (selected === "text") {
+          setData({ ...data, value: "Enter any text here" });
         }
-        if (step !== 0) {
-          setStep(0);
-        }
-        if (isWrong) {
-          setIsWrong(false);
-        }
-        if (Object.keys(data).length) {
-          const { isDynamic } = data;
-          const newData = {};
-          if (isDynamic !== undefined) {
-            // @ts-ignore
-            newData.isDynamic = isDynamic;
-          }
-          setData(newData);
-        }
+      } else {
+        clearData();
+      }
+      if (step !== 0) {
+        setStep(0);
+      }
+      if (isWrong) {
+        setIsWrong(false);
       }
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -210,7 +200,8 @@ const AppContextProvider = (props: ContextProps) => {
     }
   }
 
-  return (
+  return (<>
+    {loading && <Loading />}
     <Context.Provider value={{
       cornersData, setCornersData,
       dotsData, setDotsData,
@@ -227,6 +218,7 @@ const AppContextProvider = (props: ContextProps) => {
     }}>
       {renderContent()}
     </Context.Provider>
+    </>
   );
 };
 
