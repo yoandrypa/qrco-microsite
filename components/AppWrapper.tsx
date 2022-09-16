@@ -114,7 +114,7 @@ export default function AppWrapper(props: QrWrapperProps) {
                         onClick={handleNavigation}
                         variant="outlined"
                         sx={{height: '28px', my: 'auto'}}>
-                        {router.pathname === '/' ? 'QR Editor' : 'Admin'}
+                        {router.pathname === '/' ? 'Create QR' : 'Admin'}
                       </Button>
                       <Button
                         startIcon={<LogoutIcon />}
@@ -155,7 +155,7 @@ export default function AppWrapper(props: QrWrapperProps) {
                     {Boolean(userInfo) && (
                       <MenuItem key="navigateMenuItem" onClick={handleNavigation}>
                         {router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                        <Typography textAlign="center">{router.pathname === '/' ? 'QR Editor' : 'Admin'}</Typography>
+                        <Typography textAlign="center">{router.pathname === '/' ? 'Create QR' : 'Admin'}</Typography>
                       </MenuItem>
                     )}
                     {Boolean(userInfo) && <Divider/>}

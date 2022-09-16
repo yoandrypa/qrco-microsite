@@ -8,6 +8,7 @@ import Context from "../context/Context";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DoneIcon from "@mui/icons-material/Done";
+import SaveIcon from "@mui/icons-material/Save";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { styled } from "@mui/material/styles";
@@ -69,16 +70,18 @@ const QrWizard = ({ children }: QrWizardProps) => {
     setStep((prev: number) => prev - 1);
   };
 
+  const isLogged = Boolean(userInfo);
+
   const handleNext = async () => {
     // @ts-ignore
-    if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
+    if (step === 0 && Boolean(data.isDynamic) && !isLogged) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && Boolean(userInfo) && Boolean(data.isDynamic) && !Boolean(options.id)) {
+    } else if (step === 1 && isLogged && Boolean(data.isDynamic) && !Boolean(options.id)) {
       const id = getUuid();
       const shortCode = await generateId();
       setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
       setStep(2);
-    } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
+    } else if (step === 2 && isLogged && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       setLoading(true);
 
       const qrDesignId = getUuid();
@@ -134,7 +137,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         setIsError(true);
         setLoading(false);
       }
-    } else if (step === 2 && !Boolean(userInfo)) {
+    } else if (step === 2 && !isLogged) {
       setForceClear(true);
       await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
     } else {
@@ -155,13 +158,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const renderNext = () => (
     <StepperButtons
       onClick={handleNext}
-      endIcon={step >= 2 ? <DoneIcon /> : <ChevronRightIcon />}
+      endIcon={step >= 2 ? (isLogged ? <SaveIcon /> : <DoneIcon />) : <ChevronRightIcon />}
       disabled={
         loading || isWrong || !Boolean(selected) ||
-        (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
+        (step === 1 && isLogged && !Boolean(data?.qrName?.trim().length))
       }
-      variant="contained">
-      {step >= 2 ? "Last" : "Next"}
+      variant={step >= 2 ? "outlined" : "contained"}>
+      {step >= 2 ? (isLogged ? "Save" : "Done") : "Next"}
     </StepperButtons>
   );
 
