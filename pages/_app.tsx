@@ -11,7 +11,6 @@ import "../styles/globals.css";
 
 import AppContextProvider from "../components/context/AppContextProvider";
 import { MAIN_CONFIG } from "../consts";
-import Loading from "../components/Loading";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [mainConfig, setMainConfig] = useState(MAIN_CONFIG);
@@ -26,7 +25,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <AppContextProvider>
           <IntlProvider locale={locale} messages={messages}>
             <Component {...pageProps} />
-            <Loading />
           </IntlProvider>
         </AppContextProvider>
       </ThemeProvider>
