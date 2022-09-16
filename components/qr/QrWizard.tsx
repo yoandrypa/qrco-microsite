@@ -75,7 +75,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
     } else if (step === 1 && Boolean(userInfo) && Boolean(data.isDynamic) && !Boolean(options.id)) {
       const id = getUuid();
-      setOptions({ ...options, id, data: generateShortLink(`qr/${id}`) });
+      const shortCode = await generateId();
+      setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
       setStep(2);
     } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       setLoading(true);
@@ -116,8 +117,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (data.isDynamic) {
         shortLink = {
           id: shortLinkId,
-          target: options.id ? options.data : generateShortLink(`qr/${qrId}`),
-          address: await generateId(),
+          target: generateShortLink(`qr/${qrId}`),
+          address: options.shortCode || await generateId(),
           // @ts-ignore
           userId: userInfo.attributes.sub
         };

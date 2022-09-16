@@ -1,5 +1,6 @@
 export type OptionsType = {
   id?: string;
+  shortCode?: string;
   width: number;
   height: number;
   type: string;
