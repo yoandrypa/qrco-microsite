@@ -14,6 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import useMediaQuery from "@mui/material/useMediaQuery";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 import {useRouter} from 'next/router';
 import Link from 'next/link'
@@ -172,13 +173,19 @@ export default function AppWrapper(props: QrWrapperProps) {
         <Box sx={{ p: 2, width: { sm: '100%', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
-        {!isLoggin && (<Box sx={{ height: '40px', mt: '10px' }}>
-          <Box sx={{ display: 'flex' }}>
+        {!isLoggin && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
+          <Box sx={{ display: 'flex', width: '100%' }}>
             <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
               {'Powered by'}
             </Typography>
             <Box component="img" alt="EBANUX" src="/ebanux.svg" sx={{ width: '95px', mt: '-2px', ml: '7px' }} />
           </Box>
+          {Boolean(userInfo) && (
+            <Typography sx={{ my: 'auto', color: theme => theme.palette.text.disabled, fontSize: 'small', display: 'inline-flex' }}>
+              {userInfo.username.replace(/@.*$/,"")}
+              <AccountBoxIcon sx={{ mt: '-1px' }} />
+            </Typography>
+          )}
         </Box>)}
       </Container>
     </>

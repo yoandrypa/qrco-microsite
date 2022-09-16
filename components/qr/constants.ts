@@ -7,3 +7,6 @@ export const CUSTOM_WIDTH = '780px' as string;
 export const DYNAMIC_QR = ['twitter', 'whatsapp', 'facebook', 'web'] as string[];
 export const SOCIALS = ['facebook', 'whatsapp', 'twitter', 'instagram', 'linkedin', 'pinterest', 'telegram', 'youtube'] as string[];
 export const PARAM_QR_TEXT = 'qr_text' as string;
+
+export const WEB = new RegExp('^((https?)://)?[\\w]+[\\-\\w:%\\.\\+~#=]{1,256}\\.(?:[\\-\\w()@:%_+.~#?&/=]*)$');
+export const EMAIL = new RegExp('^\\w+(\\.\\w+)*(\\+\\w+(\\.\\w+)*)?@\\w+(\\.\\w+)+$');
