@@ -9,15 +9,12 @@ import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
 
-export const handleDesignerString = (selected: string | null | undefined, data: DataType, value: string | null | undefined): string => {
+export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
   switch (selected) {
+    case 'text':
     case 'web': {
-      designerString = value || '';
-      break;
-    }
-    case 'text': {
-      designerString = value || '';
+      designerString = data.value || '';
       break;
     }
     case 'sms': {
@@ -248,4 +245,14 @@ export const getFrame = (frame: FramesType): string => {
     result = frame7(frame.color);
   }
   return result;
+}
+
+export function getUuid() {
+  let dt = new Date().getTime();
+  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (dt + Math.random() * 16) % 16 | 0;
+    dt = Math.floor(dt/16);
+    return (c === 'x' ? r :(r&0x3|0x8)).toString(16);
+  });
+  return uuid;
 }

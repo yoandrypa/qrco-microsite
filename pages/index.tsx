@@ -9,14 +9,20 @@ import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
+import { useRouter } from "next/router";
 
 Amplify.configure(awsExports);
 
 export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Authenticator components={components}>
       {({ user }) => (
-        <QrHome qrData={qrData} />
+        <QrHome qrData={qrData} userInformation={user} />
       )}
     </Authenticator>
   );

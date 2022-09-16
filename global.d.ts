@@ -42,6 +42,9 @@ interface UserSubscription {
 
 } 
 
+type PlanType = 'basic'      | 'business'        | 'premium' | 
+                'basicAnnual'| 'businessAnnual'  | 'premiumAnnual' | string;
+
 interface DomainType {
   id: string;
   address: string;

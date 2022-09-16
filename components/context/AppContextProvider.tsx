@@ -31,8 +31,7 @@ const handleInitialData = (value: string | null | undefined) => {
 const AppContextProvider = (props: ContextProps) => {
   const { children } = props;
 
-  const [value, setValue] = useState<string>("Ebanux");
-  const [options, setOptions] = useState<OptionsType>(handleInitialData(value));
+  const [options, setOptions] = useState<OptionsType>(handleInitialData('Ebanux'));
   const [cornersData, setCornersData] = useState<CornersAndDotsType>(null);
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
   const [logoData, setLogoData] = useState(null);
@@ -42,6 +41,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
+  const [forceClear, setForceClear] = useState<boolean>(false);
 
   const [userInfo, setUserInfo] = useState(null);
   const [verifying, setVerifying] = useState<boolean>(true);
@@ -50,20 +50,9 @@ const AppContextProvider = (props: ContextProps) => {
   const [isWrong, setIsWrong] = useState<boolean>(false);
 
   const doneInitialRender = useRef<boolean>(false);
-  const forceOpenDesigner = useRef<boolean>(false);
+  const doNotNavigate = useRef<boolean>(false);
 
   const router = useRouter();
-
-  const handleOpenDesigner = (payload: string | null): void => {
-    if (payload !== value) {
-      forceOpenDesigner.current = true;
-      // @ts-ignore
-      const newData = (!Boolean(selected) ? value : payload) as string;
-      const opts = JSON.parse(JSON.stringify(options));
-      opts.data = newData;
-      setOptions(opts);
-    }
-  };
 
   const logout = async () => {
     try {
@@ -75,22 +64,35 @@ const AppContextProvider = (props: ContextProps) => {
     }
   };
 
+  const clearData = () => {
+    setForceClear(false);
+
+    setIsWrong(false);
+    setLoading(false);
+    setStep(0);
+    setSelected(null);
+    setLogoData(null);
+    setBackground(initialBackground);
+    setFrame(initialFrame);
+    setDotsData(null);
+    setCornersData(null);
+    setOptions(handleInitialData('Ebanux'));
+    setData({});
+  };
+
   useEffect(() => {
     if (router.pathname === QR_TYPE_ROUTE) {
       if (doneInitialRender.current) {
         if (Boolean(selected)) {
           if (selected === "web") {
-            setValue("https://www.example.com");
+            setData({ ...data, value: "https://www.example.com" });
           } else if (selected === "facebook") {
             setData({ ...data, message: "https://www.example.com" });
           } else if (selected === "text") {
-            setValue("Enter any text here");
+            setData({ ...data, value: "Enter any text here" });
           }
         } else {
-          setValue("Ebanux");
-          setLogoData(null);
-          setBackground(initialBackground);
-          setFrame(initialFrame);
+          clearData();
         }
         if (step !== 0) {
           setStep(0);
@@ -118,7 +120,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current) {
+    if (doneInitialRender.current && !doNotNavigate.current) {
       switch (step) {
         case 0: {
           router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
@@ -132,11 +134,10 @@ const AppContextProvider = (props: ContextProps) => {
           router.push(QR_DESIGNER_NEW_ROUTE, undefined, {shallow: true});
           break;
         }
-        default: {
-          router.push(Boolean(userInfo) ? '/' : QR_TYPE_ROUTE, undefined, {shallow: true});
-          break;
-        }
       }
+    } else {
+      doneInitialRender.current = true;
+      doNotNavigate.current = false;
     }
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -148,26 +149,25 @@ const AppContextProvider = (props: ContextProps) => {
         router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
       }
     }
-    if (router.pathname === '/' && !Boolean(router.query.login) && step !== 0) {
-      setStep(0);
+    if (router.pathname === '/') {
+      if (!Boolean(router.query.login) && step !== 0) {
+        setStep(0);
+      }
     }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current) {
-      const opts = JSON.parse(JSON.stringify(options));
-      opts.data = value;
-      setOptions(opts);
-    } else {
-      doneInitialRender.current = true;
+    if (Boolean(userInfo) && verifying) {
+      setVerifying(false);
     }
-  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (forceOpenDesigner.current) {
-      forceOpenDesigner.current = false;
+    if (forceClear) {
+      doNotNavigate.current = true;
+      clearData();
     }
-  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [forceClear]);
 
   const verify = async () => {
     try {
@@ -178,12 +178,6 @@ const AppContextProvider = (props: ContextProps) => {
       setVerifying(false);
     }
   };
-
-  useEffect(() => {
-    if (Boolean(userInfo) && verifying) {
-      setVerifying(false);
-    }
-  }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     verify();
@@ -209,7 +203,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     } else {
       return (
-        <AppWrapper userInfo={userInfo} handleLogout={logout}>
+        <AppWrapper userInfo={userInfo} handleLogout={logout} clearData={clearData}>
           {children}
         </AppWrapper>
       );
@@ -225,11 +219,9 @@ const AppContextProvider = (props: ContextProps) => {
       background, setBackground,
       options, setOptions,
       selected, setSelected,
-      setOpenDesigner: handleOpenDesigner,
-      value, setValue,
       data, setData,
       userInfo, setUserInfo,
-      step, setStep,
+      step, setStep, setForceClear,
       loading, setLoading,
       isWrong, setIsWrong
     }}>

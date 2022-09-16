@@ -94,10 +94,10 @@ const Generator = ({ forceOverride }: GenProps) => {
   };
 
   const contrastColors = useMemo(() => {
-    if ((!options?.backgroundOptions?.color || !options?.dotsOptions?.color) && options.backgroundOptions.color === '#ffffff00') {
+    if ((!options?.backgroundOptions?.color || !options?.dotsOptions?.color) && options?.backgroundOptions?.color === '#ffffff00') {
       return undefined;
     }
-    return { color1: options.backgroundOptions.color, color2: options.dotsOptions.color };
+    return { color1: options.backgroundOptions?.color || '#000000', color2: options.dotsOptions?.color || '#ffffff' };
   }, [options?.backgroundOptions?.color, options?.dotsOptions?.color]);
 
   const checkForReadability = () => {
@@ -209,7 +209,7 @@ const Generator = ({ forceOverride }: GenProps) => {
   }, [isReadable]);
 
   useEffect(() => {
-    if (doneFirst.current) {
+    if (doneFirst.current && Object.keys(background).length) {
       const opts = {...options};
       if (background.type === 'solid') {
         handleReset();
@@ -227,7 +227,7 @@ const Generator = ({ forceOverride }: GenProps) => {
   }, [background.invert]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneFirst.current) {
+    if (doneFirst.current && Boolean(options?.backgroundOptions)) {
       const opts = {...options};
       opts.backgroundOptions.color = background.file ? '#ffffff00' : '#ffffff';
       setOptions(opts);

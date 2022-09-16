@@ -10,7 +10,6 @@ import RenderIcon from "../helperComponents/RenderIcon";
 import {capitalize} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import {DataType} from "../types/types";
-import RenderQRName from "./RenderQRName";
 import Context from "../../context/Context";
 import SquareSelector from "../helperComponents/SquareSelector";
 import {SOCIALS} from "../constants";
@@ -155,8 +154,6 @@ export default function CardData({data, setData}: CardDataProps) {
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (<>
-    {/* @ts-ignore */}
-    <RenderQRName handleValues={handleValues} qrName={data?.qrName} />
     <Common msg="Your contact details. Users can store your info or contact you right away.">
       <>
         <Typography sx={{ fontWeight: 'bold' }}>{'Presentation'}</Typography>

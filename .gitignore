@@ -40,3 +40,4 @@ yarn-error.log*
 .env
 /.vscode
 yarn.lock
+pages/api/testing/index.ts

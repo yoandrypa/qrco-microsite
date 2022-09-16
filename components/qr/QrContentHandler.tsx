@@ -14,19 +14,18 @@ import CardData, {CardDataProps} from './renderers/CardData';
 import EmailData, {EmailDataProps} from './renderers/EmailData';
 import SMSData, {SMSDataProps} from './renderers/SMSData';
 import TwitterData, {TwitterDataProps} from './renderers/TwitterData';
+import AssetData , {AssetDataProps} from './renderers/AssetData';
 import {DataType} from './types/types';
 
 type QrContentHandlerProps = {
   data: DataType;
   setData: Function;
-  setValue: Function;
   selected?: string | null;
-  value?: string | null;
 }
 
 const QrContentHandler = () => {
   // @ts-ignore
-  const { data, setData, setValue, selected, value }: QrContentHandlerProps = useContext(Context);
+  const { data, setData, selected }: QrContentHandlerProps = useContext(Context);
 
   const renderSel = () => {
     if (!selected) {
@@ -37,16 +36,18 @@ const QrContentHandler = () => {
         return (<SingleData
           label="Website"
           msg="Type in the website to link the QR Code."
-          data={value || ''}
-          setData={payload => setValue(payload)} />);
+          // @ts-ignore
+          data={data} setData={payload => setData(payload)}
+        />);
       }
       case 'text': {
         return (<SingleData
           label="Message"
           limit={300}
           msg="Type any message up to 300 characters."
-          data={value || ''}
-          setData={payload => setValue(payload.slice(0, 300))} />);
+          // @ts-ignore
+          data={data} setData={payload => setData(payload)}
+        />);
       }
       case 'whatsapp': {
         return <WhatsAppData data={data} setData={(payload: WhatsAppProps) => setData(payload)} />;
@@ -70,6 +71,18 @@ const QrContentHandler = () => {
       }
       case 'twitter': {
         return <TwitterData data={data} setData={(payload: TwitterDataProps) => setData(payload)} />;
+      }
+      case 'image': {
+        return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
+      }
+      case 'pdf': {
+        return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
+      }
+      case 'audio': {
+        return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
+      }
+      case 'video': {
+        return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
       }
     }
   };

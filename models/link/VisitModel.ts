@@ -1,14 +1,13 @@
 import dynamoose from "../../libs/dynamoose";
-// @ts-ignore
-import { v4 } from "uuid";
 import { LinkModel } from "./LinkModel";
+import {getUuid} from "../../helpers/qr/helpers";
 
 // instantiate a dynamoose schema
 const VisitSchema = new dynamoose.Schema({
   id: {
     type: String,
     hashKey: true,
-    default: v4
+    default: getUuid()
   },
   countries: {
     type: Object

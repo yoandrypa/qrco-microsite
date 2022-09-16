@@ -10,8 +10,15 @@ interface Query {
   all?: any;
 }
 
-export const create = async (data: CreateQrDataType) => {
+// @ts-ignore
+export const create = async (data) => {
   try {
+    if (data.qrDesign) {
+      if (data.qrDesign.image === null) {
+        data.qrDesign.image = "";
+      }
+    }
+
     return await queries.qr.create(data);
   } catch (e) {
     // @ts-ignore
@@ -29,13 +36,23 @@ export const list = async (query: Query) => {
 
     // @ts-ignore
     const [qrs, total] = await queries.qr.get(match, { limit, search, skip });
+    // @ts-ignore
+
+    for (const qr of qrs) {
+      // @ts-ignore
+      const index = qrs.indexOf(qr);
+      if (qr.isDynamic) {
+        // @ts-ignore
+        qrs[index] = await qr.populate({ properties: "shortLinkId" });
+      }
+    }
 
     return {
       total,
       limit,
       skip,
       // @ts-ignore
-      qrs: await qrs.populate({properties: "shortLinkId"})
+      qrs
     };
   } catch (e) {
     // @ts-ignore
@@ -83,16 +100,16 @@ export const edit = async (data: UpdateQrDataType) => {
 
 export const remove = async (params: { id: any; userId?: any; }) => {
   try {
-    const link = await queries.link.remove({
+    const qr = await queries.qr.remove({
       id: params.id,
       userId: params.userId
     });
 
-    if (!link) {
-      throw new CustomError("Could not delete the link");
+    if (!qr) {
+      throw new CustomError("Could not delete the qr");
     }
 
-    return { message: "LinkModel has been deleted successfully." };
+    return { message: "Qr has been deleted successfully." };
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message);

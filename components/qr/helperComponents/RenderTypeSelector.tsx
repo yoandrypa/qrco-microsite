@@ -1,31 +1,31 @@
-import { MouseEvent, useCallback, useContext, useMemo } from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import MUIButton from '@mui/material/Button';
-import CheckBoxEmpty from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-import CheckBoxChecked from '@mui/icons-material/CheckBoxTwoTone';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { MouseEvent, useCallback, useContext, useMemo } from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import MUIButton from "@mui/material/Button";
+import CheckBoxEmpty from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
+import CheckBoxChecked from "@mui/icons-material/CheckBoxTwoTone";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import TypeSelector from './TypeSelector';
-import Context from '../../context/Context';
-import {styled} from "@mui/material/styles";
+import TypeSelector from "./TypeSelector";
+import Context from "../../context/Context";
+import { styled } from "@mui/material/styles";
 
 interface RenderTypeSelectorProps {
   selected: string;
   handleSelect: Function;
 }
 
-const Button = styled(MUIButton)(() => ({ width: 'calc(50% - 5px)', height: '32px' }));
-const getColor = (condition: boolean): string => (condition ? 'green' : 'default');
+const Button = styled(MUIButton)(() => ({ width: "calc(50% - 5px)", height: "32px" }));
+const getColor = (condition: boolean): string => (condition ? "green" : "default");
 
 const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps) => {
   // @ts-ignore
   const { data, setData } = useContext(Context);
-  const isWide = useMediaQuery('(min-width:600px)', { noSsr: true });
+  const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
     // @ts-ignore
-    const isDynamic = event.currentTarget.id === 'dynamic';
+    const isDynamic = event.currentTarget.id === "dynamic";
     if (isDynamic) {
       setData({ ...data, isDynamic });
     } else if (data.isDynamic !== undefined) {
@@ -55,39 +55,50 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Button
             sx={{ borderColor: getColor(!isDynamic), color: getColor(!isDynamic) }}
             onClick={handleClick}
             startIcon={!isDynamic ? renderYes() : renderNo()}
             key="static"
             id="static"
-            variant="outlined">{isWide ? 'Static QR Codes' : 'Static'}</Button>
+            variant="outlined">{isWide ? "Static QR Codes" : "Static"}</Button>
           <Button
             sx={{ borderColor: getColor(isDynamic), color: getColor(isDynamic) }}
             onClick={handleClick}
             startIcon={isDynamic ? renderYes() : renderNo()}
             key="dynamic"
             id="dynamic"
-            variant="outlined">{isWide ? 'Dynamic QR Codes' : 'Dynamic'}</Button>
+            variant="outlined">{isWide ? "Dynamic QR Codes" : "Dynamic"}</Button>
         </Box>
       </Grid>
-      {renderTypeSelector('web','Website','LinkModel to any page on the web', !isDynamic)}
-      {renderTypeSelector('email', 'Email', 'Receive email messages', !isDynamic)}
-      {renderTypeSelector('sms', 'SMS', 'Receive text messages', !isDynamic)}
+      {renderTypeSelector("web", "Website", "LinkModel to any page on the web", !isDynamic)}
       {!isDynamic ?
-        renderTypeSelector('vcard', 'VCard', 'Share your contact details', true) :
-        renderTypeSelector('vcard+', 'VCard Plus', 'Share your contact and social details', true)
+        (<>
+          {renderTypeSelector("email", "Email", "Receive email messages", false)}
+          {renderTypeSelector("sms", "SMS", "Receive text messages", false)}
+          {renderTypeSelector("vcard", "VCard", "Share your contact details", false)}
+          {renderTypeSelector("text", "Text", "Display a short text message", false)}
+          {renderTypeSelector("wifi", "WiFi", "Get connected to a WiFi network", false)}
+        </>) :
+        renderTypeSelector("vcard+", "VCard Plus", "Share your contact and social details", true)
       }
-      {renderTypeSelector('text', 'Text', 'Display a short text message', !isDynamic)}
-      {renderTypeSelector('wifi', 'WiFi', 'Get connected to a WiFi network', !isDynamic)}
-      {renderTypeSelector('twitter', 'Twitter', 'Post a tweet', !isDynamic)}
-      {renderTypeSelector('whatsapp', 'Whatsapp', 'Send a Whatsapp message', !isDynamic)}
-      {renderTypeSelector('facebook', 'Facebook', 'Share an URL in your wall', !isDynamic)}
-      {renderTypeSelector('pdf', 'PDF file', 'Share a PDF file', false)}
+      {renderTypeSelector("twitter", "Twitter", "Post a tweet", !isDynamic)}
+      {renderTypeSelector("whatsapp", "Whatsapp", "Send a Whatsapp message", !isDynamic)}
+      {renderTypeSelector("facebook", "Facebook", "Share an URL in your wall", !isDynamic)}
+      {isDynamic ? (
+        <>
+          {renderTypeSelector("pdf", "PDF file", "Share a PDF file", true)}
+          {renderTypeSelector("audio", "Audio file", "Share an audio file", true)}
+          {renderTypeSelector("image", "Image file", "Share an image file", true)}
+          {renderTypeSelector("video", "Video file", "Share a video file", true)}
+        </>
+      ) : null
+      }
+      {/*{renderTypeSelector('pdf', 'PDF file', 'Share a PDF file', false)}
       {renderTypeSelector('audio', 'Audio file', 'Share an audio file', false)}
-      {renderTypeSelector('image', 'Imagefile', 'Share an image file', false)}
-      {renderTypeSelector('video', 'Video file', 'Share a video file', false)}
+      {renderTypeSelector('image', 'Image file', 'Share an image file', isDynamic)}
+      {renderTypeSelector('video', 'Video file', 'Share a video file', false)}*/}
     </Grid>
   );
 };

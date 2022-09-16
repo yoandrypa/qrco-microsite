@@ -67,7 +67,7 @@ const ColorSelector = ({ color, handleData, label, property }: ColorSelProps) =>
 
   useEffect(() => {
     let val = '';
-    if (value.length) {
+    if (value?.length) {
       val = (' ' + value).slice(1);
     }
     if (val.length && val !== color && hex.test(val)) {
@@ -83,7 +83,7 @@ const ColorSelector = ({ color, handleData, label, property }: ColorSelProps) =>
         margin="dense"
         variant="outlined"
         label={label}
-        value={value.slice(1)}
+        value={value?.slice(1) || '#000000'}
         onChange={handleChange}
         onPaste={handlePaste}
         inputProps={{ ref }}

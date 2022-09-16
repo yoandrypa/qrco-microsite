@@ -1,20 +1,19 @@
 import dynamoose from "../../libs/dynamoose";
-// @ts-ignore
-import { v4 } from "uuid";
 //const Unique = require("./unique");
 import { UserModel } from "../UserModel";
 import { DomainModel } from "./DomainModel";
+import { getUuid } from "../../helpers/qr/helpers";
 
 // instantiate a dynamoose schema
 const LinkSchema = new dynamoose.Schema({
   id: {
     type: String,
     hashKey: true,
-    default: v4
+    default: getUuid()
   },
   type: {
     type: String,
-    enum: ["short_link", "qr_link"],
+    enum: ["short_link", "qr_link", "download_link"],
     default: "short_link"
   },
   address: {

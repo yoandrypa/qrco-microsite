@@ -1,4 +1,4 @@
-import {ReactElement, ReactNode, cloneElement, useCallback, useMemo} from 'react';
+import {ReactElement, ReactNode, cloneElement, useCallback, useMemo, useState, MouseEvent} from 'react';
 import Head from 'next/head';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
@@ -13,10 +13,17 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import {useRouter} from 'next/router';
 import Link from 'next/link'
+
 import {PARAM_QR_TEXT, QR_TYPE_ROUTE} from "./qr/constants";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
 
 interface Props {
   window?: () => Window;
@@ -39,11 +46,23 @@ interface QrWrapperProps {
   children: ReactNode;
   userInfo?: any;
   handleLogout?: () => void;
+  clearData?: (clear: true) => void;
 }
 
 export default function AppWrapper(props: QrWrapperProps) {
-  const { children, userInfo, handleLogout } = props;
+  const { children, userInfo, handleLogout, clearData } = props;
 
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const isWide = useMediaQuery('(min-width:600px)', { noSsr: true });
   const router = useRouter();
 
   const handleLogin = useCallback(() => {
@@ -51,6 +70,9 @@ export default function AppWrapper(props: QrWrapperProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = useCallback(() => {
+    if (clearData !== undefined) {
+      clearData(true);
+    }
     router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -76,32 +98,75 @@ export default function AppWrapper(props: QrWrapperProps) {
                 </Box>
               </Link>
               {router.query[PARAM_QR_TEXT] === undefined && (<>
-                {!Boolean(userInfo) ? (
-                  <Button
-                    startIcon={<LoginIcon />}
-                    onClick={handleLogin}
-                    variant="contained"
-                    sx={{ height: '28px', mr: '5px', my: 'auto' }}>
-                    {'Login'}
-                  </Button>
-                ) : (
-                  <Box sx={{ display: 'flex' }}>
+                {isWide ? (<>
+                  {!Boolean(userInfo) ? (
                     <Button
-                      startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                      onClick={handleNavigation}
-                      variant="outlined"
-                      sx={{height: '28px', my: 'auto'}}>
-                      {router.pathname === '/' ? 'QR Editor' : 'Admin'}
-                    </Button>
-                    <Button
-                      startIcon={<LogoutIcon />}
-                      onClick={handleLogout}
+                      startIcon={<LoginIcon />}
+                      onClick={handleLogin}
                       variant="contained"
-                      sx={{ height: '28px', ml: '10px', my: 'auto' }}>
-                      {'Logout'}
+                      sx={{ height: '28px', mr: '5px', my: 'auto' }}>
+                      {'Login'}
                     </Button>
-                  </Box>
-                )}
+                  ) : (
+                    <Box sx={{ display: 'flex' }}>
+                      <Button
+                        startIcon={router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
+                        onClick={handleNavigation}
+                        variant="outlined"
+                        sx={{height: '28px', my: 'auto'}}>
+                        {router.pathname === '/' ? 'QR Editor' : 'Admin'}
+                      </Button>
+                      <Button
+                        startIcon={<LogoutIcon />}
+                        onClick={handleLogout}
+                        variant="contained"
+                        sx={{ height: '28px', ml: '10px', my: 'auto' }}>
+                        {'Logout'}
+                      </Button>
+                    </Box>
+                  )}
+                </>) : (<>
+                  <IconButton
+                    size="large"
+                    aria-label="responsive-user-menu"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElNav}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                    keepMounted
+                    transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    open={Boolean(anchorElNav)}
+                    onClose={handleCloseNavMenu}
+                    sx={{ display: { xs: 'block', md: 'none' } }}
+                  >
+                    {!Boolean(userInfo) && (
+                      <MenuItem key="loginMenuItem" onClick={handleLogin}>
+                        <LoginIcon />
+                        <Typography textAlign="center">{'Login'}</Typography>
+                      </MenuItem>
+                    )}
+                    {Boolean(userInfo) && (
+                      <MenuItem key="navigateMenuItem" onClick={handleNavigation}>
+                        {router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
+                        <Typography textAlign="center">{router.pathname === '/' ? 'QR Editor' : 'Admin'}</Typography>
+                      </MenuItem>
+                    )}
+                    {Boolean(userInfo) && <Divider/>}
+                    {Boolean(userInfo) && (
+                      <MenuItem key="logoutMenuItem" onClick={handleLogout}>
+                        <LogoutIcon />
+                        <Typography textAlign="center">{'Logout'}</Typography>
+                      </MenuItem>
+                    )}
+                  </Menu>
+                </>)}
               </>)}
             </Toolbar>
           </Container>

@@ -14,20 +14,20 @@ import DialogContent from '@mui/material/DialogContent'
 import Dialog from '@mui/material/Dialog'
 import { useRouter } from 'next/router';
 import Context from '../../components/context/Context'
-import axios, { Axios } from 'axios'
-
+import axios, { AxiosError } from 'axios'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 type Props = {}
 
 Amplify.configure(awsconfig);
 
 const Plans = (props: Props) => {
-  interface UserAuthData {
-    username: string; 
-    id: string;
-  }
+
 
   const [user, setUser] = useState<any>(null);
   const [mustLogInDlg,setMustLogInDlg] = useState(false)
+  const [error,setError] = useState<string | null >(null)
+
   // @ts-ignore
   const {userInfo} = useContext(Context)
   const API = axios.create({
@@ -59,6 +59,7 @@ const router = useRouter()
     title:"Basic Account",
     description:"For small teams or group who need to build a website",
     buttonText: "Subscribe",
+    plan_type:"basic",
     period: "Per month & subscription yearly",
     highlighted: false,
     priceAmount: "$9",
@@ -73,6 +74,7 @@ const router = useRouter()
     title:"Basic Account",
     description:"For small teams or group who need to build a website",
     buttonText: "Subscribe",
+    plan_type:"basicAnnual",
     period: "Save two months",
     highlighted: false,
     priceAmount: "$90",
@@ -88,6 +90,7 @@ const router = useRouter()
     title:"Business Account",
     description:"For medium team or grup who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"business",
     period: "Save two months",
     highlighted: false,
     priceAmount: "$15",
@@ -101,6 +104,7 @@ const router = useRouter()
     title:"Business Account",
     description:"For medium team or grup who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"businessAnnual",
     period: "Save two months",
     highlighted: false,
     priceAmount: "$150",
@@ -116,6 +120,7 @@ const router = useRouter()
     title:"Premium Account",
     description:"For large teams or group who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"premium",
     period: "Per month & subscription yearly",
     highlighted: true,
     priceAmount: "$45",
@@ -127,8 +132,9 @@ const router = useRouter()
   }
   const premiumAnnual = {
     title:"Premium Account",
-    description:"For large teams or group who need to build a website.",
+    description:"For large business who need to build a website.",
     buttonText: "Subscribe",
+    plan_type:"premiumAnnual",
     period: "Per month & subscription yearly",
     highlighted: true,
     priceAmount: "$360",
@@ -140,29 +146,49 @@ const router = useRouter()
   }
 
 
-const handleClick = (plan: string) =>{
+const handleClick = async (plan: string) =>{
   if (user === null){
     setMustLogInDlg(true)
   } else {
-    const response = API.post(`/api/create-customer`,{
-              id: user.attributes.sub,
-              email: user.attributes.email,
-              plan_type: plan
-            })
-console.log(response)
-//@ts-ignore
-if (response.error || response.status! > 200 ) {
-    console.log('error')
-    return
- }     
+
+    try {
+      const response = await API.post(`/api/create-customer`,{
+        id: user.attributes.sub,
+        email: user.attributes.email,
+        plan_type: plan
+      })
+      console.log(response)
+      if (response.status === 200 && response.data.result.url){
+        window.location.href = response.data.result.url    
+      } 
+     
+    } catch (error ) {    
+      const errorMessage = error instanceof AxiosError ? error.message : 'Something went wrong'
+      setError(errorMessage)     
+    }
+ 
+
+     
   }
 }
 
 const handleTabChange = (event: React.SyntheticEvent, value:number)=>{
 setActiveTab(value)
 }
+
+const action = (
+  <Button color="primary" variant='contained' sx={{marginLeft: 2}} size="small">
+    Support
+  </Button>
+);
+
   return (
     <>
+    <Snackbar  open={!!error}  autoHideDuration={6000} action={action}>
+  <Alert onClose={()=> setError(null)} variant="filled" severity="error" sx={{ width: '100%' }}>
+    {error}{action}
+ </Alert> 
+</Snackbar>
     <Dialog open={mustLogInDlg}>
       <DialogContent>
        In order to buy a plan, you must login first!
@@ -189,7 +215,7 @@ setActiveTab(value)
      </Box>
     <Grid container alignContent='center' display='flex' spacing={3} justifyContent={'center'}>
       <Grid item xs={12} md={6} lg={4}>
-      <PlanCard data={activeTab == 0 ?  basic : basicAnnual}  
+      <PlanCard data={activeTab == 0 ?  basic  : basicAnnual }  
     isCurrentPlan={false} 
     clickAction={handleClick}/>
       </Grid>

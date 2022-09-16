@@ -1,4 +1,4 @@
-// import { buffer } from 'micro'
+// // import { buffer } from 'micro'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import getRawBody from 'raw-body';
@@ -13,7 +13,7 @@ export const config = {
 };
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY || 'sk_test_51Ksb3LCHh3XhfaZr2tgzaQKAQtuTF9vRtgdXBS7X2rAaPC6FNoLQ3hyPFVmlnRhsif0FDdbi5cdgEh7Y1Wt9Umo900w9YPUGo6', {
   // https://github.com/stripe/stripe-node#configuration
   apiVersion: '2022-08-01',
 })
@@ -22,7 +22,7 @@ type ResponseData = {
 
 }
 
-const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!
+const webhookSecret: string = process.env.REACT_STRIPE_WEBHOOK_SECRET!
 
 export enum StripeWebhooks {
   AsyncPaymentSuccess = 'checkout.session.async_payment_succeeded',
@@ -40,6 +40,10 @@ export default async function handler(
     const rawBody = await getRawBody(req);
     const sig = req.headers['stripe-signature']!
     let event: Stripe.Event
+
+    if (!process.env.REACT_STRIPE_WEBHOOK_SECRET){
+     return res.status(500).send('No secret webhook key is available')
+    }
 
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret)

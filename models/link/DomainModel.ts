@@ -1,14 +1,13 @@
 import dynamoose from "../../libs/dynamoose";
-// @ts-ignore
-import { v4 } from "uuid";
 import { UserModel } from "../UserModel";
+import {getUuid} from "../../helpers/qr/helpers";
 
 // instantiate a dynamoose schema
 const DomainSchema = new dynamoose.Schema({
   id: {
     type: String,
     hashKey: true,
-    default: v4
+    default: getUuid()
   },
   banned: {
     type: Boolean,

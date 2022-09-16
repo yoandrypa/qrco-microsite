@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from "react";
+import { forwardRef, ReactNode, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -8,13 +8,24 @@ import Context from "../context/Context";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DoneIcon from "@mui/icons-material/Done";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { styled } from "@mui/material/styles";
 
 import { useRouter } from "next/router";
 
-import * as linkHandler from "../../handlers/links";
 import { generateId, generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
+import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "./types/types";
+import { QR_TYPE_ROUTE } from "./constants";
+import { areEquals } from "../helpers/generalFunctions";
+import { initialBackground, initialFrame } from "../../helpers/qr/data";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { getUuid } from "../../helpers/qr/helpers";
+
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -26,30 +37,31 @@ interface StepsProps {
   step: number;
   setStep: Function;
   selected: string;
-  data: object;
+  data: DataType;
   userInfo: object;
-  options: object;
-  setOptions: Function;
+  options: OptionsType;
+  frame: FramesType;
+  background: BackgroundType;
+  cornersData: CornersAndDotsType;
+  dotsData: CornersAndDotsType;
+  setOptions: (opt: OptionsType) => void;
+  setForceClear: (clear: boolean) => void;
   isWrong: boolean;
+  loading: boolean;
+  setLoading: (isLoading: boolean) => void;
 }
 
-const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px", mt: "-7px" }));
+const StepperButtons = styled(Button)(() => ({ width: "120px", height: "30px" }));
 
 const QrWizard = ({ children }: QrWizardProps) => {
-  // @ts-ignore
-  const {
-    selected,
-    step,
-    setStep,
-    data,
-    userInfo,
-    options,
-    setOptions,
-    isWrong
-  }: StepsProps = useContext(Context);
+  const [isError, setIsError] = useState<boolean>(false);
+  const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
 
   // @ts-ignore
-  const { loading, setLoading } = useContext(Context);
+  const {
+    selected, step, setStep, data, userInfo, options, frame, background, cornersData,
+    dotsData, isWrong, loading, setOptions, setLoading, setForceClear
+  }: StepsProps = useContext(Context);
 
   const router = useRouter();
 
@@ -57,80 +69,143 @@ const QrWizard = ({ children }: QrWizardProps) => {
     setStep((prev: number) => prev - 1);
   };
 
-  const handleShort = async (target: string) => {
-    try {
-      return await linkHandler.create({
-        body: { target, type: "qr_link" },
-        // @ts-ignore
-        user: { id: userInfo.attributes.sub }
-      });
-    } catch (error) {
-      return { error };
-    }
-  };
-
   const handleNext = async () => {
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && selected === "vcard+") {
+    } else if (step === 1 && Boolean(userInfo) && Boolean(data.isDynamic) && !Boolean(options.id)) {
+      const id = getUuid();
+      setOptions({ ...options, id, data: generateShortLink(`qr/${id}`) });
+      setStep(2);
+    } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       setLoading(true);
-      //Generate an Id (Code) using the short link solution
-      const id = await generateId();
-      // First create a Record of QR Model
-      const qr = await QrHandler.create({
-        qrName: selected + " - " + id,
+
+      const qrDesignId = getUuid();
+      const qrId = options.id || getUuid();
+      const shortLinkId = getUuid();
+
+      const qrData = {
+        ...data,
         qrType: selected,
         // @ts-ignore
         userId: userInfo.attributes.sub,
-        ...data
-      });
-      // Autogenerate the target url
-      const targetUrl = generateShortLink("qr/" + qr.id);
-      const shortLink = await handleShort(targetUrl);
-      // @ts-ignore
-      await QrHandler.edit({ id: qr.id, userId: userInfo.attributes.sub, shortLinkId: shortLink.id });
-      setLoading(false);
-      // @ts-ignore
-      if (!shortLink.error) {
+        id: qrId,
+        qrOptionsId: qrDesignId,
+        shortLinkId
+      };
+
+      const qrDesign = { ...options, id: qrDesignId };
+      if (!areEquals(frame, initialFrame)) {
         // @ts-ignore
-        setOptions({ ...options, data: shortLink?.link });
-        setStep(2);
+        qrDesign.frame = frame;
       }
+      if (!areEquals(background, initialBackground)) {
+        // @ts-ignore
+        qrDesign.background = background;
+      }
+      if (cornersData !== null) {
+        // @ts-ignore
+        qrDesign.corners = cornersData;
+      }
+      if (dotsData !== null) {
+        // @ts-ignore
+        qrDesign.cornersDot = dotsData;
+      }
+
+      let shortLink;
+      if (data.isDynamic) {
+        shortLink = {
+          id: shortLinkId,
+          target: options.id ? options.data : generateShortLink(`qr/${qrId}`),
+          address: await generateId(),
+          // @ts-ignore
+          userId: userInfo.attributes.sub
+        };
+      }
+
+      try {
+        await QrHandler.create({ shortLink, qrDesign, qrData });
+
+        setForceClear(true);
+        // @ts-ignore
+        await router.push("/", undefined, {shallow: true});
+      } catch {
+        setIsError(true);
+        setLoading(false);
+      }
+    } else if (step === 2 && !Boolean(userInfo)) {
+      setForceClear(true);
+      await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
     } else {
       setStep((prev: number) => prev + 1);
     }
   };
 
+  const renderBack = () => (
+    <StepperButtons
+      variant="contained"
+      startIcon={<ChevronLeftIcon />}
+      disabled={loading || step === 0 || !Boolean(selected)}
+      onClick={handleBack}>
+      {"Back"}
+    </StepperButtons>
+  );
+
+  const renderNext = () => (
+    <StepperButtons
+      onClick={handleNext}
+      endIcon={step >= 2 ? <DoneIcon /> : <ChevronRightIcon />}
+      disabled={
+        loading || isWrong || !Boolean(selected) ||
+        (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
+      }
+      variant="contained">
+      {step >= 2 ? "Last" : "Next"}
+    </StepperButtons>
+  );
+
+  const renderSteps = () => (
+    <Stepper
+      activeStep={step}
+      alternativeLabel={!isWide}
+      sx={{ width: "100%", mt: { xs: 2, sm: 0 }, mb: { xs: 1, sm: 0 } }}
+    >
+      {steps.map((label: string) => (
+        <Step key={label}>
+          <StepLabel>{label}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>
+  );
+
   return (
     <>
-      <Box sx={{ minHeight: "calc(100vh - 220px)" }}>
+      <Box sx={{ minHeight: "calc(100vh - 188px)" }}>
         {children}
       </Box>
-      <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2 }}>
-        <StepperButtons
-          variant="contained"
-          startIcon={<ChevronLeftIcon />}
-          disabled={loading || step === 0 || !Boolean(selected)}
-          onClick={handleBack}>
-          {"Back"}
-        </StepperButtons>
-        <Stepper activeStep={step} alternativeLabel sx={{ width: "100%" }}>
-          {steps.map((label: string) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        {/* @ts-ignore */}
-        <StepperButtons
-          onClick={handleNext}
-          endIcon={step === 2 ? <DoneIcon /> : <ChevronRightIcon />}
-          disabled={loading || isWrong || !Boolean(selected)}
-          variant="contained">
-          {step === 2 ? 'Done' : 'Next'}
-        </StepperButtons>
-      </Box>
+      {isWide ? (
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", pt: 2 }}>
+          {renderBack()}
+          {renderSteps()}
+          {renderNext()}
+        </Box>
+      ) : (
+        <>
+          {renderSteps()}
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            {renderBack()}
+            {renderNext()}
+          </Box>
+        </>
+      )}
+      {isError && (
+        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
+                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+          <Alert onClose={() => setIsError(false)} severity="error">
+            Error accessing data.
+          </Alert>
+        </Snackbar>
+      )}
     </>
   );
 };

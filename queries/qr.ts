@@ -1,6 +1,9 @@
 import { QrDataModel } from "../models/qr/QrDataModel";
 import dynamoose from "../libs/dynamoose";
 import { CustomError } from "../utils";
+import { LinkModel } from "../models/link";
+import { QrOptionsModel } from "../models/qr/QrOptionsModel";
+import { ObjectType } from "dynamoose/dist/General";
 
 interface TotalParams {
   search?: string;
@@ -89,9 +92,20 @@ interface Create extends Partial<QrDataType> {
   userId: string;
 }
 
-export const create = async (params: Create) => {
+export const create = async (data: { shortLink: ObjectType; qrDesign: ObjectType; qrData: ObjectType; }) => {
   try {
-    return await QrDataModel.create(params);
+    let transactions = [];
+    if (data.shortLink) {
+      transactions.push(LinkModel.transaction.create(data.shortLink));
+    }
+    if (data.qrDesign) {
+      transactions.push(QrOptionsModel.transaction.create(data.qrDesign));
+    }
+    if (data.qrData) {
+      transactions.push(QrDataModel.transaction.create(data.qrData));
+    }
+    console.debug({ transactions });
+    return await dynamoose.transaction(transactions);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);
@@ -109,9 +123,18 @@ export const remove = async (match: Partial<QrDataType>) => {
       throw new CustomError("QR Code was not found.");
     }
 
-    const deletedQr = await qr.delete();
+    let transactions = [];
+    if (qr.shortLinkId) {
+      transactions.push(LinkModel.transaction.delete(qr.shortLinkId));
+    }
+    if (qr.qrOptionsId) {
+      transactions.push(QrOptionsModel.transaction.delete(qr.qrOptionsId));
+    }
+    transactions.push(QrDataModel.transaction.delete(qr.id));
 
-    return !deletedQr;
+    const deleteCascade = await dynamoose.transaction(transactions);
+
+    return !deleteCascade;
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);

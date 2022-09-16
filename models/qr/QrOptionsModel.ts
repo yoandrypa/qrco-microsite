@@ -1,12 +1,15 @@
 import dynamoose from '../../libs/dynamoose';
-// @ts-ignore
-import { v4 } from 'uuid';
+
+const CornersSchema = new dynamoose.Schema({
+  topL: String,
+  topR: String,
+  bottom: String
+});
 
 const QrOptionsSchema = new dynamoose.Schema({
   id: {
     hashKey: true,
-    type: String,
-    default: v4
+    type: String
   },
   width: { type: Number, required: true },
   height: { type: Number, required: true },
@@ -61,6 +64,42 @@ const QrOptionsSchema = new dynamoose.Schema({
       color: { type: String, required: true },
       type: { type: String, required: true }
     }
+  },
+  background: {
+    type: Object,
+    required: false,
+    schema: {
+      type: String,
+      opacity: Number,
+      size: Number,
+      file: String,
+      x: Number,
+      y: Number,
+      imageSize: Number,
+      invert: { type: Boolean, required: false, default: false },
+      backColor: String
+    }
+  },
+  frame: {
+    type: Object,
+    required: false,
+    schema: {
+      type: String,
+      text: String,
+      color: String,
+      textColor: String,
+      textUp: { type: Boolean, required: false, default: false }
+    }
+  },
+  corners: {
+    type: Object,
+    required: false,
+    schema: CornersSchema
+  },
+  cornersDots: {
+    type: Object,
+    required: false,
+    schema: CornersSchema
   }
 }, {
   "timestamps": true

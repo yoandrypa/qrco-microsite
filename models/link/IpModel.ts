@@ -1,13 +1,12 @@
 import dynamoose from "../../libs/dynamoose";
-// @ts-ignore
-import { v4 } from "uuid";
+import {getUuid} from "../../helpers/qr/helpers";
 
 // instantiate a dynamoose schema
 const IpSchema = new dynamoose.Schema({
   id: {
     type: String,
     hashKey: true,
-    default: v4
+    default: getUuid()
   },
   ip: {
     type: String,

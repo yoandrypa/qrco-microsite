@@ -1,4 +1,5 @@
 export type OptionsType = {
+  id?: string;
   width: number;
   height: number;
   type: string;
@@ -76,5 +77,18 @@ export type DataType = {
   pinterest?: string;
   telegram?: string;
   twitter?: string;
+  value?: string;
   isDynamic?: boolean;
+  images?: any[];
+  videos?: any[];
+  pdfs?: any[];
+  audios?: any[];
+};
+
+export type UpdaterType = {
+  options: OptionsType;
+  background?: BackgroundType;
+  corners?: CornersAndDotsType;
+  cornersDot?: CornersAndDotsType;
+  frame?: FramesType;
 };
