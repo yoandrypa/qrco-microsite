@@ -144,6 +144,10 @@ const AppContextProvider = (props: ContextProps) => {
         setStep(0);
       }
     }
+
+    if (loading) {
+      setLoading(false);
+    }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
