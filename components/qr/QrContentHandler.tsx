@@ -38,7 +38,7 @@ const QrContentHandler = () => {
       case 'web': {
         return (<SingleData
           isWrong={isWrong}
-          setIsWrong={isWrong}
+          setIsWrong={setIsWrong}
           label="Website"
           msg="Type in the website to link the QR Code."
           // @ts-ignore
@@ -48,7 +48,7 @@ const QrContentHandler = () => {
       case 'text': {
         return (<SingleData
           isWrong={isWrong}
-          setIsWrong={isWrong}
+          setIsWrong={setIsWrong}
           label="Message"
           limit={300}
           msg="Type any message up to 300 characters."
