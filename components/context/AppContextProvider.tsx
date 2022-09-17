@@ -140,6 +140,13 @@ const AppContextProvider = (props: ContextProps) => {
       }
     }
     if (router.pathname === '/') {
+      if (step === 2) {
+        if (Boolean(userInfo)) {
+          doNotNavigate.current = true;
+        }
+        clearData();
+      }
+
       if (!Boolean(router.query.login) && step !== 0) {
         setStep(0);
       }
