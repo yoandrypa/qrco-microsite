@@ -73,6 +73,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const isLogged = Boolean(userInfo);
 
   const handleNext = async () => {
+    setLoading(true);
+
     // @ts-ignore
     if (step === 0 && Boolean(data.isDynamic) && !isLogged) {
       await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
@@ -82,8 +84,6 @@ const QrWizard = ({ children }: QrWizardProps) => {
       setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
       setStep(2);
     } else if (step === 2 && isLogged && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
-      setLoading(true);
-
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
