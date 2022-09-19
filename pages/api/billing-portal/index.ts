@@ -7,7 +7,8 @@ const stripe = new Stripe(process.env.REACT_STRIPE_SECRET_KEY || 'sk_test_51Ksb3
   })
 
 type Data = {
-    name: string
+    url?: string,
+    error?: string
 }
 
 export default async function BillingPortal(req: NextApiRequest, res: NextApiResponse<Data>) {
@@ -17,7 +18,7 @@ if (req.method === 'POST'){
     if(!customer) return res.status(400)
     try {     
     
-        const { url } = 
+        const { url} = 
           await stripe.billingPortal.sessions.create({
             customer: customer,
             return_url: `https://${process.env.REACT_APP_DEFAULT_DOMAIN}/plans/`,
@@ -27,7 +28,7 @@ if (req.method === 'POST'){
         console.error(e, `Stripe Billing Portal redirect error`);
         if (e instanceof Error)
         // Here, consider redirecting the user to an error page
-        return res.status(500).json(e);
+        return res.status(500).json({error: e.message});
       }
     }
   
