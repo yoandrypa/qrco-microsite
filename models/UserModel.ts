@@ -24,7 +24,7 @@ const UserSchema = new dynamoose.Schema({
     type: String,
     required: false,
   },
-  plan_type: {
+  planType: {
     type: String
   },
   subscriptionData: {

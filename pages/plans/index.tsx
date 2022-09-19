@@ -22,7 +22,7 @@ import {find} from '../../handlers/users'
 type Props = {
   logged: boolean,
   profile?: object
-  plan_type?: string
+  planType?: string
 }
 
 Amplify.configure(awsconfig);
@@ -288,11 +288,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
   }
   
 if (userInfo != null && userInfo != undefined){
-  console.log(userInfo)
+  // console.log(userInfo)
   const userData = JSON.parse(userInfo.userData)
-  console.log('user info es',userData.Username)
+  // console.log('user info es',userData.Username)
   const data = await find(userData.Username)
-  console.log('data retrieved', data)
+  // console.log('data retrieved', data)
   return {
     props: {
       logged: true,
