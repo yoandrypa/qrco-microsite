@@ -67,8 +67,12 @@ export default async function handler(
         const subscription = await stripe.subscriptions.retrieve(
           subscriptionId
         );
-
-        await onCheckoutCompleted(session, subscription);
+          try {
+            await onCheckoutCompleted(session, subscription);
+          } catch (error) {
+            res.status(500).send('error saving checkout')
+          }
+        
         break;
       }
 
@@ -91,8 +95,15 @@ export default async function handler(
 
       case StripeWebhooks.SubscriptionUpdated: {
         const subscription = event.data.object as Stripe.Subscription;
-
-        await onSubscriptionUpdated(subscription);
+        try {
+        const result = await onSubscriptionUpdated(subscription);
+          if (result instanceof Error){
+                res.status(500).send(`Error saving subscription update without exception ${result}`)
+            }
+          
+        } catch (error) {
+          res.status(500).send('error saving subscription update')
+        }
 
         break;
       }

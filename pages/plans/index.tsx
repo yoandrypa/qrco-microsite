@@ -42,7 +42,7 @@ const Plans = (props: Props) => {
       `https://${process.env.REACT_APP_DEFAULT_DOMAIN}`
 
   });
-  if(props.logged){
+  if(props.logged === true){
     console.log(props.profile)
     //TODO  add logic for customer portal here
   }
@@ -75,7 +75,7 @@ const Plans = (props: Props) => {
     priceAmount: "$9",
     features: [
       "Up to 5 Dynamic QR codes",
-      "Unlimited statc QR codes",
+      "Unlimited static QR codes",
       "Unlimited scans"
     ],
 
@@ -90,7 +90,7 @@ const Plans = (props: Props) => {
     priceAmount: "$90",
     features: [
       "Up to 5 Dynamic QR codes",
-      "Unlimited statc QR codes",
+      "Unlimited static QR codes",
       "Unlimited scans"
     ],
 
@@ -106,7 +106,7 @@ const Plans = (props: Props) => {
     priceAmount: "$15",
     features: [
       "Up to 100 Dynamic QR codes",
-      "Unlimited statc QR codes",
+      "Unlimited static QR codes",
       "Unlimited scans"
     ],
   }
@@ -120,7 +120,7 @@ const Plans = (props: Props) => {
     priceAmount: "$150",
     features: [
       "Up to 100 Dynamic QR codes",
-      "Unlimited statc QR codes",
+      "Unlimited static QR codes",
       "Unlimited scans"
     ],
 
@@ -136,7 +136,7 @@ const Plans = (props: Props) => {
     priceAmount: "$45",
     features: [
       "Unlimited dynamic QR codes",
-      "Unlimited statc QR codes",
+      "Unlimited static QR codes",
       "Unlimited scans"
     ],
   }
@@ -150,7 +150,7 @@ const Plans = (props: Props) => {
     priceAmount: "$360",
     features: [
       "Unlimited dynamic QR codes",
-      "Unlimited statc QR codes",
+      "Unlimited static QR codes",
       "Unlimited scans"
     ],
   }
@@ -201,10 +201,10 @@ const Plans = (props: Props) => {
       </Snackbar>
       <Dialog open={mustLogInDlg}>
         <DialogContent>
-          In order to buy a plan, you must login first!
+          Sorry, you must have an account to buy a Plan.
         </DialogContent>
         <DialogActions>
-          <Button onClick={async () => {
+          <Button variant='contained' onClick={async () => {
             await router.push('/')
           }}>
             Login
@@ -222,9 +222,7 @@ const Plans = (props: Props) => {
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab label='Monthly' />
           <Tab label='Annual' />
-        </Tabs>
-        <BillingPortal customerId='sjbdkajsd'>
-        </BillingPortal>
+        </Tabs>  
       </Box>
       <Grid container alignContent='center' display='flex' spacing={3} justifyContent={'center'}>
         <Grid item xs={12} md={6} lg={4}>
@@ -282,8 +280,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
     return {
       props: {
         logged: false
-      },
-      revalidate: 1
+      }
     }
   }
   

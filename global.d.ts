@@ -36,10 +36,7 @@ interface UserSubscription {
   intervalCount: number | undefined | null,
   createdDate: number,
   periodStartsAt: number,
-  periodEndsAt: EpochTimeStamp,
-  trialStartsAt: number | null,
-  trialEndsAt: number | null,
-
+  periodEndsAt: EpochTimeStamp
 } 
 
 type PlanType = 'basic'      | 'business'        | 'premium' | 

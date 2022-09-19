@@ -19,9 +19,7 @@ function buildUserSubscription(
     intervalCount: price?.recurring?.interval_count ?? null,
     createdDate: subscription.created,
     periodStartsAt: subscription.current_period_start,
-    periodEndsAt: subscription.current_period_end,
-    trialStartsAt: subscription.trial_start ?? null,
-    trialEndsAt: subscription.trial_end ?? null,
+    periodEndsAt: subscription.current_period_end
   };
 }
 
@@ -34,12 +32,16 @@ async function setUserSubscription(
     customerId: string,
     subscription: UserSubscription,
   ) {
+
    const {id} = await findUserByCustomerId(customerId) 
-       
+    if(!id){
+      throw new Error(`Could not find user for customerId ${customerId}`);
+    }   
   try {
    await updateUserInDB({id: id},{subscriptionData: subscription})      
   } catch (error) {
     console.log('Error saving user subscription data')
+    return error
   }
 }
 
@@ -59,7 +61,7 @@ export async function onCheckoutCompleted(
   ) {
     const customerId = session.customer as string;    
     // status can either be paid ,unpaid or no_payment_required
-    const status = session.payment_status;
+    const status = subscription.status;
   
     const subscriptionData 
       = buildUserSubscription(subscription);    
@@ -74,7 +76,7 @@ export async function onCheckoutCompleted(
 export async function onSubscriptionUpdated(subscription: Stripe.Subscription){
  const customerId = subscription.customer as string 
   const subscriptionData 
-  = buildUserSubscription(subscription);  
+  = buildUserSubscription(subscription); 
   return await setUserSubscription(
     customerId,
     subscriptionData,
