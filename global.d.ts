@@ -46,10 +46,21 @@ type PlanType = 'basic'      | 'business'        | 'premium' |
                 'basicAnnual'| 'businessAnnual'  | 'premiumAnnual' | string;
 
 
-type CognitoUserData = {
-  attributes:{
-    sub: string
-  }
+type CognitoUserData = { 
+  cid: string,
+  idToken: string,
+  accessToken: string,
+  refreshToken: string,
+  clockDrift: number,
+  LastAuthUser: string,
+  userData: string,
+    UserAttributes : 
+      {
+        Name: string,
+        Value: string
+      }[]
+    ,
+    Username: string
 }
 interface DomainType {
   id: string;
