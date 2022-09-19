@@ -12,7 +12,7 @@ interface CardOptions  {
         description:string,
         plan_type: PlanType,
         priceAmount: string,
-        period:string,
+        legend:string,
         buttonText:string,
         features: string[] ,
         highlighted?: boolean    
@@ -53,7 +53,7 @@ type PlanCardProps = {
           </Grid>                    
         </Grid>
       </Grid>
-        <Typography color='gray' textAlign={'center'}> {data.period}</Typography>   
+        <Typography color='gray' textAlign={'center'}> {data.legend}</Typography>   
       <Grid sx={{ justifyContent: 'center', alignContent: 'center', display:'flex', margin: 2 }}>
         <LoadingButton loading={innerLoading} 
           onClick={()=> {
