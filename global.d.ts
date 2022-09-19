@@ -45,6 +45,12 @@ interface UserSubscription {
 type PlanType = 'basic'      | 'business'        | 'premium' | 
                 'basicAnnual'| 'businessAnnual'  | 'premiumAnnual' | string;
 
+
+type CognitoUserData = {
+  attributes:{
+    sub: string
+  }
+}
 interface DomainType {
   id: string;
   address: string;
