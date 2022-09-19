@@ -16,16 +16,19 @@ import SMSData, {SMSDataProps} from './renderers/SMSData';
 import TwitterData, {TwitterDataProps} from './renderers/TwitterData';
 import AssetData , {AssetDataProps} from './renderers/AssetData';
 import {DataType} from './types/types';
+import NotifyDynamic from "./helperComponents/NotifyDynamic";
 
 type QrContentHandlerProps = {
   data: DataType;
   setData: Function;
   selected?: string | null;
+  isWrong: boolean;
+  setIsWrong: (isWrong: boolean) => void;
 }
 
 const QrContentHandler = () => {
   // @ts-ignore
-  const { data, setData, selected }: QrContentHandlerProps = useContext(Context);
+  const { data, setData, selected, isWrong, setIsWrong }: QrContentHandlerProps = useContext(Context);
 
   const renderSel = () => {
     if (!selected) {
@@ -34,6 +37,8 @@ const QrContentHandler = () => {
     switch (selected) {
       case 'web': {
         return (<SingleData
+          isWrong={isWrong}
+          setIsWrong={setIsWrong}
           label="Website"
           msg="Type in the website to link the QR Code."
           // @ts-ignore
@@ -42,6 +47,8 @@ const QrContentHandler = () => {
       }
       case 'text': {
         return (<SingleData
+          isWrong={isWrong}
+          setIsWrong={setIsWrong}
           label="Message"
           limit={300}
           msg="Type any message up to 300 characters."
@@ -94,6 +101,7 @@ const QrContentHandler = () => {
       </Box>
       <Typography sx={{ fontWeight: 'bold', display: 'inline', ml: '5px' }}>{selected?.toUpperCase() || ''}</Typography>
       <Typography sx={{ display: 'inline' }}>: Enter the QR data</Typography>
+      {data.isDynamic && <NotifyDynamic />}
       <Divider sx={{ my: '10px' }} />
       <Box sx={{ textAlign: 'left', width: '100%' }}>
         {renderSel()}

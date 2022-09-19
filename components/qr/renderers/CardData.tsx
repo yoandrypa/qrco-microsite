@@ -12,7 +12,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import {DataType} from "../types/types";
 import Context from "../../context/Context";
 import SquareSelector from "../helperComponents/SquareSelector";
-import {SOCIALS} from "../constants";
+import {EMAIL, SOCIALS, WEB} from "../constants";
 
 export type CardDataProps = {
   data: DataType;
@@ -22,13 +22,11 @@ export type CardDataProps = {
 const PHONE_FAX = new RegExp('^(\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const CELL = new RegExp('^((\\+)?\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const ZIP = new RegExp('^\\d{5}(-\\d{4})?$');
-const WEB = new RegExp('^((https?)://)?[\\w]+[\\-\\w:%\\.\\+~#=]{1,256}\\.(?:[\\-\\w()@:%_+.~#?&/=]*)$');
-const EMAIL = new RegExp('^\\w+(\\.\\w+)*(\\+\\w+(\\.\\w+)*)?@\\w+(\\.\\w+)+$');
 
 export default function CardData({data, setData}: CardDataProps) {
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const tempo = { ...data };
+    const tempo = JSON.parse(JSON.stringify(data));
     if (value.length) {
       // @ts-ignore
       tempo[item] = value;
@@ -84,9 +82,9 @@ export default function CardData({data, setData}: CardDataProps) {
       } else if (item === 'zip' && !ZIP.test(value)) {
         isError = true;
       } else if (item === 'web' && !WEB.test(value)) {
-        isError = false;
+        isError = true;
       } else if (item === 'email' && !EMAIL.test(value)) {
-        isError = false;
+        isError = true;
       }
     }
 

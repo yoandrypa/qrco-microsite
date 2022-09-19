@@ -23,6 +23,7 @@ import RenderDownload from './helperComponents/RenderDownload';
 import PDFGenDlg from './helperComponents/PDFGenDlg';
 import Context from '../context/Context';
 import RenderNoUserWarning from "./helperComponents/RenderNoUserWarning";
+import NotifyDynamic from "./helperComponents/NotifyDynamic";
 
 interface GeneratorProps {
   allowEdit?: boolean;
@@ -263,14 +264,15 @@ const Generator = ({ forceOverride }: GenProps) => {
         </Snackbar>
       )}
       {background.type === 'image' && <input ref={fileInput} type="file" accept="image/*" style={{ display: 'none' }} onChange={onLoadFile} />}
-      <Box sx={{ border: '1px solid rgba(0, 0, 0, .125)', borderRadius: '5px', p: 1 }}>
+      <Box sx={{ border: '1px solid rgba(0, 0, 0, .125)', borderRadius: '5px', p: 1, width: '100%' }}>
         {!Boolean(userInfo) && forceOverride === undefined && <RenderNoUserWarning />}
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', width: '100%', position: 'relative' }}>
           <BrushIcon sx={{ fontSize: '53px', mt: '2px', color: theme => theme.palette.primary.dark }} />
           <Box sx={{ textAlign: 'left', display: 'block' }}>
             <Typography variant="h6">QR Designer</Typography>
             <Typography>QR Code appearance settings</Typography>
           </Box>
+          {data.isDynamic && <NotifyDynamic styling={{ position: 'absolute', right: '5px' }}/>}
         </Box>
         <Box sx={{ display: 'flex', flexDirection: { sm: 'row', xs: 'column' }, m: { sm: 2, xs: 0 } }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: { sm: '430px', xs: '100%' } }}>

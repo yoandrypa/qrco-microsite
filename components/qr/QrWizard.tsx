@@ -8,6 +8,7 @@ import Context from "../context/Context";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DoneIcon from "@mui/icons-material/Done";
+import SaveIcon from "@mui/icons-material/Save";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { styled } from "@mui/material/styles";
@@ -45,7 +46,6 @@ interface StepsProps {
   cornersData: CornersAndDotsType;
   dotsData: CornersAndDotsType;
   setOptions: (opt: OptionsType) => void;
-  setForceClear: (clear: boolean) => void;
   isWrong: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
@@ -60,7 +60,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
   const {
     selected, step, setStep, data, userInfo, options, frame, background, cornersData,
-    dotsData, isWrong, loading, setOptions, setLoading, setForceClear
+    dotsData, isWrong, loading, setOptions, setLoading
   }: StepsProps = useContext(Context);
 
   const router = useRouter();
@@ -69,17 +69,20 @@ const QrWizard = ({ children }: QrWizardProps) => {
     setStep((prev: number) => prev - 1);
   };
 
-  const handleNext = async () => {
-    // @ts-ignore
-    if (step === 0 && Boolean(data.isDynamic) && !Boolean(userInfo)) {
-      await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && Boolean(userInfo) && Boolean(data.isDynamic) && !Boolean(options.id)) {
-      const id = getUuid();
-      setOptions({ ...options, id, data: generateShortLink(`qr/${id}`) });
-      setStep(2);
-    } else if (step === 2 && Boolean(userInfo) && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
-      setLoading(true);
+  const isLogged = Boolean(userInfo);
 
+  const handleNext = async () => {
+    setLoading(true);
+
+    // @ts-ignore
+    if (step === 0 && Boolean(data.isDynamic) && !isLogged) {
+      await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
+    } else if (step === 1 && isLogged && Boolean(data.isDynamic) && !Boolean(options.id)) {
+      const id = getUuid();
+      const shortCode = await generateId();
+      setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
+      setStep(2);
+    } else if (step === 2 && isLogged && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
@@ -116,8 +119,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (data.isDynamic) {
         shortLink = {
           id: shortLinkId,
-          target: options.id ? options.data : generateShortLink(`qr/${qrId}`),
-          address: await generateId(),
+          target: generateShortLink(`qr/${qrId}`),
+          address: options.shortCode || await generateId(),
           // @ts-ignore
           userId: userInfo.attributes.sub
         };
@@ -125,16 +128,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
 
       try {
         await QrHandler.create({ shortLink, qrDesign, qrData });
-
-        setForceClear(true);
         // @ts-ignore
         await router.push("/", undefined, {shallow: true});
       } catch {
         setIsError(true);
         setLoading(false);
       }
-    } else if (step === 2 && !Boolean(userInfo)) {
-      setForceClear(true);
+    } else if (step === 2 && !isLogged) {
       await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
     } else {
       setStep((prev: number) => prev + 1);
@@ -154,13 +154,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
   const renderNext = () => (
     <StepperButtons
       onClick={handleNext}
-      endIcon={step >= 2 ? <DoneIcon /> : <ChevronRightIcon />}
+      endIcon={step >= 2 ? (isLogged ? <SaveIcon /> : <DoneIcon />) : <ChevronRightIcon />}
       disabled={
         loading || isWrong || !Boolean(selected) ||
-        (step === 1 && Boolean(userInfo) && !Boolean(data?.qrName?.trim().length))
+        (step === 1 && isLogged && !Boolean(data?.qrName?.trim().length))
       }
-      variant="contained">
-      {step >= 2 ? "Last" : "Next"}
+      variant={step >= 2 ? "outlined" : "contained"}>
+      {step >= 2 ? (isLogged ? "Save" : "Done") : "Next"}
     </StepperButtons>
   );
 
@@ -199,8 +199,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </>
       )}
       {isError && (
-        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
           <Alert onClose={() => setIsError(false)} severity="error">
             Error accessing data.
           </Alert>
