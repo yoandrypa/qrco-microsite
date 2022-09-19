@@ -21,7 +21,7 @@ import BillingPortal from '../../components/billing/BillingPortal'
 import {find} from '../../handlers/users'
 type Props = {
   logged: boolean,
-  userInfo?: object
+  profile?: object
   plan_type?: string
 }
 
@@ -42,7 +42,11 @@ const Plans = (props: Props) => {
       `https://${process.env.REACT_APP_DEFAULT_DOMAIN}`
 
   });
-
+  if(props.logged){
+    console.log(props.profile)
+    //TODO  add logic for customer portal here
+  }
+   
 
 
   useEffect(() => {
@@ -270,7 +274,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
   };
 
   const userInfo = await getUserInfo();
-  console.log(userInfo)
+  if (userInfo){
+
+  }
+
   if (!Boolean(userInfo)){
     return {
       props: {
@@ -279,13 +286,17 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
       revalidate: 1
     }
   }
-if (userInfo?.attributes.sub != null){
-  const userId = userInfo.attributes?.sub as string
-  const data = await find(userId)
+  
+if (userInfo != null && userInfo != undefined){
+  console.log(userInfo)
+  const userData = JSON.parse(userInfo.userData)
+  console.log('user info es',userData.Username)
+  const data = await find(userData.Username)
+  console.log('data retrieved', data)
   return {
     props: {
       logged: true,
-      profile: data
+      profile: JSON.parse(JSON.stringify(data)) 
     }
   }
 } else{
