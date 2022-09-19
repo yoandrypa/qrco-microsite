@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import getRawBody from 'raw-body';
-import { onCheckoutCompleted ,onDeleteSubscription } from '../../handlers/webhooks';
+import { onCheckoutCompleted ,onDeleteSubscription, onSubscriptionUpdated } from '../../handlers/webhooks';
 
 // disable body parser to receive the raw body string. The raw body
 // is fundamental to verify that the request is genuine
@@ -92,7 +92,7 @@ export default async function handler(
       case StripeWebhooks.SubscriptionUpdated: {
         const subscription = event.data.object as Stripe.Subscription;
 
-        //await onSubscriptionUpdated(subscription);
+        await onSubscriptionUpdated(subscription);
 
         break;
       }
