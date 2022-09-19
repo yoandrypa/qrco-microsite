@@ -68,7 +68,10 @@ export default async function handler(
           subscriptionId
         );
           try {
-            await onCheckoutCompleted(session, subscription);
+            const result = onCheckoutCompleted(session, subscription);
+            if (result instanceof Error){
+              res.status(500).send(`Error saving checkout without exception ${result}`)
+          }
           } catch (error) {
             res.status(500).send('error saving checkout')
           }
