@@ -1,12 +1,11 @@
 // @ts-nocheck
 
-import { forwardRef, useCallback, useEffect, useContext, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 
 import parse from 'html-react-parser';
 
 import { originalDimensions } from '../../helpers/qr/data';
-import { BackgroundType, FramesType, OptionsType } from './types/types';
-import Context from '../context/Context';
+import {BackgroundType, CornersAndDotsType, FramesType, OptionsType} from './types/types';
 import { getFrame } from '../../helpers/qr/helpers';
 
 const handleQrData = (qrObject: OptionsType, overrideValue: string | null) => {
@@ -15,10 +14,10 @@ const handleQrData = (qrObject: OptionsType, overrideValue: string | null) => {
     opts.data = overrideValue;
   }
 
-  if (Boolean(opts.qrOptions)) {
+  if (Boolean(opts.qrOptions) && Boolean(opts.data)) {
     opts.qrOptions.typeNumber = opts.data.length > 24 ? 0 : 3;
 
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const QRCodeStyling = require('qr-code-styling');
       return new QRCodeStyling(opts);
     }
@@ -32,15 +31,15 @@ interface QrGeneratorProps {
   background?: BackgroundType | null;
   hidden?: boolean | false;
   overrideValue?: string | undefined;
-  command: () => void;
-  frame: FramesType | null;
+  command?: () => void;
+  frame?: FramesType | null;
+  cornersData?: CornersAndDotsType | null;
+  dotsData?: CornersAndDotsType | null;
 }
 
-const QrGenerator = ({ hidden, options, frame, background, command, overrideValue }: QrGeneratorProps, ref: HTMLDivElement) => {
+const QrGenerator = ({ hidden, options, frame, background, command, overrideValue, cornersData, dotsData }: QrGeneratorProps, ref: HTMLDivElement) => {
   const [qrCode, setQrCode] = useState(handleQrData(options, overrideValue));
   const isFramed = useMemo(() => Boolean(frame?.type), [frame?.type]);
-
-  const { cornersData, dotsData } = useContext(Context);
 
   const renderFrame = useCallback(() => {
     if (isFramed) {
@@ -49,7 +48,7 @@ const QrGenerator = ({ hidden, options, frame, background, command, overrideValu
     return null;
   }, [frame]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderSVG = () => {
+  const generateSVG = () => {
     if (qrCode?._svg?.outerHTML) {
       let qrData = qrCode._svg.outerHTML;
 
@@ -70,10 +69,11 @@ const QrGenerator = ({ hidden, options, frame, background, command, overrideValu
       }
 
       const parsed = { ...parse(qrData) }; // these clones are meant to avoid a "object is not extensible" error
+
       parsed.props = {
         ...parsed.props,
         x: posXY + (isFrm6 ? 27 : 0) + (isFrm7 ? 37 : 0),
-        y: posXY + (frame.textUp && [
+        y: posXY + (frame?.textUp && [
           '/frame/frame1.svg', '/frame/frame2.svg', '/frame/frame3.svg', '/frame/frame4.svg'
         ].includes(frame.type) ? 47 : 0) + (isFrm6 ? 72 : 0) + (isFrm7 ? 47 : 0),
         height: sizeWH,
@@ -125,7 +125,9 @@ const QrGenerator = ({ hidden, options, frame, background, command, overrideValu
         imgPosY = basePos - Math.round(background.y * backSize / 100) + adjustment;
       }
 
-      command();
+      if (command !== undefined) {
+        command();
+      }
 
       return (
         <svg viewBox={`0 0 ${originalDimensions} ${!isFramed || frame.type === '/frame/frame0.svg' ? originalDimensions : '330'}`}
@@ -178,7 +180,7 @@ const QrGenerator = ({ hidden, options, frame, background, command, overrideValu
 
   return (
     <>
-      {renderSVG()}
+      {generateSVG()}
     </>
   );
 }

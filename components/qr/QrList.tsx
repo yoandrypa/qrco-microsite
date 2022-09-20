@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -18,9 +19,11 @@ import Link from "next/link";
 import format from "date-fns/format";
 import * as QrHandler from "../../handlers/qrs";
 import { useRouter } from "next/router";
-import React from "react";
 import Context from "../context/Context";
 import RenderNewQrButton from "../renderers/RenderNewQrButton";
+import Button from "@mui/material/Button";
+import { QR_TYPE_ROUTE } from "./constants";
+import RenderPreview from "./renderers/RenderPreview";
 
 const QrList = ({ qrs }: any) => {
   // @ts-ignore
@@ -33,6 +36,15 @@ const QrList = ({ qrs }: any) => {
       router.push("/").then(() => setLoading(false));
     }
   };
+
+  const renderQr = (qrOptions: any, value: string) => {
+    const options = {...qrOptions};
+    if (!options.image?.trim().length) {
+      options.image = null;
+    }
+    options.data = value;
+    return (<RenderPreview qrDesign={options} />);
+  }
 
   return (
     <Stack spacing={2}>
@@ -49,9 +61,15 @@ const QrList = ({ qrs }: any) => {
                     {/*<Checkbox />*/}
                   </Grid>
                   <Grid item xs={0.8}>
-                    <Box mt={2} mb={1.5} sx={{ width: 60, height: 60 }}>
-                      <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
-                    </Box>
+                    {!qr.qrOptionsId || !Object.keys(qr.qrOptionsId).length ? (
+                      <Box sx={{ mt: 2, mb: 1.5 }}>
+                        <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
+                      </Box>
+                    ) : (
+                      <Box sx={{ mt: 1 }}>
+                        {renderQr(qrs[index].qrOptionsId, qrs[index].value)}
+                      </Box>
+                    )}
                   </Grid>
                   <Grid item xs={3.5}>
                     <Stack direction="column">
