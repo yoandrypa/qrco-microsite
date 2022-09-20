@@ -61,17 +61,15 @@ const QrList = ({ qrs }: any) => {
                     {/*<Checkbox />*/}
                   </Grid>
                   <Grid item xs={0.8}>
-                    <Box sx={{ width: '70px' }}>
-                      {!qr.qrOptionsId || !Object.keys(qr.qrOptionsId).length ? (
-                        <Box sx={{ mt: 2, mb: 1.5 }}>
-                          <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
-                        </Box>
-                      ) : (
-                        <Box sx={{ mt: 1 }}>
-                          {renderQr(qr.qrOptionsId, !qr.isDynamic ? qr.value : qr.qrOptionsId.data, qr.qrName)}
-                        </Box>
-                      )}
-                    </Box>
+                    {!qr.qrOptionsId || !Object.keys(qr.qrOptionsId).length ? (
+                      <Box sx={{ mt: 2, mb: 1.5 }}>
+                        <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
+                      </Box>
+                    ) : (
+                      <Box sx={{ mt: 1 }}>
+                        {renderQr(qrs[index].qrOptionsId, qrs[index].value)}
+                      </Box>
+                    )}
                   </Grid>
                   <Grid item xs={3.5}>
                     <Stack direction="column">
