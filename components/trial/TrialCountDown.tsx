@@ -32,11 +32,12 @@ const TrialCountDown = (props: Props) => {
       return (
         <>
         <Alert severity='info' sx={{ alignContent: 'center', display: 'flex', justifyContent: 'center' }}>  
-          You in free trial mode. Please use the options bellow in order to subscribe a plan.
+          You in free trial mode. Please use the options bellow in order to subscribe a plan. 
+          Your free trial ends in:
         </Alert>
           <br/>
           <Box sx={{ alignContent: 'center', display: 'flex', justifyContent: 'center' }}>
-          <DateCountdown noAnimate={false} mostSignificantFigure='day' dateFrom={props.dateFrom} dateTo={trialEnds.toString()} callback={()=>{alert('hello')}}  />  
+          <DateCountdown noAnimate={false} mostSignificantFigure='day' dateFrom={props.dateFrom} dateTo={trialEnds.toString()} callback={()=>{alert('Your free trial ended')}}  />  
 
           </Box>
         </>
