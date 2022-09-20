@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import getRawBody from 'raw-body';
-import { onCheckoutCompleted ,onDeleteSubscription } from '../../handlers/webhooks';
+import { onCheckoutCompleted ,onDeleteSubscription, onSubscriptionUpdated } from '../../handlers/webhooks';
 
 // disable body parser to receive the raw body string. The raw body
 // is fundamental to verify that the request is genuine
@@ -67,8 +67,15 @@ export default async function handler(
         const subscription = await stripe.subscriptions.retrieve(
           subscriptionId
         );
-
-        await onCheckoutCompleted(session, subscription);
+          try {
+            const result = onCheckoutCompleted(session, subscription);
+            if (result instanceof Error){
+              res.status(500).send(`Error saving checkout without exception ${result}`)
+          }
+          } catch (error) {
+            res.status(500).send('error saving checkout')
+          }
+        
         break;
       }
 
@@ -91,8 +98,15 @@ export default async function handler(
 
       case StripeWebhooks.SubscriptionUpdated: {
         const subscription = event.data.object as Stripe.Subscription;
-
-        //await onSubscriptionUpdated(subscription);
+        try {
+        const result = await onSubscriptionUpdated(subscription);
+          if (result instanceof Error){
+                res.status(500).send(`Error saving subscription update without exception ${result}`)
+            }
+          
+        } catch (error) {
+          res.status(500).send('error saving subscription update')
+        }
 
         break;
       }

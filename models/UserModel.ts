@@ -24,8 +24,22 @@ const UserSchema = new dynamoose.Schema({
     type: String,
     required: false,
   },
+  planType: {
+    type: String
+  },
   subscriptionData: {
     type: Object,
+    schema: {
+      id: String,
+      priceId: String,
+      status: String,
+      currency: String,
+      interval: String,
+      intervalCount: Number,
+      createdDate: Number,
+      periodStartsAt: Number,
+      periodEndsAt: Number
+    },
     required: false
   },
 },{

@@ -23,6 +23,7 @@ import { areEquals } from "../helpers/generalFunctions";
 import { initialBackground, initialFrame } from "../../helpers/qr/data";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { getUuid } from "../../helpers/qr/helpers";
+import * as StorageHandler from "../../handlers/storage";
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -87,6 +88,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
 
+      //Process assets before saving de QR Data
+      if (["pdf", "audio", "image", "video"].includes(selected)) {
+        // @ts-ignore
+        data["files"] = StorageHandler.upload(data["files"], `/${userInfo.attributes.sub}/${selected}s`);
+      }
+
+
       const qrData = {
         ...data,
         qrType: selected,
@@ -129,13 +137,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
       try {
         await QrHandler.create({ shortLink, qrDesign, qrData });
         // @ts-ignore
-        await router.push("/", undefined, {shallow: true});
+        await router.push("/", undefined, { shallow: true });
       } catch {
         setIsError(true);
         setLoading(false);
       }
     } else if (step === 2 && !isLogged) {
-      await router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+      await router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
     } else {
       setStep((prev: number) => prev + 1);
     }
@@ -199,7 +207,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </>
       )}
       {isError && (
-        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
+                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
           <Alert onClose={() => setIsError(false)} severity="error">
             Error accessing data.
           </Alert>

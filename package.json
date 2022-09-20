@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^3.3.0",
+    "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.0",
-    "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.97",
@@ -19,8 +19,8 @@
     "@mui/styled-engine-sc": "^5.10.0",
     "@mui/styles": "^5.9.3",
     "@react-pdf/renderer": "^2.3.0",
-    "@stripe/stripe-js": "^1.35.0",
     "aws-amplify": "^4.3.30",
+    "aws-sdk": "2.1218.0",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "date-fns": "^2.29.1",
@@ -35,18 +35,15 @@
     "next": "^12.2.3",
     "qr-code-styling": "^1.6.0-rc.1",
     "qr-scanner": "^1.4.1",
-    "query-string": "^7.1.1",
     "raw-body": "^2.5.1",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-intl": "^6.0.8",
-    "request": "^2.88.2",
     "request-ip": "^3.3.0",
     "stripe": "^10.7.0",
-    "tls": "^0.0.1",
-    "ua-parser-js": "^1.0.2",
-    "util": "^0.12.4"
+    "styled-components": "^5.3.5",
+    "ua-parser-js": "^1.0.2"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.9",
@@ -56,7 +53,6 @@
     "@types/request-ip": "^0.0.37",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",
-    "iconv-lite": "^0.6.3",
     "typescript": "4.7.4"
   }
 }

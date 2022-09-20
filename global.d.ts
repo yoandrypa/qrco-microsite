@@ -36,15 +36,29 @@ interface UserSubscription {
   intervalCount: number | undefined | null,
   createdDate: number,
   periodStartsAt: number,
-  periodEndsAt: EpochTimeStamp,
-  trialStartsAt: number | null,
-  trialEndsAt: number | null,
-
+  periodEndsAt: EpochTimeStamp
 } 
 
 type PlanType = 'basic'      | 'business'        | 'premium' | 
                 'basicAnnual'| 'businessAnnual'  | 'premiumAnnual' | string;
 
+
+type CognitoUserData = { 
+  cid: string,
+  idToken: string,
+  accessToken: string,
+  refreshToken: string,
+  clockDrift: number,
+  LastAuthUser: string,
+  userData: string,
+    UserAttributes : 
+      {
+        Name: string,
+        Value: string
+      }[]
+    ,
+    Username: string
+}
 interface DomainType {
   id: string;
   address: string;
