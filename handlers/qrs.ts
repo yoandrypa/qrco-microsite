@@ -41,10 +41,8 @@ export const list = async (query: Query) => {
     for (const qr of qrs) {
       // @ts-ignore
       const index = qrs.indexOf(qr);
-      if (qr.isDynamic) {
-        // @ts-ignore
-        qrs[index] = await qr.populate({ properties: "shortLinkId" });
-      }
+      // @ts-ignore
+      qrs[index] = await qr.populate({ properties: qr.isDynamic ? ["shortLinkId", "qrOptionsId"] : "qrOptionsId" });
     }
 
     return {
