@@ -104,7 +104,6 @@ export const create = async (data: { shortLink: ObjectType; qrDesign: ObjectType
     if (data.qrData) {
       transactions.push(QrDataModel.transaction.create(data.qrData));
     }
-    console.debug({ transactions });
     return await dynamoose.transaction(transactions);
   } catch (e) {
     // @ts-ignore
