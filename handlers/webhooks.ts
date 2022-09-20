@@ -34,13 +34,14 @@ async function setUserSubscription(
   ) {
 
    const {id} = await findUserByCustomerId(customerId) 
+   console.log(`the id is ${id} customer ${customerId}`)
     if(!id){
-      throw new Error(`Could not find user for customerId ${customerId}`);
+      return Error(`Could not find user for customerId ${customerId}`);
     }   
   try {
    await updateUserInDB({id: id},{subscriptionData: subscription})      
   } catch (error) {
-    console.log('Error saving user subscription data')
+    console.log(`Error saving user subscription data`, error)
     return error
   }
 }

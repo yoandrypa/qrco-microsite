@@ -7,7 +7,7 @@ export const find = async (match: Partial<UserQueryType>) => {
   return await UserModel.findOne(match);
 };
 export const findByCustomerId = async (match: Partial<UserQueryType>) => {
-  return await UserModel.findOne({ customerId: { eq: match}});
+  return await UserModel.findOne(match);
 };
 
 export const deleteSubscription = async (match: Partial<UserQueryType>)=>{
