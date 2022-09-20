@@ -80,10 +80,7 @@ export type DataType = {
   twitter?: string;
   value?: string;
   isDynamic?: boolean;
-  images?: any[];
-  videos?: any[];
-  pdfs?: any[];
-  audios?: any[];
+  files?: File[];
 };
 
 export type UpdaterType = {
