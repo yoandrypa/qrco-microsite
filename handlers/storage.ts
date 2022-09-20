@@ -1,12 +1,12 @@
 import { CustomError } from "../utils";
 import queries from "../queries";
 
-export const upload = (assets: File[]) => {
+export const upload = (assets: File[], path = "") => {
   try {
     let res: any[] = [];
     assets.forEach(async asset => {
       // @ts-ignore
-      res.push(await queries.storage.upload(asset));
+      res.push(await queries.storage.upload(asset, path));
     });
     return res;
   } catch (e) {

@@ -11,72 +11,69 @@ import { ListItemAvatar } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { UploadRounded } from "@mui/icons-material";
 import { humanDate } from "../../helpers/generalFunctions";
-import * as StorageHandler from "../../../handlers/storage";
 
 export type AssetDataProps = {
   type: "image" | "video" | "pdf" | "audio";
   data: {
-    images?: string[];
-    videos?: File[];
-    pdfs?: File[];
-    audios?: File[];
+    files?: File[];
   };
   setData: Function;
 }
 
+const limits = (type: string): string => {
+  switch (type) {
+    case "pdf":
+      return "Up to 5 files or 50 MB";
+    default:
+      return "Up to N Files o M MB";
+  }
+};
+
 const AssetData = ({ type, data, setData }: AssetDataProps) => {
-  const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
+  const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     const tempo = { ...data };
     if (files?.length) {
       const filesToUpload = [...files];
       // @ts-ignore
-      if (tempo[item]) {
+      if (tempo["files"]) {
         const isAlreadyIncluded = (uploadedFile: File, fileToUpload: File) => {
           return uploadedFile.name === fileToUpload.name && uploadedFile.lastModified === fileToUpload.lastModified;
         };
 
         filesToUpload.forEach(async fileToUpload => {
           // @ts-ignore
-          if (!tempo[item].some(uploadedFile => isAlreadyIncluded(uploadedFile, fileToUpload))) {
+          if (!tempo["files"].some(uploadedFile => isAlreadyIncluded(uploadedFile, fileToUpload))) {
             //Upload to Storage
-            StorageHandler.upload([fileToUpload]);
+            //StorageHandler.upload([fileToUpload]);
             // @ts-ignore
-            tempo[item].push({
-              name: fileToUpload.name,
-              lastModified: fileToUpload.lastModified
-            });
+            tempo["files"].push(fileToUpload);
           }
         });
       } else {
         // @ts-ignore
-        tempo[item] = [...filesToUpload].map(file => {
-          return {
-            name: file.name,
-            lastModified: file.lastModified
-          };
-        });
+        tempo["files"] = [...filesToUpload];
       }
       // @ts-ignore
-    } else if (tempo[item]) {
+    } else if (tempo["files"]) {
       // @ts-ignore
-      delete tempo[item];
+      delete tempo["files"];
     }
     setData(tempo);
   };
 
   return (
-    <Common msg={`Your ${type} details. Users can store your ${type}s you right away.`}>
+    <Common msg={`${type.toUpperCase()} files. ${limits(type)}.`}>
       <Grid container justifyContent="end">
         <Grid item xs={12} justifyContent="flex-end">
           <Button variant="outlined" component="label" startIcon={<UploadRounded />}>
-            Upload some {type}
+            Upload a {type}
             <input id="assetFile"
               // @ts-ignore
-                   onChange={handleValues(`${type}s`)}
+                   onChange={handleValues}
                    hidden
                    accept={type === "pdf" ? ".pdf" : type + "/*"}
-                   multiple={["image"].includes(type)}
+                   multiple //={["image"].includes(type)}
                    type="file" />
           </Button>
         </Grid>
@@ -84,7 +81,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
           <Divider textAlign="left">Files list</Divider>
           <List>
             {/*@ts-ignore*/}
-            {(data && data[`${type}s`]) ? data[`${type}s`].map((file: File, index) => (
+            {(data && data["files"]) ? data["files"].map((file: File, index) => (
               <ListItem key={index}>
                 <ListItemAvatar>
                   <Avatar>

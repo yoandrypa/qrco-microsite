@@ -1,13 +1,11 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import Checkbox from "@mui/material/Checkbox";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
 import {
   DeleteOutlineRounded,
   Edit,
@@ -22,12 +20,11 @@ import * as QrHandler from "../../handlers/qrs";
 import { useRouter } from "next/router";
 import React from "react";
 import Context from "../context/Context";
-import Button from "@mui/material/Button";
-import { QR_TYPE_ROUTE } from "./constants";
+import RenderNewQrButton from "../renderers/RenderNewQrButton";
 
 const QrList = ({ qrs }: any) => {
   // @ts-ignore
-  const { setLoading } = React.useContext(Context);
+  const { isLoading, setLoading } = React.useContext(Context);
   const router = useRouter();
   const handleDelete = async (qrId: string, userId: string) => {
     setLoading(true);
@@ -98,7 +95,7 @@ const QrList = ({ qrs }: any) => {
                     <IconButton color="primary"><DownloadingRounded /></IconButton>
                     <IconButton color="primary"><PauseCircleOutlined /></IconButton>
                     <IconButton color="error"><CancelOutlined /></IconButton>*/}
-                      <IconButton color="error" onClick={() => handleDelete(qr.id, qr.userId)}>
+                      <IconButton color="error" disabled={isLoading} onClick={() => handleDelete(qr.id, qr.userId)}>
                         <DeleteOutlineRounded />
                       </IconButton>
                     </Stack>
@@ -107,13 +104,17 @@ const QrList = ({ qrs }: any) => {
               </Paper>
             );
           })
-          : <Alert severity="info" variant="outlined"
-                   action={<Button size="small" variant="outlined"
-                                   onClick={() => router.push(QR_TYPE_ROUTE)}>Check</Button>}>
-            <AlertTitle>What? You still don&apos;t have any own QR?</AlertTitle>
-            Take a look at our wonderful proposals that we have for you, surely
-            some of them will be of great interest to you.
-          </Alert>
+          : <Grid container justifyContent="center" alignItems="center"
+                  sx={{ height: "calc( 100vh - 200px );" }}>
+            <Grid item>
+              <Alert severity="info" variant="outlined"
+                     action={<RenderNewQrButton />}
+                     sx={{ width: 450, p: 5 }}
+              >
+                There are no QR codes.
+              </Alert>
+            </Grid>
+          </Grid>
       }
     </Stack>
   );
