@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import {useRef, useState, useEffect} from "react";
 import DialogContent from "@mui/material/DialogContent";
 import Dialog from "@mui/material/Dialog";
@@ -14,21 +16,25 @@ import RenderDownload from "../helperComponents/RenderDownload";
 interface QRRenderProps {
   qrData: string;
   width: number;
+  alt: string;
 }
 
-// noinspection JSDeprecatedSymbols
-const QRRender = ({ qrData, width }: QRRenderProps) => (<img src={`data:image/svg+xml;base64,${btoa(qrData)}`} alt="" width={width}/>);
+const QRRender = ({ qrData, width, alt }: QRRenderProps) => {
+  // noinspection JSDeprecatedSymbols
+  return (<img src={`data:image/svg+xml;base64,${btoa(qrData)}`} alt={alt} width={width}/>);
+}
 
 interface PreviewProps {
   qrDesign: any;
+  name: string;
 }
 
-const RenderPreview = ({ qrDesign }: PreviewProps) => {
+const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
   const [preview, setPreview] = useState<boolean>(false);
   const [qrData, setQrData] = useState<any>(null);
   const [current, setCurrent] = useState<string | null>(null);
   const [anchor, setAnchor] = useState<object | null>(null);
-  const [generatePdf, setGeneratePdf] = useState<object | null>(null);
+  const [generatePdf, setGeneratePdf] = useState<boolean>(false);
 
   const qrRef = useRef();
 
@@ -41,7 +47,7 @@ const RenderPreview = ({ qrDesign }: PreviewProps) => {
     setAnchor(currentTarget);
   };
 
-  const frame: FramesType = qrDesign.frame?.type ? { // frame definition is outside due to it is used in the donwload mechanism
+  const frame: FramesType | null = qrDesign.frame?.type ? { // frame definition is outside due to it is used in the donwload mechanism
     type: qrDesign.frame?.type,
     text: qrDesign.frame?.text,
     color: qrDesign.frame?.color,
@@ -120,7 +126,7 @@ const RenderPreview = ({ qrDesign }: PreviewProps) => {
       <Box sx={{ display: 'none' }}>{qrData}</Box>
       <Box onClick={handlePreView} sx={{ cursor: 'pointer' }}>
         {current ? (
-          <QRRender qrData={current || ''} width={70} />
+          <QRRender qrData={current || ''} width={70} alt={name}/>
         ) : (
           <CircularProgress color="primary" sx={{ mx: 'auto', my: 'auto' }}/>
         )}
@@ -129,7 +135,7 @@ const RenderPreview = ({ qrDesign }: PreviewProps) => {
         <Dialog onClose={handlePreView} open={true}>
           <DialogContent>
             <Box sx={{ width: '300px' }}>
-              <QRRender qrData={current || ''} width={300} />
+              <QRRender qrData={current || ''} width={300} alt={`${name}preview`} />
               <Button sx={{ mt: '10px', width: '100%' }} variant="outlined" onClick={handleDownload} startIcon={<DownloadIcon />}>
                 {'Download'}
               </Button>
@@ -145,11 +151,11 @@ const RenderPreview = ({ qrDesign }: PreviewProps) => {
           setAnchor={setAnchor}
           setGeneratePdf={setGeneratePdf} />
       )}
-      {Boolean(generatePdf) && (
+      {generatePdf && (
         <PDFGenDlg
           data={qrRef.current}
           handleClose={() => setGeneratePdf(false)}
-          isFramed={frame?.type && frame.type !== '/frame/frame0.svg'} />
+          isFramed={Boolean(frame?.type) && frame?.type !== '/frame/frame0.svg'} />
       )}
     </>
   );
