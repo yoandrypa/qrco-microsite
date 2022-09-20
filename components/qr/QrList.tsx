@@ -42,32 +42,36 @@ const QrList = ({ qrs }: any) => {
       options.image = null;
     }
     options.data = value;
-    return (<RenderPreview qrDesign={options} name={name}/>);
-  };
+    return (<RenderPreview qrDesign={options} name={name} />);
+  }
 
   return (
-    <Stack spacing={2}>
-      <Typography variant="h6" style={{ fontWeight: "bold" }}>My QR Codes</Typography>
-      {
-        qrs?.length > 0
-          ? qrs.map((qr: any) => {
-            const qrLink = sanitize.link(qr.shortLinkId || {});
+    <>
+      <Stack spacing={2}>
+        <Typography variant="h6" style={{ fontWeight: "bold" }}>My QR Codes</Typography>
+        {
+          qrs?.length > 0
+            ? qrs.map((qr: any, index: number) => {
+              const qrLink = sanitize.link(qr.shortLinkId || {});
 
-            // @ts-ignore
-            return (
-              <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
-                <Grid container justifyContent="flex-start" alignItems="center" spacing={2}>
-                  <Grid item xs={0.1}>
-                    {/*<Checkbox />*/}
-                  </Grid>
-                  <Grid item xs={0.8}>
-                    {!qr.qrOptionsId || !Object.keys(qr.qrOptionsId).length ? (
-                      <Box sx={{ mt: 2, mb: 1.5 }}>
-                        <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
-                      </Box>
-                    ) : (
-                      <Box sx={{ mt: 1 }}>
-                        {renderQr(qrs[index].qrOptionsId, qrs[index].value)}
+              // @ts-ignore
+              return (
+                <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
+                  <Grid container justifyContent="flex-start" alignItems="center" spacing={2}>
+                    <Grid item xs={0.1}>
+                      {/*<Checkbox />*/}
+                    </Grid>
+                    <Grid item xs={0.8}>
+                      <Box sx={{ width: '70px' }}>
+                        {!qr.qrOptionsId || !Object.keys(qr.qrOptionsId).length ? (
+                          <Box sx={{ mt: 2, mb: 1.5 }}>
+                            <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
+                          </Box>
+                        ) : (
+                          <Box sx={{ mt: 1 }}>
+                            {renderQr(qrs[index].qrOptionsId, qrs[index].value)}
+                          </Box>
+                        )}
                       </Box>
                     )}
                   </Grid>
