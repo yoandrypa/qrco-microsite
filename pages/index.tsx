@@ -16,7 +16,7 @@ Amplify.configure(awsExports);
 export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
