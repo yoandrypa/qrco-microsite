@@ -37,6 +37,7 @@ const QrList = ({ qrs }: any) => {
 
   const renderQr = (qrOptions: any, value: string, name: string) => {
     const options = {...qrOptions};
+
     if (!options.image?.trim().length) {
       options.image = null;
     }

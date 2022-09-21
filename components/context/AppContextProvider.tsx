@@ -35,7 +35,6 @@ const AppContextProvider = (props: ContextProps) => {
   const [options, setOptions] = useState<OptionsType>(handleInitialData('Ebanux'));
   const [cornersData, setCornersData] = useState<CornersAndDotsType>(null);
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
-  const [logoData, setLogoData] = useState(null);
   const [background, setBackground] = useState<BackgroundType>(initialBackground);
   const [frame, setFrame] = useState<FramesType>(initialFrame);
   const [data, setData] = useState<DataType>({});
@@ -72,7 +71,6 @@ const AppContextProvider = (props: ContextProps) => {
     setLoading(false);
     setStep(0);
     setSelected(null);
-    setLogoData(null);
     setBackground(initialBackground);
     setFrame(initialFrame);
     setDotsData(null);
@@ -216,7 +214,6 @@ const AppContextProvider = (props: ContextProps) => {
     <Context.Provider value={{
       cornersData, setCornersData,
       dotsData, setDotsData,
-      logoData, setLogoData,
       frame, setFrame,
       background, setBackground,
       options, setOptions,
