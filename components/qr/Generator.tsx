@@ -44,8 +44,8 @@ interface GenProps {
 }
 
 const Generator = ({ forceOverride }: GenProps) => {
-  const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, allowEdit, data,
-    logoData, selected, userInfo, cornersData, dotsData }: GeneratorProps = useContext(Context);
+  const {options, setOptions, background, setBackground, frame, setFrame, allowEdit, data,
+    selected, userInfo, cornersData, dotsData }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
