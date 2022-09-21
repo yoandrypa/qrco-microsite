@@ -17,7 +17,7 @@ const DateCountdown = dynamic(() => import("react-date-countdown-timer"), {
 const TrialCountDown = (props: Props) => {
   const startingDate = new Date(props.dateFrom)
   const trialEnds = new Date()
-  trialEnds.setDate(startingDate.getDate() + 14)
+  trialEnds.setDate(startingDate.getDate() + 13)
 
 
 
