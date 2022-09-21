@@ -46,7 +46,7 @@ const PDFGenDlg = ({ handleClose, data, isFramed }: PDFGenDlgProps) => {
   const [settings, setSettings] = useState<PageSetting>({
     pageSize: 'A4', orientation: 'portrait', amount: 1, separation: 25, different: false, size
   });
-  
+
   const handleData = (item: string) => (event: { target: { value: string } | { checked: boolean; }; }) => {
     const { value, checked } = event.target as { value: string | undefined; checked: boolean | string | undefined };
     if (item !== 'different') {

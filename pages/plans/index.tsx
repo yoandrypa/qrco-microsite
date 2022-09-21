@@ -19,6 +19,7 @@ import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import BillingPortal from '../../components/billing/BillingPortal'
 import {find} from '../../handlers/users'
+import TrialCountDown from '../../components/trial/TrialCountDown'
 type Props = {
   logged: boolean,
   profile?: object
@@ -33,6 +34,7 @@ const Plans = (props: Props) => {
   const [user, setUser] = useState<any>(null);
   const [mustLogInDlg, setMustLogInDlg] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [startTrialDate,setStartTrialDate] = useState<string | null>(null)
 
   // @ts-ignore
   const { userInfo } = useContext(Context)
@@ -42,10 +44,7 @@ const Plans = (props: Props) => {
       `https://${process.env.REACT_APP_DEFAULT_DOMAIN}`
 
   });
-  if(props.logged === true){
-    console.log(props.profile)
-    //TODO  add logic for customer portal here
-  }
+
    
 
 
@@ -57,8 +56,17 @@ const Plans = (props: Props) => {
     // console.log(user)       
     //@ts-ignore
     (userInfo != null && userInfo != undefined) && setUser(userInfo)
-    
-  }, [userInfo]);
+    if(props.logged === true){
+      console.log(props.profile)
+      //@ts-ignore
+      if (props.profile?.createdAt != null){
+        //@ts-ignore
+        setStartTrialDate(props.profile.createdAt)
+      }
+      
+      //TODO  add logic for customer portal here
+    }
+  }, [userInfo,props.logged,props.profile]);
 
 
 
@@ -218,7 +226,12 @@ const Plans = (props: Props) => {
 
       <Typography variant='h6' color='blue' textAlign={'center'} marginBottom={3} marginTop={2}>PRICING PLANS</Typography>
       <Typography variant='h4' textAlign={'center'} marginBottom={3}>Save money with our annual plans</Typography>
-      <Box sx={{ alignContent: 'center', display: 'flex', spacing: 3, justifyContent: 'center' }}>
+      
+    
+         {startTrialDate && <TrialCountDown dateFrom={startTrialDate}/>}
+
+
+        <Box sx={{ alignContent: 'center', display: 'flex', spacing: 3, justifyContent: 'center' }}>
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab label='Monthly' />
           <Tab label='Annual' />
@@ -276,33 +289,27 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
 
   }
 
-  if (!Boolean(userInfo)){
+  if (!userInfo?.userData){
     return {
       props: {
         logged: false
       }
     }
-  }
-  
-if (userInfo != null && userInfo != undefined){
-  // console.log(userInfo)
-  const userData = JSON.parse(userInfo.userData)
-  // console.log('user info es',userData.Username)
-  const data = await find(userData.Username)
-  // console.log('data retrieved', data)
+  } else {
+   console.log(userInfo)
+   //@ts-ignore
+  const userData = JSON.parse(userInfo.userData as string)
+  const userId = userData.UserAttributes[0].Value;
+  console.log('user infoData es',userData)
+  const data: object = await find(userId) 
+   console.log('data retrieved', data)
   return {
     props: {
       logged: true,
       profile: JSON.parse(JSON.stringify(data)) 
     }
   }
-} else{
-  return {
-    props: {
-      logged: true
-    }
-  }
-}
+} 
 
 
 }

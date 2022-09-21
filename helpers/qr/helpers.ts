@@ -8,6 +8,8 @@ import frame5 from '../../components/qr/frames/frame5';
 import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
+import {originalDimensions} from "./data";
+import parse from "html-react-parser";
 
 export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';

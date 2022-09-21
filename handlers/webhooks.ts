@@ -60,7 +60,7 @@ export async function onCheckoutCompleted(
     session: Stripe.Checkout.Session,
     subscription: Stripe.Subscription
   ) {
-    const customerId = session.customer as string;    
+    const customerId = subscription.customer as string;    
     // status can either be paid ,unpaid or no_payment_required
     const status = subscription.status;
   
