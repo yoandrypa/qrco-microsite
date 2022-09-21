@@ -51,7 +51,7 @@ export default async function handler(
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
       // On error, log and return the error message.
       if (err! instanceof Error) console.log(err)
-      console.log(`Error message: ${errorMessage}`)
+      console.error(`Error message: ${errorMessage}`)
       res.status(400).send(`Webhook Error: ${errorMessage}`)
       return
     }
@@ -62,11 +62,11 @@ export default async function handler(
     switch (event.type) {
       case StripeWebhooks.Completed: {
         const session = event.data.object as Stripe.Checkout.Session;
-        const subscriptionId = session.subscription as string;
-
-        const subscription = await stripe.subscriptions.retrieve(
-          subscriptionId
-        );
+        if (session.subscription == null ){
+          console.error('Error - Susbcription id is null',session);          
+          return res.status(500).json({error: 'No subscription Id retrieved', subscription: session.subscription})
+        } else {
+          const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
           try {
             const result = onCheckoutCompleted(session, subscription);
             if (result instanceof Error){
@@ -75,6 +75,8 @@ export default async function handler(
           } catch (error) {
             res.status(500).send('error saving checkout')
           }
+        }
+        
         
         break;
       }
@@ -123,7 +125,7 @@ export default async function handler(
 
 
     // Return a response to acknowledge receipt of the event.
-    res.status(200).json({ success: true, message: "Payload decoded successfully" })
+    res.status(200).json({ success: true, message: "Payload decoded successfully", payload: event })
 
   } else {
     res.setHeader('Allow', 'POST')
