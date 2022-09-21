@@ -14,8 +14,9 @@ export default async function  handler(
  if (req.method == 'POST'){
   const customer = req.body.customer as string 
   const {id} = await findByCustomerId(customer)
-  return res.status(200).json({id})
-  
+  return res.status(200).json({id})  
+ } else {
+  return res.status(400)
  }
   
 
@@ -27,5 +28,5 @@ export default async function  handler(
 //   res.status(500).json(error as ResponseData)
 //  }
 
-res.status(200).json({name: id})
+
  }
