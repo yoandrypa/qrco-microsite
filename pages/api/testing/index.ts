@@ -4,19 +4,20 @@ import {update, find,findByCustomerId} from '../../../handlers/users'
 
 
 type ResponseData = {
-  name: string
+
 }
 
 export default async function  handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-
-  const customer = req.query.id as string
- 
-    const {id} = await findByCustomerId(customer)
-    console.log('The db query ',id)
-
+ if (req.method == 'POST'){
+  const customer = req.body.customer as string 
+  const {id} = await findByCustomerId(customer)
+  return res.status(200).json({id})
+  
+ }
+  
 
 //  try {
 //   const query = await update({id: user.id},{planType: 'basicAnnual'})
