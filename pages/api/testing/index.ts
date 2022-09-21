@@ -13,7 +13,7 @@ export default async function  handler(
 ) {
  if (req.method == 'POST'){
   const customer = req.body.customer as string 
-  const {id} = await findByCustomerId(customer)
+  const id = await findByCustomerId(customer)
   return res.status(200).json({id})  
  } else {
   return res.status(400)
