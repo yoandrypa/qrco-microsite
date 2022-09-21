@@ -91,7 +91,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       //Process assets before saving de QR Data
       if (["pdf", "audio", "image", "video"].includes(selected)) {
         // @ts-ignore
-        data["files"] = StorageHandler.upload(data["files"], `/${userInfo.attributes.sub}/${selected}s`);
+        data["files"] = StorageHandler.upload(data["files"], `${userInfo.attributes.sub}/${selected}s`);
       }
 
       const qrData = {

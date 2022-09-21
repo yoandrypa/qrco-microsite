@@ -3,7 +3,8 @@ import * as dynamoose from "dynamoose";
 dynamoose.aws.sdk.config.update({
   accessKeyId: process.env.REACT_AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_AWS_SECRET_ACCESS_KEY,
-  region: process.env.REACT_AWS_REGION
+  region: process.env.REACT_AWS_REGION,
+  apiVersions: { dynamodb: "2019-11-21" }
 });
 
 if (process.env.REACT_AWS_DYNAMODB_URL) {
