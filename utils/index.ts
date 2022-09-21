@@ -10,7 +10,7 @@ export const generateShortLink = (id: string | undefined, customDomain?: string 
   const protocol =
     process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" || customDomain ? "https://" : "http://";
   const domain = process.env.REACT_APP_SHORT_URL_DOMAIN || process.env.REACT_APP_DEFAULT_DOMAIN;
-  return `${protocol}${customDomain || domain }/${id}`;
+  return `${protocol}${customDomain || domain}/${id}`;
 };
 
 // @ts-ignore
@@ -66,8 +66,7 @@ export const addProtocol = (url: string): string => {
 export const isValidUrl = (urlString: string) => {
   try {
     return Boolean(new URL(urlString));
-  }
-  catch(e){
+  } catch (e) {
     return false;
   }
 };
@@ -142,4 +141,16 @@ export const statsObjectToArray = (obj: StatsType) => {
     country: objToArr("country"),
     referrer: objToArr("referrer")
   };
+};
+
+export const formatBytes = (bytes: number, decimals = 2) => {
+  if (!+bytes) return "0 Bytes";
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 };
