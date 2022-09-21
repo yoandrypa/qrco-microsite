@@ -107,7 +107,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
           </Button>
         </Grid>
         <Grid item xs={12} paddingTop={1}>
-          <Divider textAlign="left">Files list</Divider>
+          <Divider textAlign="right">File list {data["files"]?.length || 0}/{FILE_LIMITS[type].totalFiles}</Divider>
           <List>
             {/*@ts-ignore*/}
             {(data && data["files"]) ? data["files"].map((file: File, index) => (
