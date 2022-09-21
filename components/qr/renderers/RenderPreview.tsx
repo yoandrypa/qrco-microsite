@@ -19,10 +19,8 @@ interface QRRenderProps {
   alt: string;
 }
 
-const QRRender = ({ qrData, width, alt }: QRRenderProps) => {
-  // noinspection JSDeprecatedSymbols
-  return (<img src={`data:image/svg+xml;base64,${btoa(qrData)}`} alt={alt} width={width}/>);
-}
+// noinspection JSDeprecatedSymbols
+const QRRender = ({ qrData, width, alt }: QRRenderProps) => (<img src={`data:image/svg+xml;base64,${btoa(qrData)}`} alt={alt} width={width}/>);
 
 interface PreviewProps {
   qrDesign: any;
@@ -35,8 +33,10 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
   const [current, setCurrent] = useState<string | null>(null);
   const [anchor, setAnchor] = useState<object | null>(null);
   const [generatePdf, setGeneratePdf] = useState<boolean>(false);
+  const [updating, setUpdating] = useState<boolean>(false);
 
   const qrRef = useRef();
+  const done = useRef(false);
 
   const handlePreView = (): void => {
     setPreview((previous: boolean) => !previous);
@@ -78,7 +78,7 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
       file: qrDesign.background?.file,
       x: qrDesign.background?.x,
       y: qrDesign.background?.y,
-      imgSize: qrDesign.background?.imgSize,
+      imgSize: qrDesign.background?.imgSize || 1,
       invert: qrDesign.background?.invert || false,
       backColor: qrDesign.background?.backColor || null
     };
@@ -118,6 +118,23 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
   }, [qrData]);
 
   useEffect(() => {
+    if (current && qrDesign.image?.length && !done.current) {
+      done.current = true;
+      setUpdating(true);
+    }
+  }, [current]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (updating) {
+      setTimeout(() => {
+        setUpdating(false);
+        generateQr();
+        // @ts-ignore
+      }, [250]);
+    }
+  }, [updating]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     generateQr();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -125,10 +142,10 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
     <>
       <Box sx={{ display: 'none' }}>{qrData}</Box>
       <Box onClick={handlePreView} sx={{ cursor: 'pointer' }}>
-        {current ? (
+        {current && !updating ? (
           <QRRender qrData={current || ''} width={70} alt={name}/>
         ) : (
-          <CircularProgress color="primary" sx={{ mx: 'auto', my: 'auto' }}/>
+          <CircularProgress color="primary" sx={{ ml: '10px', my: 'auto' }}/>
         )}
       </Box>
       {preview && (
