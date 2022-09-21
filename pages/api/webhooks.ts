@@ -105,7 +105,7 @@ export default async function handler(
             }
           
         } catch (error) {
-          res.status(500).send('error saving subscription update')
+          res.status(500).json({error})
         }
 
         break;
