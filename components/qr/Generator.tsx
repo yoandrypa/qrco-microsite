@@ -29,8 +29,6 @@ interface GeneratorProps {
   allowEdit?: boolean;
   options: OptionsType;
   setOptions: Function;
-  logoData?: any;
-  setLogoData: Function;
   background: BackgroundType;
   setBackground: Function;
   frame: FramesType;
@@ -46,8 +44,8 @@ interface GenProps {
 }
 
 const Generator = ({ forceOverride }: GenProps) => {
-  const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, allowEdit, data,
-    logoData, selected, userInfo, cornersData, dotsData }: GeneratorProps = useContext(Context);
+  const {options, setOptions, background, setBackground, frame, setFrame, allowEdit, data,
+    selected, userInfo, cornersData, dotsData }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
@@ -165,16 +163,14 @@ const Generator = ({ forceOverride }: GenProps) => {
 
   const handleMainData = (item: string, payload: any, icon = null) => {
     const opts = {...options};
-    if (!payload || !payload.file) {
+    if (!payload?.fileContents) {
       opts[item] = payload;
-      if (logoData) {
-        setLogoData(null);
-      }
     } else {
       if (icon) {
-        setLogoData(icon);
+        opts.image = icon;
+      } else {
+        opts.image = payload.fileContents;
       }
-      opts.image = payload.file;
     }
     setOptions(opts);
   };
@@ -341,7 +337,7 @@ const Generator = ({ forceOverride }: GenProps) => {
                 <Typography>Logo</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Logos handleMainData={handleMainData} image={logoData} />
+                <Logos handleMainData={handleMainData} image={options.image} />
               </AccordionDetails>
             </Accordion>
             {allowEdit && (
