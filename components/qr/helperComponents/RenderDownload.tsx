@@ -13,9 +13,9 @@ interface RenderDownloadProps {
   anchor: any;
   setAnchor: Function;
   setGeneratePdf: Function;
-  frame: FramesType | { type: string };
+  frame?: FramesType | { type: string } | null;
   contrast?: {color1?: string; color2: string} | undefined
-};
+}
 
 const RenderDownload = ({ anchor, qrImageData, frame, setAnchor, setGeneratePdf, contrast }: RenderDownloadProps) => {
   const [isReadable, setIsReadable] = useState<{readable: boolean} | undefined>(undefined);
@@ -54,6 +54,7 @@ const RenderDownload = ({ anchor, qrImageData, frame, setAnchor, setGeneratePdf,
         <Button
           variant="outlined"
           onClick={() => {
+            // @ts-ignore
             downloadAsPNG(qrImageData, Boolean(frame?.type) ? frame : { type: '' }, undefined, undefined);
             setAnchor(null);
           }}>PNG</Button>

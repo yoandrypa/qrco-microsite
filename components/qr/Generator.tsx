@@ -13,7 +13,7 @@ import CropFreeIcon from '@mui/icons-material/CropFree';
 import { Accordion, AccordionDetails, AccordionSummary, Alert } from '../renderers/Renderers';
 
 import {checkForAlpha, convertBase64, downloadAsSVGOrVerify, handleDesignerString} from '../../helpers/qr/helpers';
-import { BackgroundType, FramesType, OptionsType } from './types/types';
+import {BackgroundType, CornersAndDotsType, FramesType, OptionsType} from './types/types';
 import Code from './sections/Code';
 import Frames from './sections/Frames';
 import Logos from './sections/Logos';
@@ -37,6 +37,8 @@ interface GeneratorProps {
   setFrame: Function;
   selected: string;
   userInfo: object;
+  cornersData?: CornersAndDotsType | null;
+  dotsData?: CornersAndDotsType | null;
 }
 
 interface GenProps {
@@ -45,7 +47,7 @@ interface GenProps {
 
 const Generator = ({ forceOverride }: GenProps) => {
   const {options, setOptions, setLogoData, background, setBackground, frame, setFrame, allowEdit, data,
-    logoData, selected, userInfo }: GeneratorProps = useContext(Context);
+    logoData, selected, userInfo, cornersData, dotsData }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
   const [error, setError] = useState<object | null>(null);
@@ -284,6 +286,8 @@ const Generator = ({ forceOverride }: GenProps) => {
                 frame={frame}
                 hidden={updating}
                 command={command}
+                cornersData={cornersData}
+                dotsData={dotsData}
                 overrideValue={dataToOverride}
                 background={!background.file ? null : background} />
               <Box sx={{ width: '100%', height: '35px', mt: '-2px', textAlign: 'center' }}>
@@ -373,7 +377,7 @@ const Generator = ({ forceOverride }: GenProps) => {
         <PDFGenDlg
           data={qrImageData.current}
           handleClose={() => setGeneratePdf(false)}
-          isFramed={frame.type && frame.type !== '/frame/frame0.svg'} />
+          isFramed={frame?.type && frame.type !== '/frame/frame0.svg'} />
       )}
     </>
   );
