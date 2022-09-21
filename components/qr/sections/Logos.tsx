@@ -8,7 +8,7 @@ import SectionSelector from '../helperComponents/SectionSelector';
 interface LogosProps {
   image: string | null;
   handleMainData: Function;
-};
+}
 
 const Logos = ({ image, handleMainData }: LogosProps) => (
   <Box sx={{ width: '100%', overflow: 'auto' }}>

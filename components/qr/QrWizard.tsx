@@ -94,7 +94,6 @@ const QrWizard = ({ children }: QrWizardProps) => {
         data["files"] = StorageHandler.upload(data["files"], `/${userInfo.attributes.sub}/${selected}s`);
       }
 
-
       const qrData = {
         ...data,
         qrType: selected,
