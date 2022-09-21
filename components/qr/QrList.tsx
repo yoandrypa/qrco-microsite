@@ -52,6 +52,7 @@ const QrList = ({ qrs }: any) => {
         qrs?.length > 0
           ? qrs.map((qr: any) => {
             const qrLink = sanitize.link(qr.shortLinkId || {});
+
             // @ts-ignore
             return (
               <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
@@ -67,7 +68,7 @@ const QrList = ({ qrs }: any) => {
                         </Box>
                       ) : (
                         <Box sx={{ mt: 1 }}>
-                          {renderQr(qr.qrOptionsId, qr.value, qr.qrName)}
+                          {renderQr(qr.qrOptionsId, !qr.isDynamic ? qr.value : qr.qrOptionsId.data, qr.qrName)}
                         </Box>
                       )}
                     </Box>
