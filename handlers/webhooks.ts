@@ -75,7 +75,7 @@ export async function onCheckoutCompleted(
   }
 
 export async function onSubscriptionUpdated(subscription: Stripe.Subscription){
- const customerId = subscription.customer as string 
+ const customerId = subscription.customer.toString() 
   const subscriptionData 
   = buildUserSubscription(subscription); 
   return await setUserSubscription(
