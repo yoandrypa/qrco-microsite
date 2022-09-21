@@ -122,7 +122,7 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
       done.current = true;
       setUpdating(true);
     }
-  }, [current]);
+  }, [current]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (updating) {
@@ -132,7 +132,7 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
         // @ts-ignore
       }, [250]);
     }
-  }, [updating]);
+  }, [updating]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     generateQr();
