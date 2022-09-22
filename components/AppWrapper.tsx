@@ -44,15 +44,16 @@ function ElevationScroll({ children, window }: Props) {
   });
 }
 
-interface QrWrapperProps {
+interface AppWrapperProps {
   children: ReactNode;
   userInfo?: any;
   handleLogout?: () => void;
   clearData?: (clear: true) => void;
+  setLoading?: (loading: boolean) => void;
 }
 
-export default function AppWrapper(props: QrWrapperProps) {
-  const { children, userInfo, handleLogout, clearData } = props;
+export default function AppWrapper(props: AppWrapperProps) {
+  const { children, userInfo, handleLogout, clearData, setLoading } = props;
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -60,14 +61,21 @@ export default function AppWrapper(props: QrWrapperProps) {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = useCallback(() => {
     setAnchorElNav(null);
-  };
+  }, []);
 
   const isWide = useMediaQuery('(min-width:600px)', { noSsr: true });
   const router = useRouter();
 
+  const handleLoading = useCallback(() => {
+    if (setLoading !== undefined) {
+      setLoading(true);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleLogin = useCallback(() => {
+    handleLoading();
     router.push({ pathname: '/', query: { login: true } }, '/');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -75,10 +83,11 @@ export default function AppWrapper(props: QrWrapperProps) {
     if (clearData !== undefined) {
       clearData(true);
     }
+    handleLoading();
     router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const isLoggin = useMemo(() => (
+  const isLogin = useMemo(() => (
     router.pathname === '/' && router.query[PARAM_QR_TEXT] === undefined && !Boolean(userInfo)
   ), [userInfo, router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -89,7 +98,7 @@ export default function AppWrapper(props: QrWrapperProps) {
         <link rel="icon" href="/ebanuxQr.svg" />
       </Head>
       <CssBaseline />
-      {!isLoggin && (<ElevationScroll {...props}>
+      {!isLogin && (<ElevationScroll >
         <AppBar component="nav" sx={{ background: '#fff' }}>
           <Container>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
@@ -173,7 +182,7 @@ export default function AppWrapper(props: QrWrapperProps) {
         <Box sx={{ p: 2, width: { sm: '100%', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
-        {!isLoggin && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
+        {!isLogin && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
           <Box sx={{ display: 'flex', width: '100%' }}>
             <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
               {'Powered by'}

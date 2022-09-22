@@ -55,11 +55,13 @@ const AppContextProvider = (props: ContextProps) => {
   const router = useRouter();
 
   const logout = async () => {
+    setLoading(true);
     try {
       await Auth.signOut();
       setUserInfo(null);
       router.push("/");
     } catch (error) {
+      setLoading(false);
       console.log("error signing out: ", error);
     }
   };
@@ -202,7 +204,7 @@ const AppContextProvider = (props: ContextProps) => {
       }
     } else {
       return (
-        <AppWrapper userInfo={userInfo} handleLogout={logout} clearData={clearData}>
+        <AppWrapper userInfo={userInfo} handleLogout={logout} clearData={clearData} setLoading={setLoading}>
           {children}
         </AppWrapper>
       );
