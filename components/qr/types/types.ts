@@ -1,3 +1,24 @@
+import ChairIcon from "@mui/icons-material/Chair";
+import {grey} from "@mui/material/colors";
+import AccessibleIcon from "@mui/icons-material/Accessible";
+import WcIcon from "@mui/icons-material/Wc";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
+import PetsIcon from "@mui/icons-material/Pets";
+import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import ParkIcon from "@mui/icons-material/Park";
+import TrainIcon from "@mui/icons-material/Train";
+import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
+import LocalCafeIcon from "@mui/icons-material/LocalCafe";
+import HotelIcon from "@mui/icons-material/Hotel";
+import SmokingRoomsIcon from "@mui/icons-material/SmokingRooms";
+import LocalBarIcon from "@mui/icons-material/LocalBar";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import FlightIcon from "@mui/icons-material/Flight";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+
 export type OptionsType = {
   id?: string;
   shortCode?: string;
@@ -65,6 +86,11 @@ export type DataType = {
   zip?: string;
   state?: string;
   country?: string;
+  company?: string;
+  contacy?: string;
+  about?: string;
+  title?: string;
+  subtitle?: string;
   web?: string;
   url?: string;
   via?: string;
@@ -79,8 +105,34 @@ export type DataType = {
   telegram?: string;
   twitter?: string;
   value?: string;
+  easiness?: {
+    accessible?: boolean;
+    toilet?: boolean;
+    seat?: boolean;
+    child?: boolean;
+    pets?: boolean;
+    park?: boolean;
+    restaurant?: boolean;
+    cafe?: boolean;
+    bar?: boolean;
+    fastfood?: boolean;
+    bed?: boolean;
+    gym?: boolean;
+    smoking?: boolean;
+    climate?: boolean;
+    training?: boolean;
+    parking?: boolean;
+    train?: boolean;
+    bus?: boolean;
+    taxi?: boolean;
+  } | undefined;
   isDynamic?: boolean;
   files?: File[];
+};
+
+export type CardDataProps = {
+  data: DataType;
+  setData: Function;
 };
 
 export type UpdaterType = {
