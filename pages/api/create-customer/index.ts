@@ -59,7 +59,7 @@ async function createCheckoutSession(
      const session = stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customer_id,
-      customer_email: email,
+      customer_creation:'if_required',
       line_items: [
         {
           price: price_id,
@@ -95,9 +95,10 @@ async function createCheckoutSession(
       }
       
          //creating new customer
+         let customer_id: string | Error
           if (!userData.customerId){ 
             console.log('creating new customer...')
-           const customer_id = await createCustomerInStripe(req.body.email);
+            customer_id = await createCustomerInStripe(req.body.email);
             if (customer_id instanceof Error ){
                return res.status(500).json({error: true,message: customer_id.message})
                }
@@ -106,14 +107,22 @@ async function createCheckoutSession(
               console.log('Error saving customer_id in database')
               return res.status(500).json(updateResult)
             }            
+          } else {
+            customer_id = userData.customerId
           }
-           
+          
+          if (customer_id instanceof Error ){
+            return res.status(500).json({error: true,message: customer_id.message})
+          } 
           //create checkout session
           try {
-            const session = await createCheckoutSession({ customer_id: userData.customerId, plan_type: req.body.plan_type, email: req.body.email }) 
-            if (!(session instanceof Error)) return res.status(200).json({result: {url: session.url,}})
-            const {id} = await find(req.body.id)
-            await update({id: id},{planType: req.body.plan_type})
+           const {id} = await find(req.body.id)
+           const result =  await update({id: id},{planType: req.body.plan_type})
+           if(!result  || result == 'undefined'){
+            return res.status(500).json({error: true, message: `Could not save user plan in id: ${id} plan : ${req.body.plan_type}`})
+           }
+            const session = await createCheckoutSession({ customer_id: customer_id, plan_type: req.body.plan_type, email: req.body.email }) 
+            if (!(session instanceof Error)) return res.status(200).json({result: {url: session.url, customer: customer_id}})
           } catch (error) {
             if (error instanceof Error ) {
               return res.status(500).json({error: true, message: error.message})
