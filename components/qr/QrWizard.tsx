@@ -78,9 +78,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       const shortCode = await generateId();
       setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
       setStep(2);
-    } else if (step === 2 && isLogged &&
-      ["vcard+", "web", "pdf", "image", "audio", "video", "twitter", "whatsapp", "facebook"].includes(selected)) {
-
+    } else if (step === 2 && isLogged && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
@@ -88,7 +86,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       //Process assets before saving de QR Data
       if (["pdf", "audio", "image", "video"].includes(selected)) {
         // @ts-ignore
-        data["files"] = StorageHandler.upload(data["files"], `${userInfo.attributes.sub}/${selected}s`);
+        data["files"] = await StorageHandler.upload(data["files"], `${userInfo.attributes.sub}/${selected}s`);
       }
 
       const qrData = {
@@ -203,7 +201,9 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </>
       )}
       {isError && (
-        <Notifications autoHideDuration={3500} message="Error accessing data!" onClose={() => { setIsError(false); }} />
+        <Notifications autoHideDuration={3500} message="Error accessing data!" onClose={() => {
+          setIsError(false);
+        }} />
       )}
     </>
   );
