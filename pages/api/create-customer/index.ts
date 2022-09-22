@@ -32,7 +32,7 @@ function getCurrentPrices(){
   } }
 
 async function createCheckoutSession(
-{ customer_id, plan_type }: { customer_id: string; plan_type: PlanType }) {
+{ customer_id, plan_type, email }: { customer_id: string; plan_type: PlanType , email: string}) {
   const pricesList = getCurrentPrices()
   let price_id;
   switch (plan_type) {
@@ -59,6 +59,7 @@ async function createCheckoutSession(
      const session = stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customer_id,
+      customer_email: email,
       line_items: [
         {
           price: price_id,
@@ -109,7 +110,7 @@ async function createCheckoutSession(
            
           //create checkout session
           try {
-            const session = await createCheckoutSession({ customer_id: userData.customerId, plan_type: req.body.plan_type }) 
+            const session = await createCheckoutSession({ customer_id: userData.customerId, plan_type: req.body.plan_type, email: req.body.email }) 
             if (!(session instanceof Error)) return res.status(200).json({result: {url: session.url,}})
             const {id} = await find(req.body.id)
             await update({id: id},{planType: req.body.plan_type})
