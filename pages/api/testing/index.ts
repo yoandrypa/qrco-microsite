@@ -20,7 +20,7 @@ export default async function  handler(
  if (req.method == 'POST'){
    
    const subscription = await stripe.subscriptions.retrieve(req.body.subscription);
-   const customer = subscription.customer 
+   const customer = subscription.customer.toString() 
   const {id} = await findByCustomerId(customer as string)
   return res.status(200).json({id})  
  } else {
