@@ -22,8 +22,9 @@ if (req.method === 'POST'){
           await stripe.billingPortal.sessions.create({
             customer: customer,
             return_url: `https://${process.env.REACT_APP_DEFAULT_DOMAIN}/plans/`,
-          });    
-        res.status(200).json({url: url})
+          });   
+          res.redirect(301, url); 
+       // res.status(200).json({url: url})
       } catch (e) {
         console.error(e, `Stripe Billing Portal redirect error`);
         if (e instanceof Error)
