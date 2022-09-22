@@ -34,7 +34,7 @@ async function setUserSubscription(
   ) {
 
    const {id} = await findUserByCustomerId(customerId) 
-   console.log(`the id is ${id} customer ${customerId}`)
+   console.error(`the id is ${id} customer ${customerId}`)
     if(!id){
       return Error(`Could not find user for customerId ${customerId}`);
     }   
@@ -60,7 +60,7 @@ export async function onCheckoutCompleted(
     session: Stripe.Checkout.Session,
     subscription: Stripe.Subscription
   ) {
-    const customerId = subscription.customer as string;    
+    const customerId = subscription.customer.toString();    
     // status can either be paid ,unpaid or no_payment_required
     const status = subscription.status;
   

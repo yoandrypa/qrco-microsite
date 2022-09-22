@@ -19,7 +19,7 @@ return updatedUser
 }
 
 export const findByCustomerId = async (customerId: string): Promise<UserType> => {
-  return await query.user.findByCustomerId({ customerId: { eq: customerId } })
+  return await query.user.find({ customerId: { eq: customerId } })
 };
 
 export const deleteUserSubscription = async (customerId: Match<UserType>) =>{
