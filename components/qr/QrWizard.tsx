@@ -9,8 +9,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DoneIcon from "@mui/icons-material/Done";
 import SaveIcon from "@mui/icons-material/Save";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { styled } from "@mui/material/styles";
 
 import { useRouter } from "next/router";
@@ -24,10 +22,7 @@ import { initialBackground, initialFrame } from "../../helpers/qr/data";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { getUuid } from "../../helpers/qr/helpers";
 import * as StorageHandler from "../../handlers/storage";
-
-const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import Notifications from "../notifications/Notifications";
 
 const steps = ["QR type", "QR content", "QR design"];
 
@@ -206,12 +201,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </>
       )}
       {isError && (
-        <Snackbar open autoHideDuration={3500} onClose={() => setIsError(false)}
-                  anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-          <Alert onClose={() => setIsError(false)} severity="error">
-            Error accessing data.
-          </Alert>
-        </Snackbar>
+        <Notifications autoHideDuration={3500} message="Error accessing data!" onClose={() => { setIsError(false); }} />
       )}
     </>
   );

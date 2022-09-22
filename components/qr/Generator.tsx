@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import DownloadIcon from '@mui/icons-material/Download';
-import Snackbar from '@mui/material/Snackbar';
 import BrushIcon from '@mui/icons-material/Brush';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 
@@ -24,9 +23,9 @@ import PDFGenDlg from './helperComponents/PDFGenDlg';
 import Context from '../context/Context';
 import RenderNoUserWarning from "./helperComponents/RenderNoUserWarning";
 import NotifyDynamic from "./helperComponents/NotifyDynamic";
+import Notifications from "../../components/notifications/Notifications";
 
 interface GeneratorProps {
-  allowEdit?: boolean;
   options: OptionsType;
   setOptions: Function;
   background: BackgroundType;
@@ -44,11 +43,11 @@ interface GenProps {
 }
 
 const Generator = ({ forceOverride }: GenProps) => {
-  const {options, setOptions, background, setBackground, frame, setFrame, allowEdit, data,
+  const {options, setOptions, background, setBackground, frame, setFrame, data,
     selected, userInfo, cornersData, dotsData }: GeneratorProps = useContext(Context);
 
   const [expanded, setExpanded] = useState<string>('style');
-  const [error, setError] = useState<object | null>(null);
+  const [error, setError] = useState<object | string | null>(null);
   const [anchor, setAnchor] = useState<object | null>(null);
   const [updating, setUpdating] = useState<boolean>(false);
   const [generatePdf, setGeneratePdf] = useState<object | null>(null);
@@ -72,17 +71,21 @@ const Generator = ({ forceOverride }: GenProps) => {
     const img = new Image();
     img.src = URL.createObjectURL(f);
     img.onload = async () => {
-      const base: object = await convertBase64(f);
-      const check = await checkForAlpha(f);
-      const back = { ...background, file: base };
-      if (check?.hasAlpha) {
-        if (!Boolean(back.backColor)) {
-          back.backColor = '#ffffff';
+      if (f.size <= 51200) {
+        const base: object = await convertBase64(f);
+        const check = await checkForAlpha(f);
+        const back = {...background, file: base};
+        if (check?.hasAlpha) {
+          if (!Boolean(back.backColor)) {
+            back.backColor = '#ffffff';
+          }
+        } else if (Boolean(back.backColor)) {
+          delete back.backColor;
         }
-      } else if (Boolean(back.backColor)) {
-        delete back.backColor;
+        setBackground(back);
+      } else {
+        setError('The selected file is larger than 50 kilobytes.')
       }
-      setBackground(back);
     }
     fileInput.current.value = '';
   };
@@ -251,16 +254,7 @@ const Generator = ({ forceOverride }: GenProps) => {
 
   return (
     <>
-      {error && (
-        <Snackbar
-          open
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          autoHideDuration={7000}
-          onClose={() => { setError(null); }}
-        >
-          <Alert onClose={() => { setError(null); }} severity="error" sx={{ width: '100%' }}>{error}</Alert>
-        </Snackbar>
-      )}
+      {error && <Notifications open message={error} onClose={() => { setError(null); }} />}
       {background.type === 'image' && <input ref={fileInput} type="file" accept="image/*" style={{ display: 'none' }} onChange={onLoadFile} />}
       <Box sx={{ border: '1px solid rgba(0, 0, 0, .125)', borderRadius: '5px', p: 1, width: '100%' }}>
         {!Boolean(userInfo) && forceOverride === undefined && <RenderNoUserWarning />}
@@ -340,24 +334,6 @@ const Generator = ({ forceOverride }: GenProps) => {
                 <Logos handleMainData={handleMainData} image={options.image} />
               </AccordionDetails>
             </Accordion>
-            {allowEdit && (
-              <Accordion expanded={expanded === 'msg'} onChange={handleExpand('msg')}>
-                <AccordionSummary aria-controls="msg-content" id="msg-header">
-                  <Typography>Message</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    margin="dense"
-                    variant="outlined"
-                    label="Message"
-                    onChange={handleData('data')}
-                    value={options.data}
-                  />
-                </AccordionDetails>
-              </Accordion>
-            )}
           </Box>
         </Box>
       </Box>
