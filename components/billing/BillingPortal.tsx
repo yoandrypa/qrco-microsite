@@ -1,8 +1,7 @@
 import React from 'react'
-import { Button } from '@aws-amplify/ui-react'
+import Button  from '@mui/material/Button'
 
 type BillingPortalProps = {
-    children: React.ReactNode,
     customerId:string
 }
 
@@ -11,8 +10,8 @@ function BillingPortal(props: BillingPortalProps) {
     <form method="POST" action={`/api/billing-portal/`}>
     <input type={'hidden'} name={'customerId'} value={props.customerId} />
 
-    <Button color={'secondary'} >
-      {props.children}
+    <Button variant='contained' >
+     Review plan
     </Button>
   </form>
   )
