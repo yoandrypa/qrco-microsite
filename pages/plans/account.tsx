@@ -26,7 +26,7 @@ type Props = {
  console.log(id)
  console.log(props.logged, props.profile)
 
- if (!!props.logged || !!props.profile?.customerId){
+ if (!props.logged || !props.profile?.customerId){
   return (
     <Typography >
       No account available!
