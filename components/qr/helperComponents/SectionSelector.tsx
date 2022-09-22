@@ -1,12 +1,12 @@
-// @ts-nocheck
-
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import UploadIcon from '@mui/icons-material/Upload';
 import { alpha } from '@mui/material/styles';
+
+import Notifications from '../../../components/notifications/Notifications';
 
 interface SectionSelectorProps {
   handleSelect: Function;
@@ -15,10 +15,11 @@ interface SectionSelectorProps {
   isFrame?: boolean | false;
   icon?: string | null;
   selected: boolean;
-};
+}
 
 const SectionSelector = ({ label, handleSelect, icon, selected, isUpload, isFrame }: SectionSelectorProps) => {
   const fileInput = useRef<any>();
+  const [error, setError] = useState<boolean>(false);
 
   const renderIcon = () => {
     if (isUpload) {
@@ -33,9 +34,16 @@ const SectionSelector = ({ label, handleSelect, icon, selected, isUpload, isFram
   const handler = (f: Blob | MediaSource) => {
     if (f) {
       const reader = new FileReader();
+      // @ts-ignore
       reader.readAsDataURL(f);
-      reader.onloadend = (e) => {
-        handleSelect('image', { fileContents: e.target.result, file: URL.createObjectURL(f) }, !isUpload ? icon : 'external');
+      reader.onloadend = e => {
+        // @ts-ignore
+        if (e.total <= 30720) {
+          // @ts-ignore
+          handleSelect('image', { fileContents: e.target.result, file: URL.createObjectURL(f) }, !isUpload ? icon : null);
+        } else {
+          setError(true);
+        }
       };
     }
   }
@@ -61,10 +69,11 @@ const SectionSelector = ({ label, handleSelect, icon, selected, isUpload, isFram
     }
   };
 
+  // @ts-ignore
   const onLoadFile = ({ target }) => {
     const f = target.files[0];
     handler(f);
-    fileInput.ref.value = '';
+    fileInput.current.value = '';
   };
 
   return (
@@ -93,6 +102,9 @@ const SectionSelector = ({ label, handleSelect, icon, selected, isUpload, isFram
       }}>
         {label}
       </Typography>
+      {error && (
+        <Notifications onClose={() => { setError(false); }} message="The selected file is larger than 30 kilobytes." />
+      )}
     </Box>
   );
 };
