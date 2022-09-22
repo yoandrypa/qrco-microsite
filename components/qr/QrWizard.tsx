@@ -81,8 +81,6 @@ const QrWizard = ({ children }: QrWizardProps) => {
     } else if (step === 2 && isLogged &&
       ["vcard+", "web", "pdf", "image", "audio", "video", "twitter", "whatsapp", "facebook"].includes(selected)) {
 
-      debugger;
-
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
