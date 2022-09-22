@@ -72,7 +72,7 @@ export default function AppWrapper(props: AppWrapperProps) {
     if (setLoading !== undefined) {
       setLoading(true);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogin = useCallback(() => {
     handleLoading();
