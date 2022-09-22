@@ -32,7 +32,7 @@ function getCurrentPrices(){
   } }
 
 async function createCheckoutSession(
-{ customer_id, plan_type }: { customer_id: string; plan_type: PlanType }) {
+{ customer_id, plan_type, email }: { customer_id: string; plan_type: PlanType , email: string}) {
   const pricesList = getCurrentPrices()
   let price_id;
   switch (plan_type) {
@@ -59,6 +59,7 @@ async function createCheckoutSession(
      const session = stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customer_id,
+      customer_email: email,
       line_items: [
         {
           price: price_id,
@@ -66,7 +67,7 @@ async function createCheckoutSession(
           quantity: 1
         }
       ],
-      success_url: `https://${process.env.REACT_APP_DEFAULT_DOMAIN}/?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `https://${process.env.REACT_APP_DEFAULT_DOMAIN}/plans/account?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://${process.env.REACT_APP_DEFAULT_DOMAIN}/plans/`
      })
      return session
@@ -84,7 +85,9 @@ async function createCheckoutSession(
     if (req.method === 'POST') {
       if (!req.body.id || !req.body.email || !req.body.plan_type){
         return res.status(400).send('Missing parameters in request (email, plan_type and id)')
-      }   
+      } 
+      
+      
 
       const userData = await find(req.body.id)  
       if(!userData){
@@ -93,6 +96,7 @@ async function createCheckoutSession(
       
          //creating new customer
           if (!userData.customerId){ 
+            console.log('creating new customer...')
            const customer_id = await createCustomerInStripe(req.body.email);
             if (customer_id instanceof Error ){
                return res.status(500).json({error: true,message: customer_id.message})
@@ -106,8 +110,8 @@ async function createCheckoutSession(
            
           //create checkout session
           try {
-            const session = await createCheckoutSession({ customer_id: userData.plan_customer_id, plan_type: req.body.plan_type }) 
-            if (!(session instanceof Error)) return res.status(200).json({result: {url: session.url}})
+            const session = await createCheckoutSession({ customer_id: userData.customerId, plan_type: req.body.plan_type, email: req.body.email }) 
+            if (!(session instanceof Error)) return res.status(200).json({result: {url: session.url,}})
             const {id} = await find(req.body.id)
             await update({id: id},{planType: req.body.plan_type})
           } catch (error) {

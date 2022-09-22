@@ -59,7 +59,7 @@ const Plans = (props: Props) => {
     if(props.logged === true){
       console.log(props.profile)
       //@ts-ignore
-      if (props.profile?.createdAt != null && !props.profile?.subscriptionData?.status){
+      if (props.profile?.createdAt != null && !props.profile?.customerId){
         //@ts-ignore
         setStartTrialDate(props.profile.createdAt)
       }
