@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Box from '@mui/material/Box'
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from '../../libs/aws/aws-exports'
 import Button from '@mui/material/Button'
 import DialogActions from '@mui/material/DialogActions'
