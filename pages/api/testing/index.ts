@@ -18,10 +18,16 @@ export default async function  handler(
   res: NextApiResponse<ResponseData>
 ) {
  if (req.method == 'POST'){   
-   const subscription = await stripe.subscriptions.retrieve(req.body.subscription);
-   const customer = subscription.customer.toString() 
-  const id = await findByCustomerId(customer as string)
-  return res.status(200).json({objecto: id, customer: customer, subs: subscription})  
+
+  const userid = req.body.userid
+  const result = await find(req.body.userid)
+  return res.status(200).json({ok: true,result: result})
+  //  const subscription = await stripe.subscriptions.retrieve(req.body.subscription);
+  //  const customer = subscription.customer.toString() 
+  // const id = await findByCustomerId(customer as string)
+  // return res.status(200).json({objecto: id, customer: customer, subs: subscription}) 
+  
+  
  } else {
   return res.status(400)
  }
