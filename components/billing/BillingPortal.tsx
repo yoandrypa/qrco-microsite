@@ -10,7 +10,7 @@ function BillingPortal(props: BillingPortalProps) {
     <form method="POST" action={`/api/billing-portal/`}>
     <input type={'hidden'} name={'customerId'} value={props.customerId} />
 
-    <Button variant='contained' >
+    <Button type='submit' variant='contained'  >
      Review plan
     </Button>
   </form>
