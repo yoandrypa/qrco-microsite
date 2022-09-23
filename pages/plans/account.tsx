@@ -10,7 +10,8 @@ import BillingPortal from "../../components/billing/BillingPortal"
 import Context from '../../components/context/Context'
 import Grid from '@mui/material/Grid'
 import {find} from '../../handlers/users'
-
+import Box from '@mui/material/Box'
+import Image from 'next/image'
 
 type Props = {
   logged: boolean,
@@ -26,11 +27,20 @@ type Props = {
  console.log(id)
  console.log(props.logged, props.profile)
 
- if (!props.logged || !props.profile?.customerId){
+ if (!props.profile?.customerId){
   return (
-    <Typography >
-      No account available!
+<Box sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+      }}>
+  <Image width={250} height={200} alt='Ops' src='/images/ops/oops-problem-man-business.jpg'/>
+  <Typography textAlign={'center'} >
+      No data available yet . Try refresh this page.
     </Typography>
+</Box>
+   
   )
  }
   return (
@@ -41,9 +51,21 @@ type Props = {
     <Divider></Divider>
     <Paper>
       <Typography padding={2}>
-        The Qr Link uses Stripe as partner to ensure a better experience managing your billings. 
-        use the options bellow to make changes on your plan or payment information.
+      The Qr Link has Stripe as official partner to ensure a better experience managing your billings.
+       Use the Review button bellow to make changes on your plan or payment information. 
       </Typography>
+      <Typography>You can:</Typography>
+      <ul>
+        <li>
+        <Typography>Upgrade, downgrade, or cancel a subscription.</Typography>
+        </li>
+        <li>
+        <Typography>Update your payment methods.</Typography>
+        </li>
+        <li>
+        <Typography>View their billing history.</Typography>
+        </li>
+      </ul>
       <Grid container spacing={2}>
         <Grid item padding={2} marginLeft={2}>
         <BillingPortal customerId={props.profile?.customerId || ''} />
