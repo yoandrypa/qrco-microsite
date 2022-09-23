@@ -49,7 +49,7 @@ const LinkSchema = new dynamoose.Schema({
     type: UserModel
     //TODO delete in cascade if user reference is deleted
   },
-  visit_count: {
+  visitCount: {
     type: Number,
     required: true,
     default: 0

@@ -122,7 +122,7 @@ interface LinkType {
   type?: string;
   target: string;
   userId: string;
-  visit_count: number;
+  visitCount: number;
 }
 
 interface QrDataType {
@@ -151,7 +151,7 @@ interface QrDataQueryType {
 }
 
 interface LinkSanitizedType {
-  visit_count: number;
+  visitCount: number;
   address?: string | undefined;
   link: string;
   description?: string | undefined;

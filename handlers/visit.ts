@@ -1,5 +1,5 @@
 //const useragent = require("useragent");
-const parser = require('ua-parser-js');
+const parser = require("ua-parser-js");
 const geoip = require("fast-geoip");
 import URL from "url";
 
@@ -20,9 +20,13 @@ const filterInOs = (agent: { os: { name: string; }; }) => (item: string) =>
 export const add = async (data: any) => {
   const tasks = [];
 
-  tasks.push(query.link.increamentVisit({ id: data.link.id }));
+  console.debug({
+    visitCount: data.link.visitCount,
+    limit: getStatsLimit()
+  });
 
-  if (data.link.visit_count < getStatsLimit()) {
+  if (data.link.visitCount < getStatsLimit()) {
+    tasks.push(query.link.increamentVisit({ id: data.link.id }));
     const agent = parser(data.headers["user-agent"]);
     const [browser = "Other"] = browsersList.filter(filterInBrowser(agent));
     const [os = "Other"] = osList.filter(filterInOs(agent));
@@ -40,6 +44,8 @@ export const add = async (data: any) => {
       })
     );
   }
+
+  console.debug({ tasks });
 
   return Promise.all(tasks);
 };
