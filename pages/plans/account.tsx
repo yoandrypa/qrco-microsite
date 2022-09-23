@@ -19,6 +19,55 @@ type Props = {
   planType?: string
 }
 
+import { GetServerSideProps } from 'next'
+
+export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
+
+  const getUserInfo = async (): Promise<CognitoUserData | null> => {
+    try {
+      let userInfo = {};
+      for (const [key, value] of Object.entries(req.cookies)) {
+        // @ts-ignore
+        userInfo[key.split(".").pop()] = value;
+      }
+      // @ts-ignore
+      if (!userInfo.userData) {
+        return null;
+      }
+      //@ts-ignore
+      return userInfo;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const userInfo = await getUserInfo();
+  
+
+  if (!userInfo?.userData){
+    return {
+      props: {
+        logged: false
+      }
+    }
+  } else {
+   console.log(userInfo)
+   //@ts-ignore
+  const userData = JSON.parse(userInfo.userData as string)
+  const userId = userData.UserAttributes[0].Value;
+  console.log('user infoData es',userData)
+  const data: object = await find(userId) 
+  return {
+    props: {
+      logged: true,
+      profile: JSON.parse(JSON.stringify(data)) 
+    }
+  }
+} 
+
+
+} 
+
  const AccountPage = (props: Props) => {
   // @ts-ignore
   const { userInfo } = useContext(Context)
@@ -27,7 +76,7 @@ type Props = {
  console.log(id)
  console.log(props.logged, props.profile)
 
- if (!props.profile?.customerId){
+ if (!props.profile?.customerId){ 
   return (
 <Box sx={{
         position: "absolute",
@@ -42,7 +91,8 @@ type Props = {
 </Box>
    
   )
- }
+ } else {
+
   return (
     <>
     <Typography variant='h4'>
@@ -84,57 +134,11 @@ type Props = {
     </Paper>
     </>
   )
-}
 
-import { GetServerSideProps } from 'next'
-
-export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
-
-  const getUserInfo = async (): Promise<CognitoUserData | null> => {
-    try {
-      let userInfo = {};
-      for (const [key, value] of Object.entries(req.cookies)) {
-        // @ts-ignore
-        userInfo[key.split(".").pop()] = value;
-      }
-      // @ts-ignore
-      if (!userInfo.userData) {
-        return null;
-      }
-      //@ts-ignore
-      return userInfo;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const userInfo = await getUserInfo();
-  if (userInfo){
-
-  }
-
-  if (!userInfo?.userData){
-    return {
-      props: {
-        logged: false
-      }
-    }
-  } else {
-   console.log(userInfo)
-   //@ts-ignore
-  const userData = JSON.parse(userInfo.userData as string)
-  const userId = userData.UserAttributes[0].Value;
-  console.log('user infoData es',userData)
-  const data: object = await find(userId) 
-  return {
-    props: {
-      logged: true,
-      profile: JSON.parse(JSON.stringify(data)) 
-    }
-  }
-} 
-
+ }
 
 }
+
+
 
 export default AccountPage

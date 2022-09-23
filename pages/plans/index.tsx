@@ -47,7 +47,6 @@ const Plans = (props: Props) => {
 
    
 
-
   useEffect(() => {
     // Auth.currentAuthenticatedUser()
     //     .then(currentUser => setUser(currentUser.attributes.email))
