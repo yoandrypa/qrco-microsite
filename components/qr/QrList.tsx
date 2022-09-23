@@ -10,7 +10,7 @@ import Alert from "@mui/material/Alert";
 import {
   DeleteOutlineRounded,
   Edit,
-  LocalOffer,
+  ElectricBolt,
   Public
 } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
@@ -86,7 +86,7 @@ const QrList = ({ qrs }: any) => {
                   <Grid item xs={3.5}>
                     <Stack direction="column" spacing={0.8} justifyContent="flex-start" alignItems="flex-start">
                       <Typography variant="caption" style={{ color: "gray" }}>
-                        <LocalOffer fontSize="inherit" /> {qr.isDynamic ? "Dynamic" : "Static"}
+                        <ElectricBolt fontSize="inherit" /> {qr.isDynamic ? "Dynamic" : "Static"}
                       </Typography>
                       {qrLink.address ? <Typography variant="caption" style={{ color: "gray" }}>
                         {/*@ts-ignore*/}

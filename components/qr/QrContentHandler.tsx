@@ -10,13 +10,15 @@ import SingleData from './renderers/SingleData';
 import WhatsAppData, {WhatsAppProps} from './renderers/WhatsAppData';
 import FacebookData, {FacebookDataProps} from './renderers/FacebookData';
 import WifiData, {WifiDataProps} from './renderers/WifiData';
-import CardData, {CardDataProps} from './renderers/CardData';
+import CardData from './renderers/CardData';
 import EmailData, {EmailDataProps} from './renderers/EmailData';
 import SMSData, {SMSDataProps} from './renderers/SMSData';
 import TwitterData, {TwitterDataProps} from './renderers/TwitterData';
 import AssetData , {AssetDataProps} from './renderers/AssetData';
-import {DataType} from './types/types';
 import NotifyDynamic from "./helperComponents/NotifyDynamic";
+import BusinessData from "./renderers/BusinessData";
+
+import {CardDataProps, DataType} from './types/types';
 
 type QrContentHandlerProps = {
   data: DataType;
@@ -69,6 +71,9 @@ const QrContentHandler = () => {
       case 'vcard+':
       case 'vcard': {
         return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
+      }
+      case 'business': {
+        return <BusinessData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
       }
       case 'email': {
         return <EmailData data={data} setData={(payload: EmailDataProps) => setData(payload)} />;

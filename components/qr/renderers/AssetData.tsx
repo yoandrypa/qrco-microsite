@@ -1,7 +1,6 @@
 import Common from "../helperComponents/Common";
 import Button from "@mui/material/Button";
-import RenderIcon from "../helperComponents/RenderIcon";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, ReactNode, useState } from "react";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
@@ -9,12 +8,17 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemAvatar } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { UploadRounded } from "@mui/icons-material";
+import { Delete, UploadRounded } from "@mui/icons-material";
 import { humanDate } from "../../helpers/generalFunctions";
-import { ALLOWED_FILE_EXTENSIONS, FILE_LIMITS } from "../../../consts";
-import { CustomError, formatBytes } from "../../../utils";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+import { ALLOWED_FILE_EXTENSIONS, FILE_LIMITS, PRIMARY_LIGHT_COLOR } from "../../../consts";
+import { formatBytes } from "../../../utils";
+
+import PhotoIcon from "@mui/icons-material/Photo";
+import MovieIcon from "@mui/icons-material/Movie";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import IconButton from "@mui/material/IconButton";
+import Notifications from "../../notifications/Notifications";
 
 export type AssetDataProps = {
   type: "image" | "video" | "pdf" | "audio";
@@ -32,7 +36,7 @@ const validateFile = (files: File[], type: string, total: number) => {
   }
 
   files.forEach(file => {
-    const fileSize = parseFloat(formatBytes(file.size).split(" ")[0]);
+    const fileSize = file.size / (1024 ** 2);
     // @ts-ignore
     if (fileSize > FILE_LIMITS[type].totalMbPerFile) {
       errors.push(`The file '${file.name}' exceeds the allowed size.`);
@@ -42,15 +46,26 @@ const validateFile = (files: File[], type: string, total: number) => {
   return errors.join("\n");
 };
 
+const getIconByType = (type: string): ReactNode => {
+  switch (type) {
+    case "pdf":
+      return <PictureAsPdfIcon />;
+    case "image":
+      return <PhotoIcon />;
+    case "audio":
+      return <VolumeUpIcon />;
+    case "video":
+      return <MovieIcon />;
+  }
+};
+
 const AssetData = ({ type, data, setData }: AssetDataProps) => {
-  const [openAlert, setOpenAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
     setAlertMessage("");
-    setOpenAlert(false);
   };
 
   const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +76,6 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
       const errors = validateFile(filesToUpload, type, tempo["files"]?.length || 0);
       if (errors) {
         setAlertMessage(errors);
-        setOpenAlert(true);
         return;
       }
       // @ts-ignore
@@ -82,10 +96,13 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
         tempo["files"] = [...filesToUpload];
       }
       // @ts-ignore
-    } else if (tempo["files"]) {
-      // @ts-ignore
-      delete tempo["files"];
     }
+    setData(tempo);
+  };
+
+  const handleDelete = (index: number) => {
+    const tempo = { ...data };
+    tempo["files"]?.splice(index, 1);
     setData(tempo);
   };
 
@@ -108,13 +125,21 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
         </Grid>
         <Grid item xs={12} paddingTop={1}>
           <Divider textAlign="right">File list {data["files"]?.length || 0}/{FILE_LIMITS[type].totalFiles}</Divider>
-          <List>
+          <List dense>
             {/*@ts-ignore*/}
             {(data && data["files"]) ? data["files"].map((file: File, index) => (
-              <ListItem key={index}>
+              <ListItem
+                key={index}
+                secondaryAction={
+                  <IconButton color="error" edge="end" aria-label="delete file" onClick={() => handleDelete(index)}>
+                    <Delete />
+                  </IconButton>
+                }
+                disablePadding
+              >
                 <ListItemAvatar>
-                  <Avatar>
-                    <RenderIcon icon={type} enabled={true} />
+                  <Avatar sx={{ bgcolor: PRIMARY_LIGHT_COLOR }}>
+                    {getIconByType(type)}
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={file.name}
@@ -124,15 +149,8 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
           </List>
         </Grid>
       </Grid>
-      <Snackbar
-        open={openAlert}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-        <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }} variant="filled">
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+      {alertMessage &&
+        <Notifications severity="warning" message={alertMessage} onClose={handleClose} autoHideDuration={8000} />}
     </Common>
   );
 };

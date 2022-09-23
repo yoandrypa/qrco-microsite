@@ -1,6 +1,11 @@
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-export default function PleaseWait() {
+interface PleaseWaitProps {
+  redirecting?: boolean;
+}
+
+export default function PleaseWait({redirecting}: PleaseWaitProps) {
   return (
     <Box
       sx={{
@@ -10,7 +15,8 @@ export default function PleaseWait() {
         transform: "translate(-50%, -50%)"
       }}
     >
-      {'Please wait...'}
+      <Typography>{'Please wait...'}</Typography>
+      {redirecting && <Typography>{'Redirecting...'}</Typography>}
     </Box>
   );
 }

@@ -86,7 +86,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       //Process assets before saving de QR Data
       if (["pdf", "audio", "image", "video"].includes(selected)) {
         // @ts-ignore
-        data["files"] = StorageHandler.upload(data["files"], `${userInfo.attributes.sub}/${selected}s`);
+        data["files"] = await StorageHandler.upload(data["files"], `${userInfo.attributes.sub}/${selected}s`);
       }
 
       const qrData = {
@@ -201,7 +201,9 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </>
       )}
       {isError && (
-        <Notifications autoHideDuration={3500} message="Error accessing data!" onClose={() => { setIsError(false); }} />
+        <Notifications autoHideDuration={3500} message="Error accessing data!" onClose={() => {
+          setIsError(false);
+        }} />
       )}
     </>
   );

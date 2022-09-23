@@ -47,7 +47,6 @@ const Plans = (props: Props) => {
 
    
 
-
   useEffect(() => {
     // Auth.currentAuthenticatedUser()
     //     .then(currentUser => setUser(currentUser.attributes.email))
@@ -213,7 +212,7 @@ const Plans = (props: Props) => {
         </DialogContent>
         <DialogActions>
           <Button variant='contained' onClick={async () => {
-            await router.push('/')
+            await router.push('/?login=true')
           }}>
             Login
           </Button>
