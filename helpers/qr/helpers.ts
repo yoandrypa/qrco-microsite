@@ -249,7 +249,7 @@ export const getFrame = (frame: FramesType): string => {
   return result;
 }
 
-export function getUuid() {
+export function getUuid(): string {
   let dt = new Date().getTime();
   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = (dt + Math.random() * 16) % 16 | 0;

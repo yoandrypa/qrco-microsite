@@ -64,6 +64,20 @@ export type FramesType = {
   textUp?: boolean | false;
 };
 
+export type OpeningDaysType = {
+  opening: {ini: string, end: string}[];
+}
+
+export type OpeningType = {
+  sun?: OpeningDaysType;
+  mon?: OpeningDaysType;
+  tue?: OpeningDaysType;
+  wed?: OpeningDaysType;
+  thu?: OpeningDaysType;
+  fri?: OpeningDaysType;
+  sat?: OpeningDaysType;
+} | {} | null;
+
 export type DataType = {
   qrName?: string;
   number?: string;
@@ -107,6 +121,8 @@ export type DataType = {
   telegram?: string;
   twitter?: string;
   value?: string;
+  is12hours?: boolean;
+  openingTime?: OpeningType;
   easiness?: {
     accessible?: boolean;
     toilet?: boolean;

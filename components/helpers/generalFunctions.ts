@@ -4,7 +4,19 @@ export function dateConverter(epoch: number | string) {
   );
 }
 
-export function humanDate(date: number, locale: string = 'en') {
+export function getHM(date: Date): string {
+  const h = date.getHours();
+  const m = date.getMinutes();
+  return `${h < 10 ? `0${h}` : h}${m < 10 ? `0${m}` : m}`;
+}
+
+export function setHM(time: string): Date {
+  const now = new Date();
+  now.setHours(+time.slice(0, 2), +time.slice(2));
+  return now;
+}
+
+export function humanDate(date: number | string, locale: string = 'en') {
   const d = dateConverter(date);
   const compare = new Date();
   if (d.toDateString() === compare.toDateString()) {
