@@ -46,11 +46,6 @@ const TypeSelector = ({ handleSelect, label, description, icon, selected, enable
             <Typography sx={{ width: '100%', fontWeight: 'bold', color: !enabled ? theme => theme.palette.text.disabled : 'default' }} variant="h6">
               {label}
             </Typography>
-            {/*{Boolean(allowDynamic) && (*/}
-            {/*  <Tooltip title="Can handle dynamic QRs">*/}
-            {/*    <BoltIcon color="primary" fontSize="small" />*/}
-            {/*  </Tooltip>*/}
-            {/*)}*/}
           </Box>
           <Typography sx={{ width: '100%', color: theme => theme.palette.text.disabled }}>
             {description}

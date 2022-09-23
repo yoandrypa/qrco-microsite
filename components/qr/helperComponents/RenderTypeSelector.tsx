@@ -87,9 +87,10 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
           {renderTypeSelector("vcard", "VCard", "Share your contact details", true)}
           {renderTypeSelector("text", "Text", "Display a short text message", true)}
           {renderTypeSelector("wifi", "WiFi", "Get connected to a WiFi network", true)}
-        </>) : (
-          renderTypeSelector("vcard+", "VCard Plus", "Share your contact and social details", true)
-        )
+        </>) : (<>
+          {renderTypeSelector("vcard+", "VCard Plus", "Share your contact and social details", true)}
+          {renderTypeSelector('business', 'Business', 'Describe your business or company', true)}
+        </>)
       }
       {renderTypeSelector("twitter", "Twitter", "Post a tweet", true)}
       {renderTypeSelector("whatsapp", "Whatsapp", "Send a Whatsapp message", true)}

@@ -16,7 +16,27 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import BusinessIcon from '@mui/icons-material/Business';
 import MovieIcon from '@mui/icons-material/Movie';
+import ChairIcon from '@mui/icons-material/Chair';
+import AccessibleIcon from '@mui/icons-material/Accessible';
+import WcIcon from '@mui/icons-material/Wc';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
+import PetsIcon from '@mui/icons-material/Pets';
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import ParkIcon from '@mui/icons-material/Park';
+import TrainIcon from '@mui/icons-material/Train';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
+import HotelIcon from '@mui/icons-material/Hotel';
+import SmokingRoomsIcon from '@mui/icons-material/SmokingRooms';
+import LocalBarIcon from '@mui/icons-material/LocalBar';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import SchoolIcon from '@mui/icons-material/School';
 
 import { grey } from "@mui/material/colors";
 
@@ -47,6 +67,26 @@ export default function RenderIcon({ icon, enabled, adjust }: RenderIconProp) {
       case 'audio': { return <VolumeUpIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'video': { return <MovieIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'image': { return <PhotoIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'business': { return <BusinessIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'seat': { return <ChairIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'accessible': { return <AccessibleIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'toilet': { return <WcIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'restaurant': { return <RestaurantIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'child': { return <ChildFriendlyIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'pets': { return <PetsIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'parking': { return <LocalParkingIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'park': { return <ParkIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'train': { return <TrainIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'bus': { return <DirectionsBusIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'taxi': { return <LocalTaxiIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'cafe': { return <LocalCafeIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'bed': { return <HotelIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'smoking': { return <SmokingRoomsIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'bar': { return <LocalBarIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'fastfood': { return <FastfoodIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'gym': { return <FitnessCenterIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'climate': { return <AcUnitIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'training': { return <SchoolIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       default: { return <TextSnippetOutlinedIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
     }
   };

@@ -7,7 +7,7 @@ import Web from "../../components/qr/microsites/Web";
 // @ts-ignore
 export default function Handler({ data }) {
   if (data === 'NO DATA') {
-    return <>{'Unable to process your request.'}</>
+    return <>{'Ops! Unable to process your request.'}</>
   }
 
   const newData = JSON.parse(data);
@@ -17,7 +17,7 @@ export default function Handler({ data }) {
   }
 
   if (newData.qrType === 'web') {
-    return (<Web newData={newData} />)
+    return (<Web newData={newData} />);
   }
 
   return (
