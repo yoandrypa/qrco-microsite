@@ -1,4 +1,6 @@
 export type OptionsType = {
+  isDynamic: boolean;
+  mode?: string;
   id?: string;
   shortCode?: string;
   width: number;
