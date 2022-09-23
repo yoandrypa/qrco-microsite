@@ -97,14 +97,14 @@ export default function RenderOpeningTime({data, setData}: CardDataProps) {
               // @ts-ignore
               const day = DAYS[x];
               return (
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={4} key={`day${day}`}>
                   <Paper elevation={2} sx={{ p: 2 }}>
                   <Typography sx={{fontWeight: 'bold'}}>{day}</Typography>
                   {values.map((timing: OpeningDaysType, index: number) => {
                     const disabled = index === 0 && values.length === 2;
 
                     return (
-                      <Box sx={{ width: '100%', display: 'flex' }}>
+                      <Box sx={{ width: '100%', display: 'flex' }} key={`item${day}`}>
                         <Box sx={{ width: 'calc(50% - 20px)' }}>
                           <RenderTimeSelector data={data} setData={setData} day={x} ini index={index} />
                         </Box>
