@@ -1,14 +1,19 @@
+import {ChangeEvent, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import {ChangeEvent} from "react";
+import Paper from "@mui/material/Paper";
 
 import Common from '../helperComponents/Common';
 import {CardDataProps} from "../types/types";
 import RenderEasiness from "./helpers/RenderEasiness";
 import RenderSocials from "./helpers/RenderSocials";
+import RenderOpeningTime from "./helpers/RenderOpeningTime";
+import Expander from "./helpers/Expander";
 
 export default function BusinessData({data, setData}: CardDataProps) {
+  const [expander, setExpander] = useState<string | null>('easiness');
+
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     const tempo = JSON.parse(JSON.stringify(data));
@@ -68,8 +73,14 @@ export default function BusinessData({data, setData}: CardDataProps) {
           {renderItem('about', 'About')}
         </Grid>
       </Grid>
-      <Typography>{'Business Easiness'}</Typography>
-      <RenderEasiness data={data} setData={setData} />
+      <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+        <Expander expand={expander} setExpand={setExpander} item="opening" title="Opening Time" />
+        {expander === "opening" && <RenderOpeningTime data={data} setData={setData} />}
+      </Paper>
+      <Paper elevation={2} sx={{ p: 1, my: 1 }}>
+        <Expander expand={expander} setExpand={setExpander} item="easiness" title="Business Easiness" />
+        {expander === "easiness" && <RenderEasiness data={data} setData={setData} />}
+      </Paper>
       <Typography sx={{fontWeight: 'bold'}}>{'Address'}</Typography>
       <Grid container spacing={1}>
         <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
@@ -88,7 +99,6 @@ export default function BusinessData({data, setData}: CardDataProps) {
           {renderItem('country', 'Country')}
         </Grid>
       </Grid>
-      <Typography sx={{fontWeight: 'bold'}}>{'Social networks'}</Typography>
       <Grid item xs={12}>
         <RenderSocials data={data} setData={setData}/>
       </Grid>

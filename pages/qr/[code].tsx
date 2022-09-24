@@ -3,6 +3,7 @@ import { QrDataModel } from "../../models/qr/QrDataModel";
 
 import VCard from "../../components/qr/microsites/VCard";
 import Web from "../../components/qr/microsites/Web";
+import Business from "../../components/qr/microsites/Business";
 
 // @ts-ignore
 export default function Handler({ data }) {
@@ -14,6 +15,10 @@ export default function Handler({ data }) {
 
   if (newData.qrType === 'vcard+') {
     return (<VCard newData={newData} />);
+  }
+
+  if (newData.qrType === 'business') {
+    return (<Business newData={newData} />);
   }
 
   if (newData.qrType === 'web') {
