@@ -1,4 +1,3 @@
-import {memo} from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
@@ -27,10 +26,22 @@ const RenderEasiness = ({data, setData}: CardDataProps) => {
       <Grid item xs={12}>
         <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content', margin: '0 auto'}}>
           <SquareSelector
+            selected={data.easiness?.wifi || false}
+            tooltips
+            item="wifi"
+            label="WiFi"
+            handleSelection={handleSelection}/>
+          <SquareSelector
             selected={data.easiness?.accessible || false}
             tooltips
             item="accessible"
             label="Accessible"
+            handleSelection={handleSelection}/>
+          <SquareSelector
+            selected={data.easiness?.health || false}
+            tooltips
+            item="health"
+            label="Health"
             handleSelection={handleSelection}/>
           <SquareSelector
             selected={data.easiness?.toilet || false}
@@ -93,6 +104,12 @@ const RenderEasiness = ({data, setData}: CardDataProps) => {
             label="Bedrooms"
             handleSelection={handleSelection}/>
           <SquareSelector
+            selected={data.easiness?.shower || false}
+            tooltips
+            item="shower"
+            label="Showers"
+            handleSelection={handleSelection}/>
+          <SquareSelector
             selected={data.easiness?.gym || false}
             tooltips
             item="gym"
@@ -146,18 +163,4 @@ const RenderEasiness = ({data, setData}: CardDataProps) => {
   );
 }
 
-// @ts-ignore
-const notRenderIf = (current, next) => {
-  return current.data.easiness?.accessible === next.data.easiness?.accessible && current.data.easiness?.toilet === next.data.easiness?.toilet &&
-    current.data.easiness?.seat === next.data.easiness?.seat && current.data.easiness?.child === next.data.easiness?.child &&
-    current.data.easiness?.pets === next.data.easiness?.pets && current.data.easiness?.park === next.data.easiness?.park &&
-    current.data.easiness?.restaurant === next.data.easiness?.restaurant && current.data.easiness?.cafe === next.data.easiness?.cafe &&
-    current.data.easiness?.bar === next.data.easiness?.bar && current.data.easiness?.fastfood === next.data.easiness?.fastfood &&
-    current.data.easiness?.bed === next.data.easiness?.bed && current.data.easiness?.gym === next.data.easiness?.gym &&
-    current.data.easiness?.smoking === next.data.easiness?.smoking && current.data.easiness?.climate === next.data.easiness?.climate &&
-    current.data.easiness?.training === next.data.easiness?.training && current.data.easiness?.parking === next.data.easiness?.parking &&
-    current.data.easiness?.train === next.data.easiness?.train && current.data.easiness?.bus === next.data.easiness?.bus &&
-    current.data.easiness?.taxi === next.data.easiness?.taxi;
-}
-
-export default memo(RenderEasiness, notRenderIf);
+export default RenderEasiness;

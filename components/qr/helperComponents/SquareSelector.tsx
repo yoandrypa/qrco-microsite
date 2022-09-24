@@ -10,12 +10,14 @@ interface SquareSelectorProps {
   item: string;
   label: string;
   tooltips?: boolean;
-  handleSelection: Function;
+  handleSelection?: Function;
 }
 
 const SquareSelector = ({tooltips, selected, item, label, handleSelection}: SquareSelectorProps) => {
   const beforeHandle = () => {
-    handleSelection(item);
+    if (handleSelection !== undefined) {
+      handleSelection(item);
+    }
   };
 
   return (
@@ -26,8 +28,9 @@ const SquareSelector = ({tooltips, selected, item, label, handleSelection}: Squa
             width: !tooltips ? '95px' : '50px',
             height: !tooltips ? '60px' : '50px',
             backgroundColor: theme => alpha(theme.palette.info.light, selected ? 0.25 : 0.1),
+            cursor: !tooltips ? 'pointer' : 'auto',
             '&:hover': {
-              backgroundColor: theme => alpha(theme.palette.info.light, 0.4)
+              backgroundColor: !tooltips ? theme => alpha(theme.palette.info.light, 0.4) : 'inherith'
             }
           }}
           variant={selected ? 'outlined' : 'text'}
