@@ -133,6 +133,8 @@ export type DataType = {
     restaurant?: boolean;
     cafe?: boolean;
     bar?: boolean;
+    shower?: boolean;
+    health?: boolean;
     fastfood?: boolean;
     bed?: boolean;
     gym?: boolean;
@@ -143,6 +145,7 @@ export type DataType = {
     train?: boolean;
     bus?: boolean;
     taxi?: boolean;
+    wifi?: boolean;
   } | undefined;
   isDynamic?: boolean;
   files?: File[];
