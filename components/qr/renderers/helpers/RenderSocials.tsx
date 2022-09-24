@@ -1,4 +1,4 @@
-import {ChangeEvent, memo} from "react";
+import {ChangeEvent} from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -123,13 +123,4 @@ const RenderSocials = ({data, setData}: CardDataProps) => {
   );
 }
 
-// @ts-ignore
-const notIfAreEquals = (current, next) => {
-  return current.data.facebook === next.data.facebook && current.data.whatsapp === next.data.whatsapp &&
-    current.data.twitter === next.data.twitter && current.data.instagram === next.data.instagram &&
-    current.data.youtube === next.data.youtube && current.data.linkedin === next.data.linkedin &&
-    current.data.linkedin === next.data.linkedin && current.data.pinterest === next.data.pinterest &&
-    current.data.telegram === next.data.telegram;
-};
-
-export default memo(RenderSocials, notIfAreEquals);
+export default RenderSocials;
