@@ -8,7 +8,7 @@ type Props = {
   /**
    * Start date of the trial period (createdAt field of user profile)
    */
-  startDate: EpochTimeStamp | Date;
+  startDate: string;
 }
 
 const CountDown = (props: Props) => {
@@ -25,13 +25,13 @@ function flipAllCards(time: number): void{
   setMinutes(Math.floor(time / 60) % 60)
   setSeconds(time % 60)
   // console.log(days, hours, minutes,seconds)
-
 }
 
 
-
 useLayoutEffect(()=>{
-  const countToDate = Number(props.startDate) //new Date().setDate(new Date().getDate() + 14)
+  const initialDate = new Date(props.startDate)
+  const countToDate = (initialDate.setDate(initialDate.getDate() + 14)) //new Date().setDate(new Date().getDate() + 14)
+  console.log(new Date(countToDate).toISOString())
   let previousTimeBetweenDates;  
   const now = new Date()
   if(countToDate <= Number(now)){
@@ -51,8 +51,7 @@ useLayoutEffect(()=>{
         if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0 ){
           setTrialIsOver(true)
         }
-      }
-  
+      }  
   
     },1000)
   
