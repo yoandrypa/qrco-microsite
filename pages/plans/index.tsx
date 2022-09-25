@@ -22,8 +22,14 @@ import {find} from '../../handlers/users'
 import CountDown from '../../components/countdown/CountDown'
 type Props = {
   logged: boolean,
-  profile?: object
-  planType?: string
+  profile?: {
+    planType?: string,
+    customerId?: string,
+    subscriptionData?: {
+
+    }
+  }
+ 
 }
 
 Amplify.configure(awsconfig);
@@ -61,6 +67,10 @@ const Plans = (props: Props) => {
       if (props.profile?.createdAt != null && !props.profile?.customerId){
         //@ts-ignore
         setStartTrialDate(props.profile.createdAt)
+      }
+
+      if(props.profile?.subscriptionData != null && props.profile?.customerId != null){
+        <BillingPortal customerId={props.profile?.customerId}/>
       }
       
       //TODO  add logic for customer portal here
