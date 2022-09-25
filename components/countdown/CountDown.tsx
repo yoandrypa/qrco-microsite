@@ -31,7 +31,6 @@ function flipAllCards(time: number): void{
 useLayoutEffect(()=>{
   const initialDate = new Date(props.startDate)
   const countToDate = (initialDate.setDate(initialDate.getDate() + 14)) //new Date().setDate(new Date().getDate() + 14)
-  console.log(new Date(countToDate).toISOString())
   let previousTimeBetweenDates;  
   const now = new Date()
   if(countToDate <= Number(now)){
@@ -75,7 +74,7 @@ if (trialIsOver === true){
   You are in free trial mode. Click here to go to the pricing section in order to susbcribe a plan. Your free trial ends in:
   </Typography>
 
-    <div className={style.counterBody} onClick={()=> console.log('click')}>
+    <div className={style.counterBody} >
     <div className={style.container}>
     <div className={style.container_segment}>
       <div className={style.segment_title}>Days</div>
