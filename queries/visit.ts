@@ -7,7 +7,8 @@ interface Add {
   browser: string;
   country: string;
   domain?: string;
-  id: number;
+  id: string;
+  userId: string;
   os: string;
   referrer: string;
 }
@@ -18,7 +19,7 @@ export const add = async (params: Add) => {
     country: params.country.toLowerCase(),
     referrer: params.referrer.toLowerCase()
   };
-  const visit = await VisitModel.findOne({ link_id: { eq: params.id } }); //TODO include above full query
+  const visit = await VisitModel.findOne({ link_id: { eq: { id: params.id, userId: params.userId } } }); //TODO include above full query
 
   if (visit) {
     await VisitModel.update(visit.id, {
@@ -30,7 +31,8 @@ export const add = async (params: Add) => {
       }),
       referrers: Object.assign({}, visit.referrers, {
         [data.referrer]: visit.referrers[data.referrer] + 1
-      })});
+      })
+    });
   } else {
     await VisitModel.create({
       [`br_${data.browser}`]: 1,
@@ -38,7 +40,7 @@ export const add = async (params: Add) => {
       referrers: { [data.referrer]: 1 },
       [`os_${data.os}`]: 1,
       total: 1,
-      link_id: data.id
+      link_id: { id: data.id, userId: data.userId }
     });
   }
 
