@@ -35,7 +35,7 @@ interface StepsProps {
   setStep: Function;
   selected: string;
   data: DataType;
-  userInfo: object;
+  userInfo: { attributes: {sub: string} };
   options: OptionsType;
   frame: FramesType;
   background: BackgroundType;
@@ -78,7 +78,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       const shortCode = await generateId();
       setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
       setStep(2);
-    } else if (step === 2 && isLogged && ["vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
+    } else if (step === 2 && isLogged && ["business", "vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
@@ -96,7 +96,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         userId: userInfo.attributes.sub,
         id: qrId,
         qrOptionsId: qrDesignId,
-        shortLinkId
+        shortLinkId: { id: shortLinkId, userId: userInfo.attributes.sub }
       };
 
       const qrDesign = { ...options, id: qrDesignId };

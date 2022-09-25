@@ -3,6 +3,7 @@ import dynamoose from "../libs/dynamoose";
 // @ts-ignore
 import bcrypt from "bcryptjs";
 import { CustomError } from "../utils";
+import { getUuid } from "../helpers/qr/helpers";
 
 interface TotalParams {
   search?: string;
@@ -41,9 +42,9 @@ interface GetParams {
   skip?: number;
 }
 
-export const get = async (match: Partial<LinkQueryType>, params: GetParams) => {
+export const getByUserId = async (userId: string, params: GetParams) => {
   //TODO include the Skip param
-  const query = LinkModel.scan(match);
+  const query = LinkModel.query("userId").eq(userId).sort("descending");
 
   if (params.search) {
     query.and().parenthesis(
@@ -59,7 +60,7 @@ export const get = async (match: Partial<LinkQueryType>, params: GetParams) => {
     );
   }
 
-  const results = await query.limit(params.limit || 10).exec();
+  const results = await query.limit(params.limit || 10).using("createdAtIndex").exec();
   const links: LinkJoinedDomainType[] = results;
 
   return [links, results.count];
@@ -83,6 +84,7 @@ export const create = async (params: Create) => {
   }
 
   return await LinkModel.create({
+    id: getUuid(),
     password: encryptedPassword,
     domainId: params.domainId,
     userId: params.userId,
@@ -142,16 +144,19 @@ export const update = async (match: string | Partial<LinkType>, update: Partial<
   });
 };
 
-export const increamentVisit = async (match: Partial<LinkQueryType>) => {
+export const incrementVisit = async (match: Partial<LinkQueryType>) => {
   try {
-    let link = await find(match);
+    // @ts-ignore
+    let link = await LinkModel.get(match);
     if (!link) {
       throw new CustomError("LinkModel was not found.");
     }
-    const visit_count = link.visit_count + 1;
     // @ts-ignore
-    link = await update(link.id, { visit_count });
-    return link.visit_count;
+    const visitCount = link.visitCount + 1;
+    // @ts-ignore
+    link = await update(match, { visitCount });
+    // @ts-ignore
+    return link.visitCount;
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message);

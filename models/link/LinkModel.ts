@@ -8,8 +8,7 @@ import { getUuid } from "../../helpers/qr/helpers";
 const LinkSchema = new dynamoose.Schema({
   id: {
     type: String,
-    hashKey: true,
-    default: getUuid()
+    rangeKey: true
   },
   type: {
     type: String,
@@ -46,10 +45,16 @@ const LinkSchema = new dynamoose.Schema({
     required: true
   },
   userId: {
-    type: UserModel
+    type: UserModel,
+    hashKey: true,
+    index: {
+      name: "createdAtIndex",
+      global: true,
+      rangeKey: "createdAt"
+    }
     //TODO delete in cascade if user reference is deleted
   },
-  visit_count: {
+  visitCount: {
     type: Number,
     required: true,
     default: 0
