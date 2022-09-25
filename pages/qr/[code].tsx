@@ -7,13 +7,13 @@ import Business from "../../components/qr/microsites/Business";
 
 // @ts-ignore
 export default function Handler({ data }) {
-  if (data === 'NO DATA') {
-    return <>{'Ops! Unable to process your request.'}</>
+  if (data === "NO DATA") {
+    return <>{"Ops! Unable to process your request."}</>;
   }
 
   const newData = JSON.parse(data);
 
-  if (newData.qrType === 'vcard+') {
+  if (newData.qrType === "vcard+") {
     return (<VCard newData={newData} />);
   }
 
@@ -26,8 +26,8 @@ export default function Handler({ data }) {
   }
 
   return (
-    <div>{'We are working on this. Come back soon.'}</div>
-  )
+    <div>{"We are working on this. Come back soon."}</div>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
@@ -35,9 +35,34 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req }) =>
   const { code } = params;
 
   // "code" is the id
-  const data = await QrDataModel.get(code);
+  const getUserInfo = async (): Promise<{
+    userData: string;
+  } | null> => {
+    try {
+      let userInfo = { userData: "" };
+      for (const [key, value] of Object.entries(req.cookies)) {
+        // @ts-ignore
+        userInfo[key.split(".").pop()] = value;
+      }
+      // @ts-ignore
+      if (!userInfo.userData) {
+        return null;
+      }
+      return userInfo;
+    } catch (e) {
+      return null;
+    }
+  };
+  const userInfo = await getUserInfo();
+
+  if (!userInfo?.userData) {
+    return { props: { data: "NO DATA" } };
+  }
+  const userData = JSON.parse(userInfo.userData as string);
+  const userId = userData.UserAttributes[0].Value;
+  const data = await QrDataModel.get({ id: code, userId });
   if (!data) {
-    return { props: { data: 'NO DATA' }};
+    return { props: { data: "NO DATA" } };
   }
 
   return { props: { data: JSON.stringify(data) } };
