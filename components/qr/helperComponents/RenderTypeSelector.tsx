@@ -5,12 +5,12 @@ import MUIButton from "@mui/material/Button";
 import CheckBoxEmpty from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import CheckBoxChecked from "@mui/icons-material/CheckBoxTwoTone";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import red from "@mui/material/colors/red";
+import { red } from "@mui/material/colors";
+import { styled } from "@mui/material/styles";
 
 import TypeSelector from "./TypeSelector";
 import Context from "../../context/Context";
-import { styled } from "@mui/material/styles";
-import {DataType} from "../types/types";
+import { DataType } from "../types/types";
 
 interface RenderTypeSelectorProps {
   selected: string;
