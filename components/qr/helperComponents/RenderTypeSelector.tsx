@@ -5,6 +5,7 @@ import MUIButton from "@mui/material/Button";
 import CheckBoxEmpty from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import CheckBoxChecked from "@mui/icons-material/CheckBoxTwoTone";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import red from "@mui/material/colors/red";
 
 import TypeSelector from "./TypeSelector";
 import Context from "../../context/Context";
@@ -23,7 +24,7 @@ interface ContextData {
 }
 
 const Button = styled(MUIButton)(() => ({ width: "calc(50% - 5px)", height: "32px" }));
-const getColor = (condition: boolean): string => (condition ? "green" : "default");
+const getColor = (condition: boolean): string => (condition ? "green" : red[700]);
 
 const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps) => {
   // @ts-ignore
@@ -64,19 +65,19 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
       <Grid item xs={12}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Button
-            sx={{ borderColor: getColor(!isDynamic), color: getColor(!isDynamic) }}
-            onClick={handleClick}
-            startIcon={!isDynamic ? renderYes() : renderNo()}
-            key="static"
-            id="static"
-            variant="outlined">{isWide ? "Static QR Codes" : "Static"}</Button>
-          <Button
             sx={{ borderColor: getColor(isDynamic), color: getColor(isDynamic) }}
             onClick={handleClick}
             startIcon={isDynamic ? renderYes() : renderNo()}
             key="dynamic"
             id="dynamic"
             variant="outlined">{isWide ? "Dynamic QR Codes" : "Dynamic"}</Button>
+          <Button
+            sx={{ borderColor: getColor(!isDynamic), color: getColor(!isDynamic) }}
+            onClick={handleClick}
+            startIcon={!isDynamic ? renderYes() : renderNo()}
+            key="static"
+            id="static"
+            variant="outlined">{isWide ? "Static QR Codes" : "Static"}</Button>
         </Box>
       </Grid>
       {renderTypeSelector("web", "Website", "LinkModel to any page on the web", true)}

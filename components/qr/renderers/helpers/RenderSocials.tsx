@@ -67,7 +67,6 @@ const RenderSocials = ({data, setData}: CardDataProps) => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <Typography sx={{fontWeight: 'bold'}}>{'Social Information'}</Typography>
         <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content', margin: '0 auto'}}>
           <SquareSelector
             selected={data.facebook !== undefined}

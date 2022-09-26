@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Amplify, Auth } from "aws-amplify";
 
 import Context from "./Context";
-import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
+import initialOptions, {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
 import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "../qr/types/types";
 import { PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
 import AppWrapper from "../AppWrapper";
@@ -22,9 +22,9 @@ interface ContextProps {
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
-    return JSON.parse(JSON.stringify(initialData));
+    return JSON.parse(JSON.stringify(initialOptions));
   }
-  const opts = JSON.parse(JSON.stringify(initialData));
+  const opts = JSON.parse(JSON.stringify(initialOptions));
   opts.data = value;
   return opts;
 };
@@ -37,7 +37,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
   const [background, setBackground] = useState<BackgroundType>(initialBackground);
   const [frame, setFrame] = useState<FramesType>(initialFrame);
-  const [data, setData] = useState<DataType>({});
+  const [data, setData] = useState<DataType>(initialData);
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
@@ -78,7 +78,7 @@ const AppContextProvider = (props: ContextProps) => {
     setDotsData(null);
     setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
-    setData({});
+    setData(initialData);
   };
 
   useEffect(() => {

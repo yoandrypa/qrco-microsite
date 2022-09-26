@@ -74,6 +74,28 @@ export default function BusinessData({data, setData}: CardDataProps) {
         </Grid>
       </Grid>
       <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+        <Expander expand={expander} setExpand={setExpander} item="adress" title="Address" />
+        {expander === "address" && (
+          <Grid container spacing={1}>
+            <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
+              {renderItem('address', 'Address')}
+            </Grid>
+            <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+              {renderItem('city', 'City')}
+            </Grid>
+            <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+              {renderItem('zip', 'Zip code')}
+            </Grid>
+            <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+              {renderItem('state', 'State/Province')}
+            </Grid>
+            <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+              {renderItem('country', 'Country')}
+            </Grid>
+          </Grid>
+        )}
+      </Paper>
+      <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
         <Expander expand={expander} setExpand={setExpander} item="opening" title="Opening Time" />
         {expander === "opening" && <RenderOpeningTime data={data} setData={setData} />}
       </Paper>
@@ -81,27 +103,10 @@ export default function BusinessData({data, setData}: CardDataProps) {
         <Expander expand={expander} setExpand={setExpander} item="easiness" title="Business Easiness" />
         {expander === "easiness" && <RenderEasiness data={data} setData={setData} />}
       </Paper>
-      <Typography sx={{fontWeight: 'bold'}}>{'Address'}</Typography>
-      <Grid container spacing={1}>
-        <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
-          {renderItem('address', 'Address')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('city', 'City')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('zip', 'Zip code')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('state', 'State/Province')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('country', 'Country')}
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <RenderSocials data={data} setData={setData}/>
-      </Grid>
+      <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+        <Expander expand={expander} setExpand={setExpander} item="socials" title="Social networks" />
+        {expander === "socials" && <Grid item xs={12}><RenderSocials data={data} setData={setData}/></Grid>}
+      </Paper>
     </Common>
   );
 }

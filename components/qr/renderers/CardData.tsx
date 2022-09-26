@@ -1,8 +1,9 @@
-import {ChangeEvent, useContext, useMemo, useEffect} from 'react';
+import {ChangeEvent, useContext, useMemo, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Paper from "@mui/material/Paper";
 
 import Common from '../helperComponents/Common';
 import {CardDataProps} from "../types/types";
@@ -10,12 +11,15 @@ import Context from "../../context/Context";
 import {EMAIL, SOCIALS, WEB} from "../constants";
 
 import RenderSocials from "./helpers/RenderSocials";
+import Expander from "./helpers/Expander";
 
 const PHONE_FAX = new RegExp('^(\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const CELL = new RegExp('^((\\+)?\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const ZIP = new RegExp('^\\d{5}(-\\d{4})?$');
 
 export default function CardData({data, setData}: CardDataProps) {
+  const [expander, setExpander] = useState<string | null>(null);
+
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     const tempo = JSON.parse(JSON.stringify(data));
@@ -165,7 +169,10 @@ export default function CardData({data, setData}: CardDataProps) {
         {isDynamic && (
           <Grid item xs={12}>
             <Divider sx={{my: 1}}/>
-            <RenderSocials data={data} setData={setData}/>
+            <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+              <Expander expand={expander} setExpand={setExpander} item="socials" title="Social information" />
+              {expander === "socials" && <RenderSocials data={data} setData={setData}/>}
+            </Paper>
             <Divider sx={{my: 1}}/>
           </Grid>
         )}
