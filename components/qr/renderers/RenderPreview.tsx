@@ -71,6 +71,9 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
       cornersDotOptions: qrDesign.cornersDotOptions
     };
 
+    if (options.cornersDotOptions.type === '') { options.cornersDotOptions.type = null; }
+    if (options.cornersSquareOptions.type === '') { options.cornersSquareOptions.type = null; }
+
     const background: BackgroundType = {
       type: qrDesign.background?.type,
       opacity: qrDesign.background?.opacity,
@@ -126,6 +129,7 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
 
   useEffect(() => {
     if (updating) {
+      // noinspection TypeScriptValidateTypes
       setTimeout(() => {
         setUpdating(false);
         generateQr();

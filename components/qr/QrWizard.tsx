@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -126,6 +126,14 @@ const QrWizard = ({ children }: QrWizardProps) => {
           // @ts-ignore
           userId: userInfo.attributes.sub
         };
+      }
+
+      if (!qrDesign.cornersDotOptions.type) {
+        qrDesign.cornersDotOptions.type = '';
+      }
+
+      if (!qrDesign.cornersSquareOptions.type) {
+        qrDesign.cornersSquareOptions.type = '';
       }
 
       try {
