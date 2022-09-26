@@ -1,5 +1,4 @@
 import {ReactElement, ReactNode, cloneElement, useCallback, useMemo, useState, MouseEvent} from 'react';
-import Head from 'next/head';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
@@ -95,10 +94,6 @@ export default function AppWrapper(props: AppWrapperProps) {
 
   return (
     <>
-      <Head>
-        <title>The QR Link</title>
-        <link rel="icon" href="/ebanuxQr.svg" />
-      </Head>
       <CssBaseline />
       {!isLogin && (<ElevationScroll >
         <AppBar component="nav" sx={{ background: '#fff', height }}>
