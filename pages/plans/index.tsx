@@ -19,7 +19,7 @@ import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import BillingPortal from '../../components/billing/BillingPortal'
 import {find} from '../../handlers/users'
-import TrialCountDown from '../../components/trial/TrialCountDown'
+import CountDown from '../../components/countdown/CountDown'
 type Props = {
   logged: boolean,
   profile?: object
@@ -219,7 +219,6 @@ const Plans = (props: Props) => {
           <Button onClick={() => setMustLogInDlg(false)}>
             Cancel
           </Button>
-
         </DialogActions>
       </Dialog>
 
@@ -227,8 +226,8 @@ const Plans = (props: Props) => {
       <Typography variant='h4' textAlign={'center'} marginBottom={3}>Save money with our annual plans</Typography>
       
     
-         {startTrialDate && <TrialCountDown dateFrom={startTrialDate}/>}
-
+         {/* {startTrialDate && <TrialCountDown dateFrom={startTrialDate}/>} */}
+          {startTrialDate && <CountDown startDate={startTrialDate}/>}
 
         <Box sx={{ alignContent: 'center', display: 'flex', spacing: 3, justifyContent: 'center' }}>
         <Tabs value={activeTab} onChange={handleTabChange}>
