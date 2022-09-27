@@ -57,7 +57,6 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
 
   const generateQr = () => {
     const options: OptionsType = {
-      isDynamic: qrDesign.isDynamic,
       width: qrDesign.width,
       height: qrDesign.height,
       type: qrDesign.type,
