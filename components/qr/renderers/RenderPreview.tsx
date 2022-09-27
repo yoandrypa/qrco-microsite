@@ -57,7 +57,6 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
 
   const generateQr = () => {
     const options: OptionsType = {
-      isDynamic: qrDesign.isDynamic,
       width: qrDesign.width,
       height: qrDesign.height,
       type: qrDesign.type,
@@ -71,9 +70,6 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
       cornersSquareOptions: qrDesign.cornersSquareOptions,
       cornersDotOptions: qrDesign.cornersDotOptions
     };
-
-    if (options.cornersDotOptions.type === '') { options.cornersDotOptions.type = null; }
-    if (options.cornersSquareOptions.type === '') { options.cornersSquareOptions.type = null; }
 
     const background: BackgroundType = {
       type: qrDesign.background?.type,
@@ -130,7 +126,6 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
 
   useEffect(() => {
     if (updating) {
-      // noinspection TypeScriptValidateTypes
       setTimeout(() => {
         setUpdating(false);
         generateQr();

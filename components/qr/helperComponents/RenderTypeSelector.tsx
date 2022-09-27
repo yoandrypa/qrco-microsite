@@ -12,7 +12,7 @@ import { styled } from "@mui/material/styles";
 import {DataType} from "../types/types";
 
 interface RenderTypeSelectorProps {
-  selected?: string | null;
+  selected: string;
   handleSelect: Function;
 }
 
