@@ -1,5 +1,10 @@
+// @ts-nocheck
+
+// formerly known as QrTemplate
 import { useContext } from 'react';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 
 import Context from '../context/Context';
 import RenderTypeSelector from "./helperComponents/RenderTypeSelector";
@@ -10,7 +15,6 @@ interface QrTypeSelectorProps {
 }
 
 const QrTypeSelector = () => {
-  // @ts-ignore
   const { setSelected, selected }: QrTypeSelectorProps = useContext(Context);
 
   const handleSelect = (payload: string): void => {
@@ -18,7 +22,16 @@ const QrTypeSelector = () => {
   };
 
   return (
-    <RenderTypeSelector selected={selected} handleSelect={handleSelect} />
+    <>
+      <Box sx={{ display: 'flex', mb: '10px' }}>
+        <QrCodeIcon sx={{ fontSize: '53px', mt: '2px', color: theme => theme.palette.primary.dark }} />
+        <Box sx={{ textAlign: 'left', display: 'block' }}>
+          <Typography variant="h6">QR type</Typography>
+          <Typography>Kind of QR Code to generate</Typography>
+        </Box>
+      </Box>
+      <RenderTypeSelector selected={selected} handleSelect={handleSelect} />
+    </>
   );
 }
 

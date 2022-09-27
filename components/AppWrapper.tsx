@@ -32,8 +32,6 @@ interface Props {
   children: ReactElement;
 }
 
-const height = '95px';
-
 function ElevationScroll({ children, window }: Props) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -42,7 +40,7 @@ function ElevationScroll({ children, window }: Props) {
   });
 
   return cloneElement(children, {
-    elevation: trigger ? 5 : 0
+    elevation: trigger ? 4 : 1
   });
 }
 
@@ -101,13 +99,13 @@ export default function AppWrapper(props: AppWrapperProps) {
       </Head>
       <CssBaseline />
       {!isLogin && (<ElevationScroll >
-        <AppBar component="nav" sx={{ background: '#fff', height }}>
-          <Container sx={{ my: 'auto' }}>
+        <AppBar component="nav" sx={{ background: '#fff' }}>
+          <Container>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
               <Link href={{ pathname: !Boolean(userInfo) ? QR_TYPE_ROUTE : '/' }}>
                 <Box sx={{ display: 'flex', cursor: 'pointer' }}>
                   <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
-                  <Typography sx={{ my: 'auto', ml: '5px', fontSize: '28.8px', fontWeight: 'bold' }}>The QR Link</Typography>
+                  <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>The QR Link</Typography>
                 </Box>
               </Link>
               {router.query[PARAM_QR_TEXT] === undefined && (<>
@@ -180,8 +178,8 @@ export default function AppWrapper(props: AppWrapperProps) {
         </AppBar>
       </ElevationScroll>)}
       <Container sx={{ width: '100%' }}>
-        <Box sx={{ height }}/> {/* Aims to fill the header's gap */}
-        <Box sx={{ mx: 'auto', minHeight: 'calc(100vh - 145px)' }}>
+        <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
+        <Box sx={{ p: 2, width: { sm: '100%', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
           {children}
         </Box>
         {!isLogin && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
