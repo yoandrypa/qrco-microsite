@@ -3,8 +3,6 @@ import { useState } from "react";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import Head from 'next/head';
-
 import { IntlProvider } from "react-intl";
 import { themeConfig } from "../utils/theme";
 
@@ -22,20 +20,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const mainTheme = createTheme(themeConfig(theme));
 
   return (
-    <>
-      <Head>
-        <title>My new cool app</title>
-        <link rel="icon" href="/ebanuxQr.svg" />
-      </Head>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={mainTheme}>
-          <AppContextProvider>
-            <IntlProvider locale={locale} messages={messages}>
-              <Component {...pageProps} />
-            </IntlProvider>
-          </AppContextProvider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={mainTheme}>
+        <AppContextProvider>
+          <IntlProvider locale={locale} messages={messages}>
+            <Component {...pageProps} />
+          </IntlProvider>
+        </AppContextProvider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
