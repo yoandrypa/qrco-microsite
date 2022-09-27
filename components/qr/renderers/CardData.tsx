@@ -143,28 +143,36 @@ export default function CardData({data, setData}: CardDataProps) {
           {renderItem('position', 'Position')}
         </Grid>
       </Grid>
-      <Typography sx={{fontWeight: 'bold'}}>{'Other info'}</Typography>
       <Grid container spacing={1}>
-        <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
-          {renderItem('address', 'Address')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('city', 'City')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('zip', 'Zip code')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('state', 'State/Province')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('country', 'Country')}
-        </Grid>
-        <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
-          {renderItem('email', 'Email')}
-        </Grid>
-        <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
-          {renderItem('web', 'Web')}
+        <Grid item xs={12}>
+          <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+            <Expander expand={expander} setExpand={setExpander} item="other" title="Other info" />
+            {expander === "other" && (
+              <Grid container spacing={1}>
+                <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
+                  {renderItem('address', 'Address')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('city', 'City')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('zip', 'Zip code')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('state', 'State/Province')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('country', 'Country')}
+                </Grid>
+                <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
+                  {renderItem('email', 'Email')}
+                </Grid>
+                <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
+                  {renderItem('web', 'Web')}
+                </Grid>
+              </Grid>
+            )}
+          </Paper>
         </Grid>
         {isDynamic && (
           <Grid item xs={12}>
