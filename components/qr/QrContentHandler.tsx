@@ -71,10 +71,10 @@ const QrContentHandler = () => {
       }
       case 'vcard+':
       case 'vcard': {
-        return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
+        return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} setIsWrong={setIsWrong} />;
       }
       case 'business': {
-        return <BusinessData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
+        return <BusinessData data={data} setData={(payload: CardDataProps) => setData(payload)} setIsWrong={setIsWrong}  />;
       }
       case 'email': {
         return <EmailData data={data} setData={(payload: EmailDataProps) => setData(payload)} />;

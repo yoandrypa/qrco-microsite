@@ -123,6 +123,8 @@ export type DataType = {
   value?: string;
   is12hours?: boolean;
   openingTime?: OpeningType;
+  urlOptionLabel?: string;
+  urlOptionLink?: string;
   easiness?: {
     accessible?: boolean;
     toilet?: boolean;
@@ -160,6 +162,8 @@ export type SocialProps = {
   pinterest?: string;
   telegram?: string;
   twitter?: string;
+  qrName?: string;
+  isDynamic?: boolean;
 }
 
 export type CardDataProps = {

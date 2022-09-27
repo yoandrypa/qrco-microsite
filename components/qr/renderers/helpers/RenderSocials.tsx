@@ -1,4 +1,4 @@
-import {ChangeEvent, useMemo} from "react";
+import {ChangeEvent, useEffect, useMemo} from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import SquareSelector from "../../helperComponents/SquareSelector";
@@ -11,10 +11,10 @@ import {SocialProps} from "../../types/types";
 interface RenderSocialsProps {
   data: SocialProps;
   setData: Function;
-  onlySocialNtwrks?: boolean;
+  setIsWrong?: (isWrong: boolean) => void;
 }
 
-const RenderSocials = ({data, setData, onlySocialNtwrks}: RenderSocialsProps) => {
+const RenderSocials = ({data, setData, setIsWrong}: RenderSocialsProps) => {
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     const tempo = JSON.parse(JSON.stringify(data));
@@ -29,7 +29,22 @@ const RenderSocials = ({data, setData, onlySocialNtwrks}: RenderSocialsProps) =>
     setData(tempo);
   };
 
-  const amount = useMemo(() => Object.keys(data || {}).length, [data]);
+  const amount = useMemo(() => {
+    let count = Object.keys(data || {}).length;
+    if (data?.isDynamic) {
+      count -= 1;
+    }
+    if (data?.qrName) {
+      count -= 1;
+    }
+    return count;
+  }, [data]);
+
+  useEffect(() => {
+    if (setIsWrong !== undefined) {
+      setIsWrong(amount === 0);
+    }
+  }, [amount]);
 
   const renderSocial = (item: string) => {
     // @ts-ignore
@@ -37,19 +52,11 @@ const RenderSocials = ({data, setData, onlySocialNtwrks}: RenderSocialsProps) =>
       // @ts-ignore
       const isError = !data[item].length;
 
-      debugger;
-
       let sm;
-      if (!onlySocialNtwrks) {
-        switch (amount) {
-          case 1: {  sm = 12; break; }
-          case 2: {  sm = 6; break; }
-          default: { sm = 4; break; }
-        }
-      } else if (amount === 1) {
-        sm = 12;
-      } else {
-        sm = 6;
+      switch (amount) {
+        case 1: {  sm = 12; break; }
+        case 2: {  sm = 6; break; }
+        default: { sm = 4; break; }
       }
 
       return (<Grid item xs={12} sm={sm} style={{paddingTop: 0}}>

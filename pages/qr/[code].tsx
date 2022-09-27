@@ -21,6 +21,10 @@ export default function Handler({ data }) {
     return (<Business newData={newData} />);
   }
 
+  if (newData.qrType === 'social') {
+
+  }
+
   if (newData.qrType === 'web') {
     return (<Web newData={newData} />);
   }

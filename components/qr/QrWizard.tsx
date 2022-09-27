@@ -78,7 +78,8 @@ const QrWizard = ({ children }: QrWizardProps) => {
       const shortCode = await generateId();
       setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
       setStep(2);
-    } else if (step === 2 && isLogged && ["social", "business", "vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
+    } else if (step === 2 && isLogged && ["social", "business", "vcard+", "web", "pdf", "image", "audio", "video",
+      "facebook", "whatsapp", "twitter"].includes(selected)) {
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();

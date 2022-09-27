@@ -7,7 +7,7 @@ import RenderSocials from "./renderers/RenderSocials";
 import Box from "@mui/material/Box";
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
-import {OpeningType} from "../types/types";
+import {OpeningObjType} from "../types/types";
 
 interface BusinessProps {
   newData: any;
