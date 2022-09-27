@@ -47,22 +47,26 @@ interface GetParams {
   skip?: number;
 }
 
-export const get = async (match: Partial<QrDataType>) => {
-  try {
-    // @ts-ignore
-    return await QrDataModel.get(match);
-  } catch (e) {
-    // @ts-ignore
-    throw new CustomError(e.message, 500, e);
-  }
-};
-
-export const getByUserId = async (userId: string) => {
+export const get = async (match: Partial<QrDataQueryType>, params: GetParams) => {
   try {
     //TODO include the Skip param
-    const query = QrDataModel.query("userId").eq(userId).sort("descending");
+    const query = QrDataModel.scan(match);
 
-    const results = await query.using("createdAtIndex").exec();
+    /*if (params.search) {
+      query.and().parenthesis(
+        new dynamoose.Condition()
+          .where("description")
+          .contains(params.search)
+          .or()
+          .where("address")
+          .contains(params.search)
+          .or()
+          .where("target")
+          .contains(params.search)
+      );
+    }*/
+
+    const results = await query.exec(); //query.limit(params.limit || 10).exec();
     // @ts-ignore
     const qrs: QrDataType[] = results;
 
@@ -109,26 +113,23 @@ export const create = async (data: { shortLink: ObjectType; qrDesign: ObjectType
 
 export const remove = async (match: Partial<QrDataType>) => {
   try {
-    // @ts-ignore
-    const qr: Document = await QrDataModel.get({ id: match.id, userId: match.userId });
+    const qr = await QrDataModel.findOne({
+      id: { eq: match.id },
+      userId: { eq: match.userId }
+    });
 
     if (!qr) {
       throw new CustomError("QR Code was not found.");
     }
 
     let transactions = [];
-    // @ts-ignore
     if (qr.shortLinkId) {
-      // @ts-ignore
       transactions.push(LinkModel.transaction.delete(qr.shortLinkId));
     }
-    // @ts-ignore
     if (qr.qrOptionsId) {
-      // @ts-ignore
       transactions.push(QrOptionsModel.transaction.delete(qr.qrOptionsId));
     }
-    // @ts-ignore
-    transactions.push(QrDataModel.transaction.delete({ id: qr.id, userId: qr.userId }));
+    transactions.push(QrDataModel.transaction.delete(qr.id));
 
     const deleteCascade = await dynamoose.transaction(transactions);
 

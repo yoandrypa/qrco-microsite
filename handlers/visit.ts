@@ -1,5 +1,5 @@
 //const useragent = require("useragent");
-const parser = require("ua-parser-js");
+const parser = require('ua-parser-js');
 const geoip = require("fast-geoip");
 import URL from "url";
 
@@ -17,16 +17,12 @@ const filterInOs = (agent: { os: { name: string; }; }) => (item: string) =>
   agent.os.name.toLowerCase().includes(item.toLocaleLowerCase());
 
 // @ts-ignore
-export const create = async (data: any) => {
+export const add = async (data: any) => {
   const tasks = [];
 
-  console.debug({
-    visitCount: data.link.visitCount,
-    limit: getStatsLimit()
-  });
+  tasks.push(query.link.increamentVisit({ id: data.link.id }));
 
-  if (data.link.visitCount < getStatsLimit()) {
-    tasks.push(query.link.incrementVisit({ id: data.link.id, userId: data.link.userId }));
+  if (data.link.visit_count < getStatsLimit()) {
     const agent = parser(data.headers["user-agent"]);
     const [browser = "Other"] = browsersList.filter(filterInBrowser(agent));
     const [os = "Other"] = osList.filter(filterInOs(agent));
@@ -39,16 +35,13 @@ export const create = async (data: any) => {
         browser: browser.toLowerCase(),
         country: country || "Unknown",
         id: data.link.id,
-        userId: data.link.userId,
         os: os.toLowerCase().replace(/\s/gi, ""),
         referrer: (referrer && referrer.replace(/\./gi, "[dot]")) || "Direct"
       })
     );
   }
 
-  console.debug({ tasks });
-
   return Promise.all(tasks);
 };
 
-export default create;
+export default add;
