@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 
-import {useRef, useState, useEffect} from "react";
+import { useRef, useState, useEffect } from "react";
 import DialogContent from "@mui/material/DialogContent";
 import Dialog from "@mui/material/Dialog";
 import Box from "@mui/material/Box";
 
 import QrGenerator from "../QrGenerator";
-import {BackgroundType, CornersAndDotsType, FramesType, OptionsType} from "../types/types";
+import { BackgroundType, CornersAndDotsType, FramesType, OptionsType } from "../types/types";
 import CircularProgress from "@mui/material/CircularProgress";
 import DownloadIcon from "@mui/icons-material/Download";
 import Button from "@mui/material/Button";
@@ -20,7 +20,7 @@ interface QRRenderProps {
 }
 
 // noinspection JSDeprecatedSymbols
-const QRRender = ({ qrData, width, alt }: QRRenderProps) => (<img src={`data:image/svg+xml;base64,${btoa(qrData)}`} alt={alt} width={width}/>);
+const QRRender = ({ qrData, width, alt }: QRRenderProps) => (<img src={`data:image/svg+xml;base64,${btoa(qrData)}`} alt={alt} width={width} />);
 
 interface PreviewProps {
   qrDesign: any;
@@ -144,9 +144,9 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
       <Box sx={{ display: 'none' }}>{qrData}</Box>
       <Box onClick={handlePreView} sx={{ cursor: 'pointer' }}>
         {current && !updating ? (
-          <QRRender qrData={current || ''} width={70} alt={name}/>
+          <QRRender qrData={current || ''} width={70} alt={name} />
         ) : (
-          <CircularProgress color="primary" sx={{ ml: '10px', my: 'auto' }}/>
+          <CircularProgress color="primary" sx={{ ml: '10px', my: 'auto' }} />
         )}
       </Box>
       {preview && (

@@ -187,7 +187,7 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options.mode === "edit") {
       doNotNavigate.current = true;
-      if (Boolean(options?.isDynamic)) {
+      if (Boolean(options?.isDynamic)) { // eslint-disable-line react-hooks/exhaustive-deps
         router.push("/qr/content").then(() => {
           setStep(1);
           setLoading(false);
@@ -229,22 +229,22 @@ const AppContextProvider = (props: ContextProps) => {
   };
 
   return (<>
-      {loading && <Loading />}
-      <Context.Provider value={{
-        cornersData, setCornersData,
-        dotsData, setDotsData,
-        frame, setFrame,
-        background, setBackground,
-        options, setOptions,
-        selected, setSelected,
-        data, setData,
-        userInfo, setUserInfo,
-        step, setStep, setForceClear,
-        loading, setLoading,
-        isWrong, setIsWrong
-      }}>
-        {renderContent()}
-      </Context.Provider>
+    {loading && <Loading />}
+    <Context.Provider value={{
+      cornersData, setCornersData,
+      dotsData, setDotsData,
+      frame, setFrame,
+      background, setBackground,
+      options, setOptions,
+      selected, setSelected,
+      data, setData,
+      userInfo, setUserInfo,
+      step, setStep, setForceClear,
+      loading, setLoading,
+      isWrong, setIsWrong
+    }}>
+      {renderContent()}
+    </Context.Provider>
   </>
   );
 };
