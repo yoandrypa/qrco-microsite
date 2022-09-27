@@ -19,11 +19,17 @@ import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import BillingPortal from '../../components/billing/BillingPortal'
 import {find} from '../../handlers/users'
-import TrialCountDown from '../../components/trial/TrialCountDown'
+import CountDown from '../../components/countdown/CountDown'
 type Props = {
   logged: boolean,
-  profile?: object
-  planType?: string
+  profile?: {
+    planType?: string,
+    customerId?: string,
+    subscriptionData?: {
+
+    }
+  }
+ 
 }
 
 Amplify.configure(awsconfig);
@@ -61,6 +67,10 @@ const Plans = (props: Props) => {
       if (props.profile?.createdAt != null && !props.profile?.customerId){
         //@ts-ignore
         setStartTrialDate(props.profile.createdAt)
+      }
+
+      if(props.profile?.subscriptionData != null && props.profile?.customerId != null){
+        <BillingPortal customerId={props.profile?.customerId}/>
       }
       
       //TODO  add logic for customer portal here
@@ -219,7 +229,6 @@ const Plans = (props: Props) => {
           <Button onClick={() => setMustLogInDlg(false)}>
             Cancel
           </Button>
-
         </DialogActions>
       </Dialog>
 
@@ -227,8 +236,8 @@ const Plans = (props: Props) => {
       <Typography variant='h4' textAlign={'center'} marginBottom={3}>Save money with our annual plans</Typography>
       
     
-         {startTrialDate && <TrialCountDown dateFrom={startTrialDate}/>}
-
+         {/* {startTrialDate && <TrialCountDown dateFrom={startTrialDate}/>} */}
+          {startTrialDate && <CountDown startDate={startTrialDate}/>}
 
         <Box sx={{ alignContent: 'center', display: 'flex', spacing: 3, justifyContent: 'center' }}>
         <Tabs value={activeTab} onChange={handleTabChange}>
