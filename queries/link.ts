@@ -148,10 +148,10 @@ export const increamentVisit = async (match: Partial<LinkQueryType>) => {
     if (!link) {
       throw new CustomError("LinkModel was not found.");
     }
-    const visit_count = link.visit_count + 1;
+    const visitCount = link.visitCount + 1;
     // @ts-ignore
-    link = await update(link.id, { visit_count });
-    return link.visit_count;
+    link = await update(link.id, { visitCount });
+    return link.visitCount;
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message);

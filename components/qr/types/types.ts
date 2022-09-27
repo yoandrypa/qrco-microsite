@@ -20,6 +20,8 @@ import FlightIcon from "@mui/icons-material/Flight";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 
 export type OptionsType = {
+  isDynamic: boolean;
+  mode?: string;
   id?: string;
   shortCode?: string;
   width: number;
