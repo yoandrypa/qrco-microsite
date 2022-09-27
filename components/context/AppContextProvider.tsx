@@ -201,7 +201,7 @@ const AppContextProvider = (props: ContextProps) => {
         });
       }
     }
-  }, [options.mode]);
+  }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (router.pathname.startsWith("/qr") && !["/qr/type", "/qr/content", "/qr/new"].includes(router.pathname)) {
     return (<>{children}</>);
