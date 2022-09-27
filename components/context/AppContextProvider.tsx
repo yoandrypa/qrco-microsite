@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -37,7 +37,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
   const [background, setBackground] = useState<BackgroundType>(initialBackground);
   const [frame, setFrame] = useState<FramesType>(initialFrame);
-  const [data, setData] = useState<DataType>(initialData);
+  const [data, setData] = useState<DataType>({});
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
@@ -53,6 +53,8 @@ const AppContextProvider = (props: ContextProps) => {
   const doNotNavigate = useRef<boolean>(false);
 
   const router = useRouter();
+
+  const isUserInfo = useMemo(() => Boolean(userInfo), [userInfo]);
 
   const logout = async () => {
     setLoading(true);
@@ -78,7 +80,7 @@ const AppContextProvider = (props: ContextProps) => {
     setDotsData(null);
     setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
-    setData(initialData);
+    setData(isUserInfo ? initialData : {});
   };
 
   useEffect(() => {
@@ -134,15 +136,15 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options?.mode !== 'edit') {
       if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
-        if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
-          router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
+        if (Boolean(data?.isDynamic) && !isUserInfo && !Boolean(router.query.login)) {
+          router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/");
         } else if (!Boolean(selected)) {
           router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
         }
       }
       if (router.pathname === "/") {
         if (step === 2) {
-          if (Boolean(userInfo)) {
+          if (isUserInfo) {
             doNotNavigate.current = true;
           }
           clearData();
@@ -160,17 +162,18 @@ const AppContextProvider = (props: ContextProps) => {
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (Boolean(userInfo) && verifying) {
+    if (isUserInfo && verifying) {
       setVerifying(false);
     }
-  }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+    setData(isUserInfo ? initialData : {});
+  }, [isUserInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (forceClear) {
       doNotNavigate.current = true;
       clearData();
     }
-  }, [forceClear]);
+  }, [forceClear]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const verify = async () => {
     try {
