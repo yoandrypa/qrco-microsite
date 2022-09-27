@@ -35,7 +35,7 @@ interface StepsProps {
   setStep: Function;
   selected: string;
   data: DataType;
-  userInfo: { attributes: {sub: string} };
+  userInfo: object;
   options: OptionsType;
   frame: FramesType;
   background: BackgroundType;
@@ -96,7 +96,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         userId: userInfo.attributes.sub,
         id: qrId,
         qrOptionsId: qrDesignId,
-        shortLinkId: { id: shortLinkId, userId: userInfo.attributes.sub }
+        shortLinkId
       };
 
       const qrDesign = { ...options, id: qrDesignId };

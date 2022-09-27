@@ -9,7 +9,7 @@ import Divider from "@mui/material/Divider";
 import Alert from "@mui/material/Alert";
 import {
   DeleteOutlineRounded,
-  Edit, EditOutlined,
+  Edit,
   ElectricBolt,
   Public
 } from "@mui/icons-material";
@@ -25,25 +25,8 @@ import RenderPreview from "./renderers/RenderPreview";
 
 const QrList = ({ qrs }: any) => {
   // @ts-ignore
-  const { isLoading, setLoading, options, setOptions, data, setData, setStep } = useContext(Context);
+  const { isLoading, setLoading } = useContext(Context);
   const router = useRouter();
-
-  const handleEdit = (qr: QrDataType) => {
-    setLoading(true);
-    setOptions({ ...options, ...qr, mode: "edit" });
-    /*if (qr.isDynamic) {
-      router.push("/qr/content").then(() => {
-        setStep(1);
-        setLoading(false);
-      });
-    } else {
-      router.push("/qr/new").then(() => {
-        setStep(2);
-        setLoading(false);
-      });
-    }*/
-  };
-
   const handleDelete = async (qrId: string, userId: string) => {
     setLoading(true);
     const deleted = await QrHandler.remove({ id: qrId, userId: userId });
@@ -53,13 +36,13 @@ const QrList = ({ qrs }: any) => {
   };
 
   const renderQr = (qrOptions: any, value: string, name: string) => {
-    const options = { ...qrOptions };
+    const options = {...qrOptions};
 
     if (!options.image?.trim().length) {
       options.image = null;
     }
     options.data = value;
-    return (<RenderPreview qrDesign={options} name={name} />);
+    return (<RenderPreview qrDesign={options} name={name}/>);
   };
 
   return (
@@ -78,7 +61,7 @@ const QrList = ({ qrs }: any) => {
                     {/*<Checkbox />*/}
                   </Grid>
                   <Grid item xs={0.8}>
-                    <Box sx={{ width: "70px" }}>
+                    <Box sx={{ width: '70px' }}>
                       {!qr.qrOptionsId || !Object.keys(qr.qrOptionsId).length ? (
                         <Box sx={{ mt: 2, mb: 1.5 }}>
                           <Image src="/ebanuxQr.svg" width={55} height={55} alt={qr.qrName} />
@@ -117,9 +100,9 @@ const QrList = ({ qrs }: any) => {
                   <Grid item xs={1}>
                     {qr.isDynamic ?
                       <Stack direction="column" spacing={1.2} justifyContent="flex-start" alignItems="center">
-                        <Typography variant="h4" style={{ color: qrLink.visitCount > 0 ? "blue" : "red" }}>
+                        <Typography variant="h4" style={{ color: qrLink.visit_count > 0 ? "blue" : "red" }}>
                           {/*@ts-ignore*/}
-                          {qrLink.visitCount}
+                          {qrLink.visit_count}
                         </Typography>
                         <Typography variant="caption" style={{ color: "gray" }}>
                           Scans
@@ -132,9 +115,6 @@ const QrList = ({ qrs }: any) => {
                     <IconButton color="primary"><DownloadingRounded /></IconButton>
                     <IconButton color="primary"><PauseCircleOutlined /></IconButton>
                     <IconButton color="error"><CancelOutlined /></IconButton>*/}
-                      <IconButton color="primary" disabled={isLoading} onClick={() => handleEdit(qr)}>
-                        <EditOutlined />
-                      </IconButton>
                       <IconButton color="error" disabled={isLoading} onClick={() => handleDelete(qr.id, qr.userId)}>
                         <DeleteOutlineRounded />
                       </IconButton>

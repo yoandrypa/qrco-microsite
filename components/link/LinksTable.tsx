@@ -44,7 +44,7 @@ interface Column {
     "password" |
     "target" |
     "userId" |
-    "visitCount" |
+    "visit_count" |
     "link" |
     "actions";
   label: string;
@@ -80,7 +80,7 @@ const columns: readonly Column[] = [
     format: (value: string) => <Link href={value}><a style={{ color: "blue" }}>{value}</a></Link>
   },
   {
-    id: "visitCount",
+    id: "visit_count",
     label: "Views",
     minWidth: 5,
     maxWidth: 5,
@@ -137,13 +137,13 @@ const LinksTable = ({ domains, links, total, user }) => {
     password: string | undefined,
     target: string,
     userId: string,
-    visitCount: number,
+    visit_count: number,
     link: string
   ): Data => {
     const actions = (
       <Stack direction="row" justifyContent="flex-end"
       >
-        {visitCount > 0 &&
+        {visit_count > 0 &&
           <IconButton size="small" onClick={() => alert("Show stats")}>
             <PieChartIcon fontSize="small" color="info"
             /></IconButton>}
@@ -181,7 +181,7 @@ const LinksTable = ({ domains, links, total, user }) => {
       password,
       target,
       userId,
-      visitCount,
+      visit_count,
       link,
       actions
     };
@@ -199,7 +199,7 @@ const LinksTable = ({ domains, links, total, user }) => {
       link.password,
       link.target,
       link.userId,
-      link.visitCount,
+      link.visit_count,
       // @ts-ignore
       link.link
     );

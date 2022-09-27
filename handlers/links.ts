@@ -93,11 +93,14 @@ export const create = async (data: CreateLinkData) => {
 
 export const list = async (query: Query) => {
   try {
-    const { limit, skip, search, userId } = query;
+    const { limit, skip, search, all, userId } = query;
+
+    const match = {
+      ...(!all && { userId: { eq: userId } })
+    };
 
     // @ts-ignore
-    //const [links, total] = await queries.link.get(match, { limit, search, skip });
-    const [links, total] = await queries.link.getByUserId(userId, { limit, search, skip });
+    const [links, total] = await queries.link.get(match, { limit, search, skip });
 
     const data = await Promise.all(links.map(async (link: LinkJoinedDomainType) => {
       if (link.domainId) {
@@ -186,12 +189,8 @@ export const redirect = async (params, req) => {
     }
 
     // 7. Create link visit
-    console.debug({
-      userId: link.userId,
-      isBot
-    });
     if (link.userId && !isBot) {
-      await VisitHandler.create({
+      await VisitHandler.add({
         headers: req.headers,
         realIP: params.realIP,
         referrer: req.headers.referer,
