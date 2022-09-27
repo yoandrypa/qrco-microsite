@@ -2,7 +2,7 @@
 import Stripe from 'stripe'
 import {update as updateUserInDB, find, deleteUserSubscription} from '../handlers/users'
 import { findByCustomerId as findUserByCustomerId } from '../handlers/users';
-import {PLAN_LIVE_MODE_PRICES,PLAN_TEST_MODE_PRICES} from '../consts'
+
 
 function buildUserSubscription(
   subscription: Stripe.Subscription
@@ -39,32 +39,7 @@ async function setUserSubscription(
       return Error(`Could not find user for customerId ${customerId}`);
     }   
   try {
-    let plan: string;
-    switch (subscription.priceId) {
-      case PLAN_LIVE_MODE_PRICES.basic || PLAN_TEST_MODE_PRICES.basic:
-        plan = 'basic'
-        break;
-      case PLAN_LIVE_MODE_PRICES.basicAnnual || PLAN_TEST_MODE_PRICES.basicAnnual:
-        plan = 'basicAnnual'
-        break;
-      case PLAN_LIVE_MODE_PRICES.business || PLAN_TEST_MODE_PRICES.business:
-        plan = 'business'
-        break;
-      case PLAN_LIVE_MODE_PRICES.businessAnnual || PLAN_TEST_MODE_PRICES.businessAnnual:
-        plan = 'businessAnnual'
-        break;
-      case PLAN_LIVE_MODE_PRICES.premium || PLAN_TEST_MODE_PRICES.premium:
-        plan = 'premium'
-        break;
-      case PLAN_LIVE_MODE_PRICES.premiumAnnual || PLAN_TEST_MODE_PRICES.premiumAnnual:
-        plan = 'premiumAnnual'
-        break;    
-      default:
-        plan = ''
-        break;
-    }
-
-   await updateUserInDB({id: id},{subscriptionData: subscription, planType: plan})      
+   await updateUserInDB({id: id},{subscriptionData: subscription})      
   } catch (error) {
     console.log(`Error saving user subscription data`, error)
     return error
