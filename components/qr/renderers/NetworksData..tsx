@@ -1,14 +1,21 @@
-import Common from '../helperComponents/Common';
+import Box from "@mui/material/Box";
+
+import Common from "../helperComponents/Common";
 import RenderSocials from "./helpers/RenderSocials";
 
-import {CardDataProps} from "../types/types";
+import {SocialProps} from "../types/types";
 
-const NetworksData = ({data, setData}: CardDataProps) => {
-  return (
-    <Common msg="Your social networks. Users can reach you using the social networks.">
-      <RenderSocials data={data} setData={setData} />
-    </Common>
-  );
-};
+interface NetWorksProps {
+  data: SocialProps;
+  setData: Function;
+}
+
+const NetworksData = ({data, setData}: NetWorksProps) => (
+  <Common msg="Your social networks. Users can reach you using the social networks.">
+    <Box sx={{ mt: 2 }}>
+      <RenderSocials data={data} setData={setData} onlySocialNtwrks />
+    </Box>
+  </Common>
+);
 
 export default NetworksData;

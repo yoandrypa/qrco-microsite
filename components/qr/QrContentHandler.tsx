@@ -18,7 +18,8 @@ import AssetData , {AssetDataProps} from './renderers/AssetData';
 import NotifyDynamic from "./helperComponents/NotifyDynamic";
 import BusinessData from "./renderers/BusinessData";
 
-import {CardDataProps, DataType} from './types/types';
+import {CardDataProps, DataType, SocialProps} from './types/types';
+import NetworksData from "./renderers/NetworksData.";
 
 type QrContentHandlerProps = {
   data: DataType;
@@ -95,6 +96,9 @@ const QrContentHandler = () => {
       }
       case 'video': {
         return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
+      }
+      default: {
+        return <NetworksData data={data} setData={(payload: SocialProps) => setData(payload)} />
       }
     }
   };

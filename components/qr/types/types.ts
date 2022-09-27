@@ -151,6 +151,17 @@ export type DataType = {
   files?: File[];
 };
 
+export type SocialProps = {
+  facebook?: string;
+  whatsapp?: string;
+  linkedin?: string;
+  instagram?: string;
+  youtube?: string;
+  pinterest?: string;
+  telegram?: string;
+  twitter?: string;
+}
+
 export type CardDataProps = {
   data: DataType;
   setData: Function;

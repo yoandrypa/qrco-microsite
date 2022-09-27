@@ -1,16 +1,20 @@
-import {ChangeEvent} from "react";
+import {ChangeEvent, useMemo} from "react";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import SquareSelector from "../../helperComponents/SquareSelector";
 import TextField from "@mui/material/TextField";
 import {capitalize} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import RenderIcon from "../../helperComponents/RenderIcon";
+import {SocialProps} from "../../types/types";
 
-import {CardDataProps} from "../../types/types";
+interface RenderSocialsProps {
+  data: SocialProps;
+  setData: Function;
+  onlySocialNtwrks?: boolean;
+}
 
-const RenderSocials = ({data, setData}: CardDataProps) => {
+const RenderSocials = ({data, setData, onlySocialNtwrks}: RenderSocialsProps) => {
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     const tempo = JSON.parse(JSON.stringify(data));
@@ -25,13 +29,30 @@ const RenderSocials = ({data, setData}: CardDataProps) => {
     setData(tempo);
   };
 
+  const amount = useMemo(() => Object.keys(data || {}).length, [data]);
+
   const renderSocial = (item: string) => {
     // @ts-ignore
     if (data[item] !== undefined) {
       // @ts-ignore
       const isError = !data[item].length;
 
-      return (<Grid item xs={12} sm={4} style={{paddingTop: 0}}>
+      debugger;
+
+      let sm;
+      if (!onlySocialNtwrks) {
+        switch (amount) {
+          case 1: {  sm = 12; break; }
+          case 2: {  sm = 6; break; }
+          default: { sm = 4; break; }
+        }
+      } else if (amount === 1) {
+        sm = 12;
+      } else {
+        sm = 6;
+      }
+
+      return (<Grid item xs={12} sm={sm} style={{paddingTop: 0}}>
         <TextField
           label={capitalize(item)}
           size="small"
