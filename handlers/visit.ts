@@ -17,7 +17,7 @@ const filterInOs = (agent: { os: { name: string; }; }) => (item: string) =>
   agent.os.name.toLowerCase().includes(item.toLocaleLowerCase());
 
 // @ts-ignore
-export const create = async (data: any) => {
+export const add = async (data: any) => {
   const tasks = [];
 
   console.debug({
@@ -26,7 +26,7 @@ export const create = async (data: any) => {
   });
 
   if (data.link.visitCount < getStatsLimit()) {
-    tasks.push(query.link.incrementVisit({ id: data.link.id, userId: data.link.userId }));
+    tasks.push(query.link.increamentVisit({ id: data.link.id }));
     const agent = parser(data.headers["user-agent"]);
     const [browser = "Other"] = browsersList.filter(filterInBrowser(agent));
     const [os = "Other"] = osList.filter(filterInOs(agent));
@@ -39,7 +39,6 @@ export const create = async (data: any) => {
         browser: browser.toLowerCase(),
         country: country || "Unknown",
         id: data.link.id,
-        userId: data.link.userId,
         os: os.toLowerCase().replace(/\s/gi, ""),
         referrer: (referrer && referrer.replace(/\./gi, "[dot]")) || "Direct"
       })
@@ -51,4 +50,4 @@ export const create = async (data: any) => {
   return Promise.all(tasks);
 };
 
-export default create;
+export default add;
