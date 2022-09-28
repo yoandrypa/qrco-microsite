@@ -12,7 +12,7 @@ interface UserType {
   subscriptionData?: UserSubscription;
   customerId?: string;
   planType?: string;
-  
+
 }
 
 interface UserQueryType {
@@ -37,13 +37,13 @@ interface UserSubscription {
   createdDate: number,
   periodStartsAt: number,
   periodEndsAt: EpochTimeStamp
-} 
+}
 
-type PlanType = 'basic'      | 'business'        | 'premium' | 
+type PlanType = 'basic'      | 'business'        | 'premium' |
                 'basicAnnual'| 'businessAnnual'  | 'premiumAnnual' | string;
 
 
-type CognitoUserData = { 
+type CognitoUserData = {
   cid: string,
   idToken: string,
   accessToken: string,
@@ -51,7 +51,7 @@ type CognitoUserData = {
   clockDrift: number,
   LastAuthUser: string,
   userData: string,
-    UserAttributes : 
+    UserAttributes :
       {
         Name: string,
         Value: string
@@ -146,8 +146,8 @@ interface LinkQueryType {
 }
 
 interface QrDataQueryType {
-  id: object;
-  userId?: object;
+  id: string;
+  userId: string;
 }
 
 interface LinkSanitizedType {

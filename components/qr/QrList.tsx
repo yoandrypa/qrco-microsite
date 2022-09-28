@@ -25,7 +25,7 @@ import RenderPreview from "./renderers/RenderPreview";
 
 const QrList = ({ qrs }: any) => {
   // @ts-ignore
-  const { isLoading, setLoading, options, setOptions, setStep } = useContext(Context);
+  const { isLoading, setLoading, options, setOptions, data, setData, setStep } = useContext(Context);
   const router = useRouter();
 
   const handleEdit = (qr: QrDataType) => {
