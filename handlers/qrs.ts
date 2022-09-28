@@ -22,16 +22,20 @@ export const create = async (data) => {
     return await queries.qr.create(data);
   } catch (e) {
     // @ts-ignore
-    throw new CustomError(e.message, 500, e);
+    throw new CustomError(e.message);
   }
 };
 
 export const list = async (query: Query) => {
   try {
-    const { limit, skip, userId } = query;
+    const { limit, skip, search, all, userId } = query;
+
+    const match = {
+      ...(!all && { userId: { eq: userId } })
+    };
 
     // @ts-ignore
-    const [qrs, total] = await queries.qr.getByUserId(userId);
+    const [qrs, total] = await queries.qr.get(match, { limit, search, skip });
     // @ts-ignore
 
     for (const qr of qrs) {
@@ -54,11 +58,23 @@ export const list = async (query: Query) => {
   }
 };
 
+export const get = async (id: string) => {
+  try {
+    return await queries.qr.find({ id: { eq: id } });
+  } catch (e) {
+    // @ts-ignore
+    throw new CustomError(e.message);
+  }
+};
+
 export const edit = async (data: UpdateQrDataType) => {
   try {
     const { id, userId, ...rest } = data;
 
-    const qr = await queries.qr.get({ id, userId });
+    const qr = await queries.qr.find({
+      id: { eq: id },
+      userId: { eq: userId }
+    });
 
     if (!qr) {
       throw new CustomError("QR code was not found.");
@@ -67,10 +83,7 @@ export const edit = async (data: UpdateQrDataType) => {
     // Update QR
     const updatedLink = await queries.qr.update(
       {
-        // @ts-ignore
-        id: qr.id,
-        // @ts-ignore
-        userId: qr.userId
+        id: qr.id
       },
       { ...rest }
     );
@@ -97,6 +110,6 @@ export const remove = async (params: { id: any; userId?: any; }) => {
     return { message: "Qr has been deleted successfully." };
   } catch (e) {
     // @ts-ignore
-    throw new CustomError(e.message, 500, { ...e });
+    throw new CustomError(e.message);
   }
 };

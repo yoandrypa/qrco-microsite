@@ -135,9 +135,9 @@ const AppContextProvider = (props: ContextProps) => {
     if (options?.mode !== 'edit') {
       if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
         if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
-          router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/");
+          router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
         } else if (!Boolean(selected)) {
-          router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+          router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
         }
       }
       if (router.pathname === "/") {
@@ -152,10 +152,10 @@ const AppContextProvider = (props: ContextProps) => {
           setStep(0);
         }
       }
-    }
 
-    if (loading) {
-      setLoading(false);
+      if (loading) {
+        setLoading(false);
+      }
     }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -189,7 +189,7 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options.mode === "edit") {
       doNotNavigate.current = true;
-      if (Boolean(options?.isDynamic)) {
+      if (Boolean(options?.isDynamic)) { // eslint-disable-line react-hooks/exhaustive-deps
         router.push("/qr/content").then(() => {
           setStep(1);
           setLoading(false);
@@ -201,7 +201,7 @@ const AppContextProvider = (props: ContextProps) => {
         });
       }
     }
-  }, [options.mode]);
+  }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (router.pathname.startsWith("/qr") && !["/qr/type", "/qr/content", "/qr/new"].includes(router.pathname)) {
     return (<>{children}</>);
@@ -231,23 +231,23 @@ const AppContextProvider = (props: ContextProps) => {
   };
 
   return (<>
-      {loading && <Loading />}
-      <Context.Provider value={{
-        cornersData, setCornersData,
-        dotsData, setDotsData,
-        frame, setFrame,
-        background, setBackground,
-        options, setOptions,
-        selected, setSelected,
-        data, setData,
-        userInfo, setUserInfo,
-        step, setStep, setForceClear,
-        loading, setLoading,
-        isWrong, setIsWrong
-      }}>
-        {renderContent()}
-      </Context.Provider>
-    </>
+    {loading && <Loading />}
+    <Context.Provider value={{
+      cornersData, setCornersData,
+      dotsData, setDotsData,
+      frame, setFrame,
+      background, setBackground,
+      options, setOptions,
+      selected, setSelected,
+      data, setData,
+      userInfo, setUserInfo,
+      step, setStep, setForceClear,
+      loading, setLoading,
+      isWrong, setIsWrong
+    }}>
+      {renderContent()}
+    </Context.Provider>
+  </>
   );
 };
 

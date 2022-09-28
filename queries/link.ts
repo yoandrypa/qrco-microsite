@@ -3,7 +3,6 @@ import dynamoose from "../libs/dynamoose";
 // @ts-ignore
 import bcrypt from "bcryptjs";
 import { CustomError } from "../utils";
-import { getUuid } from "../helpers/qr/helpers";
 
 interface TotalParams {
   search?: string;
@@ -42,9 +41,9 @@ interface GetParams {
   skip?: number;
 }
 
-export const getByUserId = async (userId: string, params: GetParams) => {
+export const get = async (match: Partial<LinkQueryType>, params: GetParams) => {
   //TODO include the Skip param
-  const query = LinkModel.query("userId").eq(userId).sort("descending");
+  const query = LinkModel.scan(match);
 
   if (params.search) {
     query.and().parenthesis(
@@ -60,7 +59,7 @@ export const getByUserId = async (userId: string, params: GetParams) => {
     );
   }
 
-  const results = await query.limit(params.limit || 10).using("createdAtIndex").exec();
+  const results = await query.limit(params.limit || 10).exec();
   const links: LinkJoinedDomainType[] = results;
 
   return [links, results.count];
@@ -84,7 +83,6 @@ export const create = async (params: Create) => {
   }
 
   return await LinkModel.create({
-    id: getUuid(),
     password: encryptedPassword,
     domainId: params.domainId,
     userId: params.userId,
@@ -144,18 +142,15 @@ export const update = async (match: string | Partial<LinkType>, update: Partial<
   });
 };
 
-export const incrementVisit = async (match: Partial<LinkQueryType>) => {
+export const increamentVisit = async (match: Partial<LinkQueryType>) => {
   try {
-    // @ts-ignore
-    let link = await LinkModel.get(match);
+    let link = await find(match);
     if (!link) {
       throw new CustomError("LinkModel was not found.");
     }
-    // @ts-ignore
     const visitCount = link.visitCount + 1;
     // @ts-ignore
-    link = await update(match, { visitCount });
-    // @ts-ignore
+    link = await update(link.id, { visitCount });
     return link.visitCount;
   } catch (e) {
     // @ts-ignore
