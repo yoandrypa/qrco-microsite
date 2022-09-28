@@ -132,20 +132,21 @@ const AppContextProvider = (props: ContextProps) => {
   }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
-      if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
-        router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-      } else if (!Boolean(selected)) {
-        router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
-      }
-    }
-    if (router.pathname === "/") {
-      if (step === 2) {
-        if (Boolean(userInfo)) {
-          doNotNavigate.current = true;
+    if (options?.mode !== 'edit') {
+      if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
+        if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
+          router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/");
+        } else if (!Boolean(selected)) {
+          router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
         }
-        clearData();
       }
+      if (router.pathname === "/") {
+        if (step === 2) {
+          if (Boolean(userInfo)) {
+            doNotNavigate.current = true;
+          }
+          clearData();
+        }
 
       if (!Boolean(router.query.login) && step !== 0) {
         setStep(0);
