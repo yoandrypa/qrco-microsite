@@ -5,23 +5,14 @@ import { UserModel } from "../UserModel";
 
 const QrDataSchema = new dynamoose.Schema({
   id: {
-    rangeKey: true,
+    hashKey: true,
     type: String
   },
   qrName: { type: String, required: true },
   qrType: { type: String, required: true },
   isDynamic: { type: Boolean, default: false },
   shortLinkId: { type: LinkModel },
-  userId: {
-    type: UserModel,
-    hashKey: true,
-    index: {
-      name: "createdAtIndex",
-      global: true,
-      rangeKey: "createdAt"
-    }
-    //TODO delete in cascade if user reference is deleted
-  },
+  userId: { type: UserModel, required: true },
   qrOptionsId: {
     type: QrOptionsModel
   }
