@@ -46,12 +46,7 @@ const LinkSchema = new dynamoose.Schema({
   },
   userId: {
     type: UserModel,
-    hashKey: true,
-    index: {
-      name: "createdAtIndex",
-      global: true,
-      rangeKey: "createdAt"
-    }
+    hashKey: true
     //TODO delete in cascade if user reference is deleted
   },
   visitCount: {
