@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -35,7 +35,7 @@ interface StepsProps {
   setStep: Function;
   selected: string;
   data: DataType;
-  userInfo: { attributes: {sub: string} };
+  userInfo: { attributes: { sub: string } };
   options: OptionsType;
   frame: FramesType;
   background: BackgroundType;

@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { QrDataModel } from "../../models/qr/QrDataModel";
 
 import VCard from "../../components/qr/microsites/VCard";
@@ -6,31 +6,31 @@ import Web from "../../components/qr/microsites/Web";
 import Business from "../../components/qr/microsites/Business";
 
 // @ts-ignore
-export default function Handler({ data }) {
+export default function Handler({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (data === "NO DATA") {
     return <>{"Ops! Unable to process your request."}</>;
   }
 
   const newData = JSON.parse(data);
 
-  if (newData.qrType === "vcard+") {
-    return (<VCard newData={newData} />);
+  switch (newData.qrType) {
+    case "vcard+":
+      return <VCard newData={newData} />;
+    case "business":
+      return <Business newData={newData} />;
+    case "web":
+      return <Web newData={newData} />;
+    default:
+      return <div>{"We are working on this. Come back soon."}</div>;
   }
-
-  if (newData.qrType === 'business') {
-    return (<Business newData={newData} />);
-  }
-
-  if (newData.qrType === 'web') {
-    return (<Web newData={newData} />);
-  }
-
-  return (
-    <div>{"We are working on this. Come back soon."}</div>
-  );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, req, res }) => {
+  res.setHeader(
+    "Cache-Control",
+    "private, s-maxage=10, stale-while-revalidate=59"
+  );
+
   // @ts-ignore
   const { code } = params;
 

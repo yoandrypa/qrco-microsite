@@ -1,5 +1,5 @@
 import ChairIcon from "@mui/icons-material/Chair";
-import {grey} from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import WcIcon from "@mui/icons-material/Wc";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
@@ -65,7 +65,7 @@ export type FramesType = {
 };
 
 export type OpeningDaysType = {
-  opening: {ini: string, end: string}[];
+  opening: { ini: string, end: string }[];
 }
 
 export type OpeningType = {
