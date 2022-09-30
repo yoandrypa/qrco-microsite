@@ -1,4 +1,4 @@
-import {ReactElement, ReactNode, cloneElement, useCallback, useMemo, useState, MouseEvent} from 'react';
+import {ReactElement, ReactNode, cloneElement, useCallback, useState, MouseEvent} from 'react';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
@@ -76,7 +76,6 @@ export default function AppWrapper(props: AppWrapperProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogin = useCallback(() => {
-    handleLoading();
     router.push({ pathname: '/', query: { login: true } }, '/');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -88,14 +87,10 @@ export default function AppWrapper(props: AppWrapperProps) {
     router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const isLogin = useMemo(() => (
-    router.pathname === '/' && router.query[PARAM_QR_TEXT] === undefined && !Boolean(userInfo)
-  ), [userInfo, router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <>
       <CssBaseline />
-      {!isLogin && (<ElevationScroll >
+      {handleLogout !== undefined && !router.query.login && (<ElevationScroll >
         <AppBar component="nav" sx={{ background: '#fff', height }}>
           <Container sx={{ my: 'auto' }}>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
@@ -179,7 +174,7 @@ export default function AppWrapper(props: AppWrapperProps) {
         <Box sx={{ mx: 'auto', minHeight: 'calc(100vh - 145px)' }}>
           {children}
         </Box>
-        {!isLogin && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
+        {handleLogout !== undefined && !router.query.login && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
           <Box sx={{ display: 'flex', width: '100%' }}>
             <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
               {'Powered by'}
