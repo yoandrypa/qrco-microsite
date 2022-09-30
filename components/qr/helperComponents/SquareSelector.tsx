@@ -25,12 +25,13 @@ const SquareSelector = ({tooltips, selected, item, label, handleSelection}: Squa
       <Tooltip title={label} disableHoverListener={!tooltips} arrow>
         <Button
           sx={{
-            width: !tooltips ? '95px' : '50px',
+            width: !tooltips ? '100px' : '55px',
+            minWidth: !tooltips ? '100px' : '55px',
             height: !tooltips ? '60px' : '50px',
             backgroundColor: theme => alpha(theme.palette.info.light, selected ? 0.25 : 0.1),
             cursor: !tooltips ? 'pointer' : 'auto',
             '&:hover': {
-              backgroundColor: !tooltips ? theme => alpha(theme.palette.info.light, 0.4) : 'inherith'
+              backgroundColor: !tooltips ? theme => alpha(theme.palette.info.light, 0.4) : 'inherit'
             }
           }}
           variant={selected ? 'outlined' : 'text'}

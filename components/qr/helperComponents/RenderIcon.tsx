@@ -39,6 +39,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';
 import SchoolIcon from '@mui/icons-material/School';
 import ShowerIcon from '@mui/icons-material/Shower';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import ShareIcon from '@mui/icons-material/Share';
 
 import { grey } from "@mui/material/colors";
 
@@ -75,6 +76,7 @@ export default function RenderIcon({ icon, enabled, adjust }: RenderIconProp) {
       case 'accessible': { return <AccessibleIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'toilet': { return <WcIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'restaurant': { return <RestaurantIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'social': { return <ShareIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'child': { return <ChildFriendlyIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'pets': { return <PetsIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'parking': { return <LocalParkingIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }

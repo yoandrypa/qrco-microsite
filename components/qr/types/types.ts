@@ -1,26 +1,5 @@
-import ChairIcon from "@mui/icons-material/Chair";
-import { grey } from "@mui/material/colors";
-import AccessibleIcon from "@mui/icons-material/Accessible";
-import WcIcon from "@mui/icons-material/Wc";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
-import PetsIcon from "@mui/icons-material/Pets";
-import LocalParkingIcon from "@mui/icons-material/LocalParking";
-import ParkIcon from "@mui/icons-material/Park";
-import TrainIcon from "@mui/icons-material/Train";
-import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
-import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
-import HotelIcon from "@mui/icons-material/Hotel";
-import SmokingRoomsIcon from "@mui/icons-material/SmokingRooms";
-import LocalBarIcon from "@mui/icons-material/LocalBar";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-import FlightIcon from "@mui/icons-material/Flight";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-
 export type OptionsType = {
-  isDynamic: boolean;
+  isDynamic?: boolean;
   mode?: string;
   id?: string;
   shortCode?: string;
@@ -34,8 +13,8 @@ export type OptionsType = {
   imageOptions: { hideBackgroundDots: boolean; imageSize: number; margin: number; crossOrigin: string; };
   dotsOptions: { color: string; type: string; };
   backgroundOptions: { color: string; };
-  cornersSquareOptions: { color: string; type: string; };
-  cornersDotOptions: { color: string; type: string; };
+  cornersSquareOptions: { color: string; type: string | null; };
+  cornersDotOptions: { color: string; type: string | null; };
 };
 
 export type BackgroundType = {
@@ -64,9 +43,14 @@ export type FramesType = {
   textUp?: boolean | false;
 };
 
+export type OpeningObjType = {
+  ini: string;
+  end: string;
+};
+
 export type OpeningDaysType = {
-  opening: { ini: string, end: string }[];
-}
+  opening: OpeningObjType[];
+};
 
 export type OpeningType = {
   sun?: OpeningDaysType;
@@ -123,6 +107,8 @@ export type DataType = {
   value?: string;
   is12hours?: boolean;
   openingTime?: OpeningType;
+  urlOptionLabel?: string;
+  urlOptionLink?: string;
   easiness?: {
     accessible?: boolean;
     toilet?: boolean;
@@ -150,6 +136,19 @@ export type DataType = {
   isDynamic?: boolean;
   files?: File[];
 };
+
+export type SocialProps = {
+  facebook?: string;
+  whatsapp?: string;
+  linkedin?: string;
+  instagram?: string;
+  youtube?: string;
+  pinterest?: string;
+  telegram?: string;
+  twitter?: string;
+  qrName?: string;
+  isDynamic?: boolean;
+}
 
 export type CardDataProps = {
   data: DataType;

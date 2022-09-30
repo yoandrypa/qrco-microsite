@@ -1,16 +1,20 @@
-import {ChangeEvent} from "react";
+import {ChangeEvent, useEffect, useMemo} from "react";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import SquareSelector from "../../helperComponents/SquareSelector";
 import TextField from "@mui/material/TextField";
 import {capitalize} from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import RenderIcon from "../../helperComponents/RenderIcon";
+import {SocialProps} from "../../types/types";
 
-import {CardDataProps} from "../../types/types";
+interface RenderSocialsProps {
+  data: SocialProps;
+  setData: Function;
+  setIsWrong?: (isWrong: boolean) => void;
+}
 
-const RenderSocials = ({data, setData}: CardDataProps) => {
+const RenderSocials = ({data, setData, setIsWrong}: RenderSocialsProps) => {
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     const tempo = JSON.parse(JSON.stringify(data));
@@ -25,13 +29,37 @@ const RenderSocials = ({data, setData}: CardDataProps) => {
     setData(tempo);
   };
 
+  const amount = useMemo(() => {
+    let count = Object.keys(data || {}).length;
+    if (data?.isDynamic) {
+      count -= 1;
+    }
+    if (data?.qrName) {
+      count -= 1;
+    }
+    return count;
+  }, [data]);
+
+  useEffect(() => {
+    if (setIsWrong !== undefined) {
+      setIsWrong(amount === 0);
+    }
+  }, [amount]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const renderSocial = (item: string) => {
     // @ts-ignore
     if (data[item] !== undefined) {
       // @ts-ignore
       const isError = !data[item].length;
 
-      return (<Grid item xs={12} sm={4} style={{paddingTop: 0}}>
+      let sm;
+      switch (amount) {
+        case 1: {  sm = 12; break; }
+        case 2: {  sm = 6; break; }
+        default: { sm = 4; break; }
+      }
+
+      return (<Grid item xs={12} sm={sm} style={{paddingTop: 0}}>
         <TextField
           label={capitalize(item)}
           size="small"
@@ -67,7 +95,6 @@ const RenderSocials = ({data, setData}: CardDataProps) => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <Typography sx={{fontWeight: 'bold'}}>{'Social Information'}</Typography>
         <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content', margin: '0 auto'}}>
           <SquareSelector
             selected={data.facebook !== undefined}
