@@ -14,21 +14,23 @@ import PleaseWait from "../components/PleaseWait";
 
 Amplify.configure(awsExports);
 
+const noUser = 'noUser';
+
 export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
-  if (router.isFallback) {
-    return <PleaseWait />;
+  if (qrData === noUser && !router.query.login && !router.query.qr_text) {
+    router.push(QR_TYPE_ROUTE, QR_TYPE_ROUTE, {shallow: true});
   }
 
-  if (qrData === 'noUser' && !router.query.login && !router.query.qr_text) {
-    router.push(QR_TYPE_ROUTE, QR_TYPE_ROUTE, {shallow: true});
+  if (router.isFallback || qrData === noUser) {
+    return <PleaseWait />;
   }
 
   return (
     <Authenticator components={components}>
       {({ user }) => (
-        <QrHome qrData={qrData} userInformation={user} />
+        <QrHome qrData={qrData !== noUser ? qrData : '{}'} userInformation={user} />
       )}
     </Authenticator>
   );
@@ -63,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!userInfo?.userData) {
     return {
       props: {
-        qrData: 'noUser',
+        qrData: noUser,
         revalidate: 1
       }
     };
