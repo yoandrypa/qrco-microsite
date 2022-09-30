@@ -44,7 +44,7 @@ const RenderSocials = ({data, setData, setIsWrong}: RenderSocialsProps) => {
     if (setIsWrong !== undefined) {
       setIsWrong(amount === 0);
     }
-  }, [amount]);
+  }, [amount]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderSocial = (item: string) => {
     // @ts-ignore

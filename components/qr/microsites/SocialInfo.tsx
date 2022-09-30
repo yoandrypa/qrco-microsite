@@ -7,7 +7,7 @@ interface SocialProps {
   newData: any;
 }
 
-export default function SocialInfo({newData: SocialProps}) {
+export default function SocialInfo({newData}: SocialProps) {
   return (
     <MainMicrosite>
       <CardContent>

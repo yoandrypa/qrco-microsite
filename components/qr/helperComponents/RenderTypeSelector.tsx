@@ -13,7 +13,7 @@ import Context from "../../context/Context";
 import { DataType } from "../types/types";
 
 interface RenderTypeSelectorProps {
-  selected: string;
+  selected?: string | null;
   handleSelect: Function;
 }
 

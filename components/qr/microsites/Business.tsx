@@ -126,11 +126,9 @@ export default function Business({newData}: BusinessProps) {
                   <>
                     {/* @ts-ignore */}
                     <Typography sx={{ fontWeight: 'bold', ml: 2 }}>{DAYS[x]}</Typography>
-                    {newData.openingTime[x].map((open: OpeningType) => {
+                    {newData.openingTime[x].map((open: OpeningObjType) => {
                       return (<Box sx={{ display: 'inline-flex', ml: 4 }} key={`day${x}`}>
-                        {/* @ts-ignore */}
                         <Typography sx={{ display: 'inline-flex', mr: '5px' }}>{'From ' + handleTiming(open.ini)}</Typography>
-                        {/* @ts-ignore */}
                         <Typography sx={{ display: 'inline-flex' }}>{' to ' +handleTiming(open.end)}</Typography>
                       </Box>);
                     })}

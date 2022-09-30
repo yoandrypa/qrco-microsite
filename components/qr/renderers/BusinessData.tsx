@@ -71,13 +71,13 @@ export default function BusinessData({data, setData, setIsWrong}: BusinessProps)
 
   useEffect(() => {
     let errors = false;
-    if (data.urlOptionLabel !== undefined) {
+    if (data.urlOptionLabel !== undefined && data.urlOptionLink !== undefined) {
       if (!data.urlOptionLabel.trim().length || !data.urlOptionLink.trim().length || !WEB.test(data.urlOptionLink)) {
         errors = true;
       }
     }
     setIsWrong(errors);
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Common

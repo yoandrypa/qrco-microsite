@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useContext, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -35,7 +35,7 @@ interface StepsProps {
   setStep: Function;
   selected: string;
   data: DataType;
-  userInfo: object;
+  userInfo: { attributes: {sub: string} };
   options: OptionsType;
   frame: FramesType;
   background: BackgroundType;
@@ -97,7 +97,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         userId: userInfo.attributes.sub,
         id: qrId,
         qrOptionsId: qrDesignId,
-        shortLinkId
+        shortLinkId: { id: shortLinkId, userId: userInfo.attributes.sub }
       };
 
       const qrDesign = { ...options, id: qrDesignId };
@@ -127,6 +127,14 @@ const QrWizard = ({ children }: QrWizardProps) => {
           // @ts-ignore
           userId: userInfo.attributes.sub
         };
+      }
+
+      if (!qrDesign.cornersDotOptions.type) {
+        qrDesign.cornersDotOptions.type = '';
+      }
+
+      if (!qrDesign.cornersSquareOptions.type) {
+        qrDesign.cornersSquareOptions.type = '';
       }
 
       try {

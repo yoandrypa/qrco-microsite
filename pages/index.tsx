@@ -10,13 +10,25 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
 import { useRouter } from "next/router";
+import PleaseWait from "../components/PleaseWait";
+import QrGen from "./qr/type";
 
 Amplify.configure(awsExports);
 
 export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { qrs } = JSON.parse(qrData);
+
+  console.log(qrs, qrData);
+
   const router = useRouter();
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <PleaseWait />;
+  }
+
+  if (!Object.keys(qrData).length && !router.query.login && !router.query.qr_text) {
+    debugger;
+
+    return <QrGen />;
   }
 
   return (
@@ -54,20 +66,20 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
   const userInfo = await getUserInfo();
 
   // @ts-ignore
-  if (!Boolean(userInfo) && !Boolean(query.login) && !Boolean(query.qr_text)) {
-    return {
-      redirect: {
-        destination: QR_TYPE_ROUTE,
-        permanent: false
-      }
-    };
-  }
+  // if (!Boolean(userInfo) && !Boolean(query.login) && !Boolean(query.qr_text)) {
+  //   return {
+  //     redirect: {
+  //       destination: QR_TYPE_ROUTE,
+  //       permanent: false
+  //     }
+  //   };
+  // }
 
   // @ts-ignore
   if (!userInfo?.userData) {
     return {
       props: {
-        qrData: JSON.stringify({}),
+        qrData: JSON.stringify({noUser: true}),
         revalidate: 1
       }
     };
