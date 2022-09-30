@@ -54,23 +54,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const router = useRouter();
 
-  const isUserInfo = useMemo(() => Boolean(userInfo), [userInfo]);
-
-  const logout = async () => {
-    setLoading(true);
-    try {
-      await Auth.signOut();
-      setUserInfo(null);
-      if (router.pathname !== '/') {
-        router.push("/");
-      } else {
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log("error signing out: ", error);
-    }
-  };
+  const isUserInfo = useMemo(() => userInfo !== null, [userInfo]);
 
   const clearData = () => {
     setForceClear(false);
@@ -87,9 +71,22 @@ const AppContextProvider = (props: ContextProps) => {
     setData(isUserInfo ? initialData : {});
   };
 
+  const logout = async () => {
+    setLoading(true);
+    try {
+      await Auth.signOut();
+      router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+      setUserInfo(null);
+      clearData(); // includes setLoading as false
+    } catch (error) {
+      setLoading(false);
+      console.log("error signing out: ", error);
+    }
+  };
+
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
-      if (Boolean(selected)) {
+      if (selected !== null) {
         if (selected === "web") {
           setData({ ...data, value: "https://www.example.com" });
         } else if (selected === "facebook") {
@@ -140,9 +137,9 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options?.mode !== 'edit') {
       if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
-        if (Boolean(data?.isDynamic) && !isUserInfo && !Boolean(router.query.login)) {
+        if (data?.isDynamic && !isUserInfo && !router.query.login) {
           router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/");
-        } else if (!Boolean(selected)) {
+        } else if (selected === null) {
           router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
         }
       }
@@ -154,7 +151,7 @@ const AppContextProvider = (props: ContextProps) => {
           clearData();
         }
 
-        if (!Boolean(router.query.login) && step !== 0) {
+        if (!router.query.login && step !== 0) {
           setStep(0);
         }
       }
@@ -196,7 +193,7 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options.mode === "edit") {
       doNotNavigate.current = true;
-      if (Boolean(options?.isDynamic)) {
+      if (options?.isDynamic) {
         router.push("/qr/content").then(() => {
           setStep(1);
           setLoading(false);
