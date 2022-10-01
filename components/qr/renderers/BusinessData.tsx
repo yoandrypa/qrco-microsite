@@ -43,7 +43,7 @@ export default function BusinessData({data, setData, setIsWrong}: BusinessProps)
     const value = data?.[item] || '' as string;
 
     if ((value.trim().length === 0 && ['urlOptionLabel', 'urlOptionLink'].includes(item)) ||
-      item === 'urlOptionLink' && !WEB.test(value)) {
+      (item === 'urlOptionLink' && !WEB.test(value))) {
       isError = true;
     }
 

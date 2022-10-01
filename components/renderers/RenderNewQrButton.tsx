@@ -37,7 +37,7 @@ export default function RenderNewQrButton({pathname, handleNavigation}: NewQrBut
       sx={{height: '28px', my: 'auto'}}
       variant="outlined"
       onClick={navigation}>
-      {pathname === undefined || pathname === '/' ? 'Create QR' : 'Admin'}
+      {pathname === undefined || pathname === '/' ? 'Create QR' : 'My QRs'}
     </Button>
   );
 }

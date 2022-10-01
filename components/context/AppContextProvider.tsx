@@ -149,6 +149,8 @@ const AppContextProvider = (props: ContextProps) => {
             doNotNavigate.current = true;
           }
           clearData();
+        } else if (router.pathname === QR_TYPE_ROUTE && isUserInfo && !data.isDynamic) {
+          setData({...data, isDynamic: true});
         }
 
         if (!router.query.login && step !== 0) {

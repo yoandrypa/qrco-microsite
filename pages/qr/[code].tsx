@@ -4,6 +4,8 @@ import { QrDataModel } from "../../models/qr/QrDataModel";
 import VCard from "../../components/qr/microsites/VCard";
 import Web from "../../components/qr/microsites/Web";
 import Business from "../../components/qr/microsites/Business";
+import Coupons from "../../components/qr/microsites/Coupons";
+import SocialInfo from "../../components/qr/microsites/SocialInfo";
 
 // @ts-ignore
 export default function Handler({ data }) {
@@ -21,8 +23,12 @@ export default function Handler({ data }) {
     return (<Business newData={newData} />);
   }
 
-  if (newData.qrType === 'social') {
+  if (newData.qrType === 'coupon') {
+    return (<Coupons newData={newData} />);
+  }
 
+  if (newData.qrType === 'social') {
+    return (<SocialInfo newData={newData} />);
   }
 
   if (newData.qrType === 'web') {

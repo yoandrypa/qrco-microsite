@@ -153,7 +153,7 @@ export default function AppWrapper(props: AppWrapperProps) {
                     {userInfo && (
                       <MenuItem key="navigateMenuItem" onClick={handleNavigation}>
                         {router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                        <Typography textAlign="center">{router.pathname === '/' ? 'Create QR' : 'Admin'}</Typography>
+                        <Typography textAlign="center">{router.pathname === '/' ? 'Create QR' : 'My QRs'}</Typography>
                       </MenuItem>
                     )}
                     {userInfo && <Divider/>}

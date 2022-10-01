@@ -39,6 +39,7 @@ import AcUnitIcon from '@mui/icons-material/AcUnit';
 import SchoolIcon from '@mui/icons-material/School';
 import ShowerIcon from '@mui/icons-material/Shower';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import ShareIcon from '@mui/icons-material/Share';
 
 import { grey } from "@mui/material/colors";
@@ -88,6 +89,7 @@ export default function RenderIcon({ icon, enabled, adjust }: RenderIconProp) {
       case 'bed': { return <HotelIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'smoking': { return <SmokingRoomsIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'bar': { return <LocalBarIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
+      case 'coupon': { return <ConfirmationNumberIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'fastfood': { return <FastfoodIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'gym': { return <FitnessCenterIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }
       case 'climate': { return <AcUnitIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => theme.palette.primary.dark : grey[600] }} />; }

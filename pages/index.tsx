@@ -23,7 +23,7 @@ export default function Index({ qrData }: InferGetServerSidePropsType<typeof get
     router.push(QR_TYPE_ROUTE, QR_TYPE_ROUTE, {shallow: true});
   }
 
-  if (router.isFallback || qrData === noUser) {
+  if (router.isFallback) {
     return <PleaseWait />;
   }
 
