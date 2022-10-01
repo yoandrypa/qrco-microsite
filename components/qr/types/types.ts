@@ -87,7 +87,7 @@ export type DataType = {
   state?: string;
   country?: string;
   company?: string;
-  contacy?: string;
+  contact?: string;
   about?: string;
   title?: string;
   subtitle?: string;

@@ -17,9 +17,10 @@ import TwitterData, {TwitterDataProps} from './renderers/TwitterData';
 import AssetData , {AssetDataProps} from './renderers/AssetData';
 import NotifyDynamic from "./helperComponents/NotifyDynamic";
 import BusinessData from "./renderers/BusinessData";
+import NetworksData from "./renderers/NetworksData.";
+import CouponData, {CouponProps} from "./renderers/CouponData";
 
 import {CardDataProps, DataType, SocialProps} from './types/types';
-import NetworksData from "./renderers/NetworksData.";
 
 type QrContentHandlerProps = {
   data: DataType;
@@ -72,6 +73,9 @@ const QrContentHandler = () => {
       case 'vcard+':
       case 'vcard': {
         return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} setIsWrong={setIsWrong} />;
+      }
+      case 'coupon': {
+        return <CouponData data={data} setData={(payload: CouponProps) => setData(payload)} setIsWrong={setIsWrong}  />;
       }
       case 'business': {
         return <BusinessData data={data} setData={(payload: CardDataProps) => setData(payload)} setIsWrong={setIsWrong}  />;

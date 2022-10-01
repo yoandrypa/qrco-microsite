@@ -12,13 +12,17 @@ export default function QrHome({ qrData, userInformation }: any) {
   const router = useRouter();
 
   // @ts-ignore
-  const { userInfo, setUserInfo } = useContext(Context);
+  const { userInfo, setUserInfo, setLoading } = useContext(Context);
 
   useEffect(() => {
     if (router.query.login) {
-      const { path } = router.query;
       // @ts-ignore
-      router.push(Boolean(path) ? path : '/', undefined, { shallow: false });
+      setLoading(true);
+      const { path } = router.query;
+      router.push(path !== undefined ? `${path}` : '/', undefined, {shallow: false})
+        .then(() => {
+          setLoading(false);
+        });
     }
     if (!userInfo) {
       setUserInfo(userInformation);

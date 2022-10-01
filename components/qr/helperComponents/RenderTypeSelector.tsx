@@ -92,6 +92,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
           {renderTypeSelector("vcard+", "VCard Plus", "Share your contact and social details", true)}
           {renderTypeSelector('business', 'Business', 'Describe your business or company', true)}
           {renderTypeSelector("social", "Social networks", "Share your social networks information", true)}
+          {renderTypeSelector("coupon", "Coupon", "Share a coupon", true)}
         </>)
       }
       {renderTypeSelector("twitter", "Twitter", "Post a tweet", true)}
