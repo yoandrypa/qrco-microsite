@@ -69,15 +69,18 @@ export default function AppWrapper(props: AppWrapperProps) {
   const isWide = useMediaQuery('(min-width:600px)', { noSsr: true });
   const router = useRouter();
 
-  const handleLoading = useCallback(() => {
+  const handleLoading = useCallback((loading?: boolean) => {
     if (setLoading !== undefined) {
-      setLoading(true);
+      setLoading(loading !== undefined ? loading : true);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogin = useCallback(() => {
     handleLoading();
-    router.push({ pathname: '/', query: { login: true } }, '/');
+    router.push({ pathname: '/', query: { login: true } }, '/')
+      .then(() => {
+        handleLoading(false);
+      });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = useCallback(() => {
@@ -85,7 +88,9 @@ export default function AppWrapper(props: AppWrapperProps) {
       clearData(true);
     }
     handleLoading();
-    router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
+    router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true }).then(() => {
+      handleLoading(false);
+    });
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

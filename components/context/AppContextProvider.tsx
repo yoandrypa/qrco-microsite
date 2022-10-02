@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -13,6 +13,7 @@ import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
 import Loading from "../Loading";
+import QrGen from "../../pages/qr/type";
 
 Amplify.configure(awsExports);
 
@@ -71,19 +72,6 @@ const AppContextProvider = (props: ContextProps) => {
     setData(isUserInfo ? initialData : {});
   };
 
-  const logout = async () => {
-    setLoading(true);
-    try {
-      await Auth.signOut();
-      router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
-      setUserInfo(null);
-      clearData(); // includes setLoading as false
-    } catch (error) {
-      setLoading(false);
-      console.log("error signing out: ", error);
-    }
-  };
-
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
       if (selected !== null) {
@@ -113,21 +101,17 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    debugger;
     if (doneInitialRender.current && !doNotNavigate.current) {
-      switch (step) {
-        case 0: {
-          router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
-          break;
-        }
-        case 1: {
-          router.push(QR_CONTENT_ROUTE, undefined, { shallow: true });
-          break;
-        }
-        case 2: {
-          router.push(QR_DESIGNER_NEW_ROUTE, undefined, { shallow: true });
-          break;
-        }
+      let routeStep = QR_TYPE_ROUTE;
+      if (step === 1) {
+        routeStep = QR_CONTENT_ROUTE;
+      } else if (step === 2) {
+        routeStep = QR_DESIGNER_NEW_ROUTE;
       }
+      router.push(routeStep, undefined, { shallow: true }).then(() => {
+        setLoading(false);
+      });
     } else {
       doneInitialRender.current = true;
       doNotNavigate.current = false;
@@ -138,9 +122,9 @@ const AppContextProvider = (props: ContextProps) => {
     if (options?.mode !== 'edit') {
       if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
         if (data?.isDynamic && !isUserInfo && !router.query.login) {
-          router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/");
+          router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/").then(() => { setLoading(false); });
         } else if (selected === null) {
-          router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+          router.push(QR_TYPE_ROUTE, undefined, {shallow: true}).then(() => { setLoading(false); });
         }
       }
       if (router.pathname === "/") {
@@ -208,6 +192,20 @@ const AppContextProvider = (props: ContextProps) => {
       }
     }
    }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+  const logout = useCallback(async () => {
+    setLoading(true);
+    try {
+      await Auth.signOut();
+      setUserInfo(null);
+      clearData(); // includes setLoading as false
+      return <QrGen />;
+    } catch (error) {
+      setLoading(false);
+      console.log("error signing out: ", error);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (router.pathname.startsWith("/qr") && !["/qr/type", "/qr/content", "/qr/new"].includes(router.pathname)) {
     return (<>{children}</>);

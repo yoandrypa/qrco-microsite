@@ -46,7 +46,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
   };
 
   const renderTypeSelector = (item: string, label: string, description: string, enabled: boolean) => (
-    <Grid item sm={3} xs={12}>
+    <Grid item lg={3} md={4} sm={6} xs={12}>
       <TypeSelector
         icon={item}
         label={label}
