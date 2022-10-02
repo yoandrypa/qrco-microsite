@@ -27,7 +27,10 @@ export default function RenderNewQrButton({pathname, handleNavigation}: NewQrBut
     } else {
       setLoading(true);
       setForceClear(true);
-      router.push(QR_TYPE_ROUTE, undefined, {shallow: true});
+      router.push(QR_TYPE_ROUTE, undefined, {shallow: true})
+        .then(() => {
+          setLoading(false);
+        });
     }
   }
 

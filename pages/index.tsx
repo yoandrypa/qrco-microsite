@@ -1,7 +1,6 @@
 import components from "../libs/aws/components";
 import * as UserHandler from "../handlers/users";
 import * as QrHandler from "../handlers/qrs";
-import { QR_TYPE_ROUTE } from "../components/qr/constants";
 import QrHome from "../components/qr/QrHome";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
@@ -12,6 +11,8 @@ import awsExports from "../libs/aws/aws-exports";
 import { useRouter } from "next/router";
 import PleaseWait from "../components/PleaseWait";
 
+import QrGen from "./qr/type";
+
 Amplify.configure(awsExports);
 
 const noUser = 'noUser';
@@ -20,7 +21,7 @@ export default function Index({ qrData }: InferGetServerSidePropsType<typeof get
   const router = useRouter();
 
   if (qrData === noUser && !router.query.login && !router.query.qr_text) {
-    router.push(QR_TYPE_ROUTE, QR_TYPE_ROUTE, {shallow: true});
+    return <QrGen />;
   }
 
   if (router.isFallback) {
