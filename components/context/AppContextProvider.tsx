@@ -101,8 +101,6 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    debugger;
-
     if (doneInitialRender.current && !doNotNavigate.current) {
       let pathLocation = QR_TYPE_ROUTE;
       if (step === 1) {
