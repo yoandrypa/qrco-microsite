@@ -71,14 +71,14 @@ const QrWizard = ({ children }: QrWizardProps) => {
     setLoading(true);
 
     // @ts-ignore
-    if (step === 0 && Boolean(data.isDynamic) && !isLogged) {
+    if (step === 0 && data.isDynamic && !isLogged) {
       router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/")
         .then(() => { setLoading(false); });
-    } else if (step === 1 && isLogged && Boolean(data.isDynamic) && !Boolean(options.id)) {
+    } else if (step === 1 && isLogged && data.isDynamic && !Boolean(options.id)) {
       const id = getUuid();
       const shortCode = await generateId();
       setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
-      setStep(2);
+      // setStep(2);
     } else if (step === 2 && isLogged && ["social", "business", "vcard+", "web", "pdf", "image", "audio", "video",
       "facebook", "whatsapp", "twitter", "coupon"].includes(selected)) {
       const qrDesignId = getUuid();

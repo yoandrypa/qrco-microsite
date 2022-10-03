@@ -13,20 +13,18 @@ interface NewQrButtonProps {
 
 interface ContextProps {
   setLoading: (loading: boolean) => void;
-  setForceClear: (force: boolean) => void;
 }
 
 export default function RenderNewQrButton({pathname, handleNavigation}: NewQrButtonProps) {
   const router = useRouter();
   // @ts-ignore
-  const {setForceClear, setLoading}: ContextProps = useContext(Context);
+  const {setLoading}: ContextProps = useContext(Context);
 
   const navigation = () => {
     if (handleNavigation !== undefined) {
       handleNavigation();
     } else {
       setLoading(true);
-      setForceClear(true);
       router.push(QR_TYPE_ROUTE, undefined, {shallow: true})
         .then(() => {
           setLoading(false);
