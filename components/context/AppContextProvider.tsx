@@ -38,7 +38,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
   const [background, setBackground] = useState<BackgroundType>(initialBackground);
   const [frame, setFrame] = useState<FramesType>(initialFrame);
-  const [data, setData] = useState<DataType>({});
+  const [data, setData] = useState<DataType>(initialData);
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
@@ -57,7 +57,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const isUserInfo = useMemo(() => userInfo !== null, [userInfo]);
 
-  const clearData = () => {
+  const clearData = useCallback(() => {
     setForceClear(false);
 
     setIsWrong(false);
@@ -70,7 +70,7 @@ const AppContextProvider = (props: ContextProps) => {
     setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
     setData(isUserInfo ? initialData : {});
-  };
+  }, [isUserInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
@@ -101,16 +101,17 @@ const AppContextProvider = (props: ContextProps) => {
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    debugger;
+
     if (doneInitialRender.current && !doNotNavigate.current) {
-      let routeStep = QR_TYPE_ROUTE;
+      let pathLocation = QR_TYPE_ROUTE;
       if (step === 1) {
-        routeStep = QR_CONTENT_ROUTE;
+        pathLocation = QR_CONTENT_ROUTE;
       } else if (step === 2) {
-        routeStep = QR_DESIGNER_NEW_ROUTE;
+        pathLocation = QR_DESIGNER_NEW_ROUTE;
       }
-      router.push(routeStep, undefined, { shallow: true }).then(() => {
-        setLoading(false);
-      });
+      router.push(pathLocation, undefined, {shallow: true})
+        .then(() => { setLoading(false); });
     } else {
       doneInitialRender.current = true;
       doNotNavigate.current = false;
@@ -151,7 +152,6 @@ const AppContextProvider = (props: ContextProps) => {
     if (isUserInfo && verifying) {
       setVerifying(false);
     }
-    setData(isUserInfo ? initialData : {});
   }, [isUserInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import MUIButton from "@mui/material/Button";
 import CheckBoxEmpty from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import CheckBoxChecked from "@mui/icons-material/CheckBoxTwoTone";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { red } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 
 import TypeSelector from "./TypeSelector";
@@ -24,7 +24,7 @@ interface ContextData {
 }
 
 const Button = styled(MUIButton)(() => ({ width: "calc(50% - 5px)", height: "32px" }));
-const getColor = (condition: boolean): string => (condition ? "green" : red[700]);
+const getColor = (condition: boolean): string => (condition ? "green" : blue[900]);
 
 const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps) => {
   // @ts-ignore
@@ -57,7 +57,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
     </Grid>
   );
 
-  const renderNo = useCallback(() => (<CheckBoxEmpty color="error" />), []);
+  const renderNo = useCallback(() => (<CheckBoxEmpty sx={{ color: blue[900] }} />), []);
   const renderYes = useCallback(() => (<CheckBoxChecked color="success" />), []);
 
   return (
