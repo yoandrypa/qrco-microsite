@@ -1,3 +1,5 @@
+import { ColorTypes } from "./types/types";
+
 export const QR_TYPE_ROUTE = '/qr/type' as string;
 export const QR_CONTENT_ROUTE = '/qr/content' as string;
 export const QR_DESIGNER_NEW_ROUTE = '/qr/new' as string;
@@ -20,3 +22,5 @@ export const DAYS = {
   fri: 'Friday',
   sat: 'Saturday'
 } as object;
+
+export const DEFAULT_COLORS = { p: '#0f4d8c', s: '#99c4f0' } as ColorTypes;
