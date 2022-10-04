@@ -9,7 +9,7 @@ import {
 export const generateShortLink = (id: string | undefined, customDomain?: string | undefined): string => {
   const protocol =
     process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS === "true" || customDomain ? "https://" : "http://";
-  const domain = process.env.REACT_APP_SHORT_URL_DOMAIN || process.env.REACT_APP_DEFAULT_DOMAIN;
+  const domain = process.env.REACT_APP_DEFAULT_DOMAIN;
   return `${protocol}${customDomain || domain}/${id}`;
 };
 
@@ -37,7 +37,7 @@ export const sanitize = {
   link: (link: LinkJoinedDomainType): LinkSanitizedType => <LinkSanitizedType>({
     ...link,
     bannedById: undefined,
-    link: generateShortLink(link.address, link.domain)
+    link: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
   })
 };
 
