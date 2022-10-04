@@ -123,7 +123,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (data.isDynamic) {
         shortLink = {
           id: shortLinkId,
-          target: generateShortLink(`${qrId}`),
+          target: generateShortLink(`${qrId}`, process.env.REACT_APP_SHORT_URL_DOMAIN),
           address: options.shortCode || await generateId(),
           // @ts-ignore
           userId: userInfo.attributes.sub
