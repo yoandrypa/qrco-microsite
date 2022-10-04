@@ -162,3 +162,8 @@ export type UpdaterType = {
   cornersDot?: CornersAndDotsType;
   frame?: FramesType;
 };
+
+export type ColorTypes = {
+  p: string,
+  s: string
+};

@@ -77,7 +77,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
     } else if (step === 1 && isLogged && data.isDynamic && !Boolean(options.id)) {
       const id = getUuid();
       const shortCode = await generateId();
-      setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`, process.env.REACT_APP_SHORT_URL_DOMAIN) });
+      setOptions({ ...options, id, shortCode, data: generateShortLink(`${shortCode}`, process.env.REACT_APP_SHORT_URL_DOMAIN) });
       setStep(2);
     } else if (step === 2 && isLogged && ["social", "business", "vcard+", "web", "pdf", "image", "audio", "video",
       "facebook", "whatsapp", "twitter", "coupon"].includes(selected)) {
@@ -123,7 +123,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (data.isDynamic) {
         shortLink = {
           id: shortLinkId,
-          target: generateShortLink(`qr/${qrId}`),
+          target: generateShortLink(`${qrId}`, process.env.REACT_APP_SHORT_URL_DOMAIN),
           address: options.shortCode || await generateId(),
           // @ts-ignore
           userId: userInfo.attributes.sub
