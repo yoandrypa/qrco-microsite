@@ -80,7 +80,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
             variant="outlined">{isWide ? "Static QR Codes" : "Static"}</Button>
         </Box>
       </Grid>
-      {renderTypeSelector("web", "Website", "LinkModel to any page on the web", true)}
+      {renderTypeSelector("web", "Website", "Link to any page on the web", true)}
       {!isDynamic ?
         (<>
           {renderTypeSelector("email", "Email", "Receive email messages", true)}
