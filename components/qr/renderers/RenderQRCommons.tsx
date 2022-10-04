@@ -30,10 +30,6 @@ function RenderQRCommons({omitColorSel, qrName, primary, secondary, handleValue}
   const {userInfo} = useContext(Context);
   const [expander, setExpander] = useState<string | null>(null);
 
-  if (!userInfo) {
-    return null;
-  }
-
   const renderColors = useCallback(() => (
     <>
       <Grid container spacing={1}>
@@ -41,7 +37,7 @@ function RenderQRCommons({omitColorSel, qrName, primary, secondary, handleValue}
           const selected = (!primary && !secondary && x.p === DEFAULT_COLORS.p && x.s === DEFAULT_COLORS.s) ||
             (x.p === primary && x.s === secondary);
           return (
-            <Grid item lg={2} md={2} sm={4} xs={4} style={{paddingTop: 0}}>
+            <Grid item lg={2} md={2} sm={4} xs={4} style={{paddingTop: 0}} key={`${x.p}${x.s}`}>
               <Box
                 onClick={() => { handleValue('both')(x); }}
                 sx={{
@@ -71,7 +67,11 @@ function RenderQRCommons({omitColorSel, qrName, primary, secondary, handleValue}
         </Grid>
       </Grid>
     </>
-  ), [primary, secondary]);
+  ), [primary, secondary]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!userInfo) {
+    return null;
+  }
 
   return (
     <>
