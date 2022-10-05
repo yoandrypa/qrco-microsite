@@ -66,8 +66,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!userInfo?.userData) {
     return {
       props: {
-        qrData: noUser,
-        revalidate: 1
+        qrData: noUser
       }
     };
   }
@@ -83,8 +82,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   return {
     props: {
-      qrData: JSON.stringify(qrs),
-      revalidate: 10
+      qrData: JSON.stringify(qrs)
     }
   };
 };
