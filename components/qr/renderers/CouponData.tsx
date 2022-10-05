@@ -79,11 +79,8 @@ const CouponData = ({data, setData, setIsWrong}: CouponProps) => {
         <Grid item xs={12} style={{paddingTop: 0}}>
           {renderItem('about', 'Description')}
         </Grid>
-        <Grid item xs={6} style={{paddingTop: 0}}>
+        <Grid item xs={12} style={{paddingTop: 0}}>
           {renderItem('prefix', 'Badge')}
-        </Grid>
-        <Grid item xs={6} style={{paddingTop: 0}}>
-          {renderItem('message', 'Button text', 'Get coupon')}
         </Grid>
         <Grid item xs={6} style={{paddingTop: 0}}>
           {renderItem('urlOptionLabel', 'Button text')}
@@ -100,7 +97,7 @@ const CouponData = ({data, setData, setIsWrong}: CouponProps) => {
               {renderItem('name', 'Coupon code')}
             </Grid>
             <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
-              <RenderDateSelector data={data} setData={setData} />
+              <RenderDateSelector data={data} setData={setData} label="Valid until" />
             </Grid>
             <Grid item xs={12} style={{paddingTop: 0}}>
               {renderItem('text', 'Terms and conditions')}

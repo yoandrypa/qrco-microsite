@@ -23,6 +23,7 @@ import AccessibleIcon from '@mui/icons-material/Accessible';
 import WcIcon from '@mui/icons-material/Wc';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import PetsIcon from '@mui/icons-material/Pets';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import ParkIcon from '@mui/icons-material/Park';
@@ -57,6 +58,7 @@ type RenderIconProp = {
 export default function RenderIcon({ icon, color, enabled, adjust }: RenderIconProp) {
   const renderIcon = () => {
     switch (icon) {
+      case 'copy': { return <ContentCopyIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
       case 'phone': { return <PhoneIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
       case 'cell': { return <SmartphoneIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
       case 'location': { return <LocationOnIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }

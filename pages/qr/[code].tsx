@@ -6,6 +6,8 @@ import Web from "../../components/qr/microsites/Web";
 import Business from "../../components/qr/microsites/Business";
 import Coupons from "../../components/qr/microsites/Coupons";
 import SocialInfo from "../../components/qr/microsites/SocialInfo";
+import Images from "../../components/qr/microsites/Images";
+import {generateShortLink} from "../../utils";
 
 // @ts-ignore
 export default function Handler({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -17,6 +19,10 @@ export default function Handler({ data }: InferGetServerSidePropsType<typeof get
 
   if (newData.qrType === "vcard+") {
     return (<VCard newData={newData} />);
+  }
+
+  if (newData.qrType === "image") {
+    return (<Images newData={newData} />);
   }
 
   if (newData.qrType === 'business') {
@@ -42,11 +48,18 @@ export default function Handler({ data }: InferGetServerSidePropsType<typeof get
 
 export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
   // @ts-ignore
-  const { code } = params;
+  const {code } = params;
   const data = await QrDataModel.get({ id: code });
   if (!data) {
     return { props: { data: "NO DATA" } };
   }
 
-  return { props: { data: JSON.stringify(data) } };
+  const sl = await data.populate({properties: 'shortLinkId'});
+
+  if (!sl) {
+    return { props: { data: JSON.stringify(data) } };
+  }
+
+  // @ts-ignore
+  return { props: { data: JSON.stringify({...data, shortlinkurl: generateShortLink(sl.shortLinkId.address, sl.domain || process.env.REACT_APP_SHORT_URL_DOMAIN) }) } };
 };

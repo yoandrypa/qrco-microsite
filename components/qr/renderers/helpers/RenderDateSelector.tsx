@@ -8,9 +8,10 @@ import { DataType } from "../../types/types";
 interface DateSelProps {
   data: DataType;
   setData: Function;
+  label: string;
 }
 
-const RenderDateSelector = ({data, setData}: DateSelProps) => {
+const RenderDateSelector = ({label, data, setData}: DateSelProps) => {
   const setValue = (value: Date) => {
     setData({...data, value: `${value.getTime()}`});
   }
@@ -18,7 +19,7 @@ const RenderDateSelector = ({data, setData}: DateSelProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
-        label="Basic example"
+        label={label}
         value={data.value ? new Date(+data.value) : new Date()}
         onChange={(newValue) => {
           // @ts-ignore
