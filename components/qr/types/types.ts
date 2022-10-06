@@ -87,7 +87,7 @@ export type DataType = {
   state?: string;
   country?: string;
   company?: string;
-  contacy?: string;
+  contact?: string;
   about?: string;
   title?: string;
   subtitle?: string;
@@ -107,6 +107,8 @@ export type DataType = {
   value?: string;
   is12hours?: boolean;
   openingTime?: OpeningType;
+  urlOptionLabel?: string;
+  urlOptionLink?: string;
   easiness?: {
     accessible?: boolean;
     toilet?: boolean;
@@ -135,6 +137,19 @@ export type DataType = {
   files?: File[];
 };
 
+export type SocialProps = {
+  facebook?: string;
+  whatsapp?: string;
+  linkedin?: string;
+  instagram?: string;
+  youtube?: string;
+  pinterest?: string;
+  telegram?: string;
+  twitter?: string;
+  qrName?: string;
+  isDynamic?: boolean;
+}
+
 export type CardDataProps = {
   data: DataType;
   setData: Function;
@@ -146,4 +161,9 @@ export type UpdaterType = {
   corners?: CornersAndDotsType;
   cornersDot?: CornersAndDotsType;
   frame?: FramesType;
+};
+
+export type ColorTypes = {
+  p: string,
+  s: string
 };

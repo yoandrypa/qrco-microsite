@@ -8,8 +8,6 @@ import frame5 from '../../components/qr/frames/frame5';
 import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
-import {originalDimensions} from "./data";
-import parse from "html-react-parser";
 
 export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
@@ -137,7 +135,7 @@ const rgbLab = (rgb: number[]): number[] => {
   g = (g > 0.04045) ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
   b = (b > 0.04045) ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
   x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
-  y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
+  y = (r * 0.2126 + g * 0.7152 + b * 0.0722);
   z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
   x = (x > 0.008856) ? Math.pow(x, 1 / 3) : (7.787 * x) + 16 / 116;
   y = (y > 0.008856) ? Math.pow(y, 1 / 3) : (7.787 * y) + 16 / 116;
@@ -257,4 +255,19 @@ export function getUuid(): string {
     return (c === 'x' ? r :(r&0x3|0x8)).toString(16);
   });
   return uuid;
+}
+
+const isValidUrl = (url: string) => {
+  try {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'url';
+    inputElement.value = url;
+
+    const resp = inputElement.checkValidity();
+    document.body.removeChild(inputElement);
+
+    return resp;
+  } catch {
+    return false;
+  }
 }

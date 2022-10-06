@@ -1,21 +1,30 @@
-import {ChangeEvent, useContext, useMemo, useEffect} from 'react';
+import {ChangeEvent, useMemo, useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Paper from "@mui/material/Paper";
 
 import Common from '../helperComponents/Common';
-import {CardDataProps} from "../types/types";
-import Context from "../../context/Context";
 import {EMAIL, SOCIALS, WEB} from "../constants";
 
 import RenderSocials from "./helpers/RenderSocials";
+import Expander from "./helpers/Expander";
+import {DataType} from "../types/types";
 
 const PHONE_FAX = new RegExp('^(\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const CELL = new RegExp('^((\\+)?\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const ZIP = new RegExp('^\\d{5}(-\\d{4})?$');
 
-export default function CardData({data, setData}: CardDataProps) {
+interface CardDataProps {
+  data: DataType;
+  setData: Function;
+  setIsWrong: (isWrong: boolean) => void;
+}
+
+export default function CardData({data, setData, setIsWrong}: CardDataProps) {
+  const [expander, setExpander] = useState<string | null>(null);
+
   const handleValues = (item: string) => (event: ChangeEvent<HTMLInputElement>) => {
     const {value} = event.target;
     const tempo = JSON.parse(JSON.stringify(data));
@@ -30,9 +39,7 @@ export default function CardData({data, setData}: CardDataProps) {
     setData(tempo);
   };
 
-  const isDynamic = useMemo(() => Boolean(data?.isDynamic), []);  // eslint-disable-line react-hooks/exhaustive-deps
-  // @ts-ignore
-  const {setIsWrong} = useContext(Context);
+  const isDynamic = useMemo(() => Boolean(data?.isDynamic), []) as boolean;  // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderItem = (item: string, label: string) => {
     let isError = false as boolean;
@@ -66,27 +73,27 @@ export default function CardData({data, setData}: CardDataProps) {
   useEffect(() => {
     let errors = false;
     // @ts-ignore
-    if (Boolean(data.phone) && data.phone.trim().length && !PHONE_FAX.test(data.phone)) {
+    if (data.phone?.trim().length && !PHONE_FAX.test(data.phone)) {
       errors = true;
     }
     // @ts-ignore
-    if (!errors && Boolean(data.fax) && data.fax.trim().length && !PHONE_FAX.test(data.fax)) {
+    if (!errors && data.fax?.trim().length && !PHONE_FAX.test(data.fax)) {
       errors = true;
     }
     // @ts-ignore
-    if (!errors && Boolean(data.cell) && data.cell.trim().length && !CELL.test(data.cell)) {
+    if (!errors && data.cell?.trim().length && !CELL.test(data.cell)) {
       errors = true;
     }
     // @ts-ignore
-    if (!errors && Boolean(data.zip) && data.zip.trim().length && !ZIP.test(data.zip)) {
+    if (!errors && data.zip?.trim().length && !ZIP.test(data.zip)) {
       errors = true;
     }
     // @ts-ignore
-    if (!errors && Boolean(data.web) && data.web.trim().length && !WEB.test(data.web)) {
+    if (!errors && data.web?.trim().length && !WEB.test(data.web)) {
       errors = false;
     }
     // @ts-ignore
-    if (!errors && Boolean(data.email) && data.email.trim().length && !EMAIL.test(data.email)) {
+    if (!errors && data.email?.trim().length && !EMAIL.test(data.email)) {
       errors = false;
     }
 
@@ -139,33 +146,44 @@ export default function CardData({data, setData}: CardDataProps) {
           {renderItem('position', 'Position')}
         </Grid>
       </Grid>
-      <Typography sx={{fontWeight: 'bold'}}>{'Other info'}</Typography>
       <Grid container spacing={1}>
-        <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
-          {renderItem('address', 'Address')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('city', 'City')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('zip', 'Zip code')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('state', 'State/Province')}
-        </Grid>
-        <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
-          {renderItem('country', 'Country')}
-        </Grid>
-        <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
-          {renderItem('email', 'Email')}
-        </Grid>
-        <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
-          {renderItem('web', 'Web')}
+        <Grid item xs={12}>
+          <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+            <Expander expand={expander} setExpand={setExpander} item="other" title="Other info" />
+            {expander === "other" && (
+              <Grid container spacing={1}>
+                <Grid item sm={8} xs={12} style={{paddingTop: 0}}>
+                  {renderItem('address', 'Address')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('city', 'City')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('zip', 'Zip code')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('state', 'State/Province')}
+                </Grid>
+                <Grid item sm={4} xs={6} style={{paddingTop: 0}}>
+                  {renderItem('country', 'Country')}
+                </Grid>
+                <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
+                  {renderItem('email', 'Email')}
+                </Grid>
+                <Grid item sm={6} xs={12} style={{paddingTop: 0}}>
+                  {renderItem('web', 'Web')}
+                </Grid>
+              </Grid>
+            )}
+          </Paper>
         </Grid>
         {isDynamic && (
           <Grid item xs={12}>
             <Divider sx={{my: 1}}/>
-            <RenderSocials data={data} setData={setData}/>
+            <Paper elevation={2} sx={{ p: 1, mt: 1 }}>
+              <Expander expand={expander} setExpand={setExpander} item="socials" title="Social information" />
+              {expander === "socials" && <RenderSocials data={data} setData={setData}/>}
+            </Paper>
             <Divider sx={{my: 1}}/>
           </Grid>
         )}

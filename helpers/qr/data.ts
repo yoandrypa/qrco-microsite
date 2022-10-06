@@ -1,23 +1,27 @@
-export const initialBackground = { 
-  type: 'solid', 
-  opacity: 50, 
-  size: 1, 
-  file: null, 
-  x: 0, 
-  y: 0, 
-  imgSize: 1 
+export const initialBackground = {
+  type: 'solid',
+  opacity: 50,
+  size: 1,
+  file: null,
+  x: 0,
+  y: 0,
+  imgSize: 1
 };
 
-export const initialFrame = { 
-  type: null, 
-  text: 'SCAN ME', 
-  color: '#000000', 
+export const initialFrame = {
+  type: null,
+  text: 'SCAN ME',
+  color: '#000000',
   textColor: '#000000'
 };
 
 export const originalDimensions = 280;
 
-const initialData = {
+export const initialData = {
+  isDynamic: true
+}
+
+const initialOptions = {
   width: originalDimensions,
   height: originalDimensions,
   type: 'svg',
@@ -52,4 +56,4 @@ const initialData = {
   }
 };
 
-export default initialData;
+export default initialOptions;

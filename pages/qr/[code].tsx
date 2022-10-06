@@ -1,12 +1,16 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { QrDataModel } from "../../models/qr/QrDataModel";
 
 import VCard from "../../components/qr/microsites/VCard";
 import Web from "../../components/qr/microsites/Web";
 import Business from "../../components/qr/microsites/Business";
+import Coupons from "../../components/qr/microsites/Coupons";
+import SocialInfo from "../../components/qr/microsites/SocialInfo";
+import Images from "../../components/qr/microsites/Images";
+import {generateShortLink} from "../../utils";
 
 // @ts-ignore
-export default function Handler({ data }) {
+export default function Handler({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (data === "NO DATA") {
     return <>{"Ops! Unable to process your request."}</>;
   }
@@ -17,8 +21,20 @@ export default function Handler({ data }) {
     return (<VCard newData={newData} />);
   }
 
+  if (newData.qrType === "image") {
+    return (<Images newData={newData} />);
+  }
+
   if (newData.qrType === 'business') {
     return (<Business newData={newData} />);
+  }
+
+  if (newData.qrType === 'coupon') {
+    return (<Coupons newData={newData} />);
+  }
+
+  if (newData.qrType === 'social') {
+    return (<SocialInfo newData={newData} />);
   }
 
   if (newData.qrType === 'web') {
@@ -32,38 +48,18 @@ export default function Handler({ data }) {
 
 export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
   // @ts-ignore
-  const { code } = params;
-
-  // "code" is the id
-  const getUserInfo = async (): Promise<{
-    userData: string;
-  } | null> => {
-    try {
-      let userInfo = { userData: "" };
-      for (const [key, value] of Object.entries(req.cookies)) {
-        // @ts-ignore
-        userInfo[key.split(".").pop()] = value;
-      }
-      // @ts-ignore
-      if (!userInfo.userData) {
-        return null;
-      }
-      return userInfo;
-    } catch (e) {
-      return null;
-    }
-  };
-  const userInfo = await getUserInfo();
-
-  if (!userInfo?.userData) {
-    return { props: { data: "NO DATA" } };
-  }
-  const userData = JSON.parse(userInfo.userData as string);
-  const userId = userData.UserAttributes[0].Value;
-  const data = await QrDataModel.get({ id: code, userId });
+  const {code } = params;
+  const data = await QrDataModel.get({ id: code });
   if (!data) {
     return { props: { data: "NO DATA" } };
   }
 
-  return { props: { data: JSON.stringify(data) } };
+  const sl = await data.populate({properties: 'shortLinkId'});
+
+  if (!sl) {
+    return { props: { data: JSON.stringify(data) } };
+  }
+
+  // @ts-ignore
+  return { props: { data: JSON.stringify({...data, shortlinkurl: generateShortLink(sl.shortLinkId.address, sl.domain || process.env.REACT_APP_SHORT_URL_DOMAIN) }) } };
 };

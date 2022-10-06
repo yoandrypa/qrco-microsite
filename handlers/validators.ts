@@ -75,7 +75,7 @@ export const linksCount = async (user?: UserType) => {
   if (!user) return;
   const count = await queries.link.total({
     userId: { eq: user.id }, //todo
-    createdAt: { gt: subDays(new Date(), 1).valueOf() }
+    createdAt: { gt: subDays(new Date(), 1).valueOf()}
   });
 
   // @ts-ignore
