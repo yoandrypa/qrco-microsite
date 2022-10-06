@@ -13,12 +13,20 @@ export const upload = async (file: File, path: string = "") => {
   return s3Client.upload(uploadParams).promise().then(res => {
     return res;
   }).catch(err => {
-    throw new CustomError("Error uploading file", 500, err);
+    throw err;
   });
 };
 
 export const download = (key: string) => {
-  //TODO
+  const downloadParams = {
+    Key: key,
+    Bucket: String(process.env.REACT_AWS_BUCKET_NAME)
+  };
+  return s3Client.getObject(downloadParams).promise().then(res => {
+    return res;
+  }).catch(err => {
+    throw err;
+  });
 };
 
 export const remove = (key: string) => {
