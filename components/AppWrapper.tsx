@@ -102,7 +102,7 @@ export default function AppWrapper(props: AppWrapperProps) {
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
               <Link href={{ pathname: !userInfo ? QR_TYPE_ROUTE : '/' }}>
                 <Box sx={{ display: 'flex', cursor: 'pointer' }}>
-                  <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
+                  <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px', display: isWide ? 'block' : 'none' }} />
                   <Typography sx={{ my: 'auto', ml: '5px', fontSize: '28.8px', fontWeight: 'bold' }}>The QR Link</Typography>
                 </Box>
               </Link>
