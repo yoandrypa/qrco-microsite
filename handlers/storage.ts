@@ -15,6 +15,10 @@ export const upload = async (assets: File[], path = "") => {
   }
 };
 
-export const download = () => {
-
+export const download = async (key: string) => {
+  try {
+    return await queries.storage.download(key);
+  } catch (e) {
+    throw new CustomError("Error uploading files", 500, e);
+  }
 };
