@@ -16,7 +16,7 @@ function Common({ msg, children }: CommonProps) {
 
   const handleValue = (prop: string) => (payload: any) => {
     if (prop !== 'both') {
-      setData({ ...data, [prop]: payload.target?.value || payload });
+      setData({ ...data, [prop]: payload.target?.value !== undefined ? payload.target.value : payload});
     } else if (payload.p !== DEFAULT_COLORS.p || payload.s !== DEFAULT_COLORS.s) {
       setData({ ...data, primary: payload.p, secondary: payload.s });
     } else {

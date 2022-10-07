@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useState } from "react";
+import { ReactNode, useCallback, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -153,30 +153,30 @@ const QrWizard = ({ children }: QrWizardProps) => {
     }
   };
 
-  const renderBack = () => (
+  const renderBack = useCallback(() => (
     <StepperButtons
       variant="contained"
       startIcon={<ChevronLeftIcon />}
-      disabled={loading || step === 0 || !Boolean(selected)}
+      disabled={loading || step === 0 || !selected}
       onClick={handleBack}>
       {"Back"}
     </StepperButtons>
-  );
+  ), [loading, step, selected]);
 
-  const renderNext = () => (
+  const renderNext = useCallback(() => (
     <StepperButtons
       onClick={handleNext}
-      endIcon={step >= 2 ? (isLogged ? <SaveIcon /> : <DoneIcon />) : <ChevronRightIcon />}
+      endIcon={step >= 2 ? (isLogged ? <SaveIcon/> : <DoneIcon/>) : <ChevronRightIcon/>}
       disabled={
-        loading || isWrong || !Boolean(selected) ||
-        (step === 1 && isLogged && !Boolean(data?.qrName?.trim().length))
+        loading || isWrong || !selected ||
+        (step === 1 && isLogged && !Boolean(data?.qrName?.trim()?.length))
       }
       variant={step >= 2 ? "outlined" : "contained"}>
       {step >= 2 ? (isLogged ? "Save" : "Done") : "Next"}
     </StepperButtons>
-  );
+  ), [step, isLogged, loading, isWrong, selected, data?.qrName]);
 
-  const renderSteps = () => (
+  const renderSteps = useCallback(() => (
     <Stepper
       activeStep={step}
       alternativeLabel={!isWide}
@@ -188,7 +188,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </Step>
       ))}
     </Stepper>
-  );
+  ), [step, isWide]);
 
   return (
     <>
