@@ -5,27 +5,25 @@ import Box from "@mui/material/Box";
 import MainMicrosite from "./MainMicrosite";
 import { getColors } from "./renderers/helper";
 import { download } from "../../../handlers/storage";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ImageProps {
   newData: any;
 }
 
 function Images({ newData }: ImageProps) {
-  const [imageUrl, setImageUrl] = useState<any>("");
+  const [imageUrl, setImageUrl] = useState<any>("/");
 
   const getContent = async (key: string) => {
     try {
       const data = await download(key);
+      console.debug({ data });
 
       // @ts-ignore
-      setImageUrl(URL.createObjectURL(
-        // @ts-ignore
-        new Blob([data.Body], { type: data.ContentType } /* (1) */)
-      ));
+      setImageUrl(data);
 
-    } catch {
-      console.log("error");
+    } catch (e) {
+      console.log({ "error": e });
     }
   };
 
