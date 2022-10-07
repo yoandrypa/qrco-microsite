@@ -28,7 +28,7 @@ const getColor = (condition: boolean): string => (condition ? "green" : blue[900
 
 const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps) => {
   // @ts-ignore
-  const { data, setData, userInfo }: ContextData = useContext(Context);
+  const { data, setData }: ContextData = useContext(Context);
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
 
   const isDynamic = useMemo(() => Boolean(data.isDynamic), [data.isDynamic]);

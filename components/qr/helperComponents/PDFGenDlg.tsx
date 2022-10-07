@@ -201,7 +201,7 @@ const PDFGenDlg = ({ handleClose, data, isFramed }: PDFGenDlgProps) => {
         </PDFDownloadLink>
         <Button variant="outlined" onClick={handleClose}>Cancel</Button>
       </DialogActions>
-    </Dialog >
+    </Dialog>
   );
 };
 
