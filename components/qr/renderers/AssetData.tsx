@@ -1,6 +1,6 @@
 import Common from "../helperComponents/Common";
 import Button from "@mui/material/Button";
-import React, { ChangeEvent, ReactNode, useState } from "react";
+import React, { ChangeEvent, ReactNode, useContext, useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
@@ -19,6 +19,10 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import IconButton from "@mui/material/IconButton";
 import Notifications from "../../notifications/Notifications";
+import { unstable_capitalize } from "@mui/utils";
+
+import pluralize from "pluralize";
+import Context from "../../context/Context";
 
 export type AssetDataProps = {
   type: "image" | "video" | "pdf" | "audio";
@@ -67,6 +71,13 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
     }
     setAlertMessage("");
   };
+  // @ts-ignore
+  const { setIsWrong } = useContext(Context);
+
+  useEffect(() => {
+    // @ts-ignore
+    setIsWrong(data["files"]?.length === 0);
+  }, [data["files"]?.length]);
 
   const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -108,12 +119,14 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
 
   return (
     <Common
-      msg={`${type.toUpperCase()} files.
-      You can upload a maximum of ${FILE_LIMITS[type].totalFiles} file(s), where none can exceed ${FILE_LIMITS[type].totalMbPerFile} MBs.`}>
+      msg={`${unstable_capitalize(type)} files.
+      You can upload a maximum of ${pluralize("file", FILE_LIMITS[type].totalFiles, true)}, where none can exceed ${FILE_LIMITS[type].totalMbPerFile} MBs.`}>
       <Grid container justifyContent="end">
         <Grid item xs={12} justifyContent="flex-end">
-          <Button variant="outlined" component="label" startIcon={<UploadRounded />}>
-            Upload a {type}
+          <Button variant="outlined" component="label" startIcon={<UploadRounded />}
+            // @ts-ignore
+                  disabled={data["files"]?.length >= FILE_LIMITS[type].totalFiles}>
+            Upload an {type}
             <input id="assetFile"
               // @ts-ignore
                    onChange={handleValues}
