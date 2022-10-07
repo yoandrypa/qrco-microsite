@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import { Delete, UploadRounded } from "@mui/icons-material";
 import { humanDate } from "../../helpers/generalFunctions";
 import { ALLOWED_FILE_EXTENSIONS, FILE_LIMITS, PRIMARY_LIGHT_COLOR } from "../../../consts";
-import { formatBytes } from "../../../utils";
+import { fixArticles, formatBytes } from "../../../utils";
 
 import PhotoIcon from "@mui/icons-material/Photo";
 import MovieIcon from "@mui/icons-material/Movie";
@@ -77,7 +77,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
   useEffect(() => {
     // @ts-ignore
     setIsWrong(data["files"]?.length === 0);
-  }, [data["files"]?.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data["files"]?.length]);
 
   const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -126,10 +126,14 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
           <Button variant="outlined" component="label" startIcon={<UploadRounded />}
             // @ts-ignore
                   disabled={data["files"]?.length >= FILE_LIMITS[type].totalFiles}>
-            Upload an {type}
+            Upload {fixArticles("a " + type)}
             <input id="assetFile"
               // @ts-ignore
                    onChange={handleValues}
+                   onClick={event => {
+                     // @ts-ignore
+                     event.target.value = null;
+                   }}
                    hidden
                    accept={ALLOWED_FILE_EXTENSIONS[type]}
                    multiple={["image", "video"].includes(type)}
