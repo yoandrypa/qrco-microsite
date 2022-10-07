@@ -100,7 +100,7 @@ function Images({newData}: ImageProps) {
           <DialogContent sx={{ maxWidth: '398px' }}>
             <Box sx={{ maxWidth: '350px' }} component="img" alt="image" src={preview.content} />
             <Button
-              sx={{ mt: '10px', width: '100%' }}
+              sx={{ mt: '10px', width: '100%', color: colors.p, background: colors.s, '&:hover': {color: colors.s, background: colors.p} }}
               variant="outlined"
               onClick={() => handleDownloadFiles(preview)}
               startIcon={<DownloadIcon />}

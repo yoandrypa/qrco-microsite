@@ -1,11 +1,14 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { QrDataModel } from "../../models/qr/QrDataModel";
 
+import Box from "@mui/material/Box";
+
 import VCard from "../../components/qr/microsites/VCard";
 import Web from "../../components/qr/microsites/Web";
 import Business from "../../components/qr/microsites/Business";
 import Coupons from "../../components/qr/microsites/Coupons";
 import SocialInfo from "../../components/qr/microsites/SocialInfo";
+import FileMicro from "../../components/qr/microsites/FileMicro";
 import Images from "../../components/qr/microsites/Images";
 import {generateShortLink} from "../../utils";
 
@@ -41,8 +44,14 @@ export default function Handler({ data }: InferGetServerSidePropsType<typeof get
     return (<Web newData={newData} />);
   }
 
+  if (['pdf', 'audio', 'video'].includes(newData.qrType)) {
+    return (<FileMicro newData={newData} />);
+  }
+
   return (
-    <div>{"We are working on this. Come back soon."}</div>
+    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+      {"We are working on this. Come back soon."}
+    </Box>
   );
 }
 
