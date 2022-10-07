@@ -57,7 +57,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const isUserInfo = useMemo(() => userInfo !== null, [userInfo]);
 
-  const clearData = useCallback(() => {
+  const clearData = useCallback((keepType?: boolean) => {
     setForceClear(false);
 
     setIsWrong(false);
@@ -69,7 +69,12 @@ const AppContextProvider = (props: ContextProps) => {
     setDotsData(null);
     setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
-    setData(initialData);
+
+    if (!keepType || data.isDynamic) {
+      setData(initialData);
+    } else {
+      setData({});
+    }
   }, [isUserInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -83,7 +88,7 @@ const AppContextProvider = (props: ContextProps) => {
           setData({ ...data, value: "Enter any text here" });
         }
       } else {
-        clearData();
+        clearData(true);
       }
       if (step !== 0) {
         setStep(0);

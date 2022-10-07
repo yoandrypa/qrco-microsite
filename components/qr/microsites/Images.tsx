@@ -33,7 +33,7 @@ function Images({ newData }: ImageProps) {
     if (newData.files?.length) {
       getContent(newData.files[0].Key);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainMicrosite colors={getColors(newData)} url={newData.shortlinkurl}>
