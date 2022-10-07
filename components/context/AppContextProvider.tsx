@@ -75,7 +75,7 @@ const AppContextProvider = (props: ContextProps) => {
     } else {
       setData({});
     }
-  }, [isUserInfo, data.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
