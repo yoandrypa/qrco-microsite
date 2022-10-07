@@ -32,7 +32,7 @@ function Common({ msg, children }: CommonProps) {
       <RenderQRCommons
         handleValue={handleValue}
         qrName={data?.qrName}
-        omitColorSel={['web'].includes(selected)}
+        omitColorSel={['web'].includes(selected) || !data?.isDynamic}
         primary={data?.primary}
         secondary={data.secondary} />
       <Typography>{msg}</Typography>
