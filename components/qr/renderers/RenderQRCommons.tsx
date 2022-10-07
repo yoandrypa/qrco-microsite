@@ -1,4 +1,4 @@
-import {useCallback, useContext, useState} from "react";
+import {useContext, useState} from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
@@ -30,7 +30,7 @@ function RenderQRCommons({omitColorSel, qrName, primary, secondary, handleValue}
   const {userInfo} = useContext(Context);
   const [expander, setExpander] = useState<string | null>(null);
 
-  const renderColors = useCallback(() => (
+  const renderColors = () => (
     <>
       <Grid container spacing={1}>
         {colors.map(x => {
@@ -67,7 +67,7 @@ function RenderQRCommons({omitColorSel, qrName, primary, secondary, handleValue}
         </Grid>
       </Grid>
     </>
-  ), [primary, secondary]); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   if (!userInfo) {
     return null;

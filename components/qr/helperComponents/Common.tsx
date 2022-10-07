@@ -1,4 +1,4 @@
-import {ChangeEvent, ReactNode, useContext} from "react";
+import {ReactNode, useContext} from "react";
 import Typography from "@mui/material/Typography";
 import Context from "../../context/Context";
 import RenderQRCommons from "../renderers/RenderQRCommons";
