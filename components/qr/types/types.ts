@@ -167,3 +167,8 @@ export type ColorTypes = {
   p: string,
   s: string
 };
+
+export type FileType = {
+  content: string;
+  type: string;
+};
