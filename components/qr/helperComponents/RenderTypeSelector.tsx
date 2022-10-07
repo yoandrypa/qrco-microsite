@@ -101,7 +101,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
       {isDynamic ? (<>
         {renderTypeSelector("pdf", "PDF file", "Share a PDF file", true)}
         {renderTypeSelector("audio", "Audio file", "Share an audio file", true)}
-        {renderTypeSelector("image", "Image file", "Share an image file", true)}
+        {renderTypeSelector("image", "Image file", "Share image files", true)}
         {renderTypeSelector("video", "Video file", "Share a video file", true)}
       </>) : null}
     </Grid>
