@@ -9,6 +9,7 @@ import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import {ColorTypes} from "../types/types";
@@ -24,6 +25,7 @@ interface MicrositesProps {
   colors?: ColorTypes;
   files?: string[];
   url?: string;
+  badge?: string;
 }
 
 interface BtnProps {
@@ -35,7 +37,7 @@ const Btn = styled(Button)(({primary, secondary}: BtnProps) => ({
   marginTop: '10px', width: '100%', color: primary, background: secondary, '&:hover': {color: secondary, background: primary}
 }));
 
-export default function MainMicrosite({children, colors, files, url}: MicrositesProps) {
+export default function MainMicrosite({children, colors, files, url, badge}: MicrositesProps) {
   const [share, setShare] = useState<boolean>(false);
   const [navigate, setNavigate] = useState<string | null>(null);
 
@@ -100,7 +102,20 @@ export default function MainMicrosite({children, colors, files, url}: Microsites
           </Box>
         )}
       </CardMedia>
-      {children}
+      {badge && (<Box style={{
+          position: 'fixed',
+          marginTop: '-52px',
+          padding: '10px',
+          background: colors.s,
+          width: 'fit-content',
+          borderRadius: '5px',
+          boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
+          marginLeft: '10px'}}>
+          <Typography sx={{ color: colors.p, fontWeight: 'bold' }}>{badge}</Typography>
+        </Box>)}
+      <Box sx={{ minHeight: 'calc(100vh - 170px)', overflow: 'auto' }}>
+        {children}
+      </Box>
       {share && colors && (
         <Dialog onClose={handleShare} open={true}>
           <DialogContent>
@@ -146,6 +161,12 @@ export default function MainMicrosite({children, colors, files, url}: Microsites
           </DialogContent>
         </Dialog>
       )}
+      <Box>
+        <Divider sx={{ my: 1, px: 1 }} />
+        <Typography
+          variant="caption"
+          sx={{ pl: 1, color: theme => theme.palette.text.disabled, pb: 2 }}>{'Powered by Ebanux'}</Typography>
+      </Box>
     </Card>
   );
 }
