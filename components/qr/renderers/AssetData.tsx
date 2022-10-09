@@ -77,7 +77,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
   useEffect(() => {
     // @ts-ignore
     setIsWrong(data["files"]?.length === 0);
-  }, [data["files"]?.length]);
+  }, [data["files"]?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;

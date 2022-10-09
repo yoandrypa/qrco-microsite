@@ -1,3 +1,4 @@
+import {useMemo} from "react";
 import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
 import Grid from "@mui/material/Grid";
@@ -9,19 +10,17 @@ import Typography from "@mui/material/Typography";
 import Link from 'next/link'
 import {getColors} from "./renderers/helper";
 
+
 interface CouponProps {
   newData: any;
 }
 
 export default function Coupons({newData}: CouponProps) {
-  console.log(newData);
+  const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite colors={getColors(newData)} url={newData.shortlinkurl}>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl} badge={newData.prefix}>
       <CardContent>
-        {newData.prefix && (<Box>
-          <Typography>{newData.prefix}</Typography>
-        </Box>)}
         <Grid container spacing={1}>
           {newData.company && (<Grid item xs={12} style={{paddingTop: 0}}>
             <TextField label="Company" size="small" fullWidth margin="dense" value={newData.company}/>
@@ -32,16 +31,18 @@ export default function Coupons({newData}: CouponProps) {
           {newData.about && (<Grid item xs={12} style={{paddingTop: 0}}>
             <TextField label="Description" size="small" fullWidth margin="dense" value={newData.about}/>
           </Grid>)}
-          {newData.about && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Description" size="small" fullWidth margin="dense" value={newData.about}/>
-          </Grid>)}
-
           {newData.urlOptionLink && (
             <Grid item xs={12} style={{paddingTop: 0}}>
               <Link href={newData.urlOptionLink}>
                 <Button
                   variant="contained"
-                  sx={{height: '28px', width: '100%'}}>
+                  sx={{
+                    height: '28px',
+                    width: '100%',
+                    color: colors.p,
+                    background: colors.s,
+                    my: '5px',
+                    '&:hover': {color: colors.s, background: colors.p}}}>
                   {newData.urlOptionLabel || 'Get link'}
                 </Button>
               </Link>
