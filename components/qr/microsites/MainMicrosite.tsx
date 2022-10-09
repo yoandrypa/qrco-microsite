@@ -106,12 +106,13 @@ export default function MainMicrosite({children, colors, files, url, badge}: Mic
           position: 'fixed',
           marginTop: '-52px',
           padding: '10px',
-          background: colors.s,
+          background: colors?.s,
           width: 'fit-content',
           borderRadius: '5px',
+          // @ts-ignore
           boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
           marginLeft: '10px'}}>
-          <Typography sx={{ color: colors.p, fontWeight: 'bold' }}>{badge}</Typography>
+          <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
         </Box>)}
       <Box sx={{ minHeight: 'calc(100vh - 170px)', overflow: 'auto' }}>
         {children}
