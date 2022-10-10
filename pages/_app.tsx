@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>The QR Link | The Dynamic QR code</title>
+        <title>The QR Link | Dynamic QR code</title>
         <link rel="icon" href="/ebanuxQr.svg" />
       </Head>
       <StyledEngineProvider injectFirst>
