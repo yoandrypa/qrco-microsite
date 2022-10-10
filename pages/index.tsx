@@ -1,7 +1,6 @@
 import components from "../libs/aws/components";
 import * as UserHandler from "../handlers/users";
 import * as QrHandler from "../handlers/qrs";
-import { QR_TYPE_ROUTE } from "../components/qr/constants";
 import QrHome from "../components/qr/QrHome";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
@@ -10,25 +9,35 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import awsExports from "../libs/aws/aws-exports";
 import { useRouter } from "next/router";
+import PleaseWait from "../components/PleaseWait";
+
+import QrGen from "./qr/type";
 
 Amplify.configure(awsExports);
 
+const noUser = 'noUser';
+
 export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+
+  if (qrData === noUser && !router.query.login && !router.query.qr_text) {
+    return <QrGen />;
+  }
+
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <PleaseWait />;
   }
 
   return (
     <Authenticator components={components}>
       {({ user }) => (
-        <QrHome qrData={qrData} userInformation={user} />
+        <QrHome qrData={qrData !== noUser ? qrData : '{}'} userInformation={user} />
       )}
     </Authenticator>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query, req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   res.setHeader(
     "Cache-Control",
     "private, s-maxage=10, stale-while-revalidate=59"
@@ -54,21 +63,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
   const userInfo = await getUserInfo();
 
   // @ts-ignore
-  if (!Boolean(userInfo) && !Boolean(query.login) && !Boolean(query.qr_text)) {
-    return {
-      redirect: {
-        destination: QR_TYPE_ROUTE,
-        permanent: false
-      }
-    };
-  }
-
-  // @ts-ignore
   if (!userInfo?.userData) {
     return {
       props: {
-        qrData: JSON.stringify({}),
-        revalidate: 1
+        qrData: noUser
       }
     };
   }
@@ -84,8 +82,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req, res }
 
   return {
     props: {
-      qrData: JSON.stringify(qrs),
-      revalidate: 10
+      qrData: JSON.stringify(qrs)
     }
   };
 };

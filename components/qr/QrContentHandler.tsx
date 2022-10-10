@@ -17,8 +17,10 @@ import TwitterData, {TwitterDataProps} from './renderers/TwitterData';
 import AssetData , {AssetDataProps} from './renderers/AssetData';
 import NotifyDynamic from "./helperComponents/NotifyDynamic";
 import BusinessData from "./renderers/BusinessData";
+import NetworksData from "./renderers/NetworksData.";
+import CouponData, {CouponProps} from "./renderers/CouponData";
 
-import {CardDataProps, DataType} from './types/types';
+import {CardDataProps, DataType, SocialProps} from './types/types';
 
 type QrContentHandlerProps = {
   data: DataType;
@@ -70,10 +72,13 @@ const QrContentHandler = () => {
       }
       case 'vcard+':
       case 'vcard': {
-        return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
+        return <CardData data={data} setData={(payload: CardDataProps) => setData(payload)} setIsWrong={setIsWrong} />;
+      }
+      case 'coupon': {
+        return <CouponData data={data} setData={(payload: CouponProps) => setData(payload)} setIsWrong={setIsWrong}  />;
       }
       case 'business': {
-        return <BusinessData data={data} setData={(payload: CardDataProps) => setData(payload)} />;
+        return <BusinessData data={data} setData={(payload: CardDataProps) => setData(payload)} setIsWrong={setIsWrong}  />;
       }
       case 'email': {
         return <EmailData data={data} setData={(payload: EmailDataProps) => setData(payload)} />;
@@ -95,6 +100,9 @@ const QrContentHandler = () => {
       }
       case 'video': {
         return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
+      }
+      default: {
+        return <NetworksData data={data} setData={(payload: SocialProps) => setData(payload)} />
       }
     }
   };

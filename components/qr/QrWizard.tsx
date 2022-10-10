@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useContext, useState } from "react";
+import { ReactNode, useCallback, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -35,7 +35,7 @@ interface StepsProps {
   setStep: Function;
   selected: string;
   data: DataType;
-  userInfo: object;
+  userInfo: { attributes: {sub: string} };
   options: OptionsType;
   frame: FramesType;
   background: BackgroundType;
@@ -71,14 +71,16 @@ const QrWizard = ({ children }: QrWizardProps) => {
     setLoading(true);
 
     // @ts-ignore
-    if (step === 0 && Boolean(data.isDynamic) && !isLogged) {
-      await router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-    } else if (step === 1 && isLogged && Boolean(data.isDynamic) && !Boolean(options.id)) {
+    if (step === 0 && data.isDynamic && !isLogged) {
+      router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/")
+        .then(() => { setLoading(false); });
+    } else if (step === 1 && isLogged && data.isDynamic && !Boolean(options.id)) {
       const id = getUuid();
       const shortCode = await generateId();
-      setOptions({ ...options, id, shortCode, data: generateShortLink(`qr/${shortCode}`) });
+      setOptions({ ...options, id, shortCode, data: generateShortLink(shortCode) });
       setStep(2);
-    } else if (step === 2 && isLogged && ["business", "vcard+", "web", "pdf", "image", "audio", "video"].includes(selected)) {
+    } else if (step === 2 && isLogged && ["social", "business", "vcard+", "web", "pdf", "image", "audio", "video",
+      "facebook", "whatsapp", "twitter", "coupon"].includes(selected)) {
       const qrDesignId = getUuid();
       const qrId = options.id || getUuid();
       const shortLinkId = getUuid();
@@ -96,7 +98,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         userId: userInfo.attributes.sub,
         id: qrId,
         qrOptionsId: qrDesignId,
-        shortLinkId
+        shortLinkId: { id: shortLinkId, userId: userInfo.attributes.sub }
       };
 
       const qrDesign = { ...options, id: qrDesignId };
@@ -128,6 +130,14 @@ const QrWizard = ({ children }: QrWizardProps) => {
         };
       }
 
+      if (!qrDesign.cornersDotOptions.type) {
+        qrDesign.cornersDotOptions.type = '';
+      }
+
+      if (!qrDesign.cornersSquareOptions.type) {
+        qrDesign.cornersSquareOptions.type = '';
+      }
+
       try {
         await QrHandler.create({ shortLink, qrDesign, qrData });
         // @ts-ignore
@@ -143,30 +153,30 @@ const QrWizard = ({ children }: QrWizardProps) => {
     }
   };
 
-  const renderBack = () => (
+  const renderBack = useCallback(() => (
     <StepperButtons
       variant="contained"
       startIcon={<ChevronLeftIcon />}
-      disabled={loading || step === 0 || !Boolean(selected)}
+      disabled={loading || step === 0 || !selected}
       onClick={handleBack}>
       {"Back"}
     </StepperButtons>
-  );
+  ), [loading, step, selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderNext = () => (
+  const renderNext = useCallback(() => (
     <StepperButtons
       onClick={handleNext}
-      endIcon={step >= 2 ? (isLogged ? <SaveIcon /> : <DoneIcon />) : <ChevronRightIcon />}
+      endIcon={step >= 2 ? (isLogged ? <SaveIcon/> : <DoneIcon/>) : <ChevronRightIcon/>}
       disabled={
-        loading || isWrong || !Boolean(selected) ||
-        (step === 1 && isLogged && !Boolean(data?.qrName?.trim().length))
+        loading || isWrong || !selected ||
+        (step === 1 && isLogged && !Boolean(data?.qrName?.trim()?.length))
       }
       variant={step >= 2 ? "outlined" : "contained"}>
       {step >= 2 ? (isLogged ? "Save" : "Done") : "Next"}
     </StepperButtons>
-  );
+  ), [step, isLogged, loading, isWrong, selected, data?.qrName]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderSteps = () => (
+  const renderSteps = useCallback(() => (
     <Stepper
       activeStep={step}
       alternativeLabel={!isWide}
@@ -178,7 +188,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
         </Step>
       ))}
     </Stepper>
-  );
+  ), [step, isWide]);
 
   return (
     <>

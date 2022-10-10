@@ -12,6 +12,9 @@ module.exports = {
     };
     return config;
   },
+  images: {
+    domains: ['dev-qrco.s3.amazonaws.com']
+  },
   env: {
     REACT_APP_COOKIES_DOMAIN: process.env.REACT_APP_COOKIES_DOMAIN,
     REACT_AWS_COGNITO_CLIENT_ID: process.env.REACT_AWS_COGNITO_CLIENT_ID,

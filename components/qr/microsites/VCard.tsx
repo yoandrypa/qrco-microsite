@@ -1,5 +1,4 @@
-import {SOCIALS} from "../constants";
-import {handleDesignerString} from "../../../helpers/qr/helpers";
+import {DEFAULT_COLORS} from "../constants";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import CardContent from "@mui/material/CardContent";
@@ -7,37 +6,21 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
+import InputAdornment from "@mui/material/InputAdornment";
+import RenderIcon from "../helperComponents/RenderIcon";
+import {downloadVCard, getColors} from "./renderers/helper";
 
 interface VCardProps {
   newData: any;
 }
 
 export default function VCard({newData}: VCardProps) {
-  const downloadFile = () => {
-    SOCIALS.forEach((x: string) => {
-      if (newData[x]) {
-        delete newData[x];
-      }
-    });
-
-    const contents = handleDesignerString("vcard", newData);
-    const file = new File([contents], "my vcard.vcf", {
-      type: "text/plain"
-    });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(file);
-
-    link.href = url;
-    link.download = file.name;
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  };
+  function downloadFile() {
+    downloadVCard({...newData});
+  }
 
   return (
-    <MainMicrosite>
+    <MainMicrosite colors={getColors(newData)} url={newData.shortlinkurl}>
       <CardContent>
         <Grid container spacing={1}>
           {newData.prefix && (<Grid item xs={12} style={{paddingTop: 0}}>
@@ -50,10 +33,36 @@ export default function VCard({newData}: VCardProps) {
             <TextField label="Last name" size="small" fullWidth margin="dense" value={newData.lastName}/>
           </Grid>)}
           {newData.cell && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Cell number" size="small" fullWidth margin="dense" value={newData.cell}/>
+            <TextField
+              label="Cell number"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.cell}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="cell" enabled color={newData.secondary || DEFAULT_COLORS.s}/>
+                  </InputAdornment>
+                )
+              }}
+            />
           </Grid>)}
           {newData.phone && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Phone number" size="small" fullWidth margin="dense" value={newData.phone}/>
+            <TextField
+              label="Phone number"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.phone}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="phone" enabled color={newData.secondary || DEFAULT_COLORS.s}/>
+                  </InputAdornment>
+                )
+              }}
+            />
           </Grid>)}
           {newData.fax && (<Grid item xs={12} style={{paddingTop: 0}}>
             <TextField label="Fax" size="small" fullWidth margin="dense" value={newData.fax}/>
@@ -65,7 +74,20 @@ export default function VCard({newData}: VCardProps) {
             <TextField label="Position" size="small" fullWidth margin="dense" value={newData.position}/>
           </Grid>)}
           {newData.address && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Address" size="small" fullWidth margin="dense" value={newData.address}/>
+            <TextField
+              label="Address"
+              size="small"
+              fullWidth
+              margin="dense"
+              value={newData.address}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <RenderIcon icon="location" enabled color={newData.secondary || DEFAULT_COLORS.s}/>
+                  </InputAdornment>
+                )
+              }}
+            />
           </Grid>)}
           {newData.city && (<Grid item xs={12} style={{paddingTop: 0}}>
             <TextField label="City" size="small" fullWidth margin="dense" value={newData.city}/>

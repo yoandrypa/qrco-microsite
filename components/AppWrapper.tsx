@@ -1,4 +1,4 @@
-import {ReactElement, ReactNode, cloneElement, useCallback, useMemo, useState, MouseEvent} from 'react';
+import {ReactElement, ReactNode, cloneElement, useCallback, useState, MouseEvent} from 'react';
 
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import AppBar from '@mui/material/AppBar';
@@ -31,6 +31,8 @@ interface Props {
   children: ReactElement;
 }
 
+const height = '95px';
+
 function ElevationScroll({ children, window }: Props) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -39,7 +41,7 @@ function ElevationScroll({ children, window }: Props) {
   });
 
   return cloneElement(children, {
-    elevation: trigger ? 4 : 1
+    elevation: trigger ? 5 : 0
   });
 }
 
@@ -67,15 +69,18 @@ export default function AppWrapper(props: AppWrapperProps) {
   const isWide = useMediaQuery('(min-width:600px)', { noSsr: true });
   const router = useRouter();
 
-  const handleLoading = useCallback(() => {
+  const handleLoading = useCallback((loading?: boolean) => {
     if (setLoading !== undefined) {
-      setLoading(true);
+      setLoading(loading !== undefined ? loading : true);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogin = useCallback(() => {
     handleLoading();
-    router.push({ pathname: '/', query: { login: true } }, '/');
+    router.push({ pathname: '/', query: { login: true } }, '/')
+      .then(() => {
+        handleLoading(false);
+      });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = useCallback(() => {
@@ -83,29 +88,27 @@ export default function AppWrapper(props: AppWrapperProps) {
       clearData(true);
     }
     handleLoading();
-    router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true });
+    router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true }).then(() => {
+      handleLoading(false);
+    });
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const isLogin = useMemo(() => (
-    router.pathname === '/' && router.query[PARAM_QR_TEXT] === undefined && !Boolean(userInfo)
-  ), [userInfo, router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       <CssBaseline />
-      {!isLogin && (<ElevationScroll >
-        <AppBar component="nav" sx={{ background: '#fff' }}>
-          <Container>
+      {handleLogout !== undefined && !router.query.login && (<ElevationScroll >
+        <AppBar component="nav" sx={{ background: '#fff', height }}>
+          <Container sx={{ my: 'auto' }}>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', color: theme => theme.palette.text.primary }}>
-              <Link href={{ pathname: !Boolean(userInfo) ? QR_TYPE_ROUTE : '/' }}>
+              <Link href={{ pathname: !userInfo ? QR_TYPE_ROUTE : '/' }}>
                 <Box sx={{ display: 'flex', cursor: 'pointer' }}>
-                  <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px' }} />
-                  <Typography sx={{ my: 'auto', ml: '5px', fontSize: '25px', fontWeight: 'bold' }}>The QR Link</Typography>
+                  <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: '40px', display: isWide ? 'block' : 'none' }} />
+                  <Typography sx={{ my: 'auto', ml: '5px', fontSize: '28.8px', fontWeight: 'bold' }}>The QR Link</Typography>
                 </Box>
               </Link>
               {router.query[PARAM_QR_TEXT] === undefined && (<>
                 {isWide ? (<>
-                  {!Boolean(userInfo) ? (
+                  {!userInfo ? (
                     <Button
                       startIcon={<LoginIcon />}
                       onClick={handleLogin}
@@ -142,24 +145,24 @@ export default function AppWrapper(props: AppWrapperProps) {
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                     keepMounted
                     transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    open={Boolean(anchorElNav)}
+                    open={anchorElNav !== null}
                     onClose={handleCloseNavMenu}
                     sx={{ display: { xs: 'block', md: 'none' } }}
                   >
-                    {!Boolean(userInfo) && (
+                    {!userInfo && (
                       <MenuItem key="loginMenuItem" onClick={handleLogin}>
                         <LoginIcon />
                         <Typography textAlign="center">{'Login'}</Typography>
                       </MenuItem>
                     )}
-                    {Boolean(userInfo) && (
+                    {userInfo && (
                       <MenuItem key="navigateMenuItem" onClick={handleNavigation}>
                         {router.pathname === '/' ? <QrCodeIcon /> : <FirstPageIcon />}
-                        <Typography textAlign="center">{router.pathname === '/' ? 'Create QR' : 'Admin'}</Typography>
+                        <Typography textAlign="center">{router.pathname === '/' ? 'Create QR Code' : 'My QR Codes'}</Typography>
                       </MenuItem>
                     )}
-                    {Boolean(userInfo) && <Divider/>}
-                    {Boolean(userInfo) && (
+                    {userInfo && <Divider/>}
+                    {userInfo && (
                       <MenuItem key="logoutMenuItem" onClick={handleLogout}>
                         <LogoutIcon />
                         <Typography textAlign="center">{'Logout'}</Typography>
@@ -173,18 +176,18 @@ export default function AppWrapper(props: AppWrapperProps) {
         </AppBar>
       </ElevationScroll>)}
       <Container sx={{ width: '100%' }}>
-        <Box sx={{ height: '60px' }}/> {/* Aims to fill the header's gap */}
-        <Box sx={{ p: 2, width: { sm: '100%', xs: 'calc(100% - 20px)' }, mx: 'auto', minHeight: 'calc(100vh - 110px)' }}>
+        <Box sx={{ height }}/> {/* Aims to fill the header's gap */}
+        <Box sx={{ mx: 'auto', minHeight: 'calc(100vh - 145px)' }}>
           {children}
         </Box>
-        {!isLogin && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
+        {handleLogout !== undefined && !router.query.login && (<Box sx={{ height: '40px', mt: '10px', display: 'flex', justifyContent: 'space-betweem' }}>
           <Box sx={{ display: 'flex', width: '100%' }}>
             <Typography sx={{ my: 'auto', display: { sm: 'block', xs: 'none' } }}>
               {'Powered by'}
             </Typography>
             <Box component="img" alt="EBANUX" src="/ebanux.svg" sx={{ width: '95px', mt: '-2px', ml: '7px' }} />
           </Box>
-          {Boolean(userInfo) && (
+          {userInfo && (
             <Typography sx={{ my: 'auto', color: theme => theme.palette.text.disabled, fontSize: 'small', display: 'inline-flex' }}>
               {userInfo.username.replace(/@.*$/,"")}
               <AccountBoxIcon sx={{ mt: '-1px' }} />

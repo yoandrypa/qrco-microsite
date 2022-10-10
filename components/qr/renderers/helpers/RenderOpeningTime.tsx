@@ -129,4 +129,3 @@ export default function RenderOpeningTime({data, setData}: CardDataProps) {
     </Grid>
   );
 }
-

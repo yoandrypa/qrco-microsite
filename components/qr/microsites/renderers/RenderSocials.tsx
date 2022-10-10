@@ -4,6 +4,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import RenderIcon from "../../helperComponents/RenderIcon";
 import IconButton from "@mui/material/IconButton";
 import ForwardIcon from "@mui/icons-material/Forward";
+import {DEFAULT_COLORS} from "../../constants";
 
 interface RenderSocialsProps {
   newData: any;
@@ -64,11 +65,15 @@ export default function RenderSocials({newData}: RenderSocialsProps) {
           value={value}
           InputProps={{
             startAdornment: (
-              <InputAdornment position="start"><RenderIcon icon={item} enabled/></InputAdornment>
+              <InputAdornment position="start">
+                <RenderIcon icon={item} enabled color={newData.secondary || DEFAULT_COLORS.s}/>
+              </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton target="_blank" component="a" href={url}><ForwardIcon/></IconButton>
+                <IconButton target="_blank" component="a" href={url}>
+                  <ForwardIcon sx={{ color: newData.secondary || DEFAULT_COLORS.s }} />
+                </IconButton>
               </InputAdornment>
             )
           }}

@@ -1,7 +1,9 @@
-import {ChangeEvent, ReactNode, useContext} from 'react';
-import Typography from '@mui/material/Typography';
+import {ReactNode, useContext} from "react";
+import Typography from "@mui/material/Typography";
 import Context from "../../context/Context";
-import RenderQRName from "../renderers/RenderQRName";
+import RenderQRCommons from "../renderers/RenderQRCommons";
+
+import {DEFAULT_COLORS} from "../constants";
 
 interface CommonProps {
   msg: string;
@@ -10,15 +12,29 @@ interface CommonProps {
 
 function Common({ msg, children }: CommonProps) {
   // @ts-ignore
-  const { data, setData } = useContext(Context);
+  const { selected, data, setData } = useContext(Context);
 
-  const handleValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, qrName: event.target.value });
+  const handleValue = (prop: string) => (payload: any) => {
+    if (prop !== 'both') {
+      setData({ ...data, [prop]: payload.target?.value !== undefined ? payload.target.value : payload});
+    } else if (payload.p !== DEFAULT_COLORS.p || payload.s !== DEFAULT_COLORS.s) {
+      setData({ ...data, primary: payload.p, secondary: payload.s });
+    } else {
+      const temp = { ...data };
+      if (data.primary) { delete data.primary; }
+      if (data.secondary) { delete data.secondary; }
+      setData(temp);
+    }
   };
 
   return (
     <>
-      <RenderQRName handleValue={handleValue} qrName={data?.qrName} />
+      <RenderQRCommons
+        handleValue={handleValue}
+        qrName={data?.qrName}
+        omitColorSel={['web', 'facebook', 'twitter', 'whatsapp'].includes(selected) || !data?.isDynamic}
+        primary={data?.primary}
+        secondary={data.secondary} />
       <Typography>{msg}</Typography>
       {children}
     </>

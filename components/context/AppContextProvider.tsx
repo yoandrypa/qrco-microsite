@@ -1,11 +1,11 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useRouter } from "next/router";
 
 import { Amplify, Auth } from "aws-amplify";
 
 import Context from "./Context";
-import initialData, { initialBackground, initialFrame } from "../../helpers/qr/data";
+import initialOptions, {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
 import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "../qr/types/types";
 import { PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
 import AppWrapper from "../AppWrapper";
@@ -13,6 +13,7 @@ import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
 import Loading from "../Loading";
+import QrGen from "../../pages/qr/type";
 
 Amplify.configure(awsExports);
 
@@ -22,9 +23,9 @@ interface ContextProps {
 
 const handleInitialData = (value: string | null | undefined) => {
   if (!value) {
-    return JSON.parse(JSON.stringify(initialData));
+    return JSON.parse(JSON.stringify(initialOptions));
   }
-  const opts = JSON.parse(JSON.stringify(initialData));
+  const opts = JSON.parse(JSON.stringify(initialOptions));
   opts.data = value;
   return opts;
 };
@@ -37,7 +38,7 @@ const AppContextProvider = (props: ContextProps) => {
   const [dotsData, setDotsData] = useState<CornersAndDotsType>(null);
   const [background, setBackground] = useState<BackgroundType>(initialBackground);
   const [frame, setFrame] = useState<FramesType>(initialFrame);
-  const [data, setData] = useState<DataType>({});
+  const [data, setData] = useState<DataType>(initialData);
 
   const [selected, setSelected] = useState<string | null>(null);
   const [step, setStep] = useState<number>(0);
@@ -54,19 +55,9 @@ const AppContextProvider = (props: ContextProps) => {
 
   const router = useRouter();
 
-  const logout = async () => {
-    setLoading(true);
-    try {
-      await Auth.signOut();
-      setUserInfo(null);
-      router.push("/");
-    } catch (error) {
-      setLoading(false);
-      console.log("error signing out: ", error);
-    }
-  };
+  const isUserInfo = useMemo(() => userInfo !== null, [userInfo]);
 
-  const clearData = () => {
+  const clearData = useCallback((keepType?: boolean) => {
     setForceClear(false);
 
     setIsWrong(false);
@@ -78,12 +69,17 @@ const AppContextProvider = (props: ContextProps) => {
     setDotsData(null);
     setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
-    setData({});
-  };
+
+    if (!keepType || data.isDynamic) {
+      setData(initialData);
+    } else {
+      setData({});
+    }
+  }, [data.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
-      if (Boolean(selected)) {
+      if (selected !== null) {
         if (selected === "web") {
           setData({ ...data, value: "https://www.example.com" });
         } else if (selected === "facebook") {
@@ -92,7 +88,7 @@ const AppContextProvider = (props: ContextProps) => {
           setData({ ...data, value: "Enter any text here" });
         }
       } else {
-        clearData();
+        clearData(true);
       }
       if (step !== 0) {
         setStep(0);
@@ -111,20 +107,14 @@ const AppContextProvider = (props: ContextProps) => {
 
   useEffect(() => {
     if (doneInitialRender.current && !doNotNavigate.current) {
-      switch (step) {
-        case 0: {
-          router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
-          break;
-        }
-        case 1: {
-          router.push(QR_CONTENT_ROUTE, undefined, { shallow: true });
-          break;
-        }
-        case 2: {
-          router.push(QR_DESIGNER_NEW_ROUTE, undefined, { shallow: true });
-          break;
-        }
+      let pathLocation = QR_TYPE_ROUTE;
+      if (step === 1) {
+        pathLocation = QR_CONTENT_ROUTE;
+      } else if (step === 2) {
+        pathLocation = QR_DESIGNER_NEW_ROUTE;
       }
+      router.push(pathLocation, undefined, {shallow: true})
+        .then(() => { setLoading(false); });
     } else {
       doneInitialRender.current = true;
       doNotNavigate.current = false;
@@ -134,43 +124,43 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options?.mode !== 'edit') {
       if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
-        if (Boolean(data?.isDynamic) && !Boolean(userInfo) && !Boolean(router.query.login)) {
-          router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/");
-        } else if (!Boolean(selected)) {
-          router.push(QR_TYPE_ROUTE, undefined, { shallow: true });
+        if (data?.isDynamic && !isUserInfo && !router.query.login) {
+          router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/").then(() => { setLoading(false); });
+        } else if (selected === null) {
+          router.push(QR_TYPE_ROUTE, undefined, {shallow: true}).then(() => { setLoading(false); });
         }
       }
       if (router.pathname === "/") {
         if (step === 2) {
-          if (Boolean(userInfo)) {
+          if (isUserInfo) {
             doNotNavigate.current = true;
           }
           clearData();
         }
 
-        if (!Boolean(router.query.login) && step !== 0) {
+        if (!router.query.login && step !== 0) {
           setStep(0);
         }
       }
+    }
 
-      if (loading) {
-        setLoading(false);
-      }
+    if (loading) {
+      setLoading(false);
     }
   }, [router.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (Boolean(userInfo) && verifying) {
+    if (isUserInfo && verifying) {
       setVerifying(false);
     }
-  }, [userInfo]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isUserInfo]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (forceClear) {
       doNotNavigate.current = true;
       clearData();
     }
-  }, [forceClear]);
+  }, [forceClear]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const verify = async () => {
     try {
@@ -189,7 +179,7 @@ const AppContextProvider = (props: ContextProps) => {
   useEffect(() => {
     if (options.mode === "edit") {
       doNotNavigate.current = true;
-      if (Boolean(options?.isDynamic)) { // eslint-disable-line react-hooks/exhaustive-deps
+      if (options?.isDynamic) {
         router.push("/qr/content").then(() => {
           setStep(1);
           setLoading(false);
@@ -201,7 +191,21 @@ const AppContextProvider = (props: ContextProps) => {
         });
       }
     }
-  }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
+   }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+  const logout = useCallback(async () => {
+    setLoading(true);
+    try {
+      await Auth.signOut();
+      setUserInfo(null);
+      clearData(); // includes setLoading as false
+      return <QrGen />;
+    } catch (error) {
+      setLoading(false);
+      console.log("error signing out: ", error);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (router.pathname.startsWith("/qr") && !["/qr/type", "/qr/content", "/qr/new"].includes(router.pathname)) {
     return (<>{children}</>);
@@ -231,23 +235,23 @@ const AppContextProvider = (props: ContextProps) => {
   };
 
   return (<>
-    {loading && <Loading />}
-    <Context.Provider value={{
-      cornersData, setCornersData,
-      dotsData, setDotsData,
-      frame, setFrame,
-      background, setBackground,
-      options, setOptions,
-      selected, setSelected,
-      data, setData,
-      userInfo, setUserInfo,
-      step, setStep, setForceClear,
-      loading, setLoading,
-      isWrong, setIsWrong
-    }}>
-      {renderContent()}
-    </Context.Provider>
-  </>
+      {loading && <Loading />}
+      <Context.Provider value={{
+        cornersData, setCornersData,
+        dotsData, setDotsData,
+        frame, setFrame,
+        background, setBackground,
+        options, setOptions,
+        selected, setSelected,
+        data, setData,
+        userInfo, setUserInfo,
+        step, setStep, setForceClear,
+        loading, setLoading,
+        isWrong, setIsWrong
+      }}>
+        {renderContent()}
+      </Context.Provider>
+    </>
   );
 };
 
