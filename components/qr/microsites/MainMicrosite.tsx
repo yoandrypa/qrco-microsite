@@ -113,7 +113,7 @@ export default function MainMicrosite({children, colors, url, badge}: Microsites
           marginLeft: '10px'}}>
           <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
         </Box>)}
-      <Box sx={{ maxHeight: `calc(100vh - ${!colors ? 275 : 170}px)`, overflow: 'auto' }}>
+      <Box sx={{ height: `calc(100vh - ${!colors ? 275 : 170}px)`, overflow: 'auto' }}>
         {children}
       </Box>
       {share && colors && (
