@@ -7,7 +7,9 @@ import RenderSocials from "./renderers/RenderSocials";
 import Box from "@mui/material/Box";
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
-import {OpeningObjType} from "../types/types";
+import {ColorTypes, OpeningObjType} from "../types/types";
+import {useMemo} from "react";
+import {getColors} from "./renderers/helper";
 
 interface BusinessProps {
   newData: any;
@@ -39,8 +41,10 @@ export default function Business({newData}: BusinessProps) {
     return `${hours}:${minutes}`;
   }
 
+  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <MainMicrosite>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl}>
       <CardContent>
         <Grid container spacing={1}>
           {newData.company && (<Grid item xs={12} style={{paddingTop: 0}}>
