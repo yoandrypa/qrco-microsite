@@ -9,6 +9,8 @@ import RenderSocials from "./renderers/RenderSocials";
 import InputAdornment from "@mui/material/InputAdornment";
 import RenderIcon from "../helperComponents/RenderIcon";
 import {downloadVCard, getColors} from "./renderers/helper";
+import {useMemo} from "react";
+import {ColorTypes} from "../types/types";
 
 interface VCardProps {
   newData: any;
@@ -19,8 +21,10 @@ export default function VCard({newData}: VCardProps) {
     downloadVCard({...newData});
   }
 
+  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <MainMicrosite colors={getColors(newData)} url={newData.shortlinkurl}>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl}>
       <CardContent>
         <Grid container spacing={1}>
           {newData.prefix && (<Grid item xs={12} style={{paddingTop: 0}}>

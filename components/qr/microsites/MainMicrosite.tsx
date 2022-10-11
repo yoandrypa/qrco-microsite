@@ -23,7 +23,6 @@ import {styled} from "@mui/material/styles";
 interface MicrositesProps {
   children: ReactNode;
   colors?: ColorTypes;
-  files?: string[];
   url?: string;
   badge?: string;
 }
@@ -37,7 +36,7 @@ const Btn = styled(Button)(({primary, secondary}: BtnProps) => ({
   marginTop: '10px', width: '100%', color: primary, background: secondary, '&:hover': {color: secondary, background: primary}
 }));
 
-export default function MainMicrosite({children, colors, files, url, badge}: MicrositesProps) {
+export default function MainMicrosite({children, colors, url, badge}: MicrositesProps) {
   const [share, setShare] = useState<boolean>(false);
   const [navigate, setNavigate] = useState<string | null>(null);
 
@@ -75,7 +74,7 @@ export default function MainMicrosite({children, colors, files, url, badge}: Mic
     }}>
       <CardMedia title="">
         {!colors ? (
-          <Image src="/qr/vcard+.png" height={220} width={460} alt="VCARD+"/>
+          <Image src="/qr/vcard+.png" height={220} width={460} alt="image"/>
         ) : (
           <Box sx={{ width: '460px', height: '120px', background: colors.p }}>
             {url !== undefined && (<SpeedDial
@@ -114,7 +113,7 @@ export default function MainMicrosite({children, colors, files, url, badge}: Mic
           marginLeft: '10px'}}>
           <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
         </Box>)}
-      <Box sx={{ minHeight: 'calc(100vh - 170px)', overflow: 'auto' }}>
+      <Box sx={{ maxHeight: `calc(100vh - ${!colors ? 275 : 170}px)`, overflow: 'auto' }}>
         {children}
       </Box>
       {share && colors && (
