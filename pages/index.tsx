@@ -80,6 +80,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
   const qrs = await QrHandler.list({ userId: user.id });
 
+  // @ts-ignore
+  qrs.qrs = qrs.qrs.sort((itemA: QrDataType, itemB: QrDataType) => itemB.createdAt - itemA.createdAt);
+
   return {
     props: {
       qrData: JSON.stringify(qrs)

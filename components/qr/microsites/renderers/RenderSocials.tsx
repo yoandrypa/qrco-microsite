@@ -57,6 +57,7 @@ export default function RenderSocials({newData}: RenderSocialsProps) {
     return (
       <Grid item xs={12} style={{paddingTop: 0}}>
         <TextField
+          variant="standard"
           label={label}
           size="small"
           fullWidth
@@ -64,6 +65,7 @@ export default function RenderSocials({newData}: RenderSocialsProps) {
           // @ts-ignore
           value={value}
           InputProps={{
+            disableUnderline: true,
             startAdornment: (
               <InputAdornment position="start">
                 <RenderIcon icon={item} enabled color={newData.secondary || DEFAULT_COLORS.s}/>
