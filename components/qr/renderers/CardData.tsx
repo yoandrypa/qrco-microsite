@@ -6,11 +6,12 @@ import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 
 import Common from '../helperComponents/Common';
-import {EMAIL, SOCIALS, WEB} from "../constants";
+import {EMAIL, SOCIALS} from "../constants";
 
 import RenderSocials from "./helpers/RenderSocials";
 import Expander from "./helpers/Expander";
 import {DataType} from "../types/types";
+import {isValidUrl} from "../../../utils";
 
 const PHONE_FAX = new RegExp('^(\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
 const CELL = new RegExp('^((\\+)?\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
@@ -53,7 +54,7 @@ export default function CardData({data, setData, setIsWrong}: CardDataProps) {
         isError = true;
       } else if (item === 'zip' && !ZIP.test(value)) {
         isError = true;
-      } else if (item === 'web' && !WEB.test(value)) {
+      } else if (item === 'web' && !isValidUrl(value)) {
         isError = true;
       } else if (item === 'email' && !EMAIL.test(value)) {
         isError = true;
@@ -89,7 +90,7 @@ export default function CardData({data, setData, setIsWrong}: CardDataProps) {
       errors = true;
     }
     // @ts-ignore
-    if (!errors && data.web?.trim().length && !WEB.test(data.web)) {
+    if (!errors && data.web?.trim().length && !isValidUrl(data.web)) {
       errors = false;
     }
     // @ts-ignore

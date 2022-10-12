@@ -5,11 +5,11 @@ import Grid from "@mui/material/Grid";
 
 import Common from '../helperComponents/Common';
 import {DataType} from "../types/types";
-import {WEB} from "../constants";
 import Expander from "./helpers/Expander";
 import Paper from "@mui/material/Paper";
 
 import RenderDateSelector from "./helpers/RenderDateSelector";
+import {isValidUrl} from "../../../utils";
 
 export type CouponProps = {
   data: DataType;
@@ -40,7 +40,7 @@ const CouponData = ({data, setData, setIsWrong}: CouponProps) => {
     const value = data?.[item] || '' as string;
 
     if ((value.trim().length === 0 && ['urlOptionLabel', 'urlOptionLink', 'title', 'name'].includes(item)) ||
-      (item === 'urlOptionLink' && !WEB.test(value))) {
+      (item === 'urlOptionLink' && !isValidUrl(value))) {
       isError = true;
     }
 
@@ -57,7 +57,7 @@ const CouponData = ({data, setData, setIsWrong}: CouponProps) => {
 
   useEffect(() => {
     let errors = false;
-    if (!data.urlOptionLabel?.trim().length || !data.urlOptionLink?.trim().length || !WEB.test(data.urlOptionLink) ||
+    if (!data.urlOptionLabel?.trim().length || !data.urlOptionLink?.trim().length || !isValidUrl(data.urlOptionLink) ||
       !data.title?.trim().length || !data.name?.trim().length) {
       errors = true;
     }

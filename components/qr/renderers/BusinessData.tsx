@@ -12,7 +12,7 @@ import RenderSocials from "./helpers/RenderSocials";
 import RenderOpeningTime from "./helpers/RenderOpeningTime";
 import Expander from "./helpers/Expander";
 import {DataType} from "../types/types";
-import {WEB} from "../constants";
+import {isValidUrl} from "../../../utils";
 
 interface BusinessProps {
   data: DataType;
@@ -43,7 +43,7 @@ export default function BusinessData({data, setData, setIsWrong}: BusinessProps)
     const value = data?.[item] || '' as string;
 
     if ((value.trim().length === 0 && ['urlOptionLabel', 'urlOptionLink'].includes(item)) ||
-      (item === 'urlOptionLink' && !WEB.test(value))) {
+      (item === 'urlOptionLink' && !isValidUrl(value))) {
       isError = true;
     }
 
@@ -72,7 +72,7 @@ export default function BusinessData({data, setData, setIsWrong}: BusinessProps)
   useEffect(() => {
     let errors = false;
     if (data.urlOptionLabel !== undefined && data.urlOptionLink !== undefined) {
-      if (!data.urlOptionLabel.trim().length || !data.urlOptionLink.trim().length || !WEB.test(data.urlOptionLink)) {
+      if (!data.urlOptionLabel.trim().length || !data.urlOptionLink.trim().length || !isValidUrl(data.urlOptionLink)) {
         errors = true;
       }
     }
