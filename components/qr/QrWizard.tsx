@@ -24,7 +24,7 @@ import { getUuid } from "../../helpers/qr/helpers";
 import * as StorageHandler from "../../handlers/storage";
 import Notifications from "../notifications/Notifications";
 
-const steps = ["QR type", "QR content", "QR design"];
+const steps = ["Type", "Content", "Design"];
 
 interface QrWizardProps {
   children: ReactNode;
