@@ -12,6 +12,12 @@ import DownloadIcon from "@mui/icons-material/Download";
 import Button from "@mui/material/Button";
 import PDFGenDlg from "../helperComponents/PDFGenDlg";
 import RenderDownload from "../helperComponents/RenderDownload";
+import {
+  getBackgroundObject,
+  getCornersAndDotsObject,
+  getFrameObject,
+  getOptionsObject
+} from "../../../helpers/qr/helpers";
 
 interface QRRenderProps {
   qrData: string;
@@ -47,56 +53,14 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
     setAnchor(currentTarget);
   };
 
-  const frame: FramesType | null = qrDesign.frame?.type ? { // frame definition is outside due to it is used in the donwload mechanism
-    type: qrDesign.frame?.type,
-    text: qrDesign.frame?.text,
-    color: qrDesign.frame?.color,
-    textColor: qrDesign.frame?.textColor,
-    textUp: qrDesign?.textUp || false
-  } : null;
+  // frame definition is outside due to it is used in the donwload mechanism
+  const frame: FramesType | null = getFrameObject(qrDesign);
 
   const generateQr = () => {
-    const options: OptionsType = {
-      width: qrDesign.width,
-      height: qrDesign.height,
-      type: qrDesign.type,
-      data: qrDesign.data,
-      image: qrDesign.image,
-      margin: qrDesign.margin,
-      qrOptions: qrDesign.qrOptions,
-      imageOptions: qrDesign.imageOptions,
-      dotsOptions: qrDesign.dotsOptions,
-      backgroundOptions: qrDesign.backgroundOptions,
-      cornersSquareOptions: qrDesign.cornersSquareOptions,
-      cornersDotOptions: qrDesign.cornersDotOptions
-    };
-
-    if (options.cornersDotOptions.type === '') { options.cornersDotOptions.type = null; }
-    if (options.cornersSquareOptions.type === '') { options.cornersSquareOptions.type = null; }
-
-    const background: BackgroundType = {
-      type: qrDesign.background?.type,
-      opacity: qrDesign.background?.opacity,
-      size: qrDesign.background?.size,
-      file: qrDesign.background?.file,
-      x: qrDesign.background?.x,
-      y: qrDesign.background?.y,
-      imgSize: qrDesign.background?.imgSize || 1,
-      invert: qrDesign.background?.invert || false,
-      backColor: qrDesign.background?.backColor || null
-    };
-
-    const cornersData: CornersAndDotsType = qrDesign.corners ? {
-      topL: qrDesign.corners.topL,
-      topR: qrDesign.corners.topR,
-      bottom: qrDesign.corners.bottom
-    } : null;
-
-    const dotsData: CornersAndDotsType = qrDesign.cornersDot ? {
-      topL: qrDesign.cornersDot.topL,
-      topR: qrDesign.cornersDot.topR,
-      bottom: qrDesign.cornersDot.bottom
-    } : null;
+    const options: OptionsType = getOptionsObject(qrDesign);
+    const background: BackgroundType = getBackgroundObject(qrDesign);
+    const cornersData: CornersAndDotsType = getCornersAndDotsObject(qrDesign, 'corners');
+    const dotsData: CornersAndDotsType = getCornersAndDotsObject(qrDesign, 'cornersDot');
 
     const render = <QrGenerator
       ref={qrRef}

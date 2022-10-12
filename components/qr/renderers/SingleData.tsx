@@ -3,8 +3,8 @@ import TextField from '@mui/material/TextField';
 
 import Common from '../helperComponents/Common';
 import MultiLineDetails from '../helperComponents/MultiLineDetails';
-import {WEB} from "../constants";
 import {DataType} from "../types/types";
+import {isValidUrl} from "../../../utils";
 
 type SingleDataProps = {
   limit?: number;
@@ -25,7 +25,7 @@ function SingleData({ isWrong, setIsWrong, label, data, setData, msg, limit = -1
 
     if (label === 'Website') {
       let error = false;
-      if (value.trim().length && !WEB.test(value)) {
+      if (value.trim().length && !isValidUrl(value)) {
         error = true;
       }
       setIsWrong(error);

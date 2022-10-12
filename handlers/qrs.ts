@@ -67,7 +67,9 @@ export const get = async (id: string) => {
   }
 };
 
-export const edit = async (data: UpdateQrDataType) => {
+// export const edit = async (data: UpdateQrDataType) => {
+// @ts-ignore
+export const edit = async (data) => {
   try {
     const { id, userId, ...rest } = data;
 
