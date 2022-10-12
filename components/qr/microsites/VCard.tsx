@@ -1,16 +1,15 @@
-import {DEFAULT_COLORS} from "../constants";
+import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
-import InputAdornment from "@mui/material/InputAdornment";
-import RenderIcon from "../helperComponents/RenderIcon";
 import {downloadVCard, getColors} from "./renderers/helper";
-import {useMemo} from "react";
+
 import {ColorTypes} from "../types/types";
+
+import RenderField from "./renderers/RenderField";
 
 interface VCardProps {
   newData: any;
@@ -27,90 +26,21 @@ export default function VCard({newData}: VCardProps) {
     <MainMicrosite colors={colors} url={newData.shortlinkurl}>
       <CardContent>
         <Grid container spacing={1}>
-          {newData.prefix && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Prefix" size="small" fullWidth margin="dense" value={newData.prefix}/>
-          </Grid>)}
-          {newData.firstName && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="First name" size="small" fullWidth margin="dense" value={newData.firstName}/>
-          </Grid>)}
-          {newData.lastName && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Last name" size="small" fullWidth margin="dense" value={newData.lastName}/>
-          </Grid>)}
-          {newData.cell && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField
-              label="Cell number"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.cell}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="cell" enabled color={newData.secondary || DEFAULT_COLORS.s}/>
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.phone && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField
-              label="Phone number"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.phone}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="phone" enabled color={newData.secondary || DEFAULT_COLORS.s}/>
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.fax && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Fax" size="small" fullWidth margin="dense" value={newData.fax}/>
-          </Grid>)}
-          {newData.organization && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Organization" size="small" fullWidth margin="dense" value={newData.organization}/>
-          </Grid>)}
-          {newData.position && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Position" size="small" fullWidth margin="dense" value={newData.position}/>
-          </Grid>)}
-          {newData.address && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField
-              label="Address"
-              size="small"
-              fullWidth
-              margin="dense"
-              value={newData.address}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <RenderIcon icon="location" enabled color={newData.secondary || DEFAULT_COLORS.s}/>
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Grid>)}
-          {newData.city && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="City" size="small" fullWidth margin="dense" value={newData.city}/>
-          </Grid>)}
-          {newData.zip && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Zip code" size="small" fullWidth margin="dense" value={newData.zip}/>
-          </Grid>)}
-          {newData.state && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="State/Province" size="small" fullWidth margin="dense" value={newData.state}/>
-          </Grid>)}
-          {newData.country && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Country" size="small" fullWidth margin="dense" value={newData.country || ""}/>
-          </Grid>)}
-          {newData.email && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Email" size="small" fullWidth margin="dense" value={newData.email}/>
-          </Grid>)}
-          {newData.web && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Web" size="small" fullWidth margin="dense" value={newData.web}/>
-          </Grid>)}
+          {newData.prefix && <RenderField label="Prefix" value={newData.prefix}/>}
+          {newData.firstName && <RenderField label="First name"value={newData.firstName}/>}
+          {newData.lastName && <RenderField label="Last name" value={newData.lastName}/>}
+          {newData.cell && <RenderField label="Cell number" value={newData.cell} icon="cell" color={newData.secondary} />}
+          {newData.phone && <RenderField label="Phone number" value={newData.phone} icon="phone" color={newData.secondary} />}
+          {newData.fax && <RenderField label="Fax" value={newData.fax}/>}
+          {newData.organization && <RenderField label="Organization" value={newData.organization}/>}
+          {newData.position && <RenderField label="Position" value={newData.position}/>}
+          {newData.address && <RenderField label="Address" value={newData.address} icon="location" color={newData.secondary} />}
+          {newData.city && <RenderField label="City" value={newData.city}/>}
+          {newData.zip && <RenderField label="Zip code" value={newData.zip}/>}
+          {newData.state && <RenderField label="State/Province" value={newData.state}/>}
+          {newData.country && <RenderField label="Country" value={newData.country || ""}/>}
+          {newData.email && <RenderField label="Email" value={newData.email}/>}
+          {newData.web && <RenderField label="Web" value={newData.web}/>}
           <RenderSocials newData={newData} />
         </Grid>
       </CardContent>

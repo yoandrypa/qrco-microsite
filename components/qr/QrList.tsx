@@ -10,7 +10,8 @@ import Alert from "@mui/material/Alert";
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import Edit from "@mui/icons-material/Edit";
 import EditOutlined from "@mui/icons-material/EditOutlined";
-import ElectricBolt from "@mui/icons-material/ElectricBolt";
+import BoltIcon from "@mui/icons-material/ElectricBolt";
+import CropSquareIcon from '@mui/icons-material/CropSquare';
 import Public from "@mui/icons-material/Public";
 import IconButton from "@mui/material/IconButton";
 import {sanitize} from "../../utils";
@@ -42,17 +43,6 @@ const QrList = ({qrs}: any) => {
   const handleEdit = useCallback((qr: QrDataType) => {
     setLoading(true);
     setOptions({...options, ...qr, mode: "edit"});
-    /*if (qr.isDynamic) {
-      router.push("/qr/content").then(() => {
-        setStep(1);
-        setLoading(false);
-      });
-    } else {
-      router.push("/qr/new").then(() => {
-        setStep(2);
-        setLoading(false);
-      });
-    }*/
   }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = async () => {
@@ -79,23 +69,24 @@ const QrList = ({qrs}: any) => {
 
   const renderOptions = (qr: any) => (
     <Stack direction="row" justifyContent="flex-end" alignItems="center">
-      {/*<IconButton color="primary"><InfoOutlined /></IconButton>
-        <IconButton color="primary"><DownloadingRounded /></IconButton>
-        <IconButton color="primary"><PauseCircleOutlined /></IconButton>
-        <IconButton color="error"><CancelOutlined /></IconButton>*/}
       <IconButton color="primary" disabled={isLoading} onClick={() => handleEdit(qr)}>
         <EditOutlined/>
       </IconButton>
-      <IconButton color="error" disabled={isLoading}
-                  onClick={() => showConfirmationDialog(qr.id, qr.userId)}>
+      <IconButton color="error" disabled={isLoading} onClick={() => showConfirmationDialog(qr.id, qr.userId)}>
         <DeleteOutlineRounded/>
       </IconButton>
     </Stack>
   );
 
+  const renderStaticDynamic = (is: boolean) => (
+    <Typography variant="caption" style={{color: "gray"}}>
+      {is ? <BoltIcon fontSize="inherit"/> : <CropSquareIcon fontSize="inherit"/>}
+      {is ? "Dynamic" : "Static"}
+    </Typography>
+  );
+
   const renderQr = (qrOptions: any, value: string, name: string) => {
     const options = {...qrOptions};
-
     if (!options.image?.trim().length) {
       options.image = null;
     }
@@ -135,8 +126,7 @@ const QrList = ({qrs}: any) => {
                             )}
                           </Box>
                           <Stack direction="column" sx={{my: 'auto'}}>
-                            <Typography variant="subtitle2"
-                                        sx={{color: "orange", mb: '-7px'}}>{capitalize(qr.qrType)}</Typography>
+                            <Typography variant="subtitle2" sx={{color: "orange", mb: '-7px'}}>{capitalize(qr.qrType)}</Typography>
                             <Typography variant="h6" sx={{fontWeight: "bold", mb: '-2px'}}>{qr.qrName}</Typography>
                             {isWide ? (
                               <Typography variant="caption" sx={{color: "gray"}}>
@@ -156,9 +146,7 @@ const QrList = ({qrs}: any) => {
                     </Grid>
                     {!isWide ? (<Grid item xs={12}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', px: '11px', mt: '-22px'}}>
-                        <Typography variant="caption" style={{color: "gray"}}>
-                          <ElectricBolt fontSize="inherit"/> {qr.isDynamic ? "Dynamic" : "Static"}
-                        </Typography>
+                        {renderStaticDynamic(qr.isDynamic)}
                         <Typography variant="caption" style={{color: "gray"}}>
                           {`${qrLink.visitCount} scans`}
                         </Typography>
@@ -166,11 +154,8 @@ const QrList = ({qrs}: any) => {
                       </Grid>) : (<Grid item xs={4}>
                       <Box sx={{display: 'flex'}}>
                         <Divider orientation="vertical" flexItem sx={{mx: 2}}/>
-                        <Stack direction="column" spacing={0.8} justifyContent="flex-start" alignItems="flex-start"
-                               sx={{ml: {xs: 2, sm: 0}}}>
-                          <Typography variant="caption" style={{color: "gray"}}>
-                            <ElectricBolt fontSize="inherit"/> {qr.isDynamic ? "Dynamic" : "Static"}
-                          </Typography>
+                        <Stack direction="column" spacing={0.8} justifyContent="flex-start" alignItems="flex-start" sx={{ml: {xs: 2, sm: 0}}}>
+                          {renderStaticDynamic(qr.isDynamic)}
                           {qrLink.address ? (
                             <Typography variant="caption" sx={{color: "gray"}}>
                               {/*@ts-ignore*/}
@@ -201,18 +186,14 @@ const QrList = ({qrs}: any) => {
                   </Grid>
                 </Paper>
               );
-            })
-            : <Grid container justifyContent="center" alignItems="center"
-                    sx={{height: "calc( 100vh - 200px );"}}>
+            }) : (
+              <Grid container justifyContent="center" alignItems="center" sx={{height: "calc( 100vh - 200px );"}}>
               <Grid item>
-                <Alert severity="info" variant="outlined"
-                       action={<RenderNewQrButton/>}
-                       sx={{width: 450, p: 5}}
-                >
+                <Alert severity="info" variant="outlined" action={<RenderNewQrButton/>} sx={{width: 450, p: 5}}>
                   There are no QR codes.
                 </Alert>
               </Grid>
-            </Grid>
+            </Grid>)
         }
       </Stack>
       {deleteConfirm ?
