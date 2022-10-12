@@ -35,15 +35,16 @@ const QrList = ({qrs}: any) => {
   const [deleteParams, setDeleteParams] = useState({id: "", userId: ""});
 
   // @ts-ignore
-  const {isLoading, setLoading, options, setOptions} = useContext(Context);
+  const {isLoading, setLoading, setOptions} = useContext(Context);
   const router = useRouter();
 
   const isWide = useMediaQuery('(min-width:600px)', {noSsr: true});
 
   const handleEdit = useCallback((qr: QrDataType) => {
     setLoading(true);
-    setOptions({...options, ...qr, mode: "edit"});
-  }, [options]); // eslint-disable-line react-hooks/exhaustive-deps
+    const options = {...qr.qrOptionsId, ...qr, mode: 'edit'};
+    setOptions(options);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = async () => {
     setLoading(true);
@@ -57,15 +58,15 @@ const QrList = ({qrs}: any) => {
     }
   };
 
-  const handleCancelDeletion = () => {
+  const handleCancelDeletion = useCallback(() => {
     setDeleteParams({id: "", userId: ""});
     setDeleteConfirm(false);
-  };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const showConfirmationDialog = (qrId: string, userId: string) => {
+  const showConfirmationDialog = useCallback((qrId: string, userId: string) => {
     setDeleteParams({id: qrId, userId: userId});
     setDeleteConfirm(true);
-  };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderOptions = (qr: any) => (
     <Stack direction="row" justifyContent="flex-end" alignItems="center">

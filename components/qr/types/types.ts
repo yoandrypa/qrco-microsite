@@ -63,6 +63,7 @@ export type OpeningType = {
 } | {} | null;
 
 export type DataType = {
+  mode?: string;
   qrName?: string;
   number?: string;
   message?: string;
