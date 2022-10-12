@@ -256,18 +256,3 @@ export function getUuid(): string {
   });
   return uuid;
 }
-
-const isValidUrl = (url: string) => {
-  try {
-    const inputElement = document.createElement('input');
-    inputElement.type = 'url';
-    inputElement.value = url;
-
-    const resp = inputElement.checkValidity();
-    document.body.removeChild(inputElement);
-
-    return resp;
-  } catch {
-    return false;
-  }
-}
