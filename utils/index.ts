@@ -56,7 +56,7 @@ export class CustomError extends Error {
     this.statusCode = statusCode;
     this.data = data;
   }
-};
+}
 
 export const addProtocol = (url: string): string => {
   const hasProtocol = /^\w+:\/\//.test(url);
@@ -65,8 +65,15 @@ export const addProtocol = (url: string): string => {
 
 export const isValidUrl = (urlString: string) => {
   try {
-    return Boolean(new URL(urlString));
-  } catch (e) {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'url';
+    inputElement.value = urlString;
+
+    const resp = inputElement.checkValidity();
+    document.body.removeChild(inputElement);
+
+    return resp;
+  } catch {
     return false;
   }
 };
