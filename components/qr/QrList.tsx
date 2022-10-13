@@ -10,18 +10,18 @@ import Alert from "@mui/material/Alert";
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import Edit from "@mui/icons-material/Edit";
 import EditOutlined from "@mui/icons-material/EditOutlined";
-import BoltIcon from "@mui/icons-material/ElectricBolt";
-import CropSquareIcon from '@mui/icons-material/CropSquare';
+import SyncIcon from "@mui/icons-material/Sync";
+import SyncDisabledIcon from "@mui/icons-material/SyncDisabled";
 import Public from "@mui/icons-material/Public";
 import IconButton from "@mui/material/IconButton";
-import {sanitize} from "../../utils";
+import { sanitize } from "../../utils";
 import Link from "next/link";
 import * as QrHandler from "../../handlers/qrs";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Context from "../context/Context";
 import RenderNewQrButton from "../renderers/RenderNewQrButton";
 import RenderPreview from "./renderers/RenderPreview";
-import {capitalize} from '@mui/material';
+import { capitalize } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -80,9 +80,9 @@ const QrList = ({qrs}: any) => {
   );
 
   const renderStaticDynamic = (is: boolean) => (
-    <Typography variant="caption" style={{color: "gray"}}>
-      {is ? <BoltIcon fontSize="inherit"/> : <CropSquareIcon fontSize="inherit"/>}
-      {is ? "Dynamic" : "Static"}
+    <Typography variant="caption" style={{ color: "gray" }}>
+      {is ? <SyncIcon fontSize="inherit" /> : <SyncDisabledIcon fontSize="inherit" />}
+      {is ? " Dynamic" : " Static"}
     </Typography>
   );
 
@@ -158,13 +158,13 @@ const QrList = ({qrs}: any) => {
                         <Stack direction="column" spacing={0.8} justifyContent="flex-start" alignItems="flex-start" sx={{ml: {xs: 2, sm: 0}}}>
                           {renderStaticDynamic(qr.isDynamic)}
                           {qrLink.address ? (
-                            <Typography variant="caption" sx={{color: "gray"}}>
+                            <Typography variant="caption" sx={{ color: "gray" }}>
                               {/*@ts-ignore*/}
-                              <Public fontSize="inherit"/><Link href={qrLink.link}>{qrLink.link}</Link>
+                              <Public fontSize="inherit" /> <Link href={qrLink.link}>{qrLink.link.split("//")[1]}</Link>
                             </Typography>) : <></>}
-                          <Typography variant="caption" sx={{color: "gray"}}>
+                          <Typography variant="caption" sx={{ color: "gray" }}>
                             {/*<Edit fontSize="inherit"/> Updated at: {format(new Date(qr.updatedAt), "MMM d, yyyy")}*/}
-                            <Edit fontSize="inherit"/>{`Updated at: ${humanDate(new Date(qr.updatedAt).getTime())}`}
+                            <Edit fontSize="inherit" /> {`Updated at: ${humanDate(new Date(qr.updatedAt).getTime())}`}
                           </Typography>
                         </Stack>
                       </Box>

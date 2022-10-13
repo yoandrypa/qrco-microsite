@@ -1,5 +1,6 @@
 import Common from "../helperComponents/Common";
 import Button from "@mui/material/Button";
+import FileUpload from "react-material-file-upload";
 import React, { ChangeEvent, ReactNode, useContext, useEffect, useState } from "react";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
@@ -11,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import { Delete, UploadRounded } from "@mui/icons-material";
 import { humanDate } from "../../helpers/generalFunctions";
 import { ALLOWED_FILE_EXTENSIONS, FILE_LIMITS, PRIMARY_LIGHT_COLOR } from "../../../consts";
-import { fixArticles, formatBytes } from "../../../utils";
+import { fixArticles, formatBytes, toBytes } from "../../../utils";
 
 import PhotoIcon from "@mui/icons-material/Photo";
 import MovieIcon from "@mui/icons-material/Movie";
@@ -23,6 +24,7 @@ import { unstable_capitalize } from "@mui/utils";
 
 import pluralize from "pluralize";
 import Context from "../../context/Context";
+import Box from "@mui/material/Box";
 
 export type AssetDataProps = {
   type: "image" | "video" | "pdf" | "audio";
@@ -66,6 +68,8 @@ const getIconByType = (type: string): ReactNode => {
 
 const AssetData = ({ type, data, setData }: AssetDataProps) => {
   const [alertMessage, setAlertMessage] = useState("");
+  const [file, setFile] = useState(null);
+
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
@@ -80,11 +84,11 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
     setIsValidForm(data["files"]?.length > 0);
   }, [data["files"]?.length]);
 
-  const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target;
+  const handleValues = (files: File[]) => {
+    //const { files } = event.target;
     const tempo = { ...data };
     if (files?.length) {
-      const filesToUpload = [...files];
+      const filesToUpload = files;
       const errors = validateFile(filesToUpload, type, tempo["files"]?.length || 0);
       if (errors) {
         setAlertMessage(errors);
@@ -112,18 +116,23 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
     setData(tempo);
   };
 
+  const handleChange = (files: File[]) => {
+    setData({ ...data, files });
+  };
+
   const handleDelete = (index: number) => {
     const tempo = { ...data };
     tempo["files"]?.splice(index, 1);
     setData(tempo);
   };
+  const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
 
   return (
     <Common
       msg={`You can upload a maximum of ${pluralize("file", FILE_LIMITS[type].totalFiles, true)} of size ${FILE_LIMITS[type].totalMbPerFile} MBs.`}>
-      <Grid container justifyContent="end">
-        <Grid item xs={12} justifyContent="flex-end">
-          <Button variant="outlined" component="label" startIcon={<UploadRounded />}
+      <Grid container>
+        <Grid item xs={12}>
+          {/*<Button variant="outlined" component="label" startIcon={<UploadRounded />}
             // @ts-ignore
                   disabled={data["files"]?.length >= FILE_LIMITS[type].totalFiles}>
             Upload {fixArticles("a " + type)}
@@ -138,12 +147,22 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
                    accept={ALLOWED_FILE_EXTENSIONS[type]}
                    multiple={["image", "video"].includes(type)}
                    type="file" />
-          </Button>
+          </Button>*/}
+          <FileUpload
+            onChange={handleChange}
+            accept={ALLOWED_FILE_EXTENSIONS[type]}
+            multiple={["image", "video"].includes(type)}
+            // @ts-ignore
+            value={data["files"]}
+            maxFiles={FILE_LIMITS[type].totalFiles}
+            // @ts-ignore
+            maxSize={toBytes(FILE_LIMITS[type].totalMbPerFile, "MB")}
+          />
         </Grid>
-        <Grid item xs={12} paddingTop={1}>
+        {/*<Grid item xs={12} paddingTop={1}>
           <Divider textAlign="right">File list {data["files"]?.length || 0}/{FILE_LIMITS[type].totalFiles}</Divider>
           <List dense>
-            {/*@ts-ignore*/}
+            @ts-ignore
             {(data && data["files"]) ? data["files"].map((file: File, index) => (
               <ListItem
                 key={index}
@@ -164,7 +183,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
               </ListItem>
             )) : null}
           </List>
-        </Grid>
+        </Grid>*/}
       </Grid>
       {alertMessage &&
         <Notifications severity="warning" message={alertMessage} onClose={handleClose} autoHideDuration={8000} />}

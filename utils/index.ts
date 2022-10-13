@@ -212,3 +212,14 @@ export const formatBytes = (bytes: number, decimals = 2) => {
 
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 };
+
+export const toBytes = (size: number, type: "B" | "KB" | "MB" | "GB" | "TB") => {
+  const types = ["B", "KB", "MB", "GB", "TB"];
+
+  const key = types.indexOf(type.toUpperCase());
+
+  if (typeof key !== "boolean") {
+    return size * 1024 ** key;
+  }
+  return "invalid type: type must be GB/KB/MB etc.";
+};
