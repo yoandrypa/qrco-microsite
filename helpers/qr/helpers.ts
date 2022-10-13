@@ -334,8 +334,6 @@ export const dataCleaner = (options: any, mainObj?: boolean) => {
     });
   }
 
-  console.log(data);
-
   return data;
 }
 

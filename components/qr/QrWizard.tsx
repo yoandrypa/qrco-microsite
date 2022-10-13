@@ -152,19 +152,24 @@ const QrWizard = ({ children }: QrWizardProps) => {
           await QrHandler.create({shortLink, qrDesign, qrData});
         } else {
           const objToEdit = {
-            userId: qrData.userId,
-            id: qrData.id,
+            userId: qrDesign.userId,
+            id: qrDesign.id,
             qrType: qrData.qrType,
-            qrName: data.qrName,
-            qrOptionsId: qrDesign
+            qrName: data.qrName
           };
+
+          // @ts-ignore
+          if (qrDesign.qrType) { delete qrDesign.qrType; }
+          if (qrDesign.id) { delete qrDesign.id; }
+          if (qrDesign.userId) { delete qrDesign.userId; }
+
+          // @ts-ignore
+          objToEdit.qrOptionsId = qrDesign;
 
           if (data.isDynamic) {
             // @ts-ignore
             objToEdit.isDynamic = true;
           }
-
-          console.log(JSON.stringify(objToEdit));
 
           await QrHandler.edit(objToEdit);
         }
