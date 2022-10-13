@@ -313,15 +313,26 @@ export const getCornersAndDotsObject = (qrDesign: any, item: string) => (
   } : null
 );
 
-export const dataCleaner = (options: any) => {
+export const dataCleaner = (options: any, mainObj?: boolean) => {
   const data = {...options};
 
-  ['backgroundOptions', 'cornersDotOptions', 'cornersSquareOptions', 'dotsOptions', 'imageOptions',
-    'qrOptions', 'qrOptionsId', 'shortLinkId', 'margin', 'type', 'width', 'height', 'image', 'data'].forEach((x: string) => {
-    if (data[x]) {
-      delete data[x];
-    }
-  });
+  const base = ['backgroundOptions', 'cornersDotOptions', 'cornersSquareOptions', 'dotsOptions', 'imageOptions',
+    'qrOptions', 'margin', 'type', 'width', 'height', 'image', 'data'] as string[];
+
+  if (!mainObj) {
+    [...base, 'qrOptionsId', 'shortLinkId'].forEach((x: string) => {
+      if (data[x]) {
+        delete data[x];
+      }
+    });
+  } else {
+    const checkFor = [...base, 'id', 'userId', 'shortCode', 'qrType', 'mode'] as string[];
+    Object.keys(data).forEach((x: string) => {
+      if (!checkFor.includes(x)) {
+        delete data[x];
+      }
+    });
+  }
 
   return data;
 }
