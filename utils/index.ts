@@ -64,18 +64,9 @@ export const addProtocol = (url: string): string => {
 };
 
 export const isValidUrl = (urlString: string) => {
-  try {
-    const inputElement = document.createElement('input');
-    inputElement.type = 'url';
-    inputElement.value = urlString;
-
-    const resp = inputElement.checkValidity();
-    document.body.removeChild(inputElement);
-
-    return resp;
-  } catch {
-    return false;
-  }
+  const urlPattern = new RegExp('^(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+    '((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$','i');
+  return urlPattern.test(urlString);
 };
 
 export const getStatsLimit = (): number =>

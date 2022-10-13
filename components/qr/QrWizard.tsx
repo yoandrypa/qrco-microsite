@@ -168,7 +168,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
     <StepperButtons
       variant="contained"
       startIcon={<ChevronLeftIcon />}
-      disabled={loading || step === 0 || !selected}
+      disabled={loading || step === 0 || !selected || (data.mode === 'edit' && ((data.isDynamic && step <=1) || (!data.isDynamic && step <= 2))) }
       onClick={handleBack}>
       {"Back"}
     </StepperButtons>
