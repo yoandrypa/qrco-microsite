@@ -30,6 +30,7 @@ export type AssetDataProps = {
     files?: File[];
   };
   setData: Function;
+  setIsValidForm: (isValidForm: boolean) => void;
 }
 
 const validateFile = (files: File[], type: string, total: number) => {
@@ -72,12 +73,12 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
     setAlertMessage("");
   };
   // @ts-ignore
-  const { setIsWrong } = useContext(Context);
+  const { setIsValidForm } = useContext(Context);
 
   useEffect(() => {
     // @ts-ignore
-    setIsWrong(data["files"]?.length === 0);
-  }, [data["files"]?.length]); // eslint-disable-line react-hooks/exhaustive-deps
+    setIsValidForm(data["files"]?.length > 0);
+  }, [data["files"]?.length]);
 
   const handleValues = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -119,8 +120,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
 
   return (
     <Common
-      msg={`${unstable_capitalize(type)} files.
-      You can upload a maximum of ${pluralize("file", FILE_LIMITS[type].totalFiles, true)}, where none can exceed ${FILE_LIMITS[type].totalMbPerFile} MBs.`}>
+      msg={`You can upload a maximum of ${pluralize("file", FILE_LIMITS[type].totalFiles, true)} of size ${FILE_LIMITS[type].totalMbPerFile} MBs.`}>
       <Grid container justifyContent="end">
         <Grid item xs={12} justifyContent="flex-end">
           <Button variant="outlined" component="label" startIcon={<UploadRounded />}
