@@ -1,20 +1,23 @@
+import {useMemo} from "react";
 import CardContent from "@mui/material/CardContent";
-import MainMicrosite from "./MainMicrosite";
-import RenderSocials from "./renderers/RenderSocials";
 import Grid from "@mui/material/Grid";
+import {getColors} from "./renderers/helper";
+import {ColorTypes} from "../types/types";
 
 interface DonationsProps {
   newData: any;
 }
 
 export default function DonationsInfo({newData}: DonationsProps) {
+  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <MainMicrosite>
-      <CardContent>
+  //TODO
+   <CardContent>
         <Grid container spacing={1}>
-         <p>Microsite</p>
+        
         </Grid>
-      </CardContent>
-    </MainMicrosite>
+     </CardContent>
+  
   );
 }
