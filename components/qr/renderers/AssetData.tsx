@@ -32,7 +32,7 @@ export type AssetDataProps = {
     files?: File[];
   };
   setData: Function;
-  setIsValidForm: (isValidForm: boolean) => void;
+  setIsValidForm?: (isValidForm: boolean) => void;
 }
 
 const validateFile = (files: File[], type: string, total: number) => {
@@ -82,7 +82,7 @@ const AssetData = ({ type, data, setData }: AssetDataProps) => {
   useEffect(() => {
     // @ts-ignore
     setIsValidForm(data["files"]?.length > 0);
-  }, [data["files"]?.length]);
+  }, [data["files"]?.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleValues = (files: File[]) => {
     //const { files } = event.target;
