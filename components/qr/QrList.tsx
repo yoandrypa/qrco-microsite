@@ -98,7 +98,7 @@ const QrList = ({qrs}: any) => {
   return (
     <>
       <Stack spacing={2}>
-        <Typography variant="h6" style={{fontWeight: "bold"}}>My QR Codes</Typography>
+        {qrs?.length > 0 ? <Typography variant="h6" style={{ fontWeight: "bold" }}>My QR Codes</Typography> : null}
         {
           qrs?.length > 0
             ? qrs.filter((qr: QrDataType) => deleteConfirm || qr.id !== deleteParams.id).map((qr: any) => {
@@ -107,7 +107,7 @@ const QrList = ({qrs}: any) => {
 
               // @ts-ignore
               return (
-                <Paper sx={{width: "100%", overflow: "hidden"}} elevation={3} key={qr.id}>
+                <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
                   <Grid container justifyContent="flex-start" alignItems="center" spacing={2}>
                     {/*<Grid item xs={0.1}>*/}
                     {/*  <Checkbox />*/}
