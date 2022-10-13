@@ -188,6 +188,7 @@ const AppContextProvider = (props: ContextProps) => {
       setBackground(getBackgroundObject(options) || initialBackground);
       setFrame(getFrameObject(options) || initialFrame);
       setData(dataCleaner(options));
+      setOptions(dataCleaner(options, true));
       // @ts-ignore
       setSelected(options.qrType);
 

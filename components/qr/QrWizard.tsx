@@ -140,16 +140,18 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (!qrDesign.cornersDotOptions.type) {
         qrDesign.cornersDotOptions.type = '';
       }
-
       if (!qrDesign.cornersSquareOptions.type) {
         qrDesign.cornersSquareOptions.type = '';
+      }
+      if (qrDesign.mode !== undefined) {
+        delete qrDesign.mode;
       }
 
       try {
         if (data.mode === undefined) {
           await QrHandler.create({shortLink, qrDesign, qrData});
         } else {
-          await QrHandler.edit({qrDesign, qrData});
+          await QrHandler.edit({userId: qrDesign.userId, id: qrDesign.id, qrDesign, qrData});
         }
         // @ts-ignore
         await router.push("/", undefined, { shallow: true });
