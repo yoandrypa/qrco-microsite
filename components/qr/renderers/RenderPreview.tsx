@@ -18,6 +18,7 @@ import {
   getFrameObject,
   getOptionsObject
 } from "../../../helpers/qr/helpers";
+import {initialBackground} from "../../../helpers/qr/data";
 
 interface QRRenderProps {
   qrData: string;
@@ -58,7 +59,7 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
 
   const generateQr = () => {
     const options: OptionsType = getOptionsObject(qrDesign);
-    const background: BackgroundType = getBackgroundObject(qrDesign);
+    const background: BackgroundType = getBackgroundObject(qrDesign) || initialBackground;
     const cornersData: CornersAndDotsType = getCornersAndDotsObject(qrDesign, 'corners');
     const dotsData: CornersAndDotsType = getCornersAndDotsObject(qrDesign, 'cornersDot');
 

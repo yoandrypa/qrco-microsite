@@ -105,7 +105,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current) {
+    if (doneInitialRender.current && options?.mode !== 'edit') {
       setSelected(null);
     }
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -183,8 +183,6 @@ const AppContextProvider = (props: ContextProps) => {
 
   useEffect(() => {
     if (options.mode === "edit") {
-      // doNotNavigate.current = true;
-
       setCornersData(getCornersAndDotsObject(options, 'corners'));
       setDotsData(getCornersAndDotsObject(options, 'cornersDot'));
       setBackground(getBackgroundObject(options) || initialBackground);
@@ -193,17 +191,7 @@ const AppContextProvider = (props: ContextProps) => {
       // @ts-ignore
       setSelected(options.qrType);
 
-      if (options?.isDynamic) {
-        router.push(QR_CONTENT_ROUTE).then(() => {
-          setStep(1);
-          setLoading(false);
-        });
-      } else {
-        router.push(QR_DESIGN_ROUTE).then(() => {
-          setStep(2);
-          setLoading(false);
-        });
-      }
+      setStep(options?.isDynamic ? 1 : 2);
     }
    }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
