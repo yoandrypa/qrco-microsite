@@ -320,7 +320,7 @@ export const dataCleaner = (options: any, mainObj?: boolean) => {
     'qrOptions', 'margin', 'type', 'width', 'height', 'image', 'data'] as string[];
 
   if (!mainObj) {
-    [...base, 'qrOptionsId', 'shortLinkId'].forEach((x: string) => {
+    [...base, 'qrOptionsId', 'shortLinkId', 'qrData', 'qrDesign', 'id', 'qrType', 'userId'].forEach((x: string) => {
       if (data[x]) {
         delete data[x];
       }
@@ -333,6 +333,8 @@ export const dataCleaner = (options: any, mainObj?: boolean) => {
       }
     });
   }
+
+  console.log(data);
 
   return data;
 }

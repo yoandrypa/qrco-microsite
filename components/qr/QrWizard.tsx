@@ -151,7 +151,22 @@ const QrWizard = ({ children }: QrWizardProps) => {
         if (data.mode === undefined) {
           await QrHandler.create({shortLink, qrDesign, qrData});
         } else {
-          await QrHandler.edit({userId: qrDesign.userId, id: qrDesign.id, qrDesign, qrData});
+          const objToEdit = {
+            userId: qrData.userId,
+            id: qrData.id,
+            qrType: qrData.qrType,
+            qrName: data.qrName,
+            qrOptionsId: qrDesign
+          };
+
+          if (data.isDynamic) {
+            // @ts-ignore
+            objToEdit.isDynamic = true;
+          }
+
+          console.log(JSON.stringify(objToEdit));
+
+          await QrHandler.edit(objToEdit);
         }
         // @ts-ignore
         await router.push("/", undefined, { shallow: true });
