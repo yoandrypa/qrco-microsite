@@ -27,15 +27,18 @@ const  DonationsData = ({data,setData }: DonationsProps) => {
     const { value } = event.target;
     const temp = { ...data };
     if (value.length) {
-      // if (temp[item] != undefined){
-      //   temp[item] = item === 'message' ? value.slice(0, 160) : value;
+      if (value.length) {
+        // @ts-ignore
+        temp[item] = value;
+        // @ts-ignore
+      } else if (temp[item]) {
+        // @ts-ignore
+        delete temp[item];
+      }
 
-      // }
-    } else if (temp[item]) {
-      delete temp[item];
-    }
     setData(temp);
   };
+}
 
   return (
     <Common msg='Generate a custom QR code for your page and give your supporters a quick and touch-free checkout option.'>
