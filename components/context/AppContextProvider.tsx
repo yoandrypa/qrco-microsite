@@ -50,6 +50,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isWrong, setIsWrong] = useState<boolean>(false);
+  const [isValidForm, setIsValidForm] = useState<boolean>(true);
 
   const doneInitialRender = useRef<boolean>(false);
   const doNotNavigate = useRef<boolean>(false);
@@ -96,6 +97,9 @@ const AppContextProvider = (props: ContextProps) => {
       }
       if (isWrong) {
         setIsWrong(false);
+      }
+      if (isValidForm) {
+        setIsValidForm(true);
       }
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -256,7 +260,8 @@ const AppContextProvider = (props: ContextProps) => {
         userInfo, setUserInfo,
         step, setStep, setForceClear,
         loading, setLoading,
-        isWrong, setIsWrong
+        isWrong, setIsWrong,
+        isValidForm, setIsValidForm
       }}>
         {renderContent()}
       </Context.Provider>
