@@ -48,6 +48,10 @@ export default function Handler({ data }: InferGetServerSidePropsType<typeof get
     return (<FileMicro newData={newData} />);
   }
 
+  if (newData.qrType === 'donations') {
+    return (<SocialInfo newData={newData} />);
+  }
+
   return (
     <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
       {"We are working on this. Come back soon."}
