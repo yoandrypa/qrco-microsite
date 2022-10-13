@@ -24,7 +24,7 @@ import { getUuid } from "../../helpers/qr/helpers";
 import * as StorageHandler from "../../handlers/storage";
 import Notifications from "../notifications/Notifications";
 
-const steps = ["QR type", "QR content", "QR design"];
+const steps = ["Type", "Content", "Design"];
 
 interface QrWizardProps {
   children: ReactNode;
@@ -43,6 +43,7 @@ interface StepsProps {
   dotsData: CornersAndDotsType;
   setOptions: (opt: OptionsType) => void;
   isWrong: boolean;
+  isValidForm: boolean;
   loading: boolean;
   setLoading: (isLoading: boolean) => void;
 }
@@ -56,7 +57,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
   // @ts-ignore
   const {
     selected, step, setStep, data, userInfo, options, frame, background, cornersData,
-    dotsData, isWrong, loading, setOptions, setLoading
+    dotsData, isWrong, isValidForm, loading, setOptions, setLoading
   }: StepsProps = useContext(Context);
 
   const router = useRouter();
@@ -74,16 +75,12 @@ const QrWizard = ({ children }: QrWizardProps) => {
     if (step === 0 && data.isDynamic && !isLogged) {
       router.push({ pathname: "/", query: { path: router.pathname, login: true } }, "/")
         .then(() => { setLoading(false); });
-    } else if (step === 1 && isLogged && data.isDynamic && !Boolean(options.id)) {
+    } else if (step === 1 && isLogged && data.isDynamic && !Boolean(options.id) && options.mode === undefined) {
       const id = getUuid();
       const shortCode = await generateId();
       setOptions({ ...options, id, shortCode, data: generateShortLink(shortCode) });
       setStep(2);
-    } else if (step === 2 && isLogged && ["social", "business", "vcard+", "web", "pdf", "image", "audio", "video",
-      "facebook", "whatsapp", "twitter", "coupon"].includes(selected)) {
-      const qrDesignId = getUuid();
-      const qrId = options.id || getUuid();
-      const shortLinkId = getUuid();
+    } else if (step === 2 && isLogged) {
 
       //Process assets before saving de QR Data
       if (["pdf", "audio", "image", "video"].includes(selected)) {
@@ -91,17 +88,38 @@ const QrWizard = ({ children }: QrWizardProps) => {
         data["files"] = await StorageHandler.upload(data["files"], `${userInfo.attributes.sub}/${selected}s`);
       }
 
-      const qrData = {
-        ...data,
-        qrType: selected,
-        // @ts-ignore
-        userId: userInfo.attributes.sub,
-        id: qrId,
-        qrOptionsId: qrDesignId,
-        shortLinkId: { id: shortLinkId, userId: userInfo.attributes.sub }
-      };
+      const qrData = { ...data, qrType: selected };
+      let shortLink;
 
-      const qrDesign = { ...options, id: qrDesignId };
+      const qrDesign = { ...options };
+
+      if (data.mode === undefined) {
+        const qrDesignId = getUuid();
+        const qrId = options.id || getUuid();
+        const shortLinkId = getUuid();
+
+        // @ts-ignore
+        qrData.qrOptionsId = qrDesignId;
+        // @ts-ignore
+        qrData.id = qrId;
+        // @ts-ignore
+        qrData.userId = userInfo.attributes.sub;
+        // @ts-ignore
+        qrData.shortLinkId = { id: shortLinkId, userId: userInfo.attributes.sub };
+
+        if (data.isDynamic) {
+          shortLink = {
+            id: shortLinkId,
+            target: generateShortLink(`qr/${qrId}`),
+            address: options.shortCode || await generateId(),
+            // @ts-ignore
+            userId: userInfo.attributes.sub
+          };
+        }
+
+        qrDesign.id = qrDesignId;
+      }
+
       if (!areEquals(frame, initialFrame)) {
         // @ts-ignore
         qrDesign.frame = frame;
@@ -119,17 +137,6 @@ const QrWizard = ({ children }: QrWizardProps) => {
         qrDesign.cornersDot = dotsData;
       }
 
-      let shortLink;
-      if (data.isDynamic) {
-        shortLink = {
-          id: shortLinkId,
-          target: generateShortLink(`qr/${qrId}`),
-          address: options.shortCode || await generateId(),
-          // @ts-ignore
-          userId: userInfo.attributes.sub
-        };
-      }
-
       if (!qrDesign.cornersDotOptions.type) {
         qrDesign.cornersDotOptions.type = '';
       }
@@ -139,7 +146,11 @@ const QrWizard = ({ children }: QrWizardProps) => {
       }
 
       try {
-        await QrHandler.create({ shortLink, qrDesign, qrData });
+        if (data.mode === undefined) {
+          await QrHandler.create({shortLink, qrDesign, qrData});
+        } else {
+          await QrHandler.edit({qrDesign, qrData});
+        }
         // @ts-ignore
         await router.push("/", undefined, { shallow: true });
       } catch {
@@ -168,13 +179,13 @@ const QrWizard = ({ children }: QrWizardProps) => {
       onClick={handleNext}
       endIcon={step >= 2 ? (isLogged ? <SaveIcon/> : <DoneIcon/>) : <ChevronRightIcon/>}
       disabled={
-        loading || isWrong || !selected ||
+        loading || isWrong|| !isValidForm || !selected ||
         (step === 1 && isLogged && !Boolean(data?.qrName?.trim()?.length))
       }
       variant={step >= 2 ? "outlined" : "contained"}>
-      {step >= 2 ? (isLogged ? "Save" : "Done") : "Next"}
+      {step >= 2 ? (isLogged ? (data.mode === undefined ? "Save" : "Update") : "Done") : "Next"}
     </StepperButtons>
-  ), [step, isLogged, loading, isWrong, selected, data?.qrName]); // eslint-disable-line react-hooks/exhaustive-deps
+  ), [step, isLogged, loading, isWrong, isValidForm, selected, data?.qrName]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderSteps = useCallback(() => (
     <Stepper

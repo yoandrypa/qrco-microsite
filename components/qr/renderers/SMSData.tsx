@@ -24,7 +24,7 @@ const SMSData = ({ data, setData }: SMSDataProps) => {
   };
 
   return (
-    <Common msg="You can receive SMSs in the number you provide. Also you can enter a message up to 160 characters.">
+    <Common msg="You can receive SMSs in the number you provide. The message max size is up to 160 characters.">
       <>
         <TextField
           label="Number"

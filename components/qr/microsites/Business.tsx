@@ -7,7 +7,10 @@ import RenderSocials from "./renderers/RenderSocials";
 import Box from "@mui/material/Box";
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
-import {OpeningObjType} from "../types/types";
+import {ColorTypes, OpeningObjType} from "../types/types";
+import {useMemo} from "react";
+import {getColors} from "./renderers/helper";
+import RenderField from "./renderers/RenderField";
 
 interface BusinessProps {
   newData: any;
@@ -39,55 +42,27 @@ export default function Business({newData}: BusinessProps) {
     return `${hours}:${minutes}`;
   }
 
+  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <MainMicrosite>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl}>
       <CardContent>
         <Grid container spacing={1}>
-          {newData.company && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Company" size="small" fullWidth margin="dense" value={newData.company}/>
-          </Grid>)}
-          {newData.title && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Title" size="small" fullWidth margin="dense" value={newData.title}/>
-          </Grid>)}
-          {newData.subtitle && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Sub title" size="small" fullWidth margin="dense" value={newData.subtitle}/>
-          </Grid>)}
-          {newData.web && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Web" size="small" fullWidth margin="dense" value={newData.web}/>
-          </Grid>)}
-          {newData.email && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Email" size="small" fullWidth margin="dense" value={newData.email}/>
-          </Grid>)}
-          {newData.contact && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Contact" size="small" fullWidth margin="dense" value={newData.contact}/>
-          </Grid>)}
-          {newData.phone && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Phone" size="small" fullWidth margin="dense" value={newData.phone}/>
-          </Grid>)}
-          {newData.about && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="About" size="small" fullWidth margin="dense" value={newData.about}/>
-          </Grid>)}
-          {newData.address && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Address" size="small" fullWidth margin="dense" value={newData.address}/>
-          </Grid>)}
-          {newData.city && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="City" size="small" fullWidth margin="dense" value={newData.city}/>
-          </Grid>)}
-          {newData.zip && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Zip code" size="small" fullWidth margin="dense" value={newData.zip}/>
-          </Grid>)}
-          {newData.state && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="State/Province" size="small" fullWidth margin="dense" value={newData.state}/>
-          </Grid>)}
-          {newData.country && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Country" size="small" fullWidth margin="dense" value={newData.country || ""}/>
-          </Grid>)}
-          {newData.email && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Email" size="small" fullWidth margin="dense" value={newData.email}/>
-          </Grid>)}
-          {newData.web && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Web" size="small" fullWidth margin="dense" value={newData.web}/>
-          </Grid>)}
+          {newData.company && <RenderField label="Company" value={newData.company} />}
+          {newData.title && <RenderField label="Title" value={newData.title} />}
+          {newData.subtitle && <RenderField label="Sub title" value={newData.subtitle} />}
+          {newData.web && <RenderField label="Web" value={newData.web} />}
+          {newData.email && <RenderField label="Email" value={newData.email} />}
+          {newData.contact && <RenderField label="Contact" value={newData.contact} />}
+          {newData.phone && <RenderField label="Phone" value={newData.phone} />}
+          {newData.about && <RenderField label="About" value={newData.about} />}
+          {newData.address && <RenderField label="Address" value={newData.address} />}
+          {newData.city && <RenderField label="City" value={newData.city} />}
+          {newData.zip && <RenderField label="Zip code" value={newData.zip} />}
+          {newData.state && <RenderField label="State/Province" value={newData.state} />}
+          {newData.country && <RenderField label="Country" value={newData.country || ''} />}
+          {newData.email && <RenderField label="Email" value={newData.email} />}
+          {newData.web && <RenderField label="Web" value={newData.web} />}
           {newData.easiness && (
           <Grid item xs={12}>
             <Typography sx={{ fontWeight: 'bold' }}>{'Easiness'}</Typography>
@@ -120,41 +95,20 @@ export default function Business({newData}: BusinessProps) {
           {Object.keys(newData.openingTime || []).length ? (
             <Grid item xs={12}>
               <Typography sx={{ fontWeight: 'bold' }}>{'Opening time'}</Typography>
-              {Object.keys(newData.openingTime).map((x: string) => {
-
-                return (
-                  <>
-                    {/* @ts-ignore */}
-                    <Typography sx={{ fontWeight: 'bold', ml: 2 }}>{DAYS[x]}</Typography>
-                    {newData.openingTime[x].map((open: OpeningObjType) => {
-                      return (<Box sx={{ display: 'inline-flex', ml: 4 }} key={`day${x}`}>
-                        <Typography sx={{ display: 'inline-flex', mr: '5px' }}>{'From ' + handleTiming(open.ini)}</Typography>
-                        <Typography sx={{ display: 'inline-flex' }}>{' to ' +handleTiming(open.end)}</Typography>
-                      </Box>);
-                    })}
-                  </>
-                );
-              })}
+              {Object.keys(newData.openingTime).map((x: string) => (
+                <>
+                  {/* @ts-ignore */}
+                  <Typography sx={{ fontWeight: 'bold', ml: 2 }}>{DAYS[x]}</Typography>
+                  {newData.openingTime[x].map((open: OpeningObjType) => {
+                    return (<Box sx={{ display: 'inline-flex', ml: 4 }} key={`day${x}`}>
+                      <Typography sx={{ display: 'inline-flex', mr: '5px' }}>{'From ' + handleTiming(open.ini)}</Typography>
+                      <Typography sx={{ display: 'inline-flex' }}>{' to ' +handleTiming(open.end)}</Typography>
+                    </Box>);
+                  })}
+                </>
+              ))}
             </Grid>
           ) : null}
-          {newData.company && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Company" size="small" fullWidth margin="dense" value={newData.company}/>
-          </Grid>)}
-          {newData.address && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Address" size="small" fullWidth margin="dense" value={newData.address}/>
-          </Grid>)}
-          {newData.city && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="City" size="small" fullWidth margin="dense" value={newData.city}/>
-          </Grid>)}
-          {newData.zip && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Zip code" size="small" fullWidth margin="dense" value={newData.zip}/>
-          </Grid>)}
-          {newData.state && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="State/Province" size="small" fullWidth margin="dense" value={newData.state}/>
-          </Grid>)}
-          {newData.country && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Country" size="small" fullWidth margin="dense" value={newData.country}/>
-          </Grid>)}
           <RenderSocials newData={newData} />
         </Grid>
       </CardContent>

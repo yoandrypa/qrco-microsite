@@ -19,6 +19,7 @@ import NotifyDynamic from "./helperComponents/NotifyDynamic";
 import BusinessData from "./renderers/BusinessData";
 import NetworksData from "./renderers/NetworksData.";
 import CouponData, {CouponProps} from "./renderers/CouponData";
+import DonationsData from './renderers/DonationsData';
 
 import {CardDataProps, DataType, SocialProps} from './types/types';
 
@@ -100,6 +101,9 @@ const QrContentHandler = () => {
       }
       case 'video': {
         return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
+      }
+      case 'donations': {
+        return <DonationsData data={{shortText:'text',name:'jhon',image:''}} setData={(payload: AssetDataProps) => setData(payload)}/>
       }
       default: {
         return <NetworksData data={data} setData={(payload: SocialProps) => setData(payload)} />

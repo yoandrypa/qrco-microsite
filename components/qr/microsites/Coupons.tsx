@@ -2,14 +2,11 @@ import {useMemo} from "react";
 import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 import Link from 'next/link'
 import {getColors} from "./renderers/helper";
-
+import RenderField from "./renderers/RenderField";
 
 interface CouponProps {
   newData: any;
@@ -22,15 +19,9 @@ export default function Coupons({newData}: CouponProps) {
     <MainMicrosite colors={colors} url={newData.shortlinkurl} badge={newData.prefix}>
       <CardContent>
         <Grid container spacing={1}>
-          {newData.company && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Company" size="small" fullWidth margin="dense" value={newData.company}/>
-          </Grid>)}
-          {newData.title && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Title" size="small" fullWidth margin="dense" value={newData.title}/>
-          </Grid>)}
-          {newData.about && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Description" size="small" fullWidth margin="dense" value={newData.about}/>
-          </Grid>)}
+          {newData.company && <RenderField label="Company" value={newData.company} />}
+          {newData.title && <RenderField label="Title" value={newData.title} />}
+          {newData.about && <RenderField label="Description" value={newData.about} />}
           {newData.urlOptionLink && (
             <Grid item xs={12} style={{paddingTop: 0}}>
               <Link href={newData.urlOptionLink}>
@@ -48,31 +39,14 @@ export default function Coupons({newData}: CouponProps) {
               </Link>
             </Grid>
           )}
-
-          {newData.name && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Coupon code" size="small" fullWidth margin="dense" value={newData.name}/>
-          </Grid>)}
-          {newData.value && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Valid until" size="small" fullWidth margin="dense" value={newData.value}/>
-          </Grid>)}
-          {newData.text && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Terms and conditions" size="small" fullWidth margin="dense" value={newData.text}/>
-          </Grid>)}
-          {newData.address && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Address" size="small" fullWidth margin="dense" value={newData.address}/>
-          </Grid>)}
-          {newData.city && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="City" size="small" fullWidth margin="dense" value={newData.city}/>
-          </Grid>)}
-          {newData.zip && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Zip code" size="small" fullWidth margin="dense" value={newData.zip}/>
-          </Grid>)}
-          {newData.state && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="State/Province" size="small" fullWidth margin="dense" value={newData.state}/>
-          </Grid>)}
-          {newData.country && (<Grid item xs={12} style={{paddingTop: 0}}>
-            <TextField label="Country" size="small" fullWidth margin="dense" value={newData.country}/>
-          </Grid>)}
+          {newData.name && <RenderField label="Coupon code" value={newData.name} />}
+          {newData.value && <RenderField label="Valid until" value={newData.value} />}
+          {newData.text && <RenderField label="Terms and conditions" value={newData.text} />}
+          {newData.address && <RenderField label="Address" value={newData.address} />}
+          {newData.city && <RenderField label="City" value={newData.city} />}
+          {newData.zip && <RenderField label="Zip code" value={newData.zip} />}
+          {newData.state && <RenderField label="State/Province" value={newData.state} />}
+          {newData.country && <RenderField label="Country" value={newData.country} />}
         </Grid>
       </CardContent>
     </MainMicrosite>

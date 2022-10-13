@@ -8,6 +8,7 @@ import frame5 from '../../components/qr/frames/frame5';
 import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
+import {originalDimensions} from "./data";
 
 export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
@@ -249,25 +250,78 @@ export const getFrame = (frame: FramesType): string => {
 
 export function getUuid(): string {
   let dt = new Date().getTime();
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     const r = (dt + Math.random() * 16) % 16 | 0;
     dt = Math.floor(dt/16);
     return (c === 'x' ? r :(r&0x3|0x8)).toString(16);
   });
-  return uuid;
 }
 
-const isValidUrl = (url: string) => {
-  try {
-    const inputElement = document.createElement('input');
-    inputElement.type = 'url';
-    inputElement.value = url;
+export const getFrameObject = (qrDesign: any) => (
+  qrDesign.frame?.type ? {
+    type: qrDesign.frame?.type,
+    text: qrDesign.frame?.text,
+    color: qrDesign.frame?.color,
+    textColor: qrDesign.frame?.textColor,
+    textUp: qrDesign?.textUp || false
+  } : null
+);
 
-    const resp = inputElement.checkValidity();
-    document.body.removeChild(inputElement);
+export const getOptionsObject = (qrDesign: any) => {
+  const object = {
+    width: qrDesign.width,
+    height: qrDesign.height,
+    type: qrDesign.type,
+    data: qrDesign.data,
+    image: qrDesign.image,
+    margin: qrDesign.margin,
+    qrOptions: qrDesign.qrOptions,
+    imageOptions: qrDesign.imageOptions,
+    dotsOptions: qrDesign.dotsOptions,
+    backgroundOptions: qrDesign.backgroundOptions,
+    cornersSquareOptions: qrDesign.cornersSquareOptions,
+    cornersDotOptions: qrDesign.cornersDotOptions
+  };
 
-    return resp;
-  } catch {
-    return false;
+  if (object.cornersDotOptions.type === '') {
+    object.cornersDotOptions.type = null;
   }
+  if (object.cornersSquareOptions.type === '') {
+    object.cornersSquareOptions.type = null;
+  }
+  return object;
+};
+
+export const getBackgroundObject = (qrDesign: any) => ({
+  type: qrDesign.background?.type,
+  opacity: qrDesign.background?.opacity,
+  size: qrDesign.background?.size,
+  file: qrDesign.background?.file,
+  x: qrDesign.background?.x,
+  y: qrDesign.background?.y,
+  imgSize: qrDesign.background?.imgSize || 1,
+  invert: qrDesign.background?.invert || false,
+  backColor: qrDesign.background?.backColor || null
+});
+
+export const getCornersAndDotsObject = (qrDesign: any, item: string) => (
+  qrDesign[item] ? {
+    topL: qrDesign[item].topL,
+    topR: qrDesign[item].topR,
+    bottom: qrDesign[item].bottom
+  } : null
+);
+
+export const dataCleaner = (options: any) => {
+  const data = {...options};
+
+  ['backgroundOptions', 'cornersDotOptions', 'cornersSquareOptions', 'dotsOptions', 'imageOptions',
+    'qrOptions', 'qrOptionsId', 'shortLinkId', 'margin', 'type', 'width', 'height', 'image', 'data'].forEach((x: string) => {
+    if (data[x]) {
+      delete data[x];
+    }
+  });
+
+  return data;
 }
+

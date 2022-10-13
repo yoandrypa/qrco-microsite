@@ -56,7 +56,7 @@ export class CustomError extends Error {
     this.statusCode = statusCode;
     this.data = data;
   }
-};
+}
 
 export const addProtocol = (url: string): string => {
   const hasProtocol = /^\w+:\/\//.test(url);
@@ -65,8 +65,15 @@ export const addProtocol = (url: string): string => {
 
 export const isValidUrl = (urlString: string) => {
   try {
-    return Boolean(new URL(urlString));
-  } catch (e) {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'url';
+    inputElement.value = urlString;
+
+    const resp = inputElement.checkValidity();
+    document.body.removeChild(inputElement);
+
+    return resp;
+  } catch {
     return false;
   }
 };
@@ -204,4 +211,15 @@ export const formatBytes = (bytes: number, decimals = 2) => {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};
+
+export const toBytes = (size: number, type: "B" | "KB" | "MB" | "GB" | "TB") => {
+  const types = ["B", "KB", "MB", "GB", "TB"];
+
+  const key = types.indexOf(type.toUpperCase());
+
+  if (typeof key !== "boolean") {
+    return size * 1024 ** key;
+  }
+  return "invalid type: type must be GB/KB/MB etc.";
 };

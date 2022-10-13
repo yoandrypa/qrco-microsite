@@ -7,13 +7,14 @@ import { Amplify, Auth } from "aws-amplify";
 import Context from "./Context";
 import initialOptions, {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
 import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "../qr/types/types";
-import { PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
+import { PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGN_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
 import AppWrapper from "../AppWrapper";
 import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
 import Loading from "../Loading";
 import QrGen from "../../pages/qr/type";
+import {dataCleaner, getBackgroundObject, getCornersAndDotsObject, getFrameObject} from "../../helpers/qr/helpers";
 
 Amplify.configure(awsExports);
 
@@ -49,6 +50,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isWrong, setIsWrong] = useState<boolean>(false);
+  const [isValidForm, setIsValidForm] = useState<boolean>(true);
 
   const doneInitialRender = useRef<boolean>(false);
   const doNotNavigate = useRef<boolean>(false);
@@ -96,6 +98,9 @@ const AppContextProvider = (props: ContextProps) => {
       if (isWrong) {
         setIsWrong(false);
       }
+      if (isValidForm) {
+        setIsValidForm(true);
+      }
     }
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -111,7 +116,7 @@ const AppContextProvider = (props: ContextProps) => {
       if (step === 1) {
         pathLocation = QR_CONTENT_ROUTE;
       } else if (step === 2) {
-        pathLocation = QR_DESIGNER_NEW_ROUTE;
+        pathLocation = QR_DESIGN_ROUTE;
       }
       router.push(pathLocation, undefined, {shallow: true})
         .then(() => { setLoading(false); });
@@ -123,7 +128,7 @@ const AppContextProvider = (props: ContextProps) => {
 
   useEffect(() => {
     if (options?.mode !== 'edit') {
-      if ([QR_CONTENT_ROUTE, QR_DESIGNER_NEW_ROUTE].includes(router.pathname)) {
+      if ([QR_CONTENT_ROUTE, QR_DESIGN_ROUTE].includes(router.pathname)) {
         if (data?.isDynamic && !isUserInfo && !router.query.login) {
           router.push({pathname: "/", query: {path: router.pathname, login: true}}, "/").then(() => { setLoading(false); });
         } else if (selected === null) {
@@ -178,21 +183,29 @@ const AppContextProvider = (props: ContextProps) => {
 
   useEffect(() => {
     if (options.mode === "edit") {
-      doNotNavigate.current = true;
+      // doNotNavigate.current = true;
+
+      setCornersData(getCornersAndDotsObject(options, 'corners'));
+      setDotsData(getCornersAndDotsObject(options, 'cornersDot'));
+      setBackground(getBackgroundObject(options) || initialBackground);
+      setFrame(getFrameObject(options) || initialFrame);
+      setData(dataCleaner(options));
+      // @ts-ignore
+      setSelected(options.qrType);
+
       if (options?.isDynamic) {
-        router.push("/qr/content").then(() => {
+        router.push(QR_CONTENT_ROUTE).then(() => {
           setStep(1);
           setLoading(false);
         });
       } else {
-        router.push("/qr/new").then(() => {
+        router.push(QR_DESIGN_ROUTE).then(() => {
           setStep(2);
           setLoading(false);
         });
       }
     }
    }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   const logout = useCallback(async () => {
     setLoading(true);
@@ -207,7 +220,7 @@ const AppContextProvider = (props: ContextProps) => {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (router.pathname.startsWith("/qr") && !["/qr/type", "/qr/content", "/qr/new"].includes(router.pathname)) {
+  if (router.pathname.startsWith("/qr") && ![QR_TYPE_ROUTE, QR_CONTENT_ROUTE, QR_DESIGN_ROUTE].includes(router.pathname)) {
     return (<>{children}</>);
   }
 
@@ -247,7 +260,8 @@ const AppContextProvider = (props: ContextProps) => {
         userInfo, setUserInfo,
         step, setStep, setForceClear,
         loading, setLoading,
-        isWrong, setIsWrong
+        isWrong, setIsWrong,
+        isValidForm, setIsValidForm
       }}>
         {renderContent()}
       </Context.Provider>

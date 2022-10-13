@@ -63,6 +63,7 @@ export type OpeningType = {
 } | {} | null;
 
 export type DataType = {
+  mode?: string;
   qrName?: string;
   number?: string;
   message?: string;
@@ -137,6 +138,12 @@ export type DataType = {
   files?: File[];
 };
 
+export type DonationsData ={
+  name: string,
+  image?: string,
+  shortText: string
+}
+
 export type SocialProps = {
   facebook?: string;
   whatsapp?: string;
@@ -149,6 +156,8 @@ export type SocialProps = {
   qrName?: string;
   isDynamic?: boolean;
 }
+
+
 
 export type CardDataProps = {
   data: DataType;
