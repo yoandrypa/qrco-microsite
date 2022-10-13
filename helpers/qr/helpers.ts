@@ -292,7 +292,8 @@ export const getOptionsObject = (qrDesign: any) => {
   return object;
 };
 
-export const getBackgroundObject = (qrDesign: any) => ({
+export const getBackgroundObject = (qrDesign: any) => (
+  !qrDesign.background?.type ? null : {
   type: qrDesign.background?.type,
   opacity: qrDesign.background?.opacity,
   size: qrDesign.background?.size,
