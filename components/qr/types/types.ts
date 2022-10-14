@@ -65,6 +65,8 @@ export type OpeningType = {
 
 export type DataType = {
   mode?: string;
+  userId?: string;
+  id?: string;
   qrName?: string;
   number?: string;
   message?: string;

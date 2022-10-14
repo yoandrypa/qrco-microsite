@@ -140,7 +140,7 @@ const AppContextProvider = (props: ContextProps) => {
           if (isUserInfo) {
             doNotNavigate.current = true;
           }
-          clearData();
+          clearData(false);
         }
 
         if (!router.query.login && step !== 0) {
