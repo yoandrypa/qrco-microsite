@@ -113,7 +113,7 @@ export default function MainMicrosite({children, colors, url, badge}: Microsites
           marginLeft: '10px'}}>
           <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
         </Box>)}
-      <Box sx={{ height: `calc(100vh - ${!colors ? 275 : 170}px)`, overflow: 'auto' }}>
+      <Box sx={{ height: `calc(100vh - ${!colors ? 265 : 160}px)`, overflow: 'auto' }}>
         {children}
       </Box>
       {share && colors && (
@@ -161,12 +161,6 @@ export default function MainMicrosite({children, colors, url, badge}: Microsites
           </DialogContent>
         </Dialog>
       )}
-      <Box>
-        <Divider sx={{ my: 1, px: 1 }} />
-        <Typography
-          variant="caption"
-          sx={{ pl: 1, color: theme => theme.palette.text.disabled, pb: 2 }}>{'Powered by Ebanux'}</Typography>
-      </Box>
     </Card>
   );
 }
