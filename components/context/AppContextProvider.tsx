@@ -59,35 +59,48 @@ const AppContextProvider = (props: ContextProps) => {
 
   const isUserInfo = useMemo(() => userInfo !== null, [userInfo]);
 
-  const clearData = useCallback((keepType?: boolean) => {
+  const clearData = useCallback((keepType?: boolean, item?: 'value' | 'message', value?: string) => {
     setForceClear(false);
+
+    if (item === undefined) {
+      setSelected(null);
+      setBackground(initialBackground);
+      setFrame(initialFrame);
+      setDotsData(null);
+      setCornersData(null);
+    }
 
     setIsWrong(false);
     setLoading(false);
     setStep(0);
-    setSelected(null);
-    setBackground(initialBackground);
-    setFrame(initialFrame);
-    setDotsData(null);
-    setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
 
+    let newData:DataType;
     if (!keepType || data.isDynamic) {
-      setData(initialData);
+      newData = initialData;
     } else {
-      setData({});
+      newData = {};
     }
+
+    if (item !== undefined) {
+      newData[item] = value;
+    }
+
+    setData(newData);
   }, [data.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
       if (selected !== null) {
         if (selected === "web") {
-          setData({ ...data, value: "https://www.example.com" });
+          clearData(true, 'value', 'https://www.example.com');
+          // setData({ ...data, value: "https://www.example.com" });
         } else if (selected === "facebook") {
-          setData({ ...data, message: "https://www.example.com" });
+          clearData(true, 'message', 'https://www.example.com');
+          // setData({ ...data, message: "https://www.example.com" });
         } else if (selected === "text") {
-          setData({ ...data, value: "Enter any text here" });
+          clearData(true, 'value', 'Enter any text here');
+          // setData({ ...data, value: "Enter any text here" });
         }
       } else {
         clearData(true);
