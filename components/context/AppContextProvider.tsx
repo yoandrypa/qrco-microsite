@@ -14,22 +14,19 @@ import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
 import Loading from "../Loading";
 import QrGen from "../../pages/qr/type";
-import {dataCleaner, getBackgroundObject, getCornersAndDotsObject, getFrameObject} from "../../helpers/qr/helpers";
+import {
+  dataCleaner,
+  getBackgroundObject,
+  getCornersAndDotsObject,
+  getFrameObject,
+  handleInitialData
+} from "../../helpers/qr/helpers";
 
 Amplify.configure(awsExports);
 
 interface ContextProps {
   children: ReactNode;
 }
-
-const handleInitialData = (value: string | null | undefined) => {
-  if (!value) {
-    return JSON.parse(JSON.stringify(initialOptions));
-  }
-  const opts = JSON.parse(JSON.stringify(initialOptions));
-  opts.data = value;
-  return opts;
-};
 
 const AppContextProvider = (props: ContextProps) => {
   const { children } = props;

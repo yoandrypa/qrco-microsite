@@ -6,16 +6,12 @@ import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
 
 import Common from '../helperComponents/Common';
-import {EMAIL, SOCIALS} from "../constants";
+import {CELL, EMAIL, PHONE_FAX, SOCIALS, ZIP} from "../constants";
 
 import RenderSocials from "./helpers/RenderSocials";
 import Expander from "./helpers/Expander";
 import {DataType} from "../types/types";
 import {isValidUrl} from "../../../utils";
-
-const PHONE_FAX = new RegExp('^(\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
-const CELL = new RegExp('^((\\+)?\\d{1,3}\\s?)?(\\d+((\\s|-)\\d+)*)$');
-const ZIP = new RegExp('^\\d{5}(-\\d{4})?$');
 
 interface CardDataProps {
   data: DataType;
