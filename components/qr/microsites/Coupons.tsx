@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Link from 'next/link'
 import {getColors} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
+import {humanDate} from "../../helpers/generalFunctions";
 
 interface CouponProps {
   newData: any;
@@ -40,7 +41,7 @@ export default function Coupons({newData}: CouponProps) {
             </Grid>
           )}
           {newData.name && <RenderField label="Coupon code" value={newData.name} />}
-          {newData.value && <RenderField label="Valid until" value={newData.value} />}
+          {newData.value && <RenderField label="Valid until" value={humanDate(newData.value, 'en', true)} />}
           {newData.text && <RenderField label="Terms and conditions" value={newData.text} />}
           {newData.address && <RenderField label="Address" value={newData.address} />}
           {newData.city && <RenderField label="City" value={newData.city} />}

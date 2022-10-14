@@ -16,7 +16,7 @@ export function setHM(time: string): Date {
   return now;
 }
 
-export function humanDate(date: number | string, locale: string = 'en') {
+export function humanDate(date: number | string, locale: string = 'en', long?: boolean) {
   const d = dateConverter(date);
   const compare = new Date();
   if (d.toDateString() === compare.toDateString()) {
@@ -27,8 +27,14 @@ export function humanDate(date: number | string, locale: string = 'en') {
     return "Yesterday";
   }
   compare.setDate(compare.getDate() + 1);
-  const returning = d.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
-  return `${returning}${compare.getFullYear !== d.getFullYear ? `, ${d.getFullYear}` : ''}`;
+
+  const returning = d.toLocaleDateString(locale, {
+    weekday: !long ? undefined : 'long',
+    month: !long ? 'short' : 'long',
+    day: 'numeric'
+  });
+
+  return `${returning}${compare.getFullYear() !== d.getFullYear() || long ? `, ${d.getFullYear()}` : ''}`;
 }
 
 export const isObject = (item: any) => item !== null && typeof item === 'object';
