@@ -66,7 +66,7 @@ const QrContentHandler = () => {
       }
       case 'facebook': {
         // @ts-ignore
-        return <FacebookData data={data} setData={(payload: FacebookDataProps) => setData(payload)} />;
+        return <FacebookData data={data} setData={(payload: FacebookDataProps) => setData(payload)} setIsWrong={setIsWrong} isWrong={isWrong} />;
       }
       case 'wifi': {
         return <WifiData data={data} setData={(payload: WifiDataProps) => setData(payload)} />;
