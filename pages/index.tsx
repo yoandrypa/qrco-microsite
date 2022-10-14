@@ -24,7 +24,8 @@ export default function Index({ qrData }: InferGetServerSidePropsType<typeof get
     return <PleaseWait />;
   }
 
-  if ((qrData === noUser && !router.query.login && !router.query.qr_text) || (router.pathname === '/' && !router.query.login)) {
+  if (qrData === noUser &&
+    ((!router.query.login && !router.query.qr_text) || (router.pathname === '/' && !router.query.login))) {
     return <QrGen />;
   }
 
