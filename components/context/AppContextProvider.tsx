@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Amplify, Auth } from "aws-amplify";
 
 import Context from "./Context";
-import initialOptions, {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
+import {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
 import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "../qr/types/types";
 import { PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGN_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
 import AppWrapper from "../AppWrapper";
@@ -13,7 +13,6 @@ import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
 import Loading from "../Loading";
-import QrGen from "../../pages/qr/type";
 import {
   dataCleaner,
   getBackgroundObject,
@@ -211,8 +210,8 @@ const AppContextProvider = (props: ContextProps) => {
     try {
       await Auth.signOut();
       setUserInfo(null);
-      clearData(); // includes setLoading as false
-      return <QrGen />;
+      clearData(false); // includes setLoading as false
+      await router.replace('/');
     } catch (error) {
       setLoading(false);
       console.log("error signing out: ", error);
