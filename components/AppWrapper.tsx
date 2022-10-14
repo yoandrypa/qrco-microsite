@@ -49,7 +49,7 @@ interface AppWrapperProps {
   children: ReactNode;
   userInfo?: any;
   handleLogout?: () => void;
-  clearData?: (clear: true) => void;
+  clearData?: (keep: boolean) => void;
   setLoading?: (loading: boolean) => void;
 }
 
@@ -85,7 +85,7 @@ export default function AppWrapper(props: AppWrapperProps) {
 
   const handleNavigation = useCallback(() => {
     if (clearData !== undefined) {
-      clearData(true);
+      clearData(false);
     }
     handleLoading();
     router.push((router.pathname === '/' ? QR_TYPE_ROUTE : '/'), undefined, { shallow: true }).then(() => {
