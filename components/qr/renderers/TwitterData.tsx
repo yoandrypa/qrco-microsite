@@ -13,7 +13,6 @@ export type TwitterDataProps = {
     url?: string;
   };
   setIsWrong: (isWrong: boolean) => void;
-  isWrong: boolean;
   setData: Function;
 };
 
@@ -22,7 +21,7 @@ export const availableTwittChars = (data: {text?: string; via?: string; hashtags
     (data?.url || '').length + (data?.hashtags ? data.hashtags.split(',').map((x: string) => `#${x}`).join(' ') : '').length);
 }
 
-const TwitterData = ({ data, setData, isWrong, setIsWrong }: TwitterDataProps) => {
+const TwitterData = ({ data, setData, setIsWrong }: TwitterDataProps) => {
   const [error, setError] = useState<boolean>(false);
 
   const handleValues = (item: 'text' | 'via' | 'hashtags' | 'url') => (event: ChangeEvent<HTMLInputElement>) => {
