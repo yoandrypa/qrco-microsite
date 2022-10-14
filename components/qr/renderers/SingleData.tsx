@@ -25,7 +25,7 @@ function SingleData({ isWrong, setIsWrong, label, data, setData, msg, limit = -1
 
     if (label === 'Website') {
       let error = false;
-      if (value.trim().length && !isValidUrl(value)) {
+      if (!value.trim().length || !isValidUrl(value)) {
         error = true;
       }
       setIsWrong(error);
