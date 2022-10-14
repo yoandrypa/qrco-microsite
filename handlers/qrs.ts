@@ -71,7 +71,7 @@ export const get = async (id: string) => {
 // @ts-ignore
 export const edit = async (data) => {
   try {
-    const { id, userId, ...rest } = data;
+    const { id, userId } = data;
 
     const qr = await queries.qr.find({
       id: { eq: id },
@@ -81,14 +81,13 @@ export const edit = async (data) => {
     if (!qr) {
       throw new CustomError("QR code was not found.");
     }
+    data.qrOptionsId.id = qr.qrOptionsId;
+    if (data.shortLinkId) {
+      data.shortLinkId.id = qr.shortLinkId;
+    }
 
     // Update QR
-    const updatedLink = await queries.qr.update(
-      {
-        id: qr.id
-      },
-      { ...rest }
-    );
+    const updatedLink = await queries.qr.update(data);
 
     // @ts-ignore
     return { ...qr, ...updatedLink };
