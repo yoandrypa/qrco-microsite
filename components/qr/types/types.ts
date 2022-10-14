@@ -69,6 +69,9 @@ export type DataType = {
   id?: string;
   qrName?: string;
   number?: string;
+  avatarImage?: string;
+  bannerImage?: string;
+  donationUnitAmount?: number;
   message?: string;
   subject?: string;
   body?: string;

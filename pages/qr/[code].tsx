@@ -10,6 +10,7 @@ import Coupons from "../../components/qr/microsites/Coupons";
 import SocialInfo from "../../components/qr/microsites/SocialInfo";
 import FileMicro from "../../components/qr/microsites/FileMicro";
 import Images from "../../components/qr/microsites/Images";
+import Donations from "../../components/qr/microsites/Donations"
 import {generateShortLink} from "../../utils";
 
 // @ts-ignore
@@ -46,6 +47,10 @@ export default function Handler({ data }: InferGetServerSidePropsType<typeof get
 
   if (['pdf', 'audio', 'video'].includes(newData.qrType)) {
     return (<FileMicro newData={newData} />);
+  }
+
+  if (newData.qrType === 'donations') {
+    return (<Donations newData={newData} />);
   }
 
   return (
