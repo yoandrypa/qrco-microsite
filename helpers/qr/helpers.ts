@@ -8,7 +8,7 @@ import frame5 from '../../components/qr/frames/frame5';
 import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
-import {originalDimensions} from "./data";
+import initialOptions, {originalDimensions} from "./data";
 
 export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
@@ -312,6 +312,15 @@ export const getCornersAndDotsObject = (qrDesign: any, item: string) => (
     bottom: qrDesign[item].bottom
   } : null
 );
+
+export const handleInitialData = (value: string | null | undefined) => {
+  if (!value) {
+    return JSON.parse(JSON.stringify(initialOptions));
+  }
+  const opts = JSON.parse(JSON.stringify(initialOptions));
+  opts.data = value;
+  return opts;
+};
 
 export const dataCleaner = (options: any, mainObj?: boolean) => {
   const data = {...options};

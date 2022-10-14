@@ -1,5 +1,6 @@
 export type OptionsType = {
   isDynamic?: boolean;
+  qrType?: string;
   mode?: string;
   userId?: string;
   id?: string;
@@ -186,4 +187,14 @@ export type ColorTypes = {
 export type FileType = {
   content: string;
   type: string;
+};
+
+export type EditType = {
+  userId: string;
+  id: string;
+  qrType: string;
+  qrName: string;
+  isDynamic?: boolean;
+  qrOptionsId?: any;
+  value?: string;
 };
