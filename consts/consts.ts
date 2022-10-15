@@ -25,7 +25,7 @@ export const PLAN_LIVE_MODE_PRICES = {
 };
 export const ALLOWED_FILE_EXTENSIONS = {
   pdf: ".pdf",
-  image: [".jpg", ".png", ".svg"],
+  image: [".jpg", ".jpeg", ".png", ".svg", ".gif"],
   audio: ".mp3",
   video: ".mp4"
 };
