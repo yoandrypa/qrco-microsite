@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 
 import { generateId, generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
-import {BackgroundType, CornersAndDotsType, DataType, EditType, FramesType, OptionsType} from "./types/types";
+import { BackgroundType, CornersAndDotsType, DataType, EditType, FramesType, OptionsType } from "./types/types";
 import { QR_TYPE_ROUTE } from "./constants";
 import { areEquals } from "../helpers/generalFunctions";
 import { initialBackground, initialFrame } from "../../helpers/qr/data";

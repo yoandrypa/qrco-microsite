@@ -8,7 +8,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import BrushIcon from '@mui/icons-material/Brush';
 import CropFreeIcon from '@mui/icons-material/CropFree';
 
-import { Accordion, AccordionDetails, AccordionSummary, Alert } from '../renderers/Renderers';
+import { Accordion, AccordionDetails, AccordionSummary } from '../renderers/Renderers';
 
 import {checkForAlpha, convertBase64, downloadAsSVGOrVerify, handleDesignerString} from '../../helpers/qr/helpers';
 import {BackgroundType, CornersAndDotsType, FramesType, OptionsType} from './types/types';
@@ -200,7 +200,7 @@ const Generator = ({ forceOverride }: GenProps) => {
   };
 
   const dataToOverride = useMemo(() => (
-    Boolean(forceOverride) ? forceOverride : (!Boolean(data.isDynamic) && Object.keys(data).length ? handleDesignerString(selected, data) : null)
+    forceOverride !== undefined ? forceOverride : (!Boolean(data.isDynamic) && Object.keys(data).length ? handleDesignerString(selected, data) : null)
   ), [data, selected, forceOverride]);
 
   useEffect(() => {
