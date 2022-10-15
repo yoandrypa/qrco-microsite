@@ -29,7 +29,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {humanDate} from "../helpers/generalFunctions";
-import {handleInitialData} from "../../helpers/qr/helpers";
+import {handleDesignerString, handleInitialData} from "../../helpers/qr/helpers";
 
 const QrList = ({qrs}: any) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -109,7 +109,6 @@ const QrList = ({qrs}: any) => {
             ? qrs.filter((qr: QrDataType) => deleteConfirm || qr.id !== deleteParams.id).map((qr: any) => {
               // @ts-ignore
               const qrLink = sanitize.link(qr.shortLinkId || {});
-
               // @ts-ignore
               return (
                 <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
@@ -127,7 +126,7 @@ const QrList = ({qrs}: any) => {
                               </Box>
                             ) : (
                               <Box sx={{mt: 1}}>
-                                {renderQr(qr.qrOptionsId, !qr.isDynamic ? qr.value : qr.qrOptionsId.data, qr.qrName)}
+                                {renderQr(qr.qrOptionsId, !qr.isDynamic ? handleDesignerString(qr.qrType, qr) : qr.qrOptionsId.data, qr.qrName)}
                               </Box>
                             )}
                           </Box>

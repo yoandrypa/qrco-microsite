@@ -24,7 +24,7 @@ export default function EmailData({ data, setData }: EmailDataProps) {
   };
 
   return (
-    <Common msg="You can receive emails in the addresss you provide. Also you can enter a short subject and a message up to 200 characters.">
+    <Common msg="You can send emails in the addresss you provide. Also you can enter a short subject and a message up to 200 characters.">
       <>
         <TextField
           label="Email"
