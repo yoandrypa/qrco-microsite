@@ -66,7 +66,7 @@ const QrContentHandler = () => {
       }
       case 'facebook': {
         // @ts-ignore
-        return <FacebookData data={data} setData={(payload: FacebookDataProps) => setData(payload)} />;
+        return <FacebookData data={data} setData={(payload: FacebookDataProps) => setData(payload)} setIsWrong={setIsWrong} isWrong={isWrong} />;
       }
       case 'wifi': {
         return <WifiData data={data} setData={(payload: WifiDataProps) => setData(payload)} />;
@@ -88,7 +88,7 @@ const QrContentHandler = () => {
         return <SMSData data={data} setData={(payload: SMSDataProps) => setData(payload)} />;
       }
       case 'twitter': {
-        return <TwitterData data={data} setData={(payload: TwitterDataProps) => setData(payload)} />;
+        return <TwitterData data={data} setData={(payload: TwitterDataProps) => setData(payload)} setIsWrong={setIsWrong}/>;
       }
       case 'image': {
         return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
@@ -103,7 +103,7 @@ const QrContentHandler = () => {
         return <AssetData type={selected} data={data} setData={(payload: AssetDataProps) => setData(payload)} />;
       }
       case 'donations': {
-        return <DonationsData data={{shortText:'text',name:'jhon',image:''}} setData={(payload: AssetDataProps) => setData(payload)}/>
+        return <DonationsData data={data} setData={(payload: AssetDataProps) => setData(payload)}/>
       }
       default: {
         return <NetworksData data={data} setData={(payload: SocialProps) => setData(payload)} />

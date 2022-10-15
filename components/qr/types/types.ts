@@ -1,6 +1,8 @@
 export type OptionsType = {
   isDynamic?: boolean;
+  qrType?: string;
   mode?: string;
+  userId?: string;
   id?: string;
   shortCode?: string;
   width: number;
@@ -64,8 +66,13 @@ export type OpeningType = {
 
 export type DataType = {
   mode?: string;
+  userId?: string;
+  id?: string;
   qrName?: string;
   number?: string;
+  avatarImage?: string;
+  bannerImage?: string;
+  donationUnitAmount?: number;
   message?: string;
   subject?: string;
   body?: string;
@@ -180,4 +187,14 @@ export type ColorTypes = {
 export type FileType = {
   content: string;
   type: string;
+};
+
+export type EditType = {
+  userId: string;
+  id: string;
+  qrType: string;
+  qrName: string;
+  isDynamic?: boolean;
+  qrOptionsId?: any;
+  value?: string;
 };

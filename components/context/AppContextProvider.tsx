@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Amplify, Auth } from "aws-amplify";
 
 import Context from "./Context";
-import initialOptions, {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
+import {initialData, initialBackground, initialFrame} from "../../helpers/qr/data";
 import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "../qr/types/types";
 import { PARAM_QR_TEXT, QR_CONTENT_ROUTE, QR_DESIGN_ROUTE, QR_TYPE_ROUTE } from "../qr/constants";
 import AppWrapper from "../AppWrapper";
@@ -13,23 +13,19 @@ import awsExports from "../../libs/aws/aws-exports";
 import PleaseWait from "../PleaseWait";
 import Generator from "../qr/Generator";
 import Loading from "../Loading";
-import QrGen from "../../pages/qr/type";
-import {dataCleaner, getBackgroundObject, getCornersAndDotsObject, getFrameObject} from "../../helpers/qr/helpers";
+import {
+  dataCleaner,
+  getBackgroundObject,
+  getCornersAndDotsObject,
+  getFrameObject,
+  handleInitialData
+} from "../../helpers/qr/helpers";
 
 Amplify.configure(awsExports);
 
 interface ContextProps {
   children: ReactNode;
 }
-
-const handleInitialData = (value: string | null | undefined) => {
-  if (!value) {
-    return JSON.parse(JSON.stringify(initialOptions));
-  }
-  const opts = JSON.parse(JSON.stringify(initialOptions));
-  opts.data = value;
-  return opts;
-};
 
 const AppContextProvider = (props: ContextProps) => {
   const { children } = props;
@@ -59,35 +55,48 @@ const AppContextProvider = (props: ContextProps) => {
 
   const isUserInfo = useMemo(() => userInfo !== null, [userInfo]);
 
-  const clearData = useCallback((keepType?: boolean) => {
+  const clearData = useCallback((keepType?: boolean, item?: 'value' | 'message', value?: string) => {
     setForceClear(false);
+
+    if (item === undefined) {
+      setSelected(null);
+      setBackground(initialBackground);
+      setFrame(initialFrame);
+      setDotsData(null);
+      setCornersData(null);
+    }
 
     setIsWrong(false);
     setLoading(false);
     setStep(0);
-    setSelected(null);
-    setBackground(initialBackground);
-    setFrame(initialFrame);
-    setDotsData(null);
-    setCornersData(null);
     setOptions(handleInitialData("Ebanux"));
 
+    let newData:DataType;
     if (!keepType || data.isDynamic) {
-      setData(initialData);
+      newData = initialData;
     } else {
-      setData({});
+      newData = {};
     }
+
+    if (item !== undefined) {
+      newData[item] = value;
+    }
+
+    setData(newData);
   }, [data.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (doneInitialRender.current && router.pathname === QR_TYPE_ROUTE) {
       if (selected !== null) {
         if (selected === "web") {
-          setData({ ...data, value: "https://www.example.com" });
+          clearData(true, 'value', 'https://www.example.com');
+          // setData({ ...data, value: "https://www.example.com" });
         } else if (selected === "facebook") {
-          setData({ ...data, message: "https://www.example.com" });
+          clearData(true, 'message', 'https://www.example.com');
+          // setData({ ...data, message: "https://www.example.com" });
         } else if (selected === "text") {
-          setData({ ...data, value: "Enter any text here" });
+          clearData(true, 'value', 'Enter any text here');
+          // setData({ ...data, value: "Enter any text here" });
         }
       } else {
         clearData(true);
@@ -105,7 +114,7 @@ const AppContextProvider = (props: ContextProps) => {
   }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (doneInitialRender.current) {
+    if (doneInitialRender.current && options?.mode !== 'edit') {
       setSelected(null);
     }
   }, [data?.isDynamic]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -140,7 +149,7 @@ const AppContextProvider = (props: ContextProps) => {
           if (isUserInfo) {
             doNotNavigate.current = true;
           }
-          clearData();
+          clearData(false);
         }
 
         if (!router.query.login && step !== 0) {
@@ -183,27 +192,16 @@ const AppContextProvider = (props: ContextProps) => {
 
   useEffect(() => {
     if (options.mode === "edit") {
-      // doNotNavigate.current = true;
-
       setCornersData(getCornersAndDotsObject(options, 'corners'));
       setDotsData(getCornersAndDotsObject(options, 'cornersDot'));
       setBackground(getBackgroundObject(options) || initialBackground);
       setFrame(getFrameObject(options) || initialFrame);
       setData(dataCleaner(options));
+      setOptions(dataCleaner(options, true));
       // @ts-ignore
       setSelected(options.qrType);
 
-      if (options?.isDynamic) {
-        router.push(QR_CONTENT_ROUTE).then(() => {
-          setStep(1);
-          setLoading(false);
-        });
-      } else {
-        router.push(QR_DESIGN_ROUTE).then(() => {
-          setStep(2);
-          setLoading(false);
-        });
-      }
+      setStep(options?.isDynamic ? 1 : 2);
     }
    }, [options.mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -212,8 +210,8 @@ const AppContextProvider = (props: ContextProps) => {
     try {
       await Auth.signOut();
       setUserInfo(null);
-      clearData(); // includes setLoading as false
-      return <QrGen />;
+      clearData(false); // includes setLoading as false
+      await router.replace('/');
     } catch (error) {
       setLoading(false);
       console.log("error signing out: ", error);

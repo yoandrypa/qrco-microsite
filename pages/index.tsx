@@ -20,12 +20,13 @@ const noUser = 'noUser';
 export default function Index({ qrData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
-  if (qrData === noUser && !router.query.login && !router.query.qr_text) {
-    return <QrGen />;
-  }
-
   if (router.isFallback) {
     return <PleaseWait />;
+  }
+
+  if (qrData === noUser &&
+    ((!router.query.login && !router.query.qr_text) || (router.pathname === '/' && !router.query.login))) {
+    return <QrGen />;
   }
 
   return (

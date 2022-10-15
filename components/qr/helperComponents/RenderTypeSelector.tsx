@@ -83,8 +83,8 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
       {renderTypeSelector("web", "Website", "Link to any page on the web", true)}
       {!isDynamic ?
         (<>
-          {renderTypeSelector("email", "Email", "Receive email messages", true)}
-          {renderTypeSelector("sms", "SMS", "Receive text messages", true)}
+          {renderTypeSelector("email", "Email", "Send email messages", true)}
+          {renderTypeSelector("sms", "SMS", "Send text messages", true)}
           {renderTypeSelector("vcard", "VCard", "Share your contact details", true)}
           {renderTypeSelector("text", "Text", "Display a short text message", true)}
           {renderTypeSelector("wifi", "WiFi", "Get connected to a WiFi network", true)}
@@ -103,7 +103,7 @@ const RenderTypeSelector = ({ selected, handleSelect }: RenderTypeSelectorProps)
         {renderTypeSelector("pdf", "PDF file", "Share a PDF file", true)}
         {renderTypeSelector("audio", "Audio file", "Share an audio file", true)}
         {renderTypeSelector("image", "Image file", "Share image files", true)}
-        {renderTypeSelector("video", "Video file", "Share a video file", true)}
+        {renderTypeSelector("video", "Video file", "Share video files", true)}
       </>) : null}
     </Grid>
   );

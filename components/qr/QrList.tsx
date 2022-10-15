@@ -1,4 +1,4 @@
-import {useCallback, useContext, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -29,6 +29,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {humanDate} from "../helpers/generalFunctions";
+import {handleDesignerString, handleInitialData} from "../../helpers/qr/helpers";
 
 const QrList = ({qrs}: any) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -44,6 +45,10 @@ const QrList = ({qrs}: any) => {
     setLoading(true);
     const options = {...qr.qrOptionsId, ...qr, mode: 'edit'};
     setOptions(options);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setOptions(handleInitialData("Ebanux"));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = async () => {
@@ -98,16 +103,15 @@ const QrList = ({qrs}: any) => {
   return (
     <>
       <Stack spacing={2}>
-        <Typography variant="h6" style={{fontWeight: "bold"}}>My QR Codes</Typography>
+        {qrs?.length > 0 ? <Typography variant="h6" style={{ fontWeight: "bold" }}>My QR Codes</Typography> : null}
         {
           qrs?.length > 0
             ? qrs.filter((qr: QrDataType) => deleteConfirm || qr.id !== deleteParams.id).map((qr: any) => {
               // @ts-ignore
               const qrLink = sanitize.link(qr.shortLinkId || {});
-
               // @ts-ignore
               return (
-                <Paper sx={{width: "100%", overflow: "hidden"}} elevation={3} key={qr.id}>
+                <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
                   <Grid container justifyContent="flex-start" alignItems="center" spacing={2}>
                     {/*<Grid item xs={0.1}>*/}
                     {/*  <Checkbox />*/}
@@ -122,7 +126,7 @@ const QrList = ({qrs}: any) => {
                               </Box>
                             ) : (
                               <Box sx={{mt: 1}}>
-                                {renderQr(qr.qrOptionsId, !qr.isDynamic ? qr.value : qr.qrOptionsId.data, qr.qrName)}
+                                {renderQr(qr.qrOptionsId, !qr.isDynamic ? handleDesignerString(qr.qrType, qr) : qr.qrOptionsId.data, qr.qrName)}
                               </Box>
                             )}
                           </Box>

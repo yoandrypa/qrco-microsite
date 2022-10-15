@@ -8,7 +8,7 @@ import frame5 from '../../components/qr/frames/frame5';
 import frame6 from '../../components/qr/frames/frame6';
 import frame7 from '../../components/qr/frames/frame7';
 import { DataType, FramesType } from '../../components/qr/types/types';
-import {originalDimensions} from "./data";
+import initialOptions from "./data";
 
 export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
@@ -292,7 +292,8 @@ export const getOptionsObject = (qrDesign: any) => {
   return object;
 };
 
-export const getBackgroundObject = (qrDesign: any) => ({
+export const getBackgroundObject = (qrDesign: any) => (
+  !qrDesign.background?.type ? null : {
   type: qrDesign.background?.type,
   opacity: qrDesign.background?.opacity,
   size: qrDesign.background?.size,
@@ -312,15 +313,35 @@ export const getCornersAndDotsObject = (qrDesign: any, item: string) => (
   } : null
 );
 
-export const dataCleaner = (options: any) => {
+export const handleInitialData = (value: string | null | undefined) => {
+  if (!value) {
+    return JSON.parse(JSON.stringify(initialOptions));
+  }
+  const opts = JSON.parse(JSON.stringify(initialOptions));
+  opts.data = value;
+  return opts;
+};
+
+export const dataCleaner = (options: any, mainObj?: boolean) => {
   const data = {...options};
 
-  ['backgroundOptions', 'cornersDotOptions', 'cornersSquareOptions', 'dotsOptions', 'imageOptions',
-    'qrOptions', 'qrOptionsId', 'shortLinkId', 'margin', 'type', 'width', 'height', 'image', 'data'].forEach((x: string) => {
-    if (data[x]) {
-      delete data[x];
-    }
-  });
+  const base = ['backgroundOptions', 'cornersDotOptions', 'cornersSquareOptions', 'dotsOptions', 'imageOptions',
+    'qrOptions', 'margin', 'type', 'width', 'height', 'image', 'data'] as string[];
+
+  if (!mainObj) {
+    [...base, 'qrOptionsId', 'shortLinkId', 'qrData', 'qrDesign', 'id', 'qrType', 'userId'].forEach((x: string) => {
+      if (data[x]) {
+        delete data[x];
+      }
+    });
+  } else {
+    const checkFor = [...base, 'id', 'userId', 'shortCode', 'qrType', 'mode'] as string[];
+    Object.keys(data).forEach((x: string) => {
+      if (!checkFor.includes(x)) {
+        delete data[x];
+      }
+    });
+  }
 
   return data;
 }

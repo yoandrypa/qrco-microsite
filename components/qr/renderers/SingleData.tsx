@@ -23,13 +23,13 @@ function SingleData({ isWrong, setIsWrong, label, data, setData, msg, limit = -1
       value = value.slice(0, limit);
     }
 
-    if (label === 'Website') {
-      let error = false;
-      if (value.trim().length && !isValidUrl(value)) {
-        error = true;
-      }
-      setIsWrong(error);
+    let error = false;
+    if (!value.trim().length) {
+      error = true;
+    } else if (label === 'Website' && !isValidUrl(value)) {
+      error = true;
     }
+    setIsWrong(error);
     // @ts-ignore
     setData({ ...data, value });
   };

@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 
 import { generateId, generateShortLink } from "../../utils";
 import * as QrHandler from "../../handlers/qrs";
-import { BackgroundType, CornersAndDotsType, DataType, FramesType, OptionsType } from "./types/types";
+import { BackgroundType, CornersAndDotsType, DataType, EditType, FramesType, OptionsType } from "./types/types";
 import { QR_TYPE_ROUTE } from "./constants";
 import { areEquals } from "../helpers/generalFunctions";
 import { initialBackground, initialFrame } from "../../helpers/qr/data";
@@ -140,19 +140,44 @@ const QrWizard = ({ children }: QrWizardProps) => {
       if (!qrDesign.cornersDotOptions.type) {
         qrDesign.cornersDotOptions.type = '';
       }
-
       if (!qrDesign.cornersSquareOptions.type) {
         qrDesign.cornersSquareOptions.type = '';
+      }
+      if (qrDesign.mode !== undefined) {
+        delete qrDesign.mode;
       }
 
       try {
         if (data.mode === undefined) {
           await QrHandler.create({shortLink, qrDesign, qrData});
         } else {
-          await QrHandler.edit({qrDesign, qrData});
+          const objToEdit = {
+            userId: qrDesign.userId,
+            id: qrDesign.id,
+            qrType: qrData.qrType,
+            qrName: qrData.qrName
+          } as EditType;
+
+          if (qrData.value) { objToEdit.value = qrData.value; }
+
+          if (qrDesign.qrType) { delete qrDesign.qrType; }
+          if (qrDesign.id) { delete qrDesign.id; }
+          if (qrDesign.userId) { delete qrDesign.userId; }
+          // @ts-ignore
+          if (qrData.createdAt) { delete qrData.createdAt; }
+          // @ts-ignore
+          if (qrData.updatedAt) { delete qrData.updatedAt; }
+
+          objToEdit.qrOptionsId = qrDesign;
+
+          if (data.isDynamic) {
+            objToEdit.isDynamic = true;
+          }
+
+          await QrHandler.edit(objToEdit);
         }
-        // @ts-ignore
-        await router.push("/", undefined, { shallow: true });
+
+        await router.push("/", undefined);
       } catch {
         setIsError(true);
         setLoading(false);
@@ -168,7 +193,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
     <StepperButtons
       variant="contained"
       startIcon={<ChevronLeftIcon />}
-      disabled={loading || step === 0 || !selected}
+      disabled={loading || step === 0 || !selected || (data.mode === 'edit' && ((data.isDynamic && step <=1) || (!data.isDynamic && step <= 2))) }
       onClick={handleBack}>
       {"Back"}
     </StepperButtons>
@@ -203,7 +228,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
 
   return (
     <>
-      <Box sx={{ minHeight: "calc(100vh - 188px)" }}>
+      <Box sx={{ minHeight: "calc(100vh - 195px)" }}>
         {children}
       </Box>
       {isWide ? (

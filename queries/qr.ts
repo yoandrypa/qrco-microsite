@@ -77,7 +77,7 @@ export const get = async (match: Partial<QrDataQueryType>, params: GetParams) =>
   }
 };
 
-export const find = async (match: Partial<QrDataQueryType>): Promise<QrDataType> => {
+export const find = async (match: Partial<QrDataQueryType>): Promise<any> => {
   try {
     return await QrDataModel.findOne(match);
   } catch (e) {
@@ -140,11 +140,24 @@ export const remove = async (match: Partial<QrDataType>) => {
   }
 };
 
-export const update = async (match: string | Partial<QrDataType>, update: Partial<QrDataType>
-) => {
+// @ts-ignore
+export const update = async (data) => {
   try {
-    // @ts-ignore
-    return QrDataModel.update(match, update);
+    let transactions = [];
+    const { shortLinkId, qrOptionsId, ...qrData } = data;
+    if (shortLinkId) {
+      const { id, ...rest } = shortLinkId;
+      transactions.push(await LinkModel.transaction.update(id, rest));
+    }
+    if (qrOptionsId) {
+      const { id, ...rest } = qrOptionsId;
+      transactions.push(await QrOptionsModel.transaction.update(id, rest));
+    }
+    if (qrData) {
+      const { id, ...rest } = qrData;
+      transactions.push(await QrDataModel.transaction.update(id, rest));
+    }
+    return await dynamoose.transaction(transactions);
   } catch (e) {
     // @ts-ignore
     throw new CustomError(e.message, 500, e);
