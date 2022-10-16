@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import { getColors } from "./renderers/helper";
@@ -17,8 +17,45 @@ interface DonationsProps {
   newData: any;
 }
 
+type BoxOptions = 'first' | 'second' | 'third' | 'input';
+
 export default function DonationsInfo({ newData }: DonationsProps) {
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const [selectedBox, setSelectedBox] = useState<BoxOptions>('first')
+  const [inputValue, setInputValue] = useState<string>('5')
+  const [donationAmount, setDonationAmount] = useState<number>(5)
+  const handleBoxClick = (box: BoxOptions) => {
+    if (box === 'first') {
+      setSelectedBox('first')
+      setDonationAmount(newData.donationUnitAmount || 1)
+    }
+    if (box === 'second') {
+      setSelectedBox('second')
+      setDonationAmount(3 * (newData.donationUnitAmount || 1))
+    }
+    if (box === 'third') {
+      setSelectedBox('third')
+      setDonationAmount(5 * (newData.donationUnitAmount || 1))
+    }
+    if (box === 'input') {
+      setSelectedBox('input')
+      setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1))
+    }
+
+  }
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>)=>{
+    if (parseInt(inputValue,10) < 5){
+      console.log(inputValue + 'menor que 5'+ event.target.value)
+      setInputValue('5')
+      setDonationAmount(5 * (newData.donationUnitAmount || 1))
+
+    } else {
+      setInputValue(event.target.value)
+      setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1))
+    }
+    
+  }
 
   const theme = createTheme({
     palette: {
@@ -50,92 +87,132 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
   return (
     //TODO
-      <CardContent>
-
-        <Grid container
-          display='flex'
-          justifyContent="center"
-          alignItems="center"
-          spacing={1}
-        >
-          <Grid item xs={3} sx={{ RoundedCorner: 2 }} >
-              <Typography variant='h6' textAlign={'center'} marginTop={2}>{newData?.title}</Typography>
-              <Typography variant='h6' textAlign={'center'} marginTop={2}>Would you like to buy me a coffie?</Typography>
-              <Stack direction="row" sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignSelf: 'center' }}>
-                <Avatar
-                  alt="Avatar"
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-                  sx={{ width: 100, height: 100, }}
-                />
-              </Stack>
-
-         
+    <CardContent>
+      <Grid container
+        display='flex'
+        justifyContent="center"
+        alignItems="center"
+        spacing={1}
+      >
+        <Grid item xs={12} sm={3} md={3} sx={{ RoundedCorner: 2 }} >
+          <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2}>{newData?.title}</Typography>
+          <Typography variant='h6' textAlign={'center'}>Would you like to buy me a coffie?</Typography>
+          <Stack direction="row" sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignSelf: 'center' }}>
+            <Avatar
+              alt="Avatar"
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+              sx={{ width: 100, height: 100, }}
+            />
+          </Stack>
 
         </Grid>
         <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <Typography>
             {newData?.message}
           </Typography>
+        </Grid>
+        <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+
           <Typography>
             {newData?.web}
           </Typography>
         </Grid>
+
         <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-         <Grid item>
-            <SvgIcon>
-              <EmojiFoodBeverageIcon color='primary'/>
-            </SvgIcon> 
-         </Grid>
-         <Grid item>
-           <Typography >
-            x
-           </Typography>
-         </Grid>
-         <Grid item>
-           <Box sx={{borderRadius:45, backgroundColor: 'lightblue', width:35,height:35, display: 'flex', justifyContent: 'center', alignContent: 'center' , margin:'auto'}} >
-            <Typography textAlign='center' sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' , margin:'auto'}}>
-              1
-            </Typography>
-           </Box>
-         </Grid>
-         <Grid item>
-           <Box sx={{borderRadius:45, backgroundColor: 'lightblue', width:35,height:35, display: 'flex', justifyContent: 'center', alignContent: 'center' , margin:'auto'}} >
-            <Typography textAlign='center' sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' , margin:'auto'}}>
-              3
-            </Typography>
-           </Box>
-         </Grid>
-         <Grid item>
-           <Box sx={{borderRadius:45, backgroundColor: 'lightblue', width:35,height:35, display: 'flex', justifyContent: 'center', alignContent: 'center' , margin:'auto'}} >
-            <Typography textAlign='center' sx={{display: 'flex', justifyContent: 'center', alignContent: 'center' , margin:'auto'}}>
-              5
-            </Typography>
-           </Box>
-         </Grid> 
-         <Grid item>
-           <TextField
-           sx={{width: 80}}
-           label='Amount'
-           size="small"
-           type='number'
-           placeholder="25"
-           ></TextField>
-         </Grid> 
-       
+          <Grid item>
+            <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+              <SvgIcon sx={{ width: 35, height: 35 }}>
+                <EmojiFoodBeverageIcon color='primary' />
+              </SvgIcon>
+            </Box>
+          </Grid>
+          <Grid item>
+            <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+              <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                x
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item>
+            <Box
+              onClick={() => handleBoxClick('first')}
+              sx={{
+                borderRadius: 45, borderColor: 'blue', backgroundColor: 'lightblue',
+                width: 35, height: 35, display: 'flex', justifyContent: 'center',
+                alignContent: 'center', margin: 'auto'
+              }}
+              border={selectedBox === 'first' ? 2 : 0}
+            >
+              <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                1
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item>
+            <Box
+              border={selectedBox === 'second' ? 2 : 0}
+              onClick={() => handleBoxClick('second')}
+              sx={{ borderRadius: 45, borderColor: 'blue', backgroundColor: 'lightblue', width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+              <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                3
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item >
+            <Box
+              border={selectedBox === 'third' ? 2 : 0}
+              onClick={() => handleBoxClick('third')}
+              sx={{ borderRadius: 45, borderColor: 'blue', backgroundColor: 'lightblue', width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
+            >
+              <Typography textAlign='center'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  margin: 'auto'
+                }}>
+                5
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item>
+            <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+              <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                or
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item>
+            <TextField
+              onFocus={() => handleBoxClick('input')}
+              sx={{ width: 80 }}
+              //  label='Amount'
+              size="small"
+              type='number'
+              placeholder="25"
+              value={inputValue}
+              onChange={handleInputChange}
+            ></TextField>
+          </Grid>
 
         </Grid>
 
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+         { donationAmount && <Typography variant="h6"> Send ${donationAmount} USD</Typography>}
+        </Grid>
+        <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <CardActions sx={{ marginTop: 2 }}>
-            <Button color="primary" variant="contained" sx={{borderRadius: 2}}>
+            <Button color="primary" variant="contained" sx={{ borderRadius: 2 }}>
               Donate
             </Button>
 
           </CardActions>
-         
+
         </Grid>
-        </Grid>
-      </CardContent>
+      </Grid>
+    </CardContent>
 
   );
 }
