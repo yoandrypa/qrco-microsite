@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {ChangeEvent, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -17,17 +17,22 @@ interface DonationsProps {
       donationUnitAmount?: number ,
     },
     setData: Function
+    setIsWrong: (isWrong: boolean) => void;
 }
 
 type Options = 'message' | 'title' |'avatarImage' | 'web' | 'donationUnitAmount'
 
-const  DonationsData = ({data,setData }: DonationsProps) => {
-
-  const handleValues = (item: Options) => (event: React.ChangeEvent<HTMLInputElement>) => {
+const  DonationsData = ({data,setData ,setIsWrong}: DonationsProps) => {
+const [isError,setIsError] = useState<boolean>(false)
+  const handleValues = (item: Options) => (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const temp = { ...data };
     if (value.length) {
       if (value.length) {
+        if (item === 'donationUnitAmount'){
+           parseInt(value) <= 1 ? setIsError(true) : setIsError(false)
+        }
+      
         // @ts-ignore
         temp[item] = value;
         // @ts-ignore
@@ -75,7 +80,7 @@ const  DonationsData = ({data,setData }: DonationsProps) => {
       <TextField label='Name'
          sx={{marginTop: 2, width:300 }}
          placeholder='Paul Smith'
-         value={data?.web}
+         value={data?.title}
          onChange={handleValues('title')}
          size='small'
        /> 
@@ -128,7 +133,11 @@ size='small'
       size='small'
       value={data?.donationUnitAmount}
       onChange={handleValues('donationUnitAmount')}
+      error={isError}
     />
+   {isError && <Typography align='center' color='red'>
+    Hey, minimum of $1 for a coffie.
+    </Typography>} 
     </Grid>
 
     </Grid>
