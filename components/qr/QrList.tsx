@@ -30,6 +30,7 @@ import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {humanDate} from "../helpers/generalFunctions";
 import {handleDesignerString, handleInitialData} from "../../helpers/qr/helpers";
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const QrList = ({qrs}: any) => {
   const [deleteConfirm, setDeleteConfirm] = useState<{
@@ -82,6 +83,9 @@ const QrList = ({qrs}: any) => {
       <IconButton color="error" disabled={isLoading} onClick={() => showConfirmationDialog(qr.id, qr.userId)}>
         <DeleteOutlineRounded/>
       </IconButton>
+     { <IconButton color="info" disabled={isLoading} onClick={() =>{}}>
+        <DashboardIcon/>
+      </IconButton>} 
     </Stack>
   );
 

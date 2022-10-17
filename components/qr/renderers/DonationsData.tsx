@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {ChangeEvent, useState } from 'react'
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -22,12 +22,16 @@ interface DonationsProps {
 type Options = 'message' | 'title' |'avatarImage' | 'web' | 'donationUnitAmount'
 
 const  DonationsData = ({data,setData }: DonationsProps) => {
-
-  const handleValues = (item: Options) => (event: React.ChangeEvent<HTMLInputElement>) => {
+const [isError,setIsError] = useState<boolean>(false)
+  const handleValues = (item: Options) => (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const temp = { ...data };
     if (value.length) {
       if (value.length) {
+        if (item === 'donationUnitAmount'){
+           parseInt(value) <= 1 ? setIsError(true) : setIsError(false)
+        }
+      
         // @ts-ignore
         temp[item] = value;
         // @ts-ignore
@@ -50,8 +54,8 @@ const  DonationsData = ({data,setData }: DonationsProps) => {
     <Grid item>
     <Stack direction="row" sx={{marginTop:2, display: 'flex', justifyContent: 'center',alignSelf:'center' }}>
       <Avatar        
-        alt="sljfsf sflS"
-        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+        alt="avatar"
+        src="https://images.unsplash.com/photo-1518057111178-44a106bad636?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80"
         sx={{ width: 100, height: 100,}}
       />
      </Stack> 
@@ -75,7 +79,7 @@ const  DonationsData = ({data,setData }: DonationsProps) => {
       <TextField label='Name'
          sx={{marginTop: 2, width:300 }}
          placeholder='Paul Smith'
-         value={data?.web}
+         value={data?.title}
          onChange={handleValues('title')}
          size='small'
        /> 
@@ -128,7 +132,11 @@ size='small'
       size='small'
       value={data?.donationUnitAmount}
       onChange={handleValues('donationUnitAmount')}
+      error={isError}
     />
+   {isError && <Typography align='center' color='red'>
+    Hey, minimum of $1 for a coffie.
+    </Typography>} 
     </Grid>
 
     </Grid>
