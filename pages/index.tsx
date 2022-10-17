@@ -29,20 +29,22 @@ export default function Index({ qrData }: InferGetServerSidePropsType<typeof get
     return <QrGen />;
   }
 
+  console.log(qrData);
+
   return (
     <Authenticator components={components}>
       {({ user }) => (
-        <QrHome qrData={qrData !== noUser ? qrData : '{}'} userInformation={user} />
+        <QrHome qrData={qrData !== noUser ? qrData : []} userInformation={user} />
       )}
     </Authenticator>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    "Cache-Control",
-    "private, s-maxage=10, stale-while-revalidate=59"
-  );
+  // res.setHeader(
+  //   "Cache-Control",
+  //   "private, s-maxage=10, stale-while-revalidate=59"
+  // );
 
   const getUserInfo = async () => {
     try {
@@ -56,7 +58,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         return null;
       }
       return userInfo;
-    } catch (e) {
+    } catch {
       return null;
     }
   };
@@ -79,14 +81,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!user) {
     user = await UserHandler.create({ id: userId });
   }
+
   const qrs = await QrHandler.list({ userId: user.id });
 
-  // @ts-ignore
-  qrs.qrs = qrs.qrs.sort((itemA: QrDataType, itemB: QrDataType) => itemB.createdAt - itemA.createdAt);
-
+  // return only the list data
   return {
-    props: {
-      qrData: JSON.stringify(qrs)
-    }
+    props: { qrData: JSON.parse(
+      // @ts-ignore
+      JSON.stringify(qrs.qrs.sort((itemA: QrDataType, itemB: QrDataType) => itemB.createdAt - itemA.createdAt))
+    )}
   };
 };

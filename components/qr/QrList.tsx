@@ -14,14 +14,14 @@ import SyncIcon from "@mui/icons-material/Sync";
 import SyncDisabledIcon from "@mui/icons-material/SyncDisabled";
 import Public from "@mui/icons-material/Public";
 import IconButton from "@mui/material/IconButton";
-import { sanitize } from "../../utils";
+import {sanitize} from "../../utils";
 import Link from "next/link";
 import * as QrHandler from "../../handlers/qrs";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import Context from "../context/Context";
 import RenderNewQrButton from "../renderers/RenderNewQrButton";
 import RenderPreview from "./renderers/RenderPreview";
-import { capitalize } from "@mui/material";
+import {capitalize} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -32,8 +32,10 @@ import {humanDate} from "../helpers/generalFunctions";
 import {handleDesignerString, handleInitialData} from "../../helpers/qr/helpers";
 
 const QrList = ({qrs}: any) => {
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
-  const [deleteParams, setDeleteParams] = useState({id: "", userId: ""});
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    id: string;
+    userId: string;
+  } | null>(null);
 
   // @ts-ignore
   const {isLoading, setLoading, setOptions} = useContext(Context);
@@ -52,25 +54,24 @@ const QrList = ({qrs}: any) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = async () => {
-    setLoading(true);
-    const deleted = await QrHandler.remove(deleteParams);
-    if (deleted) {
-      setDeleteConfirm(false);
-      router.push("/").then(() => {
-        setDeleteParams({id: "", userId: ""});
-        setLoading(false);
-      });
+    if (deleteConfirm !== null) {
+      setLoading(true);
+      const deleted = await QrHandler.remove(deleteConfirm);
+      if (deleted) {
+        router.replace("/").then(() => {
+          setDeleteConfirm(null);
+          setLoading(false);
+        });
+      }
     }
   };
 
   const handleCancelDeletion = useCallback(() => {
-    setDeleteParams({id: "", userId: ""});
-    setDeleteConfirm(false);
+    setDeleteConfirm(null);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const showConfirmationDialog = useCallback((qrId: string, userId: string) => {
-    setDeleteParams({id: qrId, userId: userId});
-    setDeleteConfirm(true);
+    setDeleteConfirm({id: qrId, userId: userId});
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderOptions = (qr: any) => (
@@ -85,8 +86,8 @@ const QrList = ({qrs}: any) => {
   );
 
   const renderStaticDynamic = (is: boolean) => (
-    <Typography variant="caption" style={{ color: "gray" }}>
-      {is ? <SyncIcon fontSize="inherit" /> : <SyncDisabledIcon fontSize="inherit" />}
+    <Typography variant="caption" style={{color: "gray"}}>
+      {is ? <SyncIcon fontSize="inherit"/> : <SyncDisabledIcon fontSize="inherit"/>}
       {is ? " Dynamic" : " Static"}
     </Typography>
   );
@@ -103,15 +104,15 @@ const QrList = ({qrs}: any) => {
   return (
     <>
       <Stack spacing={2}>
-        {qrs?.length > 0 ? <Typography variant="h6" style={{ fontWeight: "bold" }}>My QR Codes</Typography> : null}
-        {
-          qrs?.length > 0
-            ? qrs.filter((qr: QrDataType) => deleteConfirm || qr.id !== deleteParams.id).map((qr: any) => {
+        {qrs?.length > 0 ? (
+          <>
+            <Typography variant="h6" style={{fontWeight: "bold"}}>My QR Codes</Typography>
+            {qrs.map((qr: any) => {
               // @ts-ignore
               const qrLink = sanitize.link(qr.shortLinkId || {});
               // @ts-ignore
               return (
-                <Paper sx={{ width: "100%", overflow: "hidden" }} elevation={3} key={qr.id}>
+                <Paper sx={{width: "100%", overflow: "hidden"}} elevation={3} key={qr.id}>
                   <Grid container justifyContent="flex-start" alignItems="center" spacing={2}>
                     {/*<Grid item xs={0.1}>*/}
                     {/*  <Checkbox />*/}
@@ -131,7 +132,8 @@ const QrList = ({qrs}: any) => {
                             )}
                           </Box>
                           <Stack direction="column" sx={{my: 'auto'}}>
-                            <Typography variant="subtitle2" sx={{color: "orange", mb: '-7px'}}>{capitalize(qr.qrType)}</Typography>
+                            <Typography variant="subtitle2"
+                                        sx={{color: "orange", mb: '-7px'}}>{capitalize(qr.qrType)}</Typography>
                             <Typography variant="h6" sx={{fontWeight: "bold", mb: '-2px'}}>{qr.qrName}</Typography>
                             {isWide ? (
                               <Typography variant="caption" sx={{color: "gray"}}>
@@ -150,25 +152,27 @@ const QrList = ({qrs}: any) => {
                       </Box>
                     </Grid>
                     {!isWide ? (<Grid item xs={12}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', px: '11px', mt: '-22px'}}>
+                      <Box
+                        sx={{display: 'flex', justifyContent: 'space-between', width: '100%', px: '11px', mt: '-22px'}}>
                         {renderStaticDynamic(qr.isDynamic)}
                         <Typography variant="caption" style={{color: "gray"}}>
                           {`${qrLink.visitCount} scans`}
                         </Typography>
                       </Box>
-                      </Grid>) : (<Grid item xs={4}>
+                    </Grid>) : (<Grid item xs={4}>
                       <Box sx={{display: 'flex'}}>
                         <Divider orientation="vertical" flexItem sx={{mx: 2}}/>
-                        <Stack direction="column" spacing={0.8} justifyContent="flex-start" alignItems="flex-start" sx={{ml: {xs: 2, sm: 0}}}>
+                        <Stack direction="column" spacing={0.8} justifyContent="flex-start" alignItems="flex-start"
+                               sx={{ml: {xs: 2, sm: 0}}}>
                           {renderStaticDynamic(qr.isDynamic)}
                           {qrLink.address ? (
-                            <Typography variant="caption" sx={{ color: "gray" }}>
+                            <Typography variant="caption" sx={{color: "gray"}}>
                               {/*@ts-ignore*/}
-                              <Public fontSize="inherit" /> <Link href={qrLink.link}>{qrLink.link.split("//")[1]}</Link>
+                              <Public fontSize="inherit"/> <Link href={qrLink.link}>{qrLink.link.split("//")[1]}</Link>
                             </Typography>) : <></>}
-                          <Typography variant="caption" sx={{ color: "gray" }}>
+                          <Typography variant="caption" sx={{color: "gray"}}>
                             {/*<Edit fontSize="inherit"/> Updated at: {format(new Date(qr.updatedAt), "MMM d, yyyy")}*/}
-                            <Edit fontSize="inherit" /> {`Updated at: ${humanDate(new Date(qr.updatedAt).getTime())}`}
+                            <Edit fontSize="inherit"/> {`Updated at: ${humanDate(new Date(qr.updatedAt).getTime())}`}
                           </Typography>
                         </Stack>
                       </Box>
@@ -183,7 +187,7 @@ const QrList = ({qrs}: any) => {
                             <Typography variant="caption" style={{color: "gray"}}>
                               Scans
                             </Typography>
-                            </Stack>
+                          </Stack>
                         ) : <div/>}
                         {isWide && renderOptions(qr)}
                       </Box>
@@ -191,21 +195,23 @@ const QrList = ({qrs}: any) => {
                   </Grid>
                 </Paper>
               );
-            }) : (
-              <Grid container justifyContent="center" alignItems="center" sx={{height: "calc( 100vh - 200px );"}}>
-              <Grid item>
-                <Alert severity="info" variant="outlined" action={<RenderNewQrButton/>} sx={{width: 450, p: 5}}>
-                  There are no QR codes.
-                </Alert>
-              </Grid>
-            </Grid>)
-        }
+            })}
+          </>
+        ) : (
+          <Grid container justifyContent="center" alignItems="center" sx={{height: "calc( 100vh - 200px );"}}>
+            <Grid item>
+              <Alert severity="info" variant="outlined" action={<RenderNewQrButton/>} sx={{width: 450, p: 5}}>
+                There are no QR codes.
+              </Alert>
+            </Grid>
+          </Grid>
+        )}
       </Stack>
-      {deleteConfirm ?
+      {deleteConfirm !== null ?
         <Dialog
           sx={{"& .MuiDialog-paper": {width: "80%", maxHeight: 435}}}
           maxWidth="xs"
-          open={deleteConfirm}>
+          open={true}>
           <DialogTitle>Delete confirmation</DialogTitle>
           <DialogContent>
             <Typography>Are you sure you want to delete the selected QR?</Typography>
