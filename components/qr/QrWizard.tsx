@@ -177,7 +177,7 @@ const QrWizard = ({ children }: QrWizardProps) => {
           await QrHandler.edit(objToEdit);
         }
 
-        await router.push("/", undefined);
+        router.replace("/").then(() => { setLoading(false); });
       } catch {
         setIsError(true);
         setLoading(false);
