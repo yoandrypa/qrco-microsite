@@ -29,8 +29,6 @@ export default function Index({ qrData }: InferGetServerSidePropsType<typeof get
     return <QrGen />;
   }
 
-  console.log(qrData);
-
   return (
     <Authenticator components={components}>
       {({ user }) => (
