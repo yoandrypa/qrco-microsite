@@ -99,7 +99,7 @@ const RenderPreview = ({ qrDesign, name }: PreviewProps) => {
         setUpdating(false);
         generateQr();
         // @ts-ignore
-      }, [250]);
+      }, 250);
     }
   }, [updating]); // eslint-disable-line react-hooks/exhaustive-deps
 
