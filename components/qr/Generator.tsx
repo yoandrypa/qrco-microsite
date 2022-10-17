@@ -205,7 +205,7 @@ const Generator = ({ forceOverride }: GenProps) => {
 
   useEffect(() => {
     if (isReadable) {
-      setTimeout(() => { setIsReadable(null); }, [3700]);
+      setTimeout(() => { setIsReadable(null); }, 3700);
     }
   }, [isReadable]);
 
@@ -244,7 +244,7 @@ const Generator = ({ forceOverride }: GenProps) => {
 
   useEffect(() => {
     if (updating) {
-      setTimeout(() => { setUpdating(false); }, [350]);
+      setTimeout(() => { setUpdating(false); }, 350);
     }
     if (!doneFirst.current) {
       doneFirst.current = true;

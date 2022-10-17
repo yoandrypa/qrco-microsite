@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import QrList from "./QrList";
 
 export default function QrHome({ qrData, userInformation }: any) {
-  const { qrs } = JSON.parse(qrData);
+  // const qrs = JSON.parse(qrData);
 
   const router = useRouter();
 
@@ -32,10 +32,10 @@ export default function QrHome({ qrData, userInformation }: any) {
   return (
     <Box>
       <Grid container spacing={2}>
-        {qrs &&
+        {qrData &&
           <Grid item xs={12}>
             {/*@ts-ignore*/}
-            <QrList qrs={qrs} />
+            <QrList qrs={qrData} />
           </Grid>
         }
       </Grid>
