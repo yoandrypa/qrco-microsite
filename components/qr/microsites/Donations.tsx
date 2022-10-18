@@ -3,9 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import { getColors } from "./renderers/helper";
 import { ColorTypes } from "../types/types";
-import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import Avatar from '@mui/material/Avatar'
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import { createTheme } from '@mui/material/styles';
@@ -13,27 +11,12 @@ import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import { TextField } from "@mui/material";
-import Axios from 'axios'
 import MainMicrosite from "./MainMicrosite";
-
-
-import { Amplify, Auth } from "aws-amplify";
-import awsExports from "../../../libs/aws/aws-exports";
+import  LoadingButton from "@mui/lab/LoadingButton";
 
 interface DonationsProps {
   newData: any;
 }
-
-Amplify.configure(awsExports);
-
-Auth.currentSession().then(res=>{
-  let accessToken = res.getAccessToken()
-  let jwt = accessToken.getJwtToken()
-  //You can print them to see the full objects
-  // console.log(`myAccessToken: ${JSON.stringify(accessToken)}`)
-  // console.log(`myJwt: ${jwt}`)
-})
-
 
 type BoxOptions = 'first' | 'second' | 'third' | 'input';
 
@@ -42,7 +25,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [selectedBox, setSelectedBox] = useState<BoxOptions>('first')
   const [inputValue, setInputValue] = useState<string>('1')
   const [donationAmount, setDonationAmount] = useState<number>(1)
- 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  
   useEffect(() => {
     if (parseInt(inputValue) < 1){
       setDonationAmount(parseInt(newData.donationUnitAmount))
@@ -112,7 +97,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   }
 
   const handleClick = ()=>{
-
+        setIsLoading(true)
   }
 
   const theme = createTheme({
@@ -263,9 +248,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
         </Grid>
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <CardActions sx={{ marginTop: 2 }}>
-            <Button color="primary" variant="contained" sx={{ borderRadius: 2 }}>
+            <LoadingButton onClick={handleClick} loading={isLoading}  color="primary" variant="contained" sx={{ borderRadius: 2 }}>
               Donate
-            </Button>
+            </LoadingButton>
 
           </CardActions>
 
