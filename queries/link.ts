@@ -4,8 +4,9 @@ import {unmarshall} from "@aws-sdk/util-dynamodb";
 
 export const getByAddress = async (address: string) => {
     try {
+        const prefix = process.env.REACT_NODE_ENV === "production" ? "prd_" : "dev_";
         const input = {
-            Statement: "SELECT * FROM dev_links WHERE address=?",
+            Statement: "SELECT * FROM " + prefix + "_links WHERE address=?",
             Parameters: [{"S": address}],
         };
 

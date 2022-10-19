@@ -61,6 +61,8 @@ export default function Handler({ data }: InferGetServerSidePropsType<typeof get
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params, req}) => {
+    try {
+
     // @ts-ignore
     const {code} = params;
     const link = await queries.link.getByAddress(code)
@@ -91,4 +93,9 @@ export const getServerSideProps: GetServerSideProps = async ({params, req}) => {
             })
         }
     };
+    } catch {
+        return {
+            notFound: true
+        }
+    }
 };

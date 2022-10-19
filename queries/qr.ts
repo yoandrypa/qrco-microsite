@@ -4,8 +4,9 @@ import {unmarshall} from "@aws-sdk/util-dynamodb";
 
 export const getByShortLink = async (shortLinkId: string) => {
     try {
+        const prefix = process.env.REACT_NODE_ENV === "production" ? "prd_" : "dev_";
         const input = {
-            Statement: "SELECT * FROM dev_qr_data WHERE shortLinkId=?",
+            Statement: "SELECT * FROM " + prefix + "_qr_data WHERE shortLinkId=?",
             Parameters: [{"S": shortLinkId}],
         };
 
