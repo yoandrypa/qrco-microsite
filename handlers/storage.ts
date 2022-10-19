@@ -48,11 +48,11 @@ export const download = async (key: string) => {
       });
     })
       // Create a new response out of the stream
-      .then((stream) => new Response(stream))
+      .then((stream: BodyInit | null | undefined) => new Response(stream))
       // Create an object URL for the response
-      .then((response) => response.blob())
-      .then((blob) => ({ content: URL.createObjectURL(blob.slice(0, blob.size, type)), type }))
-      .catch((err) => console.error(err));
+      .then((response: { blob: () => any; }) => response.blob())
+      .then((blob: { slice: (arg0: number, arg1: any, arg2: string) => Blob | MediaSource; size: any; }) => ({ content: URL.createObjectURL(blob.slice(0, blob.size, type)), type }))
+      .catch((err: any) => console.error(err));
   } catch (e) {
     throw new CustomError("Error downloading file", 500, e);
   }
