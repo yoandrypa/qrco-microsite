@@ -8,10 +8,8 @@ import Head from 'next/head';
 import { IntlProvider } from "react-intl";
 import { themeConfig } from "../utils/theme";
 
-import "@aws-amplify/ui-react/styles.css";
 import "../styles/globals.css";
 
-import AppContextProvider from "../components/context/AppContextProvider";
 import { MAIN_CONFIG } from "../consts";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -29,11 +27,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={mainTheme}>
-          <AppContextProvider>
             <IntlProvider locale={locale} messages={messages}>
               <Component {...pageProps} />
             </IntlProvider>
-          </AppContextProvider>
         </ThemeProvider>
       </StyledEngineProvider>
     </>
