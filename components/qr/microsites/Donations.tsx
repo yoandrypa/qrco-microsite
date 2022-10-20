@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import { getColors } from "./renderers/helper";
 import { ColorTypes } from "../types/types";
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
 import CardActions from "@mui/material/CardActions";
 import { createTheme } from '@mui/material/styles';
 import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
