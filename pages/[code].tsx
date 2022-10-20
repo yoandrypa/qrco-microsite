@@ -76,6 +76,9 @@ export const getServerSideProps: GetServerSideProps = async ({params, req}) => {
             return {props: {data: "NO DATA"}};
         }
 
+        // Increment the visit count
+        queries.link.incrementVisit(link.id, link.visitCount);
+
         // @ts-ignore
         return {
             props: {
