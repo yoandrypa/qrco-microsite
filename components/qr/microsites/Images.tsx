@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 
 import MainMicrosite from "./MainMicrosite";
-import {getColors, handleDownloadFiles} from "./renderers/helper";
+import {getColors} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
 import {ColorTypes, FileType} from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
@@ -73,18 +73,42 @@ function Images({newData}: ImageProps) {
 
       <Grid container spacing={1} sx={{mt: 2, p: 2}}>
         {/* @ts-ignore */}
-        {images.current.length ? images.current.map((x: FileType) => {
-          const img = x.content;
-          return (
-            <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center'}} key={`item${img}`}>
-              <Tooltip title="Click to enlarge">
-                <Box
-                  key={`img${img}`}
-                  component="img"
-                  src={img}
-                  alt="image"
-                  sx={{width: `${width}px`, cursor: 'pointer', '&:hover': {border: theme => `solid 1px ${theme.palette.primary.light}`, borderRadius: '2px', p: '3px'}}}
-                  onClick={() => setPreview(x)} />
+        {images.current.length ? images.current.map((x: FileType, fileNumber: number) => {
+            if (!x) {
+              return (
+                <Box key={`mainIt${fileNumber}`} sx={{
+                  mt: '5px',
+                  width: 'calc(100% - 10px)',
+                  ml: '5px',
+                  p: 2,
+                  border: `solid 1px ${colors.p}`,
+                  borderRadius: '5px'
+                }}>
+                  <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                    {'Error loading image.'}
+                  </Typography>
+                </Box>
+              );
+            }
+            const img = x.content;
+            return (
+              <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center'}} key={`item${img}`}>
+                <Tooltip title="Click to enlarge">
+                  <Box
+                    key={`img${img}`}
+                    component="img"
+                    src={img}
+                    alt="image"
+                    sx={{
+                      width: `${width}px`,
+                      cursor: 'pointer',
+                      '&:hover': {
+                        border: theme => `solid 1px ${theme.palette.primary.light}`,
+                        borderRadius: '2px',
+                        p: '3px'
+                      }
+                    }}
+                    onClick={() => setPreview(x)}/>
                 </Tooltip>
               </Grid>
             )
@@ -92,7 +116,7 @@ function Images({newData}: ImageProps) {
         ) : null}
       </Grid>
       {preview && (
-        <RenderPreview preview={preview} handleClose={() => setPreview(null)} colors={colors} type="image" />
+        <RenderPreview preview={preview} handleClose={() => setPreview(null)} colors={colors} type="image"/>
       )}
     </MainMicrosite>
   );

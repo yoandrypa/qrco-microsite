@@ -64,6 +64,9 @@ export default function FileMicro({newData}: FileProps) {
     if (newData.files?.length) {
       getFiles(newData.files);
     }
+    return () => {
+      files.current = [];
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -75,8 +78,9 @@ export default function FileMicro({newData}: FileProps) {
         marginTop: '-33px',
         marginLeft: 2
       }}>
-        <Typography sx={{ display: 'inline-block', fontWeight: 'bold' }}>{newData.qrType.toUpperCase()}</Typography>
-        <Typography sx={{ display: 'inline-block', ml: 1 }}>{`(${pluralize('item', newData.files.length, true)})`}</Typography>
+        <Typography sx={{display: 'inline-block', fontWeight: 'bold'}}>{newData.qrType.toUpperCase()}</Typography>
+        <Typography
+          sx={{display: 'inline-block', ml: 1}}>{`(${pluralize('item', newData.files.length, true)})`}</Typography>
       </Box>
       {/* @ts-ignore */}
       {files.current.length ? files.current.map((x: FileType, index: number) => {
@@ -90,58 +94,66 @@ export default function FileMicro({newData}: FileProps) {
               border: `solid 1px ${colors.p}`,
               borderRadius: '5px'
             }}>
-              {renderHint(x.type, fileNumber)}
-              {newData.qrType === 'audio' && (
-                <audio preload="none" controls key={`audio${fileNumber}`} style={{width: '100%'}}>
-                  <source src={x.content} type={x.type}/>
-                  {'Your browser can not play audio files. :('}
-                </audio>
+              {x ? (
+                <>
+                  {renderHint(x.type, fileNumber)}
+                  {newData.qrType === 'audio' && (
+                    <audio preload="none" controls key={`audio${fileNumber}`} style={{width: '100%'}}>
+                      <source src={x.content} type={x.type}/>
+                      {'Your browser can not play audio files. :('}
+                    </audio>
+                  )}
+                  {newData.qrType === 'video' && newData.files.length === 1 && (
+                    <RenderPreviewVideo content={x.content} type={x.type}/>
+                  )}
+                  {newData.qrType === 'pdf' && newData.files.length === 1 && <RenderPreviewPdf content={x.content}/>}
+                  <Box sx={{display: 'flex', mb: 2}}>
+                    <Button
+                      sx={{
+                        width: '100%',
+                        color: colors.p,
+                        background: colors.s,
+                        '&:hover': {color: colors.s, background: colors.p}
+                      }}
+                      variant="outlined"
+                      onClick={() => handleDownloadFiles(x)}
+                      startIcon={<DownloadIcon/>}
+                    >
+                      {`Download ${newData.qrType} ${fileNumber}`}
+                    </Button>
+                    {['video', 'pdf'].includes(newData.qrType) && newData.files.length > 1 && (
+                      <Button
+                        sx={{
+                          width: '30%',
+                          ml: '5px',
+                          color: colors.p,
+                          background: colors.s,
+                          '&:hover': {color: colors.s, background: colors.p}
+                        }}
+                        variant="outlined"
+                        onClick={() => setPreview(x)}
+                      >
+                        {'Preview'}
+                      </Button>
+                    )}
+                  </Box>
+                </>
+              ) : (
+                <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                  {'Error loading asset.'}
+                </Typography>
               )}
-              {newData.qrType === 'video' && newData.files.length === 1 && (
-                <RenderPreviewVideo content={x.content} type={x.type} />
-              )}
-              {newData.qrType === 'pdf' && newData.files.length === 1 && <RenderPreviewPdf content={x.content} />}
-              <Box sx={{ display: 'flex', mb: 2 }}>
-                <Button
-                  sx={{
-                    width: '100%',
-                    color: colors.p,
-                    background: colors.s,
-                    '&:hover': {color: colors.s, background: colors.p}
-                  }}
-                  variant="outlined"
-                  onClick={() => handleDownloadFiles(x)}
-                  startIcon={<DownloadIcon/>}
-                >
-                  {`Download ${newData.qrType} ${fileNumber}`}
-                </Button>
-                {['video', 'pdf'].includes(newData.qrType) && newData.files.length > 1 && (
-                  <Button
-                    sx={{
-                      width: '30%',
-                      ml: '5px',
-                      color: colors.p,
-                      background: colors.s,
-                      '&:hover': {color: colors.s, background: colors.p}
-                    }}
-                    variant="outlined"
-                    onClick={() => setPreview(x)}
-                  >
-                    {'Preview'}
-                  </Button>
-                )}
-              </Box>
             </Box>
           );
         }
       ) : (
-        <Box sx={{ width: '100%', textAlign: 'center', mt: 2, color: colors.p }}>
-          <CircularProgress color="primary" sx={{ mr: '10px', my: 'auto', display: 'inline-block' }}/>
-          <Typography sx={{ display: 'inline-block' }}>{'Please wait...'}</Typography>
+        <Box sx={{width: '100%', textAlign: 'center', mt: 2, color: colors.p}}>
+          <CircularProgress color="primary" sx={{mr: '10px', my: 'auto', display: 'inline-block'}}/>
+          <Typography sx={{display: 'inline-block'}}>{'Please wait...'}</Typography>
         </Box>
       )}
       {preview && (
-        <RenderPreview preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)} />
+        <RenderPreview preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)}/>
       )}
     </MainMicrosite>
   );
