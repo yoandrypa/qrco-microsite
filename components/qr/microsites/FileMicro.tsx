@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import DangerousIcon from '@mui/icons-material/Dangerous';
 
 import MainMicrosite from "./MainMicrosite";
 import {getColors, handleDownloadFiles} from "./renderers/helper";
@@ -140,6 +141,7 @@ export default function FileMicro({newData}: FileProps) {
                 </>
               ) : (
                 <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                  <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
                   {'Error loading asset.'}
                 </Typography>
               )}
@@ -147,9 +149,9 @@ export default function FileMicro({newData}: FileProps) {
           );
         }
       ) : (
-        <Box sx={{width: '100%', textAlign: 'center', mt: 2, color: colors.p}}>
-          <CircularProgress color="primary" sx={{mr: '10px', my: 'auto', display: 'inline-block'}}/>
-          <Typography sx={{display: 'inline-block'}}>{'Please wait...'}</Typography>
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: colors.p}}>
+          <CircularProgress sx={{color: colors.p, mr: '10px', my: 'auto'}}/>
+          <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
         </Box>
       )}
       {preview && (
