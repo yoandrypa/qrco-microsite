@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import DangerousIcon from '@mui/icons-material/Dangerous';
 
 import MainMicrosite from "./MainMicrosite";
 import {getColors} from "./renderers/helper";
@@ -85,6 +86,7 @@ function Images({newData}: ImageProps) {
                   borderRadius: '5px'
                 }}>
                   <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                    <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
                     {'Error loading image.'}
                   </Typography>
                 </Box>
