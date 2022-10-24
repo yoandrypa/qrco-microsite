@@ -12,6 +12,7 @@ import Images from "../components/qr/microsites/Images";
 import Donations from "../components/qr/microsites/Donations"
 import {generateShortLink} from "../utils";
 import queries from "../queries";
+import {handleDesignerString} from "../helpers/qr/helpers";
 
 // @ts-ignore
 export default function Handler({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -41,8 +42,8 @@ export default function Handler({data}: InferGetServerSidePropsType<typeof getSe
         return (<SocialInfo newData={newData}/>);
     }
 
-    if (newData.qrType === 'web') {
-        return (<Web newData={newData}/>);
+    if (['web', 'twitter', 'whatsapp', 'facebook'].includes(newData.qrType)) {
+        return (<Web urlString={handleDesignerString(newData.qrType, newData)}/>);
     }
 
     if (['pdf', 'audio', 'video'].includes(newData.qrType)) {
