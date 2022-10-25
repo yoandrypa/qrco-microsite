@@ -1,42 +1,3 @@
-export type OptionsType = {
-  isDynamic?: boolean;
-  qrType?: string;
-  mode?: string;
-  userId?: string;
-  id?: string;
-  shortCode?: string;
-  width: number;
-  height: number;
-  type: string;
-  data: string;
-  image: string | null;
-  margin: number;
-  qrOptions: { typeNumber: number; mode: string; errorCorrectionLevel: string; };
-  imageOptions: { hideBackgroundDots: boolean; imageSize: number; margin: number; crossOrigin: string; };
-  dotsOptions: { color: string; type: string; };
-  backgroundOptions: { color: string; };
-  cornersSquareOptions: { color: string; type: string | null; };
-  cornersDotOptions: { color: string; type: string | null; };
-};
-
-export type BackgroundType = {
-  type: string | null;
-  opacity: number;
-  size: number;
-  file: string | null;
-  x: number;
-  y: number;
-  imgSize: number;
-  invert?: boolean | false;
-  backColor?: string | null;
-};
-
-export type CornersAndDotsType = {
-  topL: string;
-  topR: string;
-  bottom: string;
-} | null;
-
 export type FramesType = {
   type: string | null;
   text: string;
@@ -145,39 +106,7 @@ export type DataType = {
   files?: File[];
 };
 
-export type DonationsData ={
-  name: string,
-  image?: string,
-  shortText: string
-}
-
-export type SocialProps = {
-  facebook?: string;
-  whatsapp?: string;
-  linkedin?: string;
-  instagram?: string;
-  youtube?: string;
-  pinterest?: string;
-  telegram?: string;
-  twitter?: string;
-  qrName?: string;
-  isDynamic?: boolean;
-}
-
-
-
-export type CardDataProps = {
-  data: DataType;
-  setData: Function;
-};
-
-export type UpdaterType = {
-  options: OptionsType;
-  background?: BackgroundType;
-  corners?: CornersAndDotsType;
-  cornersDot?: CornersAndDotsType;
-  frame?: FramesType;
-};
+export type SocialsType = 'facebook' | 'whatsapp' | 'twitter' | 'instagram' | 'youtube' | 'linkedin' | 'pinterest' | 'telegram';
 
 export type ColorTypes = {
   p: string,
@@ -187,14 +116,4 @@ export type ColorTypes = {
 export type FileType = {
   content: string;
   type: string;
-};
-
-export type EditType = {
-  userId: string;
-  id: string;
-  qrType: string;
-  qrName: string;
-  isDynamic?: boolean;
-  qrOptionsId?: any;
-  value?: string;
 };
