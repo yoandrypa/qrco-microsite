@@ -111,8 +111,7 @@ console.log(newData)
         }       
             
         } catch (error) {
-          console.error(error)
-          
+                   
         }
        
   }
