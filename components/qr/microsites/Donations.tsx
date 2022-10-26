@@ -5,13 +5,15 @@ import { getColors } from "./renderers/helper";
 import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
 import CardActions from "@mui/material/CardActions";
-import { createTheme } from '@mui/material/styles';
 import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import { TextField } from "@mui/material";
 import MainMicrosite from "./MainMicrosite";
 import  LoadingButton from "@mui/lab/LoadingButton";
+import axios, {AxiosError} from 'axios'
+import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface DonationsProps {
   newData: any;
@@ -25,7 +27,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [inputValue, setInputValue] = useState<string>('1')
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const [paylinkUrl, setPaylinkUrl] =  useState<string | null>(null)
   
   useEffect(() => {
     if (parseInt(inputValue) < 1){
@@ -38,7 +40,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
   }, [inputValue, newData.donationUnitAmount])
   
-
+console.log(newData)
   const handleBoxClick = (box: BoxOptions) => {
     if (box === 'first') {
       setSelectedBox('first')
@@ -55,14 +57,15 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       setInputValue('5')
       setDonationAmount(5 * newData.donationUnitAmount )
     }
-    // if (box === 'input') {
-    //   setSelectedBox('input')
-    //   setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1))
-    // }
 
   }
 
 
+ const router = useRouter();
+
+ useEffect(()=>{
+ paylinkUrl && router.push(paylinkUrl)
+ },[paylinkUrl, router])
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>)=>{
    
@@ -87,50 +90,37 @@ export default function DonationsInfo({ newData }: DonationsProps) {
           setDonationAmount(3 * newData.donationUnitAmount)
       } else {
         setSelectedBox('input')
-      }
-   
+      }   
       setInputValue(event.target.value)
       setDonationAmount(parseInt(event.target.value) * newData.donationUnitAmount )
-    
-    
+       
   }
-
-  const handleClick = ()=>{
-        setIsLoading(true)
+  const  handleClick = async ()=>{
+        setIsLoading(true)     
+        try {
+          const response = await axios.post('/donationpaylink',{
+            priceId: newData.donationPriceId,
+            paylinkQuantity: newData.donationUnitAmount,
+            successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
+          },{
+            baseURL: !process.env.NEXT_PUBLIC_DEVELOPMENT_MODE ? 'https://dev.ebanux.link/' : 'https://ebanux.link/'
+          })
+          setPaylinkUrl(response.data.result.url)
+        if (response instanceof AxiosError){
+          return;
+        }       
+            
+        } catch (error) {
+                   
+        }
+       
   }
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        // light: will be calculated from palette.primary.main,
-        main: colors.p,
-        // dark: will be calculated from palette.primary.main,
-        // contrastText: will be calculated to contrast with palette.primary.main
-
-      },
-      secondary: {
-        // light: '#0066ff',
-        main: colors.p,
-        // dark: will be calculated from palette.secondary.main,
-        contrastText: colors.s,
-      },
-
-      // Used by `getContrastText()` to maximize the contrast between
-      // the background and the text.
-      contrastThreshold: 3,
-      // Used by the functions below to shift a color's luminance by approximately
-      // two indexes within its tonal palette.
-      // E.g., shift from Red 500 to Red 300 or Red 700.
-      tonalOffset: 0.2,
-    },
-  });
-
-
+ const { thanks } = router.query;
 
   return (
     //TODO
-    <MainMicrosite>
-    <CardContent>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl}>
+   { !thanks ? ( <CardContent>
       <Grid container
         display='flex'
         justifyContent="center"
@@ -247,7 +237,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
         </Grid>
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <CardActions sx={{ marginTop: 2 }}>
-            <LoadingButton onClick={handleClick} loading={isLoading}  color="primary" variant="contained" sx={{ borderRadius: 2 }}>
+            <LoadingButton disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading}  color="primary" variant="contained" sx={{ borderRadius: 2 }}>
               Donate
             </LoadingButton>
 
@@ -255,7 +245,15 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
         </Grid>
       </Grid>
-    </CardContent>
+    </CardContent>) :
+    (
+      <CardContent>
+        <Typography variant="h5" textAlign={'center'}>Thanks for your support!</Typography>
+        <Box sx={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
+        <Image style={{}} width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
+        </Box>
+      </CardContent>
+    )} 
     </MainMicrosite>
   );
 }
