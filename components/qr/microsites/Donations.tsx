@@ -30,9 +30,10 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [paylinkUrl, setPaylinkUrl] =  useState<string | null>(null)
   
   useEffect(() => {
-    if (parseInt(inputValue) < 1){
+    if (parseInt(inputValue) <= 1){
       setDonationAmount(parseInt(newData.donationUnitAmount))
       setInputValue('1')
+      setSelectedBox('first')
     } else {
       setDonationAmount(parseInt(inputValue) * newData.donationUnitAmount as number)
     }
@@ -69,7 +70,7 @@ console.log(newData)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>)=>{
    
-    if (parseInt(event.target.value,10) < 1 ){
+    if (parseInt(event.target.value,10) <= 1 ){
       setInputValue('1')
       setDonationAmount(newData.donationUnitAmount)
       setSelectedBox('first')
@@ -103,7 +104,7 @@ console.log(newData)
             paylinkQuantity: newData.donationUnitAmount,
             successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
           },{
-            baseURL: !process.env.NEXT_PUBLIC_DEVELOPMENT_MODE ? 'https://dev.ebanux.link/' : 'https://ebanux.link/'
+            baseURL: process.env.REACT_NODE_ENV === 'develop' ? 'https://dev.ebanux.link/' : 'https://ebanux.link/'
           })
           setPaylinkUrl(response.data.result.url)
         if (response instanceof AxiosError){
@@ -232,7 +233,7 @@ console.log(newData)
 
         </Grid>
 
-        <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+        <Grid container sx={{ display: 'flex',marginTop:1, justifyContent: 'center', alignContent: 'center' }}>
          { donationAmount && <Typography variant="h6"> Send ${donationAmount} USD</Typography>}
         </Grid>
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
