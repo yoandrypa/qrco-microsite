@@ -6,6 +6,11 @@ export type FramesType = {
   textUp?: boolean | false;
 };
 
+export type LinkType = {
+  label: string;
+  link: string;
+};
+
 export type OpeningObjType = {
   ini: string;
   end: string;
