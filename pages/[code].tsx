@@ -43,7 +43,7 @@ export default function Handler({data}: InferGetServerSidePropsType<typeof getSe
     return (<VCard newData={newData}/>);
   }
 
-  if (newData.qrType === "image") {
+  if (['gallery', 'image'].includes(newData.qrType)) {
     return (<Images newData={newData}/>);
   }
 

@@ -129,7 +129,7 @@ export default function MainMicrosite({children, colors, url, badge, type}: Micr
               <Box sx={{ mr: '5px', mt: '2px' }}>
                 <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
               </Box>
-              {type.toUpperCase()}
+              {(type !== 'video' ? type : 'vodeos').toUpperCase()}
             </Typography>
           )}
         </CardMedia>
