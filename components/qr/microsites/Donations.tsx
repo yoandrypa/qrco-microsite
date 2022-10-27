@@ -233,7 +233,7 @@ console.log(newData)
 
         </Grid>
 
-        <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+        <Grid container sx={{ display: 'flex',marginTop:1, justifyContent: 'center', alignContent: 'center' }}>
          { donationAmount && <Typography variant="h6"> Send ${donationAmount} USD</Typography>}
         </Grid>
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
