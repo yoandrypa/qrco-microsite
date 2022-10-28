@@ -28,7 +28,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] =  useState<string | null>(null)
-  
+
   useEffect(() => {
     if (parseInt(inputValue) <= 1){
       setDonationAmount(parseInt(newData.donationUnitAmount))
@@ -37,10 +37,10 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     } else {
       setDonationAmount(parseInt(inputValue) * newData.donationUnitAmount as number)
     }
-  
+
 
   }, [inputValue, newData.donationUnitAmount])
-  
+
 console.log(newData)
   const handleBoxClick = (box: BoxOptions) => {
     if (box === 'first') {
@@ -69,35 +69,35 @@ console.log(newData)
  },[paylinkUrl, router])
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>)=>{
-   
+
     if (parseInt(event.target.value,10) <= 1 ){
       setInputValue('1')
       setDonationAmount(newData.donationUnitAmount)
       setSelectedBox('first')
-    } 
+    }
     if (parseInt(event.target.value,10) === 1){
       setInputValue(event.target.value)
       setSelectedBox('first')
       setDonationAmount(1 * newData.donationUnitAmount)
-      } 
+      }
       if (parseInt(event.target.value,10) === 5){
         setSelectedBox('third')
         setDonationAmount(5 * newData.donationUnitAmount)
         setInputValue('5')
-      } else 
+      } else
       if (parseInt(event.target.value,10) === 3){
           setInputValue(event.target.value)
           setSelectedBox('second')
           setDonationAmount(3 * newData.donationUnitAmount)
       } else {
         setSelectedBox('input')
-      }   
+      }
       setInputValue(event.target.value)
       setDonationAmount(parseInt(event.target.value) * newData.donationUnitAmount )
-       
+
   }
   const  handleClick = async ()=>{
-        setIsLoading(true)     
+        setIsLoading(true)
         try {
           const response = await axios.post('/donationpaylink',{
             priceId: newData.donationPriceId,
@@ -109,18 +109,18 @@ console.log(newData)
           setPaylinkUrl(response.data.result.url)
         if (response instanceof AxiosError){
           return;
-        }       
-            
-        } catch (error) {
-                   
         }
-       
+
+        } catch (error) {
+
+        }
+
   }
  const { thanks } = router.query;
 
   return (
     //TODO
-    <MainMicrosite colors={colors} url={newData.shortlinkurl}>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
    { !thanks ? ( <CardContent>
       <Grid container
         display='flex'
@@ -254,7 +254,7 @@ console.log(newData)
         <Image style={{}} width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
         </Box>
       </CardContent>
-    )} 
+    )}
     </MainMicrosite>
   );
 }

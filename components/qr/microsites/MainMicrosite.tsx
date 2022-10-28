@@ -11,7 +11,7 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import {ColorTypes} from "../types/types";
+import {ColorTypes, FileType} from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import {alpha, styled} from "@mui/material/styles";
 
 import {DEFAULT_COLORS} from "../constants";
+import {download} from "../../../handlers/storage";
 
 interface MicrositesProps {
   children: ReactNode;
@@ -28,6 +29,8 @@ interface MicrositesProps {
   colors?: ColorTypes;
   url?: string;
   badge?: string;
+  backgndImg?: {Key: string;}[];
+  foregndImg?: {Key: string;}[];
 }
 
 interface BtnProps {
@@ -43,9 +46,11 @@ const Btn = styled(Button)(({primary, secondary}: BtnProps) => ({
   '&:hover': {color: secondary, background: primary}
 }));
 
-export default function MainMicrosite({children, colors, url, badge, type}: MicrositesProps) {
+export default function MainMicrosite({children, colors, url, badge, type, backgndImg, foregndImg}: MicrositesProps) {
   const [share, setShare] = useState<boolean>(false);
   const [navigate, setNavigate] = useState<string | null>(null);
+  const [backImg, setBackImg] = useState<FileType | null>(null);
+  const [foreImg, setForeImg] = useState<FileType | null>(null);
 
   const handleShare = () => {
     setShare(!share);
@@ -64,6 +69,21 @@ export default function MainMicrosite({children, colors, url, badge, type}: Micr
     handleShare();
   };
 
+  const getFiles = async (key: string, item: string) => {
+    try {
+        const fileData = await download(key);
+        if (item === 'backgndImg') {
+          // @ts-ignore
+          setBackImg(fileData);
+        } else {
+          // @ts-ignore
+          setForeImg(fileData);
+        }
+    } catch {
+      console.log("error");
+    }
+  }
+
   useEffect(() => {
     if (navigate) {
       handleShare();
@@ -71,9 +91,25 @@ export default function MainMicrosite({children, colors, url, badge, type}: Micr
     }
   }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (backgndImg && !backImg) {
+      getFiles(backgndImg[0].Key,'backgndImg');
+    }
+  }, [backgndImg]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
-      <Box sx={{ p: 0, m: 0, width: '100%', height: '158px', background: alpha(colors ? colors.p : DEFAULT_COLORS.p, 0.9) }} />
+      <Box sx={{
+        p: 0,
+        m: 0,
+        width: '100%',
+        height: '270px',
+        filter: 'opacity(0.87) contrast(0.75) blur(1px)',
+        background: !backImg ? alpha(colors ? colors.p : DEFAULT_COLORS.p, 0.9) : 'none' }}>
+        {backImg && (
+          <Box component="img" alt="backgimage" src={backImg.content} sx={{ width: '100%', maxHeight: '100%', objectFit: 'cover' }}/>
+        )}
+      </Box>
       <Card sx={{
         position: "absolute",
         top: "50%",
@@ -85,13 +121,18 @@ export default function MainMicrosite({children, colors, url, badge, type}: Micr
           {!colors ? (
             <Image src="/qr/vcard+.png" height={220} width={460} alt="image"/>
           ) : (
-            <Box sx={{width: '460px', height: '120px', background: colors.p}}>
+            <Box sx={{
+              width: '460px',
+              height: '200px',
+              background: !backImg ? colors.p : 'none'
+            }}>
+              {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{ width: '100%', maxHeight: '100%', objectFit: 'cover' }}/>}
               {url !== undefined && (<SpeedDial
                 ariaLabel="SpeedDial"
                 direction="down"
                 sx={{
                   position: 'absolute',
-                  top: 55,
+                  top: 130,
                   right: 16,
                   '& .MuiFab-primary': {
                     height: '45px',
@@ -146,7 +187,7 @@ export default function MainMicrosite({children, colors, url, badge, type}: Micr
         }}>
           <Typography sx={{color: colors?.p, fontWeight: 'bold'}}>{badge}</Typography>
         </Box>)}
-        <Box sx={{ height: { sm: `calc(100vh - ${!colors ? 265 : 160}px)`, xs: `calc(100vh - ${!colors ? 225 : 120}px)` }, overflow: 'auto'}}>
+        <Box sx={{ height: { sm: `calc(100vh - ${!colors ? 311 : 206}px)`, xs: `calc(100vh - ${!colors ? 271 : 166}px)` }, overflow: 'auto'}}>
           {children}
         </Box>
         {share && colors && (
