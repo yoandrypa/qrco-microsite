@@ -1,23 +1,27 @@
-import { s3Client } from "../libs";
+import { s3Client, elastiCacheClient } from "../libs";
 import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import {
+  AddTagsToResourceCommand,
+  ListTagsForResourceCommand,
+  ListTagsForResourceCommandInput,
+} from "@aws-sdk/client-elasticache";
+import { fromBase64, toBase64 } from "@aws-sdk/util-base64-node";
+import path from "path";
 
-export const upload = async (file: File, path: string = "") => {
+export const upload = (key: string, value: any) => {
   try {
     const uploadParams = {
-      Bucket: String(process.env.REACT_AWS_BUCKET_NAME),
-      Body: file,
-      Key: path + "/" + file.name,
-      ContentLength: file.size,
-      ContentType: file.type
+      ResourceName: process.env.REACT_AWS_ELASTIC_CACHE_RESOURCE_NAME,
+      Tags: [
+        {
+          Key: path.basename(key),
+          Value: value
+        }],
     };
-    const command = new PutObjectCommand(uploadParams);
-    const response = await s3Client.send(command);
-    return {
-      ...response,
-      Key: path + "/" + file.name
-    };
+    const command = new AddTagsToResourceCommand(uploadParams);
+    elastiCacheClient.send(command).catch(e => {throw e;});
   } catch (e) {
-    return e;
+    throw e;
   }
 };
 
@@ -30,10 +34,6 @@ export const download = async (key: string) => {
     const command = new GetObjectCommand(downloadParams);
     return await s3Client.send(command);
   } catch (e) {
-    return e;
+    throw e;
   }
-};
-
-export const remove = (_key: string) => {
-  //TODO
 };
