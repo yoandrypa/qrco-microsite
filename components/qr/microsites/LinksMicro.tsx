@@ -16,6 +16,8 @@ interface LinksProps {
 export default function LinksMicro({newData}: LinksProps) {
   const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  console.log(newData);
+
   const renderBtn = (item: LinkType) => (
     <Button
       target="_blank"
@@ -33,7 +35,7 @@ export default function LinksMicro({newData}: LinksProps) {
   );
 
   return (
-    <MainMicrosite colors={colors} url={newData.shortlinkurl} badge={newData.prefix} type={newData.qrType}>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl} badge={newData.prefix} type={newData.qrType} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
       <CardContent sx={{textAlign: 'center'}}>
         <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
         {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}

@@ -14,7 +14,7 @@ export default function SocialInfo({newData}: SocialProps) {
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite type={newData.qrType} colors={colors} url={newData.shortlinkurl}>
+    <MainMicrosite type={newData.qrType} colors={colors} url={newData.shortlinkurl} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
       <CardContent>
         <Grid container spacing={1}>
           <RenderSocials newData={newData} />
