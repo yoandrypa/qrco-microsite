@@ -267,7 +267,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: 2 }} >
           <ThemeProvider theme={theme}> 
           <FormGroup>
-            <FormControlLabel control={<Switch defaultChecked 
+            <FormControlLabel control={<Switch  
             onChange={handleSwitchChange}
             color='primary'
             />}
