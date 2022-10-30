@@ -138,8 +138,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     secondary: {
       light: colors.s,
       main: colors.s,
-      // dark: will be calculated from palette.secondary.main,
-      // contrastText: '#ffcc00',
+      // dark: will be calculated from palette.secondary.main
     }
 }});
 
