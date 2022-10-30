@@ -5,7 +5,6 @@ import {
   ListTagsForResourceCommand,
   ListTagsForResourceCommandInput,
 } from "@aws-sdk/client-elasticache";
-import { fromBase64, toBase64 } from "@aws-sdk/util-base64-node";
 import path from "path";
 
 export const upload = (key: string, value: any) => {
