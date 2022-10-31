@@ -71,7 +71,13 @@ export default function FileMicro({newData}: FileProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite colors={colors} url={newData.shortlinkurl} type={newData.qrType} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
+    <MainMicrosite
+      colors={colors}
+      url={newData.shortlinkurl}
+      type={newData.qrType}
+      foregndImg={newData.foregndImg}
+      backgndImg={newData.backgndImg}
+      foregndImgType={newData.foregndImgType}>
       <Box sx={{
         color: colors.s,
         position: 'fixed',
