@@ -31,6 +31,7 @@ interface MicrositesProps {
   badge?: string;
   backgndImg?: {Key: string;}[];
   foregndImg?: {Key: string;}[];
+  foregndImgType?: string;
 }
 
 interface BtnProps {
@@ -46,7 +47,7 @@ const Btn = styled(Button)(({primary, secondary}: BtnProps) => ({
   '&:hover': {color: secondary, background: primary}
 }));
 
-export default function MainMicrosite({children, colors, url, badge, type, backgndImg, foregndImg}: MicrositesProps) {
+export default function MainMicrosite({children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType}: MicrositesProps) {
   const [share, setShare] = useState<boolean>(false);
   const [navigate, setNavigate] = useState<string | null>(null);
   const [backImg, setBackImg] = useState<FileType | null>(null);
@@ -97,6 +98,12 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
     }
   }, [backgndImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (foregndImg && !foreImg) {
+      getFiles(foregndImg[0].Key, 'foregndImg');
+    }
+  }, [foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       <Box sx={{
@@ -104,10 +111,18 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
         m: 0,
         width: '100%',
         height: '270px',
-        filter: 'opacity(0.87) contrast(0.75) blur(1px)',
         background: !backImg ? alpha(colors ? colors.p : DEFAULT_COLORS.p, 0.9) : 'none' }}>
         {backImg && (
-          <Box component="img" alt="backgimage" src={backImg.content} sx={{ width: '100%', maxHeight: '100%', objectFit: 'cover' }}/>
+          <Box
+            component="img"
+            alt="backgimage"
+            src={backImg.content}
+            sx={{
+              filter: 'opacity(0.87) contrast(0.75) blur(5px)',
+              width: '100%',
+              maxHeight: '100%',
+              objectFit: 'cover'
+          }}/>
         )}
       </Box>
       <Card sx={{
@@ -170,8 +185,23 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
               <Box sx={{ mr: '5px', mt: '2px' }}>
                 <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
               </Box>
-              {(type !== 'video' ? type : 'vodeos').toUpperCase()}
+              {(type !== 'video' ? type : 'videos').toUpperCase()}
             </Typography>
+          )}
+          {foreImg && (
+            <Box sx={{ width: '100%', position: 'absolute', top: '150px', textAlign: 'center' }}>
+            <Box
+              component="img"
+              alt="foregimage"
+              src={foreImg.content}
+              sx={{
+                width: '100px',
+                height: '100px',
+                borderRadius: foregndImgType === undefined || foregndImgType === 'circle' ? '50px' : foregndImgType === 'smooth' ? '20px' : '3px',
+                border: 'solid 4px #fff'
+              }}
+            />
+            </Box>
           )}
         </CardMedia>
         {badge && (<Box style={{
@@ -187,7 +217,13 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
         }}>
           <Typography sx={{color: colors?.p, fontWeight: 'bold'}}>{badge}</Typography>
         </Box>)}
-        <Box sx={{ height: { sm: `calc(100vh - ${!colors ? 311 : 206}px)`, xs: `calc(100vh - ${!colors ? 271 : 166}px)` }, overflow: 'auto'}}>
+        <Box sx={{
+          height: {
+            sm: `calc(100vh - ${(foreImg ? 35 : 0) + (!colors ? 311 : 206)}px)`,
+            xs: `calc(100vh - ${(foreImg ? 35 : 0) + (!colors ? 271 : 166)}px)` },
+          overflow: 'auto',
+          mt: foreImg ? '35px' : 0
+        }}>
           {children}
         </Box>
         {share && colors && (
