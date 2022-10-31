@@ -29,7 +29,13 @@ export default function VCard({newData}: VCardProps) {
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite colors={colors} url={newData.shortlinkurl} type={newData.qrType} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
+    <MainMicrosite
+      colors={colors}
+      url={newData.shortlinkurl}
+      type={newData.qrType}
+      foregndImg={newData.foregndImg}
+      backgndImg={newData.backgndImg}
+      foregndImgType={newData.foregndImgType}>
       <CardContent>
         <Grid container spacing={1}>
           {(newData.prefix || newData.firstName || newData.lastName) && (
