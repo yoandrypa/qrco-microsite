@@ -1,19 +1,23 @@
-import { ChangeEvent, useMemo, useState,useEffect } from "react";
+import { useMemo, useState,useEffect } from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import { getColors } from "./renderers/helper";
 import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
 import CardActions from "@mui/material/CardActions";
-import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
+import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
-import { TextField } from "@mui/material";
+import { PaletteColor, Switch, TextField } from "@mui/material";
 import MainMicrosite from "./MainMicrosite";
 import  LoadingButton from "@mui/lab/LoadingButton";
 import axios, {AxiosError} from 'axios'
 import Image from "next/image";
 import { useRouter } from "next/router";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { height } from "@mui/system";
 
 interface DonationsProps {
   newData: any;
@@ -28,7 +32,8 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] =  useState<string | null>(null)
-
+  const [checked, setChecked] = useState<boolean>(false)
+  
   useEffect(() => {
     if (parseInt(inputValue) <= 1){
       setDonationAmount(parseInt(newData.donationUnitAmount))
@@ -40,8 +45,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
 
   }, [inputValue, newData.donationUnitAmount])
-
-console.log(newData)
+  
   const handleBoxClick = (box: BoxOptions) => {
     if (box === 'first') {
       setSelectedBox('first')
@@ -68,8 +72,12 @@ console.log(newData)
  paylinkUrl && router.push(paylinkUrl)
  },[paylinkUrl, router])
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>)=>{
+const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setChecked(event.target.checked);
+ }
 
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement> )=>{   
     if (parseInt(event.target.value,10) <= 1 ){
       setInputValue('1')
       setDonationAmount(newData.donationUnitAmount)
@@ -101,7 +109,7 @@ console.log(newData)
         try {
           const response = await axios.post('/donationpaylink',{
             priceId: newData.donationPriceId,
-            paylinkQuantity: newData.donationUnitAmount,
+            paylinkQuantity: inputValue,
             successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
           },{
             baseURL: process.env.REACT_NODE_ENV === 'develop' ? 'https://dev.ebanux.link/' : 'https://ebanux.link/'
@@ -118,10 +126,29 @@ console.log(newData)
   }
  const { thanks } = router.query;
 
+
+ const theme = createTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: colors.p,
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      light: colors.s,
+      main: colors.s,
+      // dark: will be calculated from palette.secondary.main
+    }
+}});
+
   return (
     //TODO
-    <MainMicrosite colors={colors} url={newData.shortlinkurl} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
-   { !thanks ? ( <CardContent>
+    <MainMicrosite colors={colors} url={newData.shortlinkurl}
+    type={newData.qrType} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
+   { !thanks ? (
+    <ThemeProvider theme={theme}>
+    <CardContent sx={{height: '100%'}}>   
       <Grid container
         display='flex'
         justifyContent="center"
@@ -130,8 +157,7 @@ console.log(newData)
       >
         <Grid item  sx={{ RoundedCorner: 2 }} >
           <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2}>{newData?.title}</Typography>
-          <Typography variant='h6' textAlign={'center'}>Would you like to buy me a coffie?</Typography>
-          {/* <Stack direction="row" sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignSelf: 'center' }}>
+         {/* <Stack direction="row" sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignSelf: 'center' }}>
             <Avatar
               alt="Avatar"
               src="https://images.unsplash.com/photo-1518057111178-44a106bad636?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80"
@@ -140,7 +166,7 @@ console.log(newData)
           </Stack> */}
 
         </Grid>
-        <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+        <Grid container sx={{ marginTop: 1, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <Typography>
             {newData?.message}
           </Typography>
@@ -155,9 +181,16 @@ console.log(newData)
         <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <Grid item>
             <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-              <SvgIcon sx={{ width: 35, height: 35 }}>
-                <EmojiFoodBeverageIcon color='primary' />
+              <SvgIcon  sx={{ width: 35, height: 35}}>
+                <CofeeIcon color='primary' />
               </SvgIcon>
+            </Box>
+          </Grid>
+          <Grid item>
+            <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+            <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                ${newData.donationUnitAmount} each
+              </Typography>
             </Box>
           </Grid>
           <Grid item>
@@ -171,7 +204,7 @@ console.log(newData)
             <Box
               onClick={() => handleBoxClick('first')}
               sx={{
-                borderRadius: 45, borderColor: 'blue', backgroundColor: 'lightblue',
+                borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s,
                 width: 35, height: 35, display: 'flex', justifyContent: 'center',
                 alignContent: 'center', margin: 'auto'
               }}
@@ -186,7 +219,7 @@ console.log(newData)
             <Box
               border={selectedBox === 'second' ? 2 : 0}
               onClick={() => handleBoxClick('second')}
-              sx={{ borderRadius: 45, borderColor: 'blue', backgroundColor: 'lightblue', width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+              sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
               <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
                 3
               </Typography>
@@ -196,7 +229,7 @@ console.log(newData)
             <Box
               border={selectedBox === 'third' ? 2 : 0}
               onClick={() => handleBoxClick('third')}
-              sx={{ borderRadius: 45, borderColor: 'blue', backgroundColor: 'lightblue', width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
+              sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
             >
               <Typography textAlign='center'
                 sx={{
@@ -217,7 +250,6 @@ console.log(newData)
               </Typography>
             </Box>
           </Grid>
-
           <Grid item>
             <TextField
               onFocus={() => handleBoxClick('input')}
@@ -230,31 +262,57 @@ console.log(newData)
               onChange={handleInputChange}
             ></TextField>
           </Grid>
-
         </Grid>
+         
+          <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: 2 }} >
+          <ThemeProvider theme={theme}> 
+          <FormGroup>
+            <FormControlLabel control={<Switch  
+            onChange={handleSwitchChange}
+            color='primary'
+            />}
+             label="Give my message privately."
+             checked={checked}
+             name='private'             
+             />
+          </FormGroup>
+            <TextField
+              onFocus={() => handleBoxClick('input')}
+              size="small"
+              type='text'
+              rows={4}
+              multiline
+              placeholder="Would you like to say something nice?"
+              // value={inputValue}
+              // onChange={handleInputChange}
+            ></TextField>
+            </ThemeProvider>
+          </Grid>
 
-        <Grid container sx={{ display: 'flex',marginTop:1, justifyContent: 'center', alignContent: 'center' }}>
-         { donationAmount && <Typography variant="h6"> Send ${donationAmount} USD</Typography>}
-        </Grid>
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <CardActions sx={{ marginTop: 2 }}>
-            <LoadingButton disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading}  color="primary" variant="contained" sx={{ borderRadius: 2 }}>
-              Donate
+            <LoadingButton style={{backgroundColor: colors.p}} disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading}  variant="contained" sx={{ borderRadius: 2 }}>
+              Donate ${donationAmount}
             </LoadingButton>
 
           </CardActions>
 
         </Grid>
       </Grid>
-    </CardContent>) :
+    </CardContent>
+    </ThemeProvider> ) :
     (
+      
       <CardContent>
         <Typography variant="h5" textAlign={'center'}>Thanks for your support!</Typography>
         <Box sx={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
-        <Image style={{}} width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
+        <Image width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
         </Box>
+      
       </CardContent>
-    )}
+      
+    )} 
     </MainMicrosite>
+  
   );
 }
