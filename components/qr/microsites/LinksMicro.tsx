@@ -35,7 +35,14 @@ export default function LinksMicro({newData}: LinksProps) {
   );
 
   return (
-    <MainMicrosite colors={colors} url={newData.shortlinkurl} badge={newData.prefix} type={newData.qrType} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
+    <MainMicrosite
+      colors={colors}
+      url={newData.shortlinkurl}
+      badge={newData.prefix}
+      type={newData.qrType}
+      foregndImg={newData.foregndImg}
+      backgndImg={newData.backgndImg}
+      foregndImgType={newData.foregndImgType}>
       <CardContent sx={{textAlign: 'center'}}>
         <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
         {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}

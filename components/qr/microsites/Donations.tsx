@@ -33,7 +33,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] =  useState<string | null>(null)
   const [checked, setChecked] = useState<boolean>(false)
-  
+
   useEffect(() => {
     if (parseInt(inputValue) <= 1){
       setDonationAmount(parseInt(newData.donationUnitAmount))
@@ -45,7 +45,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
 
   }, [inputValue, newData.donationUnitAmount])
-  
+
   const handleBoxClick = (box: BoxOptions) => {
     if (box === 'first') {
       setSelectedBox('first')
@@ -77,7 +77,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
  }
 
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement> )=>{   
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement> )=>{
     if (parseInt(event.target.value,10) <= 1 ){
       setInputValue('1')
       setDonationAmount(newData.donationUnitAmount)
@@ -144,11 +144,16 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     //TODO
-    <MainMicrosite colors={colors} url={newData.shortlinkurl}
-    type={newData.qrType} foregndImg={newData.foregndImg} backgndImg={newData.backgndImg}>
+    <MainMicrosite
+      colors={colors}
+      url={newData.shortlinkurl}
+      type={newData.qrType}
+      foregndImg={newData.foregndImg}
+      backgndImg={newData.backgndImg}
+      foregndImgType={newData.foregndImgType}>
    { !thanks ? (
     <ThemeProvider theme={theme}>
-    <CardContent sx={{height: '100%'}}>   
+    <CardContent sx={{height: '100%'}}>
       <Grid container
         display='flex'
         justifyContent="center"
@@ -263,17 +268,17 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             ></TextField>
           </Grid>
         </Grid>
-         
+
           <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: 2 }} >
-          <ThemeProvider theme={theme}> 
+          <ThemeProvider theme={theme}>
           <FormGroup>
-            <FormControlLabel control={<Switch  
+            <FormControlLabel control={<Switch
             onChange={handleSwitchChange}
             color='primary'
             />}
              label="Give my message privately."
              checked={checked}
-             name='private'             
+             name='private'
              />
           </FormGroup>
             <TextField
@@ -302,17 +307,17 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     </CardContent>
     </ThemeProvider> ) :
     (
-      
+
       <CardContent>
         <Typography variant="h5" textAlign={'center'}>Thanks for your support!</Typography>
         <Box sx={{display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
         <Image width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
         </Box>
-      
+
       </CardContent>
-      
-    )} 
+
+    )}
     </MainMicrosite>
-  
+
   );
 }
