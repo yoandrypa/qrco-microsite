@@ -1,5 +1,4 @@
 import {ReactNode, useEffect, useState} from "react";
-import Image from "next/image";
 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -17,11 +16,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Typography from "@mui/material/Typography";
+import CircularProgress from '@mui/material/CircularProgress';
 import {alpha, styled} from "@mui/material/styles";
 
 import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
 import Tooltip from "@mui/material/Tooltip";
+import Notifications from "../helperComponents/Notifications";
 
 interface MicrositesProps {
   children: ReactNode;
@@ -52,6 +53,8 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
   const [navigate, setNavigate] = useState<string | null>(null);
   const [backImg, setBackImg] = useState<FileType | null>(null);
   const [foreImg, setForeImg] = useState<FileType | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const handleShare = () => {
     setShare(!share);
@@ -81,7 +84,10 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
         setForeImg(fileData);
       }
     } catch {
-      console.log("error");
+      if ((item === 'backgndImg' && foregndImg && foreImg) || (item === 'foregndImg' && backgndImg && backImg)) {
+        setLoading(false);
+      }
+      setError(true);
     }
   }
 
@@ -94,24 +100,48 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
 
   useEffect(() => {
     if (backgndImg && !backImg) {
+      setLoading(true);
       getFiles(backgndImg[0].Key, 'backgndImg');
     }
   }, [backgndImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (foregndImg && !foreImg) {
+      setLoading(true);
       getFiles(foregndImg[0].Key, 'foregndImg');
     }
   }, [foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if ((backImg && (!foregndImg || foreImg)) || (foreImg && (!backgndImg || backImg))) {
+      setLoading(false);
+    }
+  }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
+      {error && (
+        <Notifications
+          title="Something went wrong"
+          message="Failed loading the microsite's data"
+          vertical="bottom"
+          horizontal="center"
+          onClose={() => setError(false)} />
+      )}
+      {loading && (
+        <Box sx={{ display: 'flex', position: 'absolute', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
+          <CircularProgress size={20} sx={{ mr: '5px', color: colors?.p || DEFAULT_COLORS.p }} />
+          <Typography sx={{ fontSize: 'small', color: theme => theme.palette.text.disabled}}>
+            {'Loading data. Please wait...'}
+          </Typography>
+        </Box>
+      )}
       <Box sx={{
         p: 0,
         m: 0,
         width: '100%',
         height: '270px',
-        background: !backImg ? alpha(colors ? colors.p : DEFAULT_COLORS.p, 0.9) : 'none'
+        background: !backImg ? alpha(colors?.p || DEFAULT_COLORS.p, 0.9) : 'none'
       }}>
         {backImg && (
           <Box
