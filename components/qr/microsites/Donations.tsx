@@ -8,16 +8,17 @@ import CardActions from "@mui/material/CardActions";
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
-import { PaletteColor, Switch, TextField } from "@mui/material";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
+
 import MainMicrosite from "./MainMicrosite";
-import  LoadingButton from "@mui/lab/LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 import axios, {AxiosError} from 'axios'
 import Image from "next/image";
 import { useRouter } from "next/router";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { height } from "@mui/system";
 
 interface DonationsProps {
   newData: any;
@@ -35,17 +36,15 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [checked, setChecked] = useState<boolean>(false)
 
   useEffect(() => {
-    if (parseInt(inputValue) <= 1){
+    if (parseInt(inputValue) < 1){
       setDonationAmount(parseInt(newData.donationUnitAmount))
       setInputValue('1')
       setSelectedBox('first')
     } else {
-      setDonationAmount(parseInt(inputValue) * newData.donationUnitAmount as number)
+      setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1) as number)
     }
-
-
-  }, [inputValue, newData.donationUnitAmount])
-
+  }, [inputValue, newData.donationUnitAmount,donationAmount])
+  
   const handleBoxClick = (box: BoxOptions) => {
     if (box === 'first') {
       setSelectedBox('first')
@@ -194,7 +193,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           <Grid item>
             <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
             <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                ${newData.donationUnitAmount} each
+                ${newData.donationUnitAmount || 1} each
               </Typography>
             </Box>
           </Grid>
@@ -297,7 +296,7 @@ const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
           <CardActions sx={{ marginTop: 2 }}>
             <LoadingButton style={{backgroundColor: colors.p}} disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading}  variant="contained" sx={{ borderRadius: 2 }}>
-              Donate ${donationAmount}
+              Donate ${donationAmount || 1}
             </LoadingButton>
 
           </CardActions>
