@@ -5,9 +5,8 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import Fab from '@mui/material/Fab';
+import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -22,6 +21,7 @@ import {alpha, styled} from "@mui/material/styles";
 
 import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
+import Tooltip from "@mui/material/Tooltip";
 
 interface MicrositesProps {
   children: ReactNode;
@@ -29,8 +29,8 @@ interface MicrositesProps {
   colors?: ColorTypes;
   url?: string;
   badge?: string;
-  backgndImg?: {Key: string;}[];
-  foregndImg?: {Key: string;}[];
+  backgndImg?: { Key: string; }[];
+  foregndImg?: { Key: string; }[];
   foregndImgType?: string;
 }
 
@@ -47,7 +47,7 @@ const Btn = styled(Button)(({primary, secondary}: BtnProps) => ({
   '&:hover': {color: secondary, background: primary}
 }));
 
-export default function MainMicrosite({children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType}: MicrositesProps) {
+export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType }: MicrositesProps) {
   const [share, setShare] = useState<boolean>(false);
   const [navigate, setNavigate] = useState<string | null>(null);
   const [backImg, setBackImg] = useState<FileType | null>(null);
@@ -72,14 +72,14 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
 
   const getFiles = async (key: string, item: string) => {
     try {
-        const fileData = await download(key);
-        if (item === 'backgndImg') {
-          // @ts-ignore
-          setBackImg(fileData);
-        } else {
-          // @ts-ignore
-          setForeImg(fileData);
-        }
+      const fileData = await download(key);
+      if (item === 'backgndImg') {
+        // @ts-ignore
+        setBackImg(fileData);
+      } else {
+        // @ts-ignore
+        setForeImg(fileData);
+      }
     } catch {
       console.log("error");
     }
@@ -94,7 +94,7 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
 
   useEffect(() => {
     if (backgndImg && !backImg) {
-      getFiles(backgndImg[0].Key,'backgndImg');
+      getFiles(backgndImg[0].Key, 'backgndImg');
     }
   }, [backgndImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -111,7 +111,8 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
         m: 0,
         width: '100%',
         height: '270px',
-        background: !backImg ? alpha(colors ? colors.p : DEFAULT_COLORS.p, 0.9) : 'none' }}>
+        background: !backImg ? alpha(colors ? colors.p : DEFAULT_COLORS.p, 0.9) : 'none'
+      }}>
         {backImg && (
           <Box
             component="img"
@@ -122,85 +123,53 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
               width: '100%',
               maxHeight: '100%',
               objectFit: 'cover'
-          }}/>
+            }}/>
         )}
       </Box>
       <Card sx={{
         position: "absolute",
-        top: "50%",
+        top: 0,
         left: "50%",
-        transform: "translate(-50%, -50%)",
-        maxWidth: {md: '460px', xs: '100%'}
+        transform: "translate(-50%, 0)",
+        maxWidth: {md: '475px', xs: '100%'}
       }}>
         <CardMedia title="">
-          {!colors ? (
-            <Image src="/qr/vcard+.png" height={220} width={460} alt="image"/>
-          ) : (
-            <Box sx={{
-              width: '460px',
-              height: '200px',
-              background: !backImg ? colors.p : 'none'
-            }}>
-              {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{ width: '100%', maxHeight: '100%', objectFit: 'cover' }}/>}
-              {url !== undefined && (<SpeedDial
-                ariaLabel="SpeedDial"
-                direction="down"
-                sx={{
-                  position: 'absolute',
-                  top: 130,
-                  right: 16,
-                  '& .MuiFab-primary': {
-                    height: '45px',
-                    width: '45px',
-                    backgroundColor: colors.s, color: colors.p,
-                    '&:hover': {backgroundColor: colors.s, color: colors.p}
-                  }
-                }}
-                icon={<SpeedDialIcon/>}
-              >
-                <SpeedDialAction
-                  key="share"
-                  onClick={handleShare}
-                  icon={<RenderIcon icon="social" enabled/>}
-                  tooltipTitle="Share"
-                  sx={{ color: colors.p }}
-                />
-              </SpeedDial>)}
-            </Box>
-          )}
-          {type !== undefined && (
-            <Typography
-              sx={{
-                position: 'absolute',
-                width: '100%',
-                marginTop: '-105px',
-                pr: 2,
-                display: 'flex',
-                justifyContent: 'right',
-                fontWeight: 'bold',
-                fontSize: '20px',
-                color: colors?.s || DEFAULT_COLORS.s
-              }}
-            >
-              <Box sx={{ mr: '5px', mt: '2px' }}>
-                <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
-              </Box>
-              {(type !== 'video' ? type : 'videos').toUpperCase()}
-            </Typography>
-          )}
+          <Box sx={{
+            width: '460px',
+            height: '200px',
+            background: !backImg && colors ? colors.p : 'none'
+          }}>
+            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{width: '100%', maxHeight: '100%', objectFit: 'cover'}}/>}
+            {url !== undefined && (
+              <Tooltip title="Share...">
+                <Fab
+                  size="small" color="secondary" aria-label="add" onClick={handleShare}
+                  sx={{
+                    position: 'absolute',
+                    top: 215,
+                    right: 16,
+                    color: colors?.s || DEFAULT_COLORS.s,
+                    backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                    '&:hover': {color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s}
+                  }}>
+                  <ShareIcon/>
+                </Fab>
+              </Tooltip>
+            )}
+          </Box>
           {foreImg && (
-            <Box sx={{ width: '100%', position: 'absolute', top: '150px', textAlign: 'center' }}>
-            <Box
-              component="img"
-              alt="foregimage"
-              src={foreImg.content}
-              sx={{
-                width: '100px',
-                height: '100px',
-                borderRadius: foregndImgType === undefined || foregndImgType === 'circle' ? '50px' : foregndImgType === 'smooth' ? '20px' : '3px',
-                border: 'solid 4px #fff'
-              }}
-            />
+            <Box sx={{width: '100%', position: 'absolute', top: '150px', textAlign: 'center'}}>
+              <Box
+                component="img"
+                alt="foregimage"
+                src={foreImg.content}
+                sx={{
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: foregndImgType === undefined || foregndImgType === 'circle' ? '50px' : foregndImgType === 'smooth' ? '20px' : '3px',
+                  border: 'solid 4px #fff'
+                }}
+              />
             </Box>
           )}
         </CardMedia>
@@ -218,13 +187,32 @@ export default function MainMicrosite({children, colors, url, badge, type, backg
           <Typography sx={{color: colors?.p, fontWeight: 'bold'}}>{badge}</Typography>
         </Box>)}
         <Box sx={{
-          height: {
-            sm: `calc(100vh - ${(foreImg ? 35 : 0) + (!colors ? 311 : 206)}px)`,
-            xs: `calc(100vh - ${(foreImg ? 35 : 0) + (!colors ? 271 : 166)}px)` },
+          height: `calc(100vh - ${(foreImg ? 35 : 0) + 201}px)`,
           overflow: 'auto',
           mt: foreImg ? '35px' : 0
         }}>
-          {children}
+          <Box sx={{ width: '100%', minHeight: 'calc(100vh - 275px)'}}>
+            {children}
+          </Box>
+          {type !== undefined && (
+            <Typography
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                fontSize: '20px',
+                color: colors?.s || DEFAULT_COLORS.s
+              }}
+            >
+              <Box sx={{mr: '5px', mt: '2px'}}>
+                <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
+              </Box>
+              <Typography sx={{ mt: '2px' }}>
+                {(type !== 'video' ? type : 'videos').toUpperCase()}
+              </Typography>
+            </Typography>
+          )}
         </Box>
         {share && colors && (
           <Dialog onClose={handleShare} open={true}>
