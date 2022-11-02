@@ -54,7 +54,8 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
   const [backImg, setBackImg] = useState<FileType | null>(null);
   const [foreImg, setForeImg] = useState<FileType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState<boolean>(false);
 
   const handleShare = () => {
     setShare(!share);
@@ -67,8 +68,9 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
   const copy = () => {
     try {
       navigator.clipboard.writeText(url || '');
+      setCopied(true);
     } catch {
-      console.log('Copy failed')
+      setError('Unable to copy to clipboard');
     }
     handleShare();
   };
@@ -87,7 +89,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
       if ((item === 'backgndImg' && foregndImg && foreImg) || (item === 'foregndImg' && backgndImg && backImg)) {
         setLoading(false);
       }
-      setError(true);
+      setError('Failed loading the microsite\'s data');
     }
   }
 
@@ -120,13 +122,21 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
 
   return (
     <>
+      {copied && (
+        <Notifications
+          message="Copied!"
+          onClose={() => setCopied(false)}
+          horizontal="center"
+          vertical="bottom"
+          severity="success" />
+      )}
       {error && (
         <Notifications
           title="Something went wrong"
-          message="Failed loading the microsite's data"
+          message={error}
           vertical="bottom"
           horizontal="center"
-          onClose={() => setError(false)} />
+          onClose={() => setError(null)} />
       )}
       {loading && (
         <Box sx={{ display: 'flex', position: 'absolute', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
@@ -165,11 +175,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
       }}>
         <CardMedia title="">
           <Box sx={{
-            width: '460px',
+            width: '475px',
             height: '200px',
             background: !backImg && colors ? colors.p : 'none'
           }}>
-            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{width: '100%', maxHeight: '100%', objectFit: 'cover'}}/>}
+            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{width: '100%', maxHeight: '200px', objectFit: 'cover'}}/>}
             {url !== undefined && (
               <Tooltip title="Share...">
                 <Fab
