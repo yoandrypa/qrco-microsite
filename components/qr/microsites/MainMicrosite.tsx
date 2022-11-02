@@ -179,7 +179,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             height: '200px',
             background: !backImg && colors ? colors.p : 'none'
           }}>
-            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{width: '100%', maxHeight: '200px', objectFit: 'cover'}}/>}
+            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{width: '475px', height: '200px', objectFit: 'cover'}}/>}
             {url !== undefined && (
               <Tooltip title="Share...">
                 <Fab
