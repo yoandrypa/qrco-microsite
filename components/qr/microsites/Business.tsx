@@ -49,8 +49,6 @@ export default function Business({newData}: BusinessProps) {
     return `${hours}:${minutes}`;
   }
 
-  console.log(newData.openingTime);
-
   return (
     <MainMicrosite
       colors={colors}
