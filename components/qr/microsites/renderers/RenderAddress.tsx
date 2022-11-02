@@ -1,7 +1,8 @@
 import Grid from "@mui/material/Grid";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RenderField from "./RenderField";
 import {ColorTypes} from "../../types/types";
+import Typography from "@mui/material/Typography";
 
 interface RenderAddressProps {
   newData: any;
@@ -15,16 +16,16 @@ export default function RenderAddress({newData, colors}: RenderAddressProps) {
   return (
     <>
       <Grid item xs={1}>
-        <MyLocationIcon sx={{color: colors.p}}/>
+        <LocationOnIcon sx={{color: colors.p}}/>
       </Grid>
       <Grid item xs={11}>
+        <Typography sx={{ fontWeight: 'bold' }}>{'Address'}</Typography>
         <Grid container spacing={1}>
-          {newData.address &&
-            <RenderField label="Address" value={newData.address} icon="location" color={newData.secondary}/>}
-          {newData.city && <RenderField label="City" value={newData.city}/>}
-          {newData.zip && <RenderField label="Zip code" value={newData.zip}/>}
-          {newData.state && <RenderField label="State/Province" value={newData.state}/>}
-          {newData.country && <RenderField label="Country" value={newData.country || ""}/>}
+          {newData.address && <RenderField value={newData.address} color={newData.secondary}/>}
+          {newData.city && <RenderField value={newData.city} sx={{ mt: '-10px' }}/>}
+          {newData.zip && <RenderField value={newData.zip} sx={{ mt: '-10px' }}/>}
+          {newData.state && <RenderField value={newData.state} sx={{ mt: '-10px' }}/>}
+          {newData.country && <RenderField value={newData.country || ""} sx={{ mt: '-10px' }}/>}
         </Grid>
       </Grid>
     </>

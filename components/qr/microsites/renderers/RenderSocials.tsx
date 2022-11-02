@@ -11,13 +11,15 @@ import {capitalize} from "@mui/material";
 
 import {DEFAULT_COLORS, SOCIALS} from "../../constants";
 import {SocialsType} from "../../types/types";
+import Typography from "@mui/material/Typography";
 
 interface RenderSocialsProps {
   newData: any;
   onlyIcons?: boolean;
+  desc?: string;
 }
 
-export default function RenderSocials({newData, onlyIcons}: RenderSocialsProps) {
+export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsProps) {
   const handleCopy = (data: string) => {
     try {
       navigator.clipboard.writeText(data);
@@ -124,6 +126,7 @@ export default function RenderSocials({newData, onlyIcons}: RenderSocialsProps) 
               <Grid item xs={1}><GroupsIcon sx={{color: newData.primary || DEFAULT_COLORS.p}}/></Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
+                  {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', fontWeight: 'bold'}}>{desc}</Typography>}
                   {/* @ts-ignore */}
                   {Object.keys(newData).filter((x: string) => SOCIALS.includes(x)).map((x: SocialsType) => (
                     <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x}`}>
