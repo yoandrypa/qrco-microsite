@@ -5,7 +5,6 @@ import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
 import Box from "@mui/material/Box";
 import WorkIcon from "@mui/icons-material/Work";
-import MarkAsUnreadIcon from "@mui/icons-material/MarkAsUnread";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 
@@ -50,6 +49,8 @@ export default function Business({newData}: BusinessProps) {
     return `${hours}:${minutes}`;
   }
 
+  console.log(newData.openingTime);
+
   return (
     <MainMicrosite
       colors={colors}
@@ -68,32 +69,20 @@ export default function Business({newData}: BusinessProps) {
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
-                  {newData.company && <RenderField label="Company" value={newData.company}/>}
-                  {newData.title && <RenderField label="Title" value={newData.title}/>}
-                  {newData.subtitle && <RenderField label="Sub title" value={newData.subtitle}/>}
-                  {newData.web && <RenderField label="Web" value={newData.web} icon="world" color={newData.secondary}/>}
-                  {newData.contact && <RenderField label="Contact" value={newData.contact} icon="contact" color={newData.secondary}/>}
-                  {newData.email && <RenderField label="" value={newData.email} icon="emailIcon" color={newData.secondary}/>}
-                  {newData.phone && <RenderField label="" value={newData.phone} icon="phone" color={newData.secondary}/>}
-                  {newData.about && <RenderField label="" value={newData.about} icon="about" color={newData.secondary}/>}
+                  <Typography sx={{ fontWeight: 'bold', mt: '10px', ml: '10px' }}>{'Company'}</Typography>
+                  {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px' }}/>}
+                  {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }}/>}
+                  {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px' }}/>}
+                  {newData.web && <RenderField value={newData.web} icon="world" color={newData.secondary}/>}
+                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary}/>}
+                  {newData.email && <RenderField value={newData.email} icon="emailIcon" color={newData.secondary}/>}
+                  {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary}/>}
+                  {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary}/>}
                 </Grid>
               </Grid>
             </>
           )}
           <RenderAddress newData={newData} colors={colors} />
-          {(newData.email || newData.web) && (
-            <>
-              <Grid item xs={1}>
-                <MarkAsUnreadIcon sx={{color: colors.p}}/>
-              </Grid>
-              <Grid item xs={11}>
-                <Grid container spacing={1}>
-                  {newData.email && <RenderField label="Email" value={newData.email}/>}
-                  {newData.web && <RenderField label="Web" value={newData.web}/>}
-                </Grid>
-              </Grid>
-            </>
-          )}
           {newData.easiness && (
             <>
               <Grid item xs={1}>
@@ -139,23 +128,28 @@ export default function Business({newData}: BusinessProps) {
               <ScheduleIcon sx={{color: colors.p}}/>
             </Grid>
             <Grid item xs={11}>
-              {Object.keys(newData.openingTime).map((x: string) => (
-                <>
-                  {/* @ts-ignore */}
-                  <Typography sx={{fontWeight: 'bold', ml: 2}}>{DAYS[x]}</Typography>
-                  {newData.openingTime[x].map((open: OpeningObjType) => {
-                    return (<Box sx={{display: 'inline-flex', ml: 4}} key={`day${x}`}>
-                      <Typography
-                        sx={{display: 'inline-flex', mr: '5px'}}>{'From ' + handleTiming(open.ini)}</Typography>
-                      <Typography sx={{display: 'inline-flex'}}>{' to ' + handleTiming(open.end)}</Typography>
-                    </Box>);
-                  })}
-                </>
-              ))}
+              <Typography sx={{ fontWeight: 'bold', }}>{'Opening time'}</Typography>
+                {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map((x: string) => {
+                  if (!newData.openingTime[x]) {
+                    return null;
+                  }
+                  return (<>
+                    {/* @ts-ignore */}
+                    <Typography sx={{fontWeight: 'bold', ml: 2}}>{DAYS[x]}</Typography>
+                    {newData.openingTime[x].map((open: OpeningObjType) => {
+                      return (<Box sx={{display: 'inline-flex', ml: 4}} key={`day${x}`}>
+                        <Typography
+                          sx={{display: 'inline-flex', mr: '5px'}}>{'From ' + handleTiming(open.ini)}</Typography>
+                        <Typography sx={{display: 'inline-flex'}}>{' to ' + handleTiming(open.end)}</Typography>
+                      </Box>);
+                    })}
+                  </>);
+                })
+              }
             </Grid>
             </>
           ) : null}
-          <RenderSocials newData={newData}/>
+          <RenderSocials newData={newData} desc="Social networks"/>
         </Grid>
       </CardContent>
     </MainMicrosite>
