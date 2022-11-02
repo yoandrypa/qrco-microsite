@@ -10,16 +10,18 @@ interface RenderFieldProps {
   value: string;
   icon?: string;
   color?: string;
+  sx?: Object;
 }
 
-export default function RenderField({size, label, value, icon, color}: RenderFieldProps) {
+export default function RenderField({size, label, value, icon, color, sx}: RenderFieldProps) {
   return (
-    <Grid item xs={size || 12} sx={{pt: 0, border: `solid 1px rgba(0,0,0,0.03)`}}>
+    <Grid item xs={size || 12} sx={{pt: 0}}>
       <TextField
-        sx={{ mt: '-1px' }}
+        sx={{'.MuiInputBase-input': { mt: '-1px', ...sx }}}
         label={label || ''}
         size="small"
         fullWidth
+        multiline
         margin="dense"
         variant="standard"
         value={value}
