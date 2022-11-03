@@ -15,6 +15,7 @@ import {useMemo} from "react";
 import {getColors} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
+import Button from "@mui/material/Button";
 
 interface BusinessProps {
   newData: any;
@@ -77,6 +78,26 @@ export default function Business({newData}: BusinessProps) {
                   {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary}/>}
                   {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary}/>}
                 </Grid>
+              </Grid>
+            </>
+          )}
+          {newData.urlOptionLabel && (
+            <>
+              <Grid item xs={1}/>
+              <Grid item xs={11} sx={{ textAlign: 'center' }}>
+                <Button
+                  target="_blank"
+                  component="a"
+                  href={newData.urlOptionLink}
+                  variant="contained"
+                  sx={{
+                    mt: '10px',
+                    width: 'calc(100% - 70px)',
+                    color: colors.p,
+                    background: colors.s,
+                    '&:hover': {color: colors.s, background: colors.p}
+                  }}
+                >{newData.urlOptionLabel}</Button>
               </Grid>
             </>
           )}
