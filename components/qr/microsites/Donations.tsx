@@ -106,6 +106,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const handleClick = async () => {
     setIsLoading(true)
     try {
+      console.log(process.env.REACT_NODE_ENV)
       const response = await axios.post('/donationpaylink', {
         priceId: newData.donationPriceId,
         paylinkQuantity: inputValue,
