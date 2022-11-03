@@ -231,7 +231,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           overflow: 'auto',
           mt: foreImg ? '35px' : 0
         }}>
-          <Box sx={{ width: '100%', minHeight: 'calc(100vh - 275px)'}}>
+          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 275 : 235}px)`}}>
             {children}
           </Box>
           {type !== undefined && (
