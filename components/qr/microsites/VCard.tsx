@@ -7,6 +7,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import RingVolumeIcon from '@mui/icons-material/RingVolume';
 import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
 import WorkIcon from '@mui/icons-material/Work';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
@@ -16,6 +17,8 @@ import {ColorTypes} from "../types/types";
 
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 interface VCardProps {
   newData: any;
@@ -44,11 +47,11 @@ export default function VCard({newData}: VCardProps) {
                 <AccountBoxIcon sx={{ color: colors.p }} />
               </Grid>
               <Grid item xs={11}>
-                <Grid container spacing={1}>
-                  {newData.prefix && <RenderField label="Prefix" value={newData.prefix}/>}
-                  {newData.firstName && <RenderField label="First name" value={newData.firstName}/>}
-                  {newData.lastName && <RenderField label="Last name" value={newData.lastName}/>}
-                </Grid>
+                <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                  {`${newData.prefix ? newData.prefix + 
+                  (newData.firstName || newData.lastName ? ', ' : '') : ''}${newData.firstName ? 
+                  newData.firstName + (newData.lastName ? ' ' : '') : ''}${newData.lastName ? newData.lastName : ''}`}
+                </Typography>
               </Grid>
             </>
           )}
@@ -62,8 +65,8 @@ export default function VCard({newData}: VCardProps) {
                   {newData.cell &&
                     <RenderField value={newData.cell} icon="cell" color={newData.secondary} size={newData.phone ? 6 : 12}/>}
                   {newData.phone &&
-                    <RenderField value={newData.phone} icon="phone" color={newData.secondary}  size={newData.cellkate ? 6 : 12}/>}
-                  {newData.fax && <RenderField label="Fax" value={newData.fax}/>}
+                    <RenderField value={newData.phone} icon="phone" color={newData.secondary} size={newData.cell ? 6 : 12}/>}
+                  {newData.fax && <RenderField value={newData.fax} icon="fax" color={newData.secondary} />}
                 </Grid>
               </Grid>
             </>
@@ -74,7 +77,8 @@ export default function VCard({newData}: VCardProps) {
                 <WorkIcon sx={{ color: colors.p }} />
               </Grid>
               <Grid item xs={11}>
-                <Grid container spacing={1}>
+                <Typography sx={{ fontWeight: 'bold' }}>{'Organization info'}</Typography>
+                <Grid container spacing={0}>
                   {newData.organization && <RenderField label="Organization" value={newData.organization}/>}
                   {newData.position && <RenderField label="Position" value={newData.position}/>}
                 </Grid>
@@ -88,20 +92,23 @@ export default function VCard({newData}: VCardProps) {
                 <MarkAsUnreadIcon sx={{ color: colors.p }} />
               </Grid>
               <Grid item xs={11}>
-                <Grid container spacing={1}>
-                  {newData.email && <RenderField label="Email" value={newData.email}/>}
-                  {newData.web && <RenderField label="Web" value={newData.web}/>}
+                <Grid container spacing={1} sx={{ mt: '-16px' }}>
+                  {newData.email && <RenderField icon="emailIcon" color={newData.secondary} value={newData.email}/>}
+                  {newData.web && <RenderField icon="world" color={newData.secondary} value={newData.web}/>}
                 </Grid>
               </Grid>
             </>
           )}
-          <RenderSocials newData={newData}/>
+          <Box sx={{ width: '100%', mt: 2, display: 'flex', justifyContent: 'center' }}>
+            <RenderSocials newData={newData} onlyIcons/>
+          </Box>
         </Grid>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           variant="contained"
-          sx={{mt: "10px", color: colors.s, background: colors.p, '&:hover': {color: colors.p, background: colors.s} }}
+          startIcon={<GetAppIcon />}
+          sx={{my: '10px', color: colors.s, background: colors.p, '&:hover': {color: colors.p, background: colors.s} }}
           onClick={downloadFile}
         >{'Get Contact'}</Button>
       </CardActions>

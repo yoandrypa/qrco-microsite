@@ -46,6 +46,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import ShareIcon from '@mui/icons-material/Share';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FaxIcon from '@mui/icons-material/Fax';
 import PhoneIcon from '@mui/icons-material/Phone';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
@@ -118,6 +119,7 @@ export default function RenderIcon({ icon, color, enabled, adjust }: RenderIconP
       case 'about': { return <InfoIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
       case 'world': { return <PublicIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
       case 'link': { return <LinkIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
+      case 'fax': { return <FaxIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
       default: { return <TextSnippetOutlinedIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? theme => (color || theme.palette.primary.dark) : grey[600] }} />; }
     }
   };
