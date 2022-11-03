@@ -1,10 +1,5 @@
 
 import { ReactNode, useEffect, useState } from "react";
-
-import TwitterIcon from '@mui/icons-material/Twitter';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
@@ -12,10 +7,8 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import { ColorTypes, FileType } from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
+
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -63,20 +56,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
 
 
     setShare(!share);
-  };
-
-  const handleNavigate = (destination: string) => {
-    setNavigate(destination);
-  };
-
-  const copy = () => {
-    try {
-      navigator.clipboard.writeText(url || '');
-      setCopied(true);
-    } catch {
-      setError('Unable to copy to clipboard');
-    }
-    handleShare();
   };
 
   const getFiles = async (key: string, item: string) => {
@@ -191,7 +170,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   data={{
                     text: "(Shared from theqr.link)",
                     url: url,
-                    title: "The QR App",
+                    title: "The QR Link",
 
                   }}
                   onClick={() => console.log("shared successfully!")}
@@ -271,53 +250,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             </Typography>
           )}
         </Box>
-        {/* {share && colors && (
-          <Dialog onClose={handleShare} open={true}>
-            <DialogTitle>
-              <Typography>{'Share this shortlink using...'}</Typography>
-            </DialogTitle>
-            <DialogContent>
-              <Box sx={{ width: '300px' }}>
-                <Btn
-                  primary={colors.p}
-                  secondary={colors.s}
-                  variant="contained"
-                  startIcon={<FacebookIcon />}
-                  onClick={() => handleNavigate('https://www.facebook.com/sharer/sharer.php?u=')}
-                >
-                  {'Facebook'}
-                </Btn>
-                <Btn
-                  primary={colors.p}
-                  secondary={colors.s}
-                  variant="contained"
-                  onClick={() => handleNavigate('https://twitter.com/share?url=')}
-                  startIcon={<TwitterIcon />}
-                >
-                  {'Twitter'}
-                </Btn>
-                <Btn
-                  primary={colors.p}
-                  secondary={colors.s}
-                  variant="contained"
-                  onClick={() => handleNavigate('mailto:?body=')}
-                  startIcon={<AlternateEmailIcon />}
-                >
-                  {'Email'}
-                </Btn>
-                <Btn
-                  primary={colors.p}
-                  secondary={colors.s}
-                  variant="contained"
-                  onClick={copy}
-                  startIcon={<ContentCopyIcon />}
-                >
-                  {'Copy to clipboard'}
-                </Btn>
-              </Box>
-            </DialogContent>
-          </Dialog>
-        )} */}
       </Card>
     </>
   );
