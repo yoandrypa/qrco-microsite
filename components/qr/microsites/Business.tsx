@@ -73,8 +73,8 @@ export default function Business({newData}: BusinessProps) {
                   {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }}/>}
                   {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px' }}/>}
                   {newData.web && <RenderField value={newData.web} icon="world" color={newData.secondary}/>}
-                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary}/>}
                   {newData.email && <RenderField value={newData.email} icon="emailIcon" color={newData.secondary}/>}
+                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary}/>}
                   {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary}/>}
                   {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary}/>}
                 </Grid>
