@@ -1,4 +1,5 @@
-import { ReactNode, useEffect, useState } from "react";
+
+import {ReactNode, useEffect, useState} from "react";
 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -17,7 +18,14 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
-import { alpha, styled } from "@mui/material/styles";
+
+import {alpha, styled} from "@mui/material/styles";
+
+import {DEFAULT_COLORS} from "../constants";
+import {download} from "../../../handlers/storage";
+import Tooltip from "@mui/material/Tooltip";
+import Notifications from "../helperComponents/Notifications";
+
 
 import { DEFAULT_COLORS } from "../constants";
 import { download } from "../../../handlers/storage";
@@ -143,7 +151,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
       {loading && (
         <Box sx={{ display: 'flex', position: 'absolute', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
           <CircularProgress size={20} sx={{ mr: '5px', color: colors?.p || DEFAULT_COLORS.p }} />
-          <Typography sx={{ fontSize: 'small', color: theme => theme.palette.text.disabled }}>
+          <Typography sx={{ fontSize: 'small', color: theme => theme.palette.text.disabled}}>
             {'Loading data. Please wait...'}
           </Typography>
         </Box>
@@ -165,7 +173,8 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               width: '100%',
               maxHeight: '100%',
               objectFit: 'cover'
-            }} />
+
+            }}/>
         )}
       </Box>
       <Card sx={{
@@ -173,7 +182,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
         top: 0,
         left: "50%",
         transform: "translate(-50%, 0)",
-        maxWidth: { md: '475px', xs: '100%' }
+        maxWidth: {md: '475px', xs: '100%'}
       }}>
         <CardMedia title="">
           <Box sx={{
@@ -211,7 +220,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             )}
           </Box>
           {foreImg && (
-            <Box sx={{ width: '100%', position: 'absolute', top: '150px', textAlign: 'center' }}>
+            <Box sx={{width: '100%', position: 'absolute', top: '150px', textAlign: 'center'}}>
               <Box
                 component="img"
                 alt="foregimage"
@@ -244,7 +253,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           overflow: 'auto',
           mt: foreImg ? '35px' : 0
         }}>
-          <Box sx={{ width: '100%', minHeight: 'calc(100vh - 275px)' }}>
+          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 275 : 235}px)`}}>
             {children}
           </Box>
           {type !== undefined && (
@@ -258,8 +267,9 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 color: colors?.s || DEFAULT_COLORS.s
               }}
             >
-              <Box sx={{ mr: '5px', mt: '2px' }}>
-                <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
+
+              <Box sx={{mr: '5px', mt: '2px'}}>
+                <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
               </Box>
               <Typography sx={{ mt: '2px' }}>
                 {(type !== 'video' ? type : 'videos').toUpperCase()}
