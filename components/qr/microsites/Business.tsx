@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import WorkIcon from "@mui/icons-material/Work";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import Button from "@mui/material/Button";
 
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
@@ -15,7 +16,6 @@ import {useMemo} from "react";
 import {getColors} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
-import Button from "@mui/material/Button";
 
 interface BusinessProps {
   newData: any;
