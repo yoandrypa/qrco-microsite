@@ -213,23 +213,19 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             {children}
           </Box>
           {type !== undefined && (
-            <Typography
-              sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                fontWeight: 'bold',
-                fontSize: '20px',
-                color: colors?.s || DEFAULT_COLORS.s
-              }}
-            >
-              <Box sx={{ mr: '5px', mt: '2px' }}>
-                <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
-              </Box>
-              <Typography sx={{ mt: '2px' }}>
+            <Box sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              fontSize: '20px',
+              color: colors?.s || DEFAULT_COLORS.s
+            }}>
+              <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
+              <Typography sx={{ ml: '5px' }}>
                 {(type !== 'video' ? type : 'videos').toUpperCase()}
               </Typography>
-            </Typography>
+            </Box>
           )}
         </Box>
       </Card>
