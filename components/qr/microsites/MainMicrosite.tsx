@@ -1,21 +1,21 @@
-import {ReactNode, useEffect, useState} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import {ColorTypes} from "../types/types";
+import { ColorTypes, FileType } from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import {alpha} from "@mui/material/styles";
+import { alpha, styled } from "@mui/material/styles";
 
-import {DEFAULT_COLORS} from "../constants";
-import {download} from "../../../handlers/storage";
+import { DEFAULT_COLORS } from "../constants";
+import { download } from "../../../handlers/storage";
 import Tooltip from "@mui/material/Tooltip";
 import Notifications from "../helperComponents/Notifications";
-import {RWebShare} from "react-web-share";
+import { RWebShare } from "react-web-share";
 
 interface MicrositesProps {
   children: ReactNode;
