@@ -186,7 +186,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               <Tooltip title="Share...">
                 <RWebShare
                   data={{
-                    text: "Shared from theqr.link",
+                    text: "(Shared from theqr.link)",
                     url: url,
                     title: "The QR App",
 
