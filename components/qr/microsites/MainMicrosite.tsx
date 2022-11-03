@@ -1,3 +1,4 @@
+
 import {ReactNode, useEffect, useState} from "react";
 
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -9,7 +10,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import {ColorTypes, FileType} from "../types/types";
+import { ColorTypes, FileType } from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -17,6 +18,7 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
+
 import {alpha, styled} from "@mui/material/styles";
 
 import {DEFAULT_COLORS} from "../constants";
@@ -24,6 +26,12 @@ import {download} from "../../../handlers/storage";
 import Tooltip from "@mui/material/Tooltip";
 import Notifications from "../helperComponents/Notifications";
 
+
+import { DEFAULT_COLORS } from "../constants";
+import { download } from "../../../handlers/storage";
+import Tooltip from "@mui/material/Tooltip";
+import Notifications from "../helperComponents/Notifications";
+import { RWebShare } from "react-web-share";
 interface MicrositesProps {
   children: ReactNode;
   type?: string;
@@ -40,12 +48,12 @@ interface BtnProps {
   secondary?: string;
 }
 
-const Btn = styled(Button)(({primary, secondary}: BtnProps) => ({
+const Btn = styled(Button)(({ primary, secondary }: BtnProps) => ({
   marginTop: '10px',
   width: '100%',
   color: primary,
   background: secondary,
-  '&:hover': {color: secondary, background: primary}
+  '&:hover': { color: secondary, background: primary }
 }));
 
 export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType }: MicrositesProps) {
@@ -58,6 +66,8 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
   const [copied, setCopied] = useState<boolean>(false);
 
   const handleShare = () => {
+
+
     setShare(!share);
   };
 
@@ -163,6 +173,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               width: '100%',
               maxHeight: '100%',
               objectFit: 'cover'
+
             }}/>
         )}
       </Box>
@@ -179,21 +190,32 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             height: '200px',
             background: !backImg && colors ? colors.p : 'none'
           }}>
-            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{width: '475px', height: '200px', objectFit: 'cover'}}/>}
+            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />}
             {url !== undefined && (
               <Tooltip title="Share...">
-                <Fab
-                  size="small" color="secondary" aria-label="add" onClick={handleShare}
-                  sx={{
-                    position: 'absolute',
-                    top: 215,
-                    right: 16,
-                    color: colors?.s || DEFAULT_COLORS.s,
-                    backgroundColor: colors?.p || DEFAULT_COLORS.p,
-                    '&:hover': {color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s}
-                  }}>
-                  <ShareIcon/>
-                </Fab>
+                <RWebShare
+                  data={{
+                    text: "(Shared from theqr.link)",
+                    url: url,
+                    title: "The QR App",
+
+                  }}
+                  onClick={() => console.log("shared successfully!")}
+                >
+                  <Fab
+                    size="small" color="secondary" aria-label="add"
+                    // onClick={handleShare}
+                    sx={{
+                      position: 'absolute',
+                      top: 215,
+                      right: 16,
+                      color: colors?.s || DEFAULT_COLORS.s,
+                      backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                      '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
+                    }}>
+                    <ShareIcon />
+                  </Fab>
+                </RWebShare>
               </Tooltip>
             )}
           </Box>
@@ -224,7 +246,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
           marginLeft: '10px'
         }}>
-          <Typography sx={{color: colors?.p, fontWeight: 'bold'}}>{badge}</Typography>
+          <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
         </Box>)}
         <Box sx={{
           height: `calc(100vh - ${(foreImg ? 35 : 0) + 201}px)`,
@@ -245,6 +267,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 color: colors?.s || DEFAULT_COLORS.s
               }}
             >
+
               <Box sx={{mr: '5px', mt: '2px'}}>
                 <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
               </Box>
@@ -254,18 +277,18 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             </Typography>
           )}
         </Box>
-        {share && colors && (
+        {/* {share && colors && (
           <Dialog onClose={handleShare} open={true}>
             <DialogTitle>
               <Typography>{'Share this shortlink using...'}</Typography>
             </DialogTitle>
             <DialogContent>
-              <Box sx={{width: '300px'}}>
+              <Box sx={{ width: '300px' }}>
                 <Btn
                   primary={colors.p}
                   secondary={colors.s}
                   variant="contained"
-                  startIcon={<FacebookIcon/>}
+                  startIcon={<FacebookIcon />}
                   onClick={() => handleNavigate('https://www.facebook.com/sharer/sharer.php?u=')}
                 >
                   {'Facebook'}
@@ -275,7 +298,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   secondary={colors.s}
                   variant="contained"
                   onClick={() => handleNavigate('https://twitter.com/share?url=')}
-                  startIcon={<TwitterIcon/>}
+                  startIcon={<TwitterIcon />}
                 >
                   {'Twitter'}
                 </Btn>
@@ -284,7 +307,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   secondary={colors.s}
                   variant="contained"
                   onClick={() => handleNavigate('mailto:?body=')}
-                  startIcon={<AlternateEmailIcon/>}
+                  startIcon={<AlternateEmailIcon />}
                 >
                   {'Email'}
                 </Btn>
@@ -293,14 +316,14 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   secondary={colors.s}
                   variant="contained"
                   onClick={copy}
-                  startIcon={<ContentCopyIcon/>}
+                  startIcon={<ContentCopyIcon />}
                 >
                   {'Copy to clipboard'}
                 </Btn>
               </Box>
             </DialogContent>
           </Dialog>
-        )}
+        )} */}
       </Card>
     </>
   );
