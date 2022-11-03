@@ -1,3 +1,4 @@
+import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
@@ -7,11 +8,11 @@ import Box from "@mui/material/Box";
 import WorkIcon from "@mui/icons-material/Work";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import Button from "@mui/material/Button";
 
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
 import {ColorTypes, OpeningObjType} from "../types/types";
-import {useMemo} from "react";
 import {getColors} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
@@ -72,11 +73,31 @@ export default function Business({newData}: BusinessProps) {
                   {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }}/>}
                   {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px' }}/>}
                   {newData.web && <RenderField value={newData.web} icon="world" color={newData.secondary}/>}
-                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary}/>}
                   {newData.email && <RenderField value={newData.email} icon="emailIcon" color={newData.secondary}/>}
+                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary}/>}
                   {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary}/>}
                   {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary}/>}
                 </Grid>
+              </Grid>
+            </>
+          )}
+          {newData.urlOptionLabel && (
+            <>
+              <Grid item xs={1}/>
+              <Grid item xs={11} sx={{ textAlign: 'center' }}>
+                <Button
+                  target="_blank"
+                  component="a"
+                  href={newData.urlOptionLink}
+                  variant="contained"
+                  sx={{
+                    mt: '10px',
+                    width: 'calc(100% - 70px)',
+                    color: colors.p,
+                    background: colors.s,
+                    '&:hover': {color: colors.s, background: colors.p}
+                  }}
+                >{newData.urlOptionLabel}</Button>
               </Grid>
             </>
           )}
