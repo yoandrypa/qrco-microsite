@@ -1,24 +1,23 @@
-
-import { ReactNode, useEffect, useState } from "react";
+import {ReactNode, useEffect, useState} from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { ColorTypes, FileType } from "../types/types";
+import {ColorTypes, FileType} from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import Button from "@mui/material/Button";
-
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { alpha, styled } from "@mui/material/styles";
+import {alpha, styled} from "@mui/material/styles";
 
-import { DEFAULT_COLORS } from "../constants";
-import { download } from "../../../handlers/storage";
+import {DEFAULT_COLORS} from "../constants";
+import {download} from "../../../handlers/storage";
 import Tooltip from "@mui/material/Tooltip";
 import Notifications from "../helperComponents/Notifications";
-import { RWebShare } from "react-web-share";
+import {RWebShare} from "react-web-share";
+
 interface MicrositesProps {
   children: ReactNode;
   type?: string;
@@ -44,19 +43,11 @@ const Btn = styled(Button)(({ primary, secondary }: BtnProps) => ({
 }));
 
 export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType }: MicrositesProps) {
-  const [share, setShare] = useState<boolean>(false);
-  const [navigate, setNavigate] = useState<string | null>(null);
   const [backImg, setBackImg] = useState<FileType | null>(null);
   const [foreImg, setForeImg] = useState<FileType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<boolean>(false);
-
-  const handleShare = () => {
-
-
-    setShare(!share);
-  };
 
   const getFiles = async (key: string, item: string) => {
     try {
@@ -75,13 +66,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
       setError('Failed loading the microsite\'s data');
     }
   }
-
-  useEffect(() => {
-    if (navigate) {
-      handleShare();
-      window.open(`${navigate}${url}`, '_blank');
-    }
-  }, [navigate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (backgndImg && !backImg) {
@@ -214,8 +198,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           padding: '10px',
           background: colors?.s,
           width: 'fit-content',
-          borderRadius: '5px',
-          // @ts-ignore
+          borderRadius: '5px', // @ts-ignore
           boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
           marginLeft: '10px'
         }}>
@@ -240,7 +223,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 color: colors?.s || DEFAULT_COLORS.s
               }}
             >
-
               <Box sx={{ mr: '5px', mt: '2px' }}>
                 <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
               </Box>
