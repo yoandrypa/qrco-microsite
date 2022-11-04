@@ -9,11 +9,10 @@ import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { alpha, styled } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 import { DEFAULT_COLORS } from "../constants";
 import { download } from "../../../handlers/storage";
-import Tooltip from "@mui/material/Tooltip";
 import Notifications from "../helperComponents/Notifications";
 import { RWebShare } from "react-web-share";
 
@@ -133,7 +132,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   text: "(Shared from theqr.link)",
                   url: url,
                   title: "The QR Link",
-
                 }}
                 onClick={() => console.log("shared successfully!")}
               >
