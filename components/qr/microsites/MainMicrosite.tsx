@@ -4,13 +4,12 @@ import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import {ColorTypes, FileType} from "../types/types";
+import {ColorTypes} from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import {alpha, styled} from "@mui/material/styles";
+import {alpha} from "@mui/material/styles";
 
 import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
@@ -29,41 +28,27 @@ interface MicrositesProps {
   foregndImgType?: string;
 }
 
-interface BtnProps {
-  primary?: string;
-  secondary?: string;
-}
-
-const Btn = styled(Button)(({ primary, secondary }: BtnProps) => ({
-  marginTop: '10px',
-  width: '100%',
-  color: primary,
-  background: secondary,
-  '&:hover': { color: secondary, background: primary }
-}));
-
 export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType }: MicrositesProps) {
-  const [backImg, setBackImg] = useState<FileType | null>(null);
-  const [foreImg, setForeImg] = useState<FileType | null>(null);
+  const [backImg, setBackImg] = useState<any>(undefined);
+  const [foreImg, setForeImg] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const getFiles = async (key: string, item: string) => {
     try {
       const fileData = await download(key);
       if (item === 'backgndImg') {
-        // @ts-ignore
         setBackImg(fileData);
       } else {
-        // @ts-ignore
         setForeImg(fileData);
       }
     } catch {
-      if ((item === 'backgndImg' && foregndImg && foreImg) || (item === 'foregndImg' && backgndImg && backImg)) {
-        setLoading(false);
+      if (item === 'backgndImg') {
+        setBackImg(null);
+      } else {
+        setForeImg(null);
       }
-      setError('Failed loading the microsite\'s data');
+      setError(true);
     }
   }
 
@@ -72,38 +57,27 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
       setLoading(true);
       getFiles(backgndImg[0].Key, 'backgndImg');
     }
-  }, [backgndImg]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
     if (foregndImg && !foreImg) {
       setLoading(true);
       getFiles(foregndImg[0].Key, 'foregndImg');
     }
-  }, [foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if ((backImg && (!foregndImg || foreImg)) || (foreImg && (!backgndImg || backImg))) {
+    if ((backImg !== undefined && !foregndImg) || (foreImg !== undefined && !backgndImg) || (foreImg !== undefined && backImg !== undefined)) {
       setLoading(false);
     }
   }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      {copied && (
-        <Notifications
-          message="Copied!"
-          onClose={() => setCopied(false)}
-          horizontal="center"
-          vertical="bottom"
-          severity="success" />
-      )}
       {error && (
         <Notifications
           title="Something went wrong"
-          message={error}
+          message="Failed loading the microsite's data"
           vertical="bottom"
           horizontal="center"
-          onClose={() => setError(null)} />
+          onClose={() => setError(true)} />
       )}
       {loading && (
         <Box sx={{ display: 'flex', position: 'absolute', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
@@ -161,7 +135,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 >
                   <Fab
                     size="small" color="secondary" aria-label="add"
-                    // onClick={handleShare}
                     sx={{
                       position: 'absolute',
                       top: 215,
