@@ -133,7 +133,9 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   url: url,
                   title: "The QR Link",
                 }}
-                onClick={() => console.log("shared successfully!")}
+                onClick={() => {
+                  //TODO
+                }}
               >
                 <Fab
                   size="small" color="secondary" aria-label="add"
