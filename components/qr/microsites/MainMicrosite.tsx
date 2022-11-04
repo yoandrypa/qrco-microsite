@@ -128,29 +128,29 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />
             )}
             {url !== undefined && (
-              <Tooltip title="Share...">
-                <RWebShare
-                  data={{
-                    text: "(Shared from theqr.link)",
-                    url: url,
-                    title: "The QR Link"
-                  }}
-                  onClick={() => console.log("shared successfully!")}
-                >
-                  <Fab
-                    size="small" color="secondary" aria-label="add"
-                    sx={{
-                      position: 'absolute',
-                      top: 215,
-                      right: 16,
-                      color: colors?.s || DEFAULT_COLORS.s,
-                      backgroundColor: colors?.p || DEFAULT_COLORS.p,
-                      '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
-                    }}>
-                    <ShareIcon />
-                  </Fab>
-                </RWebShare>
-              </Tooltip>
+              <RWebShare
+                data={{
+                  text: "(Shared from theqr.link)",
+                  url: url,
+                  title: "The QR Link",
+
+                }}
+                onClick={() => console.log("shared successfully!")}
+              >
+                <Fab
+                  size="small" color="secondary" aria-label="add"
+                  // onClick={handleShare}
+                  sx={{
+                    position: 'absolute',
+                    top: 215,
+                    right: 16,
+                    color: colors?.s || DEFAULT_COLORS.s,
+                    backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                    '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
+                  }}>
+                  <ShareIcon />
+                </Fab>
+              </RWebShare>
             )}
           </Box>
           {foreImg && (
