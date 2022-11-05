@@ -128,8 +128,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   data={{
                     text: "(Shared from theqr.link)",
                     url: url,
-                    title: "The QR Link",
-
+                    title: "The QR Link"
                   }}
                   onClick={() => console.log("shared successfully!")}
                 >
