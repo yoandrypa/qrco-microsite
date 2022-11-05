@@ -104,7 +104,6 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               width: '100%',
               maxHeight: '100%',
               objectFit: 'cover'
-
             }} />
         )}
       </Box>
@@ -121,7 +120,13 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             height: '200px',
             background: !backImg && colors ? colors.p : 'none'
           }}>
-            {backImg && <Box component="img" alt="backgimage" src={backImg.content} sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />}
+            {backImg && (
+              <Box
+                component="img"
+                alt="backgimage"
+                src={backImg.content}
+                sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />
+            )}
             {url !== undefined && (
               <Tooltip title="Share...">
                 <RWebShare
