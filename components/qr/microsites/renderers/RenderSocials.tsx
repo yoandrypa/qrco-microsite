@@ -9,8 +9,8 @@ import ForwardIcon from "@mui/icons-material/Forward";
 import GroupsIcon from '@mui/icons-material/Groups';
 import {capitalize} from "@mui/material";
 
-import {DEFAULT_COLORS, SOCIALS} from "../../constants";
-import {SocialsType} from "../../types/types";
+import {DEFAULT_COLORS} from "../../constants";
+import {SocialNetworksType} from "../../types/types";
 import Typography from "@mui/material/Typography";
 
 interface RenderSocialsProps {
@@ -28,12 +28,12 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
     }
   }
 
-  const renderSocials = (item: string) => {
-    let value = newData[item] as string;
+  const renderSocials = (item: SocialNetworksType) => {
+    let value = item.value as string;
     value = value.slice(value.indexOf(':') + 1);
 
     let url = '' as string;
-    switch (item) {
+    switch (item.network) {
       case 'facebook': {
         url = 'https://www.facebook.com/';
         break;
@@ -68,14 +68,14 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
       }
     }
 
-    url += `${value}${item !== 'youtube' ? '' : '?sub_confirmation=1'}`;
-    let label = item !== 'linkedin' ? capitalize(item) : 'LinkedIn';
+    url += `${value}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
+    let label = item.network !== 'linkedin' ? capitalize(item.network) : 'LinkedIn';
 
     if (onlyIcons) {
       return (
         <Tooltip title={`Go to ${label}`}>
           <IconButton target="_blank" component="a" href={url}>
-            <RenderIcon icon={item} enabled color={newData.primary || DEFAULT_COLORS.p} />
+            <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p} />
           </IconButton>
         </Tooltip>
       );
@@ -94,7 +94,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
           disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
-              <RenderIcon icon={item} enabled color={newData.secondary || DEFAULT_COLORS.s}/>
+              <RenderIcon icon={item.network} enabled color={newData.secondary || DEFAULT_COLORS.s}/>
             </InputAdornment>
           ),
           endAdornment: (
@@ -119,17 +119,15 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
 
   return (
     <>
-      {(newData.facebook || newData.whatsapp || newData.twitter || newData.linkedin || newData.instagram ||
-        newData.youtube || newData.pinterest || newData.telegram) && (<>
+      {(newData.socials?.length) && (<>
           {!onlyIcons ? (
             <>
               <Grid item xs={1}><GroupsIcon sx={{color: newData.primary || DEFAULT_COLORS.p}}/></Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
                   {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', fontWeight: 'bold'}}>{desc}</Typography>}
-                  {/* @ts-ignore */}
-                  {Object.keys(newData).filter((x: string) => SOCIALS.includes(x)).map((x: SocialsType) => (
-                    <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x}`}>
+                  {newData.socials.map((x: SocialNetworksType) => (
+                    <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
                       {renderSocials(x)}
                     </Grid>
                   ))}
@@ -138,8 +136,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
             </>
           ) : (
             <>
-              {/* @ts-ignore */}
-              {Object.keys(newData).filter((x: string) => SOCIALS.includes(x)).map((x: SocialsType) => (
+              {newData.socials.map((x: SocialNetworksType) => (
                 <>
                   {renderSocials(x)}
                 </>

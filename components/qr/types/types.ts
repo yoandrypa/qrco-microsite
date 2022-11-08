@@ -1,11 +1,3 @@
-export type FramesType = {
-  type: string | null;
-  text: string;
-  color: string;
-  textColor: string;
-  textUp?: boolean | false;
-};
-
 export type LinkType = {
   label: string;
   link: string;
@@ -29,6 +21,8 @@ export type OpeningType = {
   fri?: OpeningDaysType;
   sat?: OpeningDaysType;
 } | {} | null;
+
+export type SocialNetworksType = { network: SocialsType, value?: string };
 
 export type DataType = {
   mode?: string;
@@ -70,14 +64,7 @@ export type DataType = {
   via?: string;
   hashtags?: string;
   text?: string;
-  facebook?: string;
-  whatsapp?: string;
-  linkedin?: string;
-  instagram?: string;
-  youtube?: string;
-  pinterest?: string;
-  telegram?: string;
-  twitter?: string;
+  socials?: SocialNetworksType[];
   value?: string;
   is12hours?: boolean;
   openingTime?: OpeningType;
