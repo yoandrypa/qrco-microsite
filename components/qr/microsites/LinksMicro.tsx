@@ -16,8 +16,9 @@ interface LinksProps {
 export default function LinksMicro({newData}: LinksProps) {
   const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderBtn = (item: LinkType) => (
+  const renderBtn = (item: LinkType, key: string) => (
     <Button
+      key={key}
       target="_blank"
       component="a"
       href={item.link}
@@ -50,18 +51,18 @@ export default function LinksMicro({newData}: LinksProps) {
           </Box>
         )}
         <Box sx={{mt: 2}}>
-          {newData.position !== 'middle' ? newData.links.map((x: LinkType) => (
-            renderBtn(x)
+          {newData.position !== 'middle' ? newData.links.map((x: LinkType, index: number) => (
+            renderBtn(x, `btn${index}`)
           )) : (
             <>
-              {newData.links.slice().splice(0, Math.ceil(newData.links.length / 2)).map((x: LinkType) => (
-                renderBtn(x)
+              {newData.links.slice().splice(0, Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
+                renderBtn(x, `btn2n${index}`)
               ))}
               <Box sx={{my: 2}}>
                 <RenderSocials newData={newData} onlyIcons/>
               </Box>
-              {newData.links.slice().splice(-Math.ceil(newData.links.length / 2)).map((x: LinkType) => (
-                renderBtn(x)
+              {newData.links.slice().splice(-Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
+                renderBtn(x, `btn3d${index}`)
               ))}
             </>
           )}
