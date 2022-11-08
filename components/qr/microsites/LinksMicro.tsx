@@ -16,8 +16,6 @@ interface LinksProps {
 export default function LinksMicro({newData}: LinksProps) {
   const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(newData);
-
   const renderBtn = (item: LinkType) => (
     <Button
       target="_blank"
