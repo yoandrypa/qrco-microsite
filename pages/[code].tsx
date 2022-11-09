@@ -33,8 +33,6 @@ export default function Handler ({ data }: InferGetServerSidePropsType<typeof ge
     );
   }
 
-  console.log(data);
-
   return <MainComponent newData={JSON.parse(data)} />
 }
 
