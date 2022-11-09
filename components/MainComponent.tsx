@@ -11,46 +11,51 @@ import LinksMicro from "./qr/microsites/LinksMicro";
 import Box from "@mui/material/Box";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
+import SamplesList from "./SamplesList";
 
 interface MainCompProps {
   newData: any;
 }
 
 export default function MainComponent({newData}: MainCompProps) {
+  if (newData.samples) {
+    return <SamplesList newData={newData.samples} />;
+  }
+
   if (newData.qrType === "vcard+") {
-    return (<VCard newData={newData}/>);
+    return <VCard newData={newData}/>;
   }
 
   if (["gallery", "image"].includes(newData.qrType)) {
-    return (<Images newData={newData}/>);
+    return <Images newData={newData}/>;
   }
 
   if (newData.qrType === "business") {
-    return (<Business newData={newData}/>);
+    return <Business newData={newData}/>;
   }
 
   if (newData.qrType === "coupon") {
-    return (<Coupons newData={newData}/>);
+    return <Coupons newData={newData}/>;
   }
 
   if (newData.qrType === "social") {
-    return (<SocialInfo newData={newData}/>);
+    return <SocialInfo newData={newData}/>;
   }
 
   if (["web", "twitter", "whatsapp", "facebook"].includes(newData.qrType)) {
-    return (<Web urlString={handleDesignerString(newData.qrType, newData)}/>);
+    return <Web urlString={handleDesignerString(newData.qrType, newData)}/>;
   }
 
   if (["pdf", "audio", "video"].includes(newData.qrType)) {
-    return (<FileMicro newData={newData}/>);
+    return <FileMicro newData={newData}/>;
   }
 
   if (newData.qrType === "donations") {
-    return (<Donations newData={newData}/>);
+    return <Donations newData={newData}/>;
   }
 
   if (newData.qrType === "link") {
-    return (<LinksMicro newData={newData}/>);
+    return <LinksMicro newData={newData}/>;
   }
 
   return (
