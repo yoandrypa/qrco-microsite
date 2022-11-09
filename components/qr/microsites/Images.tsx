@@ -68,7 +68,7 @@ function Images({newData}: ImageProps) {
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}>
-      <Box sx={{width: '100%', textAlign: 'center', mt: '-35px', color: colors.s}}>
+      <Box sx={{width: '100%', mt: '10px', textAlign: 'center', color: colors.s}}>
         {images.current.length ? (
           <Typography sx={{fontWeight: 'bold'}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
@@ -77,8 +77,7 @@ function Images({newData}: ImageProps) {
           <Typography>{'Please wait...'}</Typography>
         )}
       </Box>
-
-      <Grid container spacing={1} sx={{mt: 2, p: 2}}>
+      <Grid container spacing={1} sx={{p: 2}}>
         {/* @ts-ignore */}
         {images.current.length ? images.current.map((x: FileType, fileNumber: number) => {
             if (!x) {

@@ -80,14 +80,9 @@ export default function FileMicro({newData}: FileProps) {
       foregndImgType={newData.foregndImgType}>
       <Box sx={{
         color: colors.s,
-        position: 'fixed',
-        textAlign: 'left',
-        marginTop: '-33px',
-        marginLeft: 2
+        textAlign: 'center'
       }}>
-        <Typography sx={{display: 'inline-block', fontWeight: 'bold'}}>{newData.qrType.toUpperCase()}</Typography>
-        <Typography
-          sx={{display: 'inline-block', ml: 1}}>{`(${pluralize('item', newData.files.length, true)})`}</Typography>
+        <Typography>{pluralize('item', newData.files.length, true)}</Typography>
       </Box>
       {/* @ts-ignore */}
       {files.current.length ? files.current.map((x: FileType, index: number) => {
