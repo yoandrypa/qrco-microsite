@@ -4,7 +4,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { ColorTypes, FileType } from "../types/types";
+import { ColorTypes } from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
