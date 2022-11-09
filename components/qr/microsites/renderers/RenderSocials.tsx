@@ -116,7 +116,6 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
     );
   }
 
-
   return (
     <>
       {(newData.socials?.length) && (<>
