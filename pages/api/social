@@ -1,0 +1,54 @@
+{
+	"shortLinkId": {
+		"banned": false,
+		"target": "https://app-dev.theqr.link/qr/6a33abfe-3154-4797-b84f-4d4284f414f5",
+		"updatedAt": "2022-11-09T18:27:22.288Z",
+		"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+		"visitCount": 1,
+		"createdAt": "2022-11-09T18:27:22.267Z",
+		"address": "VoofYf",
+		"type": "qr_link"
+	},
+	"qrName": "Social Luerod",
+	"createdAt": "2022-11-09T18:27:22.290Z",
+	"foregndImg": [{
+		"ETag": "\"8447e096acf5162ae84a9773db27a00f\"",
+		"$metadata": {
+			"totalRetryDelay": 0,
+			"httpStatusCode": 200,
+			"attempts": 1
+		},
+		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/socials/design/688a5187-ac49-47e4-87c6-a2c3b68ff6f8.jpg"
+	}],
+	"backgndImg": [{
+		"ETag": "\"ecc5c45b21343cdc36a85db21dac0982\"",
+		"$metadata": {
+			"totalRetryDelay": 0,
+			"httpStatusCode": 200,
+			"attempts": 1
+		},
+		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/socials/design/6408d753-a048-404b-b090-9ef792f0268d.34.27 AM - copia.jpeg"
+	}],
+	"isDynamic": true,
+	"qrType": "social",
+	"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+	"updatedAt": "2022-11-09T18:27:22.295Z",
+	"socials": [{
+		"value": "Luerodbounce",
+		"network": "facebook"
+	}, {
+		"value": "luerodbounce",
+		"network": "instagram"
+	}, {
+		"value": "LuerodBounce",
+		"network": "youtube"
+	}, {
+		"value": "LuerodBounce",
+		"network": "twitter"
+	}, {
+		"value": "luerod",
+		"network": "telegram"
+	}],
+	"secondary": "#a8a6a1",
+	"primary": "#40310f"
+}
