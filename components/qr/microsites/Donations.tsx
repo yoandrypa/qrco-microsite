@@ -285,15 +285,12 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                   ></TextField>
                 </ThemeProvider>
               </Grid>
-
               <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <CardActions sx={{ marginTop: 2 }}>
                   <LoadingButton style={{ backgroundColor: colors.p }} disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading} variant="contained" sx={{ borderRadius: 2 }}>
                     {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
                   </LoadingButton>
-
                 </CardActions>
-
               </Grid>
             </Grid>
           </CardContent>
