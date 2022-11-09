@@ -33,28 +33,19 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     );
   }
 
-  return <MainComponent newData={data}/>;
+  return (
+    <MainComponent newData={{samples: data}} />
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
-  // @ts-ignore
-  const {type} = params;
-
   let result = {};
-  let fileContents = "";
-
   try {
     const directory = path.join(process.cwd(), '/pages/api');
-    fileContents = await fs.readFile(`${directory}/${type}`, 'utf8');
+    const files = await fs.readdir(directory);
+    result = files;
   } catch {
     result = {error: 'IO Error'};
-  }
-  if (fileContents !== "") {
-    try {
-      result = JSON.parse(fileContents);
-    } catch {
-      result = {error: 'Malformed sample file structure'};
-    }
   }
 
   return {
