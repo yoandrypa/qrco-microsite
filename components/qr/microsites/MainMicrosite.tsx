@@ -1,21 +1,20 @@
-import {ReactNode, useEffect, useState} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import {ColorTypes} from "../types/types";
+import { ColorTypes } from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import {alpha} from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
-import {DEFAULT_COLORS} from "../constants";
-import {download} from "../../../handlers/storage";
-import Tooltip from "@mui/material/Tooltip";
+import { DEFAULT_COLORS } from "../constants";
+import { download } from "../../../handlers/storage";
 import Notifications from "../helperComponents/Notifications";
-import {RWebShare} from "react-web-share";
+import { RWebShare } from "react-web-share";
 
 interface MicrositesProps {
   children: ReactNode;
@@ -128,29 +127,30 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />
             )}
             {url !== undefined && (
-              <Tooltip title="Share...">
-                <RWebShare
-                  data={{
-                    text: "(Shared from theqr.link)",
-                    url: url,
-                    title: "The QR Link"
-                  }}
-                  onClick={() => console.log("shared successfully!")}
-                >
-                  <Fab
-                    size="small" color="secondary" aria-label="add"
-                    sx={{
-                      position: 'absolute',
-                      top: 215,
-                      right: 16,
-                      color: colors?.s || DEFAULT_COLORS.s,
-                      backgroundColor: colors?.p || DEFAULT_COLORS.p,
-                      '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
-                    }}>
-                    <ShareIcon />
-                  </Fab>
-                </RWebShare>
-              </Tooltip>
+              <RWebShare
+                data={{
+                  text: "(Shared from theqr.link)",
+                  url: url,
+                  title: "The QR Link",
+                }}
+                onClick={() => {
+                  //TODO
+                }}
+              >
+                <Fab
+                  size="small" color="secondary" aria-label="add"
+                  // onClick={handleShare}
+                  sx={{
+                    position: 'absolute',
+                    top: 215,
+                    right: 16,
+                    color: colors?.s || DEFAULT_COLORS.s,
+                    backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                    '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
+                  }}>
+                  <ShareIcon />
+                </Fab>
+              </RWebShare>
             )}
           </Box>
           {foreImg && (

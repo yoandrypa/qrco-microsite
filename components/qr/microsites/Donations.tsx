@@ -106,7 +106,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const handleClick = async () => {
     setIsLoading(true)
     try {
-      console.log(process.env.REACT_NODE_ENV)
       const response = await axios.post('/donationpaylink', {
         priceId: newData.donationPriceId,
         paylinkQuantity: inputValue,
@@ -286,15 +285,12 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                   ></TextField>
                 </ThemeProvider>
               </Grid>
-
               <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <CardActions sx={{ marginTop: 2 }}>
                   <LoadingButton style={{ backgroundColor: colors.p }} disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading} variant="contained" sx={{ borderRadius: 2 }}>
-                    Donate ${donationAmount || 1}
+                    {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
                   </LoadingButton>
-
                 </CardActions>
-
               </Grid>
             </Grid>
           </CardContent>
