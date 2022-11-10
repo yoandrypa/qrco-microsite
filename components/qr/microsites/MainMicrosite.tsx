@@ -142,10 +142,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                   // onClick={handleShare}
                   sx={{
                     position: 'absolute',
-                    top: 215,
+                    top: 147,
                     right: 16,
                     color: colors?.s || DEFAULT_COLORS.s,
                     backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                    border: 'solid 3px #fff',
                     '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
                   }}>
                   <ShareIcon />
