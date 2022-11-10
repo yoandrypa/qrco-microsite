@@ -1,6 +1,7 @@
 import {DEFAULT_COLORS, SOCIALS} from "../../constants";
 import {handleDesignerString} from "../../../../helpers/qr/helpers";
 import {FileType} from "../../types/types";
+import {getExtension} from "../../../helpers/generalFunctions";
 
 export function getColors(data: any) {
   return { p: data.primary || DEFAULT_COLORS.p, s: data.secondary || DEFAULT_COLORS.s }
@@ -38,9 +39,12 @@ export function downloadVCard(data: any) {
   handleDownload(contents, 'text/plain', 'my vcard.vcf', true);
 }
 
-export function handleDownloadFiles(data: FileType) {
+export function handleDownloadFiles(data: FileType, kind: string) {
   const type = data.type as string;
-  const names = type.split('/');
+  let extension = getExtension(type);
+  if (extension.includes('/')) {
+    extension = type.split('/')[1];
+  }
 
-  handleDownload(data.content, type, `my ${names[0]}.${names[1]}`);
+  handleDownload(data.content, type, `my ${kind}.${extension}`);
 }

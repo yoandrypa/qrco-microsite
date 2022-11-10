@@ -119,6 +119,12 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             height: '200px',
             background: !backImg && colors ? colors.p : 'none'
           }}>
+            <Box sx={{
+              width: '100%',
+              background: `linear-gradient(${alpha(colors?.s || DEFAULT_COLORS.s, 0.4)}, rgba(0,0,0,0))`,
+              height: '50px',
+              position: 'absolute',
+              top: '200px' }}/>
             {backImg && (
               <Box
                 component="img"
@@ -205,6 +211,12 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               </Typography>
             </Box>
           )}
+          <Box sx={{
+            width: '100%',
+            background: `linear-gradient(rgba(0,0,0,0), ${colors?.s || DEFAULT_COLORS.s})`,
+            height: '250px',
+            position: 'absolute',
+            bottom: '-140px' }}/>
         </Box>
       </Card>
     </>

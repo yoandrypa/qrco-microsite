@@ -25,7 +25,7 @@ export default function RenderPreview({handleClose, colors, preview, type}: Rend
         <Button
           sx={{ mt: '10px', width: '100%', color: colors.p, background: colors.s, '&:hover': {color: colors.s, background: colors.p} }}
           variant="outlined"
-          onClick={() => handleDownloadFiles(preview)}
+          onClick={() => handleDownloadFiles(preview, type)}
           startIcon={<DownloadIcon />}
         >
           {'Download'}
