@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   let fileContents = "";
 
   try {
-    const directory = path.join(process.cwd(), '/jsons');
+    const directory = path.join(process.cwd(), '/public/json');
     fileContents = await fs.readFile(`${directory}/${type}`, 'utf8');
   } catch {
     result = {error: 'IO Error'};
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
 
   return {
     props: {
-      data: result
+      data: {...result, shortlinkurl: 'https://www.example.com'}
     }
   };
 };
