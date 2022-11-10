@@ -68,7 +68,7 @@ export default function LinksMicro({newData}: LinksProps) {
           )}
         </Box>
         {(newData.position === undefined || newData.position === 'under') && (
-          <Box sx={{mt: 2}}>
+          <Box sx={{mt: 2, display: 'inline-flex'}}>
             <RenderSocials newData={newData} onlyIcons/>
           </Box>
         )}
