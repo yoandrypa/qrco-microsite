@@ -1,6 +1,4 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import path from "path";
-import {promises as fs} from "fs";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 
@@ -9,8 +7,6 @@ import Typography from "@mui/material/Typography";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (data.error) {
-    console.log(data.dirname, data.filename, data.proc)
-
     return (
       <Box sx={{
         position: "absolute",
@@ -42,24 +38,25 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   // @ts-ignore
   const {type} = params;
 
-  let result = {};
-  let fileContents: string;
+  let result:any;
 
-  try {
-    const route = __dirname.slice(0, __dirname.indexOf('/.next'));
-    const filepath = path.join(route, `/json/${type}`);
-    fileContents = await fs.readFile(filepath, 'utf8');
-  } catch (error) {
-    console.log(error);
-    result = {error: 'IO Error', dirname: __dirname, filename: __filename, proc: process.cwd()};
-  }
-  // @ts-ignore
-  if (!result.error) {
+  if (type === 'filesIndex') {
+    result = {error: 'Unable to process your request'}
+  } else {
     try {
-      // @ts-ignore
-      result = JSON.parse(fileContents || '');
+      result = await import(`../../json/${type}.json`);
     } catch {
-      result = {error: 'Malformed sample file structure'};
+      result = {error: 'IO Error'};
+    }
+
+    // @ts-ignore
+    if (!result.error) {
+      try {
+        // @ts-ignore
+        result = JSON.parse(JSON.stringify(result));
+      } catch {
+        result = {error: 'Malformed sample file structure'};
+      }
     }
   }
 
