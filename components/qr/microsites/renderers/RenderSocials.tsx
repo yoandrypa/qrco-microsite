@@ -136,9 +136,9 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
           ) : (
             <>
               {newData.socials.map((x: SocialNetworksType) => (
-                <>
+                <div key={`sn${x.network}`}>
                   {renderSocials(x)}
-                </>
+                </div>
               ))}
             </>
           )}
