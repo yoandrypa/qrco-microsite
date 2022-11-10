@@ -41,7 +41,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
   let result = {};
   try {
-    const directory = path.join(process.cwd(), '/pages/api');
+    const directory = path.join(process.cwd(), '/jsons');
     const files = await fs.readdir(directory);
     result = files;
   } catch {
