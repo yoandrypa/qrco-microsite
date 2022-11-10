@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   let fileContents = "";
 
   try {
-    const directory = path.join(process.cwd(), '/pages/api');
+    const directory = path.join(process.cwd(), '/jsons');
     fileContents = await fs.readFile(`${directory}/${type}`, 'utf8');
   } catch {
     result = {error: 'IO Error'};
