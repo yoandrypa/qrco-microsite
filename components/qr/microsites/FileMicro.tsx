@@ -14,6 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
+import {getExtension} from "../../helpers/generalFunctions";
 
 interface FileProps {
   newData: any;
@@ -35,9 +36,7 @@ export default function FileMicro({newData}: FileProps) {
     try {
       filesInfo.forEach(async (x: any) => {
         const key = x.Key as string;
-        const fileData = await download(key);
-
-        // @ts-ignore
+        const fileData = await download(key); // @ts-ignore
         files.current.push(fileData);
         forceUpdate();
       });
@@ -54,7 +53,7 @@ export default function FileMicro({newData}: FileProps) {
           {kind}
         </Typography>
         <Typography sx={{display: 'inline-block'}}>
-          {`${index}/${newData.files.length} (${type})`}
+          {`${index}/${newData.files.length} (${type.toUpperCase()})`}
         </Typography>
       </Typography>
     );
@@ -98,7 +97,7 @@ export default function FileMicro({newData}: FileProps) {
             }}>
               {x ? (
                 <>
-                  {renderHint(x.type, fileNumber)}
+                  {renderHint(getExtension(x.type), fileNumber)}
                   {newData.qrType === 'audio' && (
                     <audio preload="none" controls key={`audio${fileNumber}`} style={{width: '100%'}}>
                       <source src={x.content} type={x.type}/>
@@ -118,7 +117,7 @@ export default function FileMicro({newData}: FileProps) {
                         '&:hover': {color: colors.s, background: colors.p}
                       }}
                       variant="outlined"
-                      onClick={() => handleDownloadFiles(x)}
+                      onClick={() => handleDownloadFiles(x, newData.qrType)}
                       startIcon={<DownloadIcon/>}
                     >
                       {`Download ${newData.qrType} ${fileNumber}`}

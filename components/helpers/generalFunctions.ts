@@ -24,3 +24,34 @@ export function humanDate(date: number | string, locale: string = 'en', long?: b
 
   return `${returning}${compare.getFullYear() !== d.getFullYear() || long ? `, ${d.getFullYear()}` : ''}`;
 }
+
+export function getExtension(mimeType: string): string {
+  const types = {
+    'image/gif': 'gif',
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/tiff': 'tiff',
+    'image/vnd.wap.wbmp': 'wbmp',
+    'image/x-icon': 'ico',
+    'image/x-jng': 'jng',
+    'image/x-ms-bmp': 'bmp',
+    'image/svg+xml': 'svg',
+    'image/webp': 'webp',
+    'application/pdf': 'pdf',
+    'audio/midi': 'midi',
+    'audio/mpeg': 'mp3',
+    'audio/ogg': 'ogg',
+    'audio/x-realaudio': 'ra',
+    'video/3gpp': '3gp',
+    'video/mpeg': 'mpg',
+    'video/quicktime': 'mov',
+    'video/x-flv': 'flv',
+    'video/x-mng': 'mng',
+    'video/x-ms-asf': 'asf',
+    'video/x-ms-wmv': 'wmv',
+    'video/x-msvideo': 'avi',
+    'video/mp4': 'mp4'
+  }
+  // @ts-ignore
+  return types[mimeType.toLowerCase()] || mimeType;
+}
