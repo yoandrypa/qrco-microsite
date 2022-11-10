@@ -93,11 +93,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
         height: '270px',
         background: !backImg ? alpha(colors?.p || DEFAULT_COLORS.p, 0.9) : 'none'
       }}>
-        {backImg && (
+        {(backImg || type === 'sample') && (
           <Box
             component="img"
             alt="backgimage"
-            src={backImg.content}
+            src={type !== 'sample' ? backImg.content : '/background_samples.png'}
             sx={{
               filter: 'opacity(0.87) contrast(0.75) blur(5px)',
               width: '100%',
@@ -125,11 +125,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               height: '50px',
               position: 'absolute',
               top: '200px' }}/>
-            {backImg && (
+            {(backImg || type === 'sample') && (
               <Box
                 component="img"
                 alt="backgimage"
-                src={backImg.content}
+                src={type !== 'sample' ? backImg.content : '/background_samples.png'}
                 sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />
             )}
             {url !== undefined && (
