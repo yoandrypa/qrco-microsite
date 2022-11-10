@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   if (data.error) {
+    console.log(data.dirname, data.filename, data.proc)
+
     return (
       <Box sx={{
         position: "absolute",
@@ -44,11 +46,12 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   let fileContents: string;
 
   try {
-    const filepath = path.join(process.cwd(), `/json/${type}`);
+    const route = __dirname.slice(0, __dirname.indexOf('/.next'));
+    const filepath = path.join(route, `/json/${type}`);
     fileContents = await fs.readFile(filepath, 'utf8');
   } catch (error) {
     console.log(error);
-    result = {error: 'IO Error'};
+    result = {error: 'IO Error', dirname: __dirname, filename: __filename, proc: process.cwd()};
   }
   // @ts-ignore
   if (!result.error) {
