@@ -1,5 +1,4 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import path from "path";
 import {promises as fs} from "fs";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
@@ -41,10 +40,10 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
   let result = {};
   try {
-    const directory = path.join(process.cwd(), '/public/json');
-    const files = await fs.readdir(directory);
-    result = files;
-  } catch {
+    const directory = process.cwd() + '/json';
+    result = await fs.readdir(directory);
+  } catch (error) {
+    console.log(error);
     result = {error: 'IO Error'};
   }
 
