@@ -41,20 +41,23 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   const {type} = params;
 
   let result = {};
-  let fileContents: any;
+  let fileContents: string;
 
   try {
-    const filepath = process.cwd() + `/json/${type}`;
-    fileContents = await fs.readFile(filepath);
-    fileContents = JSON.parse(fileContents);
+    const filepath = path.join(process.cwd(), `/json/${type}`);
+    fileContents = await fs.readFile(filepath, 'utf8');
   } catch (error) {
     console.log(error);
     result = {error: 'IO Error'};
   }
-
   // @ts-ignore
   if (!result.error) {
-    result = fileContents;
+    try {
+      // @ts-ignore
+      result = JSON.parse(fileContents || '');
+    } catch {
+      result = {error: 'Malformed sample file structure'};
+    }
   }
 
   return {
