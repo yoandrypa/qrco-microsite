@@ -1,13 +1,11 @@
-import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {promises as fs} from "fs";
-import path from "path";
+import {GetStaticProps} from "next";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 
 import MainComponent from "../../components/MainComponent";
 import Typography from "@mui/material/Typography";
 
-export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SampleMicrosite({data}: any) {
   if (data.error) {
     return (
       <Box sx={{
@@ -38,19 +36,27 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({params}) => {
-  let result = {};
+export const getStaticProps: GetStaticProps = async() => {
+  let result:any;
   try {
-    const directory = path.join(process.cwd(), '/json');
-    result = await fs.readdir(directory);
-  } catch (error) {
-    console.log(error);
+    result = await import('../../json/filesIndex.json');
+  } catch {
     result = {error: 'IO Error'};
+  }
+
+  // @ts-ignore
+  if (!result.error) {
+    try {
+      // @ts-ignore
+      result = JSON.parse(JSON.stringify(result));
+    } catch {
+      result = {error: 'Malformed sample file structure'};
+    }
   }
 
   return {
     props: {
-      data: result
+      data: result.files
     }
   };
 };
