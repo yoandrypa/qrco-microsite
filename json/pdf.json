@@ -1,38 +1,30 @@
 {
-	"backgndImg": [{
-		"ETag": "\"506ef1bdeca3a26abbda2e175250ef01\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/design/ecae1761-44cf-4362-b392-b5ca81ceb77b.png"
-	}],
-	"isDynamic": true,
-	"shortLinkId": {
-		"banned": false,
-		"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-		"target": "https://app-dev.theqr.link/qr/c0e39ab2-64d3-48c7-9fc2-c734d8dd7a8b",
-		"updatedAt": "2022-11-09T20:26:36.045Z",
-		"visitCount": 0,
-		"createdAt": "2022-11-09T20:26:36.044Z",
-		"address": "W0evyg",
-		"type": "qr_link"
-	},
-	"qrType": "pdf",
-	"files": [{
-		"Bucket": "dev-qrco",
-		"ETag": "\"11e9744746db29f9c242c4481e9ecfcb-1\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/Photoshop for beginners ok.pdf",
-		"Location": "https://dev-qrco.s3.us-east-1.amazonaws.com/7da855eb-b000-46d8-991c-2e734a3f7be5%2Fpdfs%2FPhotoshop+for+beginners+ok.pdf"
-	}],
-	"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-	"updatedAt": "2022-11-09T20:26:36.048Z",
-	"qrName": "PDF",
-	"createdAt": "2022-11-09T20:26:36.047Z"
+  "backgndImg": [
+    {
+      "name": "aa183c12-d9eb-4b37-b1bc-013f5702aa85.png",
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/design/aa183c12-d9eb-4b37-b1bc-013f5702aa85.png"
+    }
+  ],
+  "isDynamic": true,
+  "shortLinkId": {
+    "banned": false,
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "target": "https://app-dev.theqr.link/qr/1dd29516-cd02-431d-a588-7fd13b2726cc",
+    "updatedAt": "2022-11-11T18:01:23.712Z",
+    "visitCount": 0,
+    "createdAt": "2022-11-11T18:01:23.706Z",
+    "address": "IDdU70",
+    "type": "qr_link"
+  },
+  "qrType": "pdf",
+  "files": [
+    {
+      "name": "Photoshop for beginners NEW22.pdf",
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/Photoshop for beginners NEW22.pdf"
+    }
+  ],
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+  "updatedAt": "2022-11-11T18:01:23.724Z",
+  "qrName": "PDF",
+  "createdAt": "2022-11-11T18:01:23.718Z"
 }
