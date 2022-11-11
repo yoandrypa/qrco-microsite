@@ -152,7 +152,7 @@ export default function Business({newData}: BusinessProps) {
                   if (!newData.openingTime[x]) {
                     return null;
                   }
-                  return (<>
+                  return (<Box key={`busines${x}`}>
                     {/* @ts-ignore */}
                     <Typography sx={{fontWeight: 'bold', ml: 2}}>{DAYS[x]}</Typography>
                     {newData.openingTime[x].map((open: OpeningObjType) => {
@@ -162,7 +162,7 @@ export default function Business({newData}: BusinessProps) {
                         <Typography sx={{display: 'inline-flex'}}>{' to ' + handleTiming(open.end)}</Typography>
                       </Box>);
                     })}
-                  </>);
+                  </Box>);
                 })
               }
             </Grid>
