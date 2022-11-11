@@ -1,38 +1,37 @@
 {
-	"backgndImg": [{
-		"ETag": "\"506ef1bdeca3a26abbda2e175250ef01\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/design/ecae1761-44cf-4362-b392-b5ca81ceb77b.png"
-	}],
-	"isDynamic": true,
-	"shortLinkId": {
-		"banned": false,
-		"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-		"target": "https://app-dev.theqr.link/qr/c0e39ab2-64d3-48c7-9fc2-c734d8dd7a8b",
-		"updatedAt": "2022-11-09T20:26:36.045Z",
-		"visitCount": 0,
-		"createdAt": "2022-11-09T20:26:36.044Z",
-		"address": "W0evyg",
-		"type": "qr_link"
-	},
-	"qrType": "pdf",
-	"files": [{
-		"Bucket": "dev-qrco",
-		"ETag": "\"11e9744746db29f9c242c4481e9ecfcb-1\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/Photoshop for beginners ok.pdf",
-		"Location": "https://dev-qrco.s3.us-east-1.amazonaws.com/7da855eb-b000-46d8-991c-2e734a3f7be5%2Fpdfs%2FPhotoshop+for+beginners+ok.pdf"
-	}],
-	"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-	"updatedAt": "2022-11-09T20:26:36.048Z",
-	"qrName": "PDF",
-	"createdAt": "2022-11-09T20:26:36.047Z"
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/c0e39ab2-64d3-48c7-9fc2-c734d8dd7a8b",
+    "updatedAt": "2022-11-09T20:26:36.045Z",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "visitCount": 3,
+    "createdAt": "2022-11-09T20:26:36.044Z",
+    "address": "W0evyg",
+    "type": "qr_link"
+  },
+  "qrName": "PDF",
+  "createdAt": "2022-11-09T20:26:36.047Z",
+  "backgndImg": [
+    {
+      "ETag": "\"506ef1bdeca3a26abbda2e175250ef01\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/design/ecae1761-44cf-4362-b392-b5ca81ceb77b.png"
+    }
+  ],
+  "isDynamic": true,
+  "qrType": "pdf",
+  "files": [
+    {
+      "name": "Photoshop for beginners NEW.pdf",
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/pdfs/Photoshop for beginners NEW.pdf"
+    }
+  ],
+  "image": "",
+  "updatedAt": "2022-11-11T16:26:03.153Z",
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+  "id": "92271efb-7ad3-4485-a299-d48a0f62a418"
 }
