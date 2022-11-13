@@ -15,6 +15,8 @@ import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
 import {getExtension} from "../../helpers/generalFunctions";
+import RenderField from "./renderers/RenderField";
+import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
 
 interface FileProps {
   newData: any;
@@ -77,6 +79,7 @@ export default function FileMicro({newData}: FileProps) {
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}>
+      <RenderAssetsDesc newData={newData} colors={colors} />
       <Box sx={{
         color: colors.s,
         textAlign: 'center'
