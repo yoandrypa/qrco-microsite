@@ -1,19 +1,22 @@
-import MainMicrosite from "./qr/microsites/MainMicrosite";
-
+import {useEffect, useState} from "react";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ForwardIcon from "@mui/icons-material/Forward";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Tooltip from "@mui/material/Tooltip";
 
 import pluralize from "pluralize";
-import {DEFAULT_COLORS} from "./qr/constants";
-import {useEffect, useState} from "react";
+import TypeSelector from "./qr/helperComponents/TypeSelector";
+import {useRouter} from "next/router";
 
-const SamplesList = ({newData}: any) => {
+interface SampleProp {
+  newData: string[];
+}
+
+const SamplesList = ({newData}: SampleProp) => {
   const [baseUrl, setBaseUrl] = useState<string>('');
+
+  const router = useRouter();
 
   useEffect(() => {
     if (window) {
@@ -21,44 +24,43 @@ const SamplesList = ({newData}: any) => {
     }
   }, []);
 
+  const goTo = async (payload: string) => {
+    await router.push(`/sample/${payload}`, undefined);
+  }
+
   return (
-    <MainMicrosite type="sample" colors={{p: DEFAULT_COLORS.p, s: DEFAULT_COLORS.s}}>
-      <Box sx={{p: 3, width: '100%'}}>
-        <Typography variant="h6">{'Example Microsites'}</Typography>
-        <Typography sx={{
-          mb: 2,
-          color: theme => theme.palette.text.disabled
-        }}>{`${pluralize('microsite', newData.length, true)} found`}</Typography>
-        {newData.map((x: string) => (
-          <ButtonGroup key={`group${x}`} sx={{width: '100%', mb: '5px'}}>
-            <Button
-              key={`goto${x}`}
-              sx={{width: '100%'}}
-              component="a"
-              href={`/sample/${x}`}
-              endIcon={<ForwardIcon/>}
-              variant="outlined"
-              color="primary"
-            >
-              {`Click to go to ${x}`}
-            </Button>
-            {baseUrl !== '' ? <Tooltip title="Copy sample URL to clipboard">
-                <Button sx={{width: '40px'}} variant="outlined" color="primary" onClick={() => {
-                  try {
-                    navigator.clipboard.writeText(`${baseUrl}/${x}`);
-                  } catch {
-                    console.log('Copy failed');
-                  }
-                }}>
-                  <ContentCopyIcon/>
-                </Button>
-              </Tooltip>
-              : null
-            }
-          </ButtonGroup>
-        ))}
-      </Box>
-    </MainMicrosite>
+    <>
+      <CssBaseline/>
+      <Box
+        component="img"
+        alt="backgimage"
+        src="/background_samples.png"
+        sx={{
+          width: '100%',
+          height: '185px',
+          objectFit: 'cover'
+        }} />
+      <Container sx={{width: '100%', mt: '-70px'}}>
+        <Box sx={{p: 3, width: '100%'}}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', display: 'inline-flex', color: theme => theme.palette.primary.dark }}>
+            {'MICROSITE'}
+          </Typography>
+          <Typography variant="h4" sx={{ display: 'inline-flex', color: theme => theme.palette.text.disabled, ml: 1}}>
+            {'EXAMPLES'}
+          </Typography>
+          <Typography sx={{ mb: 2, color: theme => theme.palette.text.disabled }}>
+            {`${pluralize('microsite', newData.length, true)} found`}
+          </Typography>
+          <Grid container spacing={1}>
+            {newData.map((x: string) => (
+              <Grid item lg={3} md={4} sm={6} xs={12} key={`item${x}`}>
+                <TypeSelector handleSelect={goTo} label={x} icon={x} baseUrl={baseUrl} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Container>
+    </>
   )
 };
 

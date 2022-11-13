@@ -76,7 +76,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           message="Failed loading the microsite's data"
           vertical="bottom"
           horizontal="center"
-          onClose={() => setError(true)} />
+          onClose={() => setError(false)} />
       )}
       {loading && (
         <Box sx={{ display: 'flex', position: 'absolute', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
@@ -93,11 +93,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
         height: '270px',
         background: !backImg ? alpha(colors?.p || DEFAULT_COLORS.p, 0.9) : 'none'
       }}>
-        {(backImg || type === 'sample') && (
+        {backImg && (
           <Box
             component="img"
             alt="backgimage"
-            src={type !== 'sample' ? backImg.content : '/background_samples.png'}
+            src={backImg.content}
             sx={{
               filter: 'opacity(0.87) contrast(0.75) blur(5px)',
               width: '100%',
@@ -119,11 +119,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             height: '200px',
             background: !backImg && colors ? colors.p : 'none'
           }}>
-            {(backImg || type === 'sample') && (
+            {backImg && (
               <Box
                 component="img"
                 alt="backgimage"
-                src={type !== 'sample' ? backImg.content : '/background_samples.png'}
+                src={backImg.content}
                 sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />
             )}
             {url !== undefined && (
