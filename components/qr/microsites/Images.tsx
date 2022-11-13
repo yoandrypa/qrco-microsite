@@ -10,6 +10,7 @@ import {getColors} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
 import {ColorTypes, FileType} from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
+import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
 
 interface ImageProps {
   newData: any;
@@ -69,6 +70,7 @@ function Images({newData}: ImageProps) {
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}>
       <Box sx={{width: '100%', mt: '10px', textAlign: 'center', color: colors.s}}>
+        <RenderAssetsDesc newData={newData} colors={colors} />
         {images.current.length ? (
           <Typography sx={{fontWeight: 'bold'}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
