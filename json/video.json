@@ -1,0 +1,32 @@
+{
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/c06c1610-3e48-4ba1-90bc-98f5c7952ba1",
+    "updatedAt": "2022-11-16T00:39:37.006Z",
+    "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
+    "visitCount": 1,
+    "createdAt": "2022-11-16T00:39:36.969Z",
+    "address": "SsWDyH",
+    "type": "qr_link"
+  },
+  "qrName": "Video Lago",
+  "createdAt": "2022-11-16T00:39:37.008Z",
+  "backgndImg": [
+    {
+      "name": "6b886570-b29d-489f-b40c-98597e2d69a4.jpg",
+      "Key": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0/videos/design/6b886570-b29d-489f-b40c-98597e2d69a4.jpg"
+    }
+  ],
+  "isDynamic": true,
+  "qrType": "video",
+  "files": [
+    {
+      "name": "Facebook 5885249707327015(MP4).mp4",
+      "Key": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0/videos/Facebook 5885249707327015(MP4).mp4"
+    }
+  ],
+  "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
+  "updatedAt": "2022-11-16T00:39:37.009Z",
+  "description": "Visiting a mediaval town around the lake. Lombardy, Italy.",
+  "title": "Lake Iseo"
+}
