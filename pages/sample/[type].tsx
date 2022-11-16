@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
@@ -6,6 +7,14 @@ import MainComponent from "../../components/MainComponent";
 import Typography from "@mui/material/Typography";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  useEffect(() => {
+    window.addEventListener("message", function(e: MessageEvent) {
+      if (e.origin !== window.location.origin) {
+        console.log('@@@@@@@', e.origin);
+      }
+    }, false);
+  }, []);
+
   if (data.error) {
     return (
       <Box sx={{
@@ -31,7 +40,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     );
   }
 
-  return <MainComponent newData={data}/>;
+  return <MainComponent newData={data} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
