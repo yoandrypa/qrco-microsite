@@ -39,31 +39,14 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     if (parseInt(inputValue) < 1) {
       setDonationAmount(parseInt(newData.donationUnitAmount))
       setInputValue('1')
-      setSelectedBox('first')
+    }
+    if (parseInt(inputValue) >= 100) {
+      setDonationAmount(100)
+      setInputValue('100')
     } else {
       setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1) as number)
     }
   }, [inputValue, newData.donationUnitAmount, donationAmount])
-
-  const handleBoxClick = (box: BoxOptions) => {
-    if (box === 'first') {
-      setSelectedBox('first')
-      setInputValue('1')
-      setDonationAmount(newData.donationUnitAmount)
-    }
-    if (box === 'second') {
-      setSelectedBox('second')
-      setInputValue('3')
-      setDonationAmount(3 * newData.donationUnitAmount)
-    }
-    if (box === 'third') {
-      setSelectedBox('third')
-      setInputValue('5')
-      setDonationAmount(5 * newData.donationUnitAmount)
-    }
-
-  }
-
 
   const router = useRouter();
 
@@ -80,25 +63,13 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     if (parseInt(event.target.value, 10) <= 1) {
       setInputValue('1')
       setDonationAmount(newData.donationUnitAmount)
-      setSelectedBox('first')
+
     }
-    if (parseInt(event.target.value, 10) === 1) {
-      setInputValue(event.target.value)
-      setSelectedBox('first')
-      setDonationAmount(1 * newData.donationUnitAmount)
+    if (parseInt(event.target.value, 10) >= 100) {
+      setInputValue('100')
+      setDonationAmount(100 * newData.donationUnitAmount)
     }
-    if (parseInt(event.target.value, 10) === 5) {
-      setSelectedBox('third')
-      setDonationAmount(5 * newData.donationUnitAmount)
-      setInputValue('5')
-    } else
-      if (parseInt(event.target.value, 10) === 3) {
-        setInputValue(event.target.value)
-        setSelectedBox('second')
-        setDonationAmount(3 * newData.donationUnitAmount)
-      } else {
-        setSelectedBox('input')
-      }
+
     setInputValue(event.target.value)
     setDonationAmount(parseInt(event.target.value) * newData.donationUnitAmount)
 
@@ -184,48 +155,51 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                   </Box>
                 </Grid>
                 <Grid item>
-                  <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+                  <Box sx={{ width: 60, height: 40, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
                     <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
                       ${newData.donationUnitAmount || 1} each
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item>
-                  <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                      x
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item>
+                <Grid item sx={{ marginLeft: 4 }}>
                   <Box
-                    onClick={() => handleBoxClick('first')}
-                    sx={{
-                      borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s,
-                      width: 35, height: 35, display: 'flex', justifyContent: 'center',
-                      alignContent: 'center', margin: 'auto'
+                    onClick={() => {
+                      const temp = parseInt(inputValue) - 1;
+                      setInputValue(temp >= 100 ? '100' : temp.toString())
                     }}
-                    border={selectedBox === 'first' ? 2 : 0}
+                    sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
                   >
-                    <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                      1
+                    <Typography textAlign='center'
+                      variant="h5"
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                        margin: 'auto'
+                      }} color={colors.p}>
+                      -
                     </Typography>
                   </Box>
                 </Grid>
+
                 <Grid item>
-                  <Box
-                    border={selectedBox === 'second' ? 2 : 0}
-                    onClick={() => handleBoxClick('second')}
-                    sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                      3
-                    </Typography>
-                  </Box>
+                  <TextField
+                    sx={{ width: 60, borderRadius: 40 }}
+                    //  label='Amount'
+                    size="small"
+                    placeholder="25"
+                    value={inputValue}
+                    onChange={handleInputChange}
+
+                  ></TextField>
                 </Grid>
+
                 <Grid item >
                   <Box
-                    border={selectedBox === 'third' ? 2 : 0}
-                    onClick={() => handleBoxClick('third')}
+                    onClick={() => {
+                      const temp = parseInt(inputValue) + 1;
+                      setInputValue(temp.toString())
+                    }}
                     sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
                   >
                     <Typography textAlign='center'
@@ -235,29 +209,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                         alignContent: 'center',
                         margin: 'auto'
                       }}>
-                      5
+                      +
                     </Typography>
                   </Box>
-                </Grid>
-
-                <Grid item>
-                  <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                      or
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item>
-                  <TextField
-                    onFocus={() => handleBoxClick('input')}
-                    sx={{ width: 80 }}
-                    //  label='Amount'
-                    size="small"
-                    type='number'
-                    placeholder="25"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                  ></TextField>
                 </Grid>
               </Grid>
 
@@ -274,7 +228,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     />
                   </FormGroup>
                   <TextField
-                    onFocus={() => handleBoxClick('input')}
                     size="small"
                     type='text'
                     rows={4}
@@ -305,8 +258,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
           </CardContent>
 
-        )}
-    </MainMicrosite>
+        )
+      }
+    </MainMicrosite >
 
   );
 }
