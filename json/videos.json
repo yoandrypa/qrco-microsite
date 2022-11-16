@@ -1,56 +1,76 @@
 {
-	"backgndImg": [{
-		"ETag": "\"99fe6c5609885b2309d14c874a390823\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/design/982011d2-2d25-4a56-9868-60f90a0646b3.jpg"
-	}],
-	"isDynamic": true,
-	"shortLinkId": {
-		"banned": false,
-		"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-		"target": "https://app-dev.theqr.link/qr/14e85ac0-2b51-4355-980c-eb4d98998705",
-		"updatedAt": "2022-11-09T19:50:10.735Z",
-		"visitCount": 0,
-		"createdAt": "2022-11-09T19:50:10.687Z",
-		"address": "5ADcub",
-		"type": "qr_link"
-	},
-	"qrType": "video",
-	"files": [{
-		"ETag": "\"7ead95e45c3545b88ec3c1721c2a0921\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/Facebook 0330478876988862(MP4).mp4"
-	}, {
-		"Bucket": "dev-qrco",
-		"ETag": "\"e7b7710c109da784d119c040ce534ead-1\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/Facebook 0933427497966255(MP4).mp4",
-		"Location": "https://dev-qrco.s3.us-east-1.amazonaws.com/7da855eb-b000-46d8-991c-2e734a3f7be5%2Fvideos%2FFacebook+0933427497966255%28MP4%29.mp4"
-	}, {
-		"Bucket": "dev-qrco",
-		"ETag": "\"a0df8129e93ce4e85820d02593227b99-1\"",
-		"$metadata": {
-			"totalRetryDelay": 0,
-			"httpStatusCode": 200,
-			"attempts": 1
-		},
-		"Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/Facebook 5493108487033558(MP4).mp4",
-		"Location": "https://dev-qrco.s3.us-east-1.amazonaws.com/7da855eb-b000-46d8-991c-2e734a3f7be5%2Fvideos%2FFacebook+5493108487033558%28MP4%29.mp4"
-	}],
-	"userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-	"updatedAt": "2022-11-09T19:50:10.743Z",
-	"qrName": "Videos",
-	"createdAt": "2022-11-09T19:50:10.738Z"
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/14e85ac0-2b51-4355-980c-eb4d98998705",
+    "updatedAt": "2022-11-09T19:50:10.735Z",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "visitCount": 12,
+    "createdAt": "2022-11-09T19:50:10.687Z",
+    "address": "5ADcub",
+    "type": "qr_link"
+  },
+  "qrName": "Videos",
+  "createdAt": "2022-11-09T19:50:10.738Z",
+  "backgndImg": [
+    {
+      "ETag": "\"99fe6c5609885b2309d14c874a390823\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/design/982011d2-2d25-4a56-9868-60f90a0646b3.jpg"
+    }
+  ],
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "isDynamic": true,
+  "qrType": "video",
+  "files": [
+    {
+      "ETag": "\"7ead95e45c3545b88ec3c1721c2a0921\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/Facebook 0330478876988862(MP4).mp4"
+    },
+    {
+      "Bucket": "dev-qrco",
+      "ETag": "\"e7b7710c109da784d119c040ce534ead-1\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/Facebook 0933427497966255(MP4).mp4",
+      "Location": "https://dev-qrco.s3.us-east-1.amazonaws.com/7da855eb-b000-46d8-991c-2e734a3f7be5%2Fvideos%2FFacebook+0933427497966255%28MP4%29.mp4"
+    },
+    {
+      "Bucket": "dev-qrco",
+      "ETag": "\"a0df8129e93ce4e85820d02593227b99-1\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/videos/Facebook 5493108487033558(MP4).mp4",
+      "Location": "https://dev-qrco.s3.us-east-1.amazonaws.com/7da855eb-b000-46d8-991c-2e734a3f7be5%2Fvideos%2FFacebook+5493108487033558%28MP4%29.mp4"
+    }
+  ],
+  "image": "",
+  "updatedAt": "2022-11-16T00:52:50.785Z",
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+  "description": "My adventurer spirit enjoys a lot making videos.",
+  "id": "bf4aa3b0-4b6e-46a5-a2eb-91b850a8ff96",
+  "secondary": "#9ece99",
+  "primary": "#187510",
+  "title": "Adventurer"
 }
