@@ -14,13 +14,8 @@
   "createdAt": "2022-11-09T19:00:08.733Z",
   "backgndImg": [
     {
-      "ETag": "\"38dad1baf5d69e1108eff8c85799e56c\"",
-      "$metadata": {
-        "totalRetryDelay": 0,
-        "httpStatusCode": 200,
-        "attempts": 1
-      },
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/audios/design/679c2ebb-9e35-4b1a-bdbf-25ff3ee047b6.jpg"
+      "name": "679c2ebb-9e35-4b1a-bdbf-25ff3ee047b6.jpg",
+      "Key": "audios/design/679c2ebb-9e35-4b1a-bdbf-25ff3ee047b6.jpg"
     }
   ],
   "background": {
@@ -41,7 +36,7 @@
         "httpStatusCode": 200,
         "attempts": 1
       },
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/audios/Luerod Bounce - Will i am (Orchrestral mix)mp3.mp3"
+      "Key": "audios/Luerod Bounce - Will i am (Orchrestral mix)mp3.mp3"
     }
   ],
   "image": "",

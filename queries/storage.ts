@@ -1,37 +1,18 @@
-import { s3Client, elastiCacheClient } from "../libs";
-import { PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { s3Client } from "../libs";
 import {
-  AddTagsToResourceCommand,
-  ListTagsForResourceCommand,
-  ListTagsForResourceCommandInput,
-} from "@aws-sdk/client-elasticache";
-import path from "path";
+  GetObjectCommandInput,
+} from "@aws-sdk/client-s3";
 
-export const upload = (key: string, value: any) => {
+export const download = async (key: string, isSample?: boolean) => {
   try {
-    const uploadParams = {
-      ResourceName: process.env.REACT_AWS_ELASTIC_CACHE_RESOURCE_NAME,
-      Tags: [
-        {
-          Key: path.basename(key),
-          Value: value
-        }],
-    };
-    const command = new AddTagsToResourceCommand(uploadParams);
-    elastiCacheClient.send(command).catch(e => {throw e;});
-  } catch (e) {
-    throw e;
-  }
-};
-
-export const download = async (key: string) => {
-  try {
-    const downloadParams = {
+    const bucket: string = !isSample
+      ? String(process.env.REACT_AWS_BUCKET_NAME)
+      : String(process.env.REACT_AWS_SAMPLE_BUCKET_NAME);
+    const downloadParams: GetObjectCommandInput = {
       Key: key,
-      Bucket: String(process.env.REACT_AWS_BUCKET_NAME)
+      Bucket: bucket
     };
-    const command = new GetObjectCommand(downloadParams);
-    return await s3Client.send(command);
+    return await s3Client.getObject(downloadParams);
   } catch (e) {
     throw e;
   }

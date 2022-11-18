@@ -38,7 +38,8 @@ export default function VCard({newData}: VCardProps) {
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       <CardContent>
         <Grid container spacing={1}>
           {(newData.prefix || newData.firstName || newData.lastName) && (

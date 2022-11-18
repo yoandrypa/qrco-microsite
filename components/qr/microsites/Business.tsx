@@ -57,7 +57,8 @@ export default function Business({newData}: BusinessProps) {
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       <CardContent>
         <Grid container spacing={1}>
           {(newData.company || newData.title || newData.subtitle || newData.web || newData.email || newData.contact ||

@@ -28,13 +28,13 @@
   "foregndImg": [
     {
       "name": "2ab01922-7eec-40d2-b68f-d2c35aace48e.png",
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/links/design/2ab01922-7eec-40d2-b68f-d2c35aace48e.png"
+      "Key": "links/design/2ab01922-7eec-40d2-b68f-d2c35aace48e.png"
     }
   ],
   "backgndImg": [
     {
       "name": "75814571-79bf-4c74-accd-b4036e38bb04.jpg",
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/links/design/75814571-79bf-4c74-accd-b4036e38bb04.jpg"
+      "Key": "links/design/75814571-79bf-4c74-accd-b4036e38bb04.jpg"
     }
   ],
   "isDynamic": true,

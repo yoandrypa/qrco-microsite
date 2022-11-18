@@ -38,7 +38,7 @@ export default function FileMicro({newData}: FileProps) {
     try {
       filesInfo.forEach(async (x: any) => {
         const key = x.Key as string;
-        const fileData = await download(key); // @ts-ignore
+        const fileData = await download(key, newData.isSample); // @ts-ignore
         files.current.push(fileData);
         forceUpdate();
       });
@@ -78,7 +78,8 @@ export default function FileMicro({newData}: FileProps) {
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       <RenderAssetsDesc newData={newData} colors={colors} />
       <Box sx={{
         color: colors.s,

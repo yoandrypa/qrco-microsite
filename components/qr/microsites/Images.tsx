@@ -27,7 +27,7 @@ function Images({newData}: ImageProps) {
   const getImages = (files: object[]) => {
     try {
       files.forEach(async (x: any) => {
-        const data = await download(x.Key);
+        const data = await download(x.Key, newData.isSample);
 
         // @ts-ignore
         images.current.push(data);
@@ -68,7 +68,8 @@ function Images({newData}: ImageProps) {
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       <Box sx={{width: '100%', mt: '10px', textAlign: 'center', color: colors.s}}>
         <RenderAssetsDesc newData={newData} colors={colors} />
         {images.current.length ? (
