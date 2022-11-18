@@ -7,6 +7,9 @@ import RenderIcon from './RenderIcon';
 import Tooltip from "@mui/material/Tooltip";
 import {useState} from "react";
 import Notifications from "./Notifications";
+import {useTheme} from "@mui/system";
+import {grey} from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
 
 interface TypeSelectorProps {
   handleSelect: Function;
@@ -17,70 +20,76 @@ interface TypeSelectorProps {
 
 const TypeSelector = ({baseUrl, handleSelect, label, icon}: TypeSelectorProps) => {
   const [copied, setCopied] = useState<boolean>(false);
+  const [over, setOver] = useState<boolean>(false);
+  const theme = useTheme();
 
   const beforeHandle = () => {
     handleSelect(label);
   };
 
+  const handleOver = (): void => {
+    setOver((prev: boolean) => !prev);
+  }
+
   return (
     <>
-    <Box sx={{width: '100%', display: 'flex'}}>
-      <Box
-        sx={{
-          cursor: 'pointer',
-          width: '100%',
-          height: '95px',
-          borderRadius: '5px 0 0 5px',
-          border: theme => `solid 1px ${theme.palette.text.disabled}`,
-          backgroundColor: theme => alpha(theme.palette.info.light, 0.05),
-          '&:hover': {
-            backgroundColor: theme => alpha(theme.palette.info.light, 0.3)
-          }
-        }}
-        onClick={beforeHandle}
-      >
-        <Box sx={{display: 'flex', p: 1}}>
-          <Box sx={{mt: '3px'}}>
-            <RenderIcon icon={icon} enabled/>
-          </Box>
-          <Box sx={{display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1, width: '100%'}}>
-            <Box sx={{display: 'flex', width: '100%', flexDirection: 'column'}}>
-              <Typography sx={{width: '100%', fontWeight: 'bold', color: theme => theme.palette.text.disabled}}
-                          variant="h6">
-                {label.toUpperCase()}
-              </Typography>
-              <Typography sx={{width: '100%', color: theme => theme.palette.text.disabled}}>
-                {'Click here to see the example'}
-              </Typography>
+      <Box sx={{width: '100%', display: 'flex'}}>
+        <Box
+          sx={{
+            position: 'relative',
+            cursor: 'pointer',
+            width: '100%',
+            height: '130px',
+            borderRadius: '5px',
+            border: `solid 1px ${grey[500]}`,
+            backgroundColor: '#fff',
+            '&:hover': {
+              boxShadow: '0 0 3px 2px #849abb',
+            }
+          }}
+          onMouseEnter={handleOver}
+          onMouseLeave={handleOver}
+          onClick={beforeHandle}
+        >
+          <Tooltip title="Copy URL to clipboard">
+            <IconButton
+              sx={{
+                position: 'absolute',
+                right: '5px',
+                bottom: 0,
+                color: alpha(theme.palette.primary.dark, 0.25),
+                '&:hover': {color: theme.palette.primary.dark}
+              }}
+              onClick={() => {
+                try {
+                  navigator.clipboard.writeText(`${baseUrl}/${label}`);
+                  setCopied(true);
+                } catch {
+                  console.log('Copy failed');
+                }
+              }}
+              id={`example${icon}`}>
+              <ContentCopyIcon/>
+            </IconButton>
+          </Tooltip>
+          <Box sx={{display: 'flex', p: 1}}>
+            <Box sx={{mt: '3px'}}>
+              <RenderIcon enabled icon={icon.split('_')[0]} color={!over ? '#000' : undefined}/>
+            </Box>
+            <Box sx={{display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1, width: '100%'}}>
+              <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                <Typography sx={{
+                  width: '100%',
+                  fontWeight: 'bold',
+                  color: over ? theme.palette.primary.dark : '#000'
+                }} variant="h6">
+                  {label.split('_').join(' ').toUpperCase()}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
       </Box>
-      <Tooltip title="Copy sample URL to clipboard">
-        <Box
-          onClick={() => {
-            try {
-              navigator.clipboard.writeText(`${baseUrl}/${label}`);
-              setCopied(true);
-            } catch {
-              console.log('Copy failed');
-            }
-          }}
-          sx={{
-          cursor: 'pointer',
-          width: '50px',
-          height: '95px',
-          borderRadius: '0 5px 5px 0',
-          border: theme => `solid 1px ${theme.palette.text.disabled}`,
-          backgroundColor: theme => theme.palette.primary.dark,
-          '&:hover': {
-            backgroundColor: theme => theme.palette.primary.light
-          }
-        }}>
-          <ContentCopyIcon sx={{color: '#fff', ml: '9px', mt: '11px'}}/>
-        </Box>
-      </Tooltip>
-    </Box>
       {copied && (
         <Notifications
           autoHideDuration={2500}
@@ -88,9 +97,9 @@ const TypeSelector = ({baseUrl, handleSelect, label, icon}: TypeSelectorProps) =
           vertical="bottom"
           horizontal="center"
           severity="success"
-          onClose={() => setCopied(false)} />
+          onClose={() => setCopied(false)}/>
       )}
-      </>
+    </>
   );
 };
 

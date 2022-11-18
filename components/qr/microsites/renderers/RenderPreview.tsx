@@ -13,23 +13,28 @@ interface RenderPreviewProps {
   colors: ColorTypes;
   type: string;
   preview: FileType;
+  isWide: boolean;
 }
 
-export default function RenderPreview({handleClose, colors, preview, type}: RenderPreviewProps) {
+export default function RenderPreview({isWide, handleClose, colors, preview, type}: RenderPreviewProps) {
   return (
     <Dialog onClose={handleClose} open={true}>
-      <DialogContent sx={{ maxWidth: '388px' }}>
-        {type === 'image' && <Box sx={{ maxWidth: '340px' }} component="img" alt="image" src={preview.content} />}
+      <DialogContent sx={{ maxWidth: isWide ? '550px' : 'calc(100% - 10px)', overflow: 'hidden' }}>
+        {type === 'image' && <Box sx={{ overflow: 'auto', width: 'calc(100% + 13px)' }}>
+          <Box sx={{ maxWidth: '500px' }} component="img" alt="image" src={preview.content} />
+        </Box>}
         {type === 'video' && <RenderPreviewVideo content={preview.content} type={preview.type} />}
         {type === 'pdf' && <RenderPreviewPdf content={preview.content} asDialog />}
+        <Box sx={{ textAlign: 'center' }}>
         <Button
-          sx={{ mt: '10px', width: '100%', color: colors.p, background: colors.s, '&:hover': {color: colors.s, background: colors.p} }}
+          sx={{ mt: '10px', color: colors.p, background: colors.s, '&:hover': {color: colors.s, background: colors.p} }}
           variant="outlined"
           onClick={() => handleDownloadFiles(preview, type)}
           startIcon={<DownloadIcon />}
         >
           {'Download'}
         </Button>
+        </Box>
       </DialogContent>
     </Dialog>
   )

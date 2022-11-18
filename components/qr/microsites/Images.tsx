@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import DangerousIcon from '@mui/icons-material/Dangerous';
+import {useMediaQuery} from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
 import {getColors} from "./renderers/helper";
@@ -20,6 +21,9 @@ function Images({newData}: ImageProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [preview, setPreview] = useState<FileType | null>(null);
   const images = useRef<FileType[]>([]);
+
+  const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
+  const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
 
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
@@ -48,17 +52,22 @@ function Images({newData}: ImageProps) {
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
   let colNumber = images.current.length;
-  let width = 0;
+  let width = '0';
 
-  if (colNumber === 0 || colNumber === 1) {
-    colNumber = 12;
-    width = 200;
-  } else if (colNumber === 2) {
-    colNumber = 6;
-    width = 150;
-  } else if (colNumber >= 3) {
-    colNumber = 4;
-    width = 120;
+  if (isWide) {
+    if (colNumber === 0 || colNumber === 1) {
+      colNumber = 12;
+      width = '200px';
+    } else if (colNumber === 2) {
+      colNumber = 6;
+      width = '150px';
+    } else if (colNumber >= 3) {
+      colNumber = 4;
+      width = '120px';
+    }
+  } else {
+    colNumber = isWide400 ? 6 : 12;
+    width = '100%'
   }
 
   return (
@@ -110,7 +119,7 @@ function Images({newData}: ImageProps) {
                     src={img}
                     alt="image"
                     sx={{
-                      width: `${width}px`,
+                      width,
                       cursor: 'pointer',
                       '&:hover': {
                         border: theme => `solid 1px ${theme.palette.primary.light}`,
@@ -126,7 +135,9 @@ function Images({newData}: ImageProps) {
         ) : null}
       </Grid>
       {preview && (
-        <RenderPreview preview={preview} handleClose={() => setPreview(null)} colors={colors} type="image"/>
+        <RenderPreview
+          isWide={isWide} preview={preview} handleClose={() => setPreview(null)} colors={colors} type="image"
+        />
       )}
     </MainMicrosite>
   );
