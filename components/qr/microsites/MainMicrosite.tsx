@@ -101,9 +101,12 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
             src={backImg.content}
             sx={{
               filter: 'opacity(0.87) contrast(0.75) blur(5px)',
-              width: '100%',
+              width: 'calc(100% + 20px)',
               maxHeight: '100%',
-              objectFit: 'cover'
+              objectFit: 'cover',
+              position: 'fixed',
+              top: '-185px',
+              left: '-10px'
             }} />
         )}
       </Box>
@@ -184,11 +187,11 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
         </Box>)}
         <Box sx={{
-          height: `calc(100vh - ${(foreImg ? 35 : 0) + 201}px)`,
-          overflow: 'auto',
+          // height: `calc(100vh - ${(foreImg ? 35 : 0) + 201}px)`,
+          // overflow: 'auto',
           mt: foreImg ? '35px' : 0
         }}>
-          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 275 : 235}px)` }}>
+          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 265 : 225}px)` }}>
             {children}
           </Box>
           {type !== undefined && (

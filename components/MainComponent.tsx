@@ -12,14 +12,40 @@ import Box from "@mui/material/Box";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
 import SamplesList from "./SamplesList";
+import {useEffect, useState} from "react";
 
 interface MainCompProps {
   newData: any;
 }
 
 export default function MainComponent({newData}: MainCompProps) {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return (
+      <Box sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}>
+        <Box sx={{display: "flex", flexDirection: "column", width: "100%"}}>
+          <Typography sx={{mx: "auto"}}>{"Loading..."}</Typography>
+          <Typography sx={{
+            color: theme => theme.palette.text.disabled,
+            mx: "auto",
+          }}>{"Please wait."}</Typography>
+        </Box>
+      </Box>
+    );
+  }
+
   if (newData.samples) {
-    return <SamplesList newData={newData.samples} />;
+    return <SamplesList newData={newData.samples}/>;
   }
 
   if (newData.qrType === "vcard+") {
@@ -65,9 +91,9 @@ export default function MainComponent({newData}: MainCompProps) {
       left: "50%",
       transform: "translate(-50%, -50%)",
     }}>
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <EngineeringIcon color="primary" sx={{ mx: "auto", fontSize: "50px" }}/>
-        <Typography sx={{ mx: "auto" }}>{"Work in progress."}</Typography>
+      <Box sx={{display: "flex", flexDirection: "column", width: "100%"}}>
+        <EngineeringIcon color="primary" sx={{mx: "auto", fontSize: "50px"}}/>
+        <Typography sx={{mx: "auto"}}>{"Work in progress."}</Typography>
         <Typography sx={{
           color: theme => theme.palette.text.disabled,
           mx: "auto",
