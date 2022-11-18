@@ -17,13 +17,13 @@
   "foregndImg": [
     {
       "name": "1f789837-c56d-4fbd-b8ec-1b3552b15f83.png",
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/donationss/design/1f789837-c56d-4fbd-b8ec-1b3552b15f83.png"
+      "Key": "donations/design/1f789837-c56d-4fbd-b8ec-1b3552b15f83.png"
     }
   ],
   "backgndImg": [
     {
       "name": "a9cc6ef1-e74d-4ef0-b7eb-bbf2fa466a92.png",
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/donationss/design/a9cc6ef1-e74d-4ef0-b7eb-bbf2fa466a92.png"
+      "Key": "donations/design/a9cc6ef1-e74d-4ef0-b7eb-bbf2fa466a92.png"
     }
   ],
   "donationUnitAmount": "3",

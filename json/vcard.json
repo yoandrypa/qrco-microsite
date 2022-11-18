@@ -20,7 +20,7 @@
         "httpStatusCode": 200,
         "attempts": 1
       },
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
+      "Key": "vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
     }
   ],
   "country": "US",
@@ -67,7 +67,7 @@
         "httpStatusCode": 200,
         "attempts": 1
       },
-      "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/vcard+s/design/83fea121-0f21-49f4-a331-3a77acf39c51.jpg"
+      "Key": "vcard+s/design/83fea121-0f21-49f4-a331-3a77acf39c51.jpg"
     }
   ],
   "web": "https://m.soundcloud.com/user-769018497",

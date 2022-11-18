@@ -20,7 +20,8 @@ export default function SocialInfo({newData}: SocialProps) {
       url={newData.shortlinkurl}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       <CardContent>
         <Grid container spacing={1}>
           <RenderSocials newData={newData} />

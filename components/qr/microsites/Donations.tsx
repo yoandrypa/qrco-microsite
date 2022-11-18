@@ -121,7 +121,8 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       {!thanks ? (
         <ThemeProvider theme={theme}>
           <CardContent sx={{ height: '100%' }}>

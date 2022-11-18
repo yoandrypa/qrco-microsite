@@ -25,9 +25,10 @@ interface MicrositesProps {
   backgndImg?: { Key: string; }[];
   foregndImg?: { Key: string; }[];
   foregndImgType?: string;
+  isSample?: boolean;
 }
 
-export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType }: MicrositesProps) {
+export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType, isSample }: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,7 +36,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
 
   const getFiles = async (key: string, item: string) => {
     try {
-      const fileData = await download(key);
+      const fileData = await download(key, isSample);
       if (item === 'backgndImg') {
         setBackImg(fileData);
       } else {

@@ -41,7 +41,8 @@ export default function LinksMicro({newData}: LinksProps) {
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}>
+      foregndImgType={newData.foregndImgType}
+      isSample={newData.isSample}>
       <CardContent sx={{textAlign: 'center'}}>
         <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
         {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}

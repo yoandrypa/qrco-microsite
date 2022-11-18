@@ -14,7 +14,7 @@
   "backgndImg": [
     {
       "name": "6b886570-b29d-489f-b40c-98597e2d69a4.jpg",
-      "Key": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0/videos/design/6b886570-b29d-489f-b40c-98597e2d69a4.jpg"
+      "Key": "videos/design/6b886570-b29d-489f-b40c-98597e2d69a4.jpg"
     }
   ],
   "isDynamic": true,
@@ -22,11 +22,11 @@
   "files": [
     {
       "name": "Facebook 5885249707327015(MP4).mp4",
-      "Key": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0/videos/Facebook 5885249707327015(MP4).mp4"
+      "Key": "videos/Facebook 5885249707327015(MP4).mp4"
     }
   ],
   "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
   "updatedAt": "2022-11-16T00:39:37.009Z",
-  "description": "Visiting a mediaval town around the lake. Lombardy, Italy.",
+  "description": "Visiting a medieval town around the lake. Lombardy, Italy.",
   "title": "Lake Iseo"
 }
