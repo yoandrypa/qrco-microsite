@@ -40,7 +40,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     );
   }
 
-  return <MainComponent newData={data} />;
+  return <MainComponent newData={{...data, isSample: true}} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
