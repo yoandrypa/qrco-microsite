@@ -20,7 +20,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
         try {
           const data = JSON.parse(event.data)
-          console.log('@@@@@@@', data);
+          console.log(data);
         } catch (e) {
           console.error(e)
         }
