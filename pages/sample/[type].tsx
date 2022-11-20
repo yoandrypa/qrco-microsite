@@ -20,11 +20,20 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
         );
       }
     }
-    window.addEventListener("message", function(e: MessageEvent) {
-      if (e.origin !== window.location.origin) {
-        console.log('@@@@@@@', e.origin);
+
+    const handler = (event: any) => {
+      console.log('@>>>>>',event)
+      try {
+        const data = JSON.parse(event.data)
+        console.log('@@@@@@@', event.origin, data);
+      } catch (e) {
+        console.error(e)
       }
-    }, false);
+    }
+
+    window.addEventListener('message', handler);
+
+    return () => window.removeEventListener('message', handler);
   }, []);
 
   if (data.error) {
@@ -35,16 +44,16 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
         left: "50%",
         transform: "translate(-50%, -50%)",
       }}>
-        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-          <DangerousIcon color="error" sx={{ mx: "auto", fontSize: "50px" }}/>
-          <Typography sx={{ fontWeight: 'bold', mx: 'auto' }}>{"Ops! Something went wrong."}</Typography>
-          <Typography sx={{ mx: 'auto' }}>{data.error}</Typography>
+        <Box sx={{display: "flex", flexDirection: "column", width: "100%"}}>
+          <DangerousIcon color="error" sx={{mx: "auto", fontSize: "50px"}}/>
+          <Typography sx={{fontWeight: 'bold', mx: 'auto'}}>{"Ops! Something went wrong."}</Typography>
+          <Typography sx={{mx: 'auto'}}>{data.error}</Typography>
           <Typography
-            sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
+            sx={{color: theme => theme.palette.text.disabled, mx: "auto"}}>
             {"Please, contact support by clicking "}
             <a target="_blank" href="mailto:info@ebanux.com"
                rel="noopener noreferrer"
-               style={{ color: "royalblue" }}>{"here"}</a>
+               style={{color: "royalblue"}}>{"here"}</a>
             {"."}
           </Typography>
         </Box>
@@ -52,7 +61,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     );
   }
 
-  return <MainComponent newData={{...data, isSample: true}} />;
+  return <MainComponent newData={{...data, isSample: true}}/>;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
@@ -67,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
     type = 'donation';
   }
 
-  let result:any;
+  let result: any;
 
   if (type === 'filesIndex') {
     result = {error: 'Unable to process your request'}
