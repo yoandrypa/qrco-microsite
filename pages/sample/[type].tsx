@@ -9,14 +9,9 @@ import Typography from "@mui/material/Typography";
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   useEffect(() => {
     if (window.top !== window) { // that is to say we are iframed!!!
-      if (data.error) {
-        // @ts-ignore
-        window.top.postMessage(
-          JSON.stringify({
-            error: true,
-            message: data.error
-          }),
-          '*'
+      if (data.error) { // @ts-ignore
+        window.top.postMessage( // @ts-ignore
+          JSON.stringify({ error: true, message: data.error }), process.env.REACT_APP_QRCO_URL
         );
       }
     }
@@ -35,7 +30,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     window.addEventListener('message', handler);
 
     return () => window.removeEventListener('message', handler);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (data.error) {
     return (
