@@ -185,12 +185,13 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
                 <Grid item>
                   <TextField
-                    sx={{ width: 60, borderRadius: 40 }}
+                    sx={{ width: 60, borderRadius: 40, alignContent: 'center' }}
                     //  label='Amount'
                     size="small"
                     placeholder="25"
                     value={inputValue}
                     onChange={handleInputChange}
+                    inputProps={{ min: 1, max: 100, style: { textAlign: 'center' } }}
                   ></TextField>
                 </Grid>
 
