@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button'
 
 interface DonationsProps {
   newData: any;
@@ -162,7 +163,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item sx={{ marginLeft: 4 }}>
+                <Grid item sx={{ marginLeft: 2 }}>
                   <Box
                     onClick={() => {
                       const temp = parseInt(inputValue) - 1;
@@ -170,28 +171,27 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     }}
                     sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
                   >
-                    <Typography textAlign='center'
-                      variant="h5"
+                    <Button
                       sx={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignContent: 'center',
                         margin: 'auto'
-                      }} color={colors.p}>
+                      }}>
                       -
-                    </Typography>
+                    </Button>
                   </Box>
                 </Grid>
 
                 <Grid item>
                   <TextField
-                    sx={{ width: 60, borderRadius: 40 }}
+                    sx={{ width: 60, borderRadius: 40, alignContent: 'center' }}
                     //  label='Amount'
                     size="small"
                     placeholder="25"
                     value={inputValue}
                     onChange={handleInputChange}
-
+                    inputProps={{ min: 1, max: 100, style: { textAlign: 'center' } }}
                   ></TextField>
                 </Grid>
 
@@ -203,7 +203,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     }}
                     sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
                   >
-                    <Typography textAlign='center'
+                    <Button
                       sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -211,7 +211,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                         margin: 'auto'
                       }}>
                       +
-                    </Typography>
+                    </Button>
                   </Box>
                 </Grid>
               </Grid>
