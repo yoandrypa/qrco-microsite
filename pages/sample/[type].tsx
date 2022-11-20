@@ -8,6 +8,18 @@ import Typography from "@mui/material/Typography";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   useEffect(() => {
+    if (window.top !== window) { // that is to say we are iframed!!!
+      if (data.error) {
+        // @ts-ignore
+        window.top.postMessage(
+          JSON.stringify({
+            error: true,
+            message: data.error
+          }),
+          '*'
+        );
+      }
+    }
     window.addEventListener("message", function(e: MessageEvent) {
       if (e.origin !== window.location.origin) {
         console.log('@@@@@@@', e.origin);

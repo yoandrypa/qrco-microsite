@@ -80,7 +80,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           onClose={() => setError(false)} />
       )}
       {loading && (
-        <Box sx={{ display: 'flex', position: 'absolute', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
+        <Box sx={{ display: 'flex', position: 'fixed', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
           <CircularProgress size={20} sx={{ mr: '5px', color: colors?.p || DEFAULT_COLORS.p }} />
           <Typography sx={{ fontSize: 'small', color: theme => theme.palette.text.disabled }}>
             {'Loading data. Please wait...'}

@@ -15,8 +15,8 @@ import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
 import {getExtension} from "../../helpers/generalFunctions";
-import RenderField from "./renderers/RenderField";
 import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
+import {useMediaQuery} from "@mui/material";
 
 interface FileProps {
   newData: any;
@@ -28,6 +28,7 @@ export default function FileMicro({newData}: FileProps) {
   const [preview, setPreview] = useState<FileType | null>(null);
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const files = useRef<FileType[]>([]);
+  const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
 
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -159,7 +160,7 @@ export default function FileMicro({newData}: FileProps) {
         </Box>
       )}
       {preview && (
-        <RenderPreview preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)}/>
+        <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)}/>
       )}
     </MainMicrosite>
   );
