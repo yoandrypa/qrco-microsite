@@ -20,8 +20,10 @@ interface MainCompProps {
 
 export default function MainComponent({newData}: MainCompProps) {
   const [loading, setLoading] = useState<boolean>(true);
+  const [iframed, setIframed] = useState<boolean>(false);
 
   useEffect(() => {
+    setIframed(window.top !== window);
     setLoading(false);
   }, []);
 
@@ -53,7 +55,7 @@ export default function MainComponent({newData}: MainCompProps) {
   }
 
   if (["gallery", "image"].includes(newData.qrType)) {
-    return <Images newData={newData}/>;
+    return <Images newData={{...newData, iframed}}/>;
   }
 
   if (newData.qrType === "business") {

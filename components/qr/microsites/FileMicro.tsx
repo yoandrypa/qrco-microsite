@@ -29,6 +29,7 @@ export default function FileMicro({newData}: FileProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const files = useRef<FileType[]>([]);
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
+  const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
 
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -113,7 +114,7 @@ export default function FileMicro({newData}: FileProps) {
                     <RenderPreviewVideo content={x.content} type={x.type}/>
                   )}
                   {newData.qrType === 'pdf' && newData.files.length === 1 && <RenderPreviewPdf content={x.content}/>}
-                  <Box sx={{display: 'flex', mb: 2}}>
+                  <Box sx={{display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column'}}>
                     <Button
                       sx={{
                         width: '100%',
@@ -130,8 +131,8 @@ export default function FileMicro({newData}: FileProps) {
                     {['video', 'pdf'].includes(newData.qrType) && newData.files.length > 1 && (
                       <Button
                         sx={{
-                          width: '30%',
-                          ml: '5px',
+                          width: isWide400 ? '30%' : '100%',
+                          ml: isWide400 ? '5px' : 0,
                           color: colors.p,
                           background: colors.s,
                           '&:hover': {color: colors.s, background: colors.p}
