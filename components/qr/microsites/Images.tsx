@@ -72,7 +72,7 @@ function Images({newData}: ImageProps) {
     }
   } else {
     colNumber = 6;
-    width = '117px';
+    width = '100%';
   }
 
   return (
