@@ -23,8 +23,10 @@ const TypeSelector = ({baseUrl, handleSelect, label, icon}: TypeSelectorProps) =
   const [over, setOver] = useState<boolean>(false);
   const theme = useTheme();
 
-  const beforeHandle = () => {
-    handleSelect(label);
+  const beforeHandle = (event: any) => {
+    if (!['svg', 'BUTTON'].includes(event.target.tagName)) {
+      handleSelect(label);
+    }
   };
 
   const handleOver = (): void => {
