@@ -9,10 +9,10 @@ const browsersList = ["IE", "Firefox", "Chrome", "Opera", "Safari", "Edge"];
 const osList = ["Windows", "Mac OS", "Linux", "Android", "iOS"];
 
 const filterInBrowser = (agent: { browser: { name: string }; }) => (item: string) =>
-  agent.browser.name.toLowerCase().includes(item.toLocaleLowerCase());
+  agent.browser?.name?.toLowerCase().includes(item.toLocaleLowerCase());
 
 const filterInOs = (agent: { os: { name: string; }; }) => (item: string) =>
-  agent.os.name.toLowerCase().includes(item.toLocaleLowerCase());
+  agent.os?.name?.toLowerCase().includes(item.toLocaleLowerCase());
 
 export const create = async (data: any) => {
   try {
