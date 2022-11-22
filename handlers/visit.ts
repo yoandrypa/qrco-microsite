@@ -14,7 +14,6 @@ const filterInBrowser = (agent: { browser: { name: string }; }) => (item: string
 const filterInOs = (agent: { os: { name: string; }; }) => (item: string) =>
   agent.os.name.toLowerCase().includes(item.toLocaleLowerCase());
 
-// @ts-ignore
 export const create = async (data: any) => {
   try {
     const agent = parser(data.headers["user-agent"]);
