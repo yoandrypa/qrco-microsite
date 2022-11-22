@@ -1,11 +1,13 @@
-import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import DangerousIcon from "@mui/icons-material/Dangerous";
-import {generateShortLink} from "../utils";
+import { generateShortLink } from "../utils";
 import queries from "../queries";
+import * as VisitHandler from "../handlers/visit";
 import MainComponent from "../components/MainComponent";
+const requestIp = require('request-ip');
 
 // @ts-ignore
 export default function Handler ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -33,11 +35,11 @@ export default function Handler ({ data }: InferGetServerSidePropsType<typeof ge
     );
   }
 
-  return <MainComponent newData={JSON.parse(data)} />;
+  return <MainComponent newData={JSON.parse(data)}/>;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
-  params
+  params, req,
 }) => {
   try {
     // @ts-ignore
@@ -55,8 +57,18 @@ export const getServerSideProps: GetServerSideProps = async ({
       return { props: { data: "NO DATA" } };
     }
 
-    // Increment the visit count
-    queries.link.incrementVisit(userId, createdAt, link.visitCount);
+    Promise.all([
+      // Create visit data
+      VisitHandler.create({
+        headers: req.headers,
+        realIP: requestIp.getClientIp(req),
+        referrer: req.headers.referer,
+        shortLinkId: qr.shortLinkId,
+      }),
+
+      // Increment the visit count
+      queries.link.incrementVisit(userId, createdAt, link.visitCount),
+    ]);
 
     // @ts-ignore
     return {
