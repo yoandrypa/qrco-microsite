@@ -54,20 +54,25 @@ function Images({newData}: ImageProps) {
   let colNumber = images.current.length;
   let width = '0';
 
-  if (isWide) {
-    if (colNumber === 0 || colNumber === 1) {
-      colNumber = 12;
-      width = '200px';
-    } else if (colNumber === 2) {
-      colNumber = 6;
-      width = '150px';
-    } else if (colNumber >= 3) {
-      colNumber = 4;
-      width = '120px';
+  if (!newData.iframed) {
+    if (isWide) {
+      if (colNumber === 0 || colNumber === 1) {
+        colNumber = 12;
+        width = '200px';
+      } else if (colNumber === 2) {
+        colNumber = 6;
+        width = '150px';
+      } else if (colNumber >= 3) {
+        colNumber = 4;
+        width = '120px';
+      }
+    } else {
+      colNumber = isWide400 ? 6 : 12;
+      width = '100%'
     }
   } else {
-    colNumber = isWide400 ? 6 : 12;
-    width = '100%'
+    colNumber = 6;
+    width = '100%';
   }
 
   return (

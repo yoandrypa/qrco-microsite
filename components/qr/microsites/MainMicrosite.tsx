@@ -128,7 +128,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
                 component="img"
                 alt="backgimage"
                 src={backImg.content}
-                sx={{ width: '475px', height: '200px', objectFit: 'cover' }} />
+                sx={{ width: '475px', height: '200px', position: 'absolute', right: 0 }} />
             )}
             {url !== undefined && (
               <RWebShare
@@ -191,7 +191,7 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           // overflow: 'auto',
           mt: foreImg ? '35px' : 0
         }}>
-          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 265 : 225}px)` }}>
+          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 265 : 235}px)` }}>
             {children}
           </Box>
           {type !== undefined && (
