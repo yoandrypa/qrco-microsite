@@ -17,7 +17,7 @@ const filterInOs = (agent: { os: { name: string; }; }) => (item: string) =>
 export const create = async (data: any) => {
   try {
     const agent = parser(data.headers["user-agent"]);
-    console.log({ agent });
+    console.log({ headers: data.headers });
     const [browser = "Other"] = browsersList.filter(filterInBrowser(agent));
     const [os = "Other"] = osList.filter(filterInOs(agent));
     const referrer =
