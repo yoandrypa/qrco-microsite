@@ -47,7 +47,7 @@ export default function LinksMicro({newData}: LinksProps) {
         <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
         {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}
         {newData.position === 'over' && (
-          <Box sx={{mt: 2}}>
+          <Box sx={{mt: 2, display: 'inline-flex'}}>
             <RenderSocials newData={newData} onlyIcons/>
           </Box>
         )}
@@ -59,7 +59,7 @@ export default function LinksMicro({newData}: LinksProps) {
               {newData.links.slice().splice(0, Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
                 renderBtn(x, `btn2n${index}`)
               ))}
-              <Box sx={{my: 2}}>
+              <Box sx={{my: 2, display: 'inline-flex'}}>
                 <RenderSocials newData={newData} onlyIcons/>
               </Box>
               {newData.links.slice().splice(-Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
