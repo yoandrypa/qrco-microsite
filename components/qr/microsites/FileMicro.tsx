@@ -110,10 +110,12 @@ export default function FileMicro({newData}: FileProps) {
                       {'Your browser can not play audio files. :('}
                     </audio>
                   )}
-                  {newData.qrType === 'video' && newData.files.length === 1 && (
+                  {newData.qrType === 'video' && index === 0 && (
                     <RenderPreviewVideo content={x.content} type={x.type}/>
                   )}
-                  {newData.qrType === 'pdf' && newData.files.length === 1 && <RenderPreviewPdf content={x.content}/>}
+                  {newData.qrType === 'pdf' && index == 0 && (
+                    <RenderPreviewPdf content={x.content}/>
+                  )}
                   <Box sx={{display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column'}}>
                     <Button
                       sx={{
@@ -128,7 +130,7 @@ export default function FileMicro({newData}: FileProps) {
                     >
                       {`Download ${newData.qrType} ${fileNumber}`}
                     </Button>
-                    {['video', 'pdf'].includes(newData.qrType) && newData.files.length > 1 && (
+                    {['video', 'pdf'].includes(newData.qrType) && index !== 0 && (
                       <Button
                         sx={{
                           width: isWide400 ? '30%' : '100%',
