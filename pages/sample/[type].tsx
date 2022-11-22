@@ -20,7 +20,18 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
         try {
           const data = JSON.parse(event.data)
-          console.log(data);
+          if (data.parentWidth !== undefined) {
+            const { parentWidth } = data;
+            const width = +(parentWidth.endsWith('px') ? parentWidth.slice(0, -2) : parentWidth);
+            const percent = Math.ceil(width * 100 / 475);
+            if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
+              document.body.style.zoom = percent / 100; // zoom is not a standard but works fine for Chrome
+            } else {
+              document.body.style.transform = `scale(${percent / 100})`;
+              document.body.style.transformOrigin = '0 0';
+              document.body.style.width = `${100 + percent}%`;
+            }
+          }
         } catch (e) {
           console.error(e)
         }
