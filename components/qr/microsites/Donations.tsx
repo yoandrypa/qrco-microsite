@@ -152,7 +152,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               </Grid>
 
               <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                <Grid item >
+                <Grid item xs>
                   <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
                     <SvgIcon sx={{ width: 35, height: 35 }}>
                       <CofeeIcon color='primary' />
@@ -164,8 +164,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item  >
+                <Grid item xs >
                   <Button
+                    variant="contained"
                     onClick={() => {
                       const temp = parseInt(inputValue) - 1;
                       setInputValue(temp >= 100 ? '100' : temp.toString())
@@ -176,17 +177,14 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       justifyContent: 'center',
                       alignContent: 'center',
                       width: 35,
-                      height: 35,
-                      // "&.MuiButtonBase-root:hover": {
-                      //   bgcolor: "transparent"
-                      // }
+                      height: 35
                     }}>
                     -
                   </Button>
 
                 </Grid>
 
-                <Grid item  >
+                <Grid item xs>
                   <TextField
                     sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center' }}
 
@@ -198,26 +196,21 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                   ></TextField>
                 </Grid>
 
-                <Grid item >
+                <Grid item xs>
 
                   <Button
+                    variant="contained"
                     onClick={() => {
                       const temp = parseInt(inputValue) + 1;
                       setInputValue(temp.toString())
                     }}
                     sx={{
                       borderRadius: 45,
-
-                      // borderColor: colors.p,
-                      // backgroundColor: colors.s,
                       display: 'flex',
                       justifyContent: 'center',
                       alignContent: 'center',
                       width: 35, height: 35,
                       margin: 'auto'
-                      // "&.MuiButtonBase-root:hover": {
-                      //   bgcolor: "transparent"
-                      // }
                     }}>
                     +
                   </Button>
@@ -247,20 +240,17 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                   ></TextField>
                 </ThemeProvider>
               </Grid>
-              <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-
+              <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <Button style={{ backgroundColor: colors.p }}
                   onClick={handleClick}
                   variant="contained" sx={{ borderRadius: 2 }}>
                   {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
                 </Button>
-
               </Grid>
             </Grid>
           </CardContent>
         </ThemeProvider>) :
         (
-
           <CardContent>
             <Typography variant="h5" textAlign={'center'}>Thanks for your support!</Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
