@@ -1,6 +1,5 @@
 import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
-import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -40,7 +39,7 @@ export default function VCard({newData}: VCardProps) {
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
-      <CardContent>
+      <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           {(newData.prefix || newData.firstName || newData.lastName) && (
             <>
@@ -104,7 +103,7 @@ export default function VCard({newData}: VCardProps) {
             <RenderSocials newData={newData} onlyIcons/>
           </Box>
         </Grid>
-      </CardContent>
+      </Box>
       <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           variant="contained"

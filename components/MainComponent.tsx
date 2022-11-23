@@ -13,6 +13,7 @@ import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
 import SamplesList from "./SamplesList";
 import {useEffect, useState} from "react";
+import {ASSETS, GALLERY} from "./helpers/generalFunctions";
 
 interface MainCompProps {
   newData: any;
@@ -54,7 +55,7 @@ export default function MainComponent({newData}: MainCompProps) {
     return <VCard newData={newData}/>;
   }
 
-  if (["gallery", "image"].includes(newData.qrType)) {
+  if (GALLERY.includes(newData.qrType)) {
     return <Images newData={{...newData, iframed}}/>;
   }
 
@@ -74,7 +75,7 @@ export default function MainComponent({newData}: MainCompProps) {
     return <Web urlString={handleDesignerString(newData.qrType, newData)}/>;
   }
 
-  if (["pdf", "audio", "video"].includes(newData.qrType)) {
+  if (ASSETS.includes(newData.qrType)) {
     return <FileMicro newData={newData}/>;
   }
 

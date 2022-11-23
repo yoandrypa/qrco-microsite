@@ -14,11 +14,12 @@ import IconButton from "@mui/material/IconButton";
 interface TypeSelectorProps {
   handleSelect: Function;
   label: string;
+  description: string;
   icon: string;
   baseUrl?: string;
 }
 
-const TypeSelector = ({baseUrl, handleSelect, label, icon}: TypeSelectorProps) => {
+const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSelectorProps) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [over, setOver] = useState<boolean>(false);
   const theme = useTheme();
@@ -76,18 +77,21 @@ const TypeSelector = ({baseUrl, handleSelect, label, icon}: TypeSelectorProps) =
           </Tooltip>
           <Box sx={{display: 'flex', p: 1}}>
             <Box sx={{mt: '3px'}}>
-              <RenderIcon enabled icon={icon.split('_')[0]} color={!over ? '#000' : undefined}/>
+              <RenderIcon enabled icon={icon.split('_')[0]} color={!over ? grey[800] : undefined}/>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1, width: '100%'}}>
               <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                 <Typography sx={{
                   width: '100%',
                   fontWeight: 'bold',
-                  color: over ? theme.palette.primary.dark : '#000'
+                  color: over ? theme.palette.primary.dark : grey[800]
                 }} variant="h6">
                   {label.split('_').join(' ').toUpperCase()}
                 </Typography>
               </Box>
+              <Typography sx={{width: '100%', color: grey[over ? 800 : 700]}}>
+                {description}
+              </Typography>
             </Box>
           </Box>
         </Box>

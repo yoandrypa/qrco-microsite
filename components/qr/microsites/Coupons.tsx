@@ -1,5 +1,4 @@
 import {useMemo} from "react";
-import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -12,6 +11,8 @@ import RenderField from "./renderers/RenderField";
 import {humanDate} from "../../helpers/generalFunctions";
 import RenderAddress from "./renderers/RenderAddress";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import RenderBadge from "./renderers/RenderBadge";
 
 interface CouponProps {
   newData: any;
@@ -24,13 +25,13 @@ export default function Coupons({newData}: CouponProps) {
     <MainMicrosite
       colors={colors}
       url={newData.shortlinkurl}
-      badge={newData.prefix}
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
-      <CardContent>
+      <RenderBadge newData={newData} colors={colors} />
+      <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           {(newData.company || newData.title || newData.about || newData.urlOptionLink) && (
             <>
@@ -81,7 +82,7 @@ export default function Coupons({newData}: CouponProps) {
           )}
           <RenderAddress newData={newData} colors={colors} />
         </Grid>
-      </CardContent>
+      </Box>
     </MainMicrosite>
   );
 }

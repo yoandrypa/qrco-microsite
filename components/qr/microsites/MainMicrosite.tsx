@@ -1,38 +1,43 @@
-import { ReactNode, useEffect, useState } from "react";
+import {ReactNode, useContext, useEffect, useState} from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import { ColorTypes } from "../types/types";
+import {ColorTypes} from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { alpha } from "@mui/material/styles";
+import {alpha} from "@mui/material/styles";
 
-import { DEFAULT_COLORS } from "../constants";
-import { download } from "../../../handlers/storage";
+import {DEFAULT_COLORS} from "../constants";
+import {download} from "../../../handlers/storage";
 import Notifications from "../helperComponents/Notifications";
-import { RWebShare } from "react-web-share";
+import {RWebShare} from "react-web-share";
+import Context from "../Context";
+import {ASSETS} from "../../helpers/generalFunctions";
+import {useMediaQuery} from "@mui/material";
 
 interface MicrositesProps {
   children: ReactNode;
   type?: string;
   colors?: ColorTypes;
   url?: string;
-  badge?: string;
   backgndImg?: { Key: string; }[];
   foregndImg?: { Key: string; }[];
   foregndImgType?: string;
   isSample?: boolean;
 }
 
-export default function MainMicrosite({ children, colors, url, badge, type, backgndImg, foregndImg, foregndImgType, isSample }: MicrositesProps) {
+export default function MainMicrosite({ children, colors, url, type, backgndImg, foregndImg, foregndImgType, isSample }: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+
+  const isWide: boolean = useMediaQuery("(min-width:490px)", { noSsr: true });
+
+  // @ts-ignore
+  const {containerDimensions} = useContext(Context);
 
   const getFiles = async (key: string, item: string) => {
     try {
@@ -77,17 +82,25 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
           message="Failed loading the microsite's data"
           vertical="bottom"
           horizontal="center"
-          onClose={() => setError(false)} />
+          onClose={() => setError(false)}/>
       )}
       {loading && (
-        <Box sx={{ display: 'flex', position: 'fixed', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '45px' }}>
-          <CircularProgress size={20} sx={{ mr: '5px', color: colors?.p || DEFAULT_COLORS.p }} />
-          <Typography sx={{ fontSize: 'small', color: theme => theme.palette.text.disabled }}>
+        <Box sx={{
+          display: 'flex',
+          position: 'fixed',
+          width: '100%',
+          justifyContent: 'center',
+          zIndex: 10,
+          bottom: '45px'
+        }}>
+          <CircularProgress size={20} sx={{mr: '5px', color: colors?.p || DEFAULT_COLORS.p}}/>
+          <Typography sx={{fontSize: 'small', color: theme => theme.palette.text.disabled}}>
             {'Loading data. Please wait...'}
           </Typography>
         </Box>
       )}
       <Box sx={{
+        position: 'fixed',
         p: 0,
         m: 0,
         width: '100%',
@@ -107,116 +120,102 @@ export default function MainMicrosite({ children, colors, url, badge, type, back
               position: 'fixed',
               top: '-185px',
               left: '-10px'
-            }} />
+            }}/>
         )}
       </Box>
-      <Card sx={{
-        position: "absolute",
+      <Box sx={{
         top: 0,
-        left: "50%",
-        transform: "translate(-50%, 0)",
-        maxWidth: { md: '475px', xs: '100%' }
+        border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
+        boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
+        position: 'relative',
+        background: '#fff',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        maxWidth: isWide ? '475px' : '100%',
+        overflowX: 'hidden'
       }}>
-        <CardMedia title="">
-          <Box sx={{
-            width: '475px',
-            height: '200px',
-            background: !backImg && colors ? colors.p : 'none'
-          }}>
-            {backImg && (
-              <Box
-                component="img"
-                alt="backgimage"
-                src={backImg.content}
-                sx={{ width: '475px', height: '200px', position: 'absolute', right: 0 }} />
-            )}
-            {url !== undefined && (
-              <RWebShare
-                data={{
-                  text: "(Shared from theqr.link)",
-                  url: url,
-                  title: "The QR Link",
-                }}
-                onClick={() => {
-                  //TODO
-                }}
-              >
-                <Fab
-                  size="small" color="secondary" aria-label="add"
-                  // onClick={handleShare}
-                  sx={{
-                    position: 'absolute',
-                    top: 147,
-                    right: 16,
-                    color: colors?.s || DEFAULT_COLORS.s,
-                    backgroundColor: colors?.p || DEFAULT_COLORS.p,
-                    border: 'solid 3px #fff',
-                    '&:hover': { color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s }
-                  }}>
-                  <ShareIcon />
-                </Fab>
-              </RWebShare>
-            )}
-          </Box>
-          {foreImg && (
-            <Box sx={{ width: '100%', position: 'absolute', top: '150px', textAlign: 'center' }}>
-              <Box
-                component="img"
-                alt="foregimage"
-                src={foreImg.content}
-                sx={{
-                  width: '100px',
-                  height: '100px',
-                  borderRadius: foregndImgType === undefined || foregndImgType === 'circle' ? '50px' : foregndImgType === 'smooth' ? '20px' : '3px',
-                  border: 'solid 4px #fff'
-                }}
-              />
-            </Box>
-          )}
-        </CardMedia>
-        {badge && (<Box style={{
-          position: 'fixed',
-          marginTop: '-52px',
-          padding: '10px',
-          background: colors?.s,
-          width: 'fit-content',
-          borderRadius: '5px', // @ts-ignore
-          boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
-          marginLeft: '10px'
-        }}>
-          <Typography sx={{ color: colors?.p, fontWeight: 'bold' }}>{badge}</Typography>
-        </Box>)}
         <Box sx={{
-          // height: `calc(100vh - ${(foreImg ? 35 : 0) + 201}px)`,
-          // overflow: 'auto',
-          mt: foreImg ? '35px' : 0
+          width: '475px',
+          height: '200px',
+          background: !backImg && colors ? colors.p : 'none'
         }}>
-          <Box sx={{ width: '100%', minHeight: `calc(100vh - ${foreImg ? 265 : 235}px)` }}>
-            {children}
-          </Box>
-          {type !== undefined && (
-            <Box sx={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              fontWeight: 'bold',
-              fontSize: '20px',
-              color: colors?.s || DEFAULT_COLORS.s
-            }}>
-              <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s} />
-              <Typography sx={{ ml: '5px' }}>
-                {(type !== 'video' ? type : 'videos').toUpperCase()}
-              </Typography>
-            </Box>
+          {backImg && (
+            <Box
+              component="img"
+              alt="backgimage"
+              src={backImg.content}
+              sx={{width: '475px', height: '200px', position: 'absolute', right: 0}}/>
           )}
+          {url !== undefined && (
+            <RWebShare
+              data={{ text: "(Shared from theqr.link)", url: url, title: "The QR Link", }}
+              onClick={() => {
+                //TODO
+              }}
+            >
+              <Fab
+                size="small" color="secondary" aria-label="add"
+                sx={{
+                  position: 'absolute',
+                  top: 147,
+                  right: 16,
+                  color: colors?.s || DEFAULT_COLORS.s,
+                  backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                  border: 'solid 3px #fff',
+                  '&:hover': {color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s}
+                }}>
+                <ShareIcon/>
+              </Fab>
+            </RWebShare>
+          )}
+        </Box>
+        {foreImg && (
+          <Box sx={{width: '100%', position: 'absolute', top: '150px', textAlign: 'center'}}>
+            <Box
+              component="img"
+              alt="foregimage"
+              src={foreImg.content}
+              sx={{
+                width: '100px',
+                height: '100px',
+                borderRadius: foregndImgType === undefined || foregndImgType === 'circle' ? '50px' : foregndImgType === 'smooth' ? '20px' : '3px',
+                border: 'solid 4px #fff'
+              }}
+            />
+          </Box>
+        )}
+        <Box sx={{
+          width: '100%',
+          background: `linear-gradient(rgba(0,0,0,0), ${alpha(colors?.s || DEFAULT_COLORS.s, 0.25)})`,
+          height: '250px',
+          position: 'absolute',
+          bottom: 0}}
+        />
+        <Box sx={{
+          width: '100%',
+          minHeight: !containerDimensions ?
+            `calc(100vh - ${foreImg ? 256 : 226}px)` :
+            `calc(${containerDimensions.height} + ${foreImg ? 65 : 85}px)`,
+          mt: foreImg ? '30px' : 0
+        }}>
+          {children}
+        </Box>
+        {type !== undefined && (
           <Box sx={{
             width: '100%',
-            background: `linear-gradient(rgba(0,0,0,0), ${colors?.s || DEFAULT_COLORS.s})`,
-            height: '250px',
-            position: 'absolute',
-            bottom: '-140px' }}/>
-        </Box>
-      </Card>
+            display: 'flex',
+            justifyContent: 'center',
+            fontWeight: 'bold',
+            fontSize: '20px',
+            color: colors?.s || DEFAULT_COLORS.s
+          }}>
+            <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
+            <Typography sx={{ml: '5px'}}>
+              {(type !== 'video' ? type : 'videos').toUpperCase()}
+            </Typography>
+          </Box>
+        )}
+      </Box>
     </>
   );
 }

@@ -82,89 +82,92 @@ export default function FileMicro({newData}: FileProps) {
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
-      <RenderAssetsDesc newData={newData} colors={colors} />
-      <Box sx={{
-        color: colors.s,
-        textAlign: 'center'
-      }}>
-        <Typography>{pluralize('item', newData.files.length, true)}</Typography>
-      </Box>
-      {/* @ts-ignore */}
-      {files.current.length ? files.current.map((x: FileType, index: number) => {
-          const fileNumber = index + 1;
-          return (
-            <Box key={`mainIt${fileNumber}`} sx={{
-              mt: '5px',
-              width: 'calc(100% - 10px)',
-              ml: '5px',
-              p: 2,
-              border: `solid 1px ${colors.p}`,
-              borderRadius: '5px'
-            }}>
-              {x ? (
-                <>
-                  {renderHint(getExtension(x.type), fileNumber)}
-                  {newData.qrType === 'audio' && (
-                    <audio preload="none" controls key={`audio${fileNumber}`} style={{width: '100%'}}>
-                      <source src={x.content} type={x.type}/>
-                      {'Your browser can not play audio files. :('}
-                    </audio>
-                  )}
-                  {newData.qrType === 'video' && index === 0 && (
-                    <RenderPreviewVideo content={x.content} type={x.type}/>
-                  )}
-                  {newData.qrType === 'pdf' && index == 0 && (
-                    <RenderPreviewPdf content={x.content}/>
-                  )}
-                  <Box sx={{display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column'}}>
-                    <Button
-                      sx={{
-                        width: '100%',
-                        color: colors.p,
-                        background: colors.s,
-                        '&:hover': {color: colors.s, background: colors.p}
-                      }}
-                      variant="outlined"
-                      onClick={() => handleDownloadFiles(x, newData.qrType)}
-                      startIcon={<DownloadIcon/>}
-                    >
-                      {`Download ${newData.qrType} ${fileNumber}`}
-                    </Button>
-                    {['video', 'pdf'].includes(newData.qrType) && index !== 0 && (
+      <Box sx={{ p: 2 }}>
+        <RenderAssetsDesc newData={newData} colors={colors} />
+        <Box sx={{
+          color: colors.s,
+          textAlign: 'center'
+        }}>
+          <Typography>{pluralize('item', newData.files.length, true)}</Typography>
+        </Box>
+        {/* @ts-ignore */}
+        {files.current.length ? files.current.map((x: FileType, index: number) => {
+            const fileNumber = index + 1;
+            return (
+              <Box key={`mainIt${fileNumber}`} sx={{
+                mt: '5px',
+                width: 'calc(100% - 10px)',
+                ml: '5px',
+                p: 2,
+                border: `solid 1px ${colors.p}`,
+                borderRadius: '5px'
+              }}>
+                {x ? (
+                  <>
+                    {renderHint(getExtension(x.type), fileNumber)}
+                    {newData.qrType === 'audio' && (
+                      <audio preload="none" controls key={`audio${fileNumber}`} style={{width: '100%'}}>
+                        <source src={x.content} type={x.type}/>
+                        {'Your browser can not play audio files. :('}
+                      </audio>
+                    )}
+                    {newData.qrType === 'video' && index === 0 && (
+                      <RenderPreviewVideo content={x.content} type={x.type}/>
+                    )}
+                    {newData.qrType === 'pdf' && index == 0 && (
+                      <RenderPreviewPdf content={x.content}/>
+                    )}
+                    <Box sx={{display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column'}}>
                       <Button
                         sx={{
-                          width: isWide400 ? '30%' : '100%',
-                          ml: isWide400 ? '5px' : 0,
+                          width: '100%',
                           color: colors.p,
                           background: colors.s,
                           '&:hover': {color: colors.s, background: colors.p}
                         }}
                         variant="outlined"
-                        onClick={() => setPreview(x)}
+                        onClick={() => handleDownloadFiles(x, newData.qrType)}
+                        startIcon={<DownloadIcon/>}
                       >
-                        {'Preview'}
+                        {`Download ${newData.qrType} ${fileNumber}`}
                       </Button>
-                    )}
-                  </Box>
-                </>
-              ) : (
-                <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
-                  <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
-                  {'Error loading asset.'}
-                </Typography>
-              )}
-            </Box>
-          );
-        }
-      ) : (
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: colors.p}}>
-          <CircularProgress sx={{color: colors.p, mr: '10px', my: 'auto'}}/>
-          <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
-        </Box>
-      )}
-      {preview && (
-        <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)}/>
-      )}
+                      {['video', 'pdf'].includes(newData.qrType) && index !== 0 && (
+                        <Button
+                          sx={{
+                            width: isWide400 ? '30%' : '100%',
+                            ml: isWide400 ? '5px' : 0,
+                            mt: isWide400 ? 0 : '5px',
+                            color: colors.p,
+                            background: colors.s,
+                            '&:hover': {color: colors.s, background: colors.p}
+                          }}
+                          variant="outlined"
+                          onClick={() => setPreview(x)}
+                        >
+                          {'Preview'}
+                        </Button>
+                      )}
+                    </Box>
+                  </>
+                ) : (
+                  <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                    <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
+                    {'Error loading asset.'}
+                  </Typography>
+                )}
+              </Box>
+            );
+          }
+        ) : (
+          <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: colors.p}}>
+            <CircularProgress sx={{color: colors.p, mr: '10px', my: 'auto'}}/>
+            <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
+          </Box>
+        )}
+        {preview && (
+          <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)}/>
+        )}
+      </Box>
     </MainMicrosite>
   );
 }

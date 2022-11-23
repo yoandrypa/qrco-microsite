@@ -94,7 +94,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
           disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
-              <RenderIcon icon={item.network} enabled color={newData.secondary || DEFAULT_COLORS.s}/>
+              <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p}/>
             </InputAdornment>
           ),
           endAdornment: (
