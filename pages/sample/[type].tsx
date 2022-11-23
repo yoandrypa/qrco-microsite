@@ -1,12 +1,16 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 
 import MainComponent from "../../components/MainComponent";
 import Typography from "@mui/material/Typography";
+import {ContainerProps} from "../../components/helpers/generalFunctions";
+import Context from "../../components/qr/Context";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [containerDimensions, setContainerDimensions] = useState<ContainerProps | undefined>(undefined);
+
   useEffect(() => {
     if (window.top !== window) { // that is to say we are iframed!!!
       if (data.error) { // @ts-ignore
@@ -21,7 +25,8 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
         try {
           const data = JSON.parse(event.data)
           if (data.parentWidth !== undefined) {
-            const { parentWidth } = data;
+            const { parentWidth, parentHeight } = data;
+            setContainerDimensions({width: parentWidth, height: parentHeight});
             const width = +(parentWidth.endsWith('px') ? parentWidth.slice(0, -2) : parentWidth);
             const percent = Math.ceil(width * 100 / 475);
             if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
@@ -68,7 +73,11 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     );
   }
 
-  return <MainComponent newData={{...data, isSample: true}}/>;
+  return (
+    <Context.Provider value={{ containerDimensions }}>
+      <MainComponent newData={{...data, isSample: true}}/>
+    </Context.Provider>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({params}) => {

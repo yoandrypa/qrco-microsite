@@ -1,3 +1,56 @@
 {
-  "files": ["donation","audio", "business", "business_fast", "coupon", "gallery", "links", "links_pet","pdf", "social", "vcard", "videos", "video"]
+  "files": [
+    {
+      "type": "donation",
+      "desc": "Example of donations from supporters"
+    },
+    {
+      "type": "audio",
+      "desc": "Example of audio"
+    },
+    {
+      "type": "business",
+      "desc": ""
+    },
+    {
+      "type": "business_fast",
+      "desc": ""
+    },
+    {
+      "type": "coupon",
+      "desc": ""
+    },
+    {
+      "type": "gallery",
+      "desc": ""
+    },
+    {
+      "type": "links",
+      "desc": ""
+    },
+    {
+      "type": "links_pet",
+      "desc": ""
+    },
+    {
+      "type": "pdf",
+      "desc": ""
+    },
+    {
+      "type": "social",
+      "desc": ""
+    },
+    {
+      "type": "vcard",
+      "desc": ""
+    },
+    {
+      "type": "videos",
+      "desc": ""
+    },
+    {
+      "type": "video",
+      "desc": ""
+    }
+  ]
 }

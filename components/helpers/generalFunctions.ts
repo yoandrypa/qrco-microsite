@@ -55,3 +55,11 @@ export function getExtension(mimeType: string): string {
   // @ts-ignore
   return types[mimeType.toLowerCase()] || mimeType;
 }
+
+export const GALLERY = ["gallery", "image"];
+export const ASSETS = ["pdf", "audio", "video"];
+
+export interface ContainerProps {
+  width: number;
+  height: number;
+}
