@@ -1,7 +1,6 @@
 import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
 import Box from "@mui/material/Box";
@@ -59,7 +58,7 @@ export default function Business({newData}: BusinessProps) {
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
-      <CardContent>
+      <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           {(newData.company || newData.title || newData.subtitle || newData.web || newData.email || newData.contact ||
             newData.phone || newData.about) && (
@@ -92,7 +91,7 @@ export default function Business({newData}: BusinessProps) {
                   href={newData.urlOptionLink}
                   variant="contained"
                   sx={{
-                    mt: '10px',
+                    my: '10px',
                     width: 'calc(100% - 70px)',
                     color: colors.p,
                     background: colors.s,
@@ -109,7 +108,7 @@ export default function Business({newData}: BusinessProps) {
                 <DoneAllIcon sx={{color: colors.p}}/>
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold' }}>{'Easiness'}</Typography>
+                <Typography sx={{ fontWeight: 'bold', mb: '5px' }}>{'Easiness'}</Typography>
                 <Box sx={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -149,29 +148,36 @@ export default function Business({newData}: BusinessProps) {
             </Grid>
             <Grid item xs={11}>
               <Typography sx={{ fontWeight: 'bold', }}>{'Opening time'}</Typography>
+              <Grid container spacing={1} sx={{ my: 1 }}>
                 {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map((x: string) => {
                   if (!newData.openingTime[x]) {
                     return null;
                   }
-                  return (<Box key={`busines${x}`}>
+                  return (<Box key={`busines${x}`} sx={{ m: 1 }}>
                     {/* @ts-ignore */}
                     <Typography sx={{fontWeight: 'bold', ml: 2}}>{DAYS[x]}</Typography>
                     {newData.openingTime[x].map((open: OpeningObjType) => {
-                      return (<Box sx={{display: 'inline-flex', ml: 4}} key={`day${x}`}>
-                        <Typography
-                          sx={{display: 'inline-flex', mr: '5px'}}>{'From ' + handleTiming(open.ini)}</Typography>
-                        <Typography sx={{display: 'inline-flex'}}>{' to ' + handleTiming(open.end)}</Typography>
+                      return (<Box sx={{display: 'inline-flex', ml: 2}} key={`day${x}`}>
+                        <Box sx={{display: 'inline-flex', mr: '5px'}}>
+                          <Typography sx={{mr: '5px'}}>{'From'}</Typography>
+                          <Typography sx={{ color: colors.p }}>{handleTiming(open.ini)}</Typography>
+                        </Box>
+                        <Box sx={{display: 'inline-flex'}}>
+                          <Typography sx={{mr: '5px'}}>{'to'}</Typography>
+                          <Typography sx={{ color: colors.p }}>{handleTiming(open.end)}</Typography>
+                        </Box>
                       </Box>);
                     })}
                   </Box>);
                 })
               }
+              </Grid>
             </Grid>
             </>
           ) : null}
           <RenderSocials newData={newData} desc="Social networks"/>
         </Grid>
-      </CardContent>
+      </Box>
     </MainMicrosite>
   );
 }

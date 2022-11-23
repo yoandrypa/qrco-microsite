@@ -1,5 +1,4 @@
 import {useMemo} from "react";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -37,13 +36,12 @@ export default function LinksMicro({newData}: LinksProps) {
     <MainMicrosite
       colors={colors}
       url={newData.shortlinkurl}
-      badge={newData.prefix}
       type={newData.qrType}
       foregndImg={newData.foregndImg}
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
-      <CardContent sx={{textAlign: 'center'}}>
+      <Box sx={{ p: 2, textAlign: 'center' }}>
         <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
         {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}
         {newData.position === 'over' && (
@@ -73,7 +71,7 @@ export default function LinksMicro({newData}: LinksProps) {
             <RenderSocials newData={newData} onlyIcons/>
           </Box>
         )}
-      </CardContent>
+      </Box>
     </MainMicrosite>
   );
 }
