@@ -43,7 +43,7 @@ export default function Coupons({newData}: CouponProps) {
                 <Grid container spacing={1}>
                   {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px' }} />}
                   {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }} />}
-                  {newData.about && <RenderField value={newData.about} icon="about"/>}
+                  {newData.about && <RenderField value={newData.about} icon="about" color={colors?.s}/>}
                   {newData.urlOptionLink && (
                     <Grid item xs={12} style={{paddingTop: 0}}>
                       <Link href={newData.urlOptionLink}>
