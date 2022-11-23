@@ -84,7 +84,7 @@ function Images({newData}: ImageProps) {
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
-      <Box sx={{width: '100%', mt: '10px', textAlign: 'center', color: colors.s}}>
+      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: colors.s}}>
         <RenderAssetsDesc newData={newData} colors={colors} />
         {images.current.length ? (
           <Typography sx={{fontWeight: 'bold'}}>
@@ -116,7 +116,7 @@ function Images({newData}: ImageProps) {
             }
             const img = x.content;
             return (
-              <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center'}} key={`item${img}`}>
+              <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
                 <Tooltip title="Click to enlarge">
                   <Box
                     key={`img${img}`}
