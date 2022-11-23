@@ -29,7 +29,6 @@ type BoxOptions = 'first' | 'second' | 'third' | 'input';
 
 export default function DonationsInfo({ newData }: DonationsProps) {
   const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
-  const [selectedBox, setSelectedBox] = useState<BoxOptions>('first')
   const [inputValue, setInputValue] = useState<string>('1')
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -75,7 +74,10 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     setDonationAmount(parseInt(event.target.value) * newData.donationUnitAmount)
 
   }
+
+
   const handleClick = async () => {
+    console.log('hanlde click')
     setIsLoading(true)
     try {
       const response = await axios.post('/donationpaylink', {
@@ -87,11 +89,12 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       })
       setPaylinkUrl(response.data.result.url)
       if (response instanceof AxiosError) {
+        console.log(response)
         return;
       }
 
     } catch (error) {
-
+      console.log('error', error)
     }
 
   }
@@ -113,7 +116,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       }
     }
   });
-
+  console.log('newdate', newData)
   return (
     //TODO
     <MainMicrosite
@@ -148,71 +151,76 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                 </Typography>
               </Grid>
 
-              <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                <Grid item>
+              <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                <Grid item >
                   <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
                     <SvgIcon sx={{ width: 35, height: 35 }}>
                       <CofeeIcon color='primary' />
                     </SvgIcon>
                   </Box>
-                </Grid>
-                <Grid item>
-                  <Box sx={{ width: 60, height: 40, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <Typography textAlign='center' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+                  <Box sx={{ width: 60, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
+                    <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                       ${newData.donationUnitAmount || 1} each
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item sx={{ marginLeft: 2 }}>
-                  <Box
+                <Grid item  >
+                  <Button
                     onClick={() => {
                       const temp = parseInt(inputValue) - 1;
                       setInputValue(temp >= 100 ? '100' : temp.toString())
                     }}
-                    sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
-                  >
-                    <Button
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                        margin: 'auto'
-                      }}>
-                      -
-                    </Button>
-                  </Box>
+                    sx={{
+                      borderRadius: 45,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                      width: 35,
+                      height: 35,
+                      // "&.MuiButtonBase-root:hover": {
+                      //   bgcolor: "transparent"
+                      // }
+                    }}>
+                    -
+                  </Button>
+
                 </Grid>
 
-                <Grid item>
+                <Grid item  >
                   <TextField
-                    sx={{ width: 60, borderRadius: 40, alignContent: 'center' }}
-                    //  label='Amount'
+                    sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center' }}
+
                     size="small"
                     placeholder="25"
                     value={inputValue}
                     onChange={handleInputChange}
-                    inputProps={{ min: 1, max: 100, style: { textAlign: 'center' } }}
+                    inputProps={{ min: 1, max: 80, style: { textAlign: 'center' } }}
                   ></TextField>
                 </Grid>
 
                 <Grid item >
-                  <Box
+
+                  <Button
                     onClick={() => {
                       const temp = parseInt(inputValue) + 1;
                       setInputValue(temp.toString())
                     }}
-                    sx={{ borderRadius: 45, borderColor: colors.p, backgroundColor: colors.s, width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}
-                  >
-                    <Button
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                        margin: 'auto'
-                      }}>
-                      +
-                    </Button>
-                  </Box>
+                    sx={{
+                      borderRadius: 45,
+
+                      // borderColor: colors.p,
+                      // backgroundColor: colors.s,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                      width: 35, height: 35,
+                      margin: 'auto'
+                      // "&.MuiButtonBase-root:hover": {
+                      //   bgcolor: "transparent"
+                      // }
+                    }}>
+                    +
+                  </Button>
                 </Grid>
               </Grid>
 
@@ -234,17 +242,19 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     rows={4}
                     multiline
                     placeholder="Would you like to say something nice?"
-                  // value={inputValue}
+                  // value={}
                   // onChange={handleInputChange}
                   ></TextField>
                 </ThemeProvider>
               </Grid>
               <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                <CardActions sx={{ marginTop: 2 }}>
-                  <LoadingButton style={{ backgroundColor: colors.p }} disabled={!newData.donationPriceId} onClick={handleClick} loading={isLoading} variant="contained" sx={{ borderRadius: 2 }}>
-                    {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
-                  </LoadingButton>
-                </CardActions>
+
+                <Button style={{ backgroundColor: colors.p }}
+                  onClick={handleClick}
+                  variant="contained" sx={{ borderRadius: 2 }}>
+                  {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
+                </Button>
+
               </Grid>
             </Grid>
           </CardContent>
