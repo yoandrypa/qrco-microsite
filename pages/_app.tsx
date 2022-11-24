@@ -4,8 +4,6 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import Head from 'next/head';
-
-import { IntlProvider } from "react-intl";
 import { themeConfig } from "../utils/theme";
 
 import "../styles/globals.css";
@@ -27,9 +25,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={mainTheme}>
-            <IntlProvider locale={locale} messages={messages}>
-              <Component {...pageProps} />
-            </IntlProvider>
+          <Component {...pageProps} />
         </ThemeProvider>
       </StyledEngineProvider>
     </>
