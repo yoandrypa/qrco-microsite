@@ -134,7 +134,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogContentText>
-            Ops , something went wrong. Check your Internet connection.
+            Ops, something went wrong. Check your Internet connection.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -244,29 +244,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                 </Grid>
               </Grid>
 
-              {/* <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: 2 }} >
-                <ThemeProvider theme={theme}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch
-                      onChange={handleSwitchChange}
-                      color='primary'
-                    />}
-                      label="Give my message privately."
-                      checked={checked}
-                      name='private'
-                    />
-                  </FormGroup>
-                  {/* <TextField
-                    size="small"
-                    type='text'
-                    rows={4}
-                    multiline
-                    placeholder="Would you like to say something nice?"
-                  // value={}
-                  // onChange={handleInputChange}
-                  ></TextField> */}
-              {/* </ThemeProvider>
-              </Grid> */}
               <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <LoadingButton
                   loading={isLoading}
