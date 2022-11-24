@@ -4,12 +4,10 @@ import Grid from "@mui/material/Grid";
 import { getColors } from "./renderers/helper";
 import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
-
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import TextField from "@mui/material/TextField";
-
 import MainMicrosite from "./MainMicrosite";
 import Image from "next/image";
 import { useRouter } from "next/router";
