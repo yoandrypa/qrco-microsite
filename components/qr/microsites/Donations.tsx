@@ -4,23 +4,18 @@ import Grid from "@mui/material/Grid";
 import { getColors } from "./renderers/helper";
 import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
-import CardActions from "@mui/material/CardActions";
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
-import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
-
 import MainMicrosite from "./MainMicrosite";
-import LoadingButton from "@mui/lab/LoadingButton";
-import axios, { AxiosError } from 'axios'
 import Image from "next/image";
 import { useRouter } from "next/router";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LoadingButton from '@mui/lab/LoadingButton'
 import Button from '@mui/material/Button'
-
+import Dialog from "@mui/material/Dialog";
+import { DialogActions, DialogContent, DialogContentText } from "@mui/material";
 interface DonationsProps {
   newData: any;
 }
@@ -33,7 +28,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] = useState<string | null>(null)
-  const [checked, setChecked] = useState<boolean>(false)
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
 
   useEffect(() => {
     if (parseInt(inputValue) < 1) {
@@ -54,10 +49,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     paylinkUrl && router.push(paylinkUrl)
   }, [paylinkUrl, router])
 
-  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  }
-
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (parseInt(event.target.value, 10) <= 1) {
@@ -69,7 +60,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       setInputValue('100')
       setDonationAmount(100 * newData.donationUnitAmount)
     }
-
     setInputValue(event.target.value)
     setDonationAmount(parseInt(event.target.value) * newData.donationUnitAmount)
 
@@ -77,27 +67,41 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
 
   const handleClick = async () => {
-    console.log('hanlde click')
     setIsLoading(true)
-    try {
-      const response = await axios.post('/donationpaylink', {
-        priceId: newData.donationPriceId,
-        paylinkQuantity: inputValue,
-        successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
-      }, {
-        baseURL: process.env.REACT_NODE_ENV === 'develop' ? 'https://dev.ebanux.link/' : 'https://ebanux.link/'
-      })
-      setPaylinkUrl(response.data.result.url)
-      if (response instanceof AxiosError) {
-        console.log(response)
-        return;
-      }
 
-    } catch (error) {
-      console.log('error', error)
+    const url = process.env.REACT_NODE_ENV == 'develop' ?
+      'https://dev.ebanux.link' :
+      'https://ebanux.link';
+
+    const data = {
+      priceId: newData.donationPriceId,
+      paylinkQuantity: inputValue,
+      successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
+    }
+
+    const options = {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    };
+
+    try {
+      const response = await fetch(`${url}/donationpaylink`, options)
+      if (!response.ok) {
+        setIsDialogOpen(true);
+      } else {
+        const data = await response.json();
+        setPaylinkUrl(data.result.url)
+      }
+    } catch (error: any) {
+      //exceptions
+      setIsDialogOpen(true);
     }
 
   }
+
   const { thanks } = router.query;
 
 
@@ -116,7 +120,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       }
     }
   });
-  console.log('newdate', newData)
+
   return (
     //TODO
     <MainMicrosite
@@ -127,6 +131,21 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       backgndImg={newData.backgndImg}
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
+      <Dialog open={isDialogOpen}>
+        <DialogContent>
+          <DialogContentText>
+            Ops, something went wrong. Check your Internet connection.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setIsDialogOpen(false);
+              setIsLoading(false)
+            }}
+          >Ok</Button>
+        </DialogActions>
+      </Dialog>
       {!thanks ? (
         <ThemeProvider theme={theme}>
           <CardContent sx={{ height: '100%' }}>
@@ -152,7 +171,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               </Grid>
 
               <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                <Grid item xs>
+                <Grid item >
                   <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
                     <SvgIcon sx={{ width: 35, height: 35 }}>
                       <CofeeIcon color='primary' />
@@ -164,7 +183,14 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item xs >
+                <Grid item>
+                  <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+                    <Typography textAlign='center' paddingTop={2}>
+                      or
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid item sx={{ marginLeft: 2 }}>
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -176,6 +202,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       display: 'flex',
                       justifyContent: 'center',
                       alignContent: 'center',
+                      backgroundColor: colors.s,
                       width: 35,
                       height: 35
                     }}>
@@ -184,7 +211,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
                 </Grid>
 
-                <Grid item xs>
+                <Grid item >
                   <TextField
                     sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center' }}
 
@@ -196,8 +223,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                   ></TextField>
                 </Grid>
 
-                <Grid item xs>
-
+                <Grid item >
                   <Button
                     variant="contained"
                     onClick={() => {
@@ -208,6 +234,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       borderRadius: 45,
                       display: 'flex',
                       justifyContent: 'center',
+                      backgroundColor: colors.s,
                       alignContent: 'center',
                       width: 35, height: 35,
                       margin: 'auto'
@@ -217,35 +244,14 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                 </Grid>
               </Grid>
 
-              <Grid container sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: 2 }} >
-                <ThemeProvider theme={theme}>
-                  <FormGroup>
-                    <FormControlLabel control={<Switch
-                      onChange={handleSwitchChange}
-                      color='primary'
-                    />}
-                      label="Give my message privately."
-                      checked={checked}
-                      name='private'
-                    />
-                  </FormGroup>
-                  <TextField
-                    size="small"
-                    type='text'
-                    rows={4}
-                    multiline
-                    placeholder="Would you like to say something nice?"
-                  // value={}
-                  // onChange={handleInputChange}
-                  ></TextField>
-                </ThemeProvider>
-              </Grid>
               <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                <Button style={{ backgroundColor: colors.p }}
+                <LoadingButton
+                  loading={isLoading}
+                  style={{ backgroundColor: colors.p, borderRadius: 45 }}
                   onClick={handleClick}
                   variant="contained" sx={{ borderRadius: 2 }}>
                   {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </CardContent>
@@ -256,7 +262,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
             <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
               <Image width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
             </Box>
-
           </CardContent>
 
         )
