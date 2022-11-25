@@ -1,7 +1,5 @@
 name: Cypress E2E tests
-on:
-  push:
-    branches: [ "cypress_setup" ]
+on: [pull_request]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
