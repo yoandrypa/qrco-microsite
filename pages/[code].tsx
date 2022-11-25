@@ -39,7 +39,7 @@ export default function Handler ({ data }: InferGetServerSidePropsType<typeof ge
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
-  params, req,
+  params,
 }) => {
   try {
     // @ts-ignore
@@ -57,12 +57,43 @@ export const getServerSideProps: GetServerSideProps = async ({
       return { props: { data: "NO DATA" } };
     }
 
+    const req = {
+      headers: {
+        host: 'd32vn0qhsmxsop.cloudfront.net',
+        'cloudfront-is-mobile-viewer': 'false',
+        'cloudfront-is-tablet-viewer': 'false',
+        'cloudfront-is-smarttv-viewer': 'false',
+        'cloudfront-is-desktop-viewer': 'true',
+        'cloudfront-is-ios-viewer': 'false',
+        'cloudfront-is-android-viewer': 'false',
+        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'cloudfront-forwarded-proto': 'https',
+        'x-forwarded-for': '107.152.43.179, 64.252.68.20',
+        'user-agent': 'Amazon CloudFront',
+        via: '2.0 f7c749b4d9ba39d7629c0f2f434dfc76.cloudfront.net (CloudFront), 1.1 3542174e2d71e2c3dffc0069aa7cbb34.cloudfront.net (CloudFront)',
+        'accept-encoding': 'gzip',
+        dnt: '1',
+        'upgrade-insecure-requests': '1',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'none',
+        'sec-fetch-user': '?1',
+        'cloudfront-viewer-country': 'US',
+        'x-amplify-isreverseproxy': 'true',
+        'x-forwarded-host': 'dev.a-qr.link',
+        'cloudfront-viewer-http-version': '1.1',
+        'cloudfront-viewer-address': '64.252.68.20:34818',
+        'cloudfront-viewer-tls': 'TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:fullHandshake',
+        'cloudfront-viewer-asn': '14618'
+      }
+    }
+
     Promise.all([
       // Create visit data
       VisitHandler.create({
         headers: req.headers,
-        realIP: requestIp.getClientIp(req),
-        referrer: req.headers.referer,
+        //realIP: requestIp.getClientIp(req),
+        //referrer: req.headers.referer,
         shortLinkId: qr.shortLinkId,
       }),
 
