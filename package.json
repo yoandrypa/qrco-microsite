@@ -20,7 +20,6 @@
     "@mui/material": "^5.10.15",
     "fast-geoip": "^1.1.88",
     "next": "13.0.5",
-    "pluralize": "^8.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-web-share": "^2.0.2",
