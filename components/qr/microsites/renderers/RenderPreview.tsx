@@ -74,7 +74,7 @@ export default function RenderPreview({
                   backgroundColor: 'rgb(255 255 255 / 55%)',
                   px: '5px',
                   fontSize: 'smaller'
-                }}>{`${position}/${amount}`}</Typography>
+                }}>{`${((position || 0) + 1)}/${amount}`}</Typography>
                 <IconButton sx={{position: 'absolute', bottom: (isHeight && isWide) ? '30px' : '10px', left: '10px'}}
                             onClick={handlePrev}>
                   <ArrowBackIosNewIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/>
