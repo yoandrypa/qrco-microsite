@@ -34,3 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IntellijIdea IDE
+.idea
+
+.env
+/.vscode
+yarn.lock
+pages/api/testing/index.ts

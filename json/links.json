@@ -1,0 +1,69 @@
+{
+  "links": [
+    {
+      "link": "https://www.portfolio.com/anniephoto",
+      "label": "My portfolio"
+    },
+    {
+      "link": "https://www.podcast.com/anniephoto",
+      "label": "My podcast"
+    },
+    {
+      "link": "https://a-qr.link/anniephoto",
+      "label": "Buy me a coffee"
+    }
+  ],
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/48b6a7b1-a5ab-43dd-84cb-e5ede798c9cf",
+    "updatedAt": "2022-11-09T18:36:18.761Z",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "visitCount": 9,
+    "createdAt": "2022-11-09T18:36:18.760Z",
+    "address": "NnWKBo",
+    "type": "qr_link"
+  },
+  "qrName": "Links",
+  "createdAt": "2022-11-09T18:36:18.763Z",
+  "foregndImg": [
+    {
+      "name": "2ab01922-7eec-40d2-b68f-d2c35aace48e.png",
+      "Key": "links/design/2ab01922-7eec-40d2-b68f-d2c35aace48e.png"
+    }
+  ],
+  "backgndImg": [
+    {
+      "name": "75814571-79bf-4c74-accd-b4036e38bb04.jpg",
+      "Key": "links/design/75814571-79bf-4c74-accd-b4036e38bb04.jpg"
+    }
+  ],
+  "isDynamic": true,
+  "qrType": "link",
+  "about": "Landscapes are my passion.",
+  "image": "",
+  "updatedAt": "2022-11-15T22:59:06.151Z",
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+  "foregndImgType": "smooth",
+  "socials": [
+    {
+      "value": "annie.photographer",
+      "network": "facebook"
+    },
+    {
+      "value": "annie.photo",
+      "network": "instagram"
+    },
+    {
+      "value": "anniephoto",
+      "network": "youtube"
+    },
+    {
+      "value": "anniephoto",
+      "network": "telegram"
+    }
+  ],
+  "id": "31f4f2e4-6121-459e-a76a-3a877d27d8b1",
+  "secondary": "#9ece99",
+  "primary": "#187510",
+  "title": "Annie Photographer"
+}

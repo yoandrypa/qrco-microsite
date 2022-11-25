@@ -1,0 +1,48 @@
+{
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/8cd4ebba-a2ec-4089-8843-13074bee999f",
+    "updatedAt": "2022-11-09T19:00:08.728Z",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "visitCount": 7,
+    "createdAt": "2022-11-09T19:00:08.678Z",
+    "address": "SIWvt3",
+    "type": "qr_link"
+  },
+  "mode": "edit",
+  "qrName": "Audio",
+  "createdAt": "2022-11-09T19:00:08.733Z",
+  "backgndImg": [
+    {
+      "name": "679c2ebb-9e35-4b1a-bdbf-25ff3ee047b6.jpg",
+      "Key": "audios/design/679c2ebb-9e35-4b1a-bdbf-25ff3ee047b6.jpg"
+    }
+  ],
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "isDynamic": true,
+  "qrType": "audio",
+  "files": [
+    {
+      "ETag": "\"25c1051320d50a1607e60c2ad8804e5a\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "audios/Luerod Bounce - Will i am (Orchrestral mix)mp3.mp3"
+    }
+  ],
+  "image": "",
+  "updatedAt": "2022-11-15T22:54:44.412Z",
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+  "description": "The Electronic Music is my passion. Here's an example. Find @luerodbounce on instagram to get more content like this.",
+  "id": "0407b45a-db2c-4f83-8998-810f5763e9b5",
+  "title": "Will Song"
+}

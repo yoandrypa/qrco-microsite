@@ -1,0 +1,73 @@
+{
+  "links": [
+    {
+      "link": "https://www.youtube.com/c/cooper2022",
+      "label": "My youtube channel"
+    },
+    {
+      "link": "https://www.blog.com/cooper2022",
+      "label": "Cooper stories"
+    }
+  ],
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/c47407ac-c484-46c7-9fc6-25f36ba910c6",
+    "updatedAt": "2022-11-15T23:25:42.490Z",
+    "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
+    "visitCount": 13,
+    "createdAt": "2022-11-15T23:25:42.486Z",
+    "address": "gyRsSB",
+    "type": "qr_link"
+  },
+  "qrName": "Links Pet",
+  "createdAt": "2022-11-15T23:25:42.496Z",
+  "foregndImg": [
+    {
+      "name": "aca02d01-d921-4464-8581-f9d5521464e4.png",
+      "Key": "links/design/aca02d01-d921-4464-8581-f9d5521464e4.png"
+    }
+  ],
+  "backgndImg": [
+    {
+      "name": "735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png",
+      "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
+    }
+  ],
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "isDynamic": true,
+  "qrType": "link",
+  "about": "Pets also wanna be in touch",
+  "image": "",
+  "updatedAt": "2022-11-15T23:48:45.315Z",
+  "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
+  "socials": [
+    {
+      "value": "copper2022",
+      "network": "facebook"
+    },
+    {
+      "value": "cooper.22",
+      "network": "instagram"
+    },
+    {
+      "value": "copper22",
+      "network": "telegram"
+    },
+    {
+      "value": "copper22",
+      "network": "pinterest"
+    }
+  ],
+  "id": "dbe8922c-eb5a-413a-9e66-cd2151d0b6bb",
+  "position": "under",
+  "secondary": "#a8a6a1",
+  "primary": "#06284d",
+  "title": "Cooper"
+}

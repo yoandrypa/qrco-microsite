@@ -1,0 +1,34 @@
+{
+  "shortLinkId": {
+    "banned": false,
+    "target": "https://app-dev.theqr.link/qr/1dd29516-cd02-431d-a588-7fd13b2726cc",
+    "updatedAt": "2022-11-11T18:01:23.712Z",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "visitCount": 4,
+    "createdAt": "2022-11-11T18:01:23.706Z",
+    "address": "IDdU70",
+    "type": "qr_link"
+  },
+  "qrName": "PDF",
+  "createdAt": "2022-11-11T18:01:23.718Z",
+  "backgndImg": [
+    {
+      "name": "aa183c12-d9eb-4b37-b1bc-013f5702aa85.png",
+      "Key": "pdfs/design/aa183c12-d9eb-4b37-b1bc-013f5702aa85.png"
+    }
+  ],
+  "isDynamic": true,
+  "qrType": "pdf",
+  "files": [
+    {
+      "name": "Photoshop for beginners NEW22.pdf",
+      "Key": "pdfs/Photoshop for beginners NEW22.pdf"
+    }
+  ],
+  "image": "",
+  "updatedAt": "2022-11-15T22:26:10.761Z",
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+  "description": "All you need to start creating designs in Photoshop.",
+  "id": "11ea10ba-1916-41f5-b74d-5b9354a25391",
+  "title": "Photoshop for beginners"
+}
