@@ -1,9 +1,8 @@
 /** @type {import("next").NextConfig} */
 
 const nextConfig = {
-  // reactStrictMode: true, # TODO check why this is disable
   reactStrictMode: false,
-  // swcMinify: true, // TODO check why this is disable
+  swcMinify: true,
   env: {
     REACT_APP_CUSTOM_DOMAIN_USE_HTTPS: process.env.REACT_APP_CUSTOM_DOMAIN_USE_HTTPS,
     REACT_APP_DEFAULT_DOMAIN: process.env.REACT_APP_DEFAULT_DOMAIN,
