@@ -12,8 +12,6 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
   const [containerDimensions, setContainerDimensions] = useState<ContainerProps | undefined>(undefined);
 
   useEffect(() => {
-    console.log('**',process.env.REACT_APP_QRCO_URL);
-
     if (window.top !== window) { // that is to say we are iframed!!!
       if (data.error) { // @ts-ignore
         window.top.postMessage( // @ts-ignore
@@ -23,6 +21,8 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
     }
 
     const handler = (event: any) => {
+      console.log('**',process.env.REACT_APP_QRCO_URL, event.origin);
+
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
         try {
           const data = JSON.parse(event.data)
