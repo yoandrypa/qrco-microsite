@@ -2,9 +2,6 @@ import {useEffect, useState} from "react";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
-import {ColorTypes, FileType} from "../../types/types";
-import RenderPreviewVideo from "./RenderPreviewVideo";
-import RenderPreviewPdf from "./RenderPreviewPdf";
 import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +12,11 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import {styled} from "@mui/material/styles";
+
+import {ColorTypes, FileType} from "../../types/types";
+import RenderPreviewVideo from "./RenderPreviewVideo";
+import RenderPreviewPdf from "./RenderPreviewPdf";
 import {handleDownloadFiles} from "./helper";
 
 interface RenderPreviewProps {
@@ -29,6 +31,10 @@ interface RenderPreviewProps {
   isWide: boolean;
   isHeight?: boolean;
 }
+
+const IconBtn = styled(IconButton)(() => ({
+  position: 'absolute', width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'rgb(255 255 255 / 55%)'
+}));
 
 export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
                                         colors, preview, type }: RenderPreviewProps) {
@@ -68,22 +74,21 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
             </Box>
             <>
               <Tooltip title="Close">
-                <IconButton sx={{position: 'absolute', top: '10px', left: '10px'}} onClick={handleClose}>
-                  <CloseIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/>
-                </IconButton>
+                <IconBtn sx={{top: '10px', left: '10px'}} onClick={handleClose}>
+                  <CloseIcon />
+                </IconBtn>
               </Tooltip>
               {wide && (
                 <Tooltip title={full ? 'Exit full screen' : 'Full screen'}>
-                  <IconButton sx={{position: 'absolute', top: '50px', right: '10px'}} onClick={() => setFull((prev: boolean) => (!prev))}>
-                    {!full ? <FullscreenIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/> :
-                      <FullscreenExitIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/>}
-                  </IconButton>
+                  <IconBtn sx={{top: '50px', right: '10px'}} onClick={() => setFull((prev: boolean) => (!prev))}>
+                    {!full ? <FullscreenIcon /> : <FullscreenExitIcon />}
+                  </IconBtn>
                 </Tooltip>
               )}
               <Tooltip title="Download">
-                <IconButton sx={{position: 'absolute', top: '10px', right: '10px'}} onClick={() => handleDownloadFiles(preview, type)}>
-                  <DownloadIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/>
-                </IconButton>
+                <IconBtn sx={{top: '10px', right: '10px'}} onClick={() => handleDownloadFiles(preview, type)}>
+                  <DownloadIcon />
+                </IconBtn>
               </Tooltip>
               {amount !== undefined && amount > 1 && (<>
                 <Typography sx={{
@@ -95,14 +100,14 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
                   fontSize: 'smaller'
                 }}>{`${((position || 0) + 1)}/${amount}`}</Typography>
                 <Tooltip title="Previous">
-                <IconButton sx={{position: 'absolute', bottom: (isHeight && isWide) ? '30px' : '10px', left: '10px'}} onClick={handlePrev}>
-                  <ArrowBackIosNewIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/>
-                </IconButton>
+                <IconBtn sx={{bottom: (isHeight && isWide) ? '30px' : '10px', left: '10px'}} onClick={handlePrev}>
+                  <ArrowBackIosNewIcon />
+                </IconBtn>
                 </Tooltip>
                 <Tooltip title="Next">
-                  <IconButton sx={{position: 'absolute', bottom: (isHeight && isWide) ? '30px' : '10px', right: '10px'}} onClick={handleNext}>
-                    <ArrowForwardIosIcon sx={{backgroundColor: 'rgb(255 255 255 / 55%)', borderRadius: '50%'}}/>
-                  </IconButton>
+                  <IconBtn sx={{bottom: (isHeight && isWide) ? '30px' : '10px', right: '10px'}} onClick={handleNext}>
+                    <ArrowForwardIosIcon />
+                  </IconBtn>
                 </Tooltip>
               </>)}
             </>
