@@ -1,16 +1,12 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 
 import MainComponent from "../../components/MainComponent";
 import Typography from "@mui/material/Typography";
-import {ContainerProps} from "../../components/helpers/generalFunctions";
-import Context from "../../components/qr/Context";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [containerDimensions, setContainerDimensions] = useState<ContainerProps | undefined>(undefined);
-
   useEffect(() => {
     if (window.top !== window) { // that is to say we are iframed!!!
       if (data.error) { // @ts-ignore
@@ -19,35 +15,6 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
         );
       }
     }
-
-    const handler = (event: any) => {
-      console.log('**',process.env.REACT_APP_QRCO_URL, event.origin);
-
-      if (event.origin === process.env.REACT_APP_QRCO_URL) {
-        try {
-          const data = JSON.parse(event.data)
-          if (data.parentWidth !== undefined) {
-            const { parentWidth, parentHeight } = data;
-            setContainerDimensions({width: parentWidth, height: parentHeight});
-            const width = +(parentWidth.endsWith('px') ? parentWidth.slice(0, -2) : parentWidth);
-            const percent = Math.ceil(width * 100 / 475);
-            if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
-              document.body.style.zoom = percent / 100; // zoom is not a standard but works fine for Chrome
-            } else {
-              document.body.style.transform = `scale(${percent / 100})`;
-              document.body.style.transformOrigin = '0 0';
-              document.body.style.width = `${100 + percent}%`;
-            }
-          }
-        } catch (e) {
-          console.error(e)
-        }
-      }
-    }
-
-    window.addEventListener('message', handler);
-
-    return () => window.removeEventListener('message', handler);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (data.error) {
@@ -76,9 +43,9 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
   }
 
   return (
-    <Context.Provider value={{ containerDimensions }}>
+    // <Context.Provider value={{ containerDimensions }}>
       <MainComponent newData={{...data, isSample: true}}/>
-    </Context.Provider>
+    // </Context.Provider>
   );
 }
 

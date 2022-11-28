@@ -1,4 +1,4 @@
-import {ReactNode, useContext, useEffect, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
@@ -13,8 +13,6 @@ import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
 import Notifications from "../helperComponents/Notifications";
 import {RWebShare} from "react-web-share";
-import Context from "../Context";
-import {ASSETS} from "../../helpers/generalFunctions";
 import {useMediaQuery} from "@mui/material";
 
 interface MicrositesProps {
@@ -28,16 +26,18 @@ interface MicrositesProps {
   isSample?: boolean;
 }
 
-export default function MainMicrosite({ children, colors, url, type, backgndImg, foregndImg, foregndImgType, isSample }: MicrositesProps) {
+interface DimsProps {
+  parentWidth: number; parentHeight: number;
+}
+
+export default function MainMicrosite({children, colors, url, type, backgndImg, foregndImg, foregndImgType, isSample}: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const [containerDimensions, setContainerDimensions] = useState<DimsProps | undefined>(undefined);
   const [error, setError] = useState<boolean>(false);
 
-  const isWide: boolean = useMediaQuery("(min-width:490px)", { noSsr: true });
-
-  // @ts-ignore
-  const {containerDimensions} = useContext(Context);
+  const isWide: boolean = useMediaQuery("(min-width:490px)", {noSsr: true});
 
   const getFiles = async (key: string, item: string) => {
     try {
@@ -66,6 +66,41 @@ export default function MainMicrosite({ children, colors, url, type, backgndImg,
       setLoading(true);
       getFiles(foregndImg[0].Key, 'foregndImg');
     }
+    if (window.top !== window) { // that is to say we are iframed!!!
+      // @ts-ignore
+      window.top.postMessage( // @ts-ignore
+        JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL
+      );
+    }
+
+    const handler = (event: any) => {
+      console.log('**', process.env.REACT_APP_QRCO_URL, event.origin);
+
+      if (event.origin === process.env.REACT_APP_QRCO_URL) {
+        try {
+          const data = JSON.parse(event.data)
+          if (data.parentWidth !== undefined) {
+            const {parentWidth, parentHeight} = data;
+            setContainerDimensions({parentWidth, parentHeight});
+            const width = +(parentWidth.endsWith('px') ? parentWidth.slice(0, -2) : parentWidth);
+            const percent = Math.ceil(width * 100 / 475);
+            if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
+              document.body.style.zoom = percent / 100; // zoom is not a standard but works fine for Chrome
+            } else {
+              document.body.style.transform = `scale(${percent / 100})`;
+              document.body.style.transformOrigin = '0 0';
+              document.body.style.width = `${100 + percent}%`;
+            }
+          }
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    }
+
+    window.addEventListener('message', handler);
+
+    return () => window.removeEventListener('message', handler);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -148,7 +183,7 @@ export default function MainMicrosite({ children, colors, url, type, backgndImg,
           )}
           {url !== undefined && (
             <RWebShare
-              data={{ text: "(Shared from theqr.link)", url: url, title: "The QR Link", }}
+              data={{text: "(Shared from theqr.link)", url: url, title: "The QR Link",}}
               onClick={() => {
                 //TODO
               }}
@@ -189,13 +224,13 @@ export default function MainMicrosite({ children, colors, url, type, backgndImg,
           background: `linear-gradient(rgba(0,0,0,0), ${alpha(colors?.s || DEFAULT_COLORS.s, 0.25)})`,
           height: '250px',
           position: 'absolute',
-          bottom: 0}}
+          bottom: 0
+        }}
         />
         <Box sx={{
           width: '100%',
           minHeight: !containerDimensions ?
-            `calc(100vh - ${foreImg ? 256 : 226}px)` :
-            `calc(${containerDimensions.height} + ${foreImg ? 65 : 85}px)`,
+            `calc(100vh - ${foreImg ? 256 : 226}px)` : `calc(${containerDimensions.parentHeight} + ${foreImg ? 65 : 85}px)`,
           mt: foreImg ? '30px' : 0
         }}>
           {children}
