@@ -74,8 +74,6 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
     }
 
     const handler = (event: any) => {
-      console.log('**', process.env.REACT_APP_QRCO_URL, event.origin);
-
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
         try {
           const data = JSON.parse(event.data)
