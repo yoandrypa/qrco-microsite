@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {TouchEvent, useEffect, useRef, useState} from "react";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
@@ -39,8 +39,33 @@ const IconBtn = styled(IconButton)(() => ({
 export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
                                         colors, preview, type }: RenderPreviewProps) {
   const [full, setFull] = useState<boolean>(false);
+  const [zoom, setZoom] = useState<boolean>(true);
+  const [scroll, setScroll] = useState<number>(0);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const posic = useRef<number>(0);
 
   const wide = isWide && isHeight;
+
+  const imageLoaded = () => { // @ts-ignore
+    if (imgRef.current.clientWidth > imgRef.current.clientHeight) { // horizontal
+      setScroll(1); // @ts-ignore
+    } else if (imgRef.current.clientWidth < imgRef.current.clientHeight) { // vertical
+      setScroll(-1);
+    } else { // both
+      setScroll(0);
+    }
+  };
+
+  const touchEnd = (event: TouchEvent) => { // @ts-ignore
+    if (amount !== undefined && amount > 1) { // @ts-ignore
+      if (handlePrev !== undefined && event.target.x === 0 && event.target.x === posic.current) {
+        handlePrev(); // @ts-ignore
+      } else if (handleNext !== undefined && event.target.x === imgRef.current.x && event.target.x === posic.current) {
+        handleNext();
+      } // @ts-ignore
+      posic.current = event.target.x;
+    }
+  }
 
   useEffect(() => {
     if (full) {
@@ -64,13 +89,11 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
               right: 0,
               left: 0,
               bottom: 0,
-              overflowX: (isHeight && isWide) || isHeight ? 'auto' : 'hidden',
-              overflowY: (isHeight && isWide) || isWide ? 'auto' : 'hidden'
+              overflowX: ((isHeight && isWide) || isHeight) && scroll !== -1 ? 'auto' : 'hidden',
+              overflowY: ((isHeight && isWide) || isWide) && scroll !== 1 ? 'auto' : 'hidden'
             }}>
-              <Box component="img" alt="image" src={preview.content} sx={{
-                height: (isHeight && isWide) || isHeight ? '100%' : 'unset',
-                width: isWide && !isHeight ? '100%' : 'unset'
-              }}/>
+              <Box ref={imgRef} component="img" alt="image" src={preview.content} onLoad={imageLoaded} onTouchEndCapture={touchEnd}
+                   sx={{height: (isHeight && isWide) || isHeight ? '100%' : 'unset', width: isWide && !isHeight ? '100%' : 'unset'}}/>
             </Box>
             <>
               <Tooltip title="Close">

@@ -14,6 +14,7 @@ import {download} from "../../../handlers/storage";
 import Notifications from "../helperComponents/Notifications";
 import {RWebShare} from "react-web-share";
 import {useMediaQuery} from "@mui/material";
+import capitalize from "@mui/utils/capitalize";
 
 interface MicrositesProps {
   children: ReactNode;
@@ -244,7 +245,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
           }}>
             <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
             <Typography sx={{ml: '5px'}}>
-              {(type !== 'video' ? type : 'videos').toUpperCase()}
+              {(type !== 'video' ? (type !== 'vcard+' ? (type !== 'link' ? capitalize(type) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
             </Typography>
           </Box>
         )}
