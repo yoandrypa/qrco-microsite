@@ -29,6 +29,8 @@ export const create = async (params: Create) => {
     const prefix: string = process.env.REACT_NODE_ENV === "production"
       ? "prd"
       : "dev";
+
+    let input;
     if (visit) {
       let countries = Object.assign({}, visit.countries,
         { [data.country]: (visit.countries[data.country] || 0) + 1 });
@@ -49,7 +51,7 @@ export const create = async (params: Create) => {
         return `'${key}' : ${referrers[key]}`;
       }).join(", ");*/
 
-      const input: ExecuteStatementCommandInput = {
+      input = <ExecuteStatementCommandInput>{
         Statement: `UPDATE ${prefix}_visits
         SET br_${data.browser}=?
         SET os_${data.os}=?
@@ -71,12 +73,8 @@ export const create = async (params: Create) => {
           { "N": visit.createdAt },
         ],
       };
-      console.log({ input });
-      const command: ExecuteStatementCommand = new ExecuteStatementCommand(
-        input);
-      await ddbClient.send(command);
     } else {
-      const input: ExecuteStatementCommandInput = {
+      input = <ExecuteStatementCommandInput>{
         Statement: `INSERT INTO ${prefix}_visits VALUE {
             'br_${data.browser}':?,
             'os_${data.os}':?,
@@ -99,17 +97,18 @@ export const create = async (params: Create) => {
           { "N": "1" },
           { "S": params.shortLinkId.userId },
           {
-            "M": marshall(params.shortLinkId),
+            "M": marshall({
+              "userId": params.shortLinkId.userId,
+              "createdAt": params.shortLinkId.createdAt,
+            }),
           },
           // @ts-ignore
-          { "N": Date.now() },
+          { "N": Date.now().toString() },
         ],
       };
-      console.log({ input });
-      const command: ExecuteStatementCommand = new ExecuteStatementCommand(
-        input);
-      await ddbClient.send(command);
     }
+    const command: ExecuteStatementCommand = new ExecuteStatementCommand(input);
+    await ddbClient.send(command);
   } catch (e) {
     throw e;
   }
