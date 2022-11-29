@@ -44,13 +44,11 @@ export const create = async (data: any) => {
         dv: device.split("-")[2],
         referrer: (referrer && referrer.replace(/\./gi, "[dot]")) || "Direct",
         city: "",
-        continent: ""
+        continent: "",
       };
       const location = await geoip.lookup(realIp(data.headers));
       if (location) {
-        const [continent, city] = location.timezone.split("/");
-        visit["city"] = city;
-        visit["continent"] = continent;
+        visit["city"] = location.timezone.split("/")[1];
       }
 
       await Visit.create(visit);

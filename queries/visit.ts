@@ -9,7 +9,6 @@ interface Create {
   browser: string;
   country: string;
   city: string;
-  continent: string;
   domain?: string;
   shortLinkId: { userId: string, createdAt: number };
   os: string;
@@ -23,49 +22,54 @@ export const create = async (params: Create) => {
 
     const data = {
       ...params,
-      country: params.country.toLowerCase(),
-      referrer: params.referrer.toLowerCase(),
+      country: params.country,
+      referrer: params.referrer,
     };
 
     const prefix: string = process.env.REACT_NODE_ENV === "production"
       ? "prd"
       : "dev";
     if (visit) {
-      let continents = Object.assign({}, visit.continents,
-        { [data.continent]: visit.continents[data.continent] + 1 });
-      continents = Object.keys(continents).map(key => {
-        return `'${key}' : ${continents[key]}`;
-      }).join(", ");
-
       let countries = Object.assign({}, visit.countries,
-        { [data.country]: visit.countries[data.country] + 1 });
-      countries = Object.keys(countries).map(key => {
-        return `'${key}' : ${countries[key]}`;
-      }).join(", ");
+        { [data.country]: (visit.countries[data.country] || 0) + 1 });
+      /* countries = Object.keys(countries).map(key => {
+         return `'${key}' : ${countries[key]}`;
+       }).join(", ");*/
 
       let cities = Object.assign({}, visit.cities,
-        { [data.city]: visit.cities[data.city] + 1 });
-      cities = Object.keys(cities).map(key => {
+        { [data.city]: (visit.cities[data.city] || 0) + 1 });
+      /*cities = Object.keys(cities).map(key => {
         return `'${key}' : ${cities[key]}`;
-      }).join(", ");
+      }).join(", ");*/
 
       let referrers = Object.assign({}, visit.referrers, {
-        [data.referrer]: visit.referrers[data.referrer] + 1,
+        [data.referrer]: (visit.referrers[data.referrer] || 0) + 1,
       });
-      referrers = Object.keys(referrers).map(key => {
+      /*referrers = Object.keys(referrers).map(key => {
         return `'${key}' : ${referrers[key]}`;
-      }).join(", ");
+      }).join(", ");*/
+
       const input: ExecuteStatementCommandInput = {
         Statement: `UPDATE ${prefix}_visits
-        SET br_${data.browser}=${visit[`br_${data.browser}`] + 1}
-        SET os_${data.os}=${visit[`os_${data.os}`] + 1}
-        SET dv_${data.dv}=${visit[`dv_${data.dv}`] + 1}
-        SET continents={${continents}}
-        SET countries={${countries}}
-        SET cities={${cities}}
-        SET referrers={${referrers}}
-        SET total=${visit.total + 1}
-        WHERE userId='${visit.userId}' AND createdAt=${visit.createdAt}`,
+        SET br_${data.browser}=?
+        SET os_${data.os}=?
+        SET dv_${data.dv}=?
+        SET countries=?
+        SET cities=?
+        SET referrers=?
+        SET total=?
+        WHERE userId=? AND createdAt=?`,
+        Parameters: [
+          { "N": visit[`br_${data.browser}`] + 1 },
+          { "N": visit[`os_${data.os}`] + 1 },
+          { "N": visit[`dv_${data.dv}`] + 1 },
+          { "M": marshall(countries) },
+          { "M": marshall(cities) },
+          { "M": marshall(referrers) },
+          { "N": visit.total + 1 },
+          { "S": visit.userId },
+          { "N": visit.createdAt },
+        ],
       };
 
       const command: ExecuteStatementCommand = new ExecuteStatementCommand(
@@ -74,23 +78,36 @@ export const create = async (params: Create) => {
     } else {
       const input: ExecuteStatementCommandInput = {
         Statement: `INSERT INTO ${prefix}_visits VALUE {
-            'br_${data.browser}' : 1,
-            'os_${data.os}' : 1,
-            'dv_${data.dv}' : 1,
-            'continents' : { '${data.continent}' : 1 },
-            'countries' : { '${data.country}' : 1 },
-            'cities' : { '${data.city}' : 1 },
-            'referrers' : { '${data.referrer}' : 1 },
-            'total' : 1,
-            'userId' : '${params.shortLinkId.userId}',
-            'shortLinkId' : {
-                'userId' : '${params.shortLinkId.userId}',
-                'createdAt' : ${params.shortLinkId.createdAt}
-            },
-            'createdAt' : ${Date.now()}
+            'br_${data.browser}':?,
+            'os_${data.os}':?,
+            'dv_${data.dv}':?,
+            'countries':?,
+            'cities':?,
+            'referrers':?,
+            'total':?,
+            'userId':?,
+            'shortLinkId':?,
+            'createdAt':?
         }`,
+        Parameters: [
+          { "N": "1" },
+          { "N": "1" },
+          { "N": "1" },
+          { "M": marshall({ [data.country]: 1 }) },
+          { "M": marshall({ [data.city]: 1 }) },
+          { "M": marshall({ [data.referrer]: 1 }) },
+          { "N": "1" },
+          { "S": params.shortLinkId.userId },
+          {
+            "M": marshall({
+              "userId": params.shortLinkId.userId,
+              "createdAt": params.shortLinkId.createdAt,
+            }),
+          },
+          // @ts-ignore
+          { "N": Date.now() },
+        ],
       };
-
       const command: ExecuteStatementCommand = new ExecuteStatementCommand(
         input);
       await ddbClient.send(command);
