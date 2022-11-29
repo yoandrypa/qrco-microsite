@@ -62,15 +62,15 @@ export const create = async (params: Create) => {
         SET total=?
         WHERE userId=? AND createdAt=?`,
         Parameters: [
-          { "N": visit[`br_${data.browser}`] + 1 },
-          { "N": visit[`os_${data.os}`] + 1 },
-          { "N": visit[`dv_${data.dv}`] + 1 },
+          { "N": (visit[`br_${data.browser}`] + 1).toString() },
+          { "N": (visit[`os_${data.os}`] + 1).toString() },
+          { "N": (visit[`dv_${data.dv}`] + 1).toString() },
           { "M": marshall(countries) },
           { "M": marshall(cities) },
           { "M": marshall(referrers) },
-          { "N": visit.total + 1 },
+          { "N": (visit.total + 1).toString() },
           { "S": visit.userId },
-          { "N": visit.createdAt },
+          { "N": visit.createdAt.toString() },
         ],
       };
     } else {
