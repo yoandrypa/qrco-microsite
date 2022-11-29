@@ -24,16 +24,6 @@ export const create = async (data: any) => {
       const [device = "cloudfront-device-other-viewer"] = deviceListHeaders.filter(
         filterInHeaders(data.headers));
 
-      /*const agent = parser(data.headers["user-agent"]);
-      console.log({ headers: data.headers });
-      const [browser = "Other"] = browsersList.filter(filterInBrowser(data.headers));
-      const [os = "Other"] = osList.filter(filterInOs(data.headers));
-
-      const location = data.realIP
-        ? await geoip.lookup(data.realIP)
-        : undefined;
-      const country = location && location.country;*/
-
       const referrer =
         data.referrer && removeWww(URL.parse(data.referrer).hostname);
       let visit = {

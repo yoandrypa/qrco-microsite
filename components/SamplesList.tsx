@@ -1,4 +1,4 @@
-import {ReactElement, cloneElement, useEffect, useState} from "react";
+import { ReactElement, cloneElement, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -7,10 +7,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-
-import pluralize from "pluralize";
 import TypeSelector from "./qr/helperComponents/TypeSelector";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 interface SampleProp {
   newData: string[];
@@ -29,10 +27,10 @@ function ElevationScroll({ children, window }: Props) {
     threshold: 0,
     target: window ? window() : undefined
   });
-  return cloneElement(children, {elevation: trigger ? 5 : 0});
+  return cloneElement(children, { elevation: trigger ? 5 : 0 });
 }
 
-const SamplesList = ({newData}: SampleProp) => {
+const SamplesList = ({ newData }: SampleProp) => {
   const [baseUrl, setBaseUrl] = useState<string>('');
 
   const router = useRouter();
@@ -49,7 +47,7 @@ const SamplesList = ({newData}: SampleProp) => {
 
   return (
     <>
-      <CssBaseline/>
+      <CssBaseline />
       {/*<Box*/}
       {/*  component="img"*/}
       {/*  alt="backgimage"*/}
@@ -71,17 +69,17 @@ const SamplesList = ({newData}: SampleProp) => {
           </Container>
         </AppBar>
       </ElevationScroll>
-      <Container sx={{width: '100%'}}>
+      <Container sx={{ width: '100%' }}>
         <Box sx={{ height }} />
-        <Box sx={{p: 3, width: '100%'}}>
+        <Box sx={{ p: 3, width: '100%' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', display: 'inline-flex', color: theme => theme.palette.primary.dark }}>
             {'MICROSITE'}
           </Typography>
-          <Typography variant="h4" sx={{ display: 'inline-flex', color: theme => theme.palette.text.disabled, ml: 1}}>
+          <Typography variant="h4" sx={{ display: 'inline-flex', color: theme => theme.palette.text.disabled, ml: 1 }}>
             {'EXAMPLES'}
           </Typography>
           <Typography sx={{ mb: 2, color: theme => theme.palette.text.disabled }}>
-            {`${pluralize('microsite', newData.length, true)} found`}
+            {'microsite'}
           </Typography>
           <Grid container spacing={1}>
             {newData.map((x: any) => (

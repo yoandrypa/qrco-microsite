@@ -21,8 +21,10 @@ function Images({newData}: ImageProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [preview, setPreview] = useState<FileType | null>(null);
   const images = useRef<FileType[]>([]);
+  const index = useRef<number>(0);
 
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
+  const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
 
   // @ts-ignore
@@ -132,7 +134,10 @@ function Images({newData}: ImageProps) {
                         p: '3px'
                       }
                     }}
-                    onClick={() => setPreview(x)}/>
+                    onClick={() => {
+                      index.current = fileNumber;
+                      setPreview(x)
+                    }}/>
                 </Tooltip>
               </Grid>
             )
@@ -141,7 +146,22 @@ function Images({newData}: ImageProps) {
       </Grid>
       {preview && (
         <RenderPreview
-          isWide={isWide} preview={preview} handleClose={() => setPreview(null)} colors={colors} type="image"
+          handleNext={() => {
+            index.current = index.current + 1 >= images.current.length ? 0 : index.current + 1;
+            setPreview(images.current[index.current]);
+          }}
+          handlePrev={() => {
+            index.current = index.current - 1 > 0 ? index.current - 1 : (images.current.length - 1);
+            setPreview(images.current[index.current]);
+          }}
+          position={index.current}
+          amount={images.current.length}
+          isWide={isWide}
+          isHeight={isHeight}
+          preview={preview}
+          handleClose={() => setPreview(null)}
+          colors={colors}
+          type="image"
         />
       )}
     </MainMicrosite>
