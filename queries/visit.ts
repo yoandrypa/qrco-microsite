@@ -71,7 +71,7 @@ export const create = async (params: Create) => {
           { "N": visit.createdAt },
         ],
       };
-
+      console.log({ input });
       const command: ExecuteStatementCommand = new ExecuteStatementCommand(
         input);
       await ddbClient.send(command);
@@ -99,15 +99,13 @@ export const create = async (params: Create) => {
           { "N": "1" },
           { "S": params.shortLinkId.userId },
           {
-            "M": marshall({
-              "userId": params.shortLinkId.userId,
-              "createdAt": params.shortLinkId.createdAt,
-            }),
+            "M": marshall(params.shortLinkId),
           },
           // @ts-ignore
           { "N": Date.now() },
         ],
       };
+      console.log({ input });
       const command: ExecuteStatementCommand = new ExecuteStatementCommand(
         input);
       await ddbClient.send(command);
