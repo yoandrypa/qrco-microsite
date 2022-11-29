@@ -15,6 +15,7 @@ import { CustomError, removeWww } from "../utils";
 import * as Visit from "../queries/visit";
 
 export const create = async (data: any) => {
+  console.log({ visitData: data });
   try {
     if (data.headers["user-agent"] === "Amazon CloudFront") {
       const [browser = "Other"] = browsersList.filter(
