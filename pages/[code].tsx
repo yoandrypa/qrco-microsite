@@ -7,7 +7,6 @@ import { generateShortLink } from "../utils";
 import queries from "../queries";
 import * as VisitHandler from "../handlers/visit";
 import MainComponent from "../components/MainComponent";
-const requestIp = require('request-ip');
 
 // @ts-ignore
 export default function Handler ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -61,8 +60,6 @@ export const getServerSideProps: GetServerSideProps = async ({
       // Create visit data
       VisitHandler.create({
         headers: req.headers,
-        realIP: requestIp.getClientIp(req),
-        referrer: req.headers.referer,
         shortLinkId: qr.shortLinkId,
       }),
 

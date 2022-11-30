@@ -8,9 +8,11 @@ import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 interface Create {
   browser: string;
   country: string;
+  city: string;
   domain?: string;
   shortLinkId: { userId: string, createdAt: number };
   os: string;
+  dv: string;
   referrer: string;
 }
 
@@ -20,59 +22,84 @@ export const create = async (params: Create) => {
 
     const data = {
       ...params,
-      country: params.country.toLowerCase(),
-      referrer: params.referrer.toLowerCase(),
+      country: params.country,
+      referrer: params.referrer,
     };
 
     const prefix: string = process.env.REACT_NODE_ENV === "production"
       ? "prd"
       : "dev";
+
+    let input;
     if (visit) {
       let countries = Object.assign({}, visit.countries,
-        { [data.country]: visit.countries[data.country] + 1 });
-      countries = Object.keys(countries).map(key => {
-        return `'${key}' : ${countries[key]}`;
-      }).join(", ");
+        { [data.country]: (visit.countries[data.country] || 0) + 1 });
+
+      let cities = Object.assign({}, visit.cities,
+        { [data.city]: (visit.cities[data.city] || 0) + 1 });
+
       let referrers = Object.assign({}, visit.referrers, {
-        [data.referrer]: visit.referrers[data.referrer] + 1,
+        [data.referrer]: (visit.referrers[data.referrer] || 0) + 1,
       });
-      referrers = Object.keys(referrers).map(key => {
-        return `'${key}' : ${referrers[key]}`;
-      }).join(", ");
-      const input: ExecuteStatementCommandInput = {
+
+      input = <ExecuteStatementCommandInput>{
         Statement: `UPDATE ${prefix}_visits
-        SET br_${data.browser}=${visit[`br_${data.browser}`] + 1}
-        SET os_${data.os}=${visit[`os_${data.os}`] + 1}
-        SET total=${visit.total + 1}
-        SET countries={${countries}}
-        SET referrers={${referrers}}
-        WHERE userId='${visit.userId}' AND createdAt=${visit.createdAt}`,
+        SET br_${data.browser}=?
+        SET os_${data.os}=?
+        SET dv_${data.dv}=?
+        SET countries=?
+        SET cities=?
+        SET referrers=?
+        SET total=?
+        WHERE userId=? AND createdAt=?`,
+        Parameters: [
+          { "N": ((visit[`br_${data.browser}`] || 0) + 1).toString() },
+          { "N": ((visit[`os_${data.os}`] || 0) + 1).toString() },
+          { "N": ((visit[`dv_${data.dv}`] || 0) + 1).toString() },
+          { "M": marshall(countries) },
+          { "M": marshall(cities) },
+          { "M": marshall(referrers) },
+          { "N": (visit.total + 1).toString() },
+          { "S": visit.userId },
+          { "N": visit.createdAt.toString() },
+        ],
       };
-
-      const command: ExecuteStatementCommand = new ExecuteStatementCommand(
-        input);
-      await ddbClient.send(command);
     } else {
-      const input: ExecuteStatementCommandInput = {
+      input = <ExecuteStatementCommandInput>{
         Statement: `INSERT INTO ${prefix}_visits VALUE {
-            'br_${data.browser}' : 1,
-            'os_${data.os}' : 1,
-            'countries' : { '${data.country}' : 1 },
-            'referrers' : { '${data.referrer}' : 1 },
-            'total' : 1,
-            'userId' : '${params.shortLinkId.userId}',
-            'shortLinkId' : {
-                'userId' : '${params.shortLinkId.userId}',
-                'createdAt' : ${params.shortLinkId.createdAt}
-            },
-            'createdAt' : ${Date.now()}
+            'br_${data.browser}':?,
+            'os_${data.os}':?,
+            'dv_${data.dv}':?,
+            'countries':?,
+            'cities':?,
+            'referrers':?,
+            'total':?,
+            'userId':?,
+            'shortLinkId':?,
+            'createdAt':?
         }`,
+        Parameters: [
+          { "N": "1" },
+          { "N": "1" },
+          { "N": "1" },
+          { "M": marshall({ [data.country]: 1 }) },
+          { "M": marshall({ [data.city]: 1 }) },
+          { "M": marshall({ [data.referrer]: 1 }) },
+          { "N": "1" },
+          { "S": params.shortLinkId.userId },
+          {
+            "M": marshall({
+              "userId": params.shortLinkId.userId,
+              "createdAt": params.shortLinkId.createdAt,
+            }),
+          },
+          // @ts-ignore
+          { "N": Date.now().toString() },
+        ],
       };
-
-      const command: ExecuteStatementCommand = new ExecuteStatementCommand(
-        input);
-      await ddbClient.send(command);
     }
+    const command: ExecuteStatementCommand = new ExecuteStatementCommand(input);
+    await ddbClient.send(command);
   } catch (e) {
     throw e;
   }
