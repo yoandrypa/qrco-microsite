@@ -34,22 +34,13 @@ export const create = async (params: Create) => {
     if (visit) {
       let countries = Object.assign({}, visit.countries,
         { [data.country]: (visit.countries[data.country] || 0) + 1 });
-      /* countries = Object.keys(countries).map(key => {
-         return `'${key}' : ${countries[key]}`;
-       }).join(", ");*/
 
       let cities = Object.assign({}, visit.cities,
         { [data.city]: (visit.cities[data.city] || 0) + 1 });
-      /*cities = Object.keys(cities).map(key => {
-        return `'${key}' : ${cities[key]}`;
-      }).join(", ");*/
 
       let referrers = Object.assign({}, visit.referrers, {
         [data.referrer]: (visit.referrers[data.referrer] || 0) + 1,
       });
-      /*referrers = Object.keys(referrers).map(key => {
-        return `'${key}' : ${referrers[key]}`;
-      }).join(", ");*/
 
       input = <ExecuteStatementCommandInput>{
         Statement: `UPDATE ${prefix}_visits
