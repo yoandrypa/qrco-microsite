@@ -13,6 +13,14 @@ export default function RenderAddress({newData, colors}: RenderAddressProps) {
   if (!newData.address && !newData.city && !newData.zip && !newData.state && !newData.country) {
     return null;
   }
+
+  const addSect = (item: string, omitComma?: boolean): string => newData[item] ? `${newData[item]}${!omitComma ? ',' : ''} ` : '';
+
+  let address = `${addSect('address')}${addSect('city')}${addSect('state', true)}${addSect('zip')}${addSect('country')}`;
+  if (address.endsWith(', ')) {
+    address = address.slice(0, -2);
+  }
+
   return (
     <>
       <Grid item xs={1}>
@@ -21,11 +29,7 @@ export default function RenderAddress({newData, colors}: RenderAddressProps) {
       <Grid item xs={11}>
         <Typography sx={{ fontWeight: 'bold' }}>{'Address'}</Typography>
         <Grid container spacing={1}>
-          {newData.address && <RenderField value={newData.address} color={newData.secondary}/>}
-          {newData.city && <RenderField value={newData.city} sx={{ mt: '-10px' }}/>}
-          {newData.zip && <RenderField value={newData.zip} sx={{ mt: '-10px' }}/>}
-          {newData.state && <RenderField value={newData.state} sx={{ mt: '-10px' }}/>}
-          {newData.country && <RenderField value={newData.country || ""} sx={{ mt: '-10px' }}/>}
+          <RenderField value={address} />
         </Grid>
       </Grid>
     </>

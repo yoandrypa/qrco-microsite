@@ -76,15 +76,15 @@ const SamplesList = ({ newData }: SampleProp) => {
             {'MICROSITE'}
           </Typography>
           <Typography variant="h4" sx={{ display: 'inline-flex', color: theme => theme.palette.text.disabled, ml: 1 }}>
-            {'EXAMPLES'}
+            {'SAMPLES'}
           </Typography>
           <Typography sx={{ mb: 2, color: theme => theme.palette.text.disabled }}>
-            {'microsite'}
+            {`${newData.length} sample${newData.length !== 1 ? 's' : ''} found`}
           </Typography>
           <Grid container spacing={1}>
             {newData.map((x: any) => (
               <Grid item lg={3} md={4} sm={6} xs={12} key={`item${x.type}`}>
-                <TypeSelector handleSelect={goTo} label={x.type} description={x.desc} icon={x.type} baseUrl={baseUrl} />
+                <TypeSelector handleSelect={goTo} label={x.type === 'vcard' ? 'vcard plus' : x.type} description={x.desc} icon={x.type} baseUrl={baseUrl} />
               </Grid>
             ))}
           </Grid>
