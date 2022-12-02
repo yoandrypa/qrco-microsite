@@ -16,7 +16,6 @@ import * as Visit from "../queries/visit";
 
 export const create = async (data: any) => {
   try {
-    console.log({ headers: data.headers });
     if (data.headers["user-agent"] === "Amazon CloudFront") {
       const [browser = "Other"] = browsersList.filter(
         filterInHeaders(data.headers));
@@ -39,7 +38,7 @@ export const create = async (data: any) => {
       };
       const location = await geoip.lookup(realIp(data.headers));
       if (location) {
-        visit["city"] = location.timezone.split("/")[1];
+        visit["city"] = location.city || "Unknown";
       }
 
       await Visit.create(visit);
