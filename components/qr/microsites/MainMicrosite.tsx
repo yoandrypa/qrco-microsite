@@ -229,7 +229,8 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
         <Box sx={{
           width: '100%',
           minHeight: !containerDimensions ?
-            `calc(100vh - ${foreImg ? 256 : 226}px)` : `calc(${containerDimensions.parentHeight} + ${foreImg ? 65 : 85}px)`,
+            `calc(100vh - ${foreImg ? 256 : 226}px)` :
+            `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 232}px)`,
           mt: foreImg ? '30px' : 0
         }}>
           {children}
