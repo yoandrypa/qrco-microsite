@@ -6,7 +6,23 @@
     },
     {
       "link": "https://www.blog.com/cooper2022",
-      "label": "Cooper stories"
+      "label": "Cooper's stories"
+    },
+    {
+      "link": "https://www.cooper2022.com/gallery",
+      "label": "Cooper's gallery"
+    },
+    {
+      "link": "https://www.cooper2022.com/store",
+      "label": "Cooper's Store"
+    },
+    {
+      "link": "https://www.cooper2022.com/tips",
+      "label": "Pets cares & tips"
+    },
+    {
+      "link": "https://www.cooper2022.com/shop",
+      "label": "Pets toys & gadgets"
     }
   ],
   "shortLinkId": {
@@ -14,7 +30,7 @@
     "target": "https://app-dev.theqr.link/qr/c47407ac-c484-46c7-9fc6-25f36ba910c6",
     "updatedAt": "2022-11-15T23:25:42.490Z",
     "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
-    "visitCount": 13,
+    "visitCount": 16,
     "createdAt": "2022-11-15T23:25:42.486Z",
     "address": "gyRsSB",
     "type": "qr_link"
@@ -43,9 +59,9 @@
   },
   "isDynamic": true,
   "qrType": "link",
-  "about": "Pets also wanna be in touch",
+  "about": "Pets just wanna be in touch",
   "image": "",
-  "updatedAt": "2022-11-15T23:48:45.315Z",
+  "updatedAt": "2022-11-25T19:45:25.817Z",
   "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
   "socials": [
     {
@@ -67,7 +83,7 @@
   ],
   "id": "dbe8922c-eb5a-413a-9e66-cd2151d0b6bb",
   "position": "under",
-  "secondary": "#a8a6a1",
+  "secondary": "#ecece5",
   "primary": "#06284d",
   "title": "Cooper"
 }
