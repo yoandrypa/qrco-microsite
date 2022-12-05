@@ -9,8 +9,16 @@
       "label": "My podcast"
     },
     {
+      "link": "https://www.anniephoto.com/tips",
+      "label": "Tips & Tricks"
+    },
+    {
       "link": "https://a-qr.link/anniephoto",
       "label": "Buy me a coffee"
+    },
+    {
+      "link": "https://www.anniephoto.com/gallery",
+      "label": "My Art Gallery"
     }
   ],
   "shortLinkId": {
@@ -18,7 +26,7 @@
     "target": "https://app-dev.theqr.link/qr/48b6a7b1-a5ab-43dd-84cb-e5ede798c9cf",
     "updatedAt": "2022-11-09T18:36:18.761Z",
     "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-    "visitCount": 9,
+    "visitCount": 16,
     "createdAt": "2022-11-09T18:36:18.760Z",
     "address": "NnWKBo",
     "type": "qr_link"
@@ -37,11 +45,19 @@
       "Key": "links/design/75814571-79bf-4c74-accd-b4036e38bb04.jpg"
     }
   ],
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
   "isDynamic": true,
   "qrType": "link",
   "about": "Landscapes are my passion.",
   "image": "",
-  "updatedAt": "2022-11-15T22:59:06.151Z",
+  "updatedAt": "2022-11-25T18:05:37.532Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "foregndImgType": "smooth",
   "socials": [
@@ -63,7 +79,7 @@
     }
   ],
   "id": "31f4f2e4-6121-459e-a76a-3a877d27d8b1",
-  "secondary": "#9ece99",
+  "secondary": "#cef6c9",
   "primary": "#187510",
   "title": "Annie Photographer"
 }

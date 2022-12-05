@@ -4,7 +4,7 @@
     "target": "https://app-dev.theqr.link/qr/14e85ac0-2b51-4355-980c-eb4d98998705",
     "updatedAt": "2022-11-09T19:50:10.735Z",
     "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-    "visitCount": 12,
+    "visitCount": 23,
     "createdAt": "2022-11-09T19:50:10.687Z",
     "address": "5ADcub",
     "type": "qr_link"
@@ -13,13 +13,8 @@
   "createdAt": "2022-11-09T19:50:10.738Z",
   "backgndImg": [
     {
-      "ETag": "\"99fe6c5609885b2309d14c874a390823\"",
-      "$metadata": {
-        "totalRetryDelay": 0,
-        "httpStatusCode": 200,
-        "attempts": 1
-      },
-      "Key": "videos/design/982011d2-2d25-4a56-9868-60f90a0646b3.jpg"
+      "name": "1e5cf369-02a4-4bdc-81f7-1edf8d54d420.png",
+      "Key": "videos/design/1e5cf369-02a4-4bdc-81f7-1edf8d54d420.png"
     }
   ],
   "background": {
@@ -66,11 +61,11 @@
     }
   ],
   "image": "",
-  "updatedAt": "2022-11-16T00:52:50.785Z",
+  "updatedAt": "2022-11-25T18:38:09.391Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "description": "My adventurer spirit enjoys a lot making videos.",
   "id": "bf4aa3b0-4b6e-46a5-a2eb-91b850a8ff96",
-  "secondary": "#9ece99",
-  "primary": "#187510",
+  "secondary": "#c5d6e9",
+  "primary": "#0e4986",
   "title": "Adventurer"
 }
