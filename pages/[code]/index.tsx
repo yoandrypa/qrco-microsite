@@ -3,10 +3,10 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import DangerousIcon from "@mui/icons-material/Dangerous";
-import { generateShortLink } from "../utils";
-import queries from "../queries";
-import * as VisitHandler from "../handlers/visit";
-import MainComponent from "../components/MainComponent";
+import { generateShortLink } from "../../utils";
+import queries from "../../queries";
+import * as VisitHandler from "../../handlers/visit";
+import MainComponent from "../../components/MainComponent";
 
 // @ts-ignore
 export default function Handler ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -46,6 +46,15 @@ export const getServerSideProps: GetServerSideProps = async ({
     const link = await queries.link.getByAddress(code);
     if (!link) {
       return { props: { data: "NO DATA" } };
+    }
+
+    if (link.paused) {
+      return {
+        redirect: {
+          destination: "/" + code + "/paused",
+          permanent: false,
+        },
+      };
     }
 
     // @ts-ignore

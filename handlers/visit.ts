@@ -34,7 +34,6 @@ export const create = async (data: any) => {
         dv: device.split("-")[2],
         referrer: (referrer && referrer.replace(/\./gi, "[dot]")) || "Direct",
         city: "",
-        continent: "",
       };
       const location = await geoip.lookup(realIp(data.headers));
       if (location) {
