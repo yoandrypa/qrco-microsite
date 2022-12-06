@@ -27,7 +27,7 @@ const TypeSelector = ({baseUrl, handleSelect, label, description, icon, fileName
 
   const beforeHandle = (event: any) => {
     if (!['svg', 'BUTTON'].includes(event.target.tagName)) {
-      handleSelect(label);
+      handleSelect(fileName);
     }
   };
 
@@ -72,13 +72,13 @@ const TypeSelector = ({baseUrl, handleSelect, label, description, icon, fileName
                   console.log('Copy failed');
                 }
               }}
-              id={`example${icon}`}>
+              id={`example${fileName}`}>
               <ContentCopyIcon/>
             </IconButton>
           </Tooltip>
           <Box sx={{display: 'flex', p: 1}}>
             <Box sx={{mt: '3px'}}>
-              <RenderIcon enabled icon={icon.split('_')[0]} color={!over ? grey[800] : undefined}/>
+              <RenderIcon enabled icon={icon} color={!over ? grey[800] : undefined}/>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1, width: '100%'}}>
               <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
