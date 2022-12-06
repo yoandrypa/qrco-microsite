@@ -45,7 +45,7 @@
     {
       "type": "links",
       "file": "links_pet",
-      "name": "Links pet",
+      "name": "Links Pet",
       "desc": "Pets deserve to have presence online too"
     },
     {
@@ -57,7 +57,7 @@
     {
       "type": "social",
       "file": "social",
-      "name": "Social Netwprks",
+      "name": "Social Networks",
       "desc": "Putting all the social links together"
     },
     {
