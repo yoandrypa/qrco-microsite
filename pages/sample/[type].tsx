@@ -53,14 +53,6 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   // @ts-ignore
   let {type} = params;
 
-  if (type === 'vcard+') {
-    type = 'vcard';
-  } else if (['link', 'video'].includes(type)) {
-    type = type + 's';
-  } else if (type === 'donations') {
-    type = 'donation';
-  }
-
   let result: any;
 
   if (type === 'filesIndex') {
