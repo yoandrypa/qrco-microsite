@@ -16,10 +16,11 @@ interface TypeSelectorProps {
   label: string;
   description: string;
   icon: string;
+  fileName: string;
   baseUrl?: string;
 }
 
-const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSelectorProps) => {
+const TypeSelector = ({baseUrl, handleSelect, label, description, icon, fileName}: TypeSelectorProps) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [over, setOver] = useState<boolean>(false);
   const theme = useTheme();
@@ -65,7 +66,7 @@ const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSel
               }}
               onClick={() => {
                 try {
-                  navigator.clipboard.writeText(`${baseUrl}/${label}`);
+                  navigator.clipboard.writeText(`${baseUrl}/${fileName}`);
                   setCopied(true);
                 } catch {
                   console.log('Copy failed');
@@ -86,7 +87,7 @@ const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSel
                   fontWeight: 'bold',
                   color: over ? theme.palette.primary.dark : grey[800]
                 }} variant="h6">
-                  {label.split('_').join(' ').toUpperCase()}
+                  {label}
                 </Typography>
               </Box>
               <Typography sx={{width: '100%', color: grey[over ? 800 : 700]}}>
