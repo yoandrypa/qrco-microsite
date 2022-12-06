@@ -16,7 +16,6 @@ import * as Visit from "../queries/visit";
 
 export const create = async (data: any) => {
   try {
-    console.debug({ headers: data.headers });
     if (data.headers["user-agent"] === "Amazon CloudFront") {
       const [browser = "Other"] = browsersList.filter(
         filterInHeaders(data.headers));
