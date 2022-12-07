@@ -2,7 +2,6 @@ import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
 import Grid from "@mui/material/Grid";
-import {useMemo} from "react";
 import {getColors} from "./renderers/helper";
 import {ColorTypes} from "../types/types";
 
@@ -11,7 +10,7 @@ interface SocialProps {
 }
 
 export default function SocialInfo({newData}: SocialProps) {
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   return (
     <MainMicrosite

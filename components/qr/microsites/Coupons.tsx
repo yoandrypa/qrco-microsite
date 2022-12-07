@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import MainMicrosite from "./MainMicrosite";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -13,13 +12,14 @@ import RenderAddress from "./renderers/RenderAddress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RenderBadge from "./renderers/RenderBadge";
+import {ColorTypes} from "../types/types";
 
 interface CouponProps {
   newData: any;
 }
 
 export default function Coupons({newData}: CouponProps) {
-  const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   return (
     <MainMicrosite

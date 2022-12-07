@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
 import MainMicrosite from "./MainMicrosite";
-import { getColors, handleDownloadFiles } from "./renderers/helper";
-import { download } from "../../../handlers/storage";
-import { ColorTypes, FileType } from "../types/types";
+import {getColors, handleDownloadFiles} from "./renderers/helper";
+import {download} from "../../../handlers/storage";
+import {ColorTypes, FileType} from "../types/types";
 import DownloadIcon from "@mui/icons-material/Download";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
-import { getExtension } from "../../helpers/generalFunctions";
+import {getExtension} from "../../helpers/generalFunctions";
 import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
-import { useMediaQuery } from "@mui/material";
+import {useMediaQuery} from "@mui/material";
 
 interface FileProps {
   newData: any;
@@ -30,7 +30,7 @@ export default function FileMicro({ newData }: FileProps) {
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
 
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
