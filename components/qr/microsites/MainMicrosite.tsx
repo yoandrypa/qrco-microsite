@@ -21,8 +21,8 @@ interface MicrositesProps {
   type?: string;
   colors?: ColorTypes;
   url?: string;
-  backgndImg?: { Key: string; }[];
-  foregndImg?: { Key: string; }[];
+  backgndImg?: { Key: string; }[] | string;
+  foregndImg?: { Key: string; }[] | string;
   foregndImgType?: string;
   isSample?: boolean;
 }
@@ -61,14 +61,29 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
   useEffect(() => {
     if (backgndImg && !backImg) {
       setLoading(true);
-      getFiles(backgndImg[0].Key, 'backgndImg');
+      if (Array.isArray(backgndImg)) {
+        getFiles(backgndImg[0].Key, 'backgndImg');
+      } else {
+        setBackImg(backgndImg);
+      }
+    } else if (!backgndImg && backImg) {
+      setBackImg(undefined);
     }
+
     if (foregndImg && !foreImg) {
       setLoading(true);
-      getFiles(foregndImg[0].Key, 'foregndImg');
+      if (Array.isArray(foregndImg)) {
+        getFiles(foregndImg[0].Key, 'foregndImg');
+      } else {
+        setForeImg(foregndImg);
+      }
+    } else if (!foregndImg && foreImg) {
+      setForeImg(undefined);
     }
-    if (window.top !== window) { // that is to say we are iframed!!!
-      // @ts-ignore
+  }, [backgndImg, foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (window.top !== window) { // @ts-ignore
       window.top.postMessage( // @ts-ignore
         JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL
       );
@@ -145,7 +160,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
           <Box
             component="img"
             alt="backgimage"
-            src={backImg.content}
+            src={backImg.content || backImg}
             sx={{
               filter: 'opacity(0.87) contrast(0.75) blur(5px)',
               width: 'calc(100% + 20px)',
@@ -177,7 +192,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
             <Box
               component="img"
               alt="backgimage"
-              src={backImg.content}
+              src={backImg.content || backImg}
               sx={{width: '475px', height: '200px', position: 'absolute', right: 0}}/>
           )}
           {url !== undefined && (
@@ -208,7 +223,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
             <Box
               component="img"
               alt="foregimage"
-              src={foreImg.content}
+              src={foreImg.content || foreImg}
               sx={{
                 width: '100px',
                 height: '100px',
