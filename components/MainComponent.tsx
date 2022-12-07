@@ -23,9 +23,34 @@ export default function MainComponent({newData}: MainCompProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [iframed, setIframed] = useState<boolean>(false);
 
+  const [data, setData] = useState<any>(newData.isAnEmptyPreview === undefined ? newData : null);
+
   useEffect(() => {
-    setIframed(window.top !== window);
+    if (window.top !== window) { // @ts-ignore
+      window.top.postMessage( // @ts-ignore
+        JSON.stringify({readyForDuty: true}), process.env.REACT_APP_QRCO_URL
+      );
+      setIframed(true);
+    }
     setLoading(false);
+
+    const handler = (event: any) => {
+      if (event.origin === process.env.REACT_APP_QRCO_URL) {
+        try {
+          const data = JSON.parse(event.data)
+          if (data.previewData !== undefined) {
+            const {previewData} = data;
+            setData(previewData);
+          }
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    }
+
+    window.addEventListener('message', handler);
+
+    return () => window.removeEventListener('message', handler);
   }, []);
 
   if (loading) {
@@ -47,44 +72,44 @@ export default function MainComponent({newData}: MainCompProps) {
     );
   }
 
-  if (newData.samples) {
-    return <SamplesList newData={newData.samples}/>;
+  if (data?.samples) {
+    return <SamplesList newData={data.samples}/>;
   }
 
-  if (newData.qrType === "vcard+") {
-    return <VCard newData={newData}/>;
+  if (data?.qrType === "vcard+") {
+    return <VCard newData={data}/>;
   }
 
-  if (GALLERY.includes(newData.qrType)) {
-    return <Images newData={{...newData, iframed}}/>;
+  if (GALLERY.includes(data?.qrType)) {
+    return <Images newData={{...data, iframed}}/>;
   }
 
-  if (newData.qrType === "business") {
-    return <Business newData={newData}/>;
+  if (data?.qrType === "business") {
+    return <Business newData={data}/>;
   }
 
-  if (newData.qrType === "coupon") {
-    return <Coupons newData={newData}/>;
+  if (data?.qrType === "coupon") {
+    return <Coupons newData={data}/>;
   }
 
-  if (newData.qrType === "social") {
-    return <SocialInfo newData={newData}/>;
+  if (data?.qrType === "social") {
+    return <SocialInfo newData={data}/>;
   }
 
-  if (["web", "twitter", "whatsapp", "facebook"].includes(newData.qrType)) {
-    return <Web urlString={handleDesignerString(newData.qrType, newData)}/>;
+  if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
+    return <Web urlString={handleDesignerString(data.qrType, data)}/>;
   }
 
-  if (ASSETS.includes(newData.qrType)) {
-    return <FileMicro newData={newData}/>;
+  if (ASSETS.includes(data?.qrType)) {
+    return <FileMicro newData={data}/>;
   }
 
-  if (newData.qrType === "donations") {
-    return <Donations newData={newData}/>;
+  if (data?.qrType === "donations") {
+    return <Donations newData={data}/>;
   }
 
-  if (newData.qrType === "link") {
-    return <LinksMicro newData={newData}/>;
+  if (data?.qrType === "link") {
+    return <LinksMicro newData={data}/>;
   }
 
   return (
@@ -94,6 +119,9 @@ export default function MainComponent({newData}: MainCompProps) {
       left: "50%",
       transform: "translate(-50%, -50%)",
     }}>
+      {(!data && newData.isAnEmptyPreview) ? (
+        <Typography sx={{textAlign: 'center'}}>{'Preparing preview...'}</Typography>
+      ) : (
       <Box sx={{display: "flex", flexDirection: "column", width: "100%"}}>
         <EngineeringIcon color="primary" sx={{mx: "auto", fontSize: "50px"}}/>
         <Typography sx={{mx: "auto"}}>{"Work in progress."}</Typography>
@@ -102,6 +130,7 @@ export default function MainComponent({newData}: MainCompProps) {
           mx: "auto",
         }}>{"This is going to be ready very soon."}</Typography>
       </Box>
+      )}
     </Box>
   );
 }
