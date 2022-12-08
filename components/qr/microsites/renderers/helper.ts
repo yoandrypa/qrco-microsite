@@ -39,6 +39,13 @@ export function downloadVCard(data: any) {
   handleDownload(contents, 'text/plain', 'my vcard.vcf', true);
 }
 
+export function downloadPetID(data: any) {
+  // TODO
+  const contents = handleDesignerString("petid", data);
+
+  handleDownload(contents, 'text/plain', 'my petId.petId', true);
+}
+
 export function handleDownloadFiles(data: FileType, kind: string) {
   const type = data.type as string;
   let extension = getExtension(type);

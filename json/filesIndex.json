@@ -51,6 +51,10 @@
     {
       "type": "video",
       "desc": "Sharing the favorite video to be played or downloaded"
+    },
+    {
+      "type": "petId",
+      "desc": "A pet ID site with all the info about your pet"
     }
   ]
 }

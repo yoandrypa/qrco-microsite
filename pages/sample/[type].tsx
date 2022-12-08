@@ -52,6 +52,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
 export const getServerSideProps: GetServerSideProps = async ({params}) => {
   // @ts-ignore
   let {type} = params;
+  console.log(type);
 
   if (type === 'vcard+') {
     type = 'vcard';
@@ -60,7 +61,6 @@ export const getServerSideProps: GetServerSideProps = async ({params}) => {
   } else if (type === 'donations') {
     type = 'donation';
   }
-
   let result: any;
 
   if (type === 'filesIndex') {

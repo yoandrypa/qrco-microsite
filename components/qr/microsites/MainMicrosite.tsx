@@ -254,3 +254,5 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
     </>
   );
 }
+
+export type {MicrositesProps};
