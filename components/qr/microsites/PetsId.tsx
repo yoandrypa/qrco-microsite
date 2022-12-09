@@ -182,7 +182,7 @@ export default function PetsId({ newData }: PetIdProps) {
                 </Typography>
                 <Grid container spacing={0}>
                   {newData.otherDetails.map((item, index) => (
-                    <Grid container spacing={0}>
+                    <Grid container spacing={0} key={`other${index}`}>
                       {item.header && (
                         <RenderField
                           label={item.header.title}
@@ -192,6 +192,7 @@ export default function PetsId({ newData }: PetIdProps) {
                       )}
                       {item.details.map((detail, index) => (
                         <RenderField
+                          key={`otherVal${index}`}
                           label={detail.key}
                           value={detail.value}
                           size={16}
@@ -219,6 +220,7 @@ export default function PetsId({ newData }: PetIdProps) {
                   )}
                   {newData.links.links.map((item, index) => (
                         <RenderField
+                          key={`links${index}`}
                           label={item.title}
                           value={item.link}
                           size={16}
