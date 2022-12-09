@@ -14,7 +14,7 @@ import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
 import {getExtension} from "../../helpers/generalFunctions";
-import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
+import RenderTitleDesc from "./renderers/RenderTitleDesc";
 import {useMediaQuery} from "@mui/material";
 
 interface FileProps {
@@ -82,7 +82,7 @@ export default function FileMicro({ newData }: FileProps) {
       foregndImgType={newData.foregndImgType}
       isSample={newData.isSample}>
       <Box sx={{ p: 2 }}>
-        <RenderAssetsDesc newData={newData} colors={colors} />
+        <RenderTitleDesc newData={newData} colors={colors} />
         <Box sx={{
           color: colors.s,
           textAlign: 'center'
