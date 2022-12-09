@@ -1,34 +1,101 @@
 {
-    "qrType":"petId",
-    "petName": "Fido",
-    "petSpecie": "Dog",
-    "petBreed": "Labrador",
-    "petYearOfBirth": 2010,
-    "heading": "Labrador",
-    "subHeading": "Very friendly and loves to play",
-    "petPhoto": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-    "petPhotoAlt": "Fido the Labrador",
-    "headingText":{
-        "heading":"About Me",
-        "text":"I am so cute"
-    },
-    "foregndImg": [
+  "qrType": "petId",
+  "petName": "Fido",
+  "petSpecie": "Dog",
+  "petBreed": "Labrador",
+  "petYearOfBirth": 2010,
+  "heading": "Labrador",
+  "subHeading": "Very friendly and loves to play",
+  "petPhoto": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
+  "petPhotoAlt": "Fido the Labrador",
+  "contact": {
+    "name": "John Smith",
+    "address": "123 Main Street",
+    "city": "New York",
+    "state": "NY",
+    "zip": "10001",
+    "phone": "212-555-1212",
+    "email": "test@gmail.com"
+  },
+  "headingText": {
+    "heading": "About Me",
+    "text": "I am so cute"
+  },
+  "foregndImg": [
+    {
+      "ETag": "\"d2a9f5836e83f0f132d1e869a2e4d997\"",
+      "$metadata": {
+        "totalRetryDelay": 0,
+        "httpStatusCode": 200,
+        "attempts": 1
+      },
+      "Key": "vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
+    }
+  ],
+  "backgndImg": [
+    {
+      "name": "6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg",
+      "Key": "vcard+s/design/6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg"
+    }
+  ],
+  "otherDetails": [
+    {
+      "header": {
+        "title": "Fido hobbies",
+        "description": "Fido is a very active dog"
+      },
+      "details": [
         {
-          "ETag": "\"d2a9f5836e83f0f132d1e869a2e4d997\"",
-          "$metadata": {
-            "totalRetryDelay": 0,
-            "httpStatusCode": 200,
-            "attempts": 1
-          },
-          "Key": "vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
-        }
-      ],
-      "backgndImg": [
+          "key": "Hobbies",
+          "value": "Playing with toys"
+        },
         {
-          "name": "6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg",
-            "Key": "vcard+s/design/6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg"
+          "key": "Favorite toy",
+          "value": "Ball"
+        },
+        {
+          "key": "Favorite food",
+          "value": "Chicken"
+        },
+        {
+          "key": "Favorite place",
+          "value": "The park"
         }
       ]
-
-
+    }
+  ],
+  "links": {
+    "header": {
+      "title": "Fido Links",
+      "description": "Fido is a very active dog"
+    },
+    "links": [
+      {
+        "title": "Fido's personal website",
+        "link": "http://www.fido.com"
+      },
+      {
+        "title": "Fido's toy store",
+        "link": "http://www.fido.com/toys"
+      },
+      {
+        "title": "Fido's food store",
+        "link": "http://www.fido.com/food"
+      }
+    ]
+  },
+  "socials": [
+    {
+      "network": "facebook",
+      "value": "https://www.facebook.com/fido"
+    },
+    {
+      "network": "twitter",
+      "value": "https://twitter.com/fido"
+    },
+    {
+      "network": "instagram",
+      "value": "https://www.instagram.com/fido"
+    }
+  ]
 }

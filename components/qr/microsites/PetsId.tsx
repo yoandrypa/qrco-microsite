@@ -1,26 +1,26 @@
-import { useMemo } from "react";
-import Grid from "@mui/material/Grid";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
+import { useMemo, useRef, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import RingVolumeIcon from '@mui/icons-material/RingVolume';
 import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
 import WorkIcon from '@mui/icons-material/Work';
 import GetAppIcon from '@mui/icons-material/GetApp';
 
-import MainMicrosite, {MicrositesProps} from "./MainMicrosite";
-import RenderSocials from "./renderers/RenderSocials";
-import { downloadPetID, getColors } from "./renderers/helper";
+import MainMicrosite, { MicrositesProps } from './MainMicrosite';
+import RenderSocials from './renderers/RenderSocials';
+import { downloadPetID, getColors } from './renderers/helper';
+import { ContactMail, Dangerous, Info, Pets } from '@mui/icons-material';
+import { ColorTypes, FileType } from '../types/types';
+import { SocialNetworksType } from '../types/types';
+import RenderField from './renderers/RenderField';
+import RenderAddress from './renderers/RenderAddress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { Card, Link, List, ListItem, ListItemText } from '@mui/material';
 
-import { ColorTypes } from "../types/types";
-import {SocialNetworksType} from "../types/types";
-import RenderField from "./renderers/RenderField";
-import RenderAddress from "./renderers/RenderAddress";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
-
-interface PetData extends MicrositesProps{
+interface PetData extends MicrositesProps {
   qrType: string;
   petName: string;
   petSpecie: string;
@@ -32,6 +32,7 @@ interface PetData extends MicrositesProps{
   heading: string;
   subHeading: string;
   contact?: {
+    name?: string;
     email?: string;
     phone?: string;
     location?: string;
@@ -45,7 +46,7 @@ interface PetData extends MicrositesProps{
   headingText?: {
     heading: string;
     text: string;
-  }
+  };
   contactUs?: {
     title: string;
     floatingButton?: string;
@@ -60,41 +61,45 @@ interface PetData extends MicrositesProps{
       action?: {
         text: string;
         googleMapsLink: string;
-      }
-    }
-  }
+      };
+    };
+  };
   images?: {
     typeGrid?: string;
     images: [image: string];
-  }
-  otherDetails?: [otherDetail:{
-    header?: {
-      title: string;
-      description: string;
+  };
+  otherDetails?: [
+    otherDetail: {
+      header?: {
+        title: string;
+        description: string;
+      };
+      details: [detail: { key: string; value: string }];
     }
-    details: [detail: { key: string, value: string }];
-  }]
+  ];
   links?: {
     header?: {
       title: string;
       description: string;
-    }
-    links: [link: { title: string, subTitle: string, link: string }];
-  }
-  socials?: [SocialNetworksType]
+    };
+    links: [link: { title: string; subTitle: string; link: string }];
+  };
+  socials?: [SocialNetworksType];
 }
 
 interface PetIdProps {
-  newData:PetData;
+  newData: PetData;
 }
 
 export default function PetsId({ newData }: PetIdProps) {
   console.log('newData', newData);
+  const [preview, setPreview] = useState<FileType | null>(null);
+  const images = useRef<FileType[]>([]);
   function downloadFile() {
     downloadPetID({ ...newData });
   }
 
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = useMemo(() => getColors(newData), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainMicrosite
@@ -107,26 +112,135 @@ export default function PetsId({ newData }: PetIdProps) {
       isSample={newData.isSample}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={0}>
-          {(newData.petName) && (
+          {newData.petName && (
             <>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '30px', fontWeight: 'bold' }}>
+              <Grid item xs={1}>
+                <Pets sx={{ color: colors.p }} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
                   {`${newData.petName}`}
                 </Typography>
-              </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '16px', fontWeight: 'bold' }}>
-                  {`${newData.heading}`}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '12px', fontWeight: 'bold' }}>
-                  {`${newData.subHeading}`}
+                <Typography sx={{ fontSize: '12px' }}>
+                  {`${newData.petSpecie} ${newData.petBreed} ${
+                    newData.petGender ? newData.petGender : ''
+                  } ${newData.petYearOfBirth}`}
                 </Typography>
               </Grid>
             </>
           )}
-          <Card sx={{ width: '100%', mt: 2 }} elevation={0}>
+          {newData.headingText && (
+            <>
+              <Grid item xs={1}>
+                <Info sx={{ color: colors.p }} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography sx={{ fontWeight: 'bold' }}>
+                  {newData.headingText.heading}
+                </Typography>
+                <Grid container spacing={0}>
+                  {newData.headingText.text && (
+                    <RenderField value={newData.headingText.text} />
+                  )}
+                </Grid>
+              </Grid>
+            </>
+          )}
+          {newData.contact && (
+            <>
+              <Grid item xs={1}>
+                <ContactMail sx={{ color: colors.p }} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography sx={{ fontWeight: 'bold' }}>
+                  {'Owner Info'}
+                </Typography>
+                <Grid container spacing={0}>
+                  {newData.contact.name && (
+                    <RenderField value={newData.contact.name} />
+                  )}
+                  {newData.contact.email && (
+                    <RenderField value={newData.contact.email} icon='email'/>
+                  )}
+                  {newData.contact.phone && (
+                    <RenderField value={newData.contact.phone} icon='cell'/>
+                  )}
+                  {newData.contact.location && (
+                    <RenderField value={newData.contact.location} icon='location'/>
+                  )}
+                  {newData.contact.sms && (
+                    <RenderField value={newData.contact.sms} icon='sms'/>
+                  )}
+                  {newData.contact.fax && (
+                    <RenderField value={newData.contact.fax} icon='fax'/>
+                  )}
+                  {newData.contact.website && (
+                    <RenderField value={newData.contact.website} icon='web'/>
+                  )}
+                </Grid>
+              </Grid>
+            </>
+          )}
+          {newData.otherDetails && (
+            <>
+              <Grid item xs={1}>
+                <Info sx={{ color: colors.p }} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography sx={{ fontWeight: 'bold' }}>
+                  {'Other Details'}
+                </Typography>
+                <Grid container spacing={0}>
+                  {newData.otherDetails.map((item, index) => (
+                    <>
+                      {item.header && (
+                        <RenderField
+                          label={item.header.title}
+                          value={item.header.description}
+                          size={20}
+                        />
+                      )}
+                      {item.details.map((detail, index) => (
+                        <RenderField
+                          label={detail.key}
+                          value={detail.value}
+                          size={16}
+                          sx={{ p:0 }}
+                        />
+                      ))}
+                    </>
+                  ))}
+                </Grid>
+              </Grid>
+            </>
+          )}
+          {newData.links && (
+            <>
+              <Grid item xs={1}>
+                <Info sx={{ color: colors.p }} />
+              </Grid>
+              <Grid item xs={11}>
+                <Typography sx={{ fontWeight: 'bold' }}>
+                  {newData.links.header?.title}
+                </Typography>
+                <Grid container spacing={0}>
+                  {newData.links.header?.description && (
+                    <RenderField value={newData.links.header?.description} />
+                  )}
+                  {newData.links.links.map((item, index) => (
+                        <RenderField
+                          label={item.title}
+                          value={item.link}
+                          size={16}
+                          icon={'link'}
+                          link={item.link}
+                        />
+                  ))}
+                </Grid>
+              </Grid>
+            </>
+          )}
+          {/* <Card sx={{ width: '100%', mt: 2 }} elevation={0}>
             <Grid container spacing={1} sx={{ p: 2 }}>
               <Grid item xs={12} sx={{ textAlign: 'center' }}>
                 <Typography sx={{ fontSize: '16px', fontWeight: 'bold' }}>
@@ -139,7 +253,7 @@ export default function PetsId({ newData }: PetIdProps) {
                 </Typography>
               </Grid>
             </Grid>
-          </Card>
+          </Card> */}
           {/* {(newData.petSpecie || newData.petBreed || newData.petGender || newData.petYearOfBirth) && (
             <>
               <Grid item xs={12} sx={{ textAlign: 'center' }}>
@@ -193,7 +307,13 @@ export default function PetsId({ newData }: PetIdProps) {
               </Grid>
             </>
           )} */}
-          <Box sx={{ width: '100%', mt: 2, display: 'flex', justifyContent: 'center' }}>
+          <Box
+            sx={{
+              width: '100%',
+              mt: 2,
+              display: 'flex',
+              justifyContent: 'center'
+            }}>
             <RenderSocials newData={newData} onlyIcons />
           </Box>
         </Grid>
@@ -202,9 +322,15 @@ export default function PetsId({ newData }: PetIdProps) {
         <Button
           variant="contained"
           startIcon={<GetAppIcon />}
-          sx={{ my: '10px', color: colors.s, background: colors.p, '&:hover': { color: colors.p, background: colors.s } }}
-          onClick={downloadFile}
-        >{'Get Contact'}</Button>
+          sx={{
+            my: '10px',
+            color: colors.s,
+            background: colors.p,
+            '&:hover': { color: colors.p, background: colors.s }
+          }}
+          onClick={downloadFile}>
+          {'Get Contact'}
+        </Button>
       </CardActions>
     </MainMicrosite>
   );
