@@ -34,17 +34,11 @@ export function downloadVCard(data: any) {
     }
   });
 
-  const contents = handleDesignerString("vcard", data);
+  const contents = handleDesignerString("petId", data);
 
   handleDownload(contents, 'text/plain', 'my vcard.vcf', true);
 }
 
-export function downloadPetID(data: any) {
-  // TODO
-  const contents = handleDesignerString("petid", data);
-
-  handleDownload(contents, 'text/plain', 'my petId.petId', true);
-}
 
 export function handleDownloadFiles(data: FileType, kind: string) {
   const type = data.type as string;

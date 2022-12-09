@@ -9,8 +9,14 @@
   "petPhoto": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
   "petPhotoAlt": "Fido the Labrador",
   "contact": {
+    "title": "Owner Info",
     "name": "John Smith",
-    "address": "123 Main Street",
+    "address":{
+      "street1": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001"
+    },
     "city": "New York",
     "state": "NY",
     "zip": "10001",
@@ -23,19 +29,14 @@
   },
   "foregndImg": [
     {
-      "ETag": "\"d2a9f5836e83f0f132d1e869a2e4d997\"",
-      "$metadata": {
-        "totalRetryDelay": 0,
-        "httpStatusCode": 200,
-        "attempts": 1
-      },
-      "Key": "vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
+      "name": "aca02d01-d921-4464-8581-f9d5521464e4.png",
+      "Key": "links/design/aca02d01-d921-4464-8581-f9d5521464e4.png"
     }
   ],
   "backgndImg": [
     {
-      "name": "6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg",
-      "Key": "vcard+s/design/6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg"
+      "name": "735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png",
+      "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
     }
   ],
   "otherDetails": [
