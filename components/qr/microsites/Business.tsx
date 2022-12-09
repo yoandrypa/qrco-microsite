@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import MainMicrosite from "./MainMicrosite";
@@ -21,7 +20,7 @@ interface BusinessProps {
 }
 
 export default function Business({newData}: BusinessProps) {
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   const renderEasiness = (item: string, label: string) => (
     <SquareSelector

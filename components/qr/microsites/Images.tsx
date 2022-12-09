@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -51,7 +51,7 @@ function Images({newData}: ImageProps) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   let colNumber = images.current.length;
   let width = '0';

@@ -48,15 +48,6 @@ const SamplesList = ({ newData }: SampleProp) => {
   return (
     <>
       <CssBaseline />
-      {/*<Box*/}
-      {/*  component="img"*/}
-      {/*  alt="backgimage"*/}
-      {/*  src="/background_samples.png"*/}
-      {/*  sx={{*/}
-      {/*    width: '100%',*/}
-      {/*    height: '185px',*/}
-      {/*    objectFit: 'cover'*/}
-      {/*  }} />*/}
       <ElevationScroll>
         <AppBar component="nav" sx={{ background: "#fff", height }}>
           <Container sx={{ my: "auto" }}>
@@ -83,8 +74,8 @@ const SamplesList = ({ newData }: SampleProp) => {
           </Typography>
           <Grid container spacing={1}>
             {newData.map((x: any) => (
-              <Grid item lg={3} md={4} sm={6} xs={12} key={`item${x.type}`}>
-                <TypeSelector handleSelect={goTo} label={x.type === 'vcard' ? 'vcard plus' : x.type} description={x.desc} icon={x.type} baseUrl={baseUrl} />
+              <Grid item lg={3} md={4} sm={6} xs={12} key={`item${x.file}`}>
+                <TypeSelector handleSelect={goTo} label={x.name} description={x.desc} icon={x.type} baseUrl={baseUrl} fileName={x.file} />
               </Grid>
             ))}
           </Grid>

@@ -3,6 +3,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import DangerousIcon from "@mui/icons-material/Dangerous";
+import EngineeringIcon from '@mui/icons-material/Engineering';
 import { generateShortLink } from "../../utils";
 import queries from "../../queries";
 import * as VisitHandler from "../../handlers/visit";
@@ -10,7 +11,13 @@ import MainComponent from "../../components/MainComponent";
 
 // @ts-ignore
 export default function Handler ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (data === "NO DATA") {
+  const renderContactSupport = () => (
+    <a target="_blank" href="mailto:info@ebanux.com"
+       rel="noopener noreferrer"
+       style={{ color: "royalblue" }}>{"here"}</a>
+  );
+
+  if (['NO DATA', 'NOT FOUND'].includes(data)) {
     return (
       <Box sx={{
         position: "absolute",
@@ -19,16 +26,30 @@ export default function Handler ({ data }: InferGetServerSidePropsType<typeof ge
         transform: "translate(-50%, -50%)",
       }}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-          <DangerousIcon color="error" sx={{ mx: "auto", fontSize: "50px" }}/>
-          <Typography>{"Ops! Something went wrong and we are unable to process your request at this time."}</Typography>
-          <Typography
-            sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
-            {"Please, contact support by clicking "}
-            <a target="_blank" href="mailto:info@ebanux.com"
-               rel="noopener noreferrer"
-               style={{ color: "royalblue" }}>{"here"}</a>
-            {"."}
-          </Typography>
+          {data === 'NO DATA' ? (
+            <>
+              <DangerousIcon color="error" sx={{ mx: "auto", fontSize: "50px" }}/>
+              <Typography>{"Ops! Something went wrong and we are unable to process your request at this time."}</Typography>
+              <Typography
+                sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
+                {"Please, contact support by clicking "}
+                {renderContactSupport()}
+                {"."}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <EngineeringIcon color="info" sx={{ mx: "auto", fontSize: "50px" }}/>
+              <Typography sx={{fontWeight: 'bold', mx: 'auto'}}>{"Your request cannot be processed at this time."}</Typography>
+              <Typography sx={{mx: 'auto'}}>{"The requested short URL is not ready, or it does not exist. Maybe you forgot to save your microsite's data."}</Typography>
+              <Typography sx={{mx: 'auto'}}>{"Please, check your data and retry within a moment."}</Typography>
+              <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
+                {"This is not an error, but you can reach support by clicking "}
+                {renderContactSupport()}
+                {" for more information."}
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
     );
@@ -89,7 +110,8 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   } catch {
     return {
-      notFound: true,
+      props: { data: "NOT FOUND" }
+      // notFound: true,
     };
   }
 };

@@ -2,54 +2,80 @@
   "files": [
     {
       "type": "donation",
+      "file": "donation",
+      "name": "Donation",
       "desc": "A kindly invitation to make a donation"
     },
     {
       "type": "audio",
+      "file": "audio",
+      "name": "Audio",
       "desc": "Play an electronic music track"
     },
     {
       "type": "business",
+      "file": "business",
+      "name": "Business",
       "desc": "Get info about a healthy food business"
     },
     {
-      "type": "business_fast",
+      "type": "business",
+      "file": "business_fast",
+      "name": "Business Fast",
       "desc": "A mobile-friendly landing page for a fast food business"
     },
     {
       "type": "coupon",
+      "file": "coupon",
+      "name": "Coupon",
       "desc": "Announcing a sales promotion with a discount coupon"
     },
     {
       "type": "gallery",
+      "file": "gallery",
+      "name": "Gallery",
       "desc": "A virtual photography exhibition"
     },
     {
       "type": "links",
+      "file": "links",
+      "name": "Links",
       "desc": "Get in touch with a creator on every platform"
     },
     {
-      "type": "links_pet",
+      "type": "links",
+      "file": "links_pet",
+      "name": "Links Pet",
       "desc": "Pets deserve to have presence online too"
     },
     {
       "type": "pdf",
+      "file": "pdf",
+      "name": "PDF",
       "desc": "Sharing a tutorial document with the followers"
     },
     {
       "type": "social",
+      "file": "social",
+      "name": "Social Networks",
       "desc": "Putting all the social links together"
     },
     {
       "type": "vcard",
+      "file": "vcard",
+      "name": "vCard Plus",
       "desc": "A digital business card to avoid printing"
     },
     {
-      "type": "videos",
+      "type": "video",
+      "file": "videos",
+      "name": "Videos",
       "desc": "A nice place to share some trip videos"
     },
     {
       "type": "video",
+      "file": "video",
+      "name": "Sharing a video",
       "desc": "Sharing the favorite video to be played or downloaded"
     },
     {

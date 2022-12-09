@@ -1,8 +1,8 @@
-import { useMemo, useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import { getColors } from "./renderers/helper";
-import { ColorTypes } from "../types/types";
+import {getColors} from "./renderers/helper";
+import {ColorTypes} from "../types/types";
 import Typography from '@mui/material/Typography';
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
@@ -10,12 +10,13 @@ import Box from '@mui/material/Box'
 import TextField from "@mui/material/TextField";
 import MainMicrosite from "./MainMicrosite";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useRouter} from "next/router";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 import LoadingButton from '@mui/lab/LoadingButton'
 import Button from '@mui/material/Button'
 import Dialog from "@mui/material/Dialog";
-import { DialogActions, DialogContent, DialogContentText } from "@mui/material";
+import {DialogActions, DialogContent, DialogContentText} from "@mui/material";
+
 interface DonationsProps {
   newData: any;
 }
@@ -23,7 +24,7 @@ interface DonationsProps {
 type BoxOptions = 'first' | 'second' | 'third' | 'input';
 
 export default function DonationsInfo({ newData }: DonationsProps) {
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
   const [inputValue, setInputValue] = useState<string>('1')
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)

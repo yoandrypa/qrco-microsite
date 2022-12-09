@@ -16,17 +16,18 @@ interface TypeSelectorProps {
   label: string;
   description: string;
   icon: string;
+  fileName: string;
   baseUrl?: string;
 }
 
-const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSelectorProps) => {
+const TypeSelector = ({baseUrl, handleSelect, label, description, icon, fileName}: TypeSelectorProps) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [over, setOver] = useState<boolean>(false);
   const theme = useTheme();
 
   const beforeHandle = (event: any) => {
     if (!['svg', 'BUTTON'].includes(event.target.tagName)) {
-      handleSelect(label);
+      handleSelect(fileName);
     }
   };
 
@@ -65,19 +66,19 @@ const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSel
               }}
               onClick={() => {
                 try {
-                  navigator.clipboard.writeText(`${baseUrl}/${label}`);
+                  navigator.clipboard.writeText(`${baseUrl}/${fileName}`);
                   setCopied(true);
                 } catch {
                   console.log('Copy failed');
                 }
               }}
-              id={`example${icon}`}>
+              id={`example${fileName}`}>
               <ContentCopyIcon/>
             </IconButton>
           </Tooltip>
           <Box sx={{display: 'flex', p: 1}}>
             <Box sx={{mt: '3px'}}>
-              <RenderIcon enabled icon={icon.split('_')[0]} color={!over ? grey[800] : undefined}/>
+              <RenderIcon enabled icon={icon} color={!over ? grey[800] : undefined}/>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'column', textAlign: 'left', ml: 1, width: '100%'}}>
               <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
@@ -86,7 +87,7 @@ const TypeSelector = ({baseUrl, handleSelect, label, description, icon}: TypeSel
                   fontWeight: 'bold',
                   color: over ? theme.palette.primary.dark : grey[800]
                 }} variant="h6">
-                  {label.split('_').join(' ').toUpperCase()}
+                  {label}
                 </Typography>
               </Box>
               <Typography sx={{width: '100%', color: grey[over ? 800 : 700]}}>

@@ -1,11 +1,10 @@
-import {useMemo} from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import {getColors} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
-import {LinkType} from "../types/types";
+import {ColorTypes, LinkType} from "../types/types";
 import RenderSocials from "./renderers/RenderSocials";
 
 interface LinksProps {
@@ -13,7 +12,7 @@ interface LinksProps {
 }
 
 export default function LinksMicro({newData}: LinksProps) {
-  const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   const renderBtn = (item: LinkType, key: string) => (
     <Button

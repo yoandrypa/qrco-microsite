@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
@@ -28,7 +27,7 @@ export default function VCard({newData}: VCardProps) {
     downloadVCard({...newData});
   }
 
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const colors = getColors(newData) as ColorTypes;
 
   return (
     <MainMicrosite
