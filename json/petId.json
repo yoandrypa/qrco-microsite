@@ -1,0 +1,103 @@
+{
+  "qrType": "petId",
+  "petName": "Fido",
+  "petSpecie": "Dog",
+  "petBreed": "Labrador",
+  "petYearOfBirth": 2010,
+  "heading": "Labrador",
+  "subHeading": "Very friendly and loves to play",
+  "petPhoto": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
+  "petPhotoAlt": "Fido the Labrador",
+  "url": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
+  "contact": {
+    "title": "Owner Info",
+    "name": "John Smith",
+    "address":{
+      "street1": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zip": "10001"
+    },
+    "city": "New York",
+    "state": "NY",
+    "zip": "10001",
+    "phone": "212-555-1212",
+    "email": "test@gmail.com"
+  },
+  "headingText": {
+    "heading": "About Me",
+    "text": "I am so cute"
+  },
+  "foregndImg": [
+    {
+      "name": "aca02d01-d921-4464-8581-f9d5521464e4.png",
+      "Key": "links/design/aca02d01-d921-4464-8581-f9d5521464e4.png"
+    }
+  ],
+  "backgndImg": [
+    {
+      "name": "735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png",
+      "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
+    }
+  ],
+  "otherDetails": [
+    {
+      "header": {
+        "title": "Fido hobbies",
+        "description": "Fido is a very active dog"
+      },
+      "details": [
+        {
+          "key": "Hobbies",
+          "value": "Playing with toys"
+        },
+        {
+          "key": "Favorite toy",
+          "value": "Ball"
+        },
+        {
+          "key": "Favorite food",
+          "value": "Chicken"
+        },
+        {
+          "key": "Favorite place",
+          "value": "The park"
+        }
+      ]
+    }
+  ],
+  "links": {
+    "header": {
+      "title": "Fido Links",
+      "description": "Fido is a very active dog"
+    },
+    "links": [
+      {
+        "title": "Fido's personal website",
+        "link": "http://www.fido.com"
+      },
+      {
+        "title": "Fido's toy store",
+        "link": "http://www.fido.com/toys"
+      },
+      {
+        "title": "Fido's food store",
+        "link": "http://www.fido.com/food"
+      }
+    ]
+  },
+  "socials": [
+    {
+      "network": "facebook",
+      "value": "https://www.facebook.com/fido"
+    },
+    {
+      "network": "twitter",
+      "value": "https://twitter.com/fido"
+    },
+    {
+      "network": "instagram",
+      "value": "https://www.instagram.com/fido"
+    }
+  ]
+}

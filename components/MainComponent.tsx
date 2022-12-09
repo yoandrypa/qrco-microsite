@@ -1,6 +1,7 @@
 import VCard from "./qr/microsites/VCard";
 import Images from "./qr/microsites/Images";
 import Business from "./qr/microsites/Business";
+import PetsId from "./qr/microsites/PetsId";
 import Coupons from "./qr/microsites/Coupons";
 import SocialInfo from "./qr/microsites/SocialInfo";
 import Web from "./qr/microsites/Web";
@@ -111,7 +112,9 @@ export default function MainComponent({newData}: MainCompProps) {
   if (data?.qrType === "link") {
     return <LinksMicro newData={data}/>;
   }
-
+  if(newData.qrType === "petId"){
+    return <PetsId newData={newData}/>
+  }
   return (
     <Box sx={{
       position: "absolute",

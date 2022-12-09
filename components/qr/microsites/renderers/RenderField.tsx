@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import InputAdornment from "@mui/material/InputAdornment";
 import RenderIcon from "../../helperComponents/RenderIcon";
 import {DEFAULT_COLORS} from "../../constants";
+import { Link } from "@mui/material";
 
 interface RenderFieldProps {
   size?: number;
@@ -10,11 +11,13 @@ interface RenderFieldProps {
   value: string;
   icon?: string;
   color?: string;
+  link?: string;
   sx?: Object;
 }
 
-export default function RenderField({size, label, value, icon, color, sx}: RenderFieldProps) {
-  return (
+export default function RenderField({size, label, value, icon, color, link, sx}: RenderFieldProps) {
+  
+  const component = (
     <Grid item xs={size || 12} sx={{pt: 0}}>
       <TextField
         sx={{'.MuiInputBase-input': { mt: '-1px', ...sx }}}
@@ -36,4 +39,5 @@ export default function RenderField({size, label, value, icon, color, sx}: Rende
       />
     </Grid>
   );
+  return link ? (<Link href={link} target="_blank" rel="noopener noreferrer">{component}</Link>) : component;
 }

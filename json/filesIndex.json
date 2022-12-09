@@ -77,6 +77,12 @@
       "file": "video",
       "name": "Sharing a video",
       "desc": "Sharing the favorite video to be played or downloaded"
+    },
+    {
+      "type": "petId",
+      "desc": "A pet ID site with all the info about your pet",
+      "name": "Pet ID",
+      "file": "petId"
     }
   ]
 }
