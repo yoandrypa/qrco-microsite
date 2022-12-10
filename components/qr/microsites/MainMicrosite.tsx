@@ -59,25 +59,25 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
   }
 
   useEffect(() => {
-    if (backgndImg && !backImg) {
+    if (backgndImg) {
       setLoading(true);
       if (Array.isArray(backgndImg)) {
         getFiles(backgndImg[0].Key, 'backgndImg');
       } else {
         setBackImg(backgndImg);
       }
-    } else if (!backgndImg && backImg) {
+    } else if (backImg) {
       setBackImg(undefined);
     }
 
-    if (foregndImg && !foreImg) {
+    if (foregndImg) {
       setLoading(true);
       if (Array.isArray(foregndImg)) {
         getFiles(foregndImg[0].Key, 'foregndImg');
       } else {
         setForeImg(foregndImg);
       }
-    } else if (!foregndImg && foreImg) {
+    } else if (foreImg) {
       setForeImg(undefined);
     }
   }, [backgndImg, foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps

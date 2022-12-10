@@ -14,7 +14,7 @@ interface RenderPreviewProps {
   handleClose: () => void;
   colors: ColorTypes;
   type: string;
-  preview: FileType;
+  preview: FileType | string;
   position?: number;
   amount?: number;
   handleNext?: () => void;
@@ -26,6 +26,7 @@ interface RenderPreviewProps {
 export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
                                         colors, preview, type }: RenderPreviewProps) {
   const wide = isWide && isHeight;
+  const isString = typeof preview === 'string';
 
   return (
     <Dialog onClose={handleClose} open={true} fullScreen={type === 'image' ? !wide : false}>
@@ -36,21 +37,26 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
         p: wide ? 1 : 0
       }}>
         {type === 'image' ? (
-          <RenderPreviewImage isWide={isWide} type={type} preview={preview} handleClose={handleClose} amount={amount}
-                              handlePrev={handlePrev} handleNext={handleNext} position={position} isHeight={isHeight} />
+          <RenderPreviewImage
+            isWide={isWide} type={type} preview={preview} handleClose={handleClose} amount={amount}
+            handlePrev={handlePrev} handleNext={handleNext} position={position} isHeight={isHeight} />
         ) : (
           <Box sx={{p: 1}}>
-            {type === 'video' && <RenderPreviewVideo content={preview.content} type={preview.type}/>}
-            {type === 'pdf' && <RenderPreviewPdf content={preview.content} asDialog/>}
+            {type === 'video' && (
+              <RenderPreviewVideo
+                content={isString ? preview : preview.content}
+                type={!isString ? preview.type : 'VIDEO'}/>
+            )}
+            {type === 'pdf' && <RenderPreviewPdf content={isString ? preview : preview.content} asDialog/>}
             <Button
               sx={{
                 mt: 1,
                 color: colors.p,
-                background: preview.content,
+                background: isString ? preview : preview.content,
                 '&:hover': {color: colors.s, background: colors.p}
               }}
               variant="outlined"
-              onClick={() => handleDownloadFiles(preview, type)}
+              onClick={() => { if (typeof preview !== 'string') {handleDownloadFiles(preview, type)}} }
               startIcon={<DownloadIcon/>}
             >
               {'Download'}

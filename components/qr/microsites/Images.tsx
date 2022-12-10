@@ -19,8 +19,9 @@ interface ImageProps {
 
 function Images({newData}: ImageProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
-  const [preview, setPreview] = useState<FileType | null>(null);
-  const images = useRef<FileType[]>([]);
+  const [preview, setPreview] = useState<FileType | string | null>(null);
+  const [hideTooltip, setHideTooltip] = useState<boolean>(false);
+  const images = useRef<FileType[] | string[]>([]);
   const index = useRef<number>(0);
 
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
@@ -30,11 +31,10 @@ function Images({newData}: ImageProps) {
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
 
-  const getImages = (files: object[]) => {
+  const getImages = (files: object[] | string[]) => {
     try {
       files.forEach(async (x: any) => {
-        const data = await download(x.Key, newData.isSample);
-
+        const data = typeof x !== "string" ? await download(x.Key, newData.isSample) : x;
         // @ts-ignore
         images.current.push(data);
         forceUpdate();
@@ -49,7 +49,11 @@ function Images({newData}: ImageProps) {
     if (newData.files?.length) {
       getImages(newData.files);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [newData.files]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setHideTooltip(window.top !== window);
+  }, []);
 
   const colors = getColors(newData) as ColorTypes;
 
@@ -96,52 +100,47 @@ function Images({newData}: ImageProps) {
           <Typography>{'Please wait...'}</Typography>
         )}
       </Box>
-      <Grid container spacing={1} sx={{p: 2}}>
-        {/* @ts-ignore */}
-        {images.current.length ? images.current.map((x: FileType, fileNumber: number) => {
-            if (!x) {
-              return (
-                <Box key={`mainIt${fileNumber}`} sx={{
-                  mt: '5px',
-                  width: 'calc(100% - 10px)',
-                  ml: '5px',
-                  p: 2,
-                  border: `solid 1px ${colors.p}`,
-                  borderRadius: '5px'
-                }}>
-                  <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
-                    <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
-                    {'Error loading image.'}
-                  </Typography>
-                </Box>
-              );
-            }
-            const img = x.content;
+      <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
+        {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
+          if (!x) {
             return (
-              <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
-                <Tooltip title="Click to enlarge">
-                  <Box
-                    key={`img${img}`}
-                    component="img"
-                    src={img}
-                    alt="image"
-                    sx={{
-                      width,
-                      cursor: 'pointer',
-                      '&:hover': {
-                        border: theme => `solid 1px ${theme.palette.primary.light}`,
-                        borderRadius: '2px',
-                        p: '3px'
-                      }
-                    }}
-                    onClick={() => {
-                      index.current = fileNumber;
-                      setPreview(x)
-                    }}/>
-                </Tooltip>
-              </Grid>
-            )
+              <Box key={`mainIt${fileNumber}`} sx={{
+                mt: '5px',
+                width: 'calc(100% - 10px)',
+                ml: '5px',
+                p: 2,
+                border: `solid 1px ${colors.p}`,
+                borderRadius: '5px'
+              }}>
+                <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                  <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
+                  {'Error loading image.'}
+                </Typography>
+              </Box>
+            );
           }
+          const img = typeof x === 'string' ? x : x.content;
+          return (
+            <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
+              <Tooltip title="Click to enlarge" disableHoverListener={hideTooltip}>
+                <Box
+                  key={`img${img}`}
+                  component="img"
+                  src={img}
+                  alt="image"
+                  sx={{
+                    width,
+                    cursor: 'pointer',
+                    borderRadius: '4px',
+                    '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
+                  }}
+                  onClick={() => {
+                    index.current = fileNumber;
+                    setPreview(x)
+                  }}/>
+              </Tooltip>
+            </Grid>
+          )}
         ) : null}
       </Grid>
       {preview && (
