@@ -19,14 +19,12 @@ import LinkIcon from '@mui/icons-material/Link';
 interface PetData extends MicrositesProps {
   qrType: string;
   petName: string;
-  petSpecie: string;
+  // petSpecie: string;
   petBreed?: string;
   petGender?: string;
   petYearOfBirth?: string;
   // petPhoto?: string;
   // petPhotoAlt?: string;
-  heading: string;
-  subHeading: string;
   contact?: {
     title: string;
     name?: string;
@@ -102,14 +100,12 @@ export default function PetsId({ newData }: PetIdProps) {
                 <Pets sx={{ color: colors.p }} />
               </Grid>
               <Grid item xs={11} key='petBody'>
-                <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
                   {`${newData.petName}`}
                 </Typography>
-                <Typography sx={{ fontSize: '12px' }}>
-                  {`${newData.petSpecie} ${newData.petBreed} ${
+                <RenderField value={`${newData.petBreed} ${
                     newData.petGender ? newData.petGender : ''
-                  } ${newData.petYearOfBirth}`}
-                </Typography>
+                  } ${newData.petYearOfBirth}`} />
               </Grid>
             </>
           )}
@@ -187,7 +183,6 @@ export default function PetsId({ newData }: PetIdProps) {
                         <RenderField
                           label={item.header.title}
                           value={item.header.description}
-                          size={20}
                         />
                       )}
                       {item.details.map((detail, index) => (
@@ -195,7 +190,6 @@ export default function PetsId({ newData }: PetIdProps) {
                           key={`otherVal${index}`}
                           label={detail.key}
                           value={detail.value}
-                          size={16}
                           sx={{ p:0 }}
                         />
                       ))}
@@ -223,7 +217,6 @@ export default function PetsId({ newData }: PetIdProps) {
                           key={`links${index}`}
                           label={item.title}
                           value={item.link}
-                          size={16}
                           icon={'link'}
                           link={item.link}
                         />
