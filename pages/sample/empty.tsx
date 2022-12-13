@@ -1,7 +1,10 @@
-import {useEffect} from "react";
+import {Suspense, useEffect} from "react";
+import dynamic from "next/dynamic";
 
-import MainComponent from "../../components/MainComponent";
 import {useRouter} from "next/router";
+import PleaseWait from "../../components/PleaseWait";
+
+const MainComponent = dynamic(() => import('../../components/MainComponent'), {suspense:true, ssr: false});
 
 export default function Empty() {
   const router = useRouter();
@@ -12,5 +15,9 @@ export default function Empty() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <MainComponent newData={{isAnEmptyPreview: true}}/>;
+  return (
+    <Suspense fallback={<PleaseWait />}>
+      <MainComponent newData={{isAnEmptyPreview: true}}/>
+    </Suspense>
+  );
 }
