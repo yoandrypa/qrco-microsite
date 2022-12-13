@@ -63,7 +63,7 @@ export default function FileMicro({ newData }: FileProps) {
   };
 
   useEffect(() => {
-    files.current = []; debugger;
+    files.current = [];
     if (newData.files?.length) {
       getFiles(newData.files);
     } else {
