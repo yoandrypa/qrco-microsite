@@ -35,9 +35,10 @@ function Images({newData}: ImageProps) {
     try {
       files.forEach(async (x: any) => {
         const data = typeof x !== "string" ? await download(x.Key, newData.isSample) : x;
-        // @ts-ignore
-        images.current.push(data);
-        forceUpdate();
+        if (images.current.length < newData.files.length) { // @ts-ignore
+          images.current.push(data);
+          forceUpdate();
+        }
       });
     } catch {
       console.log("error");
@@ -48,6 +49,8 @@ function Images({newData}: ImageProps) {
     images.current = [];
     if (newData.files?.length) {
       getImages(newData.files);
+    } else {
+      forceUpdate();
     }
   }, [newData.files]); // eslint-disable-line react-hooks/exhaustive-deps
 

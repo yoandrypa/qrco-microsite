@@ -105,6 +105,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
               document.body.style.transformOrigin = '0 0';
               document.body.style.width = `${100 + percent}%`;
             }
+            window.removeEventListener('message', handler);
           }
         } catch (e) {
           console.error(e)

@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
 import SamplesList from "./SamplesList";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {ASSETS, GALLERY} from "./helpers/generalFunctions";
 
 interface MainCompProps {
@@ -22,18 +22,19 @@ interface MainCompProps {
 
 export default function MainComponent({newData}: MainCompProps) {
   const [loading, setLoading] = useState<boolean>(true);
-  const [iframed, setIframed] = useState<boolean>(false);
-
   const [data, setData] = useState<any>(newData.isAnEmptyPreview === undefined ? newData : null);
 
+  const iframed = useRef<boolean>(false);
+
   useEffect(() => {
+    setLoading(false);
+
     if (window.top !== window) { // @ts-ignore
       window.top.postMessage( // @ts-ignore
         JSON.stringify({readyForDuty: true}), process.env.REACT_APP_QRCO_URL
       );
-      setIframed(true);
+      iframed.current = true;
     }
-    setLoading(false);
 
     const handler = (event: any) => {
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
@@ -81,7 +82,7 @@ export default function MainComponent({newData}: MainCompProps) {
   }
 
   if (GALLERY.includes(data?.qrType)) {
-    return <Images newData={{...data, iframed}}/>;
+    return <Images newData={{...data, iframed: iframed.current}}/>;
   }
 
   if (data?.qrType === "business") {
@@ -111,9 +112,11 @@ export default function MainComponent({newData}: MainCompProps) {
   if (data?.qrType === "link") {
     return <LinksMicro newData={data}/>;
   }
+
   if(newData.qrType === "petId"){
     return <PetsId newData={newData}/>
   }
+
   return (
     <Box sx={{
       position: "absolute",
