@@ -12,6 +12,7 @@ import {capitalize} from "@mui/material";
 import {DEFAULT_COLORS} from "../../constants";
 import {SocialNetworksType} from "../../types/types";
 import Typography from "@mui/material/Typography";
+import {useEffect, useState} from "react";
 
 interface RenderSocialsProps {
   newData: any;
@@ -20,6 +21,8 @@ interface RenderSocialsProps {
 }
 
 export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsProps) {
+  const [hideTooltips, setHideToolTips] = useState<boolean>(false);
+
   const handleCopy = (data: string) => {
     try {
       navigator.clipboard.writeText(data);
@@ -73,7 +76,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
 
     if (onlyIcons) {
       return (
-        <Tooltip title={`Go to ${label}`}>
+        <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
           <IconButton target="_blank" component="a" href={url}>
             <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p} />
           </IconButton>
@@ -99,12 +102,12 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <Tooltip title={`Copy ${label} contact info to clipboard`}>
+              <Tooltip title={`Copy ${label} contact info to clipboard`} disableHoverListener={hideTooltips || false}>
                 <IconButton onClick={() => handleCopy(url)}>
                   <ContentCopyIcon sx={{color: newData.secondary || DEFAULT_COLORS.s}}/>
                 </IconButton>
               </Tooltip>
-              <Tooltip title={`Go to ${label}`}>
+              <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
                 <IconButton target="_blank" component="a" href={url}>
                   <ForwardIcon sx={{color: newData.secondary || DEFAULT_COLORS.s}}/>
                 </IconButton>
@@ -115,6 +118,10 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
       />
     );
   }
+
+  useEffect(() => {
+    setHideToolTips(window.top !== window);
+  }, []);
 
   return (
     <>
