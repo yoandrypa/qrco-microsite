@@ -1,20 +1,23 @@
-import VCard from "./qr/microsites/VCard";
-import Images from "./qr/microsites/Images";
-import Business from "./qr/microsites/Business";
-import PetsId from "./qr/microsites/PetsId";
-import Coupons from "./qr/microsites/Coupons";
-import SocialInfo from "./qr/microsites/SocialInfo";
-import Web from "./qr/microsites/Web";
-import { handleDesignerString } from "../helpers/qr/helpers";
-import FileMicro from "./qr/microsites/FileMicro";
-import Donations from "./qr/microsites/Donations";
-import LinksMicro from "./qr/microsites/LinksMicro";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Box from "@mui/material/Box";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
-import SamplesList from "./SamplesList";
-import { useEffect, useRef, useState } from "react";
+
+import { handleDesignerString } from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
+
+const FileMicro = dynamic(() => import("./qr/microsites/FileMicro"));
+const Donations = dynamic(() => import("./qr/microsites/Donations"));
+const LinksMicro = dynamic(() => import("./qr/microsites/LinksMicro"));
+const VCard = dynamic(() => import("./qr/microsites/VCard"));
+const Images = dynamic(() => import("./qr/microsites/Images"));
+const Business = dynamic(() => import("./qr/microsites/Business"));
+const PetsId = dynamic(() => import("./qr/microsites/PetsId"));
+const Coupons = dynamic(() => import("./qr/microsites/Coupons"));
+const SocialInfo = dynamic(() => import("./qr/microsites/SocialInfo"));
+const Web = dynamic(() => import("./qr/microsites/Web"));
+const SamplesList = dynamic(() => import("./SamplesList"));
 
 interface MainCompProps {
   newData: any;
@@ -105,7 +108,7 @@ export default function MainComponent({ newData }: MainCompProps) {
     return <FileMicro newData={data} />;
   }
 
-  if (data?.qrType === "donations" || "donation") {
+  if (['donation', 'donations'].includes(data?.qrType)) {
     return <Donations newData={data} />;
   }
 
