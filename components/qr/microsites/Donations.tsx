@@ -20,6 +20,7 @@ import DialogContentText from "@mui/material/DialogContentText"
 
 import ThankYou from "../helperComponents/ThankYou";
 
+
 interface DonationsProps {
   newData: any;
 }
@@ -31,9 +32,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] = useState<string | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-  const [reviewMessage, setReviewMessage] = useState<string>('')
-  const [isAnonymousReview, setIsAnonymous] = useState<boolean>(false)
-  console.log(newData)
+
   useEffect(() => {
     if (parseInt(inputValue) < 1) {
       setDonationAmount(parseInt(newData.donationUnitAmount))
@@ -262,17 +261,8 @@ export default function DonationsInfo({ newData }: DonationsProps) {
         </ThemeProvider>) :
         (
           <>
-            <ThankYou
-              setReviewMessage={setReviewMessage}
-              isAnonymous={isAnonymousReview}
-              setIsAnonymous={setIsAnonymous}
-              reviewMessage={reviewMessage}
-            />
-            <Grid container sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-              <Button variant="contained" >
-                Send message
-              </Button>
-            </Grid>
+            <ThankYou qrData={newData} />
+
           </>
         )
 

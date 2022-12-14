@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup";
 import Switch from "@mui/material/Switch"
@@ -7,22 +7,30 @@ import TextField from "@mui/material/TextField";
 import Image from 'next/image';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { ChangeEventHandler } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
+import FavoriteIcon from '@mui/icons-material/Favorite';;
 
 interface ThankYouProps {
-    setReviewMessage: Function,
-    reviewMessage: string,
-    isAnonymous: boolean,
-    setIsAnonymous: Function
+    qrData: any
 }
 
 
-function ThankYou({ setReviewMessage, reviewMessage, setIsAnonymous, isAnonymous }: ThankYouProps) {
+function ThankYou({ }: ThankYouProps) {
 
-
+    const [reviewMessage, setReviewMessage] = useState<string>('');
+    const [isAnonymous, setisAnonymous] = useState<boolean>(false);
+    const [loading, setIsLoading] = useState<boolean>(false);
 
     const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setReviewMessage(event.target.value)
+    }
+
+    const handleSwitchChange = () => {
+        setisAnonymous(!isAnonymous)
+    }
+
+    const handleButtonClick = () => {
+        setIsLoading(true)
     }
 
     return (
@@ -49,7 +57,18 @@ function ThankYou({ setReviewMessage, reviewMessage, setIsAnonymous, isAnonymous
                     <FormControlLabel control={<Switch defaultChecked={isAnonymous} />} label="Make my comment anonymous" />
                 </FormGroup>
             </Box>
-        </CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+
+                <LoadingButton
+                    startIcon={<FavoriteIcon />}
+                    loading={loading}
+                    variant="contained"
+                    onClick={handleButtonClick}>
+                    Send message
+                </LoadingButton>
+            </Box>
+        </CardContent >
+
     )
 }
 
