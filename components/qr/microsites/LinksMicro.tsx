@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -33,14 +32,7 @@ export default function LinksMicro({newData}: LinksProps) {
   );
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2, textAlign: 'center' }}>
         <RenderTitleDesc newData={newData} colors={colors} />
         {newData.position === 'over' && (

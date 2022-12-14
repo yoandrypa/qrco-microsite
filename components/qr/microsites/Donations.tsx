@@ -126,14 +126,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
   return (
     //TODO
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogContentText>

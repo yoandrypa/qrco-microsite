@@ -75,14 +75,7 @@ export default function FileMicro({ newData }: FileProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
         <RenderTitleDesc newData={newData} colors={colors} />
         <Box sx={{

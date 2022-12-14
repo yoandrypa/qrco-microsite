@@ -121,22 +121,16 @@ export default function MainComponent({ newData }: MainCompProps) {
   }
 
   return (
-    <Box sx={{
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-    }}>
+    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
       {(!data && newData.isAnEmptyPreview) ? (
         <Typography sx={{ textAlign: 'center' }}>{'Preparing preview...'}</Typography>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <EngineeringIcon color="primary" sx={{ mx: "auto", fontSize: "50px" }} />
           <Typography sx={{ mx: "auto" }}>{"Work in progress."}</Typography>
-          <Typography sx={{
-            color: theme => theme.palette.text.disabled,
-            mx: "auto",
-          }}>{"This is going to be ready very soon."}</Typography>
+          <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
+            {"This is going to be ready very soon."}
+          </Typography>
         </Box>
       )}
     </Box>
