@@ -37,8 +37,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const colors = getColors(data) as ColorTypes;
 
-  console.log('*****', data)
-
   const isWide: boolean = useMediaQuery("(min-width:490px)", {noSsr: true});
 
   const getFiles = async (key: string, item: string) => {
