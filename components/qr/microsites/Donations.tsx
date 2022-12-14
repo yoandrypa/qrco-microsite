@@ -1,27 +1,28 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import {getColors} from "./renderers/helper";
-import {ColorTypes} from "../types/types";
+import { getColors } from "./renderers/helper";
+import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import TextField from "@mui/material/TextField";
 import MainMicrosite from "./MainMicrosite";
-import Image from "next/image";
-import {useRouter} from "next/router";
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { useRouter } from "next/router";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoadingButton from '@mui/lab/LoadingButton'
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 import Dialog from "@mui/material/Dialog";
-import {DialogActions, DialogContent, DialogContentText} from "@mui/material";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent"
+import DialogContentText from "@mui/material/DialogContentText"
+
+import ThankYou from "../helperComponents/ThankYou";
 
 interface DonationsProps {
   newData: any;
 }
-
-type BoxOptions = 'first' | 'second' | 'third' | 'input';
 
 export default function DonationsInfo({ newData }: DonationsProps) {
   const colors = getColors(newData) as ColorTypes;
@@ -30,7 +31,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] = useState<string | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
-
+  const [reviewMessage, setReviewMessage] = useState<string>('')
+  const [isAnonymousReview, setIsAnonymous] = useState<boolean>(false)
+  console.log(newData)
   useEffect(() => {
     if (parseInt(inputValue) < 1) {
       setDonationAmount(parseInt(newData.donationUnitAmount))
@@ -258,14 +261,21 @@ export default function DonationsInfo({ newData }: DonationsProps) {
           </CardContent>
         </ThemeProvider>) :
         (
-          <CardContent>
-            <Typography variant="h5" textAlign={'center'}>Thanks for your support!</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-              <Image width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
-            </Box>
-          </CardContent>
-
+          <>
+            <ThankYou
+              setReviewMessage={setReviewMessage}
+              isAnonymous={isAnonymousReview}
+              setIsAnonymous={setIsAnonymous}
+              reviewMessage={reviewMessage}
+            />
+            <Grid container sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+              <Button variant="contained" >
+                Send message
+              </Button>
+            </Grid>
+          </>
         )
+
       }
     </MainMicrosite >
 
