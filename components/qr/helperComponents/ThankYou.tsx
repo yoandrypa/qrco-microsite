@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactPropTypes, useState } from 'react'
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup";
 import Switch from "@mui/material/Switch"
@@ -15,22 +15,57 @@ interface ThankYouProps {
 }
 
 
-function ThankYou({ }: ThankYouProps) {
+function ThankYou({ qrData }: ThankYouProps) {
 
     const [reviewMessage, setReviewMessage] = useState<string>('');
     const [isAnonymous, setisAnonymous] = useState<boolean>(false);
     const [loading, setIsLoading] = useState<boolean>(false);
+    const [reviewerName, setReviewerName] = useState<string>('')
 
     const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setReviewMessage(event.target.value)
     }
 
-    const handleSwitchChange = () => {
-        setisAnonymous(!isAnonymous)
+    const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setisAnonymous(event.target.checked);
+    };
+
+    const handleNameInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setReviewerName(event.target.value)
     }
+
 
     const handleButtonClick = () => {
         setIsLoading(true)
+        console.log(isAnonymous, reviewMessage, reviewerName, qrData)
+    }
+
+    async function sendThanksEmail(
+        reviewerName: string,
+        reviewerMessage: string,
+        qrOwnerUserId: string,
+        shortLinkUrlHash: string
+    ) {
+
+        const url = process.env.REACT_NODE_ENV == 'develop' ?
+            'https://dev.a-qr.link/' :
+            'https://ebanux.link';
+
+        const data = {
+            name: reviewerName,
+            message: reviewMessage,
+            targetUser: qrOwnerUserId,
+            micrositeUrl: `${url}/${shortLinkUrlHash}`
+        }
+
+        const options = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        };
+
     }
 
     return (
@@ -42,6 +77,17 @@ function ThankYou({ }: ThankYouProps) {
             <Typography textAlign='center'>
                 Would you want to say something nice?
             </Typography>
+            {!isAnonymous && <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                <TextField
+                    label='Your name'
+                    variant='outlined'
+                    fullWidth
+                    value={reviewerName}
+                    size='small'
+                    sx={{ mb: 1 }}
+                    onChange={handleNameInputChange}
+                />
+            </Box>}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <TextField
                     fullWidth
@@ -54,11 +100,12 @@ function ThankYou({ }: ThankYouProps) {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <FormGroup>
-                    <FormControlLabel control={<Switch defaultChecked={isAnonymous} />} label="Make my comment anonymous" />
+                    <FormControlLabel control={<Switch defaultChecked={isAnonymous} onChange={handleSwitchChange} />}
+                        label="Make my comment anonymous"
+                    />
                 </FormGroup>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-
                 <LoadingButton
                     startIcon={<FavoriteIcon />}
                     loading={loading}
