@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import MainMicrosite from "./MainMicrosite";
@@ -21,11 +22,12 @@ interface BusinessProps {
 
 export default function Business({newData}: BusinessProps) {
   const colors = getColors(newData) as ColorTypes;
+  const [hideTooltips, setHideTooltips] = useState<boolean>(false);
 
   const renderEasiness = (item: string, label: string) => (
     <SquareSelector
       selected={false}
-      tooltips
+      tooltips={!hideTooltips}
       item={item}
       label={label}
       colors={colors}
@@ -47,6 +49,10 @@ export default function Business({newData}: BusinessProps) {
     }
     return `${hours}:${minutes}`;
   }
+
+  useEffect(() => {
+    setHideTooltips(window.top !== window);
+  }, []);
 
   return (
     <MainMicrosite data={newData}>
