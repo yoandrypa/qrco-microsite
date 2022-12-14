@@ -49,14 +49,7 @@ export default function Business({newData}: BusinessProps) {
   }
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           {(newData.company || newData.title || newData.subtitle || newData.web || newData.email || newData.contact ||

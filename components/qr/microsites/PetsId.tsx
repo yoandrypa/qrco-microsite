@@ -86,14 +86,7 @@ export default function PetsId({ newData }: PetIdProps) {
   const colors = useMemo(() => getColors(newData), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.url}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={0}>
           {newData.petName && (
@@ -232,7 +225,7 @@ export default function PetsId({ newData }: PetIdProps) {
               </Grid>
             </>
           )}
-          
+
           <Box
             sx={{
               width: '100%',
