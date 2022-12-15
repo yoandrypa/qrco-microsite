@@ -5,7 +5,7 @@ export const NEW_DONATION_REVIEW_HTML = (
   checkoutsUrl: string
 
 ) => {
-  `
+  return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -33,10 +33,9 @@ export const NEW_DONATION_REVIEW_HTML = (
         text-decoration: none;	
     }    
      .button {
-      background-color: rgba(43, 43, 236, 0.964); /* Blue */
+      background-color: 'green'; 
       font-family: sans-serif;
       border: none;
-      color: white;
       padding: 15px 32px;
       text-align: center;
       text-decoration: none;
@@ -123,7 +122,7 @@ export const NEW_DONATION_REVIEW_HTML = (
       </div>
     </div>
     <div class="container-centered">
-        <a href="${checkoutsUrl}" target="_blank" class="button action-button ripple" style="margin-top: 3rem;">Open Dashboard</a>
+        <a href="${checkoutsUrl}" target="_blank" class="button ripple" style="margin-top: 3rem;">Open Dashboard</a>
     </div>
     <p>Best regards,</p>
     <p>The QR Link team</p>
@@ -148,7 +147,7 @@ export const NEW_DONATION_REVIEW_PLAIN = (
   checkoutsUrl: string
 
 ) => {
-  `Hi, we wanted to let you know that you received a new message from one of your supporters on your microsite: 
+  return `Hi, we wanted to let you know that you received a new message from one of your supporters on your microsite: 
   ${micrositeUrl} \n
   ${donnerName || 'An Anonymous user'} left you a message:\n
   ${donnerMessage}\n\n
