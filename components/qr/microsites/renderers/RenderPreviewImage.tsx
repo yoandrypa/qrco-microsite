@@ -21,7 +21,7 @@ interface ImageProps {
   isHeight?: boolean;
   amount?: number;
   type: string;
-  preview: FileType;
+  preview: FileType | string;
   handleNext?: () => void;
   handlePrev?: () => void;
   handleClose: () => void;
@@ -119,7 +119,7 @@ export default function RenderPreviewImage({position, amount, isWide, isHeight, 
         overflowY: ((isHeight && isWide) || isWide) && scroll !== 1 ? 'auto' : 'hidden'
       }}>
         <Box
-          ref={imgRef} component="img" alt="image" src={preview.content} onLoad={imageLoaded}
+          ref={imgRef} component="img" alt="image" src={typeof preview === 'string' ? preview : preview.content} onLoad={imageLoaded}
           onTouchEndCapture={touchEnd} onDoubleClick={handleZoom} onTouchMove={handleMove} onTouchStart={handleTouchStart}
           sx={{
             position: isWide ? "unset" : "absolute",
@@ -146,7 +146,9 @@ export default function RenderPreviewImage({position, amount, isWide, isHeight, 
           </IconBtn>
         </Tooltip>
         <Tooltip title="Download">
-          <IconBtn sx={{top: '50px', left: '10px'}} onClick={() => handleDownloadFiles(preview, type)}>
+          <IconBtn sx={{top: '50px', left: '10px'}} onClick={() => {
+            if (typeof preview !== 'string') { handleDownloadFiles(preview, type); }
+          }}>
             <DownloadIcon />
           </IconBtn>
         </Tooltip>

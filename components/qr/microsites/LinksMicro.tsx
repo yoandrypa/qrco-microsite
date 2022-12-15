@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -6,6 +5,7 @@ import {getColors} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
 import {ColorTypes, LinkType} from "../types/types";
 import RenderSocials from "./renderers/RenderSocials";
+import RenderTitleDesc from "./renderers/RenderTitleDesc";
 
 interface LinksProps {
   newData: any;
@@ -32,17 +32,9 @@ export default function LinksMicro({newData}: LinksProps) {
   );
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2, textAlign: 'center' }}>
-        <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
-        {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}
+        <RenderTitleDesc newData={newData} colors={colors} />
         {newData.position === 'over' && (
           <Box sx={{mt: 2, display: 'inline-flex'}}>
             <RenderSocials newData={newData} onlyIcons/>

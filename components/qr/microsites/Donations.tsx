@@ -1,27 +1,29 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import {getColors} from "./renderers/helper";
-import {ColorTypes} from "../types/types";
+import { getColors } from "./renderers/helper";
+import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import TextField from "@mui/material/TextField";
 import MainMicrosite from "./MainMicrosite";
-import Image from "next/image";
-import {useRouter} from "next/router";
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { useRouter } from "next/router";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoadingButton from '@mui/lab/LoadingButton'
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 import Dialog from "@mui/material/Dialog";
-import {DialogActions, DialogContent, DialogContentText} from "@mui/material";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent"
+import DialogContentText from "@mui/material/DialogContentText"
+
+import ThankYou from "../helperComponents/ThankYou";
+
 
 interface DonationsProps {
   newData: any;
 }
-
-type BoxOptions = 'first' | 'second' | 'third' | 'input';
 
 export default function DonationsInfo({ newData }: DonationsProps) {
   const colors = getColors(newData) as ColorTypes;
@@ -124,14 +126,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
   return (
     //TODO
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Dialog open={isDialogOpen}>
         <DialogContent>
           <DialogContentText>
@@ -159,15 +154,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               <Grid item sx={{ RoundedCorner: 2 }} >
                 <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2}>{newData?.title}</Typography>
               </Grid>
-              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0 }}>
                 <Typography>
                   {newData?.message}
-                </Typography>
-              </Grid>
-              <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-
-                <Typography>
-                  {newData?.web}
                 </Typography>
               </Grid>
 
@@ -178,7 +167,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       <CofeeIcon color='primary' />
                     </SvgIcon>
                   </Box>
-                  <Box sx={{ width: 60, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
+                  <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
                     <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                       ${newData.donationUnitAmount || 1} each
                     </Typography>
@@ -258,14 +247,12 @@ export default function DonationsInfo({ newData }: DonationsProps) {
           </CardContent>
         </ThemeProvider>) :
         (
-          <CardContent>
-            <Typography variant="h5" textAlign={'center'}>Thanks for your support!</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-              <Image width={200} height={200} alt='thanks' src='/images/thanks2.png'></Image>
-            </Box>
-          </CardContent>
+          <>
+            <ThankYou qrData={newData} />
 
+          </>
         )
+
       }
     </MainMicrosite >
 

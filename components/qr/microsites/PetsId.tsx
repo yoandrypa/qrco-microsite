@@ -84,14 +84,7 @@ export default function PetsId({ newData }: PetIdProps) {
     )
 }
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.url}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={0}>
           {newData.petName && (

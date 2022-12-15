@@ -2,47 +2,46 @@ import {ReactNode, useEffect, useState} from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
-import {ColorTypes} from "../types/types";
 import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
-
+import capitalize from "@mui/utils/capitalize";
+import {useMediaQuery} from "@mui/material";
 import {alpha} from "@mui/material/styles";
 
+import {ColorTypes} from "../types/types";
 import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
-import Notifications from "../helperComponents/Notifications";
 import {RWebShare} from "react-web-share";
-import {useMediaQuery} from "@mui/material";
-import capitalize from "@mui/utils/capitalize";
+import {getColors} from "./renderers/helper";
+
+import dynamic from "next/dynamic";
+
+const Notifications = dynamic(() => import('../helperComponents/Notifications'));
 
 interface MicrositesProps {
   children: ReactNode;
-  type?: string;
-  colors?: ColorTypes;
-  url?: string;
-  backgndImg?: { Key: string; }[] | string;
-  foregndImg?: { Key: string; }[] | string;
-  foregndImgType?: string;
-  isSample?: boolean;
+  data: any;
 }
 
 interface DimsProps {
   parentWidth: number; parentHeight: number;
 }
 
-export default function MainMicrosite({children, colors, url, type, backgndImg, foregndImg, foregndImgType, isSample}: MicrositesProps) {
+export default function MainMicrosite({children, data}: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [containerDimensions, setContainerDimensions] = useState<DimsProps | undefined>(undefined);
   const [error, setError] = useState<boolean>(false);
 
+  const colors = getColors(data) as ColorTypes;
+
   const isWide: boolean = useMediaQuery("(min-width:490px)", {noSsr: true});
 
   const getFiles = async (key: string, item: string) => {
     try {
-      const fileData = await download(key, isSample);
+      const fileData = await download(key, data.isSample);
       if (item === 'backgndImg') {
         setBackImg(fileData);
       } else {
@@ -59,28 +58,28 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
   }
 
   useEffect(() => {
-    if (backgndImg && !backImg) {
+    if (data.backgndImg) {
       setLoading(true);
-      if (Array.isArray(backgndImg)) {
-        getFiles(backgndImg[0].Key, 'backgndImg');
+      if (Array.isArray(data.backgndImg)) {
+        getFiles(data.backgndImg[0].Key, 'backgndImg');
       } else {
-        setBackImg(backgndImg);
+        setBackImg(data.backgndImg);
       }
-    } else if (!backgndImg && backImg) {
+    } else if (backImg) {
       setBackImg(undefined);
     }
 
-    if (foregndImg && !foreImg) {
+    if (data.foregndImg) {
       setLoading(true);
-      if (Array.isArray(foregndImg)) {
-        getFiles(foregndImg[0].Key, 'foregndImg');
+      if (Array.isArray(data.foregndImg)) {
+        getFiles(data.foregndImg[0].Key, 'foregndImg');
       } else {
-        setForeImg(foregndImg);
+        setForeImg(data.foregndImg);
       }
-    } else if (!foregndImg && foreImg) {
+    } else if (foreImg) {
       setForeImg(undefined);
     }
-  }, [backgndImg, foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data.backgndImg, data.foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (window.top !== window) { // @ts-ignore
@@ -105,6 +104,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
               document.body.style.transformOrigin = '0 0';
               document.body.style.width = `${100 + percent}%`;
             }
+            window.removeEventListener('message', handler);
           }
         } catch (e) {
           console.error(e)
@@ -118,7 +118,7 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if ((backImg !== undefined && !foregndImg) || (foreImg !== undefined && !backgndImg) || (foreImg !== undefined && backImg !== undefined)) {
+    if ((backImg !== undefined && !data.foregndImg) || (foreImg !== undefined && !data.backgndImg) || (foreImg !== undefined && backImg !== undefined)) {
       setLoading(false);
     }
   }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -177,7 +177,9 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
         border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
         boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
         position: 'relative',
-        background: '#fff',
+        backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
+        backgroundImage: !data.backgroundType ? 'unset' : data.backgroundType === 'gradient' ?
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || '#0f4d8c'}, ${data.backgroundColorRight || '#99c4f0'})`) : '#fff',
         left: '50%',
         transform: 'translate(-50%, 0)',
         maxWidth: isWide ? '475px' : '100%',
@@ -195,9 +197,9 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
               src={backImg.content || backImg}
               sx={{width: '475px', height: '200px', position: 'absolute', right: 0}}/>
           )}
-          {url !== undefined && (
+          {data.url !== undefined && (
             <RWebShare
-              data={{text: "(Shared from theqr.link)", url: url, title: "The QR Link",}}
+              data={{text: "(Shared from theqr.link)", url: data.url, title: "The QR Link",}}
               onClick={() => {
                 //TODO
               }}
@@ -227,30 +229,31 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
               sx={{
                 width: '100px',
                 height: '100px',
-                borderRadius: foregndImgType === undefined || foregndImgType === 'circle' ? '50px' : foregndImgType === 'smooth' ? '20px' : '3px',
+                borderRadius: data.foregndImgType === undefined || data.foregndImgType === 'circle' ? '50px' : data.foregndImgType === 'smooth' ? '20px' : '3px',
                 border: 'solid 4px #fff'
               }}
             />
           </Box>
         )}
-        <Box sx={{
-          width: '100%',
-          background: `linear-gradient(rgba(0,0,0,0), ${alpha(colors?.s || DEFAULT_COLORS.s, 0.25)})`,
-          height: '250px',
-          position: 'absolute',
-          bottom: 0
-        }}
-        />
+        {(!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
+          <Box sx={{
+            width: '100%',
+            background: `linear-gradient(rgba(0,0,0,0), ${alpha(colors?.s || DEFAULT_COLORS.s, 0.25)})`,
+            height: '250px',
+            position: 'absolute',
+            bottom: 0
+          }} />
+        )}
         <Box sx={{
           width: '100%',
           minHeight: !containerDimensions ?
             `calc(100vh - ${foreImg ? 256 : 226}px)` :
-            `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 232}px)`,
+            `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 257}px)`,
           mt: foreImg ? '30px' : 0
         }}>
           {children}
         </Box>
-        {type !== undefined && (
+        {data.type !== undefined && (
           <Box sx={{
             width: '100%',
             display: 'flex',
@@ -259,9 +262,9 @@ export default function MainMicrosite({children, colors, url, type, backgndImg, 
             fontSize: '20px',
             color: colors?.s || DEFAULT_COLORS.s
           }}>
-            <RenderIcon icon={type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
+            <RenderIcon icon={data.type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
             <Typography sx={{ml: '5px'}}>
-              {(type !== 'video' ? (type !== 'vcard+' ? (type !== 'link' ? capitalize(type) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
+              {(data.type !== 'video' ? (data.type !== 'vcard+' ? (data.type !== 'link' ? capitalize(data.type) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
             </Typography>
           </Box>
         )}

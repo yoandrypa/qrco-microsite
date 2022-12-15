@@ -14,7 +14,7 @@ import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
 import {getExtension} from "../../helpers/generalFunctions";
-import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
+import RenderTitleDesc from "./renderers/RenderTitleDesc";
 import {useMediaQuery} from "@mui/material";
 
 interface FileProps {
@@ -35,11 +35,11 @@ export default function FileMicro({ newData }: FileProps) {
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
 
-  const getFiles = (filesInfo: object[]) => {
+  const getFiles = (filesInfo: object[] | string []) => {
     try {
       filesInfo.forEach(async (x: any) => {
-        const key = x.Key as string;
-        const fileData = await download(key, newData.isSample); // @ts-ignore
+        const key: string = x.Key;
+        const fileData = typeof x !== "string" ? await download(key, newData.isSample) : x; // @ts-ignore
         files.current.push(fileData);
         forceUpdate();
       });
@@ -55,9 +55,9 @@ export default function FileMicro({ newData }: FileProps) {
         <Typography sx={{ fontWeight: 'bold', display: 'inline-block', mr: 1 }}>
           {kind}
         </Typography>
-        <Typography sx={{ display: 'inline-block' }}>
-          {`${index}/${newData.files.length} (${type.toUpperCase()})`}
-        </Typography>
+        {<Typography sx={{display: 'inline-block'}}>
+          {newData.files?.length ? `${index}/${newData.files.length} (${type.toUpperCase()})` : 'No files to show'}
+        </Typography>}
       </Typography>
     );
   };
@@ -66,6 +66,8 @@ export default function FileMicro({ newData }: FileProps) {
     files.current = [];
     if (newData.files?.length) {
       getFiles(newData.files);
+    } else {
+      forceUpdate();
     }
     return () => {
       files.current = [];
@@ -73,21 +75,14 @@ export default function FileMicro({ newData }: FileProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
-        <RenderAssetsDesc newData={newData} colors={colors} />
+        <RenderTitleDesc newData={newData} colors={colors} />
         <Box sx={{
           color: colors.s,
           textAlign: 'center'
         }}>
-          <Typography>{'items'}</Typography>
+          {newData.files?.length && <Typography>{'items'}</Typography>}
         </Box>
         {/* @ts-ignore */}
         {files.current.length ? files.current.map((x: FileType, index: number) => {
@@ -156,12 +151,13 @@ export default function FileMicro({ newData }: FileProps) {
               )}
             </Box>
           );
-        }
-        ) : (
-          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: colors.p }}>
-            <CircularProgress sx={{ color: colors.p, mr: '10px', my: 'auto' }} />
-            <Typography sx={{ display: 'inline-block', my: 'auto' }}>{'Please wait...'}</Typography>
-          </Box>
+        }) : (
+          newData.files?.length ? (
+            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: colors.p}}>
+              <CircularProgress sx={{color: colors.p, mr: '10px', my: 'auto'}}/>
+              <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
+            </Box>
+          ) : null
         )}
         {preview && (
           <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)} />

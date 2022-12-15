@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import Box from "@mui/material/Box";
 import DangerousIcon from "@mui/icons-material/Dangerous";
@@ -7,16 +6,6 @@ import MainComponent from "../../components/MainComponent";
 import Typography from "@mui/material/Typography";
 
 export default function SampleMicrosite({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useEffect(() => {
-    if (window.top !== window) { // that is to say we are iframed!!!
-      if (data.error) { // @ts-ignore
-        window.top.postMessage( // @ts-ignore
-          JSON.stringify({ error: true, message: data.error }), process.env.REACT_APP_QRCO_URL
-        );
-      }
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   if (data.error) {
     return (
       <Box sx={{
@@ -43,9 +32,7 @@ export default function SampleMicrosite({data}: InferGetServerSidePropsType<type
   }
 
   return (
-    // <Context.Provider value={{ containerDimensions }}>
-      <MainComponent newData={{...data, isSample: true}}/>
-    // </Context.Provider>
+    <MainComponent newData={{...data, isSample: true}}/>
   );
 }
 
