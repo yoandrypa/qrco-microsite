@@ -24,6 +24,10 @@ function ThankYou({ qrData }: ThankYouProps) {
     const [reviewerName, setReviewerName] = useState<string>('')
     const [displayMessage, setDisplayMessage] = useState<null | string>(null)
 
+    const microUrl = process.env.REACT_NODE_ENV == 'develop' ?
+        'https://dev.a-qr.link/' :
+        'https://a-qr.link/';
+
     const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setReviewMessage(event.target.value)
     }
@@ -37,28 +41,23 @@ function ThankYou({ qrData }: ThankYouProps) {
     }
 
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         setIsLoading(true)
-        console.log(isAnonymous, reviewMessage, reviewerName, qrData)
+        await sendThanksEmail(reviewerName, reviewMessage, qrData.email, `${qrData.shortlinkurl}`)
+        window.location.href = qrData?.web || microUrl
     }
 
     async function sendThanksEmail(
         reviewerName: string,
         reviewerMessage: string,
-        qrOwnerUserId: string,
-        shortLinkUrlHash: string
+        ownerEmail: string,
+        shortLinkUrl: string
     ) {
-
-        const microUrl = process.env.REACT_NODE_ENV == 'develop' ?
-            // 'https://dev.a-qr.link/' :
-            'http://localhost:3001' :
-            'https://a-qr.link/';
 
         const data = {
             name: reviewerName,
-            remessage: reviewerMessage,
-            targetUser: qrOwnerUserId,
-            micrositeUrl: `${microUrl}/${shortLinkUrlHash}`,
+            message: reviewerMessage,
+            micrositeUrl: shortLinkUrl,
             email: qrData.email
         }
 
@@ -71,17 +70,19 @@ function ThankYou({ qrData }: ThankYouProps) {
         };
 
         try {
-            const response = await fetch(`${microUrl}/review`, options)
+            const response = await fetch(`${microUrl}/api/review`, options)
             if (!response.ok) {
                 // TODO
-                setDisplayMessage('Your message has been send!');
-                console.log(response)
-            } else {
                 setDisplayMessage('Ops, there has been an error. Try again later.');
+
+            } else {
+                setDisplayMessage('Your message has been send!');
                 const data = await response.json();
+
             }
         } catch (error: any) {
             //TODO
+            console.error('catch block', error)
         }
 
 
