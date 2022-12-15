@@ -1,18 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
-
 import GetAppIcon from '@mui/icons-material/GetApp';
-
-import MainMicrosite, { MicrositesProps } from './MainMicrosite';
+import MainMicrosite from './MainMicrosite';
 import RenderSocials from './renderers/RenderSocials';
 import {  getColors } from './renderers/helper';
-import { ContactMail, Dangerous, Info, Pets } from '@mui/icons-material';
-import { ColorTypes, FileType } from '../types/types';
-import { SocialNetworksType } from '../types/types';
+import { ContactMail, Info, Pets } from '@mui/icons-material';
+import { ColorTypes } from '../types/types';
 import RenderField from './renderers/RenderField';
-import RenderAddress from './renderers/RenderAddress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import LinkIcon from '@mui/icons-material/Link';
@@ -22,7 +16,6 @@ interface PetIdProps {
 
 export default function PetsId({ newData }: PetIdProps) {
   console.log('newData', newData);
-  console.log({json: newData})
   const colors = getColors(newData) as ColorTypes;
   const address = `${newData.address1?`${newData.address1}, `:''}${newData.address2?`${newData.address2}, `:''}${newData.city?`${newData.city}, `:''}${newData.state?`${newData.state}, `:''}${newData.zip?`${newData.zip}, `:''}${newData.country?`${newData.country}, `:''}`;
 
