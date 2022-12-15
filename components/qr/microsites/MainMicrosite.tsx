@@ -97,8 +97,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(containerDimensions);
-
   useEffect(() => {
     if ((backImg !== undefined && !data.foregndImg) || (foreImg !== undefined && !data.backgndImg) || (foreImg !== undefined && backImg !== undefined)) {
       setLoading(false);
