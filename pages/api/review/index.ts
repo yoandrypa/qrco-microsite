@@ -45,7 +45,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse<Data>) 
                 },
                 Subject: {
                     Charset: 'UTF-8',
-                    Data: 'hey, You have a new review in The QR link'
+                    Data: 'Hey, You have a new review in The QR link'
                 }
             },
             Source: 'info@ebanux.com', /* required */
@@ -56,20 +56,20 @@ export default async function (req: NextApiRequest, res: NextApiResponse<Data>) 
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ params: data })
         };
 
         try {
             const response = await fetch(`https://eyk58kso8i.execute-api.us-east-1.amazonaws.com/Test/test`, options)
             if (!response.ok) {
-                res.status(500).json({ error: true, message: response.statusText })
+                return res.status(500).json({ error: true, message: response.statusText })
             } else {
                 const data = await response.json();
-                res.status(200).json({ success: true, message: data })
+                return res.status(200).json({ success: true, message: data })
             }
         } catch (error: any) {
             //exceptions
-            res.status(500).json({ error: true, message: error })
+            return res.status(500).json({ error: true, message: error })
         }
 
 
