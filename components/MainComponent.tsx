@@ -112,9 +112,8 @@ export default function MainComponent({ newData }: MainCompProps) {
   if (data?.qrType === "link") {
     return <LinksMicro newData={data} />;
   }
-
-  if (newData.qrType === "petId") {
-    return <PetsId newData={newData} />
+  if(data?.qrType === "petId"){
+    return <PetsId newData={data}/>
   }
 
   return (
