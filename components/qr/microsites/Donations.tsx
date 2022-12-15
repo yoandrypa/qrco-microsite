@@ -161,15 +161,9 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               <Grid item sx={{ RoundedCorner: 2 }} >
                 <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2}>{newData?.title}</Typography>
               </Grid>
-              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0 }}>
                 <Typography>
                   {newData?.message}
-                </Typography>
-              </Grid>
-              <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-
-                <Typography>
-                  {newData?.web}
                 </Typography>
               </Grid>
 
@@ -180,7 +174,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       <CofeeIcon color='primary' />
                     </SvgIcon>
                   </Box>
-                  <Box sx={{ width: 60, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
+                  <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
                     <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                       ${newData.donationUnitAmount || 1} each
                     </Typography>
