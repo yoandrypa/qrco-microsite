@@ -1,33 +1,69 @@
 {
-  "qrType": "petId",
+  "country": "US",
+  "petGender": "male",
+  "city": "New York",
+  "otherDetails": {
+    "heading": "Details",
+    "items": [
+      {
+        "value": "Ball",
+        "label": "Favorite Toy"
+      }
+    ]
+  },
+  "headingTextText": "Fido is a very active dog who loves to play with toys and go for walks. He is very friendly and loves to meet new people.",
+  "cell": "+53664477",
   "petName": "Fido",
-  "petSpecie": "Dog",
-  "petBreed": "Labrador",
-  "petYearOfBirth": 2010,
-  "heading": "Labrador",
-  "subHeading": "Very friendly and loves to play",
-  "petPhoto": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-  "petPhotoAlt": "Fido the Labrador",
-  "url": "http://www.petmd.com/sites/default/files/Acute-Dog-Diarrhea-47066074.jpg",
-  "contact": {
-    "title": "Owner Info",
-    "name": "John Smith",
-    "address":{
-      "street1": "123 Main St",
-      "city": "New York",
-      "state": "NY",
-      "zip": "10001"
+  "createdAt": "2022-12-14T22:36:00.962Z",
+  "urls": {
+    "heading": "Links de mi perrito super duro",
+    "items": [
+      {
+        "value": "fido.store.com",
+        "label": "Store"
+      }
+    ]
+  },
+  "contactTitle": "Owner Info",
+  "shortLinkId": {
+    "createdAt": "2022-12-14T22:36:00.947Z",
+    "paused": false,
+    "address": "zTC87Y",
+    "visitCount": 0,
+    "banned": false,
+    "type": "qr_link",
+    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+    "target": "http://localhost:3000/qr/b767e422-8163-4c8c-8074-fd7edee1d4e7",
+    "updatedAt": "2022-12-14T22:36:00.953Z"
+  },
+  "web": "fido.link",
+  "petYearOfBirth": "2019",
+  "state": "NY",
+  "fax": "+568877",
+  "socials": [
+    {
+      "value": "fido",
+      "network": "facebook"
     },
-    "city": "New York",
-    "state": "NY",
-    "zip": "10001",
-    "phone": "212-555-1212",
-    "email": "test@gmail.com"
-  },
-  "headingText": {
-    "heading": "About Me",
-    "text": "I am so cute"
-  },
+    {
+      "value": "fido",
+      "network": "twitter"
+    }
+  ],
+  "email": "fido@gmail.com",
+  "backgroundType": "single",
+  "updatedAt": "2022-12-14T22:36:00.970Z",
+  "zip": "91500",
+  "isDynamic": true,
+  "address1": "1234 Main St",
+  "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+  "secondary": "#ca9f2a",
+  "headingText": "About Fido",
+  "qrName": "Test",
+  "petBreed": "Pug",
+  "name": "Jason Mongo Dast Bond",
+  "qrType": "petId",
+  "primary": "#2d3a2c",
   "foregndImg": [
     {
       "name": "aca02d01-d921-4464-8581-f9d5521464e4.png",
@@ -38,66 +74,6 @@
     {
       "name": "735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png",
       "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
-    }
-  ],
-  "otherDetails": [
-    {
-      "header": {
-        "title": "Fido hobbies",
-        "description": "Fido is a very active dog"
-      },
-      "details": [
-        {
-          "key": "Hobbies",
-          "value": "Playing with toys"
-        },
-        {
-          "key": "Favorite toy",
-          "value": "Ball"
-        },
-        {
-          "key": "Favorite food",
-          "value": "Chicken"
-        },
-        {
-          "key": "Favorite place",
-          "value": "The park"
-        }
-      ]
-    }
-  ],
-  "links": {
-    "header": {
-      "title": "Fido Links",
-      "description": "Fido is a very active dog"
-    },
-    "links": [
-      {
-        "title": "Fido's personal website",
-        "link": "http://www.fido.com"
-      },
-      {
-        "title": "Fido's toy store",
-        "link": "http://www.fido.com/toys"
-      },
-      {
-        "title": "Fido's food store",
-        "link": "http://www.fido.com/food"
-      }
-    ]
-  },
-  "socials": [
-    {
-      "network": "facebook",
-      "value": "https://www.facebook.com/fido"
-    },
-    {
-      "network": "twitter",
-      "value": "https://twitter.com/fido"
-    },
-    {
-      "network": "instagram",
-      "value": "https://www.instagram.com/fido"
     }
   ]
 }
