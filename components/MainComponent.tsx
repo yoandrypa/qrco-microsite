@@ -30,11 +30,9 @@ export default function MainComponent({ newData }: MainCompProps) {
   const iframed = useRef<boolean>(false);
 
   useEffect(() => {
-    setLoading(false);
-
     if (window.top !== window) { // @ts-ignore
       window.top.postMessage( // @ts-ignore
-        JSON.stringify({ readyForDuty: true }), process.env.REACT_APP_QRCO_URL
+        JSON.stringify({ ready: true }), process.env.REACT_APP_QRCO_URL
       );
       iframed.current = true;
     }
@@ -51,9 +49,8 @@ export default function MainComponent({ newData }: MainCompProps) {
         }
       }
     }
-
     window.addEventListener('message', handler);
-
+    setLoading(false);
     return () => window.removeEventListener('message', handler);
   }, []);
 
