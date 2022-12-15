@@ -20,12 +20,11 @@ import dynamic from "next/dynamic";
 const Notifications = dynamic(() => import('../helperComponents/Notifications'));
 
 interface MicrositesProps {
-  children: ReactNode;
-  data: any;
+  children: ReactNode; data: any;
 }
 
 interface DimsProps {
-  parentWidth: number; parentHeight: number;
+  parentWidth: string; parentHeight: string;
 }
 
 export default function MainMicrosite({children, data}: MicrositesProps) {
@@ -82,46 +81,31 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }, [data.backgndImg, data.foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (window.top !== window) { // @ts-ignore
-      window.top.postMessage( // @ts-ignore
-        JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL
-      );
-    }
-
-    const handler = (event: any) => {
-      if (event.origin === process.env.REACT_APP_QRCO_URL) {
-        try {
-          const data = JSON.parse(event.data)
-          if (data.parentWidth !== undefined) {
-            const {parentWidth, parentHeight} = data;
-            setContainerDimensions({parentWidth, parentHeight});
-            const width = +(parentWidth.endsWith('px') ? parentWidth.slice(0, -2) : parentWidth);
-            const percent = Math.ceil(width * 100 / 475);
-            if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
-              document.body.style.zoom = percent / 100; // zoom is not a standard but works fine for Chrome
-            } else {
-              document.body.style.transform = `scale(${percent / 100})`;
-              document.body.style.transformOrigin = '0 0';
-              document.body.style.width = `${100 + percent}%`;
-            }
-            window.removeEventListener('message', handler);
-          }
-        } catch (e) {
-          console.error(e)
-        }
+    if (window.top !== window) {
+      const width = window.innerWidth;
+      setContainerDimensions({parentWidth: `${width}px`, parentHeight: `${window.innerHeight}px`});
+      const percent = Math.ceil(width * 100 / 475);
+      if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
+        document.body.style.zoom = percent / 100; // zoom is not a standard but works fine for Chrome
+      } else {
+        document.body.style.transform = `scale(${percent / 100})`;
+        document.body.style.transformOrigin = '0 0';
+        document.body.style.width = `${100 + percent}%`;
       }
+      // @ts-ignore
+      window.top.postMessage(JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL);
     }
-
-    window.addEventListener('message', handler);
-
-    return () => window.removeEventListener('message', handler);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  console.log(containerDimensions);
 
   useEffect(() => {
     if ((backImg !== undefined && !data.foregndImg) || (foreImg !== undefined && !data.backgndImg) || (foreImg !== undefined && backImg !== undefined)) {
       setLoading(false);
     }
   }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const qrType = data.type || data.qrType;
 
   return (
     <>
@@ -248,12 +232,12 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           width: '100%',
           minHeight: !containerDimensions ?
             `calc(100vh - ${foreImg ? 256 : 226}px)` :
-            `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 257}px)`,
+            `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 233}px)`,
           mt: foreImg ? '30px' : 0
         }}>
           {children}
         </Box>
-        {data.type !== undefined && (
+        {Boolean(qrType) && (
           <Box sx={{
             width: '100%',
             display: 'flex',
@@ -262,9 +246,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             fontSize: '20px',
             color: colors?.s || DEFAULT_COLORS.s
           }}>
-            <RenderIcon icon={data.type} enabled color={colors?.s || DEFAULT_COLORS.s}/>
+            <RenderIcon icon={qrType} enabled color={colors?.s || DEFAULT_COLORS.s}/>
             <Typography sx={{ml: '5px'}}>
-              {(data.type !== 'video' ? (data.type !== 'vcard+' ? (data.type !== 'link' ? capitalize(data.type) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
+              {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
             </Typography>
           </Box>
         )}
