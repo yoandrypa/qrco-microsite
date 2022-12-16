@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import MainMicrosite from './MainMicrosite';
 import RenderSocials from './renderers/RenderSocials';
-import {  getColors } from './renderers/helper';
+import { getColors } from './renderers/helper';
 import { ContactMail, Info, Pets } from '@mui/icons-material';
 import { ColorTypes } from '../types/types';
 import RenderField from './renderers/RenderField';
@@ -17,40 +17,50 @@ interface PetIdProps {
 export default function PetsId({ newData }: PetIdProps) {
   console.log('newData', newData);
   const colors = getColors(newData) as ColorTypes;
-  const address = `${newData.address1?`${newData.address1}, `:''}${newData.address2?`${newData.address2}, `:''}${newData.city?`${newData.city}, `:''}${newData.state?`${newData.state}, `:''}${newData.zip?`${newData.zip}, `:''}${newData.country?`${newData.country}, `:''}`;
+  const address = `${newData.address1 ? `${newData.address1}, ` : ''}${
+    newData.address2 ? `${newData.address2}, ` : ''
+  }${newData.city ? `${newData.city}, ` : ''}${
+    newData.state ? `${newData.state}, ` : ''
+  }${newData.zip ? `${newData.zip}, ` : ''}${
+    newData.country ? `${newData.country}, ` : ''
+  }`;
 
   const renderUrls = () => {
-    
-    if (!newData.urls) return (<></>);
-    if( newData.urls.items.length === 0 && newData.urls.heading ==='') return (<></>);
+    if (!newData.urls) return <></>;
+    if (newData.urls.items.length === 0 && newData.urls.heading === '')
+      return <></>;
 
     return (
-        <>
-          <Grid item xs={1} key={'linksIcon'}>
-            <LinkIcon sx={{ color: colors.p }} />
+      <>
+        <Grid item xs={1} key={'linksIcon'}>
+          <LinkIcon sx={{ color: colors.p }} />
+        </Grid>
+        <Grid item xs={11} key={'linksBody'}>
+          <Typography sx={{ fontWeight: 'bold' }}>
+            {newData.urls.heading}
+          </Typography>
+          <Grid container spacing={0}>
+            {newData.urls.items.map((item: any, index: Number) => (
+              <RenderField
+                key={`links${index}`}
+                label={item.label}
+                value={item.value}
+                icon={'link'}
+                link={item.value}
+              />
+            ))}
           </Grid>
-          <Grid item xs={11} key={'linksBody'}>
-            <Typography sx={{ fontWeight: 'bold' }}>
-              {newData.urls.heading}
-            </Typography>
-            <Grid container spacing={0}>
-              {newData.urls.items.map((item:any, index:Number) => (
-                    <RenderField
-                      key={`links${index}`}
-                      label={item.label}
-                      value={item.value}
-                      icon={'link'}
-                      link={item.value}
-                    />
-              ))}
-            </Grid>
-          </Grid>
-        </>
-      )
-  }
+        </Grid>
+      </>
+    );
+  };
   const renderOtherDetails = () => {
-    if (!newData.otherDetails) return (<></>);
-    if( newData.otherDetails.items.length === 0 && newData.otherDetails.heading ==='') return (<></>);
+    if (!newData.otherDetails) return <></>;
+    if (
+      newData.otherDetails.items.length === 0 &&
+      newData.otherDetails.heading === ''
+    )
+      return <></>;
     return (
       <>
         <Grid item xs={1} key={'otherIcon'}>
@@ -61,96 +71,122 @@ export default function PetsId({ newData }: PetIdProps) {
             {newData.otherDetails.heading}
           </Typography>
           <Grid container spacing={0}>
-            {newData.otherDetails.items.map((item:any, index:Number) => (
+            {newData.otherDetails.items.map((item: any, index: Number) => (
               <Grid container spacing={0} key={`other${index}`}>
                 <RenderField
                   key={`otherVal${index}`}
                   label={item.label}
                   value={item.value}
-                  sx={{ p:0 }}
+                  sx={{ p: 0 }}
                 />
               </Grid>
             ))}
           </Grid>
         </Grid>
       </>
+    );
+  };
+  const renderContact = () => {
+    if (
+      !(
+        newData.contactTitle?.length > 0 ||
+        newData.name?.length > 0 ||
+        newData.email?.length > 0 ||
+        newData.phone?.length > 0 ||
+        newData.sms?.length > 0 ||
+        newData.fax?.length > 0 ||
+        newData.website?.length > 0 ||
+        address.length > 0
+      )
     )
-}
+      return <></>;
+
+    return (
+      <>
+        <Grid item xs={1} key="contactIcon">
+          <ContactMail sx={{ color: colors.p }} />
+        </Grid>
+        <Grid item xs={11} key="contactBody">
+          <Typography sx={{ fontWeight: 'bold' }}>
+            {newData.contactTitle}
+          </Typography>
+          <Grid container spacing={0}>
+            {newData.name && <RenderField value={newData.name} label="Name" />}
+            {newData.email && (
+              <RenderField value={newData.email} icon="email" />
+            )}
+            {newData.phone && <RenderField value={newData.phone} icon="cell" />}
+            {newData.sms && <RenderField value={newData.sms} icon="sms" />}
+            {newData.fax && <RenderField value={newData.fax} icon="fax" />}
+            {newData.website && (
+              <RenderField value={newData.website} icon="web" />
+            )}
+            {address && (
+              <RenderField
+                value={address}
+                link={newData.googleMapsLink}
+                icon="location"
+              />
+            )}
+          </Grid>
+        </Grid>
+      </>
+    );
+  };
+
+  const renderNameHead = () => {
+    if (
+      !(
+        newData.petName?.length > 0 ||
+        newData.petBreed?.length > 0 ||
+        newData.petGender?.length > 0 ||
+        newData.petYearOfBirth?.length > 0
+      )
+    )
+      return <></>;
+
+    return (
+      <>
+        <Grid item xs={1} key="petIcon">
+          <Pets sx={{ color: colors.p }} />
+        </Grid>
+        <Grid item xs={11} key="petBody">
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+            {`${newData.petName}`}
+          </Typography>
+          <RenderField
+            value={`${newData.petBreed ? newData.petBreed : ''} ${
+              newData.petGender ? newData.petGender : ''
+            } ${newData.petYearOfBirth ? newData.petYearOfBirth : ''}`}
+          />
+        </Grid>
+      </>
+    );
+  };
+
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={0}>
-          {newData.petName && (
-            <>
-              <Grid item xs={1} key='petIcon'>
-                <Pets sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11} key='petBody'>
-                <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-                  {`${newData.petName}`}
-                </Typography>
-                <RenderField value={`${newData.petBreed? newData.petBreed:''} ${
-                    newData.petGender ? newData.petGender : ''
-                  } ${newData.petYearOfBirth?newData.petYearOfBirth:''}`} />
-              </Grid>
-            </>
-          )}
-          {newData.headingText && (
-            <>
-              <Grid item xs={1} key='headingIcon'>
-                <Info sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11} key='headingBody'>
-                <Typography sx={{ fontWeight: 'bold' }}>
-                  {newData.headingText}
-                </Typography>
-                <Grid container spacing={0}>
-                  {newData.headingTextText && (
-                    <RenderField value={newData.headingTextText} />
-                  )}
+          {renderNameHead()}
+          {(newData.headingText || newData.headingTextText) && (
+              <>
+                <Grid item xs={1} key="headingIcon">
+                  <Info sx={{ color: colors.p }} />
                 </Grid>
-              </Grid>
-            </>
-          )}
-          {newData.contactTitle && (
-            <>
-              <Grid item xs={1} key='contactIcon'>
-                <ContactMail sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11} key='contactBody'>
-                <Typography sx={{ fontWeight: 'bold' }}>
-                  {newData.contactTitle}
-                </Typography>
-                <Grid container spacing={0}>
-                  {newData.name && (
-                    <RenderField value={newData.name} label="Name" />
-                  )}
-                  {newData.email && (
-                    <RenderField value={newData.email} icon='email'/>
-                  )}
-                  {newData.phone && (
-                    <RenderField value={newData.phone} icon='cell'/>
-                  )}
-                  {newData.sms && (
-                    <RenderField value={newData.sms} icon='sms'/>
-                  )}
-                  {newData.fax && (
-                    <RenderField value={newData.fax} icon='fax'/>
-                  )}
-                  {newData.website && (
-                    <RenderField value={newData.website} icon='web'/>
-                  )}
-                  {address && (
-                    <RenderField
-                      value={address}
-                      link={newData.googleMapsLink}
-                      icon='location'
-                    />
-                  )}
+                <Grid item xs={11} key="headingBody">
+                  <Typography sx={{ fontWeight: 'bold' }}>
+                    {newData.headingText? newData.headingText : ''}
+                  </Typography>
+                  <Grid container spacing={0}>
+                    {newData.headingTextText && (
+                      <RenderField value={newData.headingTextText} />
+                    )}
+                  </Grid>
                 </Grid>
-              </Grid>
-            </>
-          )}
+              </>
+            )}
+          {renderContact()}
           {renderOtherDetails()}
           {renderUrls()}
           <Box
