@@ -179,9 +179,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               src={backImg.content || backImg}
               sx={{width: '475px', height: '200px', position: 'absolute', right: 0}}/>
           )}
-          {data.url !== undefined && (
+          {data.shortlinkurl !== undefined && (
             <RWebShare
-              data={{text: "(Shared from theqr.link)", url: data.url, title: "The QR Link",}}
+              data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}}
               onClick={() => {
                 //TODO
               }}
