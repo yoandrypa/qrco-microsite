@@ -80,8 +80,8 @@
     },
     {
       "type": "petId",
-      "desc": "A pet ID site with all the info about your pet",
-      "name": "Pet ID",
+      "desc": "A pet tag Id site with all the info about your pet",
+      "name": "Pet Tag ID",
       "file": "petId"
     }
   ]
