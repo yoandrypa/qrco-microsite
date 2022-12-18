@@ -230,7 +230,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
         (
           <ThankYou qrData={newData} />
         )
-
       }
     </MainMicrosite >
 
