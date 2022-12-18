@@ -82,7 +82,9 @@ function ThankYou({ qrData }: ThankYouProps) {
             }
         } catch (error: any) {
             //TODO
-            console.error('catch block', error)
+            console.error(error)
+            setDisplayMessage('Ops, there has been an error. Try again later.');
+
         }
 
 
