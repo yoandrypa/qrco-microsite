@@ -247,10 +247,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
           </CardContent>
         </ThemeProvider>) :
         (
-          <>
-            <ThankYou qrData={newData} />
-
-          </>
+          <ThankYou qrData={newData} />
         )
 
       }

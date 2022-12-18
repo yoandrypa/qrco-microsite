@@ -43,7 +43,7 @@ function ThankYou({ qrData }: ThankYouProps) {
 
     const handleButtonClick = async () => {
         setIsLoading(true)
-        await sendThanksEmail(reviewerName, reviewMessage, qrData.email, `${qrData.shortlinkurl}`)
+        await sendThanksEmail(isAnonymous ? reviewerName : 'An Anonymous user', reviewMessage, qrData.email, `${qrData.shortlinkurl}`)
         window.location.href = qrData?.web || microUrl
     }
 
