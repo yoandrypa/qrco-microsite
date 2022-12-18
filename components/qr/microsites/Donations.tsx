@@ -79,7 +79,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     const data = {
       priceId: newData.donationPriceId,
       paylinkQuantity: inputValue,
-      successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
+      successUrl: newData.shortlinkurl + `?thanks=true`
     }
 
     const options = {
