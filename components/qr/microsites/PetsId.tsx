@@ -169,18 +169,18 @@ export default function PetsId({ newData }: PetIdProps) {
       <Box sx={{ p: 2 }}>
         <Grid container spacing={0}>
           {renderNameHead()}
-          {(newData.headingText || newData.headingTextText) && (
+          {(newData.title || newData.titleText) && (
               <>
                 <Grid item xs={1} key="headingIcon">
                   <Info sx={{ color: colors.p }} />
                 </Grid>
                 <Grid item xs={11} key="headingBody">
                   <Typography sx={{ fontWeight: 'bold' }}>
-                    {newData.headingText? newData.headingText : ''}
+                    {newData.title? newData.title : ''}
                   </Typography>
                   <Grid container spacing={0}>
-                    {newData.headingTextText && (
-                      <RenderField value={newData.headingTextText} />
+                    {newData.titleText && (
+                      <RenderField value={newData.titleText} />
                     )}
                   </Grid>
                 </Grid>
