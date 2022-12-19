@@ -15,7 +15,6 @@ interface PetIdProps {
 }
 
 export default function PetsId({ newData }: PetIdProps) {
-  console.log('newData', newData);
   const colors = getColors(newData) as ColorTypes;
   const address = `${newData.address1?`${newData.address1}, `:''}${newData.address2?`${newData.address2}, `:''}${newData.city?`${newData.city}, `:''}${newData.state?`${newData.state}, `:''}${newData.zip?`${newData.zip}, `:''}${newData.country?`${newData.country}, `:''}`;
 
