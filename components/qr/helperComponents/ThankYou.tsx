@@ -43,7 +43,7 @@ function ThankYou({ qrData }: ThankYouProps) {
 
     const handleButtonClick = async () => {
         setIsLoading(true)
-        await sendThanksEmail(reviewerName, reviewMessage, qrData.email, `${qrData.shortlinkurl}`)
+        await sendThanksEmail(isAnonymous ? reviewerName : 'An Anonymous user', reviewMessage, qrData.email, `${qrData.shortlinkurl}`)
         window.location.href = qrData?.web || microUrl
     }
 
@@ -82,7 +82,9 @@ function ThankYou({ qrData }: ThankYouProps) {
             }
         } catch (error: any) {
             //TODO
-            console.error('catch block', error)
+            console.error(error)
+            setDisplayMessage('Ops, there has been an error. Try again later.');
+
         }
 
 

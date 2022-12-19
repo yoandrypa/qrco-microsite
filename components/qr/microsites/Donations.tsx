@@ -79,7 +79,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
     const data = {
       priceId: newData.donationPriceId,
       paylinkQuantity: inputValue,
-      successUrl: newData.web || newData.shortlinkurl + `?thanks=true`
+      successUrl: newData.shortlinkurl + `?thanks=true`
     }
 
     const options = {
@@ -247,10 +247,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
           </CardContent>
         </ThemeProvider>) :
         (
-          <>
-            <ThankYou qrData={newData} />
-
-          </>
+          <ThankYou qrData={newData} />
         )
 
       }
