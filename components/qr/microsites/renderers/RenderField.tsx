@@ -39,5 +39,5 @@ export default function RenderField({size, label, value, icon, color, link, sx}:
       />
     </Grid>
   );
-  return link ? (<Link href={link} target="_blank" rel="noopener noreferrer">{component}</Link>) : component;
+  return link ? (<Link href={`https://${link}`} target="_blank" rel="noopener noreferrer">{component}</Link>) : component;
 }
