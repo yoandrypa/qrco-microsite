@@ -16,13 +16,14 @@ interface PetIdProps {
 
 export default function PetsId({ newData }: PetIdProps) {
   const colors = getColors(newData) as ColorTypes;
-  const address = `${newData.address1 ? `${newData.address1}, ` : ''}${
+  let address = `${newData.address1 ? `${newData.address1}, ` : ''}${
     newData.address2 ? `${newData.address2}, ` : ''
   }${newData.city ? `${newData.city}, ` : ''}${
     newData.state ? `${newData.state}, ` : ''
   }${newData.zip ? `${newData.zip}, ` : ''}${
     newData.country ? `${newData.country}, ` : ''
   }`;
+  if(address.endsWith(', ')) address = address.slice(0, -2);
 
   const renderUrls = () => {
     if (!newData.urls) return <></>;
@@ -39,15 +40,16 @@ export default function PetsId({ newData }: PetIdProps) {
             {newData.urls.heading}
           </Typography>
           <Grid container spacing={0}>
-            {newData.urls.items.map((item: any, index: Number) => (
+            {newData.urls.items.map((item: any, index: Number) => {
+              if(item.value === '') return <></>; 
+              return (
               <RenderField
                 key={`links${index}`}
-                label={item.label}
-                value={item.value}
+                value={item.label}
                 icon={'link'}
                 link={item.value}
               />
-            ))}
+            )})}
           </Grid>
         </Grid>
       </>
@@ -70,7 +72,9 @@ export default function PetsId({ newData }: PetIdProps) {
             {newData.otherDetails.heading}
           </Typography>
           <Grid container spacing={0}>
-            {newData.otherDetails.items.map((item: any, index: Number) => (
+            {newData.otherDetails.items.map((item: any, index: Number) => {
+              if(item.value === '') {return <></>}
+              return(
               <Grid container spacing={0} key={`other${index}`}>
                 <RenderField
                   key={`otherVal${index}`}
@@ -79,7 +83,7 @@ export default function PetsId({ newData }: PetIdProps) {
                   sx={{ p: 0 }}
                 />
               </Grid>
-            ))}
+            )})}
           </Grid>
         </Grid>
       </>
