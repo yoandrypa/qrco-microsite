@@ -125,7 +125,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
 
   return (
     <>
-      {(newData.socials?.length) && (<>
+      {(newData.socials?.length) ? (<>
           {!onlyIcons ? (
             <>
               <Grid item xs={1}><GroupsIcon sx={{color: newData.primary || DEFAULT_COLORS.p}}/></Grid>
@@ -150,7 +150,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
             </>
           )}
         </>
-      )}
+      ) : null}
     </>
   );
 }
