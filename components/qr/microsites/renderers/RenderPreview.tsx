@@ -21,10 +21,11 @@ interface RenderPreviewProps {
   handlePrev?: () => void;
   isWide: boolean;
   isHeight?: boolean;
+  fontFamily: string;
 }
 
 export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
-                                        colors, preview, type }: RenderPreviewProps) {
+                                        colors, preview, type, fontFamily }: RenderPreviewProps) {
   const wide = isWide && isHeight;
   const isString = typeof preview === 'string';
 
@@ -51,6 +52,7 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
             <Button
               sx={{
                 mt: 1,
+                fontFamily,
                 color: colors.p,
                 background: isString ? preview : preview.content,
                 '&:hover': {color: colors.s, background: colors.p}

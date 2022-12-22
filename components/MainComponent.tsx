@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 
 import { handleDesignerString } from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
+import {getFont} from "./qr/microsites/renderers/helper";
 
 const FileMicro = dynamic(() => import("./qr/microsites/FileMicro"));
 const Donations = dynamic(() => import("./qr/microsites/Donations"));
@@ -63,8 +64,9 @@ export default function MainComponent({ newData }: MainCompProps) {
         transform: "translate(-50%, -50%)",
       }}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-          <Typography sx={{ mx: "auto" }}>{"Loading..."}</Typography>
+          <Typography sx={{mx: "auto", fontFamily: getFont(data)}}>{"Loading..."}</Typography>
           <Typography sx={{
+            fontFamily: getFont(data),
             color: theme => theme.palette.text.disabled,
             mx: "auto",
           }}>{"Please wait."}</Typography>
@@ -119,12 +121,12 @@ export default function MainComponent({ newData }: MainCompProps) {
   return (
     <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
       {(!data && newData.isAnEmptyPreview) ? (
-        <Typography sx={{ textAlign: 'center' }}>{'Preparing preview...'}</Typography>
+        <Typography sx={{ textAlign: 'center', fontFamily: getFont(data) }}>{'Preparing preview...'}</Typography>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <EngineeringIcon color="primary" sx={{ mx: "auto", fontSize: "50px" }} />
-          <Typography sx={{ mx: "auto" }}>{"Work in progress."}</Typography>
-          <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
+          <Typography sx={{ mx: "auto", fontFamily: getFont(data) }}>{"Work in progress."}</Typography>
+          <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto", fontFamily: getFont(data) }}>
             {"This is going to be ready very soon."}
           </Typography>
         </Box>

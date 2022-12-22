@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import {getColors} from "./renderers/helper";
+import {getColors, getFont} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
 import {ColorTypes, LinkType} from "../types/types";
 import RenderSocials from "./renderers/RenderSocials";
@@ -22,6 +22,7 @@ export default function LinksMicro({newData}: LinksProps) {
       href={item.link}
       variant="contained"
       sx={{
+        fontFamily: getFont(newData),
         mt: '10px',
         width: 'calc(100% - 70px)',
         color: colors.p,

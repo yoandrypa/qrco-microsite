@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
 import {ColorTypes, OpeningObjType} from "../types/types";
-import {getColors} from "./renderers/helper";
+import {getColors, getFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
 
@@ -66,15 +66,15 @@ export default function Business({newData}: BusinessProps) {
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
-                  <Typography sx={{ fontWeight: 'bold', mt: '10px', ml: '10px' }}>{'Company'}</Typography>
-                  {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px' }}/>}
-                  {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }}/>}
-                  {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px' }}/>}
-                  {newData.web && <RenderField value={newData.web} icon="world" color={newData.secondary}/>}
-                  {newData.email && <RenderField value={newData.email} icon="emailIcon" color={newData.secondary}/>}
-                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary}/>}
-                  {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary}/>}
-                  {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary}/>}
+                  <Typography sx={{ fontWeight: 'bold', mt: '10px', ml: '10px', fontFamily: getFont(newData) }}>{'Company'}</Typography>
+                  {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px', fontFamily: getFont(newData) }}/>}
+                  {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px', fontFamily: getFont(newData) }}/>}
+                  {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px', fontFamily: getFont(newData) }}/>}
+                  {newData.web && <RenderField value={newData.web} icon="world" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.email && <RenderField value={newData.email} icon="emailIcon" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
                 </Grid>
               </Grid>
             </>
@@ -89,6 +89,7 @@ export default function Business({newData}: BusinessProps) {
                   href={newData.urlOptionLink}
                   variant="contained"
                   sx={{
+                    fontFamily: getFont(newData),
                     my: '10px',
                     width: 'calc(100% - 70px)',
                     color: colors.p,
@@ -106,7 +107,7 @@ export default function Business({newData}: BusinessProps) {
                 <DoneAllIcon sx={{color: colors.p}}/>
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold', mb: '5px' }}>{'Easiness'}</Typography>
+                <Typography sx={{ fontWeight: 'bold', mb: '5px', fontFamily: getFont(newData) }}>{'Easiness'}</Typography>
                 <Box sx={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -145,7 +146,7 @@ export default function Business({newData}: BusinessProps) {
               <ScheduleIcon sx={{color: colors.p}}/>
             </Grid>
             <Grid item xs={11}>
-              <Typography sx={{ fontWeight: 'bold', }}>{'Opening time'}</Typography>
+              <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Opening time'}</Typography>
               <Grid container spacing={1} sx={{ my: 1 }}>
                 {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map((x: string) => {
                   if (!newData.openingTime[x]) {
@@ -153,16 +154,16 @@ export default function Business({newData}: BusinessProps) {
                   }
                   return (<Box key={`busines${x}`} sx={{ m: 1 }}>
                     {/* @ts-ignore */}
-                    <Typography sx={{fontWeight: 'bold', ml: 2}}>{DAYS[x]}</Typography>
+                    <Typography sx={{fontWeight: 'bold', ml: 2, fontFamily: getFont(newData)}}>{DAYS[x]}</Typography>
                     {newData.openingTime[x].map((open: OpeningObjType) => {
                       return (<Box sx={{display: 'inline-flex', ml: 2}} key={`day${x}`}>
                         <Box sx={{display: 'inline-flex', mr: '5px'}}>
-                          <Typography sx={{mr: '5px'}}>{'From'}</Typography>
-                          <Typography sx={{ color: colors.p }}>{handleTiming(open.ini)}</Typography>
+                          <Typography sx={{mr: '5px', fontFamily: getFont(newData)}}>{'From'}</Typography>
+                          <Typography sx={{color: colors.p, fontFamily: getFont(newData)}}>{handleTiming(open.ini)}</Typography>
                         </Box>
                         <Box sx={{display: 'inline-flex'}}>
-                          <Typography sx={{mr: '5px'}}>{'to'}</Typography>
-                          <Typography sx={{ color: colors.p }}>{handleTiming(open.end)}</Typography>
+                          <Typography sx={{mr: '5px', fontFamily: getFont(newData)}}>{'to'}</Typography>
+                          <Typography sx={{color: colors.p, fontFamily: getFont(newData)}}>{handleTiming(open.end)}</Typography>
                         </Box>
                       </Box>);
                     })}

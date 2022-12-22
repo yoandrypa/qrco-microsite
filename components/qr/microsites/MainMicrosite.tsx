@@ -13,7 +13,7 @@ import {ColorTypes} from "../types/types";
 import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
 import {RWebShare} from "react-web-share";
-import {getColors} from "./renderers/helper";
+import {getColors, getFont} from "./renderers/helper";
 
 import dynamic from "next/dynamic";
 
@@ -125,7 +125,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           bottom: '45px'
         }}>
           <CircularProgress size={20} sx={{mr: '5px', color: colors?.p || DEFAULT_COLORS.p}}/>
-          <Typography sx={{fontSize: 'small', color: theme => theme.palette.text.disabled}}>
+          <Typography sx={{fontSize: 'small', color: theme => theme.palette.text.disabled, fontFamily: getFont(data)}}>
             {'Loading data. Please wait...'}
           </Typography>
         </Box>
@@ -245,7 +245,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             color: colors?.s || DEFAULT_COLORS.s
           }}>
             <RenderIcon icon={qrType} enabled color={colors?.s || DEFAULT_COLORS.s}/>
-            <Typography sx={{ml: '5px'}}>
+            <Typography sx={{ml: '5px', fontFamily: getFont(data)}}>
               {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
             </Typography>
           </Box>
