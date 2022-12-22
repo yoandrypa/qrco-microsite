@@ -7,7 +7,7 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import {useMediaQuery} from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import {getColors} from "./renderers/helper";
+import {getColors, getFont} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
 import {ColorTypes, FileType} from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
@@ -89,11 +89,11 @@ function Images({newData}: ImageProps) {
       <Box sx={{width: '100%', p: 2, textAlign: 'center', color: colors.s}}>
         <RenderTitleDesc newData={newData} colors={colors} />
         {images.current.length ? (
-          <Typography sx={{fontWeight: 'bold'}}>
+          <Typography sx={{fontWeight: 'bold', fontFamily: getFont(newData)}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
           </Typography>
         ) : (
-          <Typography>{'Please wait...'}</Typography>
+          <Typography sx={{fontFamily: getFont(newData)}}>{'Please wait...'}</Typography>
         )}
       </Box>
       <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
@@ -108,7 +108,7 @@ function Images({newData}: ImageProps) {
                 border: `solid 1px ${colors.p}`,
                 borderRadius: '5px'
               }}>
-                <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
+                <Typography sx={{color: colors.p, width: '100%', textAlign: 'center', fontFamily: getFont(newData)}}>
                   <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
                   {'Error loading image.'}
                 </Typography>
@@ -157,6 +157,7 @@ function Images({newData}: ImageProps) {
           handleClose={() => setPreview(null)}
           colors={colors}
           type="image"
+          fontFamily={getFont(newData)}
         />
       )}
     </MainMicrosite>

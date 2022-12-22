@@ -9,7 +9,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
-import {downloadVCard, getColors} from "./renderers/helper";
+import {downloadVCard, getColors, getFont} from "./renderers/helper";
 
 import {ColorTypes} from "../types/types";
 
@@ -39,7 +39,7 @@ export default function VCard({newData}: VCardProps) {
                 <AccountBoxIcon sx={{ color: colors.p }} />
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                <Typography sx={{ fontSize: '20px', fontWeight: 'bold', fontFamily: getFont(newData) }}>
                   {`${newData.prefix ? newData.prefix + 
                   (newData.firstName || newData.lastName ? ', ' : '') : ''}${newData.firstName ? 
                   newData.firstName + (newData.lastName ? ' ' : '') : ''}${newData.lastName ? newData.lastName : ''}`}
@@ -55,9 +55,9 @@ export default function VCard({newData}: VCardProps) {
               <Grid item xs={11}>
                 <Grid container spacing={1}>
                   {newData.cell &&
-                    <RenderField value={newData.cell} icon="cell" color={newData.secondary} size={newData.phone ? 6 : 12}/>}
+                    <RenderField value={newData.cell} icon="cell" color={newData.secondary} size={newData.phone ? 6 : 12} sx={{fontFamily: getFont(newData)}}/>}
                   {newData.phone &&
-                    <RenderField value={newData.phone} icon="phone" color={newData.secondary} size={newData.cell ? 6 : 12}/>}
+                    <RenderField value={newData.phone} icon="phone" color={newData.secondary} size={newData.cell ? 6 : 12} sx={{fontFamily: getFont(newData)}}/>}
                   {newData.fax && <RenderField value={newData.fax} icon="fax" color={newData.secondary} />}
                 </Grid>
               </Grid>
@@ -69,10 +69,10 @@ export default function VCard({newData}: VCardProps) {
                 <WorkIcon sx={{ color: colors.p }} />
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold' }}>{'Organization info'}</Typography>
+                <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Organization info'}</Typography>
                 <Grid container spacing={0}>
-                  {newData.organization && <RenderField label="Organization" value={newData.organization}/>}
-                  {newData.position && <RenderField label="Position" value={newData.position}/>}
+                  {newData.organization && <RenderField label="Organization" value={newData.organization} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.position && <RenderField label="Position" value={newData.position} sx={{fontFamily: getFont(newData)}}/>}
                 </Grid>
               </Grid>
             </>
@@ -85,8 +85,8 @@ export default function VCard({newData}: VCardProps) {
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1} sx={{ mt: '-16px' }}>
-                  {newData.email && <RenderField icon="emailIcon" color={newData.secondary} value={newData.email}/>}
-                  {newData.web && <RenderField icon="world" color={newData.secondary} value={newData.web}/>}
+                  {newData.email && <RenderField icon="emailIcon" color={newData.secondary} value={newData.email} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.web && <RenderField icon="world" color={newData.secondary} value={newData.web} sx={{fontFamily: getFont(newData)}}/>}
                 </Grid>
               </Grid>
             </>
@@ -100,7 +100,7 @@ export default function VCard({newData}: VCardProps) {
         <Button
           variant="contained"
           startIcon={<GetAppIcon />}
-          sx={{my: '10px', color: colors.s, background: colors.p, '&:hover': {color: colors.p, background: colors.s} }}
+          sx={{my: '10px', color: colors.s, background: colors.p, '&:hover': {color: colors.p, background: colors.s}, fontFamily: getFont(newData)}}
           onClick={downloadFile}
         >{'Get Contact'}</Button>
       </CardActions>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import { getColors } from "./renderers/helper";
+import {getColors, getFont} from "./renderers/helper";
 import { ColorTypes } from "../types/types";
 import Typography from '@mui/material/Typography';
 import CofeeIcon from '@mui/icons-material/Coffee';
@@ -152,10 +152,10 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               spacing={1}
             >
               <Grid item sx={{ RoundedCorner: 2 }} >
-                <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2}>{newData?.title}</Typography>
+                <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{fontFamily: getFont(newData)}}>{newData?.title}</Typography>
               </Grid>
-              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0 }}>
-                <Typography>
+              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0, fontFamily: getFont(newData) }}>
+                <Typography sx={{fontFamily: getFont(newData)}}>
                   {newData?.message}
                 </Typography>
               </Grid>
@@ -168,14 +168,14 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     </SvgIcon>
                   </Box>
                   <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
-                    <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+                    <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', fontFamily: getFont(newData) }}>
                       ${newData.donationUnitAmount || 1} each
                     </Typography>
                   </Box>
                 </Grid>
                 <Grid item>
                   <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <Typography textAlign='center' paddingTop={2}>
+                    <Typography textAlign='center' paddingTop={2} sx={{fontFamily: getFont(newData)}}>
                       or
                     </Typography>
                   </Box>
@@ -203,7 +203,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
                 <Grid item >
                   <TextField
-                    sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center' }}
+                    sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center', fontFamily: getFont(newData) }}
 
                     size="small"
                     placeholder="25"

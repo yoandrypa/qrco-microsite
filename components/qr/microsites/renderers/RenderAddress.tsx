@@ -3,6 +3,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RenderField from "./RenderField";
 import {ColorTypes} from "../../types/types";
 import Typography from "@mui/material/Typography";
+import {getFont} from "./helper";
 
 interface RenderAddressProps {
   newData: any;
@@ -27,9 +28,9 @@ export default function RenderAddress({newData, colors}: RenderAddressProps) {
         <LocationOnIcon sx={{color: colors.p}}/>
       </Grid>
       <Grid item xs={11}>
-        <Typography sx={{ fontWeight: 'bold' }}>{'Address'}</Typography>
+        <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Address'}</Typography>
         <Grid container spacing={1}>
-          <RenderField value={address} />
+          <RenderField value={address} sx={{fontFamily: getFont(newData)}} />
         </Grid>
       </Grid>
     </>

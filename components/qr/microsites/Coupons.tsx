@@ -5,7 +5,7 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 import Link from 'next/link'
-import {getColors} from "./renderers/helper";
+import {getColors, getFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import {humanDate} from "../../helpers/generalFunctions";
 import RenderAddress from "./renderers/RenderAddress";
@@ -32,17 +32,18 @@ export default function Coupons({newData}: CouponProps) {
                 <PlaylistAddCheckIcon sx={{color: colors.p}}/>
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold' }}>{'Company'}</Typography>
+                <Typography sx={{fontWeight: 'bold', fontFamily: getFont(newData)}}>{'Company'}</Typography>
                 <Grid container spacing={1}>
-                  {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px' }} />}
-                  {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }} />}
-                  {newData.about && <RenderField value={newData.about} icon="about" color={colors?.s}/>}
+                  {newData.company && <RenderField value={newData.company} sx={{fontWeight: 'bold', fontSize: '24px', my: '-10px', fontFamily: getFont(newData)}} />}
+                  {newData.title && <RenderField value={newData.title} sx={{fontWeight: 'bold', fontSize: '20px', my: '-10px', fontFamily: getFont(newData)}} />}
+                  {newData.about && <RenderField value={newData.about} icon="about" color={colors?.s} sx={{fontFamily: getFont(newData)}} />}
                   {newData.urlOptionLink && (
                     <Grid item xs={12} style={{paddingTop: 0}}>
                       <Link href={newData.urlOptionLink}>
                         <Button
                           variant="contained"
                           sx={{
+                            fontFamily: getFont(newData),
                             height: '28px',
                             width: '100%',
                             color: colors.p,
@@ -65,10 +66,10 @@ export default function Coupons({newData}: CouponProps) {
             </Grid>
             <Grid item xs={11}>
               <Grid container spacing={1}>
-                <Typography sx={{ fontWeight: 'bold', mt: '10px', ml: '10px' }}>{'Coupon'}</Typography>
-                {newData.name && <RenderField value={newData.name}  sx={{ fontSize: '20px', my: '-30px' }} />}
-                {newData.value && <RenderField label="Valid until" value={humanDate(newData.value, 'en', true)} />}
-                {newData.text && <RenderField label="Terms and conditions" value={newData.text} />}
+                <Typography sx={{fontWeight: 'bold', mt: '10px', ml: '10px', fontFamily: getFont(newData)}}>{'Coupon'}</Typography>
+                {newData.name && <RenderField value={newData.name}  sx={{fontSize: '20px', my: '-30px', fontFamily: getFont(newData)}} />}
+                {newData.value && <RenderField label="Valid until" value={humanDate(newData.value, 'en', true)} sx={{fontFamily: getFont(newData)}} />}
+                {newData.text && <RenderField label="Terms and conditions" value={newData.text} sx={{fontFamily: getFont(newData)}} />}
               </Grid>
             </Grid>
             </>

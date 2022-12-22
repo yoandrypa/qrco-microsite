@@ -13,6 +13,7 @@ import {DEFAULT_COLORS} from "../../constants";
 import {SocialNetworksType} from "../../types/types";
 import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
+import {getFont} from "./helper";
 
 interface RenderSocialsProps {
   newData: any;
@@ -93,6 +94,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
         margin="dense"
         // @ts-ignore
         value={value}
+        inputProps={{style: {fontFamily: getFont(newData)}}}
         InputProps={{
           disableUnderline: true,
           startAdornment: (
@@ -131,7 +133,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
               <Grid item xs={1}><GroupsIcon sx={{color: newData.primary || DEFAULT_COLORS.p}}/></Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
-                  {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', fontWeight: 'bold'}}>{desc}</Typography>}
+                  {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', fontWeight: 'bold', fontFamily: getFont(newData)}}>{desc}</Typography>}
                   {newData.socials.map((x: SocialNetworksType) => (
                     <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
                       {renderSocials(x)}

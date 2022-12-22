@@ -1,4 +1,4 @@
-import {DEFAULT_COLORS, SOCIALS} from "../../constants";
+import {DEFAULT_COLORS, FONTS, SOCIALS} from "../../constants";
 import {handleDesignerString} from "../../../../helpers/qr/helpers";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
@@ -39,13 +39,18 @@ export function downloadVCard(data: any) {
   handleDownload(contents, 'text/plain', 'my vcard.vcf', true);
 }
 
-
 export function handleDownloadFiles(data: FileType, kind: string) {
   const type = data.type as string;
   let extension = getExtension(type);
   if (extension.includes('/')) {
     extension = type.split('/')[1];
   }
-
   handleDownload(data.content, type, `my ${kind}.${extension}`);
+}
+
+export function getFont(data: any, property?: string) {
+  if (data?.globalFont) { // @ts-ignore
+    return FONTS[property || data.globalFont || 'Default'];
+  }
+  return 'unset';
 }

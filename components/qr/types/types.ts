@@ -97,7 +97,7 @@ export type DataType = {
   isDynamic?: boolean;
   files?: File[];
   otherDetails?:HeadAndItemsType
-  urls?:HeadAndItemsType  
+  urls?:HeadAndItemsType
 };
 export type HeadAndItemsType = {
   heading: string;
