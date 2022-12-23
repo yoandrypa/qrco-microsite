@@ -15,7 +15,6 @@ import {OpeningObjType} from "../types/types";
 import {getFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
-import {useTheme} from "@mui/system";
 
 interface BusinessProps {
   newData: any;
@@ -23,7 +22,6 @@ interface BusinessProps {
 
 export default function Business({newData}: BusinessProps) {
   const [hideTooltips, setHideTooltips] = useState<boolean>(false);
-  const theming = useTheme();
 
   const renderEasiness = (item: string, label: string) => (
     <SquareSelector
@@ -62,7 +60,7 @@ export default function Business({newData}: BusinessProps) {
             newData.phone || newData.about) && (
             <>
               <Grid item xs={1}>
-                <WorkIcon sx={{color: theming.palette.primary.main}}/>
+                <WorkIcon sx={{color: theme => theme.palette.primary.main}}/>
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
@@ -104,7 +102,7 @@ export default function Business({newData}: BusinessProps) {
           {newData.easiness && (
             <>
               <Grid item xs={1}>
-                <DoneAllIcon sx={{color: theming.palette.primary.main}}/>
+                <DoneAllIcon sx={{color: theme => theme.palette.primary.main}}/>
               </Grid>
               <Grid item xs={11}>
                 <Typography sx={{ fontWeight: 'bold', mb: '5px', fontFamily: getFont(newData) }}>{'Easiness'}</Typography>
@@ -143,7 +141,7 @@ export default function Business({newData}: BusinessProps) {
           {Object.keys(newData.openingTime || []).length ? (
             <>
             <Grid item xs={1}>
-              <ScheduleIcon sx={{color: theming.palette.primary.main}}/>
+              <ScheduleIcon sx={{color: theme => theme.palette.primary.main}}/>
             </Grid>
             <Grid item xs={11}>
               <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Opening time'}</Typography>
