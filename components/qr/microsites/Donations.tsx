@@ -1,14 +1,14 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import {handleFont} from "./renderers/helper";
+import { handleFont } from "./renderers/helper";
 import Typography from '@mui/material/Typography';
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import TextField from "@mui/material/TextField";
 import MainMicrosite from "./MainMicrosite";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import LoadingButton from '@mui/lab/LoadingButton'
 import Button from '@mui/material/Button';
 import Dialog from "@mui/material/Dialog";
@@ -17,7 +17,7 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 
 import ThankYou from "../helperComponents/ThankYou";
-import {useTheme} from "@mui/system";
+import { useTheme } from "@mui/system";
 
 
 interface DonationsProps {
@@ -126,107 +126,108 @@ export default function DonationsInfo({ newData }: DonationsProps) {
         </DialogActions>
       </Dialog>
       {!thanks ? (
-          <CardContent sx={{ height: '100%' }}>
-            <Grid container
-              display='flex'
-              justifyContent="center"
-              alignItems="center"
-              spacing={1}
-            >
-              <Grid item sx={{ RoundedCorner: 2 }} >
-                <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{...handleFont(newData, 'm')}}>{newData?.title}</Typography>
+        <CardContent sx={{ height: '100%' }}>
+          <Grid container
+            display='flex'
+            justifyContent="center"
+            alignItems="center"
+            spacing={1}
+          >
+            <Grid item sx={{ RoundedCorner: 2 }} >
+              <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{ fontFamily: getFont(newData) }}>{newData?.title}</Typography>
+            </Grid>
+            <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0, fontFamily: getFont(newData) }}>
+              <Typography sx={{ fontFamily: getFont(newData) }}>
+                {newData?.message}
+              </Typography>
+            </Grid>
+
+            <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
+              <Grid item >
+                <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+                  <SvgIcon sx={{ width: 35, height: 35 }}>
+                    <CofeeIcon color='primary' />
+                  </SvgIcon>
+                </Box>
+                <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
+                  <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', fontFamily: getFont(newData) }}>
+                    ${newData.donationUnitAmount || 1} each
+                  </Typography>
+                </Box>
               </Grid>
-              <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0, ...handleFont(newData, 'm') }}>
-                <Typography sx={{...handleFont(newData, 'm')}}>
-                  {newData?.message}
-                </Typography>
+              <Grid item>
+                <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
+                  <Typography textAlign='center' paddingTop={2} sx={{ fontFamily: getFont(newData) }}>
+                    or
+                  </Typography>
+                </Box>
               </Grid>
+              <Grid item sx={{ marginLeft: 2 }}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    const temp = parseInt(inputValue) - 1;
+                    setInputValue(temp >= 100 ? '100' : temp.toString())
+                  }}
+                  sx={{
+                    borderRadius: 45,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    backgroundColor: theme => theme.palette.secondary.main,
+                    width: 35,
+                    height: 35
+                  }}>
+                  -
+                </Button>
 
-              <Grid spacing={1} container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }}>
-                <Grid item >
-                  <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <SvgIcon sx={{ width: 35, height: 35 }}>
-                      <CofeeIcon color='primary' />
-                    </SvgIcon>
-                  </Box>
-                  <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
-                    <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', ...handleFont(newData, 'm') }}>
-                      ${newData.donationUnitAmount || 1} each
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item>
-                  <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                    <Typography textAlign='center' paddingTop={2} sx={{...handleFont(newData, 'm')}}>
-                      or
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item sx={{ marginLeft: 2 }}>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      const temp = parseInt(inputValue) - 1;
-                      setInputValue(temp >= 100 ? '100' : temp.toString())
-                    }}
-                    sx={{
-                      borderRadius: 45,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignContent: 'center',
-                      backgroundColor: theme => theme.palette.secondary.main,
-                      width: 35,
-                      height: 35
-                    }}>
-                    -
-                  </Button>
-
-                </Grid>
-
-                <Grid item >
-                  <TextField
-                    sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center', ...handleFont(newData, 'm') }}
-                    size="small"
-                    placeholder="25"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    inputProps={{ min: 1, max: 80, style: { textAlign: 'center' } }}
-                  ></TextField>
-                </Grid>
-
-                <Grid item >
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      const temp = parseInt(inputValue) + 1;
-                      setInputValue(temp.toString())
-                    }}
-                    sx={{
-                      borderRadius: 45,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      backgroundColor: theme => theme.palette.secondary.main,
-                      alignContent: 'center',
-                      width: 35, height: 35,
-                      margin: 'auto'
-                    }}>
-                    +
-                  </Button>
-                </Grid>
               </Grid>
 
-              <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-                <LoadingButton
-                  loading={isLoading}
-                  style={{ backgroundColor: theming.palette.primary.main, borderRadius: 45 }}
-                  onClick={handleClick}
-                  variant="contained" sx={{ borderRadius: 2 }}>
-                  {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
-                </LoadingButton>
+              <Grid item >
+                <TextField
+                  sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center', fontFamily: getFont(newData) }}
+
+                  size="small"
+                  placeholder="25"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  inputProps={{ min: 1, max: 80, style: { textAlign: 'center' } }}
+                ></TextField>
+              </Grid>
+
+              <Grid item >
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    const temp = parseInt(inputValue) + 1;
+                    setInputValue(temp.toString())
+                  }}
+                  sx={{
+                    borderRadius: 45,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    backgroundColor: theme => theme.palette.secondary.main,
+                    alignContent: 'center',
+                    width: 35, height: 35,
+                    margin: 'auto'
+                  }}>
+                  +
+                </Button>
               </Grid>
             </Grid>
-          </CardContent>
-        ) :
+
+            <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+              <LoadingButton
+                loading={isLoading}
+                style={{ backgroundColor: theming.palette.primary.main, borderRadius: 45 }}
+                onClick={handleClick}
+                variant="contained" sx={{ borderRadius: 2 }}>
+                {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
+              </LoadingButton>
+            </Grid>
+          </Grid>
+        </CardContent>
+      ) :
         (
           <ThankYou qrData={newData} />
         )
