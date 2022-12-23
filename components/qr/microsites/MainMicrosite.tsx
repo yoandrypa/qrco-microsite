@@ -229,7 +229,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <Box sx={{
           width: '100%',
           minHeight: !containerDimensions ?
-            `calc(100vh - ${foreImg ? 256 : 226}px)` :
+            `calc(100vh - ${foreImg ? 256 : Object.keys(data).length ? 226 : 202}px)` :
             `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 233}px)`,
           mt: foreImg ? '30px' : 0
         }}>
