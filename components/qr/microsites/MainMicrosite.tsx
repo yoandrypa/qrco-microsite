@@ -8,14 +8,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import capitalize from "@mui/utils/capitalize";
 import {useMediaQuery} from "@mui/material";
 import {alpha} from "@mui/material/styles";
-
-import {ColorTypes} from "../types/types";
-import {DEFAULT_COLORS} from "../constants";
 import {download} from "../../../handlers/storage";
 import {RWebShare} from "react-web-share";
-import {getColors, getFont} from "./renderers/helper";
+import {getFont} from "./renderers/helper";
 
 import dynamic from "next/dynamic";
+import {useTheme} from "@mui/system";
 
 const Notifications = dynamic(() => import('../helperComponents/Notifications'));
 
@@ -34,9 +32,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const [containerDimensions, setContainerDimensions] = useState<DimsProps | undefined>(undefined);
   const [error, setError] = useState<boolean>(false);
 
-  const colors = getColors(data) as ColorTypes;
-
   const isWide: boolean = useMediaQuery("(min-width:490px)", {noSsr: true});
+  const theming = useTheme();
 
   const getFiles = async (key: string, item: string) => {
     try {
@@ -124,7 +121,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           zIndex: 10,
           bottom: '45px'
         }}>
-          <CircularProgress size={20} sx={{mr: '5px', color: colors?.p || DEFAULT_COLORS.p}}/>
+          <CircularProgress size={20} sx={{mr: '5px', color: theme => theme.palette.primary.main}}/>
           <Typography sx={{fontSize: 'small', color: theme => theme.palette.text.disabled, fontFamily: getFont(data)}}>
             {'Loading data. Please wait...'}
           </Typography>
@@ -136,7 +133,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         m: 0,
         width: '100%',
         height: '270px',
-        background: !backImg ? alpha(colors?.p || DEFAULT_COLORS.p, 0.9) : 'none'
+        background: theme => !backImg ? alpha(theme.palette.primary.main, 0.9) : 'none'
       }}>
         {backImg && (
           <Box
@@ -170,7 +167,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <Box sx={{
           width: '475px',
           height: '200px',
-          background: !backImg && colors ? colors.p : 'none'
+          background: theme => !backImg ?  theme.palette.primary.main : 'none'
         }}>
           {backImg && (
             <Box
@@ -192,10 +189,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
                   position: 'absolute',
                   top: 147,
                   right: 16,
-                  color: colors?.s || DEFAULT_COLORS.s,
-                  backgroundColor: colors?.p || DEFAULT_COLORS.p,
+                  color:  theme => theme.palette.secondary.main,
+                  backgroundColor:  theme => theme.palette.primary.main,
                   border: 'solid 3px #fff',
-                  '&:hover': {color: colors?.p || DEFAULT_COLORS.p, background: colors?.s || DEFAULT_COLORS.s}
+                  '&:hover': {color:  theme => theme.palette.primary.main, background:  theme => theme.palette.secondary.main}
                 }}>
                 <ShareIcon/>
               </Fab>
@@ -220,7 +217,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         {(!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
           <Box sx={{
             width: '100%',
-            background: `linear-gradient(rgba(0,0,0,0), ${alpha(colors?.s || DEFAULT_COLORS.s, 0.25)})`,
+            background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
             height: '250px',
             position: 'absolute',
             bottom: 0
@@ -242,9 +239,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             justifyContent: 'center',
             fontWeight: 'bold',
             fontSize: '20px',
-            color: colors?.s || DEFAULT_COLORS.s
+            color: theme => theme.palette.secondary.main
           }}>
-            <RenderIcon icon={qrType} enabled color={colors?.s || DEFAULT_COLORS.s}/>
+            <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
             <Typography sx={{ml: '5px', fontFamily: getFont(data)}}>
               {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
             </Typography>

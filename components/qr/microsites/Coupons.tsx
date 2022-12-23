@@ -5,38 +5,35 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 import Link from 'next/link'
-import {getColors, getFont} from "./renderers/helper";
+import {getFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import {humanDate} from "../../helpers/generalFunctions";
 import RenderAddress from "./renderers/RenderAddress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RenderBadge from "./renderers/RenderBadge";
-import {ColorTypes} from "../types/types";
 
 interface CouponProps {
   newData: any;
 }
 
 export default function Coupons({newData}: CouponProps) {
-  const colors = getColors(newData) as ColorTypes;
-
   return (
     <MainMicrosite data={newData}>
-      <RenderBadge newData={newData} colors={colors} />
+      <RenderBadge newData={newData} />
       <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           {(newData.company || newData.title || newData.about || newData.urlOptionLink) && (
             <>
               <Grid item xs={1}>
-                <PlaylistAddCheckIcon sx={{color: colors.p}}/>
+                <PlaylistAddCheckIcon sx={{color: theme => theme.palette.primary.main}}/>
               </Grid>
               <Grid item xs={11}>
                 <Typography sx={{fontWeight: 'bold', fontFamily: getFont(newData)}}>{'Company'}</Typography>
                 <Grid container spacing={1}>
                   {newData.company && <RenderField value={newData.company} sx={{fontWeight: 'bold', fontSize: '24px', my: '-10px', fontFamily: getFont(newData)}} />}
                   {newData.title && <RenderField value={newData.title} sx={{fontWeight: 'bold', fontSize: '20px', my: '-10px', fontFamily: getFont(newData)}} />}
-                  {newData.about && <RenderField value={newData.about} icon="about" color={colors?.s} sx={{fontFamily: getFont(newData)}} />}
+                  {newData.about && <RenderField value={newData.about} icon="about" sx={{fontFamily: getFont(newData)}} />}
                   {newData.urlOptionLink && (
                     <Grid item xs={12} style={{paddingTop: 0}}>
                       <Link href={newData.urlOptionLink}>
@@ -46,10 +43,10 @@ export default function Coupons({newData}: CouponProps) {
                             fontFamily: getFont(newData),
                             height: '28px',
                             width: '100%',
-                            color: colors.p,
-                            background: colors.s,
+                            color: theme => theme.palette.primary.main,
+                            background: theme => theme.palette.secondary.main,
                             my: '5px',
-                            '&:hover': {color: colors.s, background: colors.p}}}>
+                            '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}}}>
                           {newData.urlOptionLabel || 'Get link'}
                         </Button>
                       </Link>
@@ -62,7 +59,7 @@ export default function Coupons({newData}: CouponProps) {
           {(newData.name || newData.value || newData.text) && (
             <>
             <Grid item xs={1}>
-              <ConfirmationNumberIcon sx={{color: colors.p}}/>
+              <ConfirmationNumberIcon color="primary" />
             </Grid>
             <Grid item xs={11}>
               <Grid container spacing={1}>
@@ -74,7 +71,7 @@ export default function Coupons({newData}: CouponProps) {
             </Grid>
             </>
           )}
-          <RenderAddress newData={newData} colors={colors} />
+          <RenderAddress newData={newData} />
         </Grid>
       </Box>
     </MainMicrosite>

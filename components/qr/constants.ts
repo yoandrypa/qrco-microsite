@@ -1,5 +1,3 @@
-import {ColorTypes} from "./types/types";
-
 export const SOCIALS = ['facebook', 'whatsapp', 'twitter', 'instagram', 'linkedin', 'pinterest', 'telegram', 'youtube'] as string[];
 
 export const DAYS = {
@@ -12,7 +10,7 @@ export const DAYS = {
   sat: 'Saturday'
 } as object;
 
-export const DEFAULT_COLORS = { p: '#0f4d8c', s: '#99c4f0' } as ColorTypes;
+export const DEFAULT_COLORS = { p: '#0f4d8c', s: '#99c4f0' };
 
 export const FONTS = {
   Default: '"Roboto","Helvetica","Arial",sans-serif',

@@ -1,16 +1,16 @@
 import Grid from "@mui/material/Grid";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RenderField from "./RenderField";
-import {ColorTypes} from "../../types/types";
 import Typography from "@mui/material/Typography";
 import {getFont} from "./helper";
+import {useTheme} from "@mui/system";
 
 interface RenderAddressProps {
   newData: any;
-  colors: ColorTypes;
 }
 
-export default function RenderAddress({newData, colors}: RenderAddressProps) {
+export default function RenderAddress({newData}: RenderAddressProps) {
+  const theme = useTheme();
   if (!newData.address && !newData.city && !newData.zip && !newData.state && !newData.country) {
     return null;
   }
@@ -25,7 +25,7 @@ export default function RenderAddress({newData, colors}: RenderAddressProps) {
   return (
     <>
       <Grid item xs={1}>
-        <LocationOnIcon sx={{color: colors.p}}/>
+        <LocationOnIcon sx={{color: theme.palette.primary.main}}/>
       </Grid>
       <Grid item xs={11}>
         <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Address'}</Typography>

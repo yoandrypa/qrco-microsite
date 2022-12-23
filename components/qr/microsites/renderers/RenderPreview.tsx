@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
 
-import {ColorTypes, FileType} from "../../types/types";
+import {FileType} from "../../types/types";
 import RenderPreviewVideo from "./RenderPreviewVideo";
 import RenderPreviewPdf from "./RenderPreviewPdf";
 import {handleDownloadFiles} from "./helper";
@@ -12,7 +12,6 @@ import RenderPreviewImage from "./RenderPreviewImage";
 
 interface RenderPreviewProps {
   handleClose: () => void;
-  colors: ColorTypes;
   type: string;
   preview: FileType | string;
   position?: number;
@@ -25,7 +24,7 @@ interface RenderPreviewProps {
 }
 
 export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
-                                        colors, preview, type, fontFamily }: RenderPreviewProps) {
+                                        preview, type, fontFamily }: RenderPreviewProps) {
   const wide = isWide && isHeight;
   const isString = typeof preview === 'string';
 
@@ -53,9 +52,9 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
               sx={{
                 mt: 1,
                 fontFamily,
-                color: colors.p,
+                color: theme => theme.palette.primary.main,
                 background: isString ? preview : preview.content,
-                '&:hover': {color: colors.s, background: colors.p}
+                '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}
               }}
               variant="outlined"
               onClick={() => { if (typeof preview !== 'string') {handleDownloadFiles(preview, type)}} }

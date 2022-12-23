@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import {getColors, getFont} from "./renderers/helper";
+import {getFont} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
-import {ColorTypes, LinkType} from "../types/types";
+import {LinkType} from "../types/types";
 import RenderSocials from "./renderers/RenderSocials";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
 
@@ -12,8 +12,6 @@ interface LinksProps {
 }
 
 export default function LinksMicro({newData}: LinksProps) {
-  const colors = getColors(newData) as ColorTypes;
-
   const renderBtn = (item: LinkType, key: string) => (
     <Button
       key={key}
@@ -25,9 +23,9 @@ export default function LinksMicro({newData}: LinksProps) {
         fontFamily: getFont(newData),
         mt: '10px',
         width: 'calc(100% - 70px)',
-        color: colors.p,
-        background: colors.s,
-        '&:hover': {color: colors.s, background: colors.p}
+        color: theme => theme.palette.primary.main,
+        background: theme => theme.palette.secondary.main,
+        '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}
       }}
     >{item.label}</Button>
   );
@@ -35,7 +33,7 @@ export default function LinksMicro({newData}: LinksProps) {
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2, textAlign: 'center' }}>
-        <RenderTitleDesc newData={newData} colors={colors} />
+        <RenderTitleDesc newData={newData} />
         {newData.position === 'over' && (
           <Box sx={{mt: 2, display: 'inline-flex'}}>
             <RenderSocials newData={newData} onlyIcons/>

@@ -1,11 +1,7 @@
-import {DEFAULT_COLORS, FONTS, SOCIALS} from "../../constants";
+import {FONTS, SOCIALS} from "../../constants";
 import {handleDesignerString} from "../../../../helpers/qr/helpers";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
-
-export function getColors(data: any) {
-  return { p: data.primary || DEFAULT_COLORS.p, s: data.secondary || DEFAULT_COLORS.s }
-}
 
 function handleDownload(contents: string, type: string, name: string, useFile?: boolean) {
   let url = contents;
