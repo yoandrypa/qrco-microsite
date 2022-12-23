@@ -1,21 +1,18 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
-import GetAppIcon from '@mui/icons-material/GetApp';
 import MainMicrosite from './MainMicrosite';
 import RenderSocials from './renderers/RenderSocials';
-import { getColors } from './renderers/helper';
-import { ContactMail, Info, Pets } from '@mui/icons-material';
-import { ColorTypes } from '../types/types';
+import {ContactMail, Info, Pets} from '@mui/icons-material';
 import RenderField from './renderers/RenderField';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import LinkIcon from '@mui/icons-material/Link';
+
 interface PetIdProps {
   newData: any;
 }
 
 export default function PetsId({ newData }: PetIdProps) {
-  const colors = getColors(newData) as ColorTypes;
   let address = `${newData.address1 ? `${newData.address1}, ` : ''}${
     newData.address2 ? `${newData.address2}, ` : ''
   }${newData.city ? `${newData.city}, ` : ''}${
@@ -33,7 +30,7 @@ export default function PetsId({ newData }: PetIdProps) {
     return (
       <>
         <Grid item xs={1} key={'linksIcon'}>
-          <LinkIcon sx={{ color: colors.p }} />
+          <LinkIcon sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key={'linksBody'}>
           <Typography sx={{ fontWeight: 'bold' }}>
@@ -41,7 +38,7 @@ export default function PetsId({ newData }: PetIdProps) {
           </Typography>
           <Grid container spacing={0}>
             {newData.urls.items.map((item: any, index: Number) => {
-              if(item.value === '') return <></>; 
+              if(item.value === '') return <></>;
               return (
               <RenderField
                 key={`links${index}`}
@@ -65,7 +62,7 @@ export default function PetsId({ newData }: PetIdProps) {
     return (
       <>
         <Grid item xs={1} key={'otherIcon'}>
-          <Info sx={{ color: colors.p }} />
+          <Info sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key={'otherBody'}>
           <Typography sx={{ fontWeight: 'bold' }}>
@@ -107,7 +104,7 @@ export default function PetsId({ newData }: PetIdProps) {
     return (
       <>
         <Grid item xs={1} key="contactIcon">
-          <ContactMail sx={{ color: colors.p }} />
+          <ContactMail sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key="contactBody">
           <Typography sx={{ fontWeight: 'bold' }}>
@@ -151,7 +148,7 @@ export default function PetsId({ newData }: PetIdProps) {
     return (
       <>
         <Grid item xs={1} key="petIcon">
-          <Pets sx={{ color: colors.p }} />
+          <Pets sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key="petBody">
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -175,7 +172,7 @@ export default function PetsId({ newData }: PetIdProps) {
           {(newData.title || newData.titleText) && (
               <>
                 <Grid item xs={1} key="headingIcon">
-                  <Info sx={{ color: colors.p }} />
+                  <Info sx={{ color: theme => theme.palette.primary.main }} />
                 </Grid>
                 <Grid item xs={11} key="headingBody">
                   <Typography sx={{ fontWeight: 'bold' }}>

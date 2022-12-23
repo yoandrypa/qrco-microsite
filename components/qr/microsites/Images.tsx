@@ -7,9 +7,9 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import {useMediaQuery} from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import {getColors, getFont} from "./renderers/helper";
+import {getFont} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
-import {ColorTypes, FileType} from "../types/types";
+import {FileType} from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
 
@@ -58,8 +58,6 @@ function Images({newData}: ImageProps) {
     setHideTooltip(window.top !== window);
   }, []);
 
-  const colors = getColors(newData) as ColorTypes;
-
   let colNumber = images.current.length;
   let width = '0';
 
@@ -86,8 +84,8 @@ function Images({newData}: ImageProps) {
 
   return (
     <MainMicrosite data={newData}>
-      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: colors.s}}>
-        <RenderTitleDesc newData={newData} colors={colors} />
+      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
+        <RenderTitleDesc newData={newData} />
         {images.current.length ? (
           <Typography sx={{fontWeight: 'bold', fontFamily: getFont(newData)}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
@@ -105,11 +103,11 @@ function Images({newData}: ImageProps) {
                 width: 'calc(100% - 10px)',
                 ml: '5px',
                 p: 2,
-                border: `solid 1px ${colors.p}`,
+                border: theme => `solid 1px ${theme.palette.primary.main}`,
                 borderRadius: '5px'
               }}>
-                <Typography sx={{color: colors.p, width: '100%', textAlign: 'center', fontFamily: getFont(newData)}}>
-                  <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
+                <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', fontFamily: getFont(newData)}}>
+                  <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                   {'Error loading image.'}
                 </Typography>
               </Box>
@@ -155,7 +153,6 @@ function Images({newData}: ImageProps) {
           isHeight={isHeight}
           preview={preview}
           handleClose={() => setPreview(null)}
-          colors={colors}
           type="image"
           fontFamily={getFont(newData)}
         />

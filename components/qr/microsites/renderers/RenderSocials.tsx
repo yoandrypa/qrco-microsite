@@ -9,11 +9,11 @@ import ForwardIcon from "@mui/icons-material/Forward";
 import GroupsIcon from '@mui/icons-material/Groups';
 import {capitalize} from "@mui/material";
 
-import {DEFAULT_COLORS} from "../../constants";
 import {SocialNetworksType} from "../../types/types";
 import Typography from "@mui/material/Typography";
 import {useEffect, useState} from "react";
 import {getFont} from "./helper";
+import {useTheme} from "@mui/system";
 
 interface RenderSocialsProps {
   newData: any;
@@ -22,6 +22,8 @@ interface RenderSocialsProps {
 }
 
 export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsProps) {
+  const theming = useTheme();
+
   const [hideTooltips, setHideToolTips] = useState<boolean>(false);
 
   const handleCopy = (data: string) => {
@@ -79,7 +81,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
       return (
         <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
           <IconButton target="_blank" component="a" href={url}>
-            <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p} />
+            <RenderIcon icon={item.network} enabled color={theming.palette.primary.main} />
           </IconButton>
         </Tooltip>
       );
@@ -99,19 +101,19 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
           disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
-              <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p}/>
+              <RenderIcon icon={item.network} enabled color={theming.palette.primary.main}/>
             </InputAdornment>
           ),
           endAdornment: (
             <InputAdornment position="end">
               <Tooltip title={`Copy ${label} contact info to clipboard`} disableHoverListener={hideTooltips || false}>
                 <IconButton onClick={() => handleCopy(url)}>
-                  <ContentCopyIcon sx={{color: newData.secondary || DEFAULT_COLORS.s}}/>
+                  <ContentCopyIcon sx={{color: theme => theme.palette.secondary.main}}/>
                 </IconButton>
               </Tooltip>
               <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
                 <IconButton target="_blank" component="a" href={url}>
-                  <ForwardIcon sx={{color: newData.secondary || DEFAULT_COLORS.s}}/>
+                  <ForwardIcon sx={{color: theme => theme.palette.secondary.main}}/>
                 </IconButton>
               </Tooltip>
             </InputAdornment>
@@ -130,7 +132,7 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
       {(newData.socials?.length) ? (<>
           {!onlyIcons ? (
             <>
-              <Grid item xs={1}><GroupsIcon sx={{color: newData.primary || DEFAULT_COLORS.p}}/></Grid>
+              <Grid item xs={1}><GroupsIcon sx={{color: theming.palette.primary.main}}/></Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
                   {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', fontWeight: 'bold', fontFamily: getFont(newData)}}>{desc}</Typography>}

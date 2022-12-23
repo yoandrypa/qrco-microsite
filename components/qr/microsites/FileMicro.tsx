@@ -4,9 +4,9 @@ import Box from "@mui/material/Box";
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
 import MainMicrosite from "./MainMicrosite";
-import {getColors, getFont, handleDownloadFiles} from "./renderers/helper";
+import {getFont, handleDownloadFiles} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
-import {ColorTypes, FileType} from "../types/types";
+import {FileType} from "../types/types";
 import DownloadIcon from "@mui/icons-material/Download";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -30,8 +30,6 @@ export default function FileMicro({ newData }: FileProps) {
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
 
-  const colors = getColors(newData) as ColorTypes;
-
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
 
@@ -51,7 +49,7 @@ export default function FileMicro({ newData }: FileProps) {
   const renderHint = (type: string, index: number) => {
     const kind = newData.qrType === 'audio' ? 'Audio track' : newData.qrType === 'video' ? 'Video track' : 'PDF document';
     return (
-      <Typography sx={{ width: '100%', textAlign: 'center', color: colors.p, fontFamily: getFont(newData) }}>
+      <Typography color="primary" sx={{ width: '100%', textAlign: 'center', fontFamily: getFont(newData) }}>
         <Typography sx={{ fontWeight: 'bold', display: 'inline-block', mr: 1 }}>
           {kind}
         </Typography>
@@ -77,8 +75,8 @@ export default function FileMicro({ newData }: FileProps) {
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
-        <RenderTitleDesc newData={newData} colors={colors} />
-        <Box sx={{ color: colors.s, textAlign: 'center' }}>
+        <RenderTitleDesc newData={newData} />
+        <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
           {newData.files?.length && <Typography sx={{fontFamily: getFont(newData)}}>{'items'}</Typography>}
         </Box>
         {/* @ts-ignore */}
@@ -90,7 +88,7 @@ export default function FileMicro({ newData }: FileProps) {
               width: 'calc(100% - 10px)',
               ml: '5px',
               p: 2,
-              border: `solid 1px ${colors.p}`,
+              border: theme => `solid 1px ${theme.palette.primary.main}`,
               borderRadius: '5px'
             }}>
               {x ? (
@@ -113,9 +111,9 @@ export default function FileMicro({ newData }: FileProps) {
                       sx={{
                         fontFamily: getFont(newData),
                         width: '100%',
-                        color: colors.p,
-                        background: colors.s,
-                        '&:hover': { color: colors.s, background: colors.p }
+                        color: theme => theme.palette.primary.main,
+                        background: theme => theme.palette.secondary.main,
+                        '&:hover': { color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main }
                       }}
                       variant="outlined"
                       onClick={() => handleDownloadFiles(x, newData.qrType)}
@@ -130,9 +128,9 @@ export default function FileMicro({ newData }: FileProps) {
                           width: isWide400 ? '30%' : '100%',
                           ml: isWide400 ? '5px' : 0,
                           mt: isWide400 ? 0 : '5px',
-                          color: colors.p,
-                          background: colors.s,
-                          '&:hover': { color: colors.s, background: colors.p }
+                          color: theme => theme.palette.primary.main,
+                          background: theme => theme.palette.secondary.main,
+                          '&:hover': { color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main }
                         }}
                         variant="outlined"
                         onClick={() => setPreview(x)}
@@ -143,8 +141,8 @@ export default function FileMicro({ newData }: FileProps) {
                   </Box>
                 </>
               ) : (
-                <Typography sx={{ color: colors.p, width: '100%', textAlign: 'center', fontFamily: getFont(newData) }}>
-                  <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
+                <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', fontFamily: getFont(newData) }}>
+                  <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                   {'Error loading asset.'}
                 </Typography>
               )}
@@ -152,14 +150,14 @@ export default function FileMicro({ newData }: FileProps) {
           );
         }) : (
           newData.files?.length ? (
-            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: colors.p}}>
-              <CircularProgress sx={{color: colors.p, mr: '10px', my: 'auto'}}/>
+            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: theme => theme.palette.primary.main}}>
+              <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
               <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
             </Box>
           ) : null
         )}
         {preview && (
-          <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} colors={colors} handleClose={() => setPreview(null)} fontFamily={getFont(newData)} />
+          <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} handleClose={() => setPreview(null)} fontFamily={getFont(newData)} />
         )}
       </Box>
     </MainMicrosite>

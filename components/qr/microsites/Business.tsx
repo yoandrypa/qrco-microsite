@@ -11,18 +11,19 @@ import Button from "@mui/material/Button";
 
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
-import {ColorTypes, OpeningObjType} from "../types/types";
-import {getColors, getFont} from "./renderers/helper";
+import {OpeningObjType} from "../types/types";
+import {getFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
+import {useTheme} from "@mui/system";
 
 interface BusinessProps {
   newData: any;
 }
 
 export default function Business({newData}: BusinessProps) {
-  const colors = getColors(newData) as ColorTypes;
   const [hideTooltips, setHideTooltips] = useState<boolean>(false);
+  const theming = useTheme();
 
   const renderEasiness = (item: string, label: string) => (
     <SquareSelector
@@ -30,7 +31,6 @@ export default function Business({newData}: BusinessProps) {
       tooltips={!hideTooltips}
       item={item}
       label={label}
-      colors={colors}
     />
   );
 
@@ -62,7 +62,7 @@ export default function Business({newData}: BusinessProps) {
             newData.phone || newData.about) && (
             <>
               <Grid item xs={1}>
-                <WorkIcon sx={{color: colors.p}}/>
+                <WorkIcon sx={{color: theming.palette.primary.main}}/>
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
@@ -70,11 +70,11 @@ export default function Business({newData}: BusinessProps) {
                   {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px', fontFamily: getFont(newData) }}/>}
                   {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px', fontFamily: getFont(newData) }}/>}
                   {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px', fontFamily: getFont(newData) }}/>}
-                  {newData.web && <RenderField value={newData.web} icon="world" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.email && <RenderField value={newData.email} icon="emailIcon" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.contact && <RenderField value={newData.contact} icon="contact" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.phone && <RenderField value={newData.phone} icon="phone" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.about && <RenderField value={newData.about} icon="about" color={newData.secondary} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.web && <RenderField value={newData.web} icon="world" sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.email && <RenderField value={newData.email} icon="emailIcon" sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.contact && <RenderField value={newData.contact} icon="contact" sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.phone && <RenderField value={newData.phone} icon="phone" sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.about && <RenderField value={newData.about} icon="about" sx={{fontFamily: getFont(newData)}}/>}
                 </Grid>
               </Grid>
             </>
@@ -92,19 +92,19 @@ export default function Business({newData}: BusinessProps) {
                     fontFamily: getFont(newData),
                     my: '10px',
                     width: 'calc(100% - 70px)',
-                    color: colors.p,
-                    background: colors.s,
-                    '&:hover': {color: colors.s, background: colors.p}
+                    color: theme => theme.palette.primary.main,
+                    background: theme => theme.palette.secondary.main,
+                    '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}
                   }}
                 >{newData.urlOptionLabel}</Button>
               </Grid>
             </>
           )}
-          <RenderAddress newData={newData} colors={colors} />
+          <RenderAddress newData={newData} />
           {newData.easiness && (
             <>
               <Grid item xs={1}>
-                <DoneAllIcon sx={{color: colors.p}}/>
+                <DoneAllIcon sx={{color: theming.palette.primary.main}}/>
               </Grid>
               <Grid item xs={11}>
                 <Typography sx={{ fontWeight: 'bold', mb: '5px', fontFamily: getFont(newData) }}>{'Easiness'}</Typography>
@@ -143,7 +143,7 @@ export default function Business({newData}: BusinessProps) {
           {Object.keys(newData.openingTime || []).length ? (
             <>
             <Grid item xs={1}>
-              <ScheduleIcon sx={{color: colors.p}}/>
+              <ScheduleIcon sx={{color: theming.palette.primary.main}}/>
             </Grid>
             <Grid item xs={11}>
               <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Opening time'}</Typography>
@@ -159,11 +159,11 @@ export default function Business({newData}: BusinessProps) {
                       return (<Box sx={{display: 'inline-flex', ml: 2}} key={`day${x}`}>
                         <Box sx={{display: 'inline-flex', mr: '5px'}}>
                           <Typography sx={{mr: '5px', fontFamily: getFont(newData)}}>{'From'}</Typography>
-                          <Typography sx={{color: colors.p, fontFamily: getFont(newData)}}>{handleTiming(open.ini)}</Typography>
+                          <Typography sx={{color: theme => theme.palette.primary.main, fontFamily: getFont(newData)}}>{handleTiming(open.ini)}</Typography>
                         </Box>
                         <Box sx={{display: 'inline-flex'}}>
                           <Typography sx={{mr: '5px', fontFamily: getFont(newData)}}>{'to'}</Typography>
-                          <Typography sx={{color: colors.p, fontFamily: getFont(newData)}}>{handleTiming(open.end)}</Typography>
+                          <Typography sx={{color: theme => theme.palette.primary.main, fontFamily: getFont(newData)}}>{handleTiming(open.end)}</Typography>
                         </Box>
                       </Box>);
                     })}

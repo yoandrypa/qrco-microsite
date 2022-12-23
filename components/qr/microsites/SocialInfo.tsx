@@ -2,7 +2,6 @@ import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
 import Grid from "@mui/material/Grid";
-import {getColors} from "./renderers/helper";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
 
 interface SocialProps {
@@ -15,7 +14,7 @@ export default function SocialInfo({newData}: SocialProps) {
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <RenderTitleDesc newData={newData} colors={getColors(newData)} />
+            <RenderTitleDesc newData={newData} />
           </Grid>
           <RenderSocials newData={newData} />
         </Grid>

@@ -3,10 +3,14 @@ import dynamic from "next/dynamic";
 import Box from "@mui/material/Box";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import { handleDesignerString } from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
-import {getFont} from "./qr/microsites/renderers/helper";
+import MainMicrosite from "./qr/microsites/MainMicrosite";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import getTheme from "./theming/themeHelper";
+import {DEFAULT_COLORS} from "./qr/constants";
 
 const FileMicro = dynamic(() => import("./qr/microsites/FileMicro"));
 const Donations = dynamic(() => import("./qr/microsites/Donations"));
@@ -64,73 +68,84 @@ export default function MainComponent({ newData }: MainCompProps) {
         transform: "translate(-50%, -50%)",
       }}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-          <Typography sx={{mx: "auto", fontFamily: getFont(data)}}>{"Loading..."}</Typography>
-          <Typography sx={{
-            fontFamily: getFont(data),
-            color: theme => theme.palette.text.disabled,
-            mx: "auto",
-          }}>{"Please wait."}</Typography>
+          <Typography sx={{mx: "auto"}}>{"Loading..."}</Typography>
+          <Typography sx={{color: theme => theme.palette.text.disabled, mx: "auto",}}>{"Please wait..."}</Typography>
         </Box>
       </Box>
     );
   }
 
-  if (data?.samples) {
-    return <SamplesList newData={data.samples} />;
-  }
+  const renderMicrositeComponent = () => {
+    if (data?.samples) {
+      return <SamplesList newData={data.samples} />;
+    }
 
-  if (data?.qrType === "vcard+") {
-    return <VCard newData={data} />;
-  }
+    if (data?.qrType === "vcard+") {
+      return <VCard newData={data} />;
+    }
 
-  if (GALLERY.includes(data?.qrType)) {
-    return <Images newData={{ ...data, iframed: iframed.current }} />;
-  }
+    if (GALLERY.includes(data?.qrType)) {
+      return <Images newData={{ ...data, iframed: iframed.current }} />;
+    }
 
-  if (data?.qrType === "business") {
-    return <Business newData={data} />;
-  }
+    if (data?.qrType === "business") {
+      return <Business newData={data} />;
+    }
 
-  if (data?.qrType === "coupon") {
-    return <Coupons newData={data} />;
-  }
+    if (data?.qrType === "coupon") {
+      return <Coupons newData={data} />;
+    }
 
-  if (data?.qrType === "social") {
-    return <SocialInfo newData={data} />;
-  }
+    if (data?.qrType === "social") {
+      return <SocialInfo newData={data} />;
+    }
 
-  if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
-    return <Web urlString={handleDesignerString(data.qrType, data)} />;
-  }
+    if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
+      return <Web urlString={handleDesignerString(data.qrType, data)} />;
+    }
 
-  if (ASSETS.includes(data?.qrType)) {
-    return <FileMicro newData={data} />;
-  }
+    if (ASSETS.includes(data?.qrType)) {
+      return <FileMicro newData={data} />;
+    }
 
-  if (['donation', 'donations'].includes(data?.qrType)) {
-    return <Donations newData={data} />;
-  }
+    if (['donation', 'donations'].includes(data?.qrType)) {
+      return <Donations newData={data} />;
+    }
 
-  if (data?.qrType === "link") {
-    return <LinksMicro newData={data} />;
-  }
-  if(data?.qrType === "petId"){
-    return <PetsId newData={data}/>
-  }
+    if (data?.qrType === "link") {
+      return <LinksMicro newData={data} />;
+    }
 
-  return (
-    <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-      {(!data && newData.isAnEmptyPreview) ? (
-        <Typography sx={{ textAlign: 'center', fontFamily: getFont(data) }}>{'Preparing preview...'}</Typography>
-      ) : (
+    if(data?.qrType === "petId"){
+      return <PetsId newData={data} />
+    }
+
+    return (
+      <MainMicrosite data={{}}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <EngineeringIcon color="primary" sx={{ mx: "auto", fontSize: "50px" }} />
-          <Typography sx={{ mx: "auto", fontFamily: getFont(data) }}>{"Work in progress."}</Typography>
-          <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto", fontFamily: getFont(data) }}>
+          <Typography sx={{ mx: "auto" }}>{"Work in progress."}</Typography>
+          <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>
             {"This is going to be ready very soon."}
           </Typography>
         </Box>
+      </MainMicrosite>
+    );
+  }
+
+  return (
+    <>
+      {!data && newData.isAnEmptyPreview ? (
+       <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+         <Typography sx={{ textAlign: 'center' }}>{'Preparing preview...'}</Typography>
+        </Box>
+      ) : (
+        <ThemeProvider
+          theme={createTheme(getTheme(data?.primary || DEFAULT_COLORS.p, data?.secondary || DEFAULT_COLORS.s))}>
+          <CssBaseline/>
+          {renderMicrositeComponent()}
+        </ThemeProvider>
       )}
-    </Box>
+    </>
   );
 }

@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import {getColors, getFont} from "./renderers/helper";
-import { ColorTypes } from "../types/types";
+import {getFont} from "./renderers/helper";
 import Typography from '@mui/material/Typography';
 import CofeeIcon from '@mui/icons-material/Coffee';
 import SvgIcon from '@mui/material/SvgIcon'
 import Box from '@mui/material/Box'
 import TextField from "@mui/material/TextField";
 import MainMicrosite from "./MainMicrosite";
-import { useRouter } from "next/router";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useRouter} from "next/router";
 import LoadingButton from '@mui/lab/LoadingButton'
 import Button from '@mui/material/Button';
 import Dialog from "@mui/material/Dialog";
@@ -19,6 +17,7 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 
 import ThankYou from "../helperComponents/ThankYou";
+import {useTheme} from "@mui/system";
 
 
 interface DonationsProps {
@@ -26,12 +25,13 @@ interface DonationsProps {
 }
 
 export default function DonationsInfo({ newData }: DonationsProps) {
-  const colors = getColors(newData) as ColorTypes;
   const [inputValue, setInputValue] = useState<string>('1')
   const [donationAmount, setDonationAmount] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [paylinkUrl, setPaylinkUrl] = useState<string | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false)
+
+  const theming = useTheme();
 
   useEffect(() => {
     if (parseInt(inputValue) < 1) {
@@ -107,23 +107,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
   const { thanks } = router.query;
 
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        // light: will be calculated from palette.primary.main,
-        main: colors.p,
-        // dark: will be calculated from palette.primary.main,
-        // contrastText: will be calculated to contrast with palette.primary.main
-      },
-      secondary: {
-        light: colors.s,
-        main: colors.s,
-        // dark: will be calculated from palette.secondary.main
-      }
-    }
-  });
-
   return (
     //TODO
     <MainMicrosite data={newData}>
@@ -143,7 +126,6 @@ export default function DonationsInfo({ newData }: DonationsProps) {
         </DialogActions>
       </Dialog>
       {!thanks ? (
-        <ThemeProvider theme={theme}>
           <CardContent sx={{ height: '100%' }}>
             <Grid container
               display='flex'
@@ -192,7 +174,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       display: 'flex',
                       justifyContent: 'center',
                       alignContent: 'center',
-                      backgroundColor: colors.s,
+                      backgroundColor: theme => theme.palette.secondary.main,
                       width: 35,
                       height: 35
                     }}>
@@ -224,7 +206,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                       borderRadius: 45,
                       display: 'flex',
                       justifyContent: 'center',
-                      backgroundColor: colors.s,
+                      backgroundColor: theme => theme.palette.secondary.main,
                       alignContent: 'center',
                       width: 35, height: 35,
                       margin: 'auto'
@@ -237,7 +219,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               <Grid container sx={{ marginTop: 2, display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                 <LoadingButton
                   loading={isLoading}
-                  style={{ backgroundColor: colors.p, borderRadius: 45 }}
+                  style={{ backgroundColor: theming.palette.primary.main, borderRadius: 45 }}
                   onClick={handleClick}
                   variant="contained" sx={{ borderRadius: 2 }}>
                   {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
@@ -245,7 +227,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
               </Grid>
             </Grid>
           </CardContent>
-        </ThemeProvider>) :
+        ) :
         (
           <ThankYou qrData={newData} />
         )
