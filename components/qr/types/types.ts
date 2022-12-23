@@ -111,11 +111,6 @@ export type validTypes = 'text' | 'email' | 'phone' | 'web' | 'number'| 'date' |
 
 export type SocialsType = 'facebook' | 'whatsapp' | 'twitter' | 'instagram' | 'youtube' | 'linkedin' | 'pinterest' | 'telegram';
 
-export type ColorTypes = {
-  p: string,
-  s: string
-};
-
 export type FileType = {
   content: string;
   type: string;
