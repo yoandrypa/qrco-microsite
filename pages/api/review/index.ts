@@ -29,37 +29,28 @@ export default async function (req: NextApiRequest, res: NextApiResponse<Data>) 
         const plainEmailBody = NEW_DONATION_REVIEW_PLAIN(micrositeUrl, name, message, checkoutsURL);
 
         const data = {
-            Destination: {
-                ToAddresses: [email]
-            },
-            Message: {
-                Body: { /* required */
-                    Html: {
-                        Charset: "UTF-8",
-                        Data: htmlEmailBody
-                    },
-                    Text: {
-                        Charset: "UTF-8",
-                        Data: plainEmailBody
-                    }
+            template: "new-donation-review-template",
+            templateData: `{"name": "${name}",\"dashboardUrl\": "${checkoutsURL}","message": "${message}","micrositeURL":"${micrositeUrl}" }`,
+            params: {
+                Destination: {
+                    ToAddresses: [email]
                 },
-                Subject: {
-                    Charset: 'UTF-8',
-                    Data: 'Hey, You have a new review in The QR link'
-                }
-            },
-            Source: 'info@ebanux.com', /* required */
-
+                Source: "info@ebanux.com",
+                Template: "new-donation-review-template",
+                TemplateData: `{"name": "${name}","dashboardUrl": "${checkoutsURL}","message": "${message}","micrositeURL":"${micrositeUrl}" }`,
+                ReplyToAddresses: ["info@ebanux.com"]
+            }
         }
         const options = {
             method: 'post',
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ params: data })
+            body: JSON.stringify(data)
         };
 
         try {
+            console.log(data)
             const response = await fetch(`https://eyk58kso8i.execute-api.us-east-1.amazonaws.com/Test/test`, options)
             if (!response.ok) {
                 return res.status(500).json({ error: true, message: response.statusText })
