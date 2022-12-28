@@ -7,7 +7,7 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import {useMediaQuery} from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import {getFont} from "./renderers/helper";
+import {handleFont} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
 import {FileType} from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
@@ -87,11 +87,11 @@ function Images({newData}: ImageProps) {
       <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
         <RenderTitleDesc newData={newData} />
         {images.current.length ? (
-          <Typography sx={{fontWeight: 'bold', fontFamily: getFont(newData)}}>
+          <Typography sx={{...handleFont(newData, 't')}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
           </Typography>
         ) : (
-          <Typography sx={{fontFamily: getFont(newData)}}>{'Please wait...'}</Typography>
+          <Typography sx={{...handleFont(newData, 'm')}}>{'Please wait...'}</Typography>
         )}
       </Box>
       <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
@@ -106,7 +106,7 @@ function Images({newData}: ImageProps) {
                 border: theme => `solid 1px ${theme.palette.primary.main}`,
                 borderRadius: '5px'
               }}>
-                <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', fontFamily: getFont(newData)}}>
+                <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm')}}>
                   <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                   {'Error loading image.'}
                 </Typography>
@@ -154,7 +154,7 @@ function Images({newData}: ImageProps) {
           preview={preview}
           handleClose={() => setPreview(null)}
           type="image"
-          fontFamily={getFont(newData)}
+          sx={{...handleFont(newData, 'm')}}
         />
       )}
     </MainMicrosite>

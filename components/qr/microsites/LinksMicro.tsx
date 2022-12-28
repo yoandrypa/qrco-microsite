@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import {getFont} from "./renderers/helper";
+import {handleFont} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
 import {LinkType} from "../types/types";
 import RenderSocials from "./renderers/RenderSocials";
@@ -20,12 +20,12 @@ export default function LinksMicro({newData}: LinksProps) {
       href={item.link}
       variant="contained"
       sx={{
-        fontFamily: getFont(newData),
         mt: '10px',
         width: 'calc(100% - 70px)',
         color: theme => theme.palette.primary.main,
         background: theme => theme.palette.secondary.main,
-        '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}
+        '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main},
+        ...handleFont(newData, 'b')
       }}
     >{item.label}</Button>
   );

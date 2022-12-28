@@ -9,7 +9,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
-import {downloadVCard, getFont} from "./renderers/helper";
+import {downloadVCard, handleFont} from "./renderers/helper";
 
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
@@ -32,10 +32,10 @@ export default function VCard({newData}: VCardProps) {
           {(newData.prefix || newData.firstName || newData.lastName) && (
             <>
               <Grid item xs={1}>
-                <AccountBoxIcon sx={{ color: theme => theme.palette.primary.main }} />
+                <AccountBoxIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontSize: '20px', fontWeight: 'bold', fontFamily: getFont(newData) }}>
+                <Typography sx={{...handleFont(newData, 't')}}>
                   {`${newData.prefix ? newData.prefix + 
                   (newData.firstName || newData.lastName ? ', ' : '') : ''}${newData.firstName ? 
                   newData.firstName + (newData.lastName ? ' ' : '') : ''}${newData.lastName ? newData.lastName : ''}`}
@@ -46,14 +46,14 @@ export default function VCard({newData}: VCardProps) {
           {(newData.cell || newData.phone || newData.fax) && (
             <>
               <Grid item xs={1}>
-                <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main }} />
+                <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
                   {newData.cell &&
-                    <RenderField value={newData.cell} icon="cell" size={newData.phone ? 6 : 12} sx={{fontFamily: getFont(newData)}} />}
+                    <RenderField value={newData.cell} icon="cell" size={newData.phone ? 6 : 12} sx={{...handleFont(newData, 'm')}} />}
                   {newData.phone &&
-                    <RenderField value={newData.phone} icon="phone" size={newData.cell ? 6 : 12} sx={{fontFamily: getFont(newData)}} />}
+                    <RenderField value={newData.phone} icon="phone" size={newData.cell ? 6 : 12} sx={{...handleFont(newData, 'm')}} />}
                   {newData.fax && <RenderField value={newData.fax} icon="fax" />}
                 </Grid>
               </Grid>
@@ -62,13 +62,13 @@ export default function VCard({newData}: VCardProps) {
           {(newData.organization || newData.position) && (
             <>
               <Grid item xs={1}>
-                <WorkIcon sx={{ color: theme => theme.palette.primary.main }} />
+                <WorkIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Organization info'}</Typography>
+                <Typography sx={{ ...handleFont(newData, 't') }}>{'Organization info'}</Typography>
                 <Grid container spacing={0}>
-                  {newData.organization && <RenderField label="Organization" value={newData.organization} sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.position && <RenderField label="Position" value={newData.position} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.organization && <RenderField label="Organization" value={newData.organization} sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.position && <RenderField label="Position" value={newData.position} sx={{...handleFont(newData, 'm')}}/>}
                 </Grid>
               </Grid>
             </>
@@ -77,12 +77,12 @@ export default function VCard({newData}: VCardProps) {
           {(newData.email || newData.web) && (
             <>
               <Grid item xs={1}>
-                <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main }} />
+                <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1} sx={{ mt: '-16px' }}>
-                  {newData.email && <RenderField icon="emailIcon" value={newData.email} sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.web && <RenderField icon="world" value={newData.web} sx={{fontFamily: getFont(newData)}}/>}
+                  {newData.email && <RenderField icon="emailIcon" value={newData.email} sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.web && <RenderField icon="world" value={newData.web} sx={{...handleFont(newData, 'm')}}/>}
                 </Grid>
               </Grid>
             </>
@@ -97,7 +97,7 @@ export default function VCard({newData}: VCardProps) {
           variant="contained"
           startIcon={<GetAppIcon />}
           sx={{my: '10px', color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main,
-            '&:hover': {color: theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}, fontFamily: getFont(newData)}}
+            '&:hover': {color: theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}, ...handleFont(newData, 'b')}}
           onClick={downloadFile}
         >{'Get Contact'}</Button>
       </CardActions>

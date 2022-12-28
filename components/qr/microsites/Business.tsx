@@ -8,11 +8,12 @@ import WorkIcon from "@mui/icons-material/Work";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Button from "@mui/material/Button";
+import LockClockIcon from '@mui/icons-material/LockClock';
 
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
 import {OpeningObjType} from "../types/types";
-import {getFont} from "./renderers/helper";
+import {handleFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
 
@@ -64,15 +65,15 @@ export default function Business({newData}: BusinessProps) {
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1}>
-                  <Typography sx={{ fontWeight: 'bold', mt: '10px', ml: '10px', fontFamily: getFont(newData) }}>{'Company'}</Typography>
-                  {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px', fontFamily: getFont(newData) }}/>}
-                  {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px', fontFamily: getFont(newData) }}/>}
-                  {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px', fontFamily: getFont(newData) }}/>}
-                  {newData.web && <RenderField value={newData.web} icon="world" sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.email && <RenderField value={newData.email} icon="emailIcon" sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.contact && <RenderField value={newData.contact} icon="contact" sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.phone && <RenderField value={newData.phone} icon="phone" sx={{fontFamily: getFont(newData)}}/>}
-                  {newData.about && <RenderField value={newData.about} icon="about" sx={{fontFamily: getFont(newData)}}/>}
+                  <Typography sx={{ mt: '10px', ml: '10px', ...handleFont(newData, 't') }}>{'Company'}</Typography>
+                  {newData.company && <RenderField value={newData.company} sx={{ my: '-10px', ...handleFont(newData, 's') }}/>}
+                  {newData.title && <RenderField value={newData.title} sx={{ my: '-10px', ...handleFont(newData, 's') }}/>}
+                  {newData.subtitle && <RenderField value={newData.subtitle} sx={{ my: '-10px', ...handleFont(newData, 'm') }}/>}
+                  {newData.web && <RenderField value={newData.web} icon="world" sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.email && <RenderField value={newData.email} icon="emailIcon" sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.contact && <RenderField value={newData.contact} icon="contact" sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.phone && <RenderField value={newData.phone} icon="phone" sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.about && <RenderField value={newData.about} icon="about" sx={{...handleFont(newData, 'm')}}/>}
                 </Grid>
               </Grid>
             </>
@@ -87,12 +88,12 @@ export default function Business({newData}: BusinessProps) {
                   href={newData.urlOptionLink}
                   variant="contained"
                   sx={{
-                    fontFamily: getFont(newData),
                     my: '10px',
                     width: 'calc(100% - 70px)',
                     color: theme => theme.palette.primary.main,
                     background: theme => theme.palette.secondary.main,
-                    '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}
+                    '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main},
+                    ...handleFont(newData, 'b')
                   }}
                 >{newData.urlOptionLabel}</Button>
               </Grid>
@@ -105,7 +106,7 @@ export default function Business({newData}: BusinessProps) {
                 <DoneAllIcon sx={{color: theme => theme.palette.primary.main}}/>
               </Grid>
               <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold', mb: '5px', fontFamily: getFont(newData) }}>{'Easiness'}</Typography>
+                <Typography sx={{ mb: '5px', ...handleFont(newData, 't') }}>{'Easiness'}</Typography>
                 <Box sx={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -144,7 +145,7 @@ export default function Business({newData}: BusinessProps) {
               <ScheduleIcon sx={{color: theme => theme.palette.primary.main}}/>
             </Grid>
             <Grid item xs={11}>
-              <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Opening time'}</Typography>
+              <Typography sx={{ ...handleFont(newData, 't') }}>{'Opening time'}</Typography>
               <Grid container spacing={1} sx={{ my: 1 }}>
                 {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map((x: string) => {
                   if (!newData.openingTime[x]) {
@@ -152,17 +153,12 @@ export default function Business({newData}: BusinessProps) {
                   }
                   return (<Box key={`busines${x}`} sx={{ m: 1 }}>
                     {/* @ts-ignore */}
-                    <Typography sx={{fontWeight: 'bold', ml: 2, fontFamily: getFont(newData)}}>{DAYS[x]}</Typography>
+                    <Typography sx={{ml: 2, ...handleFont(newData, 't')}}>{DAYS[x]}</Typography>
                     {newData.openingTime[x].map((open: OpeningObjType) => {
                       return (<Box sx={{display: 'inline-flex', ml: 2}} key={`day${x}`}>
-                        <Box sx={{display: 'inline-flex', mr: '5px'}}>
-                          <Typography sx={{mr: '5px', fontFamily: getFont(newData)}}>{'From'}</Typography>
-                          <Typography sx={{color: theme => theme.palette.primary.main, fontFamily: getFont(newData)}}>{handleTiming(open.ini)}</Typography>
-                        </Box>
-                        <Box sx={{display: 'inline-flex'}}>
-                          <Typography sx={{mr: '5px', fontFamily: getFont(newData)}}>{'to'}</Typography>
-                          <Typography sx={{color: theme => theme.palette.primary.main, fontFamily: getFont(newData)}}>{handleTiming(open.end)}</Typography>
-                        </Box>
+                        <LockClockIcon color="primary" sx={{mr: '5px'}} />
+                        <Typography sx={{color: theme => theme.palette.primary.main, ...handleFont(newData, 'm')}}>{handleTiming(open.ini)}</Typography>
+                        <Typography sx={{color: theme => theme.palette.primary.main, ...handleFont(newData, 'm')}}>{`-${handleTiming(open.end)}`}</Typography>
                       </Box>);
                     })}
                   </Box>);

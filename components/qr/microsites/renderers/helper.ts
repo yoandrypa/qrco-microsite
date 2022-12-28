@@ -44,9 +44,79 @@ export function handleDownloadFiles(data: FileType, kind: string) {
   handleDownload(data.content, type, `my ${kind}.${extension}`);
 }
 
-export function getFont(data: any, property?: string) {
-  if (data?.globalFont) { // @ts-ignore
-    return FONTS[property || data.globalFont || 'Default'];
+/**
+ * kind = t: title, s: subtitle, m: message, b: button
+ * @param data
+ * @param kind
+ */
+export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
+  let property: string;
+  let size = '20px';
+
+  const handleSize = (item: string): void => {
+    if (!data[item] || data[item] === 'default') {
+      size = item === 'titlesFontSize' ? '22px' : (item === 'subtitlesFontSize' ? '24px' : '20px');
+    } else if (data[item] === 'small') {
+      size = item === 'titlesFontSize' ? '20px' : (item === 'subtitlesFontSize' ? '22px' : '18px');
+    } else if (data[item] === 'medium') {
+      size = item === 'titlesFontSize' ? '24px' : (item === 'subtitlesFontSize' ? '25px' : '22px');
+    } else if (data[item] === 'large') {
+      size = item === 'titlesFontSize' ? '28px' : (item === 'subtitlesFontSize' ? '30px' : '24px');
+    }
   }
-  return 'unset';
+
+  const style = {};
+  if (data?.globalFont) { // @ts-ignore
+    style.fontFamily = FONTS[data.globalFont] || 'Default';
+  }
+  if (data?.globalFontColor) { // @ts-ignore
+    style.color = data.globalFontColor || '#000';
+  }
+
+  switch (kind) {
+    case 't': {
+      property = 'titlesFontStyle';
+      handleSize('titlesFontSize'); // @ts-ignore
+      style.fontFamily = FONTS[data.titlesFont || data.globalFont] || 'unset';
+      break;
+    }
+    case 's': {
+      property = 'subtitlesFontStyle';
+      handleSize('subtitlesFontSize'); // @ts-ignore
+      style.fontFamily = FONTS[data.subtitlesFont || data.globalFont] || 'unset';
+      break;
+    }
+    case 'b': {
+      property = 'buttonsFontStyle';
+      handleSize('buttonsFontSize'); // @ts-ignore
+      style.fontFamily = FONTS[data.buttonsFont || data.globalFont] || 'unset';
+      break;
+    }
+    default : {
+      property = 'messagesFontStyle';
+      handleSize('messagesFontSize'); // @ts-ignore
+      style.fontFamily = FONTS[data.messagesFont || data.globalFont] || 'unset';
+      break;
+    }
+  }
+
+  if (data?.[property] !== undefined) {
+    if (data[property].includes('#') && (property !== 'buttonsFontStyle' || !data[property].endsWith('#-1'))) { // @ts-ignore
+      style.color = `#${data[property].split('#')[1]}`;
+    }
+    if (data[property].includes('b')) { // @ts-ignore
+      style.fontWeight = 'bold';
+    }
+    if (data[property].includes('i')) { // @ts-ignore
+      style.fontStyle = 'italic';
+    }
+    if (data[property].includes('u')) { // @ts-ignore
+      style.textDecoration = 'underline';
+    }
+  } else if (['t', 's'].includes(kind)) { // @ts-ignore
+    style.fontWeight = 'bold';
+  }
+
+  // @ts-ignore
+  return {...style, fontSize: size, };
 }
