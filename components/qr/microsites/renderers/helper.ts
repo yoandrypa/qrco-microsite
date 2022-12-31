@@ -131,7 +131,7 @@ export const handleButtons = (data: any, theme: any) => {
       style.background = data.buttonBackColor || DEFAULT_COLORS.s; // @ts-ignore
       style['&:hover'] = {background: data.buttonBackColor || DEFAULT_COLORS.s}
     } else if (data.buttonBack === 'two') {
-      const colors = data.buttonBack?.includes('|') ? data.buttonBackColor?.split('|') : undefined; // @ts-ignore
+      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined; // @ts-ignore
       style.background = colors ? colors[0] : DEFAULT_COLORS.p; // @ts-ignore
       style['&:hover'] = {background: colors ? colors[1] : DEFAULT_COLORS.s};
     } else if (data.buttonBack === 'gradient') {
