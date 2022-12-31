@@ -1,17 +1,20 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import {handleFont} from "./renderers/helper";
+import {handleButtons, handleFont} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
 import {LinkType} from "../types/types";
 import RenderSocials from "./renderers/RenderSocials";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
+import {useTheme} from "@mui/system";
 
 interface LinksProps {
   newData: any;
 }
 
 export default function LinksMicro({newData}: LinksProps) {
+  const theme = useTheme();
+
   const renderBtn = (item: LinkType, key: string) => (
     <Button
       key={key}
@@ -22,10 +25,8 @@ export default function LinksMicro({newData}: LinksProps) {
       sx={{
         mt: '10px',
         width: 'calc(100% - 70px)',
-        color: theme => theme.palette.primary.main,
-        background: theme => theme.palette.secondary.main,
-        '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main},
-        ...handleFont(newData, 'b')
+        ...handleFont(newData, 'b'),
+        ...handleButtons(newData, theme)
       }}
     >{item.label}</Button>
   );

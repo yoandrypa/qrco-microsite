@@ -1,4 +1,4 @@
-import {FONTS, SOCIALS} from "../../constants";
+import {DEFAULT_COLORS, FONTS, SOCIALS} from "../../constants";
 import {handleDesignerString} from "../../../../helpers/qr/helpers";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
@@ -119,4 +119,43 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
 
   // @ts-ignore
   return {...style, fontSize: size, };
+}
+
+export const handleButtons = (data: any, theme: any) => {
+  const style = {};
+  if (data?.buttonShape !== undefined && data.buttonShape !== '1') { // @ts-ignore
+    style.borderRadius = data.buttonShape === '0' ? 0 : '50px';
+  }
+  if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
+    if (data.buttonBack === 'solid') { // @ts-ignore
+      style.background = data.buttonBackColor || DEFAULT_COLORS.s; // @ts-ignore
+      style['&:hover'] = {background: data.buttonBackColor || DEFAULT_COLORS.s}
+    } else if (data.buttonBack === 'two') {
+      const colors = data.buttonBack?.includes('|') ? data.buttonBackColor?.split('|') : undefined; // @ts-ignore
+      style.background = colors ? colors[0] : DEFAULT_COLORS.p; // @ts-ignore
+      style['&:hover'] = {background: colors ? colors[1] : DEFAULT_COLORS.s};
+    } else if (data.buttonBack === 'gradient') {
+      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined; // @ts-ignore
+      let angle = '180deg';
+      let color1 = DEFAULT_COLORS.p;
+      let color2 = DEFAULT_COLORS.s;
+      if (colors) {
+        color1 = colors[0];
+        if (colors[1].includes('@')) {
+          const x = colors[1].split('@');
+          color2 = x[0];
+          angle = x[1];
+        } else {
+          color2 = colors[1];
+        }
+      } // @ts-ignore
+      style.backgroundImage = `linear-gradient(${angle}, ${color1}, ${color2})`; // @ts-ignore
+      style['&:hover'] = {backgroundImage: `linear-gradient(${angle}, ${color2}, ${color1})`};
+    }
+  } else { // @ts-ignore
+    style.color = theme.palette.primary.main; // @ts-ignore
+    style.background = theme.palette.secondary.main; // @ts-ignore
+    style['&:hover'] = {color: theme.palette.secondary.main, background: theme.palette.primary.main};
+  }
+  return style;
 }

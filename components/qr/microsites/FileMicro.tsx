@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
 import MainMicrosite from "./MainMicrosite";
-import {handleFont, handleDownloadFiles} from "./renderers/helper";
+import {handleFont, handleDownloadFiles, handleButtons} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
 import {FileType} from "../types/types";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -16,6 +16,7 @@ import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
 import {getExtension} from "../../helpers/generalFunctions";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
 import {useMediaQuery} from "@mui/material";
+import {useTheme} from "@mui/system";
 
 interface FileProps {
   newData: any;
@@ -29,6 +30,8 @@ export default function FileMicro({ newData }: FileProps) {
   const files = useRef<FileType[]>([]);
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
+
+  const theme = useTheme();
 
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
@@ -110,10 +113,8 @@ export default function FileMicro({ newData }: FileProps) {
                     <Button
                       sx={{
                         width: '100%',
-                        color: theme => theme.palette.primary.main,
-                        background: theme => theme.palette.secondary.main,
-                        '&:hover': { color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main },
-                        ...handleFont(newData, 'b')
+                        ...handleFont(newData, 'b'),
+                        ...handleButtons(newData, theme)
                       }}
                       variant="outlined"
                       onClick={() => handleDownloadFiles(x, newData.qrType)}
@@ -127,10 +128,8 @@ export default function FileMicro({ newData }: FileProps) {
                           width: isWide400 ? '30%' : '100%',
                           ml: isWide400 ? '5px' : 0,
                           mt: isWide400 ? 0 : '5px',
-                          color: theme => theme.palette.primary.main,
-                          background: theme => theme.palette.secondary.main,
-                          '&:hover': { color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main },
-                          ...handleFont(newData, 'b')
+                          ...handleFont(newData, 'b'),
+                          ...handleButtons(newData, theme)
                         }}
                         variant="outlined"
                         onClick={() => setPreview(x)}
@@ -157,7 +156,8 @@ export default function FileMicro({ newData }: FileProps) {
           ) : null
         )}
         {preview && (
-          <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} handleClose={() => setPreview(null)} sx={{...handleFont(newData, 'm')}} />
+          <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} handleClose={() => setPreview(null)}
+                         sx={{...handleFont(newData, 'm'), ...handleButtons(newData, theme)}} />
         )}
       </Box>
     </MainMicrosite>

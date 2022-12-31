@@ -9,18 +9,21 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 
 import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./renderers/RenderSocials";
-import {downloadVCard, handleFont} from "./renderers/helper";
+import {downloadVCard, handleButtons, handleFont} from "./renderers/helper";
 
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import {useTheme} from "@mui/system";
 
 interface VCardProps {
   newData: any;
 }
 
 export default function VCard({newData}: VCardProps) {
+  const theme = useTheme();
+
   function downloadFile() {
     downloadVCard({...newData});
   }
@@ -96,8 +99,7 @@ export default function VCard({newData}: VCardProps) {
         <Button
           variant="contained"
           startIcon={<GetAppIcon />}
-          sx={{my: '10px', color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main,
-            '&:hover': {color: theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}, ...handleFont(newData, 'b')}}
+          sx={{my: '10px', ...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
           onClick={downloadFile}
         >{'Get Contact'}</Button>
       </CardActions>

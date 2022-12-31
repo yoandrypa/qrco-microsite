@@ -13,9 +13,10 @@ import LockClockIcon from '@mui/icons-material/LockClock';
 import SquareSelector from "../helperComponents/SquareSelector";
 import {DAYS} from "../constants";
 import {OpeningObjType} from "../types/types";
-import {handleFont} from "./renderers/helper";
+import {handleButtons, handleFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import RenderAddress from "./renderers/RenderAddress";
+import {useTheme} from "@mui/system";
 
 interface BusinessProps {
   newData: any;
@@ -23,6 +24,7 @@ interface BusinessProps {
 
 export default function Business({newData}: BusinessProps) {
   const [hideTooltips, setHideTooltips] = useState<boolean>(false);
+  const theme = useTheme();
 
   const renderEasiness = (item: string, label: string) => (
     <SquareSelector
@@ -90,10 +92,8 @@ export default function Business({newData}: BusinessProps) {
                   sx={{
                     my: '10px',
                     width: 'calc(100% - 70px)',
-                    color: theme => theme.palette.primary.main,
-                    background: theme => theme.palette.secondary.main,
-                    '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main},
-                    ...handleFont(newData, 'b')
+                    ...handleFont(newData, 'b'),
+                    ...handleButtons(newData, theme)
                   }}
                 >{newData.urlOptionLabel}</Button>
               </Grid>

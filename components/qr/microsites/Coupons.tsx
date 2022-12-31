@@ -5,19 +5,21 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 import Link from 'next/link'
-import {handleFont} from "./renderers/helper";
+import {handleButtons, handleFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import {humanDate} from "../../helpers/generalFunctions";
 import RenderAddress from "./renderers/RenderAddress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import RenderBadge from "./renderers/RenderBadge";
+import {useTheme} from "@mui/system";
 
 interface CouponProps {
   newData: any;
 }
 
 export default function Coupons({newData}: CouponProps) {
+  const theme = useTheme();
   return (
     <MainMicrosite data={newData}>
       <RenderBadge newData={newData} />
@@ -40,14 +42,9 @@ export default function Coupons({newData}: CouponProps) {
                         <Button
                           variant="contained"
                           sx={{
-                              height: '28px',
-                              width: '100%',
-                              color: theme => theme.palette.primary.main,
-                              background: theme => theme.palette.secondary.main,
-                              my: '5px',
-                              '&:hover': { color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main },
-                              ...handleFont(newData, 'b')
-                            }}>
+                            height: '28px', width: '100%', my: '5px', ...handleFont(newData, 'b'),
+                            ...handleButtons(newData,  theme)
+                          }}>
                           {newData.urlOptionLabel || 'Get link'}
                         </Button>
                       </Link>
