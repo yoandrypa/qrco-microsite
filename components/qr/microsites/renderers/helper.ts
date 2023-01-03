@@ -124,7 +124,7 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
 export const handleButtons = (data: any, theme: any) => {
   const style = {};
   if (data?.buttonShape !== undefined && data.buttonShape !== '1') { // @ts-ignore
-    style.borderRadius = data.buttonShape === '0' ? 0 : data.buttonShape === 2 ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
+    style.borderRadius = data.buttonShape === '0' ? 0 : data.buttonShape === '2' ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
   }
   if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
     if (data.buttonBack === 'solid') { // @ts-ignore
