@@ -1,0 +1,53 @@
+{
+    "isDynamic": true,
+    "buttonsFontStyle": "",
+    "about": "This box have the dishes of grandma",
+    "title": "Box of dishes",
+    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+    "createdAt": "2023-01-03T22:34:39.198Z",
+    "qrName": "Box",
+    "shortLinkId": {
+        "createdAt": "2023-01-03T22:34:39.190Z",
+        "paused": false,
+        "address": "csUtRv",
+        "visitCount": 0,
+        "banned": false,
+        "type": "qr_link",
+        "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+        "target": "http://undefined/qr/abcd3dad-5948-412b-8c21-1e20a3b94095",
+        "updatedAt": "2023-01-03T22:34:39.194Z"
+    },
+    "qrType": "linkedLabel",
+    "links": [
+        {
+            "link": "",
+            "label": ""
+        }
+    ],
+    "categories": [
+        "Test",
+        "Test 2"
+    ],
+    "fields": [
+        {
+            "type": "text",
+            "title": "Titulo 1 ",
+            "text": "Descripsion 1"
+        },
+        {
+            "type": "media",
+            "files": [
+                {
+                    "type": "Buffer",
+                    "data": []
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "title": "Title 2",
+            "text": "Description 2"
+        }
+    ],
+    "updatedAt": "2023-01-03T22:34:39.201Z"
+}

@@ -83,6 +83,13 @@
       "desc": "A pet tag Id site with all the info about your pet",
       "name": "Pet Tag ID",
       "file": "petId"
+    },
+    {
+      "type":"linkedLabel",
+      "file":"linkedLabel",
+      "desc":"A smart label to use on packages and bags",
+      "name":"Linked Label"
     }
+
   ]
 }
