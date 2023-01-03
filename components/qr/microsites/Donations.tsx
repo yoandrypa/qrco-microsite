@@ -222,7 +222,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                 loading={isLoading}
                 style={{ backgroundColor: theming.palette.primary.main, borderRadius: 45 }}
                 onClick={handleClick}
-                variant="contained" sx={{ borderRadius: 2 }}>
+                variant="contained" sx={{ borderRadius: 2, ...handleFont(newData, 'b') }}>
                 {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
               </LoadingButton>
             </Grid>
