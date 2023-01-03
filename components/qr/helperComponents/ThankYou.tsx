@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Notifications from './Notifications';
-import {getFont} from "../microsites/renderers/helper";
+import {handleFont} from "../microsites/renderers/helper";
 
 interface ThankYouProps {
     qrData: any
@@ -101,11 +101,11 @@ function ThankYou({ qrData }: ThankYouProps) {
                 showProgress={true}
             />}
             <CardContent>
-                <Typography variant="h5" textAlign={'center'} sx={{fontFamily: getFont(qrData)}}>Thanks for your support!</Typography>
+                <Typography variant="h5" textAlign={'center'} sx={{...handleFont(qrData, 'm')}}>Thanks for your support!</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
                     <Image width={100} height={100} alt='thanks' src='/images/thanks2.png'></Image>
                 </Box>
-                <Typography textAlign='center' sx={{fontFamily: getFont(qrData)}}>
+                <Typography textAlign='center' sx={{...handleFont(qrData, 'm')}}>
                     Would you want to say something nice?
                 </Typography>
                 {!isAnonymous && <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
@@ -115,7 +115,7 @@ function ThankYou({ qrData }: ThankYouProps) {
                         fullWidth
                         value={reviewerName}
                         size='small'
-                        sx={{ mb: 1, fontFamily: getFont(qrData) }}
+                        sx={{ mb: 1, ...handleFont(qrData, 'm') }}
                         onChange={handleNameInputChange}
                     />
                 </Box>}
@@ -127,7 +127,7 @@ function ThankYou({ qrData }: ThankYouProps) {
                         onChange={handleReviewChange}
                         placeholder="I was blown away by the generosity of everyone involved. Tnank you for making the difference in the world... "
                         rows={4}
-                        sx={{fontFamily: getFont(qrData)}}
+                        sx={{...handleFont(qrData, 'm')}}
                     />
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>

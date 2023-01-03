@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import {getFont} from "./helper";
+import {handleFont} from "./helper";
 
 interface RenderAssetsDescProps {
   newData: {
@@ -18,17 +18,11 @@ export default function RenderTitleDesc({newData}: RenderAssetsDescProps) {
     <Box sx={{ my: '10px', px: 2, textAlign: 'center' }}>
       {newData.title && (
         <Typography sx={{
-          fontWeight: 'bold',
-          fontSize: '24px',
-          color: theme => theme.palette.primary.main,
-          fontFamily: getFont(newData)
+          color: theme => theme.palette.primary.main, ...handleFont(newData, 't')
         }}>{newData.title}</Typography>
       )}
       {newData.about && (
-        <Typography sx={{
-          color: theme => theme.palette.primary.main,
-          fontFamily: getFont(newData)
-        }}>{newData.about}</Typography>
+        <Typography sx={{ color: theme => theme.palette.primary.main, ...handleFont(newData, 's') }}>{newData.about}</Typography>
       )}
     </Box>
   )

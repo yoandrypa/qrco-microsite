@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import RenderField from "./RenderField";
 import Typography from "@mui/material/Typography";
-import {getFont} from "./helper";
+import {handleFont} from "./helper";
 import {useTheme} from "@mui/system";
 
 interface RenderAddressProps {
@@ -25,12 +25,12 @@ export default function RenderAddress({newData}: RenderAddressProps) {
   return (
     <>
       <Grid item xs={1}>
-        <LocationOnIcon sx={{color: theme.palette.primary.main}}/>
+        <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
       </Grid>
       <Grid item xs={11}>
-        <Typography sx={{ fontWeight: 'bold', fontFamily: getFont(newData) }}>{'Address'}</Typography>
+        <Typography sx={{...handleFont(newData, 't')}}>{'Address'}</Typography>
         <Grid container spacing={1}>
-          <RenderField value={address} sx={{fontFamily: getFont(newData)}} />
+          <RenderField value={address} sx={{...handleFont(newData, 'm')}} />
         </Grid>
       </Grid>
     </>

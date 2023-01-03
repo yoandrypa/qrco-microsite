@@ -10,7 +10,7 @@ import {useMediaQuery} from "@mui/material";
 import {alpha} from "@mui/material/styles";
 import {download} from "../../../handlers/storage";
 import {RWebShare} from "react-web-share";
-import {getFont} from "./renderers/helper";
+import {handleFont} from "./renderers/helper";
 
 import dynamic from "next/dynamic";
 import {useTheme} from "@mui/system";
@@ -122,7 +122,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           bottom: '45px'
         }}>
           <CircularProgress size={20} sx={{mr: '5px', color: theme => theme.palette.primary.main}}/>
-          <Typography sx={{fontSize: 'small', color: theme => theme.palette.text.disabled, fontFamily: getFont(data)}}>
+          <Typography sx={{color: theme => theme.palette.text.disabled, ...handleFont(data, 'm')}}>
             {'Loading data. Please wait...'}
           </Typography>
         </Box>
@@ -226,8 +226,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <Box sx={{
           width: '100%',
           minHeight: !containerDimensions ?
-            `calc(100vh - ${foreImg ? 256 : Object.keys(data).length ? 226 : 202}px)` :
-            `calc(${containerDimensions.parentHeight} + ${foreImg ? 202 : 233}px)`,
+            `calc(100vh - ${foreImg ? 256 : Object.keys(data).length ? 220 : 196}px)` :
+            `calc(${containerDimensions.parentHeight} + ${foreImg ? 196 : 227}px)`,
           mt: foreImg ? '30px' : 0
         }}>
           {children}
@@ -242,7 +242,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             color: theme => theme.palette.secondary.main
           }}>
             <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
-            <Typography sx={{ml: '5px', fontFamily: getFont(data)}}>
+            <Typography sx={{ml: '5px', ...handleFont(data, 'm'), fontSize: '20px'}}>
               {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
             </Typography>
           </Box>

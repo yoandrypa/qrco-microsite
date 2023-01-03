@@ -20,11 +20,11 @@ interface RenderPreviewProps {
   handlePrev?: () => void;
   isWide: boolean;
   isHeight?: boolean;
-  fontFamily: string;
+  sx: object;
 }
 
 export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
-                                        preview, type, fontFamily }: RenderPreviewProps) {
+                                        preview, type, sx }: RenderPreviewProps) {
   const wide = isWide && isHeight;
   const isString = typeof preview === 'string';
 
@@ -51,10 +51,10 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
             <Button
               sx={{
                 mt: 1,
-                fontFamily,
                 color: theme => theme.palette.primary.main,
                 background: isString ? preview : preview.content,
-                '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main}
+                '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main},
+                ...sx
               }}
               variant="outlined"
               onClick={() => { if (typeof preview !== 'string') {handleDownloadFiles(preview, type)}} }
