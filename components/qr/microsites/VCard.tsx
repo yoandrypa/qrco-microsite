@@ -57,7 +57,7 @@ export default function VCard({newData}: VCardProps) {
                     <RenderField value={newData.cell} icon="cell" size={newData.phone ? 6 : 12} sx={{...handleFont(newData, 'm')}} />}
                   {newData.phone &&
                     <RenderField value={newData.phone} icon="phone" size={newData.cell ? 6 : 12} sx={{...handleFont(newData, 'm')}} />}
-                  {newData.fax && <RenderField value={newData.fax} icon="fax" />}
+                  {newData.fax && <RenderField value={newData.fax} icon="fax" sx={{...handleFont(newData, 'm')}}/>}
                 </Grid>
               </Grid>
             </>
