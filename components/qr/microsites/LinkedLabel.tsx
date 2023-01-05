@@ -38,16 +38,17 @@ function LinkedLabel({newData}: LinkedLabelProps) {
 
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
+  console.log({newData})
 
   const getImages = (files: object[] | string[],index:number ) => {
-    try {
+    try {//@ts-ignore
+      const media=[];
       files.forEach(async (file: any) => {
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
-        if (fields.current.length < newData.fields[index].length) { // @ts-ignore
-          fields.current[field.index].files?.push(data);
-          forceUpdate();
-        }
-      });
+        media.push(data);
+      });//@ts-ignore
+      fields.current[index].files = media;
+      forceUpdate();
     } catch {
       console.log("error");
     }
@@ -99,19 +100,20 @@ function LinkedLabel({newData}: LinkedLabelProps) {
   return (
     <MainMicrosite data={newData}>
       <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
-        <RenderTitleDesc newData={newData} />
+        <RenderTitleDesc newData={{...newData}} />
       </Box>
-      <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
+      <Grid container >{/* @ts-ignore */}
         {fields.current.map((field, index) => {
           if (field.type === "text") {
             return (
-              <Grid item xs={12} key={index}>
-                <RenderTitleDesc newData={{title: field.title, about: field.text}} />
+              <Grid item xs={12} key={index} >
+                <RenderTitleDesc newData={{...newData,title: field.title, about: field.text}} />
               </Grid>
             );
           } else if (field.type === "media") {
+            console.log({field})
             return (
-              <Grid container item xs={12} key={index} spacing={1} sx={{p: 2}} >
+              <Grid container item xs={12} key={index} spacing={1} >
                 {field.files?.map((file: FileType | string, fileIndex: number) => {
                   if (!file){
                     return (
@@ -142,12 +144,12 @@ function LinkedLabel({newData}: LinkedLabelProps) {
                         textAlign: 'center',
                         zIndex: 1000
                       }}
-                      key={`item${img}`}>
+                      key={`item-${fileIndex}`}>
                       <Tooltip
                         title="Click to enlarge"
                         disableHoverListener={hideTooltip}>
                         <Box
-                          key={`img${img}`}
+                          key={`img-${fileIndex}`}
                           component="img"
                           src={img}
                           alt="image"

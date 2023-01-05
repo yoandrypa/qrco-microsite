@@ -6,10 +6,13 @@ interface RenderAssetsDescProps {
   newData: {
     title?: string;
     about?: string;
+    titlesFontSize?: "small" | "medium" | "large";
   };
+  subtitleType?:  't' | 's' | 'm' | 'b';
+  subtitlesFontSize?: "small" | "medium" | "large";
 }
 
-export default function RenderTitleDesc({newData}: RenderAssetsDescProps) {
+export default function RenderTitleDesc({newData, subtitleType,}: RenderAssetsDescProps) {
   if (!newData.title && !newData.about) {
     return null;
   }
@@ -22,7 +25,7 @@ export default function RenderTitleDesc({newData}: RenderAssetsDescProps) {
         }}>{newData.title}</Typography>
       )}
       {newData.about && (
-        <Typography sx={{ color: theme => theme.palette.primary.main, ...handleFont(newData, 's') }}>{newData.about}</Typography>
+        <Typography sx={{ color: theme => theme.palette.primary.main, ...handleFont(newData,subtitleType|| 's' ) }}>{newData.about}</Typography>
       )}
     </Box>
   )
