@@ -39,7 +39,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       setInputValue('1')
     }
     if (parseInt(inputValue) >= 100) {
-      setDonationAmount(100)
+      setDonationAmount(100 * newData.donationUnitAmount)
       setInputValue('100')
     } else {
       setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1) as number)
@@ -134,10 +134,10 @@ export default function DonationsInfo({ newData }: DonationsProps) {
             spacing={1}
           >
             <Grid item sx={{ RoundedCorner: 2 }} >
-              <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{ fontFamily: getFont(newData) }}>{newData?.title}</Typography>
+              <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{ ...handleFont(newData, 't') }}>{newData?.title}</Typography>
             </Grid>
-            <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0, fontFamily: getFont(newData) }}>
-              <Typography sx={{ fontFamily: getFont(newData) }}>
+            <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0, ...handleFont(newData, 'm') }}>
+              <Typography sx={{ ...handleFont(newData, 'm') }}>
                 {newData?.message}
               </Typography>
             </Grid>
@@ -149,20 +149,20 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     <CofeeIcon color='primary' />
                   </SvgIcon>
                 </Box>
-                <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
-                  <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', fontFamily: getFont(newData) }}>
-                    ${newData.donationUnitAmount || 1} each
+                <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
+                  <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', ...handleFont(newData, 'm'), margin: 'auto' }}>
+                    ${newData.donationUnitAmount || 1}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item>
                 <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
-                  <Typography textAlign='center' paddingTop={2} sx={{ fontFamily: getFont(newData) }}>
-                    or
+                  <Typography textAlign='center' paddingTop={2} sx={{ ...handleFont(newData, 'm') }}>
+                    x
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item sx={{ marginLeft: 2 }}>
+              <Grid item sx={{ marginLeft: 2, mt: 1 }}>
                 <Button
                   variant="contained"
                   onClick={() => {
@@ -185,7 +185,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
 
               <Grid item >
                 <TextField
-                  sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center', fontFamily: getFont(newData) }}
+                  sx={{ width: 60, borderRadius: 40, alignContent: 'center', display: 'flex', alignItems: 'center', ...handleFont(newData, 'm'), mt: 1 }}
 
                   size="small"
                   placeholder="25"
@@ -209,7 +209,8 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     backgroundColor: theme => theme.palette.secondary.main,
                     alignContent: 'center',
                     width: 35, height: 35,
-                    margin: 'auto'
+                    margin: 'auto',
+                    mt: 1
                   }}>
                   +
                 </Button>
@@ -221,7 +222,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                 loading={isLoading}
                 style={{ backgroundColor: theming.palette.primary.main, borderRadius: 45 }}
                 onClick={handleClick}
-                variant="contained" sx={{ borderRadius: 2 }}>
+                variant="contained" sx={{ borderRadius: 2, ...handleFont(newData, 'b') }}>
                 {newData.urlOptionLabel || 'Donate'} ${donationAmount || 1}
               </LoadingButton>
             </Grid>
