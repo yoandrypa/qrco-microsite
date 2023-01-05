@@ -141,7 +141,7 @@ export default function MainComponent({ newData }: MainCompProps) {
         </Box>
       ) : (
         <ThemeProvider
-          theme={createTheme(getTheme(data?.primary || DEFAULT_COLORS.p, data?.secondary || DEFAULT_COLORS.s))}>
+          theme={createTheme(getTheme(data?.primary || DEFAULT_COLORS.p, data?.secondary || DEFAULT_COLORS.s, iframed.current))}>
           <CssBaseline/>
           {renderMicrositeComponent()}
         </ThemeProvider>
