@@ -38,17 +38,20 @@ function LinkedLabel({newData}: LinkedLabelProps) {
 
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
-  console.log({newData})
 
   const getImages = (files: object[] | string[],index:number ) => {
-    try {//@ts-ignore
-      const media=[];
-      files.forEach(async (file: any) => {
+    try {
+      if(newData.fields[index].files.length===0){
+        fields.current[index].files = [];
+        forceUpdate();
+        return;
+      }
+      files.forEach(async (file: any,indexFile:number) => {
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
-        media.push(data);
-      });//@ts-ignore
-      fields.current[index].files = media;
-      forceUpdate();
+        //@ts-ignore
+        fields.current[index].files[indexFile] = data;
+        forceUpdate();
+      });
     } catch {
       console.log("error");
     }
@@ -58,7 +61,8 @@ function LinkedLabel({newData}: LinkedLabelProps) {
     fields.current = [];
     newData.fields?.forEach((field: any, i: number) => {
       if (field.type === "media") {
-        fields.current.push({ type: "media", files: [] });
+        const emptyArray = new Array(field.files.length).fill('false');
+        fields.current.push({ type: "media", files: emptyArray });
         getImages(field.files, i);
       } else {
         fields.current.push({ type: "text", text: field.text, title: field.title });
@@ -111,10 +115,12 @@ function LinkedLabel({newData}: LinkedLabelProps) {
               </Grid>
             );
           } else if (field.type === "media") {
-            console.log({field})
+            const {colNumber, width} = calcColNumber(field.files?.length || 0);
             return (
               <Grid container item xs={12} key={index} spacing={1} >
                 {field.files?.map((file: FileType | string, fileIndex: number) => {
+                  if(file === 'false')
+                    return (<></>);
                   if (!file){
                     return (
                       <Box key={`mainIt${fileIndex}`} sx={{
@@ -133,7 +139,6 @@ function LinkedLabel({newData}: LinkedLabelProps) {
                     );
                   }
                   const img = typeof file === "string" ? file : file.content;
-                  const {colNumber, width} = calcColNumber(field.files?.length || 0);
                   return (
                     <Grid
                       item

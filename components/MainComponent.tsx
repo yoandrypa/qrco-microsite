@@ -121,7 +121,7 @@ export default function MainComponent({ newData }: MainCompProps) {
       return <PetsId newData={data} />
     }
     if(data?.qrType === "linkedLabel"){
-      return <LinkedLabel newData={data} />
+      return <LinkedLabel newData={{...data, iframed: iframed.current}} />
     }
 
     return (
