@@ -39,7 +39,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
       setInputValue('1')
     }
     if (parseInt(inputValue) >= 100) {
-      setDonationAmount(100)
+      setDonationAmount(100 * newData.donationUnitAmount)
       setInputValue('100')
     } else {
       setDonationAmount(parseInt(inputValue) * (newData.donationUnitAmount || 1) as number)
@@ -134,7 +134,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
             spacing={1}
           >
             <Grid item sx={{ RoundedCorner: 2 }} >
-              <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{ ...handleFont(newData, 'm') }}>{newData?.title}</Typography>
+              <Typography variant='h6' textAlign={'center'} padding={0} marginTop={2} sx={{ ...handleFont(newData, 't') }}>{newData?.title}</Typography>
             </Grid>
             <Grid container sx={{ margin: 2, display: 'flex', justifyContent: 'center', alignContent: 'center', padding: 0, ...handleFont(newData, 'm') }}>
               <Typography sx={{ ...handleFont(newData, 'm') }}>
@@ -149,16 +149,16 @@ export default function DonationsInfo({ newData }: DonationsProps) {
                     <CofeeIcon color='primary' />
                   </SvgIcon>
                 </Box>
-                <Box sx={{ width: 40, height: 40, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
-                  <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', ...handleFont(newData, 'm') }}>
-                    ${newData.donationUnitAmount || 1} each
+                <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'left', alignContent: 'left' }} >
+                  <Typography textAlign='left' sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center', ...handleFont(newData, 'm'), margin: 'auto' }}>
+                    ${newData.donationUnitAmount || 1}
                   </Typography>
                 </Box>
               </Grid>
               <Grid item>
                 <Box sx={{ width: 35, height: 35, display: 'flex', justifyContent: 'center', alignContent: 'center', margin: 'auto' }} >
                   <Typography textAlign='center' paddingTop={2} sx={{ ...handleFont(newData, 'm') }}>
-                    or
+                    x
                   </Typography>
                 </Box>
               </Grid>
