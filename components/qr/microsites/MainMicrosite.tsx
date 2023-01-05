@@ -6,7 +6,7 @@ import RenderIcon from "../helperComponents/RenderIcon";
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 import capitalize from "@mui/utils/capitalize";
-import {useMediaQuery} from "@mui/material";
+import {Divider, useMediaQuery} from "@mui/material";
 import {alpha} from "@mui/material/styles";
 import {download} from "../../../handlers/storage";
 import {RWebShare} from "react-web-share";
@@ -14,6 +14,7 @@ import {handleFont} from "./renderers/helper";
 
 import dynamic from "next/dynamic";
 import {useTheme} from "@mui/system";
+import {DEFAULT_COLORS} from "../constants";
 
 const Notifications = dynamic(() => import('../helperComponents/Notifications'));
 
@@ -79,7 +80,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   useEffect(() => {
     if (window.top !== window) {
-      const width = window.innerWidth;
+      const width = window.innerWidth - 4;
       setContainerDimensions({parentWidth: `${width}px`, parentHeight: `${window.innerHeight}px`});
       const percent = Math.ceil(width * 100 / 475);
       if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
@@ -101,6 +102,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const qrType = data.type || data.qrType;
+  const isBorder = data.layout?.includes('Border');
+  const isInverse = data.layout?.startsWith('inverse');
 
   return (
     <>
@@ -113,33 +116,18 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           onClose={() => setError(false)}/>
       )}
       {loading && (
-        <Box sx={{
-          display: 'flex',
-          position: 'fixed',
-          width: '100%',
-          justifyContent: 'center',
-          zIndex: 10,
-          bottom: '45px'
-        }}>
+        <Box sx={{display: 'flex', position: 'fixed', width: '100%', justifyContent: 'center', zIndex: 10, bottom: '35px'}}>
           <CircularProgress size={20} sx={{mr: '5px', color: theme => theme.palette.primary.main}}/>
-          <Typography sx={{color: theme => theme.palette.text.disabled, ...handleFont(data, 'm')}}>
+          <Typography sx={{...handleFont(data, 'm'), fontSize: '17px', color: theme => theme.palette.primary.main}}>
             {'Loading data. Please wait...'}
           </Typography>
         </Box>
       )}
-      <Box sx={{
-        position: 'fixed',
-        p: 0,
-        m: 0,
-        width: '100%',
-        height: '270px',
+      {!containerDimensions && (<Box sx={{position: 'fixed', p: 0, m: 0, width: '100%', height: '270px',
         background: theme => !backImg ? alpha(theme.palette.primary.main, 0.9) : 'none'
       }}>
         {backImg && (
-          <Box
-            component="img"
-            alt="backgimage"
-            src={backImg.content || backImg}
+          <Box component="img" alt="backgimage" src={backImg.content || backImg}
             sx={{
               filter: 'opacity(0.87) contrast(0.75) blur(5px)',
               width: 'calc(100% + 20px)',
@@ -148,9 +136,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               position: 'fixed',
               top: '-185px',
               left: '-10px'
-            }}/>
+            }}
+          />
         )}
-      </Box>
+      </Box>)}
       <Box sx={{
         top: 0,
         border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
@@ -158,62 +147,69 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         position: 'relative',
         backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
         backgroundImage: !data.backgroundType ? 'unset' : data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || '#0f4d8c'}, ${data.backgroundColorRight || '#99c4f0'})`) : '#fff',
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff',
         left: '50%',
         transform: 'translate(-50%, 0)',
         maxWidth: isWide ? '475px' : '100%',
-        overflowX: 'hidden'
+        minHeight: '100vh',
+        overflowX: 'hidden',
       }}>
-        <Box sx={{
-          width: '475px',
-          height: '200px',
-          background: theme => !backImg ?  theme.palette.primary.main : 'none'
-        }}>
-          {backImg && (
-            <Box
-              component="img"
-              alt="backgimage"
-              src={backImg.content || backImg}
-              sx={{width: '475px', height: '200px', position: 'absolute', right: 0}}/>
-          )}
-          {data.shortlinkurl !== undefined && (
-            <RWebShare
-              data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}}
-              onClick={() => {
-                //TODO
-              }}
-            >
-              <Fab
-                size="small" color="secondary" aria-label="add"
-                sx={{
-                  position: 'absolute',
-                  top: 147,
-                  right: 16,
-                  color:  theme => theme.palette.secondary.main,
-                  backgroundColor:  theme => theme.palette.primary.main,
-                  border: 'solid 3px #fff',
-                  '&:hover': {color:  theme => theme.palette.primary.main, background:  theme => theme.palette.secondary.main}
-                }}>
-                <ShareIcon/>
-              </Fab>
-            </RWebShare>
-          )}
-        </Box>
-        {foreImg && (
-          <Box sx={{width: '100%', position: 'absolute', top: '150px', textAlign: 'center'}}>
-            <Box
-              component="img"
-              alt="foregimage"
-              src={foreImg.content || foreImg}
-              sx={{
-                width: '100px',
-                height: '100px',
-                borderRadius: data.foregndImgType === undefined || data.foregndImgType === 'circle' ? '50px' : data.foregndImgType === 'smooth' ? '20px' : '3px',
-                border: 'solid 4px #fff'
-              }}
-            />
+        <Box sx={{ width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
+          <Box sx={{height: '200px'}}>
+            <Box sx={{
+              backgroundClip: 'padding-box !important', width: '475px', height: `${!isInverse ? 200 : 228}px`, position: 'fixed', right: 0,
+              borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderRadius: isBorder || data.layout?.startsWith('soft') ?
+                `${isBorder ? '24px 24px' : '0 0'} ${data.layout?.startsWith('soft') ? '24px 24px' : '0 0'}` : 'unset',
+              background: theme => !backImg ? theme.palette.primary.main : 'unset',
+              clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
+                'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
+            }} component={backImg ? 'img' : 'div'} alt="bannerImg" src={backImg?.content || backImg}/>
+            {data.shortlinkurl !== undefined && (
+              <RWebShare data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}} onClick={() => {
+                // TODO
+              }}>
+                <Fab
+                  size="small" color="secondary" aria-label="add"
+                  sx={{position: 'fixed', top: 147, right: 16, color:  theme => theme.palette.secondary.main,
+                    backgroundColor:  theme => theme.palette.primary.main, border: 'solid 3px #fff',
+                    '&:hover': {color:  theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}
+                  }}>
+                  <ShareIcon/>
+                </Fab>
+              </RWebShare>
+            )}
           </Box>
-        )}
+          <Box sx={{
+            width: '100%',
+            minHeight: !containerDimensions ? `calc(100vh - ${(Boolean(qrType) ? 229 : 220) + (!isBorder ? 0 : 20)}px)` :
+              `calc(${containerDimensions.parentHeight} + ${230 + (Boolean(qrType) ? 0 : 9) - (!isBorder ? 0 : 20)}px)`}}>
+            {foreImg && (
+              <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
+                <Box
+                  component="img"
+                  alt="foregimage"
+                  src={foreImg.content || foreImg}
+                  sx={{
+                    ml: !data.layout || !data.layout.includes('Left') ? 'unset' : '20px',
+                    transform: 'translate(0, -50px)',
+                    width: '100px',
+                    height: '100px',
+                    borderRadius: data.foregndImgType === undefined || data.foregndImgType === 'circle' ? '50px' : data.foregndImgType === 'smooth' ? '20px' : '3px',
+                    border: 'solid 4px #fff'
+                  }}
+                />
+              </Box>
+            )}
+            <Box sx={{mt: Boolean(foreImg) ? '-70px' : 0, backgroundClip: 'padding-box !important',
+              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderRight: !isBorder ? 'unset' : 'solid 10px transparent'}}>
+              {children}
+            </Box>
+          </Box>
+        </Box>
         {(!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
           <Box sx={{
             width: '100%',
@@ -223,28 +219,23 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             bottom: 0
           }} />
         )}
-        <Box sx={{
-          width: '100%',
-          minHeight: !containerDimensions ?
-            `calc(100vh - ${foreImg ? 256 : Object.keys(data).length ? 220 : 196}px)` :
-            `calc(${containerDimensions.parentHeight} + ${foreImg ? 196 : 227}px)`,
-          mt: foreImg ? '30px' : 0
-        }}>
-          {children}
-        </Box>
         {Boolean(qrType) && (
-          <Box sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            fontWeight: 'bold',
-            fontSize: '20px',
-            color: theme => theme.palette.secondary.main
-          }}>
-            <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
-            <Typography sx={{ml: '5px', ...handleFont(data, 'm'), fontSize: '20px'}}>
-              {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
-            </Typography>
+          <Box sx={{width: '100%'}}>
+            <Divider sx={{mx: 2}} />
+            <Box sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              fontSize: '20px',
+              mb: !isBorder ? 0 : '10px',
+              color: theme => theme.palette.secondary.main
+            }}>
+              <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
+              <Typography sx={{ml: '5px', ...handleFont(data, 'm'), fontSize: '17px'}}>
+                {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
+              </Typography>
+            </Box>
           </Box>
         )}
       </Box>

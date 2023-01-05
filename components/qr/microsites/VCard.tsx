@@ -80,12 +80,16 @@ export default function VCard({newData}: VCardProps) {
           {(newData.email || newData.web) && (
             <>
               <Grid item xs={1}>
-                <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
+                <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main }} />
               </Grid>
               <Grid item xs={11}>
                 <Grid container spacing={1} sx={{ mt: '-16px' }}>
                   {newData.email && <RenderField icon="emailIcon" value={newData.email} sx={{...handleFont(newData, 'm')}}/>}
-                  {newData.web && <RenderField icon="world" value={newData.web} sx={{...handleFont(newData, 'm')}}/>}
+                  {newData.web && (
+                    <Box sx={{width: '100%', mt: '-7px', ml: '7px'}}>
+                      <RenderField icon="world" value={newData.web} sx={{...handleFont(newData, 'm')}}/>
+                    </Box>
+                  )}
                 </Grid>
               </Grid>
             </>
