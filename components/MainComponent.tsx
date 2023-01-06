@@ -19,6 +19,7 @@ const VCard = dynamic(() => import("./qr/microsites/VCard"));
 const Images = dynamic(() => import("./qr/microsites/Images"));
 const Business = dynamic(() => import("./qr/microsites/Business"));
 const PetsId = dynamic(() => import("./qr/microsites/PetsId"));
+const LinkedLabel = dynamic(() => import("./qr/microsites/LinkedLabel"));
 const Coupons = dynamic(() => import("./qr/microsites/Coupons"));
 const SocialInfo = dynamic(() => import("./qr/microsites/SocialInfo"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
@@ -118,6 +119,9 @@ export default function MainComponent({ newData }: MainCompProps) {
 
     if(data?.qrType === "petId"){
       return <PetsId newData={data} />
+    }
+    if(data?.qrType === "linkedLabel"){
+      return <LinkedLabel newData={{...data, iframed: iframed.current}} />
     }
 
     return (
