@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -7,21 +8,27 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from "@mui/material/IconButton";
 import ForwardIcon from "@mui/icons-material/Forward";
 import GroupsIcon from '@mui/icons-material/Groups';
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import {capitalize} from "@mui/material";
+import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import Typography from "@mui/material/Typography";
-import {useEffect, useState} from "react";
 import {handleFont} from "./helper";
-import {useTheme} from "@mui/system";
+
+import dynamic from "next/dynamic";
+
+const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
 
 interface RenderSocialsProps {
   newData: any;
   onlyIcons?: boolean;
   desc?: string;
+  bold?: boolean;
+  isSections?: boolean;
 }
 
-export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsProps) {
+export default function RenderSocials({newData, onlyIcons, desc, bold, isSections}: RenderSocialsProps) {
   const theming = useTheme();
 
   const [hideTooltips, setHideToolTips] = useState<boolean>(false);
@@ -127,34 +134,41 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
     setHideToolTips(window.top !== window);
   }, []);
 
-  return (
+  const render = () => (
     <>
-      {(newData.socials?.length) ? (<>
-          {!onlyIcons ? (
-            <>
-              <Grid item xs={1}><GroupsIcon sx={{color: theming.palette.primary.main}}/></Grid>
-              <Grid item xs={11}>
-                <Grid container spacing={1}>
-                  {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', ...handleFont(newData, 'm')}}>{desc}</Typography>}
-                  {newData.socials.map((x: SocialNetworksType) => (
-                    <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
-                      {renderSocials(x)}
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </>
-          ) : (
-            <>
+      {!onlyIcons ? (
+        <Grid item xs={12} sx={{display: 'flex'}}>
+          <GroupsIcon sx={{color: theming.palette.primary.main}}/>
+          <Box sx={{ml: 1}}>
+            {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(newData, !bold ? 'm' : 't')}}>{desc}</Typography>}
+            <Grid container spacing={1}>
               {newData.socials.map((x: SocialNetworksType) => (
-                <div key={`sn${x.network}`}>
+                <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
                   {renderSocials(x)}
-                </div>
+                </Grid>
               ))}
-            </>
-          )}
+            </Grid>
+          </Box>
+        </Grid>
+      ) : (
+        <>
+          {newData.socials.map((x: SocialNetworksType) => (
+            <div key={`sn${x.network}`}>
+              {renderSocials(x)}
+            </div>
+          ))}
         </>
-      ) : null}
+      )}
     </>
   );
+
+  if (!newData.socials?.length) {
+    return null;
+  }
+
+  if (isSections) {
+    return <RenderSectWrapper sx={{display: 'flex', justifyContent: 'center'}}>{render()}</RenderSectWrapper>;
+  }
+
+  return render();
 }
