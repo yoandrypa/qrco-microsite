@@ -51,11 +51,8 @@ const SamplesList = ({ newData }: SampleProp) => {
       <ElevationScroll>
         <AppBar component="nav" sx={{ background: "#fff", height }}>
           <Container sx={{ my: "auto" }}>
-            <Toolbar sx={{ display: "flex", justifyContent: "space-between", color: theme => theme.palette.text.primary }}>
-              <Box sx={{ display: "flex" }}>
-                <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: "40px" }} />
-                <Typography sx={{ my: "auto", ml: "5px", fontSize: "28.8px", fontWeight: "bold" }}>{'The QR Link'}</Typography>
-              </Box>
+            <Toolbar>
+              <Box component="img" alt="EBANUX" src="/logo.svg" sx={{ width: "160px", mt: '20px' }} />
             </Toolbar>
           </Container>
         </AppBar>
