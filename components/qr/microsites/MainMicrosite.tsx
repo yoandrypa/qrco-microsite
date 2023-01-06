@@ -185,6 +185,15 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               </RWebShare>
             )}
           </Box>
+          {(!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
+            <Box sx={{
+              width: '100%',
+              background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
+              height: '250px',
+              position: 'absolute',
+              bottom: 0
+            }} />
+          )}
           <Box sx={{
             width: '100%',
             minHeight: !containerDimensions ? `calc(100vh - ${(Boolean(qrType) ? 229 : 220) + (!isBorder ? 0 : 20)}px)` :
@@ -213,15 +222,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             </Box>
           </Box>
         </Box>
-        {(!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
-          <Box sx={{
-            width: '100%',
-            background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
-            height: '250px',
-            position: 'absolute',
-            bottom: 0
-          }} />
-        )}
         {Boolean(qrType) && (
           <Box sx={{width: '100%'}}>
             <Divider sx={{mx: 2}} />
