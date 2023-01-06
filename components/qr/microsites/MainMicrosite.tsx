@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useState} from "react";
+import {ReactNode, useEffect, useMemo, useState} from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
@@ -54,6 +54,12 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     }
   }
 
+  const qrType = useMemo(() => data.type || data.qrType, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
+  const isInverse = useMemo(() => data.layout?.startsWith('inverse'), [data.layout]);
+
+  const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
+
   useEffect(() => {
     if (data.backgndImg) {
       setLoading(true);
@@ -100,10 +106,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       setLoading(false);
     }
   }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const qrType = data.type || data.qrType;
-  const isBorder = data.layout?.includes('Border');
-  const isInverse = data.layout?.startsWith('inverse');
 
   return (
     <>
@@ -157,7 +159,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <Box sx={{ width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
           <Box sx={{height: '200px'}}>
             <Box sx={{
-              backgroundClip: 'padding-box !important', width: '475px', height: `${!isInverse ? 200 : 228}px`, position: 'fixed', right: 0,
+              backgroundClip: 'padding-box !important', width: '475px', left: isScrolling && foreImg ? '-2px' : 'unset',
+              height: `${!isInverse ? 200 : 228}px`, position: 'fixed', right: 0,
               borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
