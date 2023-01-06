@@ -54,7 +54,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     }
   }
 
-  const qrType = useMemo(() => data.type || data.qrType, []);
+  const qrType = useMemo(() => data.type || data.qrType, []); // eslint-disable-line react-hooks/exhaustive-deps
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
   const isInverse = useMemo(() => data.layout?.startsWith('inverse'), [data.layout]);
 
