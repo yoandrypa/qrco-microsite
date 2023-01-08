@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import MainMicrosite from './MainMicrosite';
 import RenderSocials from './renderers/RenderSocials';
 import {ContactMail, Info, Pets} from '@mui/icons-material';
+import {handleFont} from "./renderers/helper";
 import RenderField from './renderers/RenderField';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -33,7 +34,7 @@ export default function PetsId({ newData }: PetIdProps) {
           <LinkIcon sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key={'linksBody'}>
-          <Typography sx={{ fontWeight: 'bold' }}>
+          <Typography sx={{ fontWeight: 'bold', ...handleFont(newData,'t') }} >
             {newData.urls.heading}
           </Typography>
           <Grid container spacing={0}>
@@ -45,6 +46,7 @@ export default function PetsId({ newData }: PetIdProps) {
                 value={item.label}
                 icon={'link'}
                 link={item.value}
+                sx={{...handleFont(newData,'m')}}
               />
             )})}
           </Grid>
@@ -65,7 +67,7 @@ export default function PetsId({ newData }: PetIdProps) {
           <Info sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key={'otherBody'}>
-          <Typography sx={{ fontWeight: 'bold' }}>
+          <Typography sx={{ fontWeight: 'bold', ...handleFont(newData,'t') }}>
             {newData.otherDetails.heading}
           </Typography>
           <Grid container spacing={0}>
@@ -77,7 +79,7 @@ export default function PetsId({ newData }: PetIdProps) {
                   key={`otherVal${index}`}
                   label={item.label}
                   value={item.value}
-                  sx={{ p: 0 }}
+                  sx={{ p: 0,...handleFont(newData,'m') }}
                 />
               </Grid>
             )})}
@@ -107,25 +109,26 @@ export default function PetsId({ newData }: PetIdProps) {
           <ContactMail sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key="contactBody">
-          <Typography sx={{ fontWeight: 'bold' }}>
+          <Typography sx={{ fontWeight: 'bold', ...handleFont(newData,'t') }}>
             {newData.contactTitle}
           </Typography>
           <Grid container spacing={0}>
-            {newData.name && <RenderField value={newData.name} label="Name" />}
+            {newData.name && <RenderField value={newData.name} label="Name" sx={handleFont(newData,'m')}/>}
             {newData.email && (
-              <RenderField value={newData.email} icon="email" />
+              <RenderField value={newData.email} icon="email" sx={{...handleFont(newData,'m')}}/>
             )}
-            {newData.phone && <RenderField value={newData.phone} icon="cell" />}
-            {newData.sms && <RenderField value={newData.sms} icon="sms" />}
-            {newData.fax && <RenderField value={newData.fax} icon="fax" />}
+            {newData.phone && <RenderField value={newData.phone} icon="cell" sx={{...handleFont(newData,'m')}}/>}
+            {newData.sms && <RenderField value={newData.sms} icon="sms" sx={{...handleFont(newData,'m')}}/>}
+            {newData.fax && <RenderField value={newData.fax} icon="fax" sx={{...handleFont(newData,'m')}}/>}
             {newData.website && (
-              <RenderField value={newData.website} icon="web" />
+              <RenderField value={newData.website} icon="web" sx={{...handleFont(newData,'m')}}/>
             )}
             {address && (
               <RenderField
                 value={address}
                 link={newData.googleMapsLink}
                 icon="location"
+                sx={{...handleFont(newData,'m')}}
               />
             )}
           </Grid>
@@ -151,13 +154,14 @@ export default function PetsId({ newData }: PetIdProps) {
           <Pets sx={{ color: theme => theme.palette.primary.main }} />
         </Grid>
         <Grid item xs={11} key="petBody">
-          <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+          <Typography sx={{ fontWeight: 'bold', ...handleFont(newData,'t') }}>
             {`${newData.petName}`}
           </Typography>
           <RenderField
             value={`${newData.petBreed ? newData.petBreed : ''} ${
               newData.petGender ? newData.petGender : ''
             } ${newData.petYearOfBirth ? newData.petYearOfBirth : ''}`}
+            sx={handleFont(newData,'m')}
           />
         </Grid>
       </>
@@ -175,12 +179,12 @@ export default function PetsId({ newData }: PetIdProps) {
                   <Info sx={{ color: theme => theme.palette.primary.main }} />
                 </Grid>
                 <Grid item xs={11} key="headingBody">
-                  <Typography sx={{ fontWeight: 'bold' }}>
+                  <Typography sx={{ fontWeight: 'bold', ...handleFont(newData,'t') }}>
                     {newData.title? newData.title : ''}
                   </Typography>
                   <Grid container spacing={0}>
                     {newData.titleText && (
-                      <RenderField value={newData.titleText} />
+                      <RenderField value={newData.titleText} sx={handleFont(newData,'s')} />
                     )}
                   </Grid>
                 </Grid>
