@@ -2,21 +2,25 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DangerousIcon from '@mui/icons-material/Dangerous';
+import DownloadIcon from "@mui/icons-material/Download";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import {useMediaQuery} from "@mui/material";
+import {useTheme} from "@mui/system";
 
 import MainMicrosite from "./MainMicrosite";
 import {handleFont, handleDownloadFiles, handleButtons} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
 import {FileType} from "../types/types";
-import DownloadIcon from "@mui/icons-material/Download";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-import RenderPreviewVideo from "./renderers/RenderPreviewVideo";
-import RenderPreview from "./renderers/RenderPreview";
-import RenderPreviewPdf from "./renderers/RenderPreviewPdf";
 import {getExtension} from "../../helpers/generalFunctions";
-import RenderTitleDesc from "./renderers/RenderTitleDesc";
-import {useMediaQuery} from "@mui/material";
-import {useTheme} from "@mui/system";
+
+import dynamic from "next/dynamic";
+
+const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
+const RenderPreviewVideo = dynamic(() => import("./renderers/RenderPreviewVideo"));
+const RenderPreview = dynamic(() => import("./renderers/RenderPreview"));
+const RenderPreviewPdf = dynamic(() => import("./renderers/RenderPreviewPdf"));
+const RenderTitleDesc = dynamic(() => import("./renderers/RenderTitleDesc"));
 
 interface FileProps {
   newData: any;
@@ -30,6 +34,8 @@ export default function FileMicro({ newData }: FileProps) {
   const files = useRef<FileType[]>([]);
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
+
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
 
   const theme = useTheme();
 
@@ -75,85 +81,85 @@ export default function FileMicro({ newData }: FileProps) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const renderAssets = useCallback(() => (
+    files.current.length ? files.current.map((x: FileType, index: number) => {
+      const fileNumber = index + 1;
+      return (
+        <Box key={`mainIt${fileNumber}`} sx={{
+          mt: '5px',
+          width: 'calc(100% - 10px)',
+          ml: '5px',
+          p: 2,
+          border: theme => `solid 1px ${theme.palette.primary.main}`,
+          borderRadius: '5px'
+        }}>
+          {x ? (
+            <>
+              {renderHint(getExtension(x.type), fileNumber)}
+              {newData.qrType === 'audio' && (
+                <audio preload="none" controls key={`audio${fileNumber}`} style={{ width: '100%' }}>
+                  <source src={x.content} type={x.type} />
+                  {'Your browser can not play audio files. :('}
+                </audio>
+              )}
+              {newData.qrType === 'video' && index === 0 && (
+                <RenderPreviewVideo content={x.content} type={x.type} />
+              )}
+              {newData.qrType === 'pdf' && index == 0 && (
+                <RenderPreviewPdf content={x.content} />
+              )}
+              <Box sx={{ display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column' }}>
+                <Button
+                  sx={{width: '100%', ...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
+                  variant="outlined"
+                  onClick={() => handleDownloadFiles(x, newData.qrType)}
+                  startIcon={<DownloadIcon />}
+                >
+                  {`Download ${newData.qrType} ${fileNumber}`}
+                </Button>
+                {['video', 'pdf'].includes(newData.qrType) && index !== 0 && (
+                  <Button
+                    sx={{ width: isWide400 ? '30%' : '100%', ml: isWide400 ? '5px' : 0, mt: isWide400 ? 0 : '5px',
+                      ...handleFont(newData, 'b'), ...handleButtons(newData, theme) }}
+                    variant="outlined"
+                    onClick={() => setPreview(x)}
+                  >
+                    {'Preview'}
+                  </Button>
+                )}
+              </Box>
+            </>
+          ) : (
+            <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm') }}>
+              <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
+              {'Error loading asset.'}
+            </Typography>
+          )}
+        </Box>
+      );
+    }) : (
+      newData.files?.length ? (
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: theme => theme.palette.primary.main}}>
+          <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
+          <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
+        </Box>
+      ) : null
+    )
+  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
-        <RenderTitleDesc newData={newData} />
-        <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
-          {newData.files?.length && <Typography sx={{...handleFont(newData, 'm')}}>{'items'}</Typography>}
+        <Box sx={isSections ? {width: 'calc(100% + 5px)', ml: '-10px'} : undefined}>
+          <RenderTitleDesc newData={newData} isSections={isSections} />
         </Box>
-        {/* @ts-ignore */}
-        {files.current.length ? files.current.map((x: FileType, index: number) => {
-          const fileNumber = index + 1;
-          return (
-            <Box key={`mainIt${fileNumber}`} sx={{
-              mt: '5px',
-              width: 'calc(100% - 10px)',
-              ml: '5px',
-              p: 2,
-              border: theme => `solid 1px ${theme.palette.primary.main}`,
-              borderRadius: '5px'
-            }}>
-              {x ? (
-                <>
-                  {renderHint(getExtension(x.type), fileNumber)}
-                  {newData.qrType === 'audio' && (
-                    <audio preload="none" controls key={`audio${fileNumber}`} style={{ width: '100%' }}>
-                      <source src={x.content} type={x.type} />
-                      {'Your browser can not play audio files. :('}
-                    </audio>
-                  )}
-                  {newData.qrType === 'video' && index === 0 && (
-                    <RenderPreviewVideo content={x.content} type={x.type} />
-                  )}
-                  {newData.qrType === 'pdf' && index == 0 && (
-                    <RenderPreviewPdf content={x.content} />
-                  )}
-                  <Box sx={{ display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column' }}>
-                    <Button
-                      sx={{
-                        width: '100%',
-                        ...handleFont(newData, 'b'),
-                        ...handleButtons(newData, theme)
-                      }}
-                      variant="outlined"
-                      onClick={() => handleDownloadFiles(x, newData.qrType)}
-                      startIcon={<DownloadIcon />}
-                    >
-                      {`Download ${newData.qrType} ${fileNumber}`}
-                    </Button>
-                    {['video', 'pdf'].includes(newData.qrType) && index !== 0 && (
-                      <Button
-                        sx={{
-                          width: isWide400 ? '30%' : '100%',
-                          ml: isWide400 ? '5px' : 0,
-                          mt: isWide400 ? 0 : '5px',
-                          ...handleFont(newData, 'b'),
-                          ...handleButtons(newData, theme)
-                        }}
-                        variant="outlined"
-                        onClick={() => setPreview(x)}
-                      >
-                        {'Preview'}
-                      </Button>
-                    )}
-                  </Box>
-                </>
-              ) : (
-                <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm') }}>
-                  <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
-                  {'Error loading asset.'}
-                </Typography>
-              )}
-            </Box>
-          );
-        }) : (
-          newData.files?.length ? (
-            <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: theme => theme.palette.primary.main}}>
-              <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
-              <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
-            </Box>
-          ) : null
+        <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
+          {newData.files?.length && <Typography sx={{...handleFont(newData, 'm')}}>{`${newData.files.length} item${newData.files.length !== 1 ? 's' : ''}`}</Typography>}
+        </Box>
+        {!isSections ? renderAssets() : (
+          <Box sx={{width: 'calc(100% - 5px)', ml: '-5px'}}>
+            <RenderSectWrapper>{renderAssets()}</RenderSectWrapper>
+          </Box>
         )}
         {preview && (
           <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} handleClose={() => setPreview(null)}
