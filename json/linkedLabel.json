@@ -1,53 +1,82 @@
 {
-    "isDynamic": true,
-    "buttonsFontStyle": "",
-    "about": "This box have the dishes of grandma",
-    "title": "Box of dishes",
-    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
-    "createdAt": "2023-01-03T22:34:39.198Z",
-    "qrName": "Box",
     "shortLinkId": {
-        "createdAt": "2023-01-03T22:34:39.190Z",
-        "paused": false,
-        "address": "csUtRv",
-        "visitCount": 0,
+        "claimable": false,
+        "preGenerated": false,
         "banned": false,
-        "type": "qr_link",
         "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
-        "target": "http://undefined/qr/abcd3dad-5948-412b-8c21-1e20a3b94095",
-        "updatedAt": "2023-01-03T22:34:39.194Z"
+        "target": "https://app-dev.theqr.link/qr/7e8ca141-51b0-465d-960f-8a19972566c1",
+        "updatedAt": "2023-01-08T23:11:52.000Z",
+        "createdAt": "2023-01-08T23:11:51.998Z",
+        "visitCount": 0,
+        "address": "sLcTBa",
+        "paused": false,
+        "type": "qr_link"
     },
-    "qrType": "linkedLabel",
-    "links": [
+    "qrName": "Box of expensive Dihes",
+    "messagesFontStyle": "",
+    "createdAt": "2023-01-08T23:11:52.002Z",
+    "layout": "soft",
+    "foregndImg": [
         {
-            "link": "",
-            "label": ""
+            "name": "aeda2fdc-8119-4704-8c1a-540d4179d370.jpeg",
+            "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/design/aeda2fdc-8119-4704-8c1a-540d4179d370.jpeg"
         }
     ],
-    "categories": [
-        "Test",
-        "Test 2"
+    "subtitlesFontStyle": "",
+    "backgndImg": [
+        {
+            "name": "1c055857-a0ea-40ed-a55d-2f80e2639891.jpeg",
+            "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/design/1c055857-a0ea-40ed-a55d-2f80e2639891.jpeg"
+        }
     ],
     "fields": [
         {
             "type": "text",
-            "title": "Titulo 1 ",
-            "text": "Descripsion 1"
+            "title": "Fragile",
+            "text": "Be very careful with this box"
         },
         {
             "type": "media",
             "files": [
                 {
-                    "name": "Screenshot from 2022-12-20 11-35-32.png",
-                    "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
+                    "name": "download (7).jpeg",
+                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (7).jpeg"
+                },
+                {
+                    "name": "download (1).jpeg",
+                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (1).jpeg"
+                },
+                {
+                    "name": "download (3).jpeg",
+                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (3).jpeg"
+                },
+                {
+                    "name": "download (5).jpeg",
+                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (5).jpeg"
                 }
             ]
         },
         {
-            "type": "text",
-            "title": "Title 2",
-            "text": "Description 2"
+            "type": "media",
+            "files": [
+                {
+                    "name": "download (2).jpeg",
+                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (2).jpeg"
+                }
+            ]
         }
     ],
-    "updatedAt": "2023-01-03T22:34:39.201Z"
+    "buttonsFontStyle": "",
+    "isDynamic": true,
+    "qrType": "linkedLabel",
+    "about": "This box have the dishes that grandma gave me ",
+    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+    "categories": [
+        "dishes"
+    ],
+    "updatedAt": "2023-01-08T23:11:52.006Z",
+    "subtitlesFontSize": "small",
+    "titlesFontStyle": "b",
+    "globalFont": "Default",
+    "title": "Box with Dishes 1"
 }
