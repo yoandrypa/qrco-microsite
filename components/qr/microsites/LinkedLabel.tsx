@@ -13,6 +13,7 @@ import { FileType } from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
 import RenderContactForm from "../helperComponents/RenderContactForm";
+import { randomUUID } from "crypto";
 
 interface LinkedLabelProps {
   newData: any;
@@ -38,11 +39,11 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
-
+  const [virtualFields, setvirtualFields] = useState<Array<Field> | []>([])
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
 
-  const getImages = (files: object[] | string[], index: number) => {
+  const getImages = useCallback((files: object[] | string[], index: number) => {
     try {
       if (newData.fields[index].files.length === 0) {
         fields.current[index].files = [];
@@ -58,29 +59,29 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
     } catch {
       console.log("error");
     }
-  }
+  }, [forceUpdate, newData.fields, newData.isSample]);
 
   useEffect(() => {
-    fields.current = [];
-    newData.fields?.forEach((field: any, i: number) => {
+    let tempFields: Field[] = [];
+    newData.fields.forEach((field: any, i: number) => {
       if (field.type === "media") {
         const emptyArray = new Array(field.files.length).fill('false');
-        fields.current.push({ type: "media", files: emptyArray });
+        tempFields.push({ type: "media", files: emptyArray });
         getImages(field.files, i);
       } else if (field.type === "contact") {
-        fields.current.push({
+        tempFields.push({
           type: "contact",
           message: field.message,
           title: field.title,
           buttonText: field.buttonText,
-          email: field.email || 'yosle007@gmail.com'
+          email: field.email
         });
-
       } else {
-        fields.current.push({ type: "text", text: field.text, title: field.title });
+        tempFields.push({ type: "text", text: field.text, title: field.title });
       }
     });
-  }, [newData.fields]); // eslint-disable-line react-hooks/exhaustive-deps
+    setvirtualFields(tempFields)
+  }, [getImages, newData.fields]);
 
   useEffect(() => {// ! for now
     setHideTooltip(window.top !== window);
@@ -119,26 +120,26 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         <RenderTitleDesc newData={{ ...newData }} />
       </Box>
       <Grid container >
-        {fields.current.map((field, index) => {
+        {virtualFields.length > 0 && virtualFields.map((field, index) => {
+          { console.log(field, index) }
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
                 <RenderTitleDesc newData={{ ...newData, title: field.title, about: field.text }} />
               </Grid>
             );
-          } else if (field.type === "contact") {
-            return (
-              <Grid item xs={12} key={index} spacing={1}>
-                <RenderContactForm
-                  key={index}
-                  index={index}
-                  buttonText={field.buttonText || 'Send now'}
-                  messagePlaceholder={field.message || 'Lets keep in touch'}
-                  title={field.title || 'You can left your message here'}
-                />
-              </Grid>
-            )
-          } else if (field.type === "media") {
+          }
+          if (field.type === "contact") {
+            return (<Grid item xs={12} key={index} spacing={1}>
+              <RenderContactForm
+                index={index}
+                buttonText={field.buttonText || 'Send now'}
+                messagePlaceholder={field.message || 'Lets keep in touch'}
+                title={field.title || 'You can left your message here'}
+              />
+            </Grid>);
+          }
+          if (field.type === "media") {
             const { colNumber, width } = calcColNumber(field.files?.length || 0);
             return (
               <Grid container item xs={12} key={index} spacing={1} >
