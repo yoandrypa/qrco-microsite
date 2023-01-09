@@ -20,7 +20,8 @@ interface ContactFormProps {
 
 function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFormProps) {
     const [name, setName] = useState<string>('');
-    const [newMessage, setNewMessage] = useState<string>(messagePlaceholder);
+    const [newMessage, setNewMessage] = useState<string>('');
+    const [newEmail, setNewEmail] = useState<string>('');
 
 
     const handleClick = () => {
@@ -32,6 +33,9 @@ function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFor
     }
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
+    }
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewEmail(event.target.value)
     }
 
     return (
@@ -46,6 +50,14 @@ function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFor
                 placeholder='John Doe'
                 value={name}
                 onChange={handleNameChange}
+            />
+            <TextField
+                label='Email'
+                size='small'
+                fullWidth
+                placeholder='your@email.com'
+                value={newEmail}
+                onChange={handleEmailChange}
             />
             <TextField
                 label='Message'
