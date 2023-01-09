@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import DangerousIcon from '@mui/icons-material/Dangerous';
-import { useMediaQuery } from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
 import { handleFont } from "./renderers/helper";
@@ -33,36 +33,58 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
-  const fields = useRef<Field[]>([]);
+  const mediaFiles = useRef<any>({});
   const index = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
 
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
-  const [virtualFields, setvirtualFields] = useState<Array<Field> | []>([])
+  const [virtualFields, setVirtualFields] = useState<Array<Field> | []>([])
   // @ts-ignore
-  const forceUpdate = useCallback(() => setUnusedState({}), []);
-
+  const  forceUpdate = useCallback(() => setUnusedState({}), []);
+  const renderMediaContent = (content : string|undefined, width:any, key: string) =>{
+    if(content ==="loading" || content === undefined){
+      return <CircularProgress size={20} />
+    }
+    
+    return (
+      <Box
+        key={key}
+        component="img"
+        src={content}
+        alt="image"
+        sx={{
+          width,
+          cursor: 'pointer',
+          borderRadius: '4px',
+          '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
+        }}
+        onClick={() => { //TODO: onClick of the preview
+        }}
+      />
+    )    
+  }
   const getImages = useCallback((files: object[] | string[], index: number) => {
+    
     try {
-      if (newData.fields[index].files.length === 0) {
-        fields.current[index].files = [];
-        forceUpdate();
-        return;
-      }
       files.forEach(async (file: any, indexFile: number) => {
+        mediaFiles.current[`media_${index}_${indexFile}`]= "loading"
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
         //@ts-ignore
-        fields.current[index].files[indexFile] = data;
+        console.log("data loaded");
+        mediaFiles.current[`media_${index}_${indexFile}`] = data;
         forceUpdate();
       });
-    } catch {
+    } catch (error) {
+      console.log({error});
       console.log("error");
     }
   }, [forceUpdate, newData.fields, newData.isSample]);
 
   useEffect(() => {
     let tempFields: Field[] = [];
+    if(!newData.fields)
+      return;
     newData.fields.forEach((field: any, i: number) => {
       if (field.type === "media") {
         const emptyArray = new Array(field.files.length).fill('false');
@@ -80,7 +102,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         tempFields.push({ type: "text", text: field.text, title: field.title });
       }
     });
-    setvirtualFields(tempFields)
+    setVirtualFields(tempFields)
   }, [getImages, newData.fields]);
 
   useEffect(() => {// ! for now
@@ -144,11 +166,10 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
             return (
               <Grid container item xs={12} key={index} spacing={1} >
                 {field.files?.map((file: FileType | string, fileIndex: number) => {
-                  if (file === 'false')
-                    return (<></>);
+                  const content = typeof mediaFiles.current[`media_${index}_${fileIndex}`] === "string" ? mediaFiles.current[`media_${index}_${fileIndex}`] : mediaFiles.current[`media_${index}_${fileIndex}`]?.content;
                   if (!file) {
                     return (
-                      <Box key={`mainIt${fileIndex}`} sx={{
+                      <Box key={`media_${index}_${fileIndex}`} sx={{
                         mt: '5px',
                         width: 'calc(100% - 10px)',
                         ml: '5px',
@@ -163,7 +184,6 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
                       </Box>
                     );
                   }
-                  const img = typeof file === "string" ? file : file.content;
                   return (
                     <Grid
                       item
@@ -178,22 +198,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
                       <Tooltip
                         title="Click to enlarge"
                         disableHoverListener={hideTooltip}>
-                        <Box
-                          key={`img-${fileIndex}`}
-                          component="img"
-                          src={img}
-                          alt="image"
-                          sx={{
-                            width,
-                            cursor: 'pointer',
-                            borderRadius: '4px',
-                            '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
-                          }}
-                          onClick={() => { //TODO: onClick of the preview
-                            // index.current = fileNumber;
-                            // setPreview(x);
-                          }}
-                        />
+                        {renderMediaContent(content, width, `media_${index}_${fileIndex}`)}
                       </Tooltip>
                     </Grid>
                   );
