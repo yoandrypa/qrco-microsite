@@ -1,36 +1,39 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import DangerousIcon from '@mui/icons-material/Dangerous';
-import {useMediaQuery} from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import {handleFont} from "./renderers/helper";
-import {download} from "../../../handlers/storage";
-import {FileType} from "../types/types";
+import { handleFont } from "./renderers/helper";
+import { download } from "../../../handlers/storage";
+import { FileType } from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
+import RenderContactForm from "../helperComponents/RenderContactForm";
 
 interface LinkedLabelProps {
   newData: any;
 }
 
 interface Field {
-  type: "text"| "media";
-  files?: FileType[]| string[];
+  type: "text" | "media" | "contact";
+  files?: FileType[] | string[];
   title?: string;
   text?: string;
-
+  message?: string;
+  buttonText?: string;
+  email?: string;
 }
 
-function LinkedLabel({newData}: LinkedLabelProps) {
+function LinkedLabel({ newData }: LinkedLabelProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
   const fields = useRef<Field[]>([]);
-  const index = useRef<{field: number, index: number }>({ field:0, index:0 });
+  const index = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
 
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
@@ -39,14 +42,14 @@ function LinkedLabel({newData}: LinkedLabelProps) {
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
 
-  const getImages = (files: object[] | string[],index:number ) => {
+  const getImages = (files: object[] | string[], index: number) => {
     try {
-      if(newData.fields[index].files.length===0){
+      if (newData.fields[index].files.length === 0) {
         fields.current[index].files = [];
         forceUpdate();
         return;
       }
-      files.forEach(async (file: any,indexFile:number) => {
+      files.forEach(async (file: any, indexFile: number) => {
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
         //@ts-ignore
         fields.current[index].files[indexFile] = data;
@@ -64,6 +67,15 @@ function LinkedLabel({newData}: LinkedLabelProps) {
         const emptyArray = new Array(field.files.length).fill('false');
         fields.current.push({ type: "media", files: emptyArray });
         getImages(field.files, i);
+      } else if (field.type === "contact") {
+        fields.current.push({
+          type: "contact",
+          message: field.message,
+          title: field.title,
+          buttonText: field.buttonText,
+          email: field.email || 'yosle007@gmail.com'
+        });
+
       } else {
         fields.current.push({ type: "text", text: field.text, title: field.title });
       }
@@ -74,7 +86,7 @@ function LinkedLabel({newData}: LinkedLabelProps) {
     setHideTooltip(window.top !== window);
   }, []);
 
-  const calcColNumber = ( length:number) => { 
+  const calcColNumber = (length: number) => {
     let colNumber = length;
     let width = '0';
     if (!newData.iframed) {
@@ -97,31 +109,43 @@ function LinkedLabel({newData}: LinkedLabelProps) {
       colNumber = 6;
       width = '100%';
     }
-    return {colNumber, width};
-  }   
+    return { colNumber, width };
+  }
 
 
   return (
     <MainMicrosite data={newData}>
-      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
-        <RenderTitleDesc newData={{...newData}} />
+      <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
+        <RenderTitleDesc newData={{ ...newData }} />
       </Box>
-      <Grid container >{/* @ts-ignore */}
+      <Grid container >
         {fields.current.map((field, index) => {
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
-                <RenderTitleDesc newData={{...newData,title: field.title, about: field.text}} />
+                <RenderTitleDesc newData={{ ...newData, title: field.title, about: field.text }} />
               </Grid>
             );
+          } else if (field.type === "contact") {
+            return (
+              <Grid item xs={12} key={index} spacing={1}>
+                <RenderContactForm
+                  key={index}
+                  index={index}
+                  buttonText={field.buttonText || 'Send now'}
+                  messagePlaceholder={field.message || 'Lets keep in touch'}
+                  title={field.title || 'You can left your message here'}
+                />
+              </Grid>
+            )
           } else if (field.type === "media") {
-            const {colNumber, width} = calcColNumber(field.files?.length || 0);
+            const { colNumber, width } = calcColNumber(field.files?.length || 0);
             return (
               <Grid container item xs={12} key={index} spacing={1} >
                 {field.files?.map((file: FileType | string, fileIndex: number) => {
-                  if(file === 'false')
+                  if (file === 'false')
                     return (<></>);
-                  if (!file){
+                  if (!file) {
                     return (
                       <Box key={`mainIt${fileIndex}`} sx={{
                         mt: '5px',
@@ -131,7 +155,7 @@ function LinkedLabel({newData}: LinkedLabelProps) {
                         border: theme => `solid 1px ${theme.palette.primary.main}`,
                         borderRadius: '5px'
                       }}>
-                        <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm')}}>
+                        <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm') }}>
                           <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                           {'Error loading image.'}
                         </Typography>
@@ -179,7 +203,7 @@ function LinkedLabel({newData}: LinkedLabelProps) {
           }
         })
         }
-      </Grid>      
+      </Grid>
     </MainMicrosite>
   );
 }
