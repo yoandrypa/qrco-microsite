@@ -197,7 +197,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           <Box sx={{
             width: '100%',
             minHeight: !containerDimensions ? `calc(100vh - ${(Boolean(qrType) ? 229 : 220) + (!isBorder ? 0 : 20)}px)` :
-              `calc(${containerDimensions.parentHeight} + ${230 + (Boolean(qrType) ? 0 : 9) - (!isBorder ? 0 : 20)}px)`}}>
+              `calc(${containerDimensions.parentHeight} + ${230 + (Boolean(qrType) ? 8 : 9) - (!isBorder ? 0 : 20)}px)`}}>
             {foreImg && (
               <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
                 <Box

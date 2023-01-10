@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -87,7 +87,7 @@ function Images({newData}: ImageProps) {
     width = '100%';
   }
 
-  const renderGallery = useCallback(() => (
+  const renderGallery = () => (
     <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
       {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
         if (!x) {
@@ -131,7 +131,7 @@ function Images({newData}: ImageProps) {
         )}
       ) : null}
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return (
     <MainMicrosite data={newData}>
