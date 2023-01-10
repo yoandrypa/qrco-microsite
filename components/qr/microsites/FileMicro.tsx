@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DangerousIcon from '@mui/icons-material/Dangerous';
@@ -81,7 +81,7 @@ export default function FileMicro({ newData }: FileProps) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderAssets = useCallback(() => (
+  const renderAssets = () => (
     files.current.length ? files.current.map((x: FileType, index: number) => {
       const fileNumber = index + 1;
       return (
@@ -145,7 +145,7 @@ export default function FileMicro({ newData }: FileProps) {
         </Box>
       ) : null
     )
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return (
     <MainMicrosite data={newData}>
