@@ -46,7 +46,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
     if(content ==="loading" || content === undefined){
       return <CircularProgress size={20} />
     }
-    
+
     return (
       <Box
         key={key}
@@ -62,10 +62,10 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         onClick={() => { //TODO: onClick of the preview
         }}
       />
-    )    
+    )
   }
   const getImages = useCallback((files: object[] | string[], index: number) => {
-    
+
     try {
       files.forEach(async (file: any, indexFile: number) => {
         mediaFiles.current[`media_${index}_${indexFile}`]= "loading"
@@ -79,7 +79,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
       console.log({error});
       console.log("error");
     }
-  }, [forceUpdate, newData.fields, newData.isSample]);
+  }, [forceUpdate, newData.fields, newData.isSample]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let tempFields: Field[] = [];

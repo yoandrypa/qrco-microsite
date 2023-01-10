@@ -146,24 +146,27 @@ export default function Business({newData}: BusinessProps) {
   return (
     <MainMicrosite data={newData}>
       <Grid container spacing={1} sx={{p: 2}}>
-        {(newData.company || newData.title || newData.subtitle || newData.web || newData.email || newData.contact ||
-          newData.phone || newData.about) && (
-            !isSections ? renderCompany() : <RenderSectWrapper>{renderCompany()}</RenderSectWrapper>
-          )
-        }
-        {newData.urlOptionLabel && (
-          !isSections ? renderButton() : <RenderSectWrapper>{renderButton()}</RenderSectWrapper>
-        )}
-        <RenderAddress newData={newData} isSections={isSections}/>
-        {newData.easiness && (
-          !isSections ? renderEasinessComponent() : <RenderSectWrapper>{renderEasinessComponent()}</RenderSectWrapper>
-        )}
-        {Object.keys(newData.openingTime || []).length ? (
-          <>
-            {!isSections ? renderTiming() : <RenderSectWrapper>{renderTiming()}</RenderSectWrapper>}
-          </>
-        ) : null}
-        <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>
+        {(newData.index || [0, 1, 2, 3, 4, 5]).map((x: number) => (
+          <Box key={`item${x}`} sx={{width: '100%', px: 2, my: 2}}>
+            {x === 0 && (newData.company || newData.title || newData.subtitle || newData.web || newData.email || newData.contact ||
+              newData.phone || newData.about) && (
+              !isSections ? renderCompany() : <RenderSectWrapper>{renderCompany()}</RenderSectWrapper>
+            )}
+            {x === 1 && newData.urlOptionLabel && (
+              !isSections ? renderButton() : <RenderSectWrapper>{renderButton()}</RenderSectWrapper>
+            )}
+            {x === 2 && <RenderAddress newData={newData} isSections={isSections}/>}
+            {x === 3 && newData.easiness && (
+              !isSections ? renderEasinessComponent() : <RenderSectWrapper>{renderEasinessComponent()}</RenderSectWrapper>
+            )}
+            {x === 4 && Object.keys(newData.openingTime || []).length ? (
+              <>
+                {!isSections ? renderTiming() : <RenderSectWrapper>{renderTiming()}</RenderSectWrapper>}
+              </>
+            ) : null}
+            {x === 5 && <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>}
+          </Box>
+        ))}
       </Grid>
     </MainMicrosite>
   );
