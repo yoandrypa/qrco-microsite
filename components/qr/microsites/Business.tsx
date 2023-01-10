@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import MainMicrosite from "./MainMicrosite";
@@ -61,7 +61,7 @@ export default function Business({newData}: BusinessProps) {
     setHideTooltips(window.top !== window);
   }, []);
 
-  const renderCompany = useCallback(() => (
+  const renderCompany = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <WorkIcon sx={{color: theme => theme.palette.primary.main}}/>
       <Grid container spacing={1} sx={{ml: 1}}>
@@ -75,17 +75,17 @@ export default function Business({newData}: BusinessProps) {
         {newData.phone && <RenderField value={newData.phone} icon="phone" sx={{...handleFont(newData, 'm')}}/>}
         {newData.about && <RenderField value={newData.about} icon="about" sx={{...handleFont(newData, 'm')}}/>}
       </Grid>
-    </Grid>), []); // eslint-disable-line react-hooks/exhaustive-deps
+    </Grid>);
 
-  const renderButton = useCallback(() => (
+  const renderButton = () => (
     <Grid item xs={12} sx={{textAlign: 'center', pl: '10px'}}>
       <Button
         sx={{my: '10px', width: 'calc(100% - 70px)', ...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
         target="_blank" component="a" href={newData.urlOptionLink}
         variant="contained">{newData.urlOptionLabel}</Button>
-    </Grid>), []); // eslint-disable-line react-hooks/exhaustive-deps
+    </Grid>);
 
-  const renderEasinessComponent = useCallback(() => (
+  const renderEasinessComponent = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <DoneAllIcon sx={{color: theme => theme.palette.primary.main, mt: '3px'}}/>
       <Box sx={{ml: 1}}>
@@ -115,9 +115,9 @@ export default function Business({newData}: BusinessProps) {
           {newData.easiness.taxi && renderEasiness('taxi', 'Taxi')}
         </Box>
       </Box>
-    </Grid>), []); // eslint-disable-line react-hooks/exhaustive-deps
+    </Grid>);
 
-  const renderTiming = useCallback(() => (
+  const renderTiming = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <ScheduleIcon sx={{color: theme => theme.palette.primary.main}}/>
       <Box sx={{ml: 1}}>
@@ -141,7 +141,7 @@ export default function Business({newData}: BusinessProps) {
         </Grid>
       </Box>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return (
     <MainMicrosite data={newData}>
