@@ -56,7 +56,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const qrType = useMemo(() => data.type || data.qrType, []); // eslint-disable-line react-hooks/exhaustive-deps
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
-  const isInverse = useMemo(() => data.layout?.startsWith('inverse'), [data.layout]);
+  const isInverse = useMemo(() => data.layout?.includes('Inverse'), [data.layout]);
+  const isSoft = useMemo(() => data.layout?.toLowerCase().includes('soft'), [data.layout]);
 
   const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
 
@@ -164,8 +165,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
-              borderRadius: isBorder || data.layout?.startsWith('soft') ?
-                `${isBorder ? '24px 24px' : '0 0'} ${data.layout?.startsWith('soft') ? '24px 24px' : '0 0'}` : 'unset',
+              borderRadius: isBorder || isSoft ? `${isBorder ? '24px 24px' : '0 0'} ${isSoft ? '24px 24px' : '0 0'}` : 'unset',
               background: theme => !backImg ? theme.palette.primary.main : 'unset',
               clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
                 'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
