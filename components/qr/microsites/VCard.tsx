@@ -1,4 +1,3 @@
-import {useCallback} from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -26,7 +25,7 @@ export default function VCard({newData}: {newData: any;}) {
 
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
-  const renderName = useCallback(() => (
+  const renderName = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <AccountBoxIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
       <Typography sx={{ml: 1, ...handleFont(newData, 't')}}>
@@ -35,9 +34,9 @@ export default function VCard({newData}: {newData: any;}) {
           newData.firstName + (newData.lastName ? ' ' : '') : ''}${newData.lastName ? newData.lastName : ''}`}
       </Typography>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
-  const renderPhones = useCallback(() => (
+  const renderPhones = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
       <Grid container spacing={1} sx={{ml: '1px'}}>
@@ -48,9 +47,9 @@ export default function VCard({newData}: {newData: any;}) {
         {newData.fax && <RenderField value={newData.fax} icon="fax" sx={{...handleFont(newData, 'm')}}/>}
       </Grid>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
-  const renderOrganization = useCallback(() => (
+  const renderOrganization = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <WorkIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
       <Box sx={{ml: 1}}>
@@ -61,9 +60,9 @@ export default function VCard({newData}: {newData: any;}) {
         </Grid>
       </Box>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
-  const renderEmails = useCallback(() => (
+  const renderEmails = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main }} />
       <Grid container spacing={1} sx={{ mt: '-16px', ml: '1px' }}>
@@ -75,36 +74,31 @@ export default function VCard({newData}: {newData: any;}) {
         )}
       </Grid>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const renderButton = useCallback(() => (
-    <Button
-      variant="contained"
-      startIcon={<GetAppIcon />}
-      sx={{...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
-      onClick={() => downloadVCard({...newData})}
-    >{'Get Contact'}</Button>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return (
     <MainMicrosite data={newData}>
       <Grid container spacing={1} sx={{p: 2}}>
-        {(newData.prefix || newData.firstName || newData.lastName) && (
-          !isSections ? renderName() : <RenderSectWrapper>{renderName()}</RenderSectWrapper>
-        )}
-        {(newData.cell || newData.phone || newData.fax) && (
-          !isSections ? renderPhones() : <RenderSectWrapper>{renderPhones()}</RenderSectWrapper>
-        )}
-        {(newData.organization || newData.position) && (
-          !isSections ? renderOrganization() : <RenderSectWrapper>{renderOrganization()}</RenderSectWrapper>
-        )}
-        <RenderAddress newData={newData} isSections={isSections} />
-        {(newData.email || newData.web) && (
-          !isSections ? renderEmails() : <RenderSectWrapper>{renderEmails()}</RenderSectWrapper>
-        )}
-        <Box sx={{ width: '100%', mt: !isSections ? 2 : 0, display: 'flex', justifyContent: 'center' }}>
-          <RenderSocials newData={newData} onlyIcons isSections={isSections}/>
-        </Box>
+        {(newData.index || [0, 1, 2]).map((x: number) => (
+          <Box key={`item${x}`} sx={{width: '100%', px: 2, my: 2}}>
+            {x === 0 && (newData.prefix || newData.firstName || newData.lastName) && (
+              !isSections ? renderName() : <RenderSectWrapper>{renderName()}</RenderSectWrapper>
+            )}
+            {x === 0 && (newData.cell || newData.phone || newData.fax) && (
+              !isSections ? renderPhones() : <RenderSectWrapper>{renderPhones()}</RenderSectWrapper>
+            )}
+            {x === 0 && (newData.organization || newData.position) && (
+              !isSections ? renderOrganization() : <RenderSectWrapper>{renderOrganization()}</RenderSectWrapper>
+            )}
+            {x === 1 && <RenderAddress newData={newData} isSections={isSections}/>}
+            {x === 1 && (newData.email || newData.web) && (
+              !isSections ? renderEmails() : <RenderSectWrapper>{renderEmails()}</RenderSectWrapper>
+            )}
+            {x === 2 && <Box sx={{width: '100%', mt: !isSections ? 2 : 0, display: 'flex', justifyContent: 'center'}}>
+              <RenderSocials newData={newData} onlyIcons isSections={isSections}/>
+            </Box>}
+          </Box>
+        ))}
       </Grid>
       <Box sx={{ textAlign: 'center', mt: '18px' }}>
         <Button
