@@ -1,4 +1,3 @@
-import {useCallback} from "react";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
@@ -24,7 +23,7 @@ export default function Coupons({newData}: {newData: any;}) {
 
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
-  const renderCompany = useCallback(() => (
+  const renderCompany = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <PlaylistAddCheckIcon sx={{color: theme => theme.palette.primary.main}}/>
       <Box sx={{ml: 1}}>
@@ -57,44 +56,41 @@ export default function Coupons({newData}: {newData: any;}) {
         </Grid>
       </Box>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
-  const renderCoupon = useCallback(() => (
+  const renderCoupon = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <ConfirmationNumberIcon color="primary" />
       <Box sx={{ml: 1}}>
         <Typography sx={{mt: '-2px', ...handleFont(newData, 't')}}>{'Coupon'}</Typography>
         <Grid container spacing={1}>
-          {newData.name && (
-            <RenderField value={newData.name} sx={{my: '-30px', ...handleFont(newData, 'm')}} />
-          )}
+          {newData.name && <RenderField value={newData.name} sx={{my: '-30px', ...handleFont(newData, 'm')}} />}
           {newData.value && (
-            <RenderField label="Valid until"
-                         value={humanDate(newData.value, 'en', true)}
+            <RenderField label="Valid until" value={humanDate(newData.value, 'en', true)}
                          sx={{...handleFont(newData, 'm')}} />
           )}
           {newData.text && (
-            <RenderField label="Terms and conditions"
-                         value={newData.text}
-                         sx={{...handleFont(newData, 'm')}} />
+            <RenderField label="Terms and conditions" value={newData.text} sx={{...handleFont(newData, 'm')}} />
           )}
         </Grid>
       </Box>
     </Grid>
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   return (
     <MainMicrosite data={newData}>
       <RenderBadge newData={newData} />
-      <Grid container spacing={1} sx={{p: 2}}>
-        {(newData.company || newData.title || newData.about || newData.urlOptionLink) && (
-          !isSections ? renderCompany() : <RenderSectWrapper>{renderCompany()}</RenderSectWrapper>
-        )}
-        {(newData.name || newData.value || newData.text) && (
-          !isSections ? renderCoupon() : <RenderSectWrapper>{renderCoupon()}</RenderSectWrapper>
-        )}
-        <RenderAddress newData={newData} isSections={isSections} />
-      </Grid>
+      {(newData.index || [0, 1, 2]).map((x: number) => (
+        <Grid container spacing={1} sx={{p: 2}} key={`item${x}`}>
+          {x === 0 && (newData.company || newData.title || newData.about || newData.urlOptionLink) && (
+            !isSections ? renderCompany() : <RenderSectWrapper>{renderCompany()}</RenderSectWrapper>
+          )}
+          {x === 1 && (newData.name || newData.value || newData.text) && (
+            !isSections ? renderCoupon() : <RenderSectWrapper>{renderCoupon()}</RenderSectWrapper>
+          )}
+          {x === 2 && <RenderAddress newData={newData} isSections={isSections} />}
+        </Grid>
+      ))}
     </MainMicrosite>
   );
 }
