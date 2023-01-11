@@ -137,7 +137,7 @@ function Images({newData}: ImageProps) {
     <MainMicrosite data={newData}>
       <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
         {images.current.length ? (
-          <Typography sx={{...handleFont(newData, 't')}}>
+          <Typography sx={{...handleFont(newData, 'm')}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
           </Typography>
         ) : (
