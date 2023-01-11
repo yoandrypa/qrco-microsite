@@ -1,80 +1,115 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import DangerousIcon from '@mui/icons-material/Dangerous';
-import {useMediaQuery} from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import {handleFont} from "./renderers/helper";
-import {download} from "../../../handlers/storage";
-import {FileType} from "../types/types";
+import { handleFont } from "./renderers/helper";
+import { download } from "../../../handlers/storage";
+import { FileType } from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderTitleDesc from "./renderers/RenderTitleDesc";
+import RenderContactForm from "../helperComponents/RenderContactForm";
+import { randomUUID } from "crypto";
 
 interface LinkedLabelProps {
   newData: any;
 }
 
 interface Field {
-  type: "text"| "media";
-  files?: FileType[]| string[];
+  type: "text" | "media" | "contact";
+  files?: FileType[] | string[];
   title?: string;
   text?: string;
-
+  message?: string;
+  buttonText?: string;
+  email?: string;
 }
 
-function LinkedLabel({newData}: LinkedLabelProps) {
+function LinkedLabel({ newData }: LinkedLabelProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
-  const fields = useRef<Field[]>([]);
-  const index = useRef<{field: number, index: number }>({ field:0, index:0 });
+  const mediaFiles = useRef<any>({});
+  const index = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
 
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
-
+  const [virtualFields, setVirtualFields] = useState<Array<Field> | []>([])
   // @ts-ignore
-  const forceUpdate = useCallback(() => setUnusedState({}), []);
+  const  forceUpdate = useCallback(() => setUnusedState({}), []);
+  const renderMediaContent = (content : string|undefined, width:any, key: string) =>{
+    if(content ==="loading" || content === undefined){
+      return <CircularProgress size={20} />
+    }
 
-  const getImages = (files: object[] | string[],index:number ) => {
+    return (
+      <Box
+        key={key}
+        component="img"
+        src={content}
+        alt="image"
+        sx={{
+          width,
+          cursor: 'pointer',
+          borderRadius: '4px',
+          '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
+        }}
+        onClick={() => { //TODO: onClick of the preview
+        }}
+      />
+    )
+  }
+  const getImages = useCallback((files: object[] | string[], index: number) => {
+
     try {
-      if(newData.fields[index].files.length===0){
-        fields.current[index].files = [];
-        forceUpdate();
-        return;
-      }
-      files.forEach(async (file: any,indexFile:number) => {
+      files.forEach(async (file: any, indexFile: number) => {
+        mediaFiles.current[`media_${index}_${indexFile}`]= "loading"
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
         //@ts-ignore
-        fields.current[index].files[indexFile] = data;
+        console.log("data loaded");
+        mediaFiles.current[`media_${index}_${indexFile}`] = data;
         forceUpdate();
       });
-    } catch {
+    } catch (error) {
+      console.log({error});
       console.log("error");
     }
-  }
+  }, [forceUpdate, newData.fields, newData.isSample]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fields.current = [];
-    newData.fields?.forEach((field: any, i: number) => {
+    let tempFields: Field[] = [];
+    if(!newData.fields)
+      return;
+    newData.fields.forEach((field: any, i: number) => {
       if (field.type === "media") {
         const emptyArray = new Array(field.files.length).fill('false');
-        fields.current.push({ type: "media", files: emptyArray });
+        tempFields.push({ type: "media", files: emptyArray });
         getImages(field.files, i);
+      } else if (field.type === "contact") {
+        tempFields.push({
+          type: "contact",
+          message: field.message,
+          title: field.title,
+          buttonText: field.buttonText,
+          email: field.email
+        });
       } else {
-        fields.current.push({ type: "text", text: field.text, title: field.title });
+        tempFields.push({ type: "text", text: field.text, title: field.title });
       }
     });
-  }, [newData.fields]); // eslint-disable-line react-hooks/exhaustive-deps
+    setVirtualFields(tempFields)
+  }, [getImages, newData.fields]);
 
   useEffect(() => {// ! for now
     setHideTooltip(window.top !== window);
   }, []);
 
-  const calcColNumber = ( length:number) => { 
+  const calcColNumber = (length: number) => {
     let colNumber = length;
     let width = '0';
     if (!newData.iframed) {
@@ -97,33 +132,44 @@ function LinkedLabel({newData}: LinkedLabelProps) {
       colNumber = 6;
       width = '100%';
     }
-    return {colNumber, width};
-  }   
+    return { colNumber, width };
+  }
 
 
   return (
     <MainMicrosite data={newData}>
-      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
-        <RenderTitleDesc newData={{...newData}} />
+      <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
+        <RenderTitleDesc newData={{ ...newData }} />
       </Box>
-      <Grid container >{/* @ts-ignore */}
-        {fields.current.map((field, index) => {
+      <Grid container >
+        {virtualFields.length > 0 && virtualFields.map((field, index) => {
+          { console.log(field, index) }
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
-                <RenderTitleDesc newData={{...newData,title: field.title, about: field.text}} />
+                <RenderTitleDesc newData={{ ...newData, title: field.title, about: field.text }} />
               </Grid>
             );
-          } else if (field.type === "media") {
-            const {colNumber, width} = calcColNumber(field.files?.length || 0);
+          }
+          if (field.type === "contact") {
+            return (<Grid item xs={12} key={index} spacing={1}>
+              <RenderContactForm
+                index={index}
+                buttonText={field.buttonText || 'Send now'}
+                messagePlaceholder={field.message || 'Lets keep in touch'}
+                title={field.title || 'You can left your message here'}
+              />
+            </Grid>);
+          }
+          if (field.type === "media") {
+            const { colNumber, width } = calcColNumber(field.files?.length || 0);
             return (
               <Grid container item xs={12} key={index} spacing={1} >
                 {field.files?.map((file: FileType | string, fileIndex: number) => {
-                  if(file === 'false')
-                    return (<></>);
-                  if (!file){
+                  const content = typeof mediaFiles.current[`media_${index}_${fileIndex}`] === "string" ? mediaFiles.current[`media_${index}_${fileIndex}`] : mediaFiles.current[`media_${index}_${fileIndex}`]?.content;
+                  if (!file) {
                     return (
-                      <Box key={`mainIt${fileIndex}`} sx={{
+                      <Box key={`media_${index}_${fileIndex}`} sx={{
                         mt: '5px',
                         width: 'calc(100% - 10px)',
                         ml: '5px',
@@ -131,14 +177,13 @@ function LinkedLabel({newData}: LinkedLabelProps) {
                         border: theme => `solid 1px ${theme.palette.primary.main}`,
                         borderRadius: '5px'
                       }}>
-                        <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm')}}>
+                        <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm') }}>
                           <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                           {'Error loading image.'}
                         </Typography>
                       </Box>
                     );
                   }
-                  const img = typeof file === "string" ? file : file.content;
                   return (
                     <Grid
                       item
@@ -153,22 +198,7 @@ function LinkedLabel({newData}: LinkedLabelProps) {
                       <Tooltip
                         title="Click to enlarge"
                         disableHoverListener={hideTooltip}>
-                        <Box
-                          key={`img-${fileIndex}`}
-                          component="img"
-                          src={img}
-                          alt="image"
-                          sx={{
-                            width,
-                            cursor: 'pointer',
-                            borderRadius: '4px',
-                            '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
-                          }}
-                          onClick={() => { //TODO: onClick of the preview
-                            // index.current = fileNumber;
-                            // setPreview(x);
-                          }}
-                        />
+                        {renderMediaContent(content, width, `media_${index}_${fileIndex}`)}
                       </Tooltip>
                     </Grid>
                   );
@@ -179,7 +209,7 @@ function LinkedLabel({newData}: LinkedLabelProps) {
           }
         })
         }
-      </Grid>      
+      </Grid>
     </MainMicrosite>
   );
 }

@@ -1,6 +1,11 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+
 import {handleFont} from "./helper";
+
+import dynamic from "next/dynamic";
+
+const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
 
 interface RenderAssetsDescProps {
   newData: {
@@ -10,14 +15,15 @@ interface RenderAssetsDescProps {
   };
   subtitleType?:  't' | 's' | 'm' | 'b';
   subtitlesFontSize?: "small" | "medium" | "large";
+  isSections?: boolean;
 }
 
-export default function RenderTitleDesc({newData, subtitleType,}: RenderAssetsDescProps) {
+export default function RenderTitleDesc({newData, subtitleType, isSections}: RenderAssetsDescProps) {
   if (!newData.title && !newData.about) {
     return null;
   }
 
-  return (
+  const renderTitleDesc = () => (
     <Box sx={{ my: '10px', px: 2, textAlign: 'center' }}>
       {newData.title && (
         <Typography sx={{
@@ -28,5 +34,11 @@ export default function RenderTitleDesc({newData, subtitleType,}: RenderAssetsDe
         <Typography sx={{ color: theme => theme.palette.primary.main, ...handleFont(newData,subtitleType|| 's' ) }}>{newData.about}</Typography>
       )}
     </Box>
-  )
+  );
+
+  if (isSections) {
+    return <RenderSectWrapper>{renderTitleDesc()}</RenderSectWrapper>;
+  }
+
+  return renderTitleDesc();
 }

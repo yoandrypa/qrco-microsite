@@ -9,14 +9,16 @@ interface SocialProps {
 }
 
 export default function SocialInfo({newData}: SocialProps) {
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
+
   return (
     <MainMicrosite data={newData}>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <RenderTitleDesc newData={newData} />
+            <RenderTitleDesc newData={newData} isSections={isSections} />
           </Grid>
-          <RenderSocials newData={newData} />
+          <RenderSocials newData={newData} isSections={isSections} />
         </Grid>
       </CardContent>
     </MainMicrosite>

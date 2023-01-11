@@ -4,12 +4,18 @@ import RenderField from "./RenderField";
 import Typography from "@mui/material/Typography";
 import {handleFont} from "./helper";
 import {useTheme} from "@mui/system";
+import Box from "@mui/material/Box";
+
+import dynamic from "next/dynamic";
+
+const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
 
 interface RenderAddressProps {
   newData: any;
+  isSections?: boolean;
 }
 
-export default function RenderAddress({newData}: RenderAddressProps) {
+export default function RenderAddress({newData, isSections}: RenderAddressProps) {
   const theme = useTheme();
   if (!newData.address && !newData.city && !newData.zip && !newData.state && !newData.country) {
     return null;
@@ -22,17 +28,21 @@ export default function RenderAddress({newData}: RenderAddressProps) {
     address = address.slice(0, -2);
   }
 
-  return (
-    <>
-      <Grid item xs={1}>
-        <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
-      </Grid>
-      <Grid item xs={11}>
+  const render = () => (
+    <Grid item xs={12} sx={{display: 'flex'}}>
+      <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
+      <Box sx={{ml: 1}}>
         <Typography sx={{...handleFont(newData, 't')}}>{'Address'}</Typography>
         <Grid container spacing={1}>
-          <RenderField value={address} sx={{...handleFont(newData, 'm')}} />
+          <RenderField value={address} sx={{...handleFont(newData, 'm')}}/>
         </Grid>
-      </Grid>
-    </>
+      </Box>
+    </Grid>
   );
+
+  if (isSections) {
+    return <RenderSectWrapper>{render()}</RenderSectWrapper>;
+  }
+
+  return render();
 }

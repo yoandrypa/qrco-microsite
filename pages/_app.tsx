@@ -11,9 +11,8 @@ import "../styles/globals.css";
 import { MAIN_CONFIG } from "../consts";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [mainConfig, setMainConfig] = useState(MAIN_CONFIG);
-  const [messages, setMessages] = useState(undefined);
-  const { locale, theme } = mainConfig;
+  const [mainConfig] = useState(MAIN_CONFIG);
+  const { theme } = mainConfig;
   // @ts-ignore
   const mainTheme = createTheme(themeConfig(theme));
 
@@ -21,7 +20,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>The QR Link | Dynamic QR code</title>
-        <link rel="icon" href="/ebanuxQr.svg" />
+        <link rel="icon" href="/qlIcon.png" />
       </Head>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={mainTheme}>
