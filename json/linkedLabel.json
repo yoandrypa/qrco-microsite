@@ -1,82 +1,119 @@
 {
+    "titlesFontSize": "large",
     "shortLinkId": {
-        "claimable": false,
-        "preGenerated": false,
-        "banned": false,
-        "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
-        "target": "https://app-dev.theqr.link/qr/7e8ca141-51b0-465d-960f-8a19972566c1",
-        "updatedAt": "2023-01-08T23:11:52.000Z",
-        "createdAt": "2023-01-08T23:11:51.998Z",
-        "visitCount": 0,
-        "address": "sLcTBa",
-        "paused": false,
-        "type": "qr_link"
+      "claimable": false,
+      "banned": false,
+      "preGenerated": false,
+      "target": "https://app-dev.theqr.link/qr/d0810df4-f0e1-465a-b057-e46ac59538ac",
+      "updatedAt": "2023-01-09T02:01:29.691Z",
+      "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+      "createdAt": "2023-01-09T02:01:29.690Z",
+      "visitCount": 8,
+      "address": "VKIJbW",
+      "paused": false,
+      "type": "qr_link"
     },
-    "qrName": "Box of expensive Dihes",
+    "qrName": "Label Kitchen Items 1",
     "messagesFontStyle": "",
-    "createdAt": "2023-01-08T23:11:52.002Z",
-    "layout": "soft",
-    "foregndImg": [
-        {
-            "name": "aeda2fdc-8119-4704-8c1a-540d4179d370.jpeg",
-            "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/design/aeda2fdc-8119-4704-8c1a-540d4179d370.jpeg"
-        }
-    ],
-    "subtitlesFontStyle": "",
-    "backgndImg": [
-        {
-            "name": "1c055857-a0ea-40ed-a55d-2f80e2639891.jpeg",
-            "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/design/1c055857-a0ea-40ed-a55d-2f80e2639891.jpeg"
-        }
-    ],
+    "createdAt": "2023-01-09T02:01:29.691Z",
     "fields": [
-        {
-            "type": "text",
-            "title": "Fragile",
-            "text": "Be very careful with this box"
-        },
-        {
-            "type": "media",
-            "files": [
-                {
-                    "name": "download (7).jpeg",
-                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (7).jpeg"
-                },
-                {
-                    "name": "download (1).jpeg",
-                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (1).jpeg"
-                },
-                {
-                    "name": "download (3).jpeg",
-                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (3).jpeg"
-                },
-                {
-                    "name": "download (5).jpeg",
-                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (5).jpeg"
-                }
-            ]
-        },
-        {
-            "type": "media",
-            "files": [
-                {
-                    "name": "download (2).jpeg",
-                    "Key": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1/linkedLabels/download (2).jpeg"
-                }
-            ]
-        }
+      {
+        "type": "text",
+        "title": "Coffee makers",
+        "text": ""
+      },
+      {
+        "type": "media",
+        "files": [
+          {
+            "name": "20230108_200757.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_200757.jpg"
+          },
+          {
+            "name": "20230108_201111.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_201111.jpg"
+          },
+          {
+            "name": "20230108_201555.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_201555.jpg"
+          },
+          {
+            "name": "20230108_205127.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_205127.jpg"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Other items",
+        "text": ""
+      },
+      {
+        "type": "media",
+        "files": [
+          {
+            "name": "20230108_200938.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_200938.jpg"
+          },
+          {
+            "name": "20230108_201337.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_201337.jpg"
+          },
+          {
+            "name": "20220916_190934.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20220916_190934.jpg"
+          },
+          {
+            "name": "20220916_191015.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20220916_191015.jpg"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Supplies",
+        "text": ""
+      },
+      {
+        "type": "media",
+        "files": [
+          {
+            "name": "20221229_124844.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20221229_124844.jpg"
+          },
+          {
+            "name": "20221229_125426.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20221229_125426.jpg"
+          }
+        ]
+      }
     ],
+    "subtitlesFontStyle": "b#b71c1c",
+    "backgndImg": [
+      {
+        "name": "87582fd5-6c40-4f4a-bf6d-059d6568349f.jpg",
+        "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/design/87582fd5-6c40-4f4a-bf6d-059d6568349f.jpg"
+      }
+    ],
+    "background": {
+      "x": 0,
+      "y": 0,
+      "file": null,
+      "type": "solid",
+      "opacity": 50,
+      "size": 1
+    },
     "buttonsFontStyle": "",
-    "isDynamic": true,
     "qrType": "linkedLabel",
-    "about": "This box have the dishes that grandma gave me ",
-    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
-    "categories": [
-        "dishes"
-    ],
-    "updatedAt": "2023-01-08T23:11:52.006Z",
-    "subtitlesFontSize": "small",
-    "titlesFontStyle": "b",
-    "globalFont": "Default",
-    "title": "Box with Dishes 1"
-}
+    "isDynamic": true,
+    "about": "What's in this box? See the items below",
+    "image": "",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "updatedAt": "2023-01-09T21:26:55.544Z",
+    "subtitlesFontSize": "medium",
+    "titlesFontStyle": "b#1a237e",
+    "globalFont": "Verdana",
+    "secondary": "#c8e6c9",
+    "primary": "#1b5e20",
+    "title": "Box 3: Kitchen Items"
+  }
