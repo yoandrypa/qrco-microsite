@@ -1,53 +1,119 @@
 {
-    "isDynamic": true,
-    "buttonsFontStyle": "",
-    "about": "This box have the dishes of grandma",
-    "title": "Box of dishes",
-    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
-    "createdAt": "2023-01-03T22:34:39.198Z",
-    "qrName": "Box",
+    "titlesFontSize": "large",
     "shortLinkId": {
-        "createdAt": "2023-01-03T22:34:39.190Z",
-        "paused": false,
-        "address": "csUtRv",
-        "visitCount": 0,
-        "banned": false,
-        "type": "qr_link",
-        "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
-        "target": "http://undefined/qr/abcd3dad-5948-412b-8c21-1e20a3b94095",
-        "updatedAt": "2023-01-03T22:34:39.194Z"
+      "claimable": false,
+      "banned": false,
+      "preGenerated": false,
+      "target": "https://app-dev.theqr.link/qr/d0810df4-f0e1-465a-b057-e46ac59538ac",
+      "updatedAt": "2023-01-09T02:01:29.691Z",
+      "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+      "createdAt": "2023-01-09T02:01:29.690Z",
+      "visitCount": 8,
+      "address": "VKIJbW",
+      "paused": false,
+      "type": "qr_link"
     },
-    "qrType": "linkedLabel",
-    "links": [
-        {
-            "link": "",
-            "label": ""
-        }
-    ],
-    "categories": [
-        "Test",
-        "Test 2"
-    ],
+    "qrName": "Label Kitchen Items 1",
+    "messagesFontStyle": "",
+    "createdAt": "2023-01-09T02:01:29.691Z",
     "fields": [
-        {
-            "type": "text",
-            "title": "Titulo 1 ",
-            "text": "Descripsion 1"
-        },
-        {
-            "type": "media",
-            "files": [
-                {
-                    "name": "Screenshot from 2022-12-20 11-35-32.png",
-                    "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
-                }
-            ]
-        },
-        {
-            "type": "text",
-            "title": "Title 2",
-            "text": "Description 2"
-        }
+      {
+        "type": "text",
+        "title": "Coffee makers",
+        "text": ""
+      },
+      {
+        "type": "media",
+        "files": [
+          {
+            "name": "20230108_200757.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_200757.jpg"
+          },
+          {
+            "name": "20230108_201111.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_201111.jpg"
+          },
+          {
+            "name": "20230108_201555.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_201555.jpg"
+          },
+          {
+            "name": "20230108_205127.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_205127.jpg"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Other items",
+        "text": ""
+      },
+      {
+        "type": "media",
+        "files": [
+          {
+            "name": "20230108_200938.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_200938.jpg"
+          },
+          {
+            "name": "20230108_201337.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20230108_201337.jpg"
+          },
+          {
+            "name": "20220916_190934.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20220916_190934.jpg"
+          },
+          {
+            "name": "20220916_191015.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20220916_191015.jpg"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "title": "Supplies",
+        "text": ""
+      },
+      {
+        "type": "media",
+        "files": [
+          {
+            "name": "20221229_124844.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20221229_124844.jpg"
+          },
+          {
+            "name": "20221229_125426.jpg",
+            "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/20221229_125426.jpg"
+          }
+        ]
+      }
     ],
-    "updatedAt": "2023-01-03T22:34:39.201Z"
-}
+    "subtitlesFontStyle": "b#b71c1c",
+    "backgndImg": [
+      {
+        "name": "87582fd5-6c40-4f4a-bf6d-059d6568349f.jpg",
+        "Key": "7da855eb-b000-46d8-991c-2e734a3f7be5/linkedLabels/design/87582fd5-6c40-4f4a-bf6d-059d6568349f.jpg"
+      }
+    ],
+    "background": {
+      "x": 0,
+      "y": 0,
+      "file": null,
+      "type": "solid",
+      "opacity": 50,
+      "size": 1
+    },
+    "buttonsFontStyle": "",
+    "qrType": "linkedLabel",
+    "isDynamic": true,
+    "about": "What's in this box? See the items below",
+    "image": "",
+    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
+    "updatedAt": "2023-01-09T21:26:55.544Z",
+    "subtitlesFontSize": "medium",
+    "titlesFontStyle": "b#1a237e",
+    "globalFont": "Verdana",
+    "secondary": "#c8e6c9",
+    "primary": "#1b5e20",
+    "title": "Box 3: Kitchen Items"
+  }
