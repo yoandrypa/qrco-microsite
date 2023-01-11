@@ -86,20 +86,29 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
     if(!newData.fields)
       return;
     newData.fields.forEach((field: any, i: number) => {
-      if (field.type === "media") {
-        const emptyArray = new Array(field.files.length).fill('false');
-        tempFields.push({ type: "media", files: emptyArray });
-        getImages(field.files, i);
-      } else if (field.type === "contact") {
-        tempFields.push({
-          type: "contact",
-          message: field.message,
-          title: field.title,
-          buttonText: field.buttonText,
-          email: field.email
-        });
-      } else {
-        tempFields.push({ type: "text", text: field.text, title: field.title });
+      switch (field.type) {
+      // if (field.type === "media") {
+        case 'media':
+        case 'video':
+        case 'gallery':
+          const emptyArray = new Array(field.files.length).fill('false');
+          tempFields.push({ type: field.type, files: emptyArray });
+          getImages(field.files, i);
+          break;
+        case 'contact':
+          tempFields.push({
+            type: "contact",
+            message: field.message,
+            title: field.title,
+            buttonText: field.buttonText,
+            email: field.email
+          });
+          break;
+        case 'text':
+          tempFields.push({ type: "text", text: field.text, title: field.title });
+          break;
+        default :
+          console.log("default");
       }
     });
     setVirtualFields(tempFields)
@@ -143,7 +152,6 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
       </Box>
       <Grid container >
         {virtualFields.length > 0 && virtualFields.map((field, index) => {
-          { console.log(field, index) }
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
