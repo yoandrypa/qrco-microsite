@@ -34,8 +34,8 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
   const mediaFiles = useRef<any>({});
-  const indexPreview = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
-  console.log({newData})
+  // const indexPreview = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
+  const [indexPreview, setIndexPreview] = useState<{ field: number, index: number }>({ field: 0, index: 0 });
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
@@ -44,10 +44,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   const  forceUpdate = useCallback(() => setUnusedState({}), []);
 
   const fieldLength = ():number => {
-    console.log("lenght")
-    console.log({indexPreview})
-    console.log(newData.fields[indexPreview.current.field].files.length);
-    return newData.fields[indexPreview.current.field].files.length| 0;
+    return newData.fields[indexPreview.field].files.length| 0;
   }
 
   const renderMediaContent = (content : string|undefined, width:any,index:number, fileIndex:number) =>{
@@ -68,7 +65,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         }}
         onClick={() => { 
           //TODO: onClick of the preview
-          indexPreview.current = {index:fileIndex, field:index};
+          setIndexPreview({index:fileIndex, field:index});
           setPreview(mediaFiles.current[`media_${index}_${fileIndex}`]);
         }}
       />
@@ -229,25 +226,25 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
       {preview && (
         <RenderPreview
           handleNext={() => {
-            indexPreview.current = {...indexPreview.current, index: indexPreview.current.index};
-            const field = indexPreview.current.field;
-            const index = indexPreview.current.index === newData.fields[field].length?
-                indexPreview.current.index:
-                indexPreview.current.index + 1;
-            const content = typeof mediaFiles.current[`media_${field}_${index}`];
+            const field = indexPreview.field;
+            const index = indexPreview.index === newData.fields[field].files.length - 1?
+                indexPreview.index:
+                indexPreview.index + 1;
+            const content = mediaFiles.current[`media_${field}_${index}`];
+            setIndexPreview({...indexPreview, index});
             setPreview(content);//! check tis out
           }}
           handlePrev={() => {
-            indexPreview.current = {...indexPreview.current, index: indexPreview.current.index};
-            const field = indexPreview.current.field;
-            const index = indexPreview.current.index === 0?
-                indexPreview.current.index:
-                indexPreview.current.index - 1;
-            const content = typeof mediaFiles.current[`media_${field}_${index}`];
+            const field = indexPreview.field;
+            const index = indexPreview.index === 0?
+                indexPreview.index:
+                indexPreview.index - 1;
+            const content = mediaFiles.current[`media_${field}_${index}`];
+            setIndexPreview({...indexPreview, index});
             setPreview(content);//! check tis out
             
           }}
-          position={indexPreview.current.index}
+          position={indexPreview.index}
           amount={fieldLength()}
           isWide={isWide}
           isHeight={isHeight}
