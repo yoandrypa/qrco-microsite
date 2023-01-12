@@ -34,22 +34,29 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
   const mediaFiles = useRef<any>({});
-  const index = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
-
+  const indexPreview = useRef<{ field: number, index: number }>({ field: 0, index: 0 });
+  console.log({newData})
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isHeight = useMediaQuery("(min-height:600px)", { noSsr: true });
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
   const [virtualFields, setVirtualFields] = useState<Array<Field> | []>([])
   // @ts-ignore
   const  forceUpdate = useCallback(() => setUnusedState({}), []);
-  const renderMediaContent = (content : string|undefined, width:any, key: string) =>{
+
+  const fieldLength = ():number => {
+    console.log("lenght")
+    console.log({indexPreview})
+    console.log(newData.fields[indexPreview.current.field].files.length);
+    return newData.fields[indexPreview.current.field].files.length| 0;
+  }
+
+  const renderMediaContent = (content : string|undefined, width:any,index:number, fileIndex:number) =>{
     if(content ==="loading" || content === undefined){
       return <CircularProgress size={20} />
     }
-
     return (
       <Box
-        key={key}
+        key={`media_${index}_${fileIndex}`}
         component="img"
         src={content}
         alt="image"
@@ -59,7 +66,10 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
           borderRadius: '4px',
           '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
         }}
-        onClick={() => { //TODO: onClick of the preview
+        onClick={() => { 
+          //TODO: onClick of the preview
+          indexPreview.current = {index:fileIndex, field:index};
+          setPreview(mediaFiles.current[`media_${index}_${fileIndex}`]);
         }}
       />
     )
@@ -69,6 +79,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
     try {
       files.forEach(async (file: any, indexFile: number) => {
         mediaFiles.current[`media_${index}_${indexFile}`]= "loading"
+        forceUpdate();
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
         //@ts-ignore
         console.log("data loaded");
@@ -87,7 +98,6 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
       return;
     newData.fields.forEach((field: any, i: number) => {
       switch (field.type) {
-      // if (field.type === "media") {
         case 'media':
         case 'video':
         case 'gallery':
@@ -144,7 +154,6 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
     return { colNumber, width };
   }
 
-
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
@@ -169,7 +178,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
               />
             </Grid>);
           }
-          if (field.type === "media") {
+          if (['media', 'gallery', 'video'].includes(field.type)) {
             const { colNumber, width } = calcColNumber(field.files?.length || 0);
             return (
               <Grid container item xs={12} key={index} spacing={1} >
@@ -206,18 +215,48 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
                       <Tooltip
                         title="Click to enlarge"
                         disableHoverListener={hideTooltip}>
-                        {renderMediaContent(content, width, `media_${index}_${fileIndex}`)}
+                        {renderMediaContent(content, width, index,fileIndex)}
                       </Tooltip>
                     </Grid>
                   );
                 })}
-                {/* <RenderPreview files={x.files} /> */}
               </Grid>
             );
           }
         })
         }
       </Grid>
+      {preview && (
+        <RenderPreview
+          handleNext={() => {
+            indexPreview.current = {...indexPreview.current, index: indexPreview.current.index};
+            const field = indexPreview.current.field;
+            const index = indexPreview.current.index === newData.fields[field].length?
+                indexPreview.current.index:
+                indexPreview.current.index + 1;
+            const content = typeof mediaFiles.current[`media_${field}_${index}`];
+            setPreview(content);//! check tis out
+          }}
+          handlePrev={() => {
+            indexPreview.current = {...indexPreview.current, index: indexPreview.current.index};
+            const field = indexPreview.current.field;
+            const index = indexPreview.current.index === 0?
+                indexPreview.current.index:
+                indexPreview.current.index - 1;
+            const content = typeof mediaFiles.current[`media_${field}_${index}`];
+            setPreview(content);//! check tis out
+            
+          }}
+          position={indexPreview.current.index}
+          amount={fieldLength()}
+          isWide={isWide}
+          isHeight={isHeight}
+          preview={preview}
+          handleClose={() => setPreview(null)}
+          type="image"
+          sx={{...handleFont(newData, 'm')}}
+        />
+      )}
     </MainMicrosite>
   );
 }
