@@ -9,8 +9,8 @@ const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
 
 interface RenderAssetsDescProps {
   newData: {
-    title?: string;
-    about?: string;
+    titleAbout?: string;
+    descriptionAbout?: string;
     titlesFontSize?: "small" | "medium" | "large";
   };
   subtitleType?:  't' | 's' | 'm' | 'b';
@@ -19,19 +19,19 @@ interface RenderAssetsDescProps {
 }
 
 export default function RenderTitleDesc({newData, subtitleType, isSections}: RenderAssetsDescProps) {
-  if (!newData.title && !newData.about) {
+  if (!newData.titleAbout && !newData.descriptionAbout) {
     return null;
   }
 
   const renderTitleDesc = () => (
     <Box sx={{ my: '10px', px: 2, textAlign: 'center' }}>
-      {newData.title && (
+      {newData.titleAbout && (
         <Typography sx={{
           color: theme => theme.palette.primary.main, ...handleFont(newData, 't')
-        }}>{newData.title}</Typography>
+        }}>{newData.titleAbout}</Typography>
       )}
-      {newData.about && (
-        <Typography sx={{ color: theme => theme.palette.primary.main, ...handleFont(newData,subtitleType|| 's' ) }}>{newData.about}</Typography>
+      {newData.descriptionAbout && (
+        <Typography sx={{ color: theme => theme.palette.primary.main, ...handleFont(newData,subtitleType|| 's' ) }}>{newData.descriptionAbout}</Typography>
       )}
     </Box>
   );

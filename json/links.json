@@ -55,7 +55,7 @@
   },
   "isDynamic": true,
   "qrType": "link",
-  "about": "Landscapes are my passion.",
+  "descriptionAbout": "Landscapes are my passion.",
   "image": "",
   "updatedAt": "2022-11-25T18:05:37.532Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
@@ -81,5 +81,5 @@
   "id": "31f4f2e4-6121-459e-a76a-3a877d27d8b1",
   "secondary": "#cef6c9",
   "primary": "#187510",
-  "title": "Annie Photographer"
+  "titleAbout": "Annie Photographer"
 }
