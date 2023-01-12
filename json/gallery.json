@@ -84,9 +84,9 @@
   "image": "",
   "updatedAt": "2022-11-15T18:31:03.607Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "description": "Landscapes bring me peace and joy.",
+  "descriptionAbout": "Landscapes bring me peace and joy.",
   "id": "de9e2e2c-0218-4d58-b3ae-5b303cadf748",
   "secondary": "#9ece99",
   "primary": "#187510",
-  "title": "My favorite landscapes"
+  "titleAbout": "My favorite landscapes"
 }

@@ -16,6 +16,7 @@ import {getExtension} from "../../helpers/generalFunctions";
 
 import dynamic from "next/dynamic";
 
+const PleaseWait = dynamic(() => import("../../PleaseWait"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderPreviewVideo = dynamic(() => import("./renderers/RenderPreviewVideo"));
 const RenderPreview = dynamic(() => import("./renderers/RenderPreview"));
@@ -30,6 +31,7 @@ interface FileProps {
 
 export default function FileMicro({ newData }: FileProps) {
   const [preview, setPreview] = useState<FileType | null>(null);
+  const [height, setHeight] = useState<string | undefined>(undefined);
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const files = useRef<FileType[]>([]);
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
@@ -75,6 +77,9 @@ export default function FileMicro({ newData }: FileProps) {
       getFiles(newData.files);
     } else {
       forceUpdate();
+    }
+    if (window && newData.type === 'pdf' && newData.autoOpen && newData.files.length === 1) {
+      setHeight(`${window.innerHeight}px`);
     }
     return () => {
       files.current = [];
@@ -146,6 +151,13 @@ export default function FileMicro({ newData }: FileProps) {
       ) : null
     )
   );
+
+  if (newData.qrType === 'pdf' && newData.autoOpen) {
+    if (!files.current.length) {
+      return <PleaseWait redirecting />;
+    }
+    return <RenderPreviewPdf content={files.current[0].content} height={height} />
+  }
 
   return (
     <MainMicrosite data={newData}>

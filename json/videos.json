@@ -63,9 +63,9 @@
   "image": "",
   "updatedAt": "2022-11-25T18:38:09.391Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "description": "My adventurer spirit enjoys a lot making videos.",
+  "descriptionAbout": "My adventurer spirit enjoys a lot making videos.",
   "id": "bf4aa3b0-4b6e-46a5-a2eb-91b850a8ff96",
   "secondary": "#c5d6e9",
   "primary": "#0e4986",
-  "title": "Adventurer"
+  "titleAbout": "Adventurer"
 }
