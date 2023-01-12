@@ -12,6 +12,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import getTheme from "./theming/themeHelper";
 import {DEFAULT_COLORS} from "./qr/constants";
 
+const Custom = dynamic(() => import("./qr/microsites/Custom"));
 const FileMicro = dynamic(() => import("./qr/microsites/FileMicro"));
 const Donations = dynamic(() => import("./qr/microsites/Donations"));
 const LinksMicro = dynamic(() => import("./qr/microsites/LinksMicro"));
@@ -87,6 +88,10 @@ export default function MainComponent({ newData }: MainCompProps) {
 
     if (GALLERY.includes(data?.qrType)) {
       return <Images newData={{ ...data, iframed: iframed.current }} />;
+    }
+
+    if (data?.qrType === "custom") {
+      return <Custom newData={data} />;
     }
 
     if (data?.qrType === "business") {

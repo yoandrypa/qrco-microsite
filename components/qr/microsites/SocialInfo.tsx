@@ -1,8 +1,8 @@
 import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
-import RenderSocials from "./renderers/RenderSocials";
+import RenderSocials from "./contents/RenderSocials";
 import Grid from "@mui/material/Grid";
-import RenderTitleDesc from "./renderers/RenderTitleDesc";
+import RenderTitleDesc from "./contents/RenderTitleDesc";
 
 interface SocialProps {
   newData: any;

@@ -14,7 +14,7 @@ import {FileType} from "../types/types";
 import dynamic from "next/dynamic";
 
 const RenderPreview = dynamic(() => import("./renderers/RenderPreview"));
-const RenderTitleDesc = dynamic(() => import("./renderers/RenderTitleDesc"));
+const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
 interface ImageProps {

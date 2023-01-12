@@ -1,11 +1,11 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import {handleFont} from "./helper";
+import {handleFont} from "../renderers/helper";
 
 import dynamic from "next/dynamic";
 
-const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
+const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 
 interface RenderAssetsDescProps {
   newData: {
