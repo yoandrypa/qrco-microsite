@@ -13,7 +13,7 @@ import MainMicrosite from "./MainMicrosite";
 import {handleButtons, handleFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
 import {humanDate} from "../../helpers/generalFunctions";
-import RenderAddress from "./renderers/RenderAddress";
+import RenderAddress from "./contents/RenderAddress";
 import RenderBadge from "./renderers/RenderBadge";
 
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));

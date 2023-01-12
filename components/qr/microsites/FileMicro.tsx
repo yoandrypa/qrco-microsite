@@ -21,7 +21,7 @@ const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"))
 const RenderPreviewVideo = dynamic(() => import("./renderers/RenderPreviewVideo"));
 const RenderPreview = dynamic(() => import("./renderers/RenderPreview"));
 const RenderPreviewPdf = dynamic(() => import("./renderers/RenderPreviewPdf"));
-const RenderTitleDesc = dynamic(() => import("./renderers/RenderTitleDesc"));
+const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
 
 interface FileProps {
   newData: any;

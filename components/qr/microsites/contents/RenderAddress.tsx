@@ -1,14 +1,14 @@
 import Grid from "@mui/material/Grid";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import RenderField from "./RenderField";
+import RenderField from "../renderers/RenderField";
 import Typography from "@mui/material/Typography";
-import {handleFont} from "./helper";
+import {handleFont} from "../renderers/helper";
 import {useTheme} from "@mui/system";
 import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
 
-const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
+const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 
 interface RenderAddressProps {
   newData: any;

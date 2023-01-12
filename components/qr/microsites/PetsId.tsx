@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import MainMicrosite from './MainMicrosite';
-import RenderSocials from './renderers/RenderSocials';
+import RenderSocials from './contents/RenderSocials';
 import {ContactMail, Info, Pets} from '@mui/icons-material';
 import {handleFont} from "./renderers/helper";
 import RenderField from './renderers/RenderField';

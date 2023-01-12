@@ -14,11 +14,11 @@ import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import {handleFont} from "./helper";
+import {handleFont} from "../renderers/helper";
 
 import dynamic from "next/dynamic";
 
-const RenderSectWrapper = dynamic(() => import("./RenderSectWrapper"));
+const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 
 interface RenderSocialsProps {
   newData: any;

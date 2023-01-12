@@ -11,7 +11,7 @@ import { handleFont } from "./renderers/helper";
 import { download } from "../../../handlers/storage";
 import { FileType } from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
-import RenderTitleDesc from "./renderers/RenderTitleDesc";
+import RenderTitleDesc from "./contents/RenderTitleDesc";
 import RenderContactForm from "../helperComponents/RenderContactForm";
 import { randomUUID } from "crypto";
 
@@ -63,7 +63,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
           borderRadius: '4px',
           '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
         }}
-        onClick={() => { 
+        onClick={() => {
           //TODO: onClick of the preview
           setIndexPreview({index:fileIndex, field:index});
           setPreview(mediaFiles.current[`media_${index}_${fileIndex}`]);
@@ -242,7 +242,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
             const content = mediaFiles.current[`media_${field}_${index}`];
             setIndexPreview({...indexPreview, index});
             setPreview(content);//! check tis out
-            
+
           }}
           position={indexPreview.index}
           amount={fieldLength()}
