@@ -25,7 +25,8 @@ export default function RenderLinks({newData}: LinksProps) {
       variant="contained"
       sx={{
         mt: !stay ? '10px' : 'unset',
-        width: 'calc(100% - 70px)',
+        ml: '25px',
+        width: 'calc(100% - 50px)',
         ...handleFont(newData, 'b'),
         ...handleButtons(newData, theme)
       }}
