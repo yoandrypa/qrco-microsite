@@ -12,10 +12,10 @@ import dynamic from "next/dynamic";
 import MainMicrosite from "./MainMicrosite";
 import {handleButtons, handleFont} from "./renderers/helper";
 import RenderField from "./renderers/RenderField";
-import {humanDate} from "../../helpers/generalFunctions";
-import RenderAddress from "./contents/RenderAddress";
 import RenderBadge from "./renderers/RenderBadge";
 
+const RenderDate = dynamic(() => import("./contents/RenderDate"));
+const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
 export default function Coupons({newData}: {newData: any;}) {
@@ -65,10 +65,7 @@ export default function Coupons({newData}: {newData: any;}) {
         <Typography sx={{mt: '-2px', ...handleFont(newData, 't')}}>{'Coupon'}</Typography>
         <Grid container spacing={1}>
           {newData.name && <RenderField value={newData.name} sx={{my: '-30px', ...handleFont(newData, 'm')}} />}
-          {newData.value && (
-            <RenderField label="Valid until" value={humanDate(newData.value, 'en', true)}
-                         sx={{...handleFont(newData, 'm')}} />
-          )}
+          {newData.value && <RenderDate newData={newData} message="Valid until" />}
           {newData.text && (
             <RenderField label="Terms and conditions" value={newData.text} sx={{...handleFont(newData, 'm')}} />
           )}
