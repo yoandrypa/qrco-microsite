@@ -23,14 +23,14 @@ export default function RenderAddress({newData, isSections}: RenderAddressProps)
 
   const addSect = (item: string, omitComma?: boolean): string => newData[item] ? `${newData[item]}${!omitComma ? ',' : ''} ` : '';
 
-  let address = `${addSect('address')}${addSect('city')}${addSect('state', true)}${addSect('zip')}${addSect('country')}`;
+  let address = `${addSect('address')}${addSect('address2')}${addSect('city')}${addSect('state', true)}${addSect('zip')}${addSect('country')}`;
   if (address.endsWith(', ')) {
     address = address.slice(0, -2);
   }
 
   const render = () => (
     <Grid item xs={12} sx={{display: 'flex'}}>
-      <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
+      <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '-10px'}}/>
       <Box sx={{ml: 1}}>
         <Typography sx={{...handleFont(newData, 't')}}>{'Address'}</Typography>
         <Grid container spacing={1}>
