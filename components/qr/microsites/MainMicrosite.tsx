@@ -56,7 +56,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const qrType = useMemo(() => data.type || data.qrType, []); // eslint-disable-line react-hooks/exhaustive-deps
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
-  const isInverse = useMemo(() => data.layout?.includes('Inverse'), [data.layout]);
+  const isInverse = useMemo(() => data.layout?.toLowerCase().includes('inverse'), [data.layout]);
   const isSoft = useMemo(() => data.layout?.toLowerCase().includes('soft'), [data.layout]);
 
   const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
