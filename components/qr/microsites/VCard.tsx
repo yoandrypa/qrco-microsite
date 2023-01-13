@@ -37,11 +37,7 @@ export default function VCard({newData}: {newData: any;}) {
             {x === 0 && (newData.organization || newData.position) && (
               !isSections ? <RenderOrganization newData={newData} /> : <RenderSectWrapper><RenderOrganization newData={newData} /></RenderSectWrapper>
             )}
-            {x === 1 && (
-              <Box sx={{mt: '-25px'}}>
-                <RenderAddress newData={newData} isSections={isSections}/>
-              </Box>
-            )}
+            {x === 1 && <Box sx={{mt: '-25px'}}><RenderAddress newData={newData} isSections={isSections}/></Box>}
             {x === 1 && (newData.email || newData.web) && (
               !isSections ? <RenderEmailWeb newData={newData} /> : <RenderSectWrapper><RenderEmailWeb newData={newData} /></RenderSectWrapper>
             )}

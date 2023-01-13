@@ -17,7 +17,7 @@ interface RenderAddressProps {
 
 export default function RenderAddress({newData, isSections}: RenderAddressProps) {
   const theme = useTheme();
-  if (!newData.address && !newData.city && !newData.zip && !newData.state && !newData.country) {
+  if (!newData.address && !newData.address2 && !newData.city && !newData.zip && !newData.state && !newData.country) {
     return null;
   }
 
