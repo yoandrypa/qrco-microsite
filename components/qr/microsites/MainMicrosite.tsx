@@ -56,7 +56,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const qrType = useMemo(() => data.type || data.qrType, []); // eslint-disable-line react-hooks/exhaustive-deps
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
-  const isInverse = useMemo(() => data.layout?.includes('Inverse'), [data.layout]);
+  const isInverse = useMemo(() => data.layout?.toLowerCase().includes('inverse'), [data.layout]);
   const isSoft = useMemo(() => data.layout?.toLowerCase().includes('soft'), [data.layout]);
 
   const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
@@ -149,8 +149,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
         position: 'relative',
         backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
-        backgroundImage: !data.backgroundType ? 'unset' : data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff',
+        backgroundImage: !data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff'),
         left: '50%',
         transform: 'translate(-50%, 0)',
         maxWidth: isWide ? '475px' : '100%',
