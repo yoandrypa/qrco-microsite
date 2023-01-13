@@ -31,6 +31,12 @@
       "desc": "Announcing a sales promotion with a discount coupon"
     },
     {
+      "type": "custom",
+      "file": "Custom",
+      "name": "Custom",
+      "desc": "A custom made QR Link from the predefined sections"
+    },
+    {
       "type": "gallery",
       "file": "gallery",
       "name": "Gallery",

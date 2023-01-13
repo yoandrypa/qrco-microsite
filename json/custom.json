@@ -1,0 +1,68 @@
+{
+  "country": "Country",
+  "lastName": "Last Name",
+  "city": "City",
+  "prefix": "Sir",
+  "titleAbout": "This is just an example",
+  "cell": "+1234567890",
+  "createdAt": "2023-01-13T22:38:23.225Z",
+  "shortLinkId": {
+    "createdAt": "2023-01-13T22:38:23.223Z",
+    "paused": false,
+    "address": "RvrQWy",
+    "visitCount": 0,
+    "claimable": false,
+    "preGenerated": false,
+    "banned": false,
+    "type": "qr_link",
+    "userId": "4a09f9bd-02cf-438b-bfeb-6da536b29353",
+    "target": "https://app-dev.theqr.link/qr/8b58ee03-f6ec-470c-bb77-ce4b13139598",
+    "updatedAt": "2023-01-13T22:38:23.224Z"
+  },
+  "backgndImg": [
+    {
+      "name": "27db6dec-3a02-4bf7-a61e-a43044a03ef4.png",
+      "Key": "4a09f9bd-02cf-438b-bfeb-6da536b29353/customs/design/27db6dec-3a02-4bf7-a61e-a43044a03ef4.png"
+    }
+  ],
+  "links": [
+    {
+      "link": "https://www.example.com",
+      "label": "My website"
+    },
+    {
+      "link": "https://www.myblog.com",
+      "label": "My blog"
+    }
+  ],
+  "state": "State",
+  "fax": "+1234567890",
+  "updatedAt": "2023-01-13T22:40:12.659Z",
+  "zip": "12345",
+  "image": "",
+  "address": "Address Line 1",
+  "isDynamic": true,
+  "address2": "Address Line2",
+  "custom": [
+    "title",
+    "presentation",
+    "organization",
+    "address",
+    "links",
+    "phones"
+  ],
+  "foregndImg": [
+    {
+      "name": "c87338d7-21f0-4cc3-9797-2948710b1f9c.png",
+      "Key": "4a09f9bd-02cf-438b-bfeb-6da536b29353/customs/design/c87338d7-21f0-4cc3-9797-2948710b1f9c.png"
+    }
+  ],
+  "userId": "4a09f9bd-02cf-438b-bfeb-6da536b29353",
+  "firstName": "First Name",
+  "qrName": "Sample",
+  "phone": "+1234567890",
+  "organization": "Freelancer",
+  "qrType": "custom",
+  "descriptionAbout": "This is just an example of how the custom QR Link could be made. You can drag'n'drop the sections to the position you like.",
+  "position": "My own boss"
+}

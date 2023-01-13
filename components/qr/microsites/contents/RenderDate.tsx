@@ -11,7 +11,7 @@ export default function RenderDate({newData, message}: RenderDateProps) {
   return (
     <RenderField
       label={message || ''}
-      value={humanDate(newData.value, 'en', true)}
+      value={humanDate(!newData.value || !newData.value.length ? new Date().getTime() : newData.value, 'en', true)}
       sx={{...handleFont(newData, 'm')}}
     />
   );

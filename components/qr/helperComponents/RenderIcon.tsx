@@ -56,6 +56,7 @@ const SmartphoneIcon = dynamic(() => import('@mui/icons-material/Smartphone'));
 const EmojiFoodBeverageIcon = dynamic(() => import('@mui/icons-material/EmojiFoodBeverage'));
 const HttpIcon = dynamic(() => import('@mui/icons-material/Http'));
 const PublicIcon = dynamic(() => import('@mui/icons-material/Public'));
+const CustomizeIcon = dynamic(() => import('@mui/icons-material/DashboardCustomize'));
 
 type RenderIconProp = {
   icon: string;
@@ -67,6 +68,7 @@ type RenderIconProp = {
 export default function RenderIcon({ icon, color, enabled, adjust }: RenderIconProp) {
   const renderIcon = () => {
     switch (icon) {
+      case 'custom': { return <CustomizeIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] }} />; }
       case 'copy': { return <ContentCopyIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] }} />; }
       case 'phone': { return <PhoneIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] }} />; }
       case 'cell': { return <SmartphoneIcon sx={{ mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] }} />; }
