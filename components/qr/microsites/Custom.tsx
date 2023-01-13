@@ -36,7 +36,7 @@ export default function Custom({newData}: CustomProps) {
                 <RenderSectWrapper><RenderCompany newData={newData} /></RenderSectWrapper>
               )
             )}
-            {x === 'date' && newData.value && (<Box sx={{ml: '20px', mt: '10px'}}>
+            {x === 'date' && (<Box sx={{ml: '20px', mt: '10px'}}>
               {!isSections ? <RenderDate newData={newData} message="Date"/> : (
                 <RenderSectWrapper><RenderDate newData={newData} message="Date"/></RenderSectWrapper>
               )}
