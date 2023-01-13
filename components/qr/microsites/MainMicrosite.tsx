@@ -149,8 +149,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
         position: 'relative',
         backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
-        backgroundImage: !data.backgroundType ? 'unset' : data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff',
+        backgroundImage: !data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff'),
         left: '50%',
         transform: 'translate(-50%, 0)',
         maxWidth: isWide ? '475px' : '100%',
