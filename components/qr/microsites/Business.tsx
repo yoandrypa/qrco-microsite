@@ -8,6 +8,7 @@ import MainMicrosite from "./MainMicrosite";
 
 import dynamic from "next/dynamic";
 
+const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
 const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
 const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
 const RenderOpeningTime = dynamic(() => import("./contents/RenderOpeningTime"));
@@ -33,14 +34,22 @@ export default function Business({newData}: BusinessProps) {
     </Grid>
   );
 
+  const renderCompany = () => (
+    <>
+      <RenderCompany newData={newData} />
+      <RenderPhones newData={newData} />
+    </>
+  )
+
   return (
     <MainMicrosite data={newData}>
       <Grid container spacing={1} sx={{p: 2}}>
         {(newData.index || [0, 1, 2, 3, 4, 5]).map((x: number) => (
           <Box key={`item${x}`} sx={{width: '100%', px: 2, my: 2}}>
             {x === 0 && (newData.company || newData.title || newData.subtitle || newData.companyWebSite ||
-              newData.companyEmail || newData.contact || newData.companyPhone || newData.about) && (
-              !isSections ? <RenderCompany newData={newData} /> : <RenderSectWrapper><RenderCompany newData={newData} /></RenderSectWrapper>
+              newData.companyEmail || newData.contact || newData.companyPhone || newData.about || newData.companyCell ||
+              newData.companyFax) && (
+              !isSections ? renderCompany() : <RenderSectWrapper>{renderCompany()}</RenderSectWrapper>
             )}
             {x === 1 && newData.urlOptionLabel && (
               !isSections ? renderButton() : <RenderSectWrapper>{renderButton()}</RenderSectWrapper>

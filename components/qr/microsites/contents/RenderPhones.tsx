@@ -28,7 +28,7 @@ export default function RenderPhones({newData}: PhonesProps) {
             sx={{...handleFont(newData, 'm')}}
           />
         )}
-        {newData.fax || newData.companyFax && (
+        {(newData.fax || newData.companyFax) && (
           <RenderField
             value={newData.fax || newData.companyFax}
             icon="fax"
