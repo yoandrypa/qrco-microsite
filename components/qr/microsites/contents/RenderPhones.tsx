@@ -7,7 +7,14 @@ interface PhonesProps {
   newData: any;
 }
 
+const empty = (newData: any, item: string) => newData[item] === undefined || !newData[item].trim().length;
+
 export default function RenderPhones({newData}: PhonesProps) {
+  if (empty(newData, 'cell') && empty(newData, 'companyCell') && empty(newData, 'phone') &&
+    empty(newData, 'companyPhone') && empty(newData, 'fax') && empty(newData, 'companyFax')) {
+    return null;
+  }
+
   return (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
