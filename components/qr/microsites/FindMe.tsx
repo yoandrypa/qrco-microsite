@@ -21,7 +21,7 @@ export default function FindMe({ newData }: FindMeProps) {
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
-        <Grid container spacing={0}>
+        <Grid container spacing={2}>
           <RenderName newData={newData} />
           <RenderAddress newData={newData} isSections={isSections} />
           <RenderKeyValueFields
@@ -31,13 +31,16 @@ export default function FindMe({ newData }: FindMeProps) {
           />
           <RenderKeyValueFields newData={newData} item="urls" type="link" />
           {newData.contactForm !== undefined && (
-            <RenderContactForm
-              buttonText={newData.contactForm?.buttonText}
-              title={newData.contactForm.title}
-              messagePlaceholder={newData.contactForm.message}
-              index={0}
-            />
+            <Grid item xs={12} alignContent={'center'} alignItems={'center'}>
+              <RenderContactForm
+                buttonText={newData.contactForm?.buttonText}
+                title={newData.contactForm.title}
+                messagePlaceholder={newData.contactForm.message}
+                index={0}
+              />
+            </Grid>
           )}
+
           <Box
             sx={{
               width: '100%',
