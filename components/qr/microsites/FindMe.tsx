@@ -5,8 +5,9 @@ import Box from '@mui/material/Box';
 
 import dynamic from 'next/dynamic';
 import RenderKeyValueFields from './renderers/RenderKeyValue';
+import RenderContactForm from '../helperComponents/RenderContactForm';
 
-interface PetIdProps {
+interface FindMeProps {
   newData: any;
 }
 
@@ -14,9 +15,7 @@ const RenderAddress = dynamic(() => import('./contents/RenderAddress'));
 const RenderName = dynamic(() => import('./contents/RenderName'));
 const RenderSocials = dynamic(() => import('./contents/RenderSocials'));
 
-
-
-export default function PetsId({ newData }: PetIdProps) {
+export default function FindMe({ newData }: FindMeProps) {
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
   return (
@@ -25,8 +24,20 @@ export default function PetsId({ newData }: PetIdProps) {
         <Grid container spacing={0}>
           <RenderName newData={newData} />
           <RenderAddress newData={newData} isSections={isSections} />
-          <RenderKeyValueFields newData={newData} key="otherDetails" type='default'/>
-          <RenderKeyValueFields newData={newData} key="urls" type='link'/>
+          <RenderKeyValueFields
+            newData={newData}
+            item="otherDetails"
+            type="default"
+          />
+          <RenderKeyValueFields newData={newData} item="urls" type="link" />
+          {newData.contactForm !== undefined && (
+            <RenderContactForm
+              buttonText={newData.contactForm?.buttonText}
+              title={newData.contactForm.title}
+              messagePlaceholder={newData.contactForm.message}
+              index={0}
+            />
+          )}
           <Box
             sx={{
               width: '100%',

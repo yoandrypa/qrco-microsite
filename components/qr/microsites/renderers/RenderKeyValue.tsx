@@ -5,31 +5,31 @@ import RenderField from './RenderField';
 
 interface RenderKeyValueProps {
     newData: any,
-    key: string,
+    item: string,
     type: 'link' | 'default'
 }
 
 export default function RenderKeyValueFields ({
-    newData,key,type}: RenderKeyValueProps) {
-    if (!newData[key]) return <></>;
-    if (newData[key].items.length === 0 && newData[key].heading === '')
+    newData,item,type}: RenderKeyValueProps) {
+    if (!newData[item]) return <></>;
+    if (newData[item].items.length === 0 && newData[item].heading === '')
       return <></>;
   
     return (
       <>
-        <Grid item xs={1} key={`${key}Icon`}>
+        <Grid item xs={1} key={`${item}Icon`}>
           {type === 'link' ? (
             <Link sx={{ color: theme => theme.palette.primary.main }} />
           ) : (
             <Info sx={{ color: theme => theme.palette.primary.main }} />
           )}
         </Grid>
-        <Grid item xs={11} key={`${key}Body`}>
+        <Grid item xs={11} key={`${item}Body`}>
           <Typography sx={{ fontWeight: 'bold', ...handleFont(newData, 't') }}>
-            {newData[key].heading}
+            {newData[item].heading}
           </Typography>
           <Grid container spacing={0}>
-            {newData[key].items.map((item: any, index: Number) => {
+            {newData[item].items.map((item: any, index: Number) => {
               if (item.value === '') return <></>;
               const value = type === 'link' ? `${item.label}` : item.value;
               const label = type === 'link' ? undefined : item.label;
@@ -37,7 +37,7 @@ export default function RenderKeyValueFields ({
               const icon = type === 'link' ? 'link' : undefined;
               return (
                 <RenderField
-                  key={`${key}${index}`}
+                  key={`${item}${index}`}
                   value={value}
                   icon={icon}
                   label={label}
