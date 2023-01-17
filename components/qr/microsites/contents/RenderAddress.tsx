@@ -13,9 +13,10 @@ const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper")
 interface RenderAddressProps {
   newData: any;
   isSections?: boolean;
+  sectionName?: string;
 }
 
-export default function RenderAddress({newData, isSections}: RenderAddressProps) {
+export default function RenderAddress({newData, isSections, sectionName}: RenderAddressProps) {
   const theme = useTheme();
   if (!newData.address && !newData.address2 && !newData.city && !newData.zip && !newData.state && !newData.country) {
     return null;
@@ -32,7 +33,7 @@ export default function RenderAddress({newData, isSections}: RenderAddressProps)
     <Grid item xs={12} sx={{display: 'flex'}}>
       <LocationOnIcon sx={{color: theme.palette.primary.main}}/>
       <Box sx={{ml: 1}}>
-        <Typography sx={{...handleFont(newData, 't')}}>{'Address'}</Typography>
+        <Typography sx={{...handleFont(newData, 't')}}>{sectionName || 'Address'}</Typography>
         <Grid container spacing={1}>
           <RenderField value={address} sx={{...handleFont(newData, 'm')}}/>
         </Grid>

@@ -21,65 +21,73 @@ interface CustomProps {
   newData: any;
 }
 
+interface CustomType {
+  component: string;
+  name?: string;
+}
+
 export default function Custom({newData}: CustomProps) {
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
   return (
     <MainMicrosite data={newData}>
       <Box sx={{width: '100%', p: 2}}>
-        {newData.custom?.map((x: any, index: number) => (
-          <Box sx={{width: '100%'}} key={`key${index}`}>
-            {x === 'address' && <RenderAddress newData={newData} isSections={isSections} />}
-            {x === 'company' && (newData.company || newData.title || newData.subtitle || newData.companyWebSite ||
-              newData.companyEmail || newData.contact || newData.companyPhone || newData.about) && (
-              !isSections ? <RenderCompany newData={newData} /> : (
-                <RenderSectWrapper><RenderCompany newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'date' && (<Box sx={{ml: '20px', mt: '10px'}}>
-              {!isSections ? <RenderDate newData={newData} message="Date"/> : (
-                <RenderSectWrapper><RenderDate newData={newData} message="Date"/></RenderSectWrapper>
+        {newData.custom?.map((x: CustomType) => {
+          const {component, name} = x;
+          return (
+            <Box sx={{width: '100%'}} key={`key${component}`}>
+              {component === 'address' && <RenderAddress newData={newData} isSections={isSections} sectionName={name}/>}
+              {component === 'company' && (newData.company || newData.title || newData.subtitle || newData.companyWebSite ||
+                newData.companyEmail || newData.contact || newData.companyPhone || newData.about) && (
+                !isSections ? <RenderCompany newData={newData} sectionName={name}/> : (
+                  <RenderSectWrapper><RenderCompany newData={newData} sectionName={name}/></RenderSectWrapper>
+                )
               )}
-            </Box>)}
-            {x === 'easiness' && newData.easiness && (
-              !isSections ? <RenderEasiness newData={newData} /> : (
-                <RenderSectWrapper><RenderEasiness newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'email' && (newData.email || newData.web) && (
-              !isSections ? <RenderEmailWeb newData={newData} /> : (
-                <RenderSectWrapper><RenderEmailWeb newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'links' && newData.links && (<Box sx={{mt: '10px'}}>
-              {!isSections ? <RenderLinks newData={newData}/> : (
-                <RenderSectWrapper><RenderLinks newData={newData}/></RenderSectWrapper>
+              {component === 'date' && (<Box sx={{ml: '20px', mt: '10px'}}>
+                {!isSections ? <RenderDate newData={newData} message={name || "Date"}/> : (
+                  <RenderSectWrapper><RenderDate newData={newData} message={name || "Date"}/></RenderSectWrapper>
+                )}
+              </Box>)}
+              {component === 'easiness' && newData.easiness && (
+                !isSections ? <RenderEasiness newData={newData} sectionName={name} /> : (
+                  <RenderSectWrapper><RenderEasiness newData={newData} sectionName={name}/></RenderSectWrapper>
+                )
               )}
-            </Box>)}
-            {x === 'organization' && (newData.organization || newData.position) && (
-              !isSections ? <RenderOrganization newData={newData} /> : (
-                <RenderSectWrapper><RenderOrganization newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'phones' && (newData.cell || newData.phone || newData.fax) && (
-              !isSections ? <RenderPhones newData={newData} /> : (
-                <RenderSectWrapper><RenderPhones newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'presentation' && (newData.prefix || newData.firstName || newData.lastName) && (
-              !isSections ? <RenderName newData={newData} /> : (
-                <RenderSectWrapper><RenderName newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'opening' && Object.keys(newData.openingTime || []).length && (
-              !isSections ? <RenderOpeningTime newData={newData} /> : (
-                <RenderSectWrapper><RenderOpeningTime newData={newData} /></RenderSectWrapper>
-              )
-            )}
-            {x === 'socials' && <RenderSocials newData={newData} isSections={isSections} />}
-            {x === 'title' && <RenderTitleDesc newData={newData} isSections={isSections} />}
-          </Box>
-        ))}
+              {component === 'email' && (newData.email || newData.web) && (
+                !isSections ? <RenderEmailWeb newData={newData} sectionName={name} /> : (
+                  <RenderSectWrapper><RenderEmailWeb newData={newData} sectionName={name}/></RenderSectWrapper>
+                )
+              )}
+              {component === 'links' && newData.links && (<Box sx={{mt: '10px'}}>
+                {!isSections ? <RenderLinks newData={newData}/> : (
+                  <RenderSectWrapper><RenderLinks newData={newData}/></RenderSectWrapper>
+                )}
+              </Box>)}
+              {component === 'organization' && (newData.organization || newData.position) && (
+                !isSections ? <RenderOrganization newData={newData} sectionName={name}/> : (
+                  <RenderSectWrapper><RenderOrganization newData={newData} sectionName={name}/></RenderSectWrapper>
+                )
+              )}
+              {component === 'phones' && (newData.cell || newData.phone || newData.fax) && (
+                !isSections ? <RenderPhones newData={newData} sectionName={name}/> : (
+                  <RenderSectWrapper><RenderPhones newData={newData} sectionName={name}/></RenderSectWrapper>
+                )
+              )}
+              {component === 'presentation' && (newData.prefix || newData.firstName || newData.lastName) && (
+                !isSections ? <RenderName newData={newData} sectionName={name} /> : (
+                  <RenderSectWrapper><RenderName newData={newData} sectionName={name} /></RenderSectWrapper>
+                )
+              )}
+              {component === 'opening' && Object.keys(newData.openingTime || []).length && (
+                !isSections ? <RenderOpeningTime newData={newData} sectionName={name}/> : (
+                  <RenderSectWrapper><RenderOpeningTime newData={newData} sectionName={name}/></RenderSectWrapper>
+                )
+              )}
+              {component === 'socials' && <RenderSocials newData={newData} isSections={isSections} desc={name}/>}
+              {component === 'title' && <RenderTitleDesc newData={newData} isSections={isSections}/>}
+            </Box>
+          )
+        })}
       </Box>
     </MainMicrosite>
   );

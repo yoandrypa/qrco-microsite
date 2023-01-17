@@ -7,14 +7,15 @@ import RenderField from "../renderers/RenderField";
 
 interface OrganizationProps {
   newData: any;
+  sectionName?: string;
 }
 
-export default function RenderOrganization({newData}: OrganizationProps) {
+export default function RenderOrganization({newData, sectionName}: OrganizationProps) {
   return (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <WorkIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
       <Box sx={{ml: 1}}>
-        <Typography sx={{ ...handleFont(newData, 't') }}>{'Organization info'}</Typography>
+        <Typography sx={{ ...handleFont(newData, 't') }}>{sectionName || 'Organization info'}</Typography>
         <Grid container spacing={0}>
           {newData.organization && (
             <RenderField label="Organization" value={newData.organization} sx={{...handleFont(newData, 'm')}}/>

@@ -9,9 +9,10 @@ import LockClockIcon from "@mui/icons-material/LockClock";
 
 interface OpeningTimeProps {
   newData: any;
+  sectionName?: string;
 }
 
-export default function RenderOpeningTime({newData}: OpeningTimeProps) {
+export default function RenderOpeningTime({newData, sectionName}: OpeningTimeProps) {
   const handleTiming = (value: string): string => {
     let hours = +value.slice(0, 2);
     let mins = +value.slice(2);
@@ -32,7 +33,7 @@ export default function RenderOpeningTime({newData}: OpeningTimeProps) {
     <Grid item xs={12} sx={{display: 'flex'}}>
       <ScheduleIcon sx={{color: theme => theme.palette.primary.main}}/>
       <Box sx={{ml: 1}}>
-        <Typography sx={{mt: '-3px', ...handleFont(newData, 't')}}>{'Opening time'}</Typography>
+        <Typography sx={{mt: '-3px', ...handleFont(newData, 't')}}>{sectionName || 'Opening time'}</Typography>
         <Grid container spacing={1} sx={{my: 1}}>
           {['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].map((x: string) => {
             if (!newData.openingTime[x]) {

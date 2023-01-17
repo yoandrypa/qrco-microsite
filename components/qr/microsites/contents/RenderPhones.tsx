@@ -2,14 +2,16 @@ import RingVolumeIcon from "@mui/icons-material/RingVolume";
 import Grid from "@mui/material/Grid";
 import RenderField from "../renderers/RenderField";
 import {handleFont} from "../renderers/helper";
+import Typography from "@mui/material/Typography";
 
 interface PhonesProps {
   newData: any;
+  sectionName?: string;
 }
 
 const empty = (newData: any, item: string) => newData[item] === undefined || !newData[item].trim().length;
 
-export default function RenderPhones({newData}: PhonesProps) {
+export default function RenderPhones({newData, sectionName}: PhonesProps) {
   if (empty(newData, 'cell') && empty(newData, 'companyCell') && empty(newData, 'phone') &&
     empty(newData, 'companyPhone') && empty(newData, 'fax') && empty(newData, 'companyFax')) {
     return null;
@@ -18,6 +20,7 @@ export default function RenderPhones({newData}: PhonesProps) {
   return (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
+      {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}
       <Grid container spacing={1} sx={{ml: '1px'}}>
         {(newData.cell || newData.companyCell) && (
           <RenderField

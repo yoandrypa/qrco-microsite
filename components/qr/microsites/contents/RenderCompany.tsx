@@ -6,14 +6,15 @@ import RenderField from "../renderers/RenderField";
 
 interface CompanyProps {
   newData: any;
+  sectionName?: string;
 }
 
-export default function RenderCompany({newData}: CompanyProps) {
+export default function RenderCompany({newData, sectionName}: CompanyProps) {
   return (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <WorkIcon sx={{color: theme => theme.palette.primary.main}}/>
       <Grid container spacing={1} sx={{ml: 1}}>
-        <Typography sx={{mt: '5px', ...handleFont(newData, 't')}}>{'Company'}</Typography>
+        <Typography sx={{mt: '5px', ...handleFont(newData, 't')}}>{sectionName || 'Company'}</Typography>
         {newData.company && <RenderField value={newData.company} sx={{my: '-10px', ...handleFont(newData, 's')}}/>}
         {newData.title && <RenderField value={newData.title} sx={{my: '-10px', ...handleFont(newData, 's')}}/>}
         {newData.subtitle && <RenderField value={newData.subtitle} sx={{my: '-10px', ...handleFont(newData, 'm')}}/>}

@@ -8,9 +8,10 @@ import {useEffect, useState} from "react";
 
 interface EasinessProps {
   newData: any;
+  sectionName?: string;
 }
 
-export default function RenderEasiness({newData}: EasinessProps) {
+export default function RenderEasiness({newData, sectionName}: EasinessProps) {
   const [hideTooltips, setHideTooltips] = useState<boolean>(false);
 
   const renderEasiness = (item: string, label: string) => (
@@ -30,7 +31,7 @@ export default function RenderEasiness({newData}: EasinessProps) {
     <Grid item xs={12} sx={{display: 'flex'}}>
       <DoneAllIcon sx={{color: theme => theme.palette.primary.main, mt: '3px'}}/>
       <Box sx={{ml: 1}}>
-        <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{'Easiness'}</Typography>
+        <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName || 'Easiness'}</Typography>
         <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content'}}>
           {newData.easiness.wifi && renderEasiness('wifi', 'WiFi')}
           {newData.easiness.accessible && renderEasiness('accessible', 'Accessible')}
