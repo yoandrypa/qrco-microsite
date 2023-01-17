@@ -16,6 +16,10 @@ interface LinksProps {
 export default function RenderLinks({newData}: LinksProps) {
   const theme = useTheme();
 
+  if (!newData.links?.length) {
+    return null;
+  }
+
   const renderBtn = (item: LinkType, key: string, stay: boolean) => (
     <Button
       key={key}

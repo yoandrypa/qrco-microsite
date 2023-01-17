@@ -44,12 +44,12 @@
   "isDynamic": true,
   "address2": "Address Line2",
   "custom": [
-    "title",
-    "presentation",
-    "organization",
-    "address",
-    "links",
-    "phones"
+    { "component": "title" },
+    { "component":  "presentation", "name": "Personal information" },
+    { "component": "organization", "name": "Working information" },
+    { "component": "address" },
+    { "component": "links" },
+    { "component": "phones", "name": "Personal phones" }
   ],
   "foregndImg": [
     {
