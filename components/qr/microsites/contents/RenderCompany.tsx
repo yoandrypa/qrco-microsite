@@ -11,7 +11,7 @@ interface CompanyProps {
 
 export default function RenderCompany({newData, sectionName}: CompanyProps) {
   return (
-    <Grid item xs={12} sx={{display: 'flex'}}>
+    <Grid item xs={12} sx={{display: 'flex', mt: 2}}>
       <WorkIcon sx={{color: theme => theme.palette.primary.main}}/>
       <Grid container spacing={1} sx={{ml: 1}}>
         <Typography sx={{mt: '5px', ...handleFont(newData, 't')}}>{sectionName || 'Company'}</Typography>

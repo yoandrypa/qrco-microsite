@@ -59,8 +59,8 @@ export default function Custom({newData}: CustomProps) {
                 )
               )}
               {component === 'links' && newData.links && (<Box sx={{mt: '10px'}}>
-                {!isSections ? <RenderLinks newData={newData}/> : (
-                  <RenderSectWrapper><RenderLinks newData={newData}/></RenderSectWrapper>
+                {!isSections ? <RenderLinks newData={newData} sectionName={name}/> : (
+                  <RenderSectWrapper><RenderLinks newData={newData} sectionName={name}/></RenderSectWrapper>
                 )}
               </Box>)}
               {component === 'organization' && (newData.organization || newData.position) && (
@@ -83,7 +83,7 @@ export default function Custom({newData}: CustomProps) {
                   <RenderSectWrapper><RenderOpeningTime newData={newData} sectionName={name}/></RenderSectWrapper>
                 )
               )}
-              {component === 'socials' && <RenderSocials newData={newData} isSections={isSections} desc={name}/>}
+              {component === 'socials' && <RenderSocials newData={newData} isSections={isSections} sectionName={name}/>}
               {component === 'title' && <RenderTitleDesc newData={newData} isSections={isSections}/>}
             </Box>
           )

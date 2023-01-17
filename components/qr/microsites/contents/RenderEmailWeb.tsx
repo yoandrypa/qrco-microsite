@@ -12,7 +12,7 @@ interface EmailWebProps {
 
 export default function RenderEmailWeb({newData, sectionName}: EmailWebProps) {
   return (
-    <Grid item xs={12} sx={{display: 'flex'}}>
+    <Grid item xs={12} sx={{display: 'flex', my: 2}}>
       <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main }} />
       <Grid container spacing={1} sx={{ mt: '-16px', ml: '1px' }}>
         {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}

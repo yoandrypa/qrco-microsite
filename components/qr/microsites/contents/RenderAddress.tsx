@@ -30,8 +30,8 @@ export default function RenderAddress({newData, isSections, sectionName}: Render
   }
 
   const render = () => (
-    <Grid item xs={12} sx={{display: 'flex'}}>
-      <LocationOnIcon sx={{color: theme.palette.primary.main}}/>
+    <Grid item xs={12} sx={{display: 'flex', mt: 2}}>
+      <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
       <Box sx={{ml: 1}}>
         <Typography sx={{...handleFont(newData, 't')}}>{sectionName || 'Address'}</Typography>
         <Grid container spacing={1}>
