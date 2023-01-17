@@ -1,0 +1,79 @@
+{
+    "zip": "10021",
+    "lastName": "Lopez",
+    "country": "USA",
+    "isDynamic": true,
+    "address": "First Avenue",
+    "city": "San Fransisco",
+    "prefix": "",
+    "otherDetails": {
+        "heading": "",
+        "items": []
+    },
+    "contactForm": {
+        "buttonText": "Sen",
+        "type": "contact",
+        "title": "Email me",
+        "message": "I found your earphones",
+        "email": "victor.98.javier@gmail.com"
+    },
+    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+    "firstName": "Victor",
+    "createdAt": "2023-01-16T21:27:50.928Z",
+    "urls": {
+        "heading": "",
+        "items": []
+    },
+    "qrName": "Find",
+    "shortLinkId": {
+        "createdAt": "2023-01-16T21:27:50.919Z",
+        "paused": false,
+        "address": "EVYSPl",
+        "visitCount": 0,
+        "claimable": false,
+        "preGenerated": false,
+        "banned": false,
+        "type": "qr_link",
+        "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+        "target": "http://http://localhost:3000/qr/8ec197e3-3e15-4f66-a7b9-418078227887",
+        "updatedAt": "2023-01-16T21:27:50.923Z"
+    },
+    "qrType": "findMe",
+    "state": "San Fransisca",
+    "socials": [
+        {
+            "value": "yo",
+            "network": "facebook"
+        },
+        {
+            "value": "+53555555",
+            "network": "whatsapp"
+        },
+        {
+            "value": "el",
+            "network": "twitter"
+        },
+        {
+            "value": "nosostos",
+            "network": "telegram"
+        }
+    ],
+    "updatedAt": "2023-01-16T21:27:50.934Z",
+    "foregndImg": [
+        {
+            "ETag": "\"d2a9f5836e83f0f132d1e869a2e4d997\"",
+            "$metadata": {
+                "totalRetryDelay": 0,
+                "httpStatusCode": 200,
+                "attempts": 1
+            },
+            "Key": "vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
+        }
+    ],
+    "backgndImg": [
+        {
+            "name": "6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg",
+            "Key": "vcard+s/design/6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg"
+        }
+    ]
+}

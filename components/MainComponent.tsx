@@ -24,6 +24,7 @@ const LinkedLabel = dynamic(() => import("./qr/microsites/LinkedLabel"));
 const Coupons = dynamic(() => import("./qr/microsites/Coupons"));
 const SocialInfo = dynamic(() => import("./qr/microsites/SocialInfo"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
+const FindMe = dynamic(() => import("./qr/microsites/FindMe"));
 const SamplesList = dynamic(() => import("./SamplesList"));
 
 interface MainCompProps {
@@ -127,6 +128,9 @@ export default function MainComponent({ newData }: MainCompProps) {
     }
     if(data?.qrType === "linkedLabel"){
       return <LinkedLabel newData={{...data, iframed: iframed.current}} />
+    }
+    if(data?.qrType === "findMe"){
+      return <FindMe newData={data} />
     }
 
     return (
