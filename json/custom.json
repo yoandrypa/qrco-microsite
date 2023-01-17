@@ -49,12 +49,27 @@
     { "component": "organization", "name": "Working information" },
     { "component": "address" },
     { "component": "links" },
+    { "component": "socials", "name": "My social networks" },
     { "component": "phones", "name": "Personal phones" }
   ],
   "foregndImg": [
     {
       "name": "aca02d01-d921-4464-8581-f9d5521464e4.png",
       "Key": "links/design/aca02d01-d921-4464-8581-f9d5521464e4.png"
+    }
+  ],
+  "socials": [
+    {
+      "value": "my.facebook",
+      "network": "facebook"
+    },
+    {
+      "value": "my_photo",
+      "network": "instagram"
+    },
+    {
+      "value": "my_youtube_channel",
+      "network": "youtube"
     }
   ],
   "userId": "4a09f9bd-02cf-438b-bfeb-6da536b29353",

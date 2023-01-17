@@ -18,10 +18,14 @@ export default function RenderPhones({newData, sectionName}: PhonesProps) {
   }
 
   return (
-    <Grid item xs={12} sx={{display: 'flex'}}>
-      <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
-      {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}
+    <Grid item xs={12} sx={{display: 'flex', my: 2}}>
+      <RingVolumeIcon sx={{ color: theme => theme.palette.primary.main }} />
       <Grid container spacing={1} sx={{ml: '1px'}}>
+        {sectionName && (
+          <Grid item xs={12} sx={{mb: '-10px'}}>
+            <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>
+          </Grid>
+        )}
         {(newData.cell || newData.companyCell) && (
           <RenderField
             value={newData.cell || newData.companyCell}

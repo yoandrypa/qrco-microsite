@@ -32,7 +32,7 @@
     },
     {
       "type": "custom",
-      "file": "Custom",
+      "file": "custom",
       "name": "Custom",
       "desc": "A custom made QR Link from the predefined sections"
     },

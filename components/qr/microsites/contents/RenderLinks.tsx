@@ -1,19 +1,22 @@
 import Box from "@mui/material/Box";
-import {LinkType} from "../../types/types";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import {useTheme} from "@mui/system";
 
 import {handleButtons, handleFont} from "../renderers/helper";
+import {LinkType} from "../../types/types";
 
 import dynamic from "next/dynamic";
 
+const LinkIcon = dynamic(() => import("@mui/icons-material/Link"));
 const RenderSocials = dynamic(() => import("./RenderSocials"));
 
 interface LinksProps {
   newData: any;
+  sectionName?: string;
 }
 
-export default function RenderLinks({newData}: LinksProps) {
+export default function RenderLinks({newData, sectionName}: LinksProps) {
   const theme = useTheme();
 
   if (!newData.links?.length) {
@@ -39,6 +42,12 @@ export default function RenderLinks({newData}: LinksProps) {
 
   return (
     <Box sx={{width: '100%'}}>
+      {sectionName && (
+        <Box sx={{display: 'flex'}}>
+          <LinkIcon sx={{ color: theme => theme.palette.primary.main, mt: '2px', mr: '5px' }}/>
+          <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>
+        </Box>
+      )}
       {newData.position !== 'middle' ? newData.links.map((x: LinkType, index: number) => (
         renderBtn(x, `btn${index}`, index === 0)
       )) : (

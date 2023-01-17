@@ -26,9 +26,20 @@ interface RenderSocialsProps {
   desc?: string;
   bold?: boolean;
   isSections?: boolean;
+  sectionName?: string;
 }
 
-export default function RenderSocials({newData, onlyIcons, desc, bold, isSections}: RenderSocialsProps) {
+/**
+ * if onlyIcons is true, bold and sectionName will be ignored
+ * @param newData
+ * @param onlyIcons
+ * @param desc
+ * @param bold
+ * @param isSections
+ * @param sectionName
+ * @constructor
+ */
+export default function RenderSocials({newData, onlyIcons, desc, bold, isSections, sectionName}: RenderSocialsProps) {
   const theming = useTheme();
 
   const [hideTooltips, setHideToolTips] = useState<boolean>(false);
@@ -100,8 +111,7 @@ export default function RenderSocials({newData, onlyIcons, desc, bold, isSection
         label=""
         size="small"
         fullWidth
-        margin="dense"
-        // @ts-ignore
+        margin="dense" // @ts-ignore
         value={value}
         inputProps={{style: {...handleFont(newData, 'm')}}}
         InputProps={{
@@ -137,9 +147,10 @@ export default function RenderSocials({newData, onlyIcons, desc, bold, isSection
   const render = () => (
     <>
       {!onlyIcons ? (
-        <Grid item xs={12} sx={{display: 'flex'}}>
-          <GroupsIcon sx={{color: theming.palette.primary.main}}/>
+        <Grid item xs={12} sx={{display: 'flex', my: 2}}>
+          <GroupsIcon sx={{color: theming.palette.primary.main, mt: '5px'}}/>
           <Box sx={{ml: 1}}>
+            {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}
             {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(newData, !bold ? 'm' : 't')}}>{desc}</Typography>}
             <Grid container spacing={1}>
               {newData.socials.map((x: SocialNetworksType) => (
