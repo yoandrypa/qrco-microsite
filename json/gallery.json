@@ -4,7 +4,7 @@
     "target": "https://app-dev.theqr.link/qr/b9e686c6-6d2b-47b7-bd2c-57e68545c97f",
     "updatedAt": "2022-11-10T17:55:05.094Z",
     "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-    "visitCount": 4,
+    "visitCount": 13,
     "createdAt": "2022-11-10T17:55:05.055Z",
     "address": "AWOOiC",
     "type": "qr_link"
@@ -84,9 +84,9 @@
   "image": "",
   "updatedAt": "2022-11-15T18:31:03.607Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "description": "Landscapes bring me peace and joy.",
+  "descriptionAbout": "Landscapes bring me peace and joy.",
   "id": "de9e2e2c-0218-4d58-b3ae-5b303cadf748",
   "secondary": "#9ece99",
   "primary": "#187510",
-  "title": "My favorite landscapes"
+  "titleAbout": "My favorite landscapes"
 }

@@ -1,75 +1,33 @@
-import {useMemo} from "react";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-
-import {getColors} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
-import {LinkType} from "../types/types";
-import RenderSocials from "./renderers/RenderSocials";
+import RenderSocials from "./contents/RenderSocials";
+import RenderTitleDesc from "./contents/RenderTitleDesc";
 
-interface LinksProps {
+import dynamic from "next/dynamic";
+import RenderLinks from "./contents/RenderLinks";
+const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
+
+export default function LinksMicro({newData}: {
   newData: any;
-}
+}) {
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
 
-export default function LinksMicro({newData}: LinksProps) {
-  const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const renderBtn = (item: LinkType, key: string) => (
-    <Button
-      key={key}
-      target="_blank"
-      component="a"
-      href={item.link}
-      variant="contained"
-      sx={{
-        mt: '10px',
-        width: 'calc(100% - 70px)',
-        color: colors.p,
-        background: colors.s,
-        '&:hover': {color: colors.s, background: colors.p}
-      }}
-    >{item.label}</Button>
+  const renderSocials = (sx?: object) => (
+    <Box sx={{...sx, display: 'inline-flex'}}>
+      <RenderSocials newData={newData} onlyIcons/>
+    </Box>
   );
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
-      <Box sx={{ p: 2, textAlign: 'center' }}>
-        <Typography sx={{fontWeight: 'bold', fontSize: '25px', color: colors.p}}>{newData.title}</Typography>
-        {newData.about && <Typography sx={{color: colors.p}}>{newData.about}</Typography>}
+    <MainMicrosite data={newData}>
+      <Box sx={{p: 2, textAlign: 'center', width: 'calc(100% - 15px)'}}>
+        <RenderTitleDesc newData={newData} isSections={isSections} />
         {newData.position === 'over' && (
-          <Box sx={{mt: 2, display: 'inline-flex'}}>
-            <RenderSocials newData={newData} onlyIcons/>
-          </Box>
+          !isSections ? renderSocials({my: 2}) : <RenderSectWrapper>{renderSocials({my: 2})}</RenderSectWrapper>
         )}
-        <Box sx={{mt: 2}}>
-          {newData.position !== 'middle' ? newData.links.map((x: LinkType, index: number) => (
-            renderBtn(x, `btn${index}`)
-          )) : (
-            <>
-              {newData.links.slice().splice(0, Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
-                renderBtn(x, `btn2n${index}`)
-              ))}
-              <Box sx={{my: 2, display: 'inline-flex'}}>
-                <RenderSocials newData={newData} onlyIcons/>
-              </Box>
-              {newData.links.slice().splice(-Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
-                renderBtn(x, `btn3d${index}`)
-              ))}
-            </>
-          )}
-        </Box>
+        {!isSections ? <RenderLinks newData={newData}/> : <RenderSectWrapper><RenderLinks newData={newData}/></RenderSectWrapper>}
         {(newData.position === undefined || newData.position === 'under') && (
-          <Box sx={{mt: 2, display: 'inline-flex'}}>
-            <RenderSocials newData={newData} onlyIcons/>
-          </Box>
+          !isSections ? renderSocials({mt: 2}) : <RenderSectWrapper>{renderSocials()}</RenderSectWrapper>
         )}
       </Box>
     </MainMicrosite>

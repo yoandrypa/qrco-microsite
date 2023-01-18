@@ -1,0 +1,79 @@
+{
+  "country": "US",
+  "petGender": "male",
+  "city": "New York",
+  "otherDetails": {
+    "heading": "Details",
+    "items": [
+      {
+        "value": "Ball",
+        "label": "Favorite Toy"
+      }
+    ]
+  },
+  "headingTextText": "Fido is a very active dog who loves to play with toys and go for walks. He is very friendly and loves to meet new people.",
+  "phone": "+53664477",
+  "petName": "Fido",
+  "createdAt": "2022-12-14T22:36:00.962Z",
+  "urls": {
+    "heading": "Fido personal Links",
+    "items": [
+      {
+        "value": "fido.store.com",
+        "label": "Store"
+      }
+    ]
+  },
+  "contactTitle": "Owner Info",
+  "shortLinkId": {
+    "createdAt": "2022-12-14T22:36:00.947Z",
+    "paused": false,
+    "address": "zTC87Y",
+    "visitCount": 0,
+    "banned": false,
+    "type": "qr_link",
+    "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+    "target": "http://localhost:3000/qr/b767e422-8163-4c8c-8074-fd7edee1d4e7",
+    "updatedAt": "2022-12-14T22:36:00.953Z"
+  },
+  "web": "fido.link",
+  "petYearOfBirth": "2019",
+  "state": "NY",
+  "fax": "+568877",
+  "socials": [
+    {
+      "value": "fido",
+      "network": "facebook"
+    },
+    {
+      "value": "fido",
+      "network": "twitter"
+    }
+  ],
+  "email": "fido@gmail.com",
+  "backgroundType": "single",
+  "updatedAt": "2022-12-14T22:36:00.970Z",
+  "zip": "91500",
+  "isDynamic": true,
+  "address1": "1234 Main St",
+  "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
+  "secondary": "#ca9f2a",
+  "headingText": "About Fido",
+  "qrName": "Test",
+  "petBreed": "Pug",
+  "name": "Jason Mongo Dast Bond",
+  "qrType": "petId",
+  "primary": "#2d3a2c",
+  "foregndImg": [
+    {
+      "name": "aca02d01-d921-4464-8581-f9d5521464e4.png",
+      "Key": "links/design/aca02d01-d921-4464-8581-f9d5521464e4.png"
+    }
+  ],
+  "backgndImg": [
+    {
+      "name": "735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png",
+      "Key": "links/design/735d99c4-13cd-4549-b9d1-2cccc5d6afb2.png"
+    }
+  ]
+}

@@ -96,14 +96,20 @@ export type DataType = {
   } | undefined;
   isDynamic?: boolean;
   files?: File[];
+  otherDetails?:HeadAndItemsType
+  urls?:HeadAndItemsType
 };
+export type HeadAndItemsType = {
+  heading: string;
+  items: [{
+    label: string;
+    value: string;
+    type?: validTypes
+  }];
+}
+export type validTypes = 'text' | 'email' | 'phone' | 'web' | 'number'| 'date' | 'fax'|'url' | 'string';
 
 export type SocialsType = 'facebook' | 'whatsapp' | 'twitter' | 'instagram' | 'youtube' | 'linkedin' | 'pinterest' | 'telegram';
-
-export type ColorTypes = {
-  p: string,
-  s: string
-};
 
 export type FileType = {
   content: string;

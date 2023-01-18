@@ -1,30 +1,24 @@
 import CardContent from "@mui/material/CardContent";
 import MainMicrosite from "./MainMicrosite";
-import RenderSocials from "./renderers/RenderSocials";
+import RenderSocials from "./contents/RenderSocials";
 import Grid from "@mui/material/Grid";
-import {useMemo} from "react";
-import {getColors} from "./renderers/helper";
-import {ColorTypes} from "../types/types";
+import RenderTitleDesc from "./contents/RenderTitleDesc";
 
 interface SocialProps {
   newData: any;
 }
 
 export default function SocialInfo({newData}: SocialProps) {
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
 
   return (
-    <MainMicrosite
-      type={newData.qrType}
-      colors={colors}
-      url={newData.shortlinkurl}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
+    <MainMicrosite data={newData}>
       <CardContent>
-        <Grid container spacing={1}>
-          <RenderSocials newData={newData} />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <RenderTitleDesc newData={newData} isSections={isSections} />
+          </Grid>
+          <RenderSocials newData={newData} isSections={isSections} />
         </Grid>
       </CardContent>
     </MainMicrosite>

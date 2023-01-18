@@ -1,88 +1,93 @@
-import {useMemo} from "react";
-import MainMicrosite from "./MainMicrosite";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-
-import Link from 'next/link'
-import {getColors} from "./renderers/helper";
-import RenderField from "./renderers/RenderField";
-import {humanDate} from "../../helpers/generalFunctions";
-import RenderAddress from "./renderers/RenderAddress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import {useTheme} from "@mui/system";
+
+import Link from "next/link";
+import dynamic from "next/dynamic";
+
+import MainMicrosite from "./MainMicrosite";
+import {handleButtons, handleFont} from "./renderers/helper";
+import RenderField from "./renderers/RenderField";
 import RenderBadge from "./renderers/RenderBadge";
 
-interface CouponProps {
-  newData: any;
-}
+const RenderDate = dynamic(() => import("./contents/RenderDate"));
+const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
+const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
-export default function Coupons({newData}: CouponProps) {
-  const colors = useMemo(() => (getColors(newData)), []); // eslint-disable-line react-hooks/exhaustive-deps
+export default function Coupons({newData}: {newData: any;}) {
+  const theme = useTheme();
 
-  return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
-      <RenderBadge newData={newData} colors={colors} />
-      <Box sx={{ p: 2 }}>
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
+
+  const renderCompany = () => (
+    <Grid item xs={12} sx={{display: 'flex'}}>
+      <PlaylistAddCheckIcon sx={{color: theme => theme.palette.primary.main}}/>
+      <Box sx={{ml: 1}}>
+        <Typography sx={{mt: '-3px', ...handleFont(newData, 't')}}>{'Company'}</Typography>
         <Grid container spacing={1}>
-          {(newData.company || newData.title || newData.about || newData.urlOptionLink) && (
-            <>
-              <Grid item xs={1}>
-                <PlaylistAddCheckIcon sx={{color: colors.p}}/>
-              </Grid>
-              <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold' }}>{'Company'}</Typography>
-                <Grid container spacing={1}>
-                  {newData.company && <RenderField value={newData.company} sx={{ fontWeight: 'bold', fontSize: '24px', my: '-10px' }} />}
-                  {newData.title && <RenderField value={newData.title} sx={{ fontWeight: 'bold', fontSize: '20px', my: '-10px' }} />}
-                  {newData.about && <RenderField value={newData.about} icon="about" color={colors?.s}/>}
-                  {newData.urlOptionLink && (
-                    <Grid item xs={12} style={{paddingTop: 0}}>
-                      <Link href={newData.urlOptionLink}>
-                        <Button
-                          variant="contained"
-                          sx={{
-                            height: '28px',
-                            width: '100%',
-                            color: colors.p,
-                            background: colors.s,
-                            my: '5px',
-                            '&:hover': {color: colors.s, background: colors.p}}}>
-                          {newData.urlOptionLabel || 'Get link'}
-                        </Button>
-                      </Link>
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
-            </>
+          {newData.company && (
+            <RenderField value={newData.company} sx={{my: '-10px', ...handleFont(newData, 's')}} />
           )}
-          {(newData.name || newData.value || newData.text) && (
-            <>
-            <Grid item xs={1}>
-              <ConfirmationNumberIcon sx={{color: colors.p}}/>
-            </Grid>
-            <Grid item xs={11}>
-              <Grid container spacing={1}>
-                <Typography sx={{ fontWeight: 'bold', mt: '10px', ml: '10px' }}>{'Coupon'}</Typography>
-                {newData.name && <RenderField value={newData.name}  sx={{ fontSize: '20px', my: '-30px' }} />}
-                {newData.value && <RenderField label="Valid until" value={humanDate(newData.value, 'en', true)} />}
-                {newData.text && <RenderField label="Terms and conditions" value={newData.text} />}
-              </Grid>
-            </Grid>
-            </>
+          {newData.title && (
+            <RenderField value={newData.title} sx={{my: '-10px', ...handleFont(newData, 's')}} />
           )}
-          <RenderAddress newData={newData} colors={colors} />
+          {newData.about && (
+            <RenderField value={newData.about} icon="about" sx={{...handleFont(newData, 'm')}} />
+          )}
+          {newData.urlOptionLink && (
+            <Grid item xs={12} style={{paddingTop: 0}}>
+              <Link href={newData.urlOptionLink}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    height: '28px', width: '100%', my: '5px',
+                    ...handleFont(newData, 'b'),
+                    ...handleButtons(newData,  theme)
+                  }}>
+                  {newData.urlOptionLabel || 'Get link'}
+                </Button>
+              </Link>
+            </Grid>
+          )}
         </Grid>
       </Box>
+    </Grid>
+  );
+
+  const renderCoupon = () => (
+    <Grid item xs={12} sx={{display: 'flex'}}>
+      <ConfirmationNumberIcon color="primary" />
+      <Box sx={{ml: 1}}>
+        <Typography sx={{mt: '-2px', ...handleFont(newData, 't')}}>{'Coupon'}</Typography>
+        <Grid container spacing={1}>
+          {newData.name && <RenderField value={newData.name} sx={{my: '-30px', ...handleFont(newData, 'm')}} />}
+          {newData.value && <RenderDate newData={newData} message="Valid until" />}
+          {newData.text && (
+            <RenderField label="Terms and conditions" value={newData.text} sx={{...handleFont(newData, 'm')}} />
+          )}
+        </Grid>
+      </Box>
+    </Grid>
+  );
+
+  return (
+    <MainMicrosite data={newData}>
+      <RenderBadge newData={newData} />
+      {(newData.index || [0, 1, 2]).map((x: number) => (
+        <Grid container spacing={1} sx={{p: 2}} key={`item${x}`}>
+          {x === 0 && (newData.company || newData.title || newData.about || newData.urlOptionLink) && (
+            !isSections ? renderCompany() : <RenderSectWrapper>{renderCompany()}</RenderSectWrapper>
+          )}
+          {x === 1 && (newData.name || newData.value || newData.text) && (
+            !isSections ? renderCoupon() : <RenderSectWrapper>{renderCoupon()}</RenderSectWrapper>
+          )}
+          {x === 2 && <RenderAddress newData={newData} isSections={isSections} />}
+        </Grid>
+      ))}
     </MainMicrosite>
   );
 }

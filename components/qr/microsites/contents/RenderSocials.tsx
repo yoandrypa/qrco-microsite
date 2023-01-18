@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -7,19 +8,42 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from "@mui/material/IconButton";
 import ForwardIcon from "@mui/icons-material/Forward";
 import GroupsIcon from '@mui/icons-material/Groups';
-import {capitalize} from "@mui/material";
-
-import {DEFAULT_COLORS} from "../../constants";
-import {SocialNetworksType} from "../../types/types";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import {capitalize} from "@mui/material";
+import {useTheme} from "@mui/system";
+
+import {SocialNetworksType} from "../../types/types";
+import {handleFont} from "../renderers/helper";
+
+import dynamic from "next/dynamic";
+
+const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 
 interface RenderSocialsProps {
   newData: any;
   onlyIcons?: boolean;
   desc?: string;
+  bold?: boolean;
+  isSections?: boolean;
+  sectionName?: string;
 }
 
-export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsProps) {
+/**
+ * if onlyIcons is true, bold and sectionName will be ignored
+ * @param newData
+ * @param onlyIcons
+ * @param desc
+ * @param bold
+ * @param isSections
+ * @param sectionName
+ * @constructor
+ */
+export default function RenderSocials({newData, onlyIcons, desc, bold, isSections, sectionName}: RenderSocialsProps) {
+  const theming = useTheme();
+
+  const [hideTooltips, setHideToolTips] = useState<boolean>(false);
+
   const handleCopy = (data: string) => {
     try {
       navigator.clipboard.writeText(data);
@@ -73,9 +97,9 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
 
     if (onlyIcons) {
       return (
-        <Tooltip title={`Go to ${label}`}>
+        <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
           <IconButton target="_blank" component="a" href={url}>
-            <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p} />
+            <RenderIcon icon={item.network} enabled color={theming.palette.primary.main} />
           </IconButton>
         </Tooltip>
       );
@@ -87,26 +111,26 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
         label=""
         size="small"
         fullWidth
-        margin="dense"
-        // @ts-ignore
+        margin="dense" // @ts-ignore
         value={value}
+        inputProps={{style: {...handleFont(newData, 'm')}}}
         InputProps={{
           disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
-              <RenderIcon icon={item.network} enabled color={newData.primary || DEFAULT_COLORS.p}/>
+              <RenderIcon icon={item.network} enabled color={theming.palette.primary.main}/>
             </InputAdornment>
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <Tooltip title={`Copy ${label} contact info to clipboard`}>
+              <Tooltip title={`Copy ${label} contact info to clipboard`} disableHoverListener={hideTooltips || false}>
                 <IconButton onClick={() => handleCopy(url)}>
-                  <ContentCopyIcon sx={{color: newData.secondary || DEFAULT_COLORS.s}}/>
+                  <ContentCopyIcon sx={{color: theme => theme.palette.secondary.main}}/>
                 </IconButton>
               </Tooltip>
-              <Tooltip title={`Go to ${label}`}>
+              <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
                 <IconButton target="_blank" component="a" href={url}>
-                  <ForwardIcon sx={{color: newData.secondary || DEFAULT_COLORS.s}}/>
+                  <ForwardIcon sx={{color: theme => theme.palette.secondary.main}}/>
                 </IconButton>
               </Tooltip>
             </InputAdornment>
@@ -116,34 +140,46 @@ export default function RenderSocials({newData, onlyIcons, desc}: RenderSocialsP
     );
   }
 
-  return (
+  useEffect(() => {
+    setHideToolTips(window.top !== window);
+  }, []);
+
+  const render = () => (
     <>
-      {(newData.socials?.length) && (<>
-          {!onlyIcons ? (
-            <>
-              <Grid item xs={1}><GroupsIcon sx={{color: newData.primary || DEFAULT_COLORS.p}}/></Grid>
-              <Grid item xs={11}>
-                <Grid container spacing={1}>
-                  {desc !== undefined && <Typography sx={{ mt: '10px', ml: '10px', fontWeight: 'bold'}}>{desc}</Typography>}
-                  {newData.socials.map((x: SocialNetworksType) => (
-                    <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
-                      {renderSocials(x)}
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </>
-          ) : (
-            <>
+      {!onlyIcons ? (
+        <Grid item xs={12} sx={{display: 'flex', my: 2}}>
+          <GroupsIcon sx={{color: theming.palette.primary.main, mt: '5px'}}/>
+          <Box sx={{ml: 1}}>
+            {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}
+            {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(newData, !bold ? 'm' : 't')}}>{desc}</Typography>}
+            <Grid container spacing={1}>
               {newData.socials.map((x: SocialNetworksType) => (
-                <div key={`sn${x.network}`}>
+                <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
                   {renderSocials(x)}
-                </div>
+                </Grid>
               ))}
-            </>
-          )}
+            </Grid>
+          </Box>
+        </Grid>
+      ) : (
+        <>
+          {newData.socials.map((x: SocialNetworksType) => (
+            <div key={`sn${x.network}`}>
+              {renderSocials(x)}
+            </div>
+          ))}
         </>
       )}
     </>
   );
+
+  if (!newData.socials?.length) {
+    return null;
+  }
+
+  if (isSections) {
+    return <RenderSectWrapper sx={{display: 'flex', justifyContent: 'center'}}>{render()}</RenderSectWrapper>;
+  }
+
+  return render();
 }

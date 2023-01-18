@@ -5,12 +5,12 @@
     "target": "https://app-dev.theqr.link/qr/30e4b03b-0d9f-4251-bc1d-eb2fe9493ef5",
     "updatedAt": "2022-11-08T23:31:35.371Z",
     "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-    "visitCount": 17,
+    "visitCount": 20,
     "createdAt": "2022-11-08T23:31:35.367Z",
     "address": "fvyVkj",
     "type": "qr_link"
   },
-  "email": "marys@marysfood.com",
+  "companyEmail": "marys@marysfood.com",
   "country": "US",
   "state": "Florida",
   "city": "Miami",
@@ -93,7 +93,9 @@
     "child": true
   },
   "id": "0ee53df6-460d-475f-ba29-9d46ae91c227",
-  "phone": "+12555456544",
+  "companyPhone": "+12555456544",
+  "companyCell": "+12555456544",
+  "companyFax": "+12555456544",
   "secondary": "#9ece99",
   "facebook": "marys.food",
   "mode": "edit",
@@ -110,7 +112,7 @@
       "Key": "business/design/077b0651-9c02-459b-8f92-b8657bf881af.png"
     }
   ],
-  "web": "https://www.marysfood.com",
+  "companyWebSite": "https://www.marysfood.com",
   "isDynamic": true,
   "updatedAt": "2022-11-15T23:09:10.942Z",
   "urlOptionLink": "https://www.marysfood.com/menu",

@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -7,11 +7,15 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import {useMediaQuery} from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import {getColors} from "./renderers/helper";
+import {handleFont} from "./renderers/helper";
 import {download} from "../../../handlers/storage";
-import {ColorTypes, FileType} from "../types/types";
-import RenderPreview from "./renderers/RenderPreview";
-import RenderAssetsDesc from "./renderers/RenderAssetsDesc";
+import {FileType} from "../types/types";
+
+import dynamic from "next/dynamic";
+
+const RenderPreview = dynamic(() => import("./renderers/RenderPreview"));
+const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
+const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
 interface ImageProps {
   newData: any;
@@ -19,8 +23,9 @@ interface ImageProps {
 
 function Images({newData}: ImageProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
-  const [preview, setPreview] = useState<FileType | null>(null);
-  const images = useRef<FileType[]>([]);
+  const [preview, setPreview] = useState<FileType | string | null>(null);
+  const [hideTooltip, setHideTooltip] = useState<boolean>(false);
+  const images = useRef<FileType[] | string[]>([]);
   const index = useRef<number>(0);
 
   const isWide = useMediaQuery("(min-width:600px)", { noSsr: true });
@@ -29,15 +34,16 @@ function Images({newData}: ImageProps) {
 
   // @ts-ignore
   const forceUpdate = useCallback(() => setUnusedState({}), []);
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
 
-  const getImages = (files: object[]) => {
+  const getImages = (files: object[] | string[]) => {
     try {
       files.forEach(async (x: any) => {
-        const data = await download(x.Key, newData.isSample);
-
-        // @ts-ignore
-        images.current.push(data);
-        forceUpdate();
+        const data = typeof x !== "string" ? await download(x.Key, newData.isSample) : x;
+        if (images.current.length < newData.files.length) { // @ts-ignore
+          images.current.push(data);
+          forceUpdate();
+        }
       });
     } catch {
       console.log("error");
@@ -48,10 +54,14 @@ function Images({newData}: ImageProps) {
     images.current = [];
     if (newData.files?.length) {
       getImages(newData.files);
+    } else {
+      forceUpdate();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [newData.files]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setHideTooltip(window.top !== window);
+  }, []);
 
   let colNumber = images.current.length;
   let width = '0';
@@ -77,73 +87,71 @@ function Images({newData}: ImageProps) {
     width = '100%';
   }
 
+  const renderGallery = () => (
+    <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
+      {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
+        if (!x) {
+          return (
+            <Box key={`mainIt${fileNumber}`} sx={{
+              mt: '5px',
+              width: 'calc(100% - 10px)',
+              ml: '5px',
+              p: 2,
+              border: theme => `solid 1px ${theme.palette.primary.main}`,
+              borderRadius: '5px'
+            }}>
+              <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm')}}>
+                <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
+                {'Error loading image.'}
+              </Typography>
+            </Box>
+          );
+        }
+        const img = typeof x === 'string' ? x : x.content;
+        return (
+          <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
+            <Tooltip title="Click to enlarge" disableHoverListener={hideTooltip}>
+              <Box
+                key={`img${img}`}
+                component="img"
+                src={img}
+                alt="image"
+                sx={{
+                  width,
+                  cursor: 'pointer',
+                  borderRadius: '4px',
+                  '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
+                }}
+                onClick={() => {
+                  index.current = fileNumber;
+                  setPreview(x)
+                }}/>
+            </Tooltip>
+          </Grid>
+        )}
+      ) : null}
+    </Grid>
+  );
+
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
-      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: colors.s}}>
-        <RenderAssetsDesc newData={newData} colors={colors} />
+    <MainMicrosite data={newData}>
+      <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
         {images.current.length ? (
-          <Typography sx={{fontWeight: 'bold'}}>
+          <Typography sx={{...handleFont(newData, 'm')}}>
             {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
           </Typography>
         ) : (
-          <Typography>{'Please wait...'}</Typography>
+          <Typography sx={{...handleFont(newData, 'm')}}>{'Please wait...'}</Typography>
         )}
+        <Box sx={isSections ? {width: 'calc(100% + 5px)', ml: '-10px'} : undefined}>
+          <RenderTitleDesc newData={newData} isSections={isSections} />
+        </Box>
       </Box>
-      <Grid container spacing={1} sx={{p: 2}}>
-        {/* @ts-ignore */}
-        {images.current.length ? images.current.map((x: FileType, fileNumber: number) => {
-            if (!x) {
-              return (
-                <Box key={`mainIt${fileNumber}`} sx={{
-                  mt: '5px',
-                  width: 'calc(100% - 10px)',
-                  ml: '5px',
-                  p: 2,
-                  border: `solid 1px ${colors.p}`,
-                  borderRadius: '5px'
-                }}>
-                  <Typography sx={{color: colors.p, width: '100%', textAlign: 'center'}}>
-                    <DangerousIcon sx={{ color: colors.s, mb: '-5px', mr: '5px' }} />
-                    {'Error loading image.'}
-                  </Typography>
-                </Box>
-              );
-            }
-            const img = x.content;
-            return (
-              <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
-                <Tooltip title="Click to enlarge">
-                  <Box
-                    key={`img${img}`}
-                    component="img"
-                    src={img}
-                    alt="image"
-                    sx={{
-                      width,
-                      cursor: 'pointer',
-                      '&:hover': {
-                        border: theme => `solid 1px ${theme.palette.primary.light}`,
-                        borderRadius: '2px',
-                        p: '3px'
-                      }
-                    }}
-                    onClick={() => {
-                      index.current = fileNumber;
-                      setPreview(x)
-                    }}/>
-                </Tooltip>
-              </Grid>
-            )
-          }
-        ) : null}
-      </Grid>
+      {!isSections ? renderGallery() : (
+        <Box sx={{width: 'calc(100% - 30px)', ml: 1}}>
+          <RenderSectWrapper>{renderGallery()}</RenderSectWrapper>
+        </Box>
+      )}
       {preview && (
         <RenderPreview
           handleNext={() => {
@@ -160,8 +168,8 @@ function Images({newData}: ImageProps) {
           isHeight={isHeight}
           preview={preview}
           handleClose={() => setPreview(null)}
-          colors={colors}
           type="image"
+          sx={{...handleFont(newData, 'm')}}
         />
       )}
     </MainMicrosite>

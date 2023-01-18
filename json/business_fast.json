@@ -5,12 +5,12 @@
     "target": "https://app-dev.theqr.link/qr/a9b8f020-d711-424d-9b6b-bcad72fb9463",
     "updatedAt": "2022-11-15T23:18:45.603Z",
     "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
-    "visitCount": 3,
+    "visitCount": 6,
     "createdAt": "2022-11-15T23:18:45.569Z",
     "address": "efn9Zw",
     "type": "qr_link"
   },
-  "email": "contact@jimmysfood.com",
+  "companyEmail": "contact@jimmysfood.com",
   "foregndImg": [
     {
       "name": "3a33e28d-5d36-4560-8fc6-cc03c4343624.png",
@@ -79,7 +79,9 @@
     "smoking": true
   },
   "id": "9fe5fb28-96ef-47d7-93ca-cbe794aebf57",
-  "phone": "+15545545522",
+  "companyPhone": "+15545545522",
+  "companyCell": "+15545545522",
+  "companyFax": "+15545545522",
   "secondary": "#dba8a8",
   "contact": "Annie",
   "qrName": "Business Fast Food",
@@ -93,7 +95,7 @@
       "Key": "business/design/aff623e3-307e-4c17-af42-ef6513163e37.png"
     }
   ],
-  "web": "https://www.jimmysfood.com",
+  "companyWebSite": "https://www.jimmysfood.com",
   "isDynamic": true,
   "updatedAt": "2022-11-15T23:19:32.018Z",
   "foregndImgType": "smooth",

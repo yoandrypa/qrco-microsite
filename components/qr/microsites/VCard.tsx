@@ -1,117 +1,61 @@
-import {useMemo} from "react";
 import Grid from "@mui/material/Grid";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import RingVolumeIcon from '@mui/icons-material/RingVolume';
-import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread';
-import WorkIcon from '@mui/icons-material/Work';
 import GetAppIcon from '@mui/icons-material/GetApp';
+import Box from "@mui/material/Box";
+import {useTheme} from "@mui/system";
 
 import MainMicrosite from "./MainMicrosite";
-import RenderSocials from "./renderers/RenderSocials";
-import {downloadVCard, getColors} from "./renderers/helper";
 
-import {ColorTypes} from "../types/types";
+import {downloadVCard, handleButtons, handleFont} from "./renderers/helper";
 
-import RenderField from "./renderers/RenderField";
-import RenderAddress from "./renderers/RenderAddress";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import dynamic from "next/dynamic";
 
-interface VCardProps {
-  newData: any;
-}
+const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
+const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
+const RenderEmailWeb = dynamic(() => import("./contents/RenderEmailWeb"));
+const RenderOrganization = dynamic(() => import("./contents/RenderOrganization"));
+const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
+const RenderName = dynamic(() => import("./contents/RenderName"));
+const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
-export default function VCard({newData}: VCardProps) {
-  function downloadFile() {
-    downloadVCard({...newData});
-  }
+export default function VCard({newData}: {newData: any;}) {
+  const theme = useTheme();
 
-  const colors = useMemo(() => (getColors(newData)), []) as ColorTypes; // eslint-disable-line react-hooks/exhaustive-deps
+  const isSections = Boolean(newData.layout?.startsWith('sections'));
 
   return (
-    <MainMicrosite
-      colors={colors}
-      url={newData.shortlinkurl}
-      type={newData.qrType}
-      foregndImg={newData.foregndImg}
-      backgndImg={newData.backgndImg}
-      foregndImgType={newData.foregndImgType}
-      isSample={newData.isSample}>
-      <Box sx={{ p: 2 }}>
-        <Grid container spacing={1}>
-          {(newData.prefix || newData.firstName || newData.lastName) && (
-            <>
-              <Grid item xs={1}>
-                <AccountBoxIcon sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11}>
-                <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
-                  {`${newData.prefix ? newData.prefix + 
-                  (newData.firstName || newData.lastName ? ', ' : '') : ''}${newData.firstName ? 
-                  newData.firstName + (newData.lastName ? ' ' : '') : ''}${newData.lastName ? newData.lastName : ''}`}
-                </Typography>
-              </Grid>
-            </>
-          )}
-          {(newData.cell || newData.phone || newData.fax) && (
-            <>
-              <Grid item xs={1}>
-                <RingVolumeIcon sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11}>
-                <Grid container spacing={1}>
-                  {newData.cell &&
-                    <RenderField value={newData.cell} icon="cell" color={newData.secondary} size={newData.phone ? 6 : 12}/>}
-                  {newData.phone &&
-                    <RenderField value={newData.phone} icon="phone" color={newData.secondary} size={newData.cell ? 6 : 12}/>}
-                  {newData.fax && <RenderField value={newData.fax} icon="fax" color={newData.secondary} />}
-                </Grid>
-              </Grid>
-            </>
-          )}
-          {(newData.organization || newData.position) && (
-            <>
-              <Grid item xs={1}>
-                <WorkIcon sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11}>
-                <Typography sx={{ fontWeight: 'bold' }}>{'Organization info'}</Typography>
-                <Grid container spacing={0}>
-                  {newData.organization && <RenderField label="Organization" value={newData.organization}/>}
-                  {newData.position && <RenderField label="Position" value={newData.position}/>}
-                </Grid>
-              </Grid>
-            </>
-          )}
-          <RenderAddress newData={newData} colors={colors} />
-          {(newData.email || newData.web) && (
-            <>
-              <Grid item xs={1}>
-                <MarkAsUnreadIcon sx={{ color: colors.p }} />
-              </Grid>
-              <Grid item xs={11}>
-                <Grid container spacing={1} sx={{ mt: '-16px' }}>
-                  {newData.email && <RenderField icon="emailIcon" color={newData.secondary} value={newData.email}/>}
-                  {newData.web && <RenderField icon="world" color={newData.secondary} value={newData.web}/>}
-                </Grid>
-              </Grid>
-            </>
-          )}
-          <Box sx={{ width: '100%', mt: 2, display: 'flex', justifyContent: 'center' }}>
-            <RenderSocials newData={newData} onlyIcons/>
+    <MainMicrosite data={newData}>
+      <Grid container spacing={1} sx={{p: 2}}>
+        {(newData.index || [0, 1, 2]).map((x: number) => (
+          <Box key={`item${x}`} sx={{width: '100%', px: 2, my: 2}}>
+            {x === 0 && (newData.prefix || newData.firstName || newData.lastName) && (
+              !isSections ? <RenderName newData={newData} /> : <RenderSectWrapper><RenderName newData={newData} /></RenderSectWrapper>
+            )}
+            {x === 0 && (newData.cell || newData.phone || newData.fax) && (
+              !isSections ? <RenderPhones newData={newData} /> : <RenderSectWrapper><RenderPhones newData={newData}/></RenderSectWrapper>
+            )}
+            {x === 0 && (newData.organization || newData.position) && (
+              !isSections ? <RenderOrganization newData={newData} /> : <RenderSectWrapper><RenderOrganization newData={newData} /></RenderSectWrapper>
+            )}
+            {x === 1 && <Box sx={{mt: '-25px'}}><RenderAddress newData={newData} isSections={isSections}/></Box>}
+            {x === 1 && (newData.email || newData.web) && (
+              !isSections ? <RenderEmailWeb newData={newData} /> : <RenderSectWrapper><RenderEmailWeb newData={newData} /></RenderSectWrapper>
+            )}
+            {x === 2 && <Box sx={{width: '100%', mt: !isSections ? 2 : 0, display: 'flex', justifyContent: 'center'}}>
+              <RenderSocials newData={newData} onlyIcons isSections={isSections}/>
+            </Box>}
           </Box>
-        </Grid>
-      </Box>
-      <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+        ))}
+      </Grid>
+      <Box sx={{ textAlign: 'center', mt: '18px' }}>
         <Button
           variant="contained"
           startIcon={<GetAppIcon />}
-          sx={{my: '10px', color: colors.s, background: colors.p, '&:hover': {color: colors.p, background: colors.s} }}
-          onClick={downloadFile}
+          sx={{...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
+          onClick={() => downloadVCard({...newData})}
         >{'Get Contact'}</Button>
-      </CardActions>
+        <Box sx={{height: '35px'}}/>
+      </Box>
     </MainMicrosite>
   );
 }

@@ -4,11 +4,13 @@
     "target": "https://app-dev.theqr.link/qr/6a33abfe-3154-4797-b84f-4d4284f414f5",
     "updatedAt": "2022-11-09T18:27:22.288Z",
     "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-    "visitCount": 6,
+    "visitCount": 7,
     "createdAt": "2022-11-09T18:27:22.267Z",
     "address": "VoofYf",
     "type": "qr_link"
   },
+  "descriptionAbout": "Climate Activist. Let's save the planet! Join me now!",
+  "titleAbout": "Grace",
   "qrName": "Social",
   "createdAt": "2022-11-09T18:27:22.290Z",
   "foregndImg": [

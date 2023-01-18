@@ -48,23 +48,11 @@ const SamplesList = ({ newData }: SampleProp) => {
   return (
     <>
       <CssBaseline />
-      {/*<Box*/}
-      {/*  component="img"*/}
-      {/*  alt="backgimage"*/}
-      {/*  src="/background_samples.png"*/}
-      {/*  sx={{*/}
-      {/*    width: '100%',*/}
-      {/*    height: '185px',*/}
-      {/*    objectFit: 'cover'*/}
-      {/*  }} />*/}
       <ElevationScroll>
         <AppBar component="nav" sx={{ background: "#fff", height }}>
           <Container sx={{ my: "auto" }}>
-            <Toolbar sx={{ display: "flex", justifyContent: "space-between", color: theme => theme.palette.text.primary }}>
-              <Box sx={{ display: "flex" }}>
-                <Box component="img" alt="EBANUX" src="/ebanuxQr.svg" sx={{ width: "40px" }} />
-                <Typography sx={{ my: "auto", ml: "5px", fontSize: "28.8px", fontWeight: "bold" }}>{'The QR Link'}</Typography>
-              </Box>
+            <Toolbar>
+              <Box component="img" alt="EBANUX" src="/logo.svg" sx={{ width: "160px", mt: '20px' }} />
             </Toolbar>
           </Container>
         </AppBar>
@@ -76,15 +64,15 @@ const SamplesList = ({ newData }: SampleProp) => {
             {'MICROSITE'}
           </Typography>
           <Typography variant="h4" sx={{ display: 'inline-flex', color: theme => theme.palette.text.disabled, ml: 1 }}>
-            {'EXAMPLES'}
+            {'SAMPLES'}
           </Typography>
           <Typography sx={{ mb: 2, color: theme => theme.palette.text.disabled }}>
-            {'microsite'}
+            {`${newData.length} sample${newData.length !== 1 ? 's' : ''} found`}
           </Typography>
           <Grid container spacing={1}>
             {newData.map((x: any) => (
-              <Grid item lg={3} md={4} sm={6} xs={12} key={`item${x.type}`}>
-                <TypeSelector handleSelect={goTo} label={x.type} description={x.desc} icon={x.type} baseUrl={baseUrl} />
+              <Grid item lg={3} md={4} sm={6} xs={12} key={`item${x.file}`}>
+                <TypeSelector handleSelect={goTo} label={x.name} description={x.desc} icon={x.type} baseUrl={baseUrl} fileName={x.file} />
               </Grid>
             ))}
           </Grid>
