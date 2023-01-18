@@ -26,6 +26,7 @@ export default function PdfViewer({content, width, height, exitFullScreen, isFul
   const [pdfContent, setPdfContent] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [index, setIndex] = useState<number>(1);
+  const [isIframed, setIsIframed] = useState<boolean>(false);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | undefined>(undefined);
 
@@ -60,6 +61,9 @@ export default function PdfViewer({content, width, height, exitFullScreen, isFul
         setPdfContent(base);
       }
     }
+    if (window.top !== window) {
+      setIsIframed(true);
+    }
     conversor();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -84,9 +88,11 @@ export default function PdfViewer({content, width, height, exitFullScreen, isFul
           <IconButton disabled={index <= 1} sx={{width: '35px', height: '35px'}} onClick={previous}>
             <ArrowBackIosNewIcon/>
           </IconButton>
-          <Typography sx={{cursor: 'pointer', background: 'rgb(0 0 0/17%)', fontWeight: 'bold', color: '#fff', p: 1}} onClick={handleOpen}>
-            Page {index || (totalPages ? 1 : '--')} of {totalPages || '--'}
-          </Typography>
+          {!isIframed && (
+            <Typography sx={{cursor: 'pointer', background: 'rgb(0 0 0/17%)', fontWeight: 'bold', color: '#fff', p: 1}} onClick={handleOpen}>
+              Page {index || (totalPages ? 1 : '--')} of {totalPages || '--'}
+            </Typography>
+          )}
           <IconButton disabled={index >= totalPages} onClick={next} sx={{width: '35px', height: '35px'}}>
             <ArrowForwardIosIcon/>
           </IconButton>
