@@ -31,7 +31,8 @@ interface FileProps {
 
 export default function FileMicro({ newData }: FileProps) {
   const [preview, setPreview] = useState<FileType | null>(null);
-  const [height, setHeight] = useState<string | undefined>(undefined);
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
+  const [height, setHeight] = useState<number | undefined>(undefined);
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const files = useRef<FileType[]>([]);
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
@@ -79,7 +80,7 @@ export default function FileMicro({ newData }: FileProps) {
       forceUpdate();
     }
     if (window && newData.type === 'pdf' && newData.autoOpen && newData.files.length === 1) {
-      setHeight(`${window.innerHeight}px`);
+      setHeight(window.innerHeight);
     }
     return () => {
       files.current = [];
@@ -122,7 +123,7 @@ export default function FileMicro({ newData }: FileProps) {
                 >
                   {`Download ${newData.qrType} ${fileNumber}`}
                 </Button>
-                {['video', 'pdf'].includes(newData.qrType) && index !== 0 && (
+                {['video', 'pdf'].includes(newData.qrType) && (
                   <Button
                     sx={{ width: isWide400 ? '30%' : '100%', ml: isWide400 ? '5px' : 0, mt: isWide400 ? 0 : '5px',
                       ...handleFont(newData, 'b'), ...handleButtons(newData, theme) }}
@@ -152,11 +153,18 @@ export default function FileMicro({ newData }: FileProps) {
     )
   );
 
-  if (newData.qrType === 'pdf' && newData.autoOpen) {
+  if (newData.qrType === 'pdf' && (newData.autoOpen || fullScreen)) {
     if (!files.current.length) {
       return <PleaseWait redirecting />;
     }
-    return <RenderPreviewPdf content={files.current[0].content} height={height} />
+    return (
+      <RenderPreviewPdf
+        content={files.current[0].content}
+        height={height}
+        exitFullScreen={fullScreen ? () => setFullScreen(false) : undefined}
+        isFullScreen
+      />
+    );
   }
 
   return (
@@ -175,7 +183,7 @@ export default function FileMicro({ newData }: FileProps) {
         )}
         {preview && (
           <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} handleClose={() => setPreview(null)}
-                         sx={{...handleFont(newData, 'm'), ...handleButtons(newData, theme)}} />
+                         sx={{...handleFont(newData, 'm'), ...handleButtons(newData, theme)}} handleFullScreen={() => setFullScreen(true)} />
         )}
       </Box>
     </MainMicrosite>
