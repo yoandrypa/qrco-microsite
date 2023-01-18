@@ -159,3 +159,18 @@ export const handleButtons = (data: any, theme: any) => {
   }
   return style;
 }
+
+export const getBase64FromUrl = async (url: string) => {
+  const data = await fetch(url);
+  const blob = await data.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      setTimeout(() => {
+        resolve(base64data);
+      }, 100);
+    }
+  });
+};
