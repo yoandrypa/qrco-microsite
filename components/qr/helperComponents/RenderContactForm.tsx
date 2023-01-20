@@ -64,7 +64,7 @@ function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFor
                 size='small'
                 multiline
                 fullWidth
-                placeholder='Use this text as a placeholder for the message'
+                placeholder={messagePlaceholder}
                 rows={4}
                 value={newMessage}
                 onChange={handleMessageChange}
