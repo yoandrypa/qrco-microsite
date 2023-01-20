@@ -11,7 +11,7 @@
         "items": []
     },
     "contactForm": {
-        "buttonText": "Sen",
+        "buttonText": "Send",
         "type": "contact",
         "title": "Email me",
         "message": "I found your earphones",
