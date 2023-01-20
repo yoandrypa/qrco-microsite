@@ -6,7 +6,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Notifications, { NotificationsProps } from './Notifications';
 //@ts-ignore
 import session from "@ebanux/ebanux-utils/sessionStorage";
-import send from '../../../handlers/email';
+import sendSESEmail from '../../../handlers/email';
 
 interface ContactFormProps {
     title: string;
@@ -29,7 +29,7 @@ function RenderContactForm({ title, buttonText, messagePlaceholder, email, micro
 
     const handleClick = async () => {
         setIsLoading(true)
-        const result = await send('info@ebanux.com', [email], 'new-contact-form-message-template', {
+        const result = await sendSESEmail('info@ebanux.com', [email], 'new-contact-form-message-template', {
             contactEmail: newEmail,
             name: name,
             micrositeUrl: micrositeUrl,
