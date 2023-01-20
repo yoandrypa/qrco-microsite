@@ -14,7 +14,7 @@ interface ContactFormProps {
     buttonText: string;
     email: string;
     index: Number;
-    micrositeUrl: string
+    micrositeUrl: string;
 }
 
 
