@@ -61,6 +61,28 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
 
+  const FooterLabel = () =>{
+    let footerLabel;
+    switch (qrType){
+      case "video":
+        footerLabel = "Videos";
+        break;
+      case "vcard+":
+        footerLabel = "vCard Plus";
+        break;
+      case "link":
+        footerLabel = "Link-in-Bio";
+        break;
+      case "linkedLabel":
+        footerLabel = "Smart Label";
+        break;
+      default:
+        footerLabel = capitalize(qrType)
+    }
+    return footerLabel;
+  }
+
+
   useEffect(() => {
     if (data.backgndImg) {
       setLoading(true);
@@ -236,7 +258,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             }}>
               <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
               <Typography sx={{ml: '5px', ...handleFont(data, 'm'), fontSize: '17px'}}>
-                {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
+                {FooterLabel()}
               </Typography>
             </Box>
           </Box>

@@ -64,7 +64,6 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
           '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
         }}
         onClick={() => {
-          //TODO: onClick of the preview
           setIndexPreview({index:fileIndex, field:index});
           setPreview(mediaFiles.current[`media_${index}_${fileIndex}`]);
         }}
@@ -152,7 +151,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   }
 
   return (
-    <MainMicrosite data={newData}>
+    <MainMicrosite data={{...newData}}>
       <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
         <RenderTitleDesc newData={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} />
       </Box>
@@ -232,7 +231,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
                 indexPreview.index + 1;
             const content = mediaFiles.current[`media_${field}_${index}`];
             setIndexPreview({...indexPreview, index});
-            setPreview(content);//! check tis out
+            setPreview(content);
           }}
           handlePrev={() => {
             const field = indexPreview.field;
@@ -241,7 +240,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
                 indexPreview.index - 1;
             const content = mediaFiles.current[`media_${field}_${index}`];
             setIndexPreview({...indexPreview, index});
-            setPreview(content);//! check tis out
+            setPreview(content);
 
           }}
           position={indexPreview.index}
