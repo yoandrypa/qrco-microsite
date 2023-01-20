@@ -26,3 +26,5 @@ export const FONTS = {
   Monaco: 'monaco, monospace',
   'Comic Sans': 'comic sans ms, cursive'
 };
+
+export const DEVELOP = process.env.REACT_NODE_ENV === "develop";

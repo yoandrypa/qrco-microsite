@@ -25,7 +25,7 @@ export default function VCard({newData}: {newData: any;}) {
 
   return (
     <MainMicrosite data={newData}>
-      <Grid container spacing={1} sx={{p: 2}}>
+      <Grid container spacing={1} sx={{p: '13px'}}>
         {(newData.index || [0, 1, 2]).map((x: number) => (
           <Box key={`item${x}`} sx={{width: '100%', px: 2, my: 2}}>
             {x === 0 && (newData.prefix || newData.firstName || newData.lastName) && (
@@ -41,13 +41,13 @@ export default function VCard({newData}: {newData: any;}) {
             {x === 1 && (newData.email || newData.web) && (
               !isSections ? <RenderEmailWeb newData={newData} /> : <RenderSectWrapper><RenderEmailWeb newData={newData} /></RenderSectWrapper>
             )}
-            {x === 2 && <Box sx={{width: '100%', mt: !isSections ? 2 : 0, display: 'flex', justifyContent: 'center'}}>
+            {x === 2 && <Box sx={{width: '100%', mt: !isSections ? '5px' : 0, display: 'flex', justifyContent: 'center'}}>
               <RenderSocials newData={newData} onlyIcons isSections={isSections}/>
             </Box>}
           </Box>
         ))}
       </Grid>
-      <Box sx={{ textAlign: 'center', mt: '18px' }}>
+      <Box sx={{ textAlign: 'center', mt: '10px' }}>
         <Button
           variant="contained"
           startIcon={<GetAppIcon />}
