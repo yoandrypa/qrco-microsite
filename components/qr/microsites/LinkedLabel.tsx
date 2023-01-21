@@ -64,8 +64,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
           '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
         }}
         onClick={() => {
-          //TODO: onClick of the preview
-          setIndexPreview({ index: fileIndex, field: index });
+          setIndexPreview({index:fileIndex, field:index});
           setPreview(mediaFiles.current[`media_${index}_${fileIndex}`]);
         }}
       />
@@ -152,16 +151,16 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   }
 
   return (
-    <MainMicrosite data={newData}>
+    <MainMicrosite data={{...newData}}>
       <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
-        <RenderTitleDesc newData={{ ...newData }} />
+        <RenderTitleDesc newData={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} />
       </Box>
       <Grid container >
         {virtualFields.length > 0 && virtualFields.map((field, index) => {
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
-                <RenderTitleDesc newData={{ ...newData, title: field.title, about: field.text }} />
+                <RenderTitleDesc newData={{ ...newData, titleAbout: field.title, descriptionAbout: field.text }} />
               </Grid>
             );
           }
@@ -233,8 +232,9 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
               indexPreview.index :
               indexPreview.index + 1;
             const content = mediaFiles.current[`media_${field}_${index}`];
-            setIndexPreview({ ...indexPreview, index });
-            setPreview(content);//! check tis out
+            setIndexPreview({...indexPreview, index});
+            setPreview(content);
+
           }}
           handlePrev={() => {
             const field = indexPreview.field;
@@ -242,9 +242,8 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
               indexPreview.index :
               indexPreview.index - 1;
             const content = mediaFiles.current[`media_${field}_${index}`];
-            setIndexPreview({ ...indexPreview, index });
-            setPreview(content);//! check tis out
-
+            setIndexPreview({...indexPreview, index});
+            setPreview(content);
           }}
           position={indexPreview.index}
           amount={fieldLength()}

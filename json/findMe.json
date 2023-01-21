@@ -11,7 +11,7 @@
         "items": []
     },
     "contactForm": {
-        "buttonText": "Sen",
+        "buttonText": "Send",
         "type": "contact",
         "title": "Email me",
         "message": "I found your earphones",
@@ -39,7 +39,7 @@
         "updatedAt": "2023-01-16T21:27:50.923Z"
     },
     "qrType": "findMe",
-    "state": "San Fransisca",
+    "state": "San Fransisco",
     "socials": [
         {
             "value": "yo",

@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import dynamic from 'next/dynamic';
 import RenderKeyValueFields from './renderers/RenderKeyValue';
 import RenderContactForm from '../helperComponents/RenderContactForm';
+import RenderPhones from './contents/RenderPhones';
 
 interface FindMeProps {
   newData: any;
@@ -22,7 +23,8 @@ export default function FindMe({ newData }: FindMeProps) {
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
-          <RenderName newData={newData} />
+          {(newData.prefix || newData.firstName || newData.lastName)&&<RenderName newData={newData} />}
+          <RenderPhones newData={newData} />
           <RenderAddress newData={newData} isSections={isSections} />
           <RenderKeyValueFields
             newData={newData}
