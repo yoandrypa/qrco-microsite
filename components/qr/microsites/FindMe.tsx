@@ -38,6 +38,8 @@ export default function FindMe({ newData }: FindMeProps) {
                 buttonText={newData.contactForm?.buttonText}
                 title={newData.contactForm.title}
                 messagePlaceholder={newData.contactForm.message}
+                email={newData.contactForm.email}
+                micrositeUrl={newData.shortlinkurl}
                 index={0}
               />
             </Grid>
