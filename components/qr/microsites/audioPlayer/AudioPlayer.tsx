@@ -115,7 +115,9 @@ export default function AudioPlayer() {
       .then(buffer => audioCtx.current.decodeAudioData(buffer))
       .then(response => { // @ts-ignore
         const analyser = audioCtx.current.createAnalyser();
-        analyser.fftSize = 256;
+        analyser.fftSize = 256; // @ts-ignore
+
+        analyser.connect(audioCtx.current?.destination);
         const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
         setDuration(response.duration)

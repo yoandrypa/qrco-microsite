@@ -17,7 +17,8 @@ const HandlePlayerButtons = ({disabled, playing, handlePlayPause}: HandlePlayerB
   return (
     <Box sx={{width: '100%', textAlign: 'center'}}>
       <IconButton
-        sx={{background: 'azure', border: 'solid 1px blue', color: 'blue'}}
+        sx={{background: 'azure', border: theme => `solid 1px ${theme.palette.primary.main}`}}
+        color="primary"
         disabled={disabled}
         onClick={handlePlayPause}
       >

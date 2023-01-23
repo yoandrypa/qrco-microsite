@@ -27,8 +27,10 @@ interface RenderPreviewProps {
   sx: object;
 }
 
-export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
-                                        preview, type, sx, handleFullScreen }: RenderPreviewProps) {
+export default function RenderPreview(
+  { handlePrev, handleNext, position, amount, isWide, isHeight, handleClose, preview, type, sx, handleFullScreen }
+    : RenderPreviewProps
+) {
   const wide = isWide && isHeight;
   const isString = typeof preview === 'string';
 
@@ -49,9 +51,9 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
             {type === 'video' && (
               <RenderPreviewVideo
                 content={isString ? preview : preview.content}
-                type={!isString ? preview.type : 'VIDEO'}/>
+                type={!isString ? preview.type : 'VIDEO'} />
             )}
-            {type === 'pdf' && <RenderPreviewPdf content={isString ? preview : preview.content}/>}
+            {type === 'pdf' && <RenderPreviewPdf content={isString ? preview : preview.content} />}
             <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
               <Button
                 sx={{
@@ -64,7 +66,7 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
                   ...sx
                 }}
                 variant="outlined"
-                onClick={() => { if (typeof preview !== 'string') {handleDownloadFiles(preview, type)}} }
+                onClick={() => handleDownloadFiles(preview, type)}
                 startIcon={<DownloadIcon/>}
               >
                 {'Download'}
