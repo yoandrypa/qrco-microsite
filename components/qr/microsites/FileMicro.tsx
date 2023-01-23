@@ -5,7 +5,7 @@ import DangerousIcon from '@mui/icons-material/Dangerous';
 import DownloadIcon from "@mui/icons-material/Download";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import {useMediaQuery} from "@mui/material";
+import {capitalize, useMediaQuery} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import MainMicrosite from "./MainMicrosite";
@@ -27,14 +27,15 @@ interface FileProps {
   newData: any;
 }
 
-// newData.qrType;
-
 export default function FileMicro({ newData }: FileProps) {
-  const [preview, setPreview] = useState<FileType | null>(null);
+  const [preview, setPreview] = useState<FileType | string | null>(null);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const [height, setHeight] = useState<number | undefined>(undefined);
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
+
   const files = useRef<FileType[]>([]);
+  const doneFirstRender = useRef<boolean>(false);
+
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
 
@@ -72,24 +73,47 @@ export default function FileMicro({ newData }: FileProps) {
     );
   };
 
-  useEffect(() => {
+  const loadFilesNow = () => {
     files.current = [];
     if (newData.files?.length) {
       getFiles(newData.files);
     } else {
       forceUpdate();
     }
+  }
+
+  useEffect(() => {
+    if (doneFirstRender.current) {
+      loadFilesNow();
+    }
+  }, [newData.files]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    loadFilesNow();
+
     if (window && newData.type === 'pdf' && newData.autoOpen && newData.files.length === 1) {
       setHeight(window.innerHeight);
     }
+    doneFirstRender.current = true;
     return () => {
       files.current = [];
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderAssets = () => (
-    files.current.length ? files.current.map((x: FileType, index: number) => {
+    files.current.length ? files.current.map((x: FileType | string, index: number) => {
       const fileNumber = index + 1;
+      let directFile = false;
+      let type;
+      let content;
+      if (typeof x === 'string') {
+        type = newData.qrType;
+        content = x;
+      } else {
+        type = x.type;
+        content = x.content;
+      }
+
       return (
         <Box key={`mainIt${fileNumber}`} sx={{
           mt: '5px',
@@ -101,18 +125,18 @@ export default function FileMicro({ newData }: FileProps) {
         }}>
           {x ? (
             <>
-              {renderHint(getExtension(x.type), fileNumber)}
+              {renderHint(!directFile ? getExtension(type) : capitalize(newData.qrType), fileNumber)}
               {newData.qrType === 'audio' && (
                 <audio preload="none" controls key={`audio${fileNumber}`} style={{ width: '100%' }}>
-                  <source src={x.content} type={x.type} />
+                  <source src={content} type={type} />
                   {'Your browser can not play audio files. :('}
                 </audio>
               )}
               {newData.qrType === 'video' && index === 0 && (
-                <RenderPreviewVideo content={x.content} type={x.type} />
+                <RenderPreviewVideo content={content} type={type} />
               )}
               {newData.qrType === 'pdf' && index == 0 && (
-                <RenderPreviewPdf content={x.content} />
+                <RenderPreviewPdf content={content} />
               )}
               <Box sx={{ display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column' }}>
                 <Button
