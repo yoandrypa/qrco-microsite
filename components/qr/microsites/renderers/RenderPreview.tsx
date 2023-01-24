@@ -4,11 +4,14 @@ import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
 
-import {FileType} from "../../types/types";
-import RenderPreviewVideo from "./RenderPreviewVideo";
-import RenderPreviewPdf from "./RenderPreviewPdf";
 import {handleDownloadFiles} from "./helper";
-import RenderPreviewImage from "./RenderPreviewImage";
+import {FileType} from "../../types/types";
+
+import dynamic from "next/dynamic";
+
+const RenderPreviewVideo = dynamic(() => import("./RenderPreviewVideo"));
+const RenderPreviewPdf = dynamic(() => import("./RenderPreviewPdf"));
+const RenderPreviewImage = dynamic(() => import("./RenderPreviewImage"));
 
 interface RenderPreviewProps {
   handleClose: () => void;
@@ -18,13 +21,16 @@ interface RenderPreviewProps {
   amount?: number;
   handleNext?: () => void;
   handlePrev?: () => void;
+  handleFullScreen?: () => void;
   isWide: boolean;
   isHeight?: boolean;
   sx: object;
 }
 
-export default function RenderPreview({ handlePrev, handleNext, position, amount, isWide, isHeight, handleClose,
-                                        preview, type, sx }: RenderPreviewProps) {
+export default function RenderPreview(
+  { handlePrev, handleNext, position, amount, isWide, isHeight, handleClose, preview, type, sx, handleFullScreen }
+    : RenderPreviewProps
+) {
   const wide = isWide && isHeight;
   const isString = typeof preview === 'string';
 
@@ -45,23 +51,41 @@ export default function RenderPreview({ handlePrev, handleNext, position, amount
             {type === 'video' && (
               <RenderPreviewVideo
                 content={isString ? preview : preview.content}
-                type={!isString ? preview.type : 'VIDEO'}/>
+                type={!isString ? preview.type : 'VIDEO'} />
             )}
-            {type === 'pdf' && <RenderPreviewPdf content={isString ? preview : preview.content} asDialog/>}
-            <Button
-              sx={{
-                mt: 1,
-                color: theme => theme.palette.primary.main,
-                background: isString ? preview : preview.content,
-                '&:hover': {color: theme => theme.palette.secondary.main, background: theme => theme.palette.primary.main},
-                ...sx
-              }}
-              variant="outlined"
-              onClick={() => { if (typeof preview !== 'string') {handleDownloadFiles(preview, type)}} }
-              startIcon={<DownloadIcon/>}
-            >
-              {'Download'}
-            </Button>
+            {type === 'pdf' && <RenderPreviewPdf content={isString ? preview : preview.content} />}
+            <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
+              <Button
+                sx={{
+                  color: theme => theme.palette.primary.main,
+                  background: isString ? preview : preview.content,
+                  '&:hover': {
+                    color: theme => theme.palette.secondary.main,
+                    background: theme => theme.palette.primary.main
+                  },
+                  ...sx
+                }}
+                variant="outlined"
+                onClick={() => handleDownloadFiles(preview, type)}
+                startIcon={<DownloadIcon/>}
+              >
+                {'Download'}
+              </Button>
+              {type === 'pdf' && handleFullScreen !== undefined && (<Button
+                sx={{color: theme => theme.palette.primary.main,
+                  background: isString ? preview : preview.content,
+                  '&:hover': {
+                    color: theme => theme.palette.secondary.main,
+                    background: theme => theme.palette.primary.main
+                  },
+                  ...sx
+                }}
+                variant="outlined"
+                onClick={handleFullScreen}
+              >
+                {'Full screen'}
+              </Button>)}
+            </Box>
           </Box>
         )}
       </DialogContent>

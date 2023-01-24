@@ -1,15 +1,10 @@
-import {GetServerSideProps} from "next";
+import {useEffect} from "react";
+import PleaseWait from "../components/PleaseWait";
 
 export default function Main () {
-  return (<>Please wait</>);
-}
+  useEffect(() => {
+    window.location.href = 'https://theqr.link/';
+  }, []);
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    redirect: {
-      permanent: false,
-      destination: "/sample",
-    },
-    props:{},
-  };
-};
+  return (<PleaseWait redirecting />);
+}

@@ -3,29 +3,91 @@ import React, { useState } from 'react'
 import Stack from '@mui/material/Stack';
 import { TextField, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-
+import Notifications, { NotificationsProps } from './Notifications';
 //@ts-ignore
 import session from "@ebanux/ebanux-utils/sessionStorage";
-
-
+import sendSESEmail from '../../../handlers/email';
 interface ContactFormProps {
     title: string;
     messagePlaceholder: string;
     buttonText: string;
-    email?: string;
-    index: Number
+    email: string;
+    index: Number;
+    micrositeUrl: string;
 }
 
 
 
-function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFormProps) {
+function RenderContactForm({ title, buttonText, messagePlaceholder, email, micrositeUrl }: ContactFormProps) {
     const [name, setName] = useState<string>('');
     const [newMessage, setNewMessage] = useState<string>('');
     const [newEmail, setNewEmail] = useState<string>('');
+    const [newPhone, setNewPhone] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [notify, setNotify] = useState<NotificationsProps | null>(null);
 
+    const handleClick = async () => {
+        setIsLoading(true)
+        const payload = {
+            contactEmail: 'info@ebanux.com',
+            templateData: {
+                contactEmail: newEmail,
+                name: name,
+                micrositeUrl: micrositeUrl,
+                message: newMessage
+            }
+        }
 
-    const handleClick = () => {
-        //TODO
+        const options = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+        };
+
+        try {
+            const result = await fetch('/api/sendcontactemail', options);
+            if (result.ok) {
+                setNotify({
+                    message: `Great! Your message it's been sended successfully.`,
+                    severity: 'success',
+                    showProgress: true,
+                    title: 'Success',
+                    onClose: () => {
+                        clearFields();
+                        setNotify(null);
+                        setIsLoading(false);
+                    }
+                })
+            } else {
+                setNotify({
+                    message: `Ops, could not send the message.`,
+                    severity: 'error',
+                    showProgress: false,
+                    title: 'Error',
+                    onClose: () => {
+                        setNotify(null);
+                        setIsLoading(false);
+                    }
+                });
+                console.log(await result.json())
+            }
+
+        } catch (error) {
+            if (error instanceof Error)
+                setNotify({
+                    message: `Ops, could not send the message. ${error.message}.`,
+                    severity: 'error',
+                    showProgress: false,
+                    title: 'Error',
+                    onClose: () => {
+                        setNotify(null);
+                        setIsLoading(false)
+                    }
+                })
+            console.log(error)
+        }
     }
 
     const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,9 +99,29 @@ function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFor
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewEmail(event.target.value)
     }
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewPhone(event.target.value)
+    }
+
+    const clearFields = () => {
+        setName('');
+        setNewEmail('');
+        setNewPhone('');
+        setNewMessage('');
+    }
+
+
 
     return (
         <Stack spacing={2} sx={{ m: 2 }}>
+            {notify && <Notifications
+                message={notify.message}
+                autoHideDuration={5000}
+                severity={notify.severity}
+                showProgress={true}
+                title={notify.title}
+                onClose={() => setNotify(null)}
+            />}
             <Typography>
                 {title}
             </Typography>
@@ -52,24 +134,35 @@ function RenderContactForm({ title, buttonText, messagePlaceholder }: ContactFor
                 onChange={handleNameChange}
             />
             <TextField
-                label='Email'
+                label='Your Email'
                 size='small'
+                type='email'
                 fullWidth
                 placeholder='your@email.com'
                 value={newEmail}
                 onChange={handleEmailChange}
             />
             <TextField
+                label='Your Phone'
+                size='small'
+                fullWidth
+                placeholder='+1 123 456 34'
+                value={newPhone}
+                onChange={handlePhoneChange}
+                type='number'
+            />
+
+            <TextField
                 label='Message'
                 size='small'
                 multiline
                 fullWidth
-                placeholder='Use this text as a placeholder for the message'
+                placeholder={messagePlaceholder}
                 rows={4}
                 value={newMessage}
                 onChange={handleMessageChange}
             />
-            <LoadingButton variant='contained' onClick={handleClick}>
+            <LoadingButton loading={isLoading} variant='contained' onClick={handleClick}>
                 {buttonText}
             </LoadingButton>
         </Stack>

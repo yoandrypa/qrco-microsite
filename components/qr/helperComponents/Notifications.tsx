@@ -24,7 +24,7 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-interface NotificationsProps {
+export interface NotificationsProps {
   severity?: "inherit" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined;
   message: string;
   autoHideDuration?: number | undefined;
@@ -36,7 +36,7 @@ interface NotificationsProps {
 }
 
 // @ts-ignore
-const Notifications = ({severity, message, showProgress, autoHideDuration, onClose, vertical, horizontal, title}: NotificationsProps) => (
+const Notifications = ({ severity, message, showProgress, autoHideDuration, onClose, vertical, horizontal, title }: NotificationsProps) => (
   <Portal>
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar

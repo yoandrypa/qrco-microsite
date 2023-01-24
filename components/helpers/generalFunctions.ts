@@ -27,6 +27,9 @@ export function humanDate(date: number | string, locale: string = 'en', long?: b
 
 export function getExtension(mimeType: string): string {
   const types = {
+    'audio': 'mp3',
+    'pdf': 'pdf',
+    'video': 'mpg',
     'image/gif': 'gif',
     'image/jpeg': 'jpg',
     'image/png': 'png',

@@ -41,14 +41,14 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   const isWide400 = useMediaQuery("(min-width:400px)", { noSsr: true });
   const [virtualFields, setVirtualFields] = useState<Array<Field> | []>([])
   // @ts-ignore
-  const  forceUpdate = useCallback(() => setUnusedState({}), []);
+  const forceUpdate = useCallback(() => setUnusedState({}), []);
 
-  const fieldLength = ():number => {
-    return newData.fields[indexPreview.field].files.length| 0;
+  const fieldLength = (): number => {
+    return newData.fields[indexPreview.field].files.length | 0;
   }
 
-  const renderMediaContent = (content : string|undefined, width:any,index:number, fileIndex:number) =>{
-    if(content ==="loading" || content === undefined){
+  const renderMediaContent = (content: string | undefined, width: any, index: number, fileIndex: number) => {
+    if (content === "loading" || content === undefined) {
       return <CircularProgress size={20} />
     }
     return (
@@ -64,7 +64,6 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
           '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
         }}
         onClick={() => {
-          //TODO: onClick of the preview
           setIndexPreview({index:fileIndex, field:index});
           setPreview(mediaFiles.current[`media_${index}_${fileIndex}`]);
         }}
@@ -75,7 +74,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
 
     try {
       files.forEach(async (file: any, indexFile: number) => {
-        mediaFiles.current[`media_${index}_${indexFile}`]= "loading"
+        mediaFiles.current[`media_${index}_${indexFile}`] = "loading"
         forceUpdate();
         const data = typeof file !== "string" ? await download(file.Key, newData.isSample) : file;
         //@ts-ignore
@@ -84,14 +83,14 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         forceUpdate();
       });
     } catch (error) {
-      console.log({error});
+      console.log({ error });
       console.log("error");
     }
   }, [forceUpdate, newData.fields, newData.isSample]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let tempFields: Field[] = [];
-    if(!newData.fields)
+    if (!newData.fields)
       return;
     newData.fields.forEach((field: any, i: number) => {
       switch (field.type) {
@@ -114,7 +113,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         case 'text':
           tempFields.push({ type: "text", text: field.text, title: field.title });
           break;
-        default :
+        default:
           console.log("default");
       }
     });
@@ -152,16 +151,16 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   }
 
   return (
-    <MainMicrosite data={newData}>
+    <MainMicrosite data={{...newData}}>
       <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
-        <RenderTitleDesc newData={{ ...newData }} />
+        <RenderTitleDesc newData={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} />
       </Box>
       <Grid container >
         {virtualFields.length > 0 && virtualFields.map((field, index) => {
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
-                <RenderTitleDesc newData={{ ...newData, title: field.title, about: field.text }} />
+                <RenderTitleDesc newData={{ ...newData, titleAbout: field.title, descriptionAbout: field.text }} />
               </Grid>
             );
           }
@@ -170,8 +169,10 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
               <RenderContactForm
                 index={index}
                 buttonText={field.buttonText || 'Send now'}
-                messagePlaceholder={field.message || 'Lets keep in touch'}
+                messagePlaceholder={field.message || 'Say something nice here'}
                 title={field.title || 'You can left your message here'}
+                email={field.email!}
+                micrositeUrl={newData.shortlinkurl}
               />
             </Grid>);
           }
@@ -212,7 +213,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
                       <Tooltip
                         title="Click to enlarge"
                         disableHoverListener={hideTooltip}>
-                        {renderMediaContent(content, width, index,fileIndex)}
+                        {renderMediaContent(content, width, index, fileIndex)}
                       </Tooltip>
                     </Grid>
                   );
@@ -227,22 +228,22 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
         <RenderPreview
           handleNext={() => {
             const field = indexPreview.field;
-            const index = indexPreview.index === newData.fields[field].files.length - 1?
-                indexPreview.index:
-                indexPreview.index + 1;
+            const index = indexPreview.index === newData.fields[field].files.length - 1 ?
+              indexPreview.index :
+              indexPreview.index + 1;
             const content = mediaFiles.current[`media_${field}_${index}`];
             setIndexPreview({...indexPreview, index});
-            setPreview(content);//! check tis out
+            setPreview(content);
+
           }}
           handlePrev={() => {
             const field = indexPreview.field;
-            const index = indexPreview.index === 0?
-                indexPreview.index:
-                indexPreview.index - 1;
+            const index = indexPreview.index === 0 ?
+              indexPreview.index :
+              indexPreview.index - 1;
             const content = mediaFiles.current[`media_${field}_${index}`];
             setIndexPreview({...indexPreview, index});
-            setPreview(content);//! check tis out
-
+            setPreview(content);
           }}
           position={indexPreview.index}
           amount={fieldLength()}
@@ -251,7 +252,7 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
           preview={preview}
           handleClose={() => setPreview(null)}
           type="image"
-          sx={{...handleFont(newData, 'm')}}
+          sx={{ ...handleFont(newData, 'm') }}
         />
       )}
     </MainMicrosite>

@@ -61,6 +61,28 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
 
+  const FooterLabel = () =>{
+    let footerLabel;
+    switch (qrType){
+      case "video":
+        footerLabel = "Videos";
+        break;
+      case "vcard+":
+        footerLabel = "vCard Plus";
+        break;
+      case "link":
+        footerLabel = "Link-in-Bio";
+        break;
+      case "linkedLabel":
+        footerLabel = "Smart Label";
+        break;
+      default:
+        footerLabel = capitalize(qrType)
+    }
+    return footerLabel;
+  }
+
+
   useEffect(() => {
     if (data.backgndImg) {
       setLoading(true);
@@ -150,7 +172,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         position: 'relative',
         backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
         backgroundImage: !data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff'),
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'),
         left: '50%',
         transform: 'translate(-50%, 0)',
         maxWidth: isWide ? '475px' : '100%',
@@ -196,7 +218,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           )}
           <Box sx={{
             width: '100%',
-            minHeight: !containerDimensions ? `calc(100vh - ${(Boolean(foreImg) ? 229 : 220) + (!isBorder ? 0 : 20)}px)` :
+            minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20)}px)` :
               `calc(${containerDimensions.parentHeight} + ${230 + (Boolean(foreImg) ? 0 : (data.qrType !== 'custom' ? 8 : 0)) - (!isBorder ? 0 : 20)}px)`}}>
             {foreImg && (
               <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
@@ -236,7 +258,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             }}>
               <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
               <Typography sx={{ml: '5px', ...handleFont(data, 'm'), fontSize: '17px'}}>
-                {(qrType !== 'video' ? (qrType !== 'vcard+' ? (qrType !== 'link' ? capitalize(qrType) : 'Link-in-Bio') : 'vCard Plus') : 'Videos')}
+                {FooterLabel()}
               </Typography>
             </Box>
           </Box>
