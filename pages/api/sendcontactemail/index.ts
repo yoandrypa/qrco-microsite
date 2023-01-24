@@ -13,15 +13,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             !contactEmail
         ) return res.status(400).json({ error: true, message: 'Bad request' })
 
-        await sendSESEmail("info@ebanux.com",
+        const result = await sendSESEmail("info@ebanux.com",
             contactEmail,
             "new-contact-form-message-template",
             templateData
         );
-
-
-
-
-        res.status(200).json({})
+        if (result instanceof Error) {
+            console.log(result);
+            return res.status(500).json({});
+        }
+        return res.status(200).json({ success: true })
     }
 }
