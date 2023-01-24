@@ -7,7 +7,6 @@ import Notifications, { NotificationsProps } from './Notifications';
 //@ts-ignore
 import session from "@ebanux/ebanux-utils/sessionStorage";
 import sendSESEmail from '../../../handlers/email';
-
 interface ContactFormProps {
     title: string;
     messagePlaceholder: string;
@@ -29,24 +28,26 @@ function RenderContactForm({ title, buttonText, messagePlaceholder, email, micro
 
     const handleClick = async () => {
         setIsLoading(true)
-        const result = await sendSESEmail('info@ebanux.com', [email], 'new-contact-form-message-template', {
-            contactEmail: newEmail,
-            name: name,
-            micrositeUrl: micrositeUrl,
-            message: newMessage
-        })
-        if (result instanceof Error) {
-            setNotify({
-                message: `Ops, could not send the message. ${result.message}.`,
-                severity: 'error',
-                showProgress: false,
-                title: 'Error',
-                onClose: () => {
-                    setNotify(null);
-                    setIsLoading(false)
-                }
-            })
-        } else {
+        const payload = {
+            constactEmail: 'info@ebanux.com',
+            templateData: {
+                contactEmail: newEmail,
+                name: name,
+                micrositeUrl: micrositeUrl,
+                message: newMessage
+            }
+        }
+
+        const options = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+        };
+
+        try {
+            const result = await fetch('/api/sendcontactemail', options);
             setNotify({
                 message: `Great! Your message it's been sended successfully.`,
                 severity: 'success',
@@ -57,7 +58,19 @@ function RenderContactForm({ title, buttonText, messagePlaceholder, email, micro
                     setNotify(null);
                 }
             })
-
+        } catch (error) {
+            if (error instanceof Error)
+                setNotify({
+                    message: `Ops, could not send the message. ${error.message}.`,
+                    severity: 'error',
+                    showProgress: false,
+                    title: 'Error',
+                    onClose: () => {
+                        setNotify(null);
+                        setIsLoading(false)
+                    }
+                })
+            console.log(error)
         }
     }
 
