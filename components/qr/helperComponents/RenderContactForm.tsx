@@ -29,7 +29,7 @@ function RenderContactForm({ title, buttonText, messagePlaceholder, email, micro
     const handleClick = async () => {
         setIsLoading(true)
         const payload = {
-            constactEmail: 'info@ebanux.com',
+            contactEmail: 'info@ebanux.com',
             templateData: {
                 contactEmail: newEmail,
                 name: name,
@@ -48,16 +48,32 @@ function RenderContactForm({ title, buttonText, messagePlaceholder, email, micro
 
         try {
             const result = await fetch('/api/sendcontactemail', options);
-            setNotify({
-                message: `Great! Your message it's been sended successfully.`,
-                severity: 'success',
-                showProgress: true,
-                title: 'Success',
-                onClose: () => {
-                    clearFields();
-                    setNotify(null);
-                }
-            })
+            if (result.ok) {
+                setNotify({
+                    message: `Great! Your message it's been sended successfully.`,
+                    severity: 'success',
+                    showProgress: true,
+                    title: 'Success',
+                    onClose: () => {
+                        clearFields();
+                        setNotify(null);
+                        setIsLoading(false);
+                    }
+                })
+            } else {
+                setNotify({
+                    message: `Ops, could not send the message.`,
+                    severity: 'error',
+                    showProgress: false,
+                    title: 'Error',
+                    onClose: () => {
+                        setNotify(null);
+                        setIsLoading(false);
+                    }
+                });
+                console.log(await result.json())
+            }
+
         } catch (error) {
             if (error instanceof Error)
                 setNotify({
@@ -120,6 +136,7 @@ function RenderContactForm({ title, buttonText, messagePlaceholder, email, micro
             <TextField
                 label='Your Email'
                 size='small'
+                type='email'
                 fullWidth
                 placeholder='your@email.com'
                 value={newEmail}
