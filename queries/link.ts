@@ -39,7 +39,7 @@ export const getByAddress = async (address: string) => {
     const response: ExecuteStatementCommandOutput = await ddbClient.send(
       command);
     // @ts-ignore
-    return unmarshall(response.Items[0]);
+    return response.Items[0] ? unmarshall(response.Items[0]) : null;
   } catch (e) {
     // @ts-ignore
     throw e;
