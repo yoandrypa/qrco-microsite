@@ -26,7 +26,7 @@ const SocialInfo = dynamic(() => import("./qr/microsites/SocialInfo"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
 const FindMe = dynamic(() => import("./qr/microsites/FindMe"));
 const SamplesList = dynamic(() => import("./SamplesList"));
-
+const Inventory = dynamic(()=> import("./qr/microsites/Inventory"));
 interface MainCompProps {
   newData: any;
 }
@@ -131,6 +131,9 @@ export default function MainComponent({ newData }: MainCompProps) {
     }
     if(data?.qrType === "findMe"){
       return <FindMe newData={data} />
+    }
+    if(data?.qrType === "inventory"){
+      return <Inventory newData={{...data, iframed: iframed.current}} />
     }
 
     return (

@@ -1,0 +1,30 @@
+{
+    "isDynamic": true,
+    "otherDetails": {
+        "heading": "Location",
+        "items": [
+            {
+                "label": "City",
+                "value": "New York"
+            },
+            {
+                "label": "Warehouse",
+                "value": "Central Park"
+            },
+            {
+                "label": "Area",
+                "value": "South"
+            }
+        ]
+    },
+    "product": {
+        "titleAbout": "Joel's Coffee",
+        "descriptionAbout": "The Mayor favorite coffee",
+        "sku": "COF1234EA",
+        "quantity": 7
+    },
+    "qrName": "Coffee",
+    "qrType": "inventory",
+    "shortlinkurl": "Ebanux",
+    "iframed": true
+}
