@@ -25,17 +25,13 @@ const renderContactSupport = () => (
 export default function Handler ({
   data,
   code,
-  preGenerated,
-  userId,
-  createdAt,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
 
   useEffect(() => {
     setRoute(window.location.href);
   }, []);
-
-  if (["NO DATA", "CLAIMABLE"].includes(data)) {
+  if (["NO DATA", "CLAIMABLE", "PRE-GENERATED"].includes(data)) {
     return (
       <MainMicrosite data={{}}>
         <Box sx={{
@@ -62,7 +58,7 @@ export default function Handler ({
                   {"."}
                 </Typography>
               </>
-            ) : preGenerated ? (
+            ) : data === "PRE-GENERATED" ? (
               <Box sx={{ width: "400px" }}>
                 <Alert severity="info" variant="outlined" sx={{ mt: 10 }}>
                   <AlertTitle>
@@ -84,14 +80,12 @@ export default function Handler ({
                         startIcon={<ThumbUpIcon/>}
                         onClick={() => {
                           window.location.href = process.env.REACT_APP_QRCO_URL +
-                            "/qr/type?address=" + code +
-                            "&userId=" + userId +
-                            "&createdAt=" + createdAt;
+                            "/qr/type?address=" + code;
                         }}>
                   {"Claim Now!"}
                 </Button>
               </Box>
-            ) : (
+            ) : data === "CLAIMABLE" ? (
               <Box sx={{ width: "400px" }}>
                 <Alert severity="info" variant="outlined" sx={{ mt: 10 }}>
                   <AlertTitle>
@@ -118,7 +112,7 @@ export default function Handler ({
                   {"Claim Now!"}
                 </Button>
               </Box>
-            )}
+            ) : (<>SOME</>)}
           </Box>
         </Box>
       </MainMicrosite>
@@ -137,7 +131,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     let link = await queries.link.getByAddress(code);
 
     if (!link) {
-      link = queries.preGenerated.get(code);
+      link = await queries.preGenerated.get(code);
       if (link) {
         return {
           props: {
@@ -200,9 +194,9 @@ export const getServerSideProps: GetServerSideProps = async ({
         }),
       },
     };
-  } catch {
+  } catch (e: any) {
     return {
-      props: { data: "CLAIMABLE", code, preGenerated: false },
+      props: { data: "CLAIMABLE", code },
       // notFound: true,
     };
   }
