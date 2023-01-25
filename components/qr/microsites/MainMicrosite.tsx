@@ -156,7 +156,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             sx={{
               filter: 'opacity(0.75) contrast(0.75) blur(10px)',
               width: 'calc(100% + 20px)',
-              minHeight: 'calc(100vh  + 20px)',
+              minHeight: 'calc(100vh + 20px)',
               objectFit: 'cover',
               position: 'fixed',
               top: '-10px',
