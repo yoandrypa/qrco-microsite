@@ -23,6 +23,18 @@
         "sku": "COF1234EA",
         "quantity": 7
     },
+    "backgndImg": [
+        {
+            "name": "6a19514d-7a40-4a8d-96de-aaeb3a420c33.jpeg",
+            "Key": "linkedLabels/8.jpeg"
+        }
+    ],
+    "files": [
+        {
+            "name": "9.jpeg",
+            "Key": "linkedLabels/9.jpeg"
+        }
+    ],
     "qrName": "Coffee",
     "qrType": "inventory",
     "shortlinkurl": "Ebanux",

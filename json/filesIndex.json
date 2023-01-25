@@ -95,7 +95,20 @@
       "file":"linkedLabel",
       "desc":"A smart label to use on packages and bags",
       "name":"Linked Label"
+    },
+    {
+      "type":"findMe",
+      "file":"findMe",
+      "desc":"A smart label to use on packages and bags to find the owner",
+      "name":"Find Me"
+    },
+    {
+      "type":"inventory",
+      "file":"inventory",
+      "desc":"A smart label to tag your inventory",
+      "name":"Inventory"
     }
+
 
   ]
 }

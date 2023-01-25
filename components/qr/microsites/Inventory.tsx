@@ -17,10 +17,10 @@ const RenderKeyValueFields = dynamic(
 );
 const RenderProduct = dynamic(() => import('./contents/RenderProduct'));
 export default function Inventory({ newData }: InventoryProps) {
-  console.log(JSON.stringify(newData));
+  // console.log(JSON.stringify(newData));
   const isSections = Boolean(newData.layout?.startsWith('sections'));
-  console.log('RenderProduct Microsite');
-  console.log({newData});
+  // console.log('RenderProduct Microsite');
+  // console.log({newData});
   return (
     <MainMicrosite data={newData}>
       <Box sx={{ p: 2 }}>
