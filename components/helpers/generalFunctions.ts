@@ -14,15 +14,6 @@ export const ensureDate = (date: number | string) => new Date(typeof date === 's
 
 export function humanDate(date: number | string, locale: string = 'en', long?: boolean) {
   const d = ensureDate(date);
-  const compare = new Date();
-  if (d.toDateString() === compare.toDateString()) {
-    return "Today";
-  }
-  compare.setDate(compare.getDate() - 1);
-  if (d.toDateString() === compare.toDateString()) {
-    return "Yesterday";
-  }
-  compare.setDate(compare.getDate() + 1);
 
   const returning = d.toLocaleDateString(locale, {
     weekday: !long ? undefined : 'long',
@@ -30,7 +21,7 @@ export function humanDate(date: number | string, locale: string = 'en', long?: b
     day: 'numeric'
   });
 
-  return `${returning}${compare.getFullYear() !== d.getFullYear() || long ? `, ${d.getFullYear()}` : ''}`;
+  return `${returning}${`, ${d.getFullYear()}`}`;
 }
 
 export function getExtension(mimeType: string): string {
