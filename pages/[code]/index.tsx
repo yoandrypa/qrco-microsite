@@ -1,36 +1,31 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import DangerousIcon from "@mui/icons-material/Dangerous";
-import EngineeringIcon from "@mui/icons-material/Engineering";
-import { generateShortLink } from "../../utils";
+import {generateShortLink} from "../../utils";
 import queries from "../../queries";
 import * as VisitHandler from "../../handlers/visit";
 import MainComponent from "../../components/MainComponent";
 import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import InfoIcon from "@mui/icons-material/Info";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
 const renderContactSupport = () => (
-  <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer"
-     style={{ color: "royalblue" }}>{"here"}</a>
+  <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer" style={{ color: "royalblue" }}>{"here"}</a>
 );
 
 // @ts-ignore
-export default function Handler ({
-  data,
-  code,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
 
   useEffect(() => {
     setRoute(window.location.href);
   }, []);
+
   if (["NO DATA", "CLAIMABLE", "PRE-GENERATED"].includes(data)) {
     return (
       <MainMicrosite data={{}}>
@@ -78,10 +73,7 @@ export default function Handler ({
                 <Button variant="outlined" color="info" sx={{ mt: "20px" }}
                         size="small"
                         startIcon={<ThumbUpIcon/>}
-                        onClick={() => {
-                          window.location.href = process.env.REACT_APP_QRCO_URL +
-                            "/qr/type?address=" + code;
-                        }}>
+                        onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
                   {"Claim Now!"}
                 </Button>
               </Box>
@@ -105,10 +97,7 @@ export default function Handler ({
                 <Button variant="outlined" color="info" sx={{ mt: "20px" }}
                         size="small"
                         startIcon={<ThumbUpIcon/>}
-                        onClick={() => {
-                          window.location.href = process.env.REACT_APP_QRCO_URL +
-                            "/qr/type?address=" + code;
-                        }}>
+                        onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
                   {"Claim Now!"}
                 </Button>
               </Box>
@@ -180,7 +169,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       }),
 
       // Increment the visit count
-      queries.link.incrementVisit(userId, createdAt, link.visitCount),
+      queries.link.incrementVisit(userId, createdAt, link.visitCount)
     ]);
 
     // @ts-ignore
@@ -190,13 +179,13 @@ export const getServerSideProps: GetServerSideProps = async ({
           ...qr,
           shortLinkId: link,
           shortlinkurl: generateShortLink(link.address,
-            link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN),
+            link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
       },
     };
   } catch (e: any) {
     return {
-      props: { data: "CLAIMABLE", code },
+      props: { data: "CLAIMABLE", code }
       // notFound: true,
     };
   }
