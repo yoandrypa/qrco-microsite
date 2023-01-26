@@ -1,11 +1,19 @@
-export function dateConverter(epoch: number | string) {
-  return (
-    epoch.toString().length === 13 ? new Date(Number.parseInt(`${epoch}`)) : new Date(Number.parseInt(`${epoch}`) * 1000)
-  );
+function padTo2Digits(num: number | string): string {
+  return num.toString().padStart(2, '0');
 }
 
+export function formatDate(date: Date) {
+  return [
+    padTo2Digits(date.getMonth() + 1),
+    padTo2Digits(date.getDate()),
+    date.getFullYear(),
+  ].join('/');
+}
+
+export const ensureDate = (date: number | string) => new Date(typeof date === 'string' ? Number.parseInt(date) : date);
+
 export function humanDate(date: number | string, locale: string = 'en', long?: boolean) {
-  const d = dateConverter(date);
+  const d = ensureDate(date);
   const compare = new Date();
   if (d.toDateString() === compare.toDateString()) {
     return "Today";
@@ -61,8 +69,3 @@ export function getExtension(mimeType: string): string {
 
 export const GALLERY = ["gallery", "image"];
 export const ASSETS = ["pdf", "audio", "video"];
-
-export interface ContainerProps {
-  width: number;
-  height: number;
-}
