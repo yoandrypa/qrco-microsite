@@ -56,7 +56,7 @@ export default function RenderLinks({newData, sectionName}: LinksProps) {
             renderBtn(x, `btn2n${index}`, index === 0)
           ))}
           <Box sx={{my: 2, display: 'inline-flex'}}>
-            <RenderSocials newData={newData} onlyIcons/>
+            <RenderSocials newData={newData} />
           </Box>
           {newData.links.slice().splice(-Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
             renderBtn(x, `btn3d${index}`, false)

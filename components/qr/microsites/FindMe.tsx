@@ -52,7 +52,7 @@ export default function FindMe({ newData }: FindMeProps) {
               display: 'flex',
               justifyContent: 'center'
             }}>
-            <RenderSocials newData={newData} onlyIcons />
+            <RenderSocials newData={newData} />
           </Box>
         </Grid>
       </Box>

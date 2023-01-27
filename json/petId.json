@@ -39,6 +39,7 @@
   "web": "fido.link",
   "petYearOfBirth": "2019",
   "state": "NY",
+  "socialsOnlyIcons": true,
   "fax": "+568877",
   "socials": [
     {

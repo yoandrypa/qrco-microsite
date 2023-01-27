@@ -80,6 +80,7 @@
   ],
   "id": "31f4f2e4-6121-459e-a76a-3a877d27d8b1",
   "secondary": "#cef6c9",
+  "socialsOnlyIcons": true,
   "primary": "#187510",
   "titleAbout": "Annie Photographer"
 }

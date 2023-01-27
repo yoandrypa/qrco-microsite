@@ -22,7 +22,6 @@ const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper")
 
 interface RenderSocialsProps {
   newData: any;
-  onlyIcons?: boolean;
   desc?: string;
   bold?: boolean;
   isSections?: boolean;
@@ -39,7 +38,7 @@ interface RenderSocialsProps {
  * @param sectionName
  * @constructor
  */
-export default function RenderSocials({newData, onlyIcons, desc, bold, isSections, sectionName}: RenderSocialsProps) {
+export default function RenderSocials({newData, desc, bold, isSections, sectionName}: RenderSocialsProps) {
   const theming = useTheme();
 
   const [hideTooltips, setHideToolTips] = useState<boolean>(false);
@@ -95,7 +94,7 @@ export default function RenderSocials({newData, onlyIcons, desc, bold, isSection
     url += `${value}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
     let label = item.network !== 'linkedin' ? capitalize(item.network) : 'LinkedIn';
 
-    if (onlyIcons) {
+    if (newData.socialsOnlyIcons) {
       return (
         <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
           <IconButton target="_blank" component="a" href={url}>
@@ -146,7 +145,7 @@ export default function RenderSocials({newData, onlyIcons, desc, bold, isSection
 
   const render = () => (
     <>
-      {!onlyIcons ? (
+      {!newData.socialsOnlyIcons ? (
         <Grid item xs={12} sx={{display: 'flex', my: 2}}>
           <GroupsIcon sx={{color: theming.palette.primary.main, mt: '5px'}}/>
           <Box sx={{ml: 1}}>
