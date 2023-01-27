@@ -17,7 +17,12 @@ export default function RenderProduct({
   subtitleType,
   isSections
 }: RenderProductProps) {
-  
+  console.log({ font: handleFont(newData, 't') });
+  const fontSize =
+    (
+      Number.parseInt(handleFont(newData, 't').fontSize.split('px')[0]) + 10
+    ).toString() + 'px';
+  console.log({ fontSize, test: 'ttt' });
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -25,30 +30,61 @@ export default function RenderProduct({
           newData={{
             ...newData,
             titleAbout: newData?.product?.titleAbout || newData.name,
-            descriptionAbout: newData?.product?.descriptionAbout||''
+            descriptionAbout: newData?.product?.descriptionAbout || ''
           }}
           subtitleType={subtitleType}
           isSections={isSections}
         />
       </Grid>
-      {newData?.product?.quantity&&(
-      <Grid container item alignItems='center' justifyContent='center'>
-        <Typography sx={{...handleFont(newData,'t')}}>
-          Quantity:{newData.product.quantity}
-        </Typography>
-      </Grid>
+      {newData?.product?.quantity && (
+        <Grid container item alignItems="center" justifyContent="center">
+          <Grid
+            container
+            item
+            xs={12}
+            alignItems="center"
+            justifyContent="center">
+            <Typography sx={{ ...handleFont(newData, 's') }}>
+              Quantity:
+            </Typography>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            alignItems="center"
+            justifyContent="center">
+            <Typography sx={{ ...handleFont(newData, 't'), fontSize }}>
+              {newData.product.quantity}
+            </Typography>
+          </Grid>
+        </Grid>
       )}
-      {newData?.product?.sku&&(
-      <Grid container item alignItems='center' justifyContent='center'>
-        <Typography sx={{...handleFont(newData,'t')}}>
-          SKU: {newData.product.sku}
-        </Typography>
-      </Grid>
+      {newData?.product?.sku && (
+        <Grid container item alignItems="center" justifyContent="center">
+          <Grid
+            container
+            item
+            xs={12}
+            alignItems="center"
+            justifyContent="center">
+            <Typography sx={{ ...handleFont(newData, 's') }}>SKU:</Typography>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            alignItems="center"
+            justifyContent="center">
+            <Typography sx={{ ...handleFont(newData, 't'), fontSize }}>
+              {newData.product.sku}
+            </Typography>
+          </Grid>
+        </Grid>
       )}
       <Grid item xs={12}>
-        <RenderGallery newData={{...newData}} />
+        <RenderGallery newData={{ ...newData }} />
       </Grid>
-
     </Grid>
   );
 }

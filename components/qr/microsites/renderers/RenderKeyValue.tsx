@@ -16,7 +16,7 @@ export default function RenderKeyValueFields ({
       return <></>;
   
     return (
-      <>
+      <Grid container>
         <Grid item xs={1} key={`${item}Icon`}>
           {type === 'link' ? (
             <Link sx={{ color: theme => theme.palette.primary.main }} />
@@ -48,6 +48,6 @@ export default function RenderKeyValueFields ({
             })}
           </Grid>
         </Grid>
-      </>
+      </Grid>
     );
   };
