@@ -32,6 +32,15 @@ export default function FindMe({ newData }: FindMeProps) {
             type="default"
           />
           <RenderKeyValueFields newData={newData} item="urls" type="link" />
+          <Box
+            sx={{
+              width: '100%',
+              mt: 2,
+              display: 'flex',
+              justifyContent: 'center'
+            }}>
+            <RenderSocials newData={newData}  />
+          </Box>    
           {newData.contactForm !== undefined && (
             <Grid item xs={12} alignContent={'center'} alignItems={'center'}>
               <RenderContactForm
