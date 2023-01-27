@@ -17,7 +17,6 @@ export default function RenderProduct({
   subtitleType,
   isSections
 }: RenderProductProps) {
-  console.log({ font: handleFont(newData, 't') });
   const fontSize =
     (
       Number.parseInt(handleFont(newData, 't').fontSize.split('px')[0]) + 10
