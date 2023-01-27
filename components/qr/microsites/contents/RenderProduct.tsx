@@ -22,7 +22,6 @@ export default function RenderProduct({
     (
       Number.parseInt(handleFont(newData, 't').fontSize.split('px')[0]) + 10
     ).toString() + 'px';
-  console.log({ fontSize, test: 'ttt' });
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
