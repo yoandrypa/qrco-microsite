@@ -1,36 +1,10 @@
-import {GetServerSideProps} from "next";
-import {DEVELOP} from "../components/qr/constants";
 import {useEffect} from "react";
 import PleaseWait from "../components/PleaseWait";
 
-interface Props {
-  redirect?: boolean;
-}
-
-export default function Main ({redirect}: Props) {
+export default function Main () {
   useEffect(() => {
-    if (redirect) {
-      window.location.href = 'https://theqr.link/';
-    }
-  }, [redirect]);
+    window.location.href = 'https://theqr.link/';
+  }, []);
 
-  return (<PleaseWait redirecting={redirect} />);
+  return (<PleaseWait redirecting />);
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  if (!DEVELOP) {
-    return {
-      props: {
-        redirect: true
-      }
-    };
-  }
-
-  return {
-    redirect: {
-      permanent: false,
-      destination: "/sample"
-    },
-    props:{}
-  };
-};

@@ -1,36 +1,32 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import DangerousIcon from "@mui/icons-material/Dangerous";
-import EngineeringIcon from "@mui/icons-material/Engineering";
-import { generateShortLink } from "../../utils";
+import {generateShortLink} from "../../utils";
 import queries from "../../queries";
 import * as VisitHandler from "../../handlers/visit";
 import MainComponent from "../../components/MainComponent";
 import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import InfoIcon from "@mui/icons-material/Info";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 const renderContactSupport = () => (
-  <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer"
-     style={{ color: "royalblue" }}>{"here"}</a>
+  <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer" style={{ color: "royalblue" }}>{"here"}</a>
 );
 
 // @ts-ignore
-export default function Handler ({
-  data,
-  code,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
 
   useEffect(() => {
     setRoute(window.location.href);
   }, []);
 
-  if (["NO DATA", "NOT FOUND", "CLAIMABLE"].includes(data)) {
+  if (["NO DATA", "CLAIMABLE", "PRE-GENERATED"].includes(data)) {
     return (
       <MainMicrosite data={{}}>
         <Box sx={{
@@ -57,45 +53,55 @@ export default function Handler ({
                   {"."}
                 </Typography>
               </>
-            ) : data === "NOT FOUND" ? (
-              <>
-                <EngineeringIcon color="info"
-                                 sx={{ mx: "auto", mb: 2, fontSize: "50px" }}/>
-                <Typography sx={{
-                  fontWeight: "bold",
-                  mb: 2,
-                }}>{"Your request cannot be processed at this time."}</Typography>
-                <Typography>{"The requested short URL is not ready, or it does not exist. Maybe you forgot to save your microsite's data."}</Typography>
-                <Typography
-                  sx={{ mb: 2 }}>{"Please, check your data and retry within a moment."}</Typography>
-                {/*<Typography sx={{ color: theme => theme.palette.text.disabled, mt: 2 }}>*/}
-                <Typography
-                  sx={{ color: theme => theme.palette.text.disabled }}>
-                  {"This is not an error."}
-                </Typography>
-                <Typography
-                  sx={{ color: theme => theme.palette.text.disabled }}>
-                  {"You can reach support by clicking "}
-                  {renderContactSupport()}
-                  {" for more information."}
-                </Typography>
-              </>
-            ) : (
-              <>
-                <Typography sx={{ mt: 3 }}>
-                  <InfoIcon color="info" fontSize="small" sx={{ mb: "-4px" }}/>
-                  {`Alternatively, you can hit next button to claim this shortlink (${route}) as yours.`}
-                </Typography>
-                <Button variant="outlined" color="info" sx={{ mt: "10px" }}
+            ) : data === "PRE-GENERATED" ? (
+              <Box sx={{ width: "400px" }}>
+                <Alert severity="info" variant="outlined" sx={{ mt: 10 }}>
+                  <AlertTitle>
+                    <Typography align="justify">
+                      Congratulations! You have successfully scanned a QR code
+                      associated with a QRLynk product.
+                    </Typography>
+                  </AlertTitle>
+                  <Typography align="justify" variant="body2" sx={{ mt: 2 }}>
+                    {`By claiming this QR Link (${route}), you can
+                      personalize the microsite and customize its content. This is
+                      a one-time process and it's free. Once you claim the QR
+                      Link, you will have full control over its content and
+                      appearance. Claim now to get started!`}
+                  </Typography>
+                </Alert>
+                <Button variant="outlined" color="info" sx={{ mt: "20px" }}
+                        size="small"
                         startIcon={<ThumbUpIcon/>}
-                        onClick={() => {
-                          window.location.href = process.env.REACT_APP_QRCO_URL +
-                            "/qr/type?address=" + code;
-                        }}>
+                        onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
                   {"Claim Now!"}
                 </Button>
-              </>
-            )}
+              </Box>
+            ) : data === "CLAIMABLE" ? (
+              <Box sx={{ width: "400px" }}>
+                <Alert severity="info" variant="outlined" sx={{ mt: 10 }}>
+                  <AlertTitle>
+                    <Typography align="justify">
+                      {`The QR Link (${route}) you are trying to access does not currently exist.`}
+                    </Typography>
+                  </AlertTitle>
+                  <Typography align="justify" variant="body2" sx={{ mt: 2 }}>
+                    However, you have the opportunity to claim it and create a
+                    personalized microsite for it. By claiming this QR Link, you
+                    can customize its content and appearance. This is a one-time
+                    process, but you might need to purchase a plan that includes
+                    the number of Dynamic QR codes you want to claim. Claim now
+                    to get started!
+                  </Typography>
+                </Alert>
+                <Button variant="outlined" color="info" sx={{ mt: "20px" }}
+                        size="small"
+                        startIcon={<ThumbUpIcon/>}
+                        onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
+                  {"Claim Now!"}
+                </Button>
+              </Box>
+            ) : (<>SOME</>)}
           </Box>
         </Box>
       </MainMicrosite>
@@ -111,9 +117,31 @@ export const getServerSideProps: GetServerSideProps = async ({
   // @ts-ignore
   const { code } = params;
   try {
-    const link = await queries.link.getByAddress(code);
-    if (link.claimable) {
-      return { props: { data: "CLAIMABLE", code } };
+    let link = await queries.link.getByAddress(code);
+
+    if (!link) {
+      link = await queries.preGenerated.get(code);
+      if (link) {
+        return {
+          props: {
+            data: "PRE-GENERATED",
+            code,
+          },
+        };
+      }
+      return {
+        props: {
+          data: "CLAIMABLE",
+          code,
+        },
+      };
+    } else if (link.claimable === true) {
+      return {
+        props: {
+          data: "CLAIMABLE",
+          code,
+        },
+      };
     }
 
     if (link.paused) {
@@ -141,7 +169,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       }),
 
       // Increment the visit count
-      queries.link.incrementVisit(userId, createdAt, link.visitCount),
+      queries.link.incrementVisit(userId, createdAt, link.visitCount)
     ]);
 
     // @ts-ignore
@@ -151,13 +179,13 @@ export const getServerSideProps: GetServerSideProps = async ({
           ...qr,
           shortLinkId: link,
           shortlinkurl: generateShortLink(link.address,
-            link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN),
+            link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
       },
     };
-  } catch {
+  } catch (e: any) {
     return {
-      props: { data: "CLAIMABLE", code },
+      props: { data: "CLAIMABLE", code }
       // notFound: true,
     };
   }

@@ -1,20 +1,19 @@
-export function dateConverter(epoch: number | string) {
-  return (
-    epoch.toString().length === 13 ? new Date(Number.parseInt(`${epoch}`)) : new Date(Number.parseInt(`${epoch}`) * 1000)
-  );
+function padTo2Digits(num: number | string): string {
+  return num.toString().padStart(2, '0');
 }
 
+export function formatDate(date: Date) {
+  return [
+    padTo2Digits(date.getMonth() + 1),
+    padTo2Digits(date.getDate()),
+    date.getFullYear(),
+  ].join('/');
+}
+
+export const ensureDate = (date: number | string) => new Date(typeof date === 'string' ? Number.parseInt(date) : date);
+
 export function humanDate(date: number | string, locale: string = 'en', long?: boolean) {
-  const d = dateConverter(date);
-  const compare = new Date();
-  if (d.toDateString() === compare.toDateString()) {
-    return "Today";
-  }
-  compare.setDate(compare.getDate() - 1);
-  if (d.toDateString() === compare.toDateString()) {
-    return "Yesterday";
-  }
-  compare.setDate(compare.getDate() + 1);
+  const d = ensureDate(date);
 
   const returning = d.toLocaleDateString(locale, {
     weekday: !long ? undefined : 'long',
@@ -22,11 +21,14 @@ export function humanDate(date: number | string, locale: string = 'en', long?: b
     day: 'numeric'
   });
 
-  return `${returning}${compare.getFullYear() !== d.getFullYear() || long ? `, ${d.getFullYear()}` : ''}`;
+  return `${returning}${`, ${d.getFullYear()}`}`;
 }
 
 export function getExtension(mimeType: string): string {
   const types = {
+    'audio': 'mp3',
+    'pdf': 'pdf',
+    'video': 'mpg',
     'image/gif': 'gif',
     'image/jpeg': 'jpg',
     'image/png': 'png',
@@ -58,8 +60,3 @@ export function getExtension(mimeType: string): string {
 
 export const GALLERY = ["gallery", "image"];
 export const ASSETS = ["pdf", "audio", "video"];
-
-export interface ContainerProps {
-  width: number;
-  height: number;
-}

@@ -35,13 +35,21 @@ export function downloadVCard(data: any) {
   handleDownload(contents, 'text/plain', 'my vcard.vcf', true);
 }
 
-export function handleDownloadFiles(data: FileType, kind: string) {
-  const type = data.type as string;
+export function handleDownloadFiles(data: FileType | string, kind: string) {
+  let type: string;
+  let content: string;
+  if (typeof data === 'string') {
+    type = kind;
+    content = data;
+  } else {
+    type = data.type as string;
+    content = data.content;
+  }
   let extension = getExtension(type);
   if (extension.includes('/')) {
     extension = type.split('/')[1];
   }
-  handleDownload(data.content, type, `my ${kind}.${extension}`);
+  handleDownload(content, type, `my ${kind}.${extension}`);
 }
 
 /**
@@ -172,5 +180,18 @@ export const getBase64FromUrl = async (url: string) => {
         resolve(base64data);
       }, 100);
     }
+  });
+};
+
+export const convertBase64 = (file: Blob | File): object => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = error => {
+      reject(error);
+    };
   });
 };

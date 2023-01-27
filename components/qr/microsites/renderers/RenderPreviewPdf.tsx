@@ -1,6 +1,11 @@
-import dynamic from "next/dynamic";
-import Box from "@mui/material/Box";
 import {useEffect, useRef, useState} from "react";
+import Box from "@mui/material/Box";
+import {grey} from "@mui/material/colors";
+
+// despite the PdfViewer component will always be available, and it is a single component it has to be
+// loaded dynamically in client side. notice it is loaded clientside (ssr: false).
+
+import dynamic from "next/dynamic";
 const PdfViewer = dynamic(() => import('./helpers/PdfViewer'), {ssr: false});
 
 interface RenderPreviewPdf {
@@ -31,7 +36,7 @@ export default function RenderPreviewPdf({content, exitFullScreen, height, isFul
   }, []);
 
   return (
-    <Box ref={ref}>
+    <Box ref={ref} sx={{border: `solid 1px ${grey[200]}`, mb: 1, borderRadius: '4px'}}>
       <PdfViewer
         content={content}
         width={height !== undefined ? undefined : width}

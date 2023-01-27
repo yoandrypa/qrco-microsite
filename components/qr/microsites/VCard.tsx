@@ -42,7 +42,7 @@ export default function VCard({newData}: {newData: any;}) {
               !isSections ? <RenderEmailWeb newData={newData} /> : <RenderSectWrapper><RenderEmailWeb newData={newData} /></RenderSectWrapper>
             )}
             {x === 2 && <Box sx={{width: '100%', mt: !isSections ? '5px' : 0, display: 'flex', justifyContent: 'center'}}>
-              <RenderSocials newData={newData} onlyIcons isSections={isSections}/>
+              <RenderSocials newData={newData} isSections={isSections}/>
             </Box>}
           </Box>
         ))}

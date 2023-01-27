@@ -154,12 +154,12 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         {backImg && (
           <Box component="img" alt="backgimage" src={backImg.content || backImg}
             sx={{
-              filter: 'opacity(0.87) contrast(0.75) blur(5px)',
+              filter: 'opacity(0.75) contrast(0.75) blur(10px)',
               width: 'calc(100% + 20px)',
-              maxHeight: '100%',
+              minHeight: 'calc(100vh + 20px)',
               objectFit: 'cover',
               position: 'fixed',
-              top: '-185px',
+              top: '-10px',
               left: '-10px'
             }}
           />
@@ -172,7 +172,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         position: 'relative',
         backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
         backgroundImage: !data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.p}, ${data.backgroundColorRight || DEFAULT_COLORS.s})`) : '#fff'),
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'),
         left: '50%',
         transform: 'translate(-50%, 0)',
         maxWidth: isWide ? '475px' : '100%',
