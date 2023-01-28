@@ -14,7 +14,7 @@ export default function LinksMicro({newData}: {
 
   const renderSocials = (sx?: object) => (
     <Box sx={{...sx, display: 'inline-flex'}}>
-      <RenderSocials newData={newData} onlyIcons/>
+      <RenderSocials newData={newData} />
     </Box>
   );
 

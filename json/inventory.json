@@ -4,16 +4,7 @@
         "heading": "Location",
         "items": [
             {
-                "label": "City",
-                "value": "New York"
-            },
-            {
-                "label": "Warehouse",
-                "value": "Central Park"
-            },
-            {
-                "label": "Area",
-                "value": "South"
+                "value": "Row 5 Shelf A23"
             }
         ]
     },

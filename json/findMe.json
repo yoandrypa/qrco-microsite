@@ -40,6 +40,7 @@
     },
     "qrType": "findMe",
     "state": "San Fransisco",
+    "socialsOnlyIcons": true,
     "socials": [
         {
             "value": "yo",
