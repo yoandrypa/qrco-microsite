@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
 
+const RenderImages = dynamic(() => import("./contents/RenderImages"));
 const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
 const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
 const RenderOpeningTime = dynamic(() => import("./contents/RenderOpeningTime"));
@@ -85,6 +86,9 @@ export default function Custom({newData}: CustomProps) {
               )}
               {component === 'socials' && <RenderSocials newData={newData} isSections={isSections} sectionName={name}/>}
               {component === 'title' && <RenderTitleDesc newData={newData} isSections={isSections}/>}
+              {component === 'photos' && (
+                <RenderImages newData={newData} isSections={isSections} wrapped sectionName={newData.includeDescription ? name || 'Photos' : undefined}/>
+              )}
             </Box>
           )
         })}

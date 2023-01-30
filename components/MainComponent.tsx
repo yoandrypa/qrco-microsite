@@ -92,7 +92,7 @@ export default function MainComponent({ newData }: MainCompProps) {
     }
 
     if (data?.qrType === "custom") {
-      return <Custom newData={data} />;
+      return <Custom newData={{ ...data, iframed: iframed.current }} />;
     }
 
     if (data?.qrType === "business") {
