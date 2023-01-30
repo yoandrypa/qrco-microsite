@@ -1,65 +1,64 @@
-import {memo} from "react";
+import {memo, useRef} from "react";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
-import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import {alpha} from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
 
 interface VolumeProps {
   volume: number;
   setVolume: (volume: number) => void;
-  audio?: HTMLAudioElement;
   sx?: object;
 }
 
-const VolumeHandler = ({volume, setVolume, audio, sx}: VolumeProps) => {
+const VolumeHandler = ({volume, setVolume, sx}: VolumeProps) => {
+  const prevVol = useRef<number>(volume);
+
   const handleVolume = (event: Event, newValue: number | number[]) => {
     const vol = newValue as number;
-    if (audio) {
-      audio.volume = vol / 100;
-    }
+    prevVol.current = vol;
     setVolume(vol);
   };
 
+  const muteVol = () => {
+    if (volume !== 0) {
+      setVolume(0);
+    } else {
+      setVolume(prevVol.current !== 0 ? prevVol.current : 50);
+    }
+  }
+
   return (
-    <Box sx={{...sx, width: '100%'}}>
-      <Box sx={{width: '100%', display: 'flex'}}>
-        <VolumeDownIcon fontSize="small" sx={{
-          color: theme => alpha(theme.palette.primary.light, 0.3), mt: '5px'
-        }} />
-        <Box sx={{width: '100%'}}>
-          <Box sx={{width: '100%', position: 'relative'}}>
-            <Box sx={{
-              top: '5px',
-              position: 'absolute',
-              width: '100%',
-              height: '8px',
-              right: '-10px',
-              clipPath: 'polygon(0 8px, 100% 8px, 100% 0px)',
-              background: theme => alpha(theme.palette.primary.light, 0.3)
-            }} />
-            <Box sx={{
-              top: '17px',
-              position: 'absolute',
-              width: '100%',
-              height: '8px',
-              right: '-10px',
-              clipPath: 'polygon(0 0, 100% 0, 100% 8px)',
-              background: theme => alpha(theme.palette.primary.light, 0.3)
-            }} />
-          </Box>
-          <Slider
-            value={volume}
-            onChange={handleVolume}
-            min={0}
-            max={100}
-            sx={{mx: '10px'}}
-          />
-        </Box>
-        <VolumeUpIcon sx={{
-          color: theme => alpha(theme.palette.primary.light, 0.3), mt: '2px', ml: '20px'
-        }} />
-      </Box>
+    <Box sx={{...sx, width: '100%', display: 'flex'}}>
+      <Slider
+        size="small"
+        value={volume}
+        onChange={handleVolume}
+        min={0}
+        max={100}
+        sx={{
+          width: 'calc(100% - 20px)',
+          mt: {sm: 0, xs: '-6px'},
+          mr: '10px',
+          '& .MuiSlider-rail': {
+            height: '15px', borderRadius: 0,
+            clipPath: 'polygon(0 15px, 100% 15px, 100% 0px)'
+          },
+          '& .MuiSlider-track': {
+            display: 'none'
+          },
+          '& .MuiSlider-thumb': {
+            borderRadius: 0,
+            width: '5px',
+            height: '15px'
+          }
+        }}
+      />
+      <IconButton sx={{mt: '2px', width: '25px', height: '25px'}} onClick={muteVol}>
+        {volume > 0 ? <VolumeUpIcon sx={{color: theme => alpha(theme.palette.primary.light, 0.3)}}/> :
+          <VolumeOffIcon sx={{color: theme => alpha(theme.palette.primary.light, 0.3)}}/>}
+      </IconButton>
     </Box>
   )
 }
