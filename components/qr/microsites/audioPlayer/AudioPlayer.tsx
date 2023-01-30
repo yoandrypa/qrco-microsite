@@ -3,8 +3,15 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import VolumeHandler from "./VolumeHandler";
-import HeaderHandler from "./HeaderHandler";
 import HandlePlayerButtons from "./HandlePlayerButtons";
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import IconButton from "@mui/material/IconButton";
+import RepeatIcon from '@mui/icons-material/Repeat';
+import {styled} from "@mui/material/styles";
+import {grey} from "@mui/material/colors";
+
 import {convertBase64} from "../renderers/helper";
 
 const timeString = (secs: number) => {
@@ -15,71 +22,97 @@ const timeString = (secs: number) => {
   }
 };
 
+const Text = styled(Typography)(() => ({
+  color: grey[500],
+  fontSize: '12px'
+}));
+
+const Button = styled(IconButton)(() => ({
+  width: '20px', height: '20px', borderRadius: '4px'
+}));
+
+const CHEIGHT = 70;
+
 export default function AudioPlayer() {
   const interval = useRef<any>(null);
+  const containerRef = useRef<HTMLCanvasElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const audio = useRef<HTMLAudioElement | null>(null);
   const audioCtx = useRef<AudioContext | null>(null);
   const analyser = useRef<AnalyserNode | null>(null);
   const bufferLength = useRef<number>(0);
   const dataArray = useRef<any>([]);
-  const ctx = useRef<any>(null);
 
   const [duration, setDuration] = useState<number | null>(null);
   const [current, setCurrent] = useState<number | null>(null);
   const [playing, setPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(100);
+  const [repeat, setRepeat] = useState<boolean>(false);
 
   const updateCanvas = () => {
+    if (!canvasRef.current) { return; }
+
     requestAnimationFrame(updateCanvas);
     let x = 0;
     let barHeight;
 
-    // @ts-ignore
+    const ctx = canvasRef.current.getContext('2d');
+
+    if (!ctx) { return; }
+
+    const width = canvasRef.current?.width || 320;
+
+    ctx.clearRect(0, 0, width, CHEIGHT);
+
+    const yGrid = CHEIGHT / 4;
+    const xGrid = width / 5;
+
+    ctx.setLineDash([3, 8]);
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgb(0 0 0 / 25%)';
+    ctx.moveTo(0, yGrid);
+    ctx.lineTo(width, yGrid);
+    ctx.moveTo(xGrid, 0);
+    ctx.lineTo(xGrid, CHEIGHT);
+    ctx.moveTo(xGrid * 2, 0);
+    ctx.lineTo(xGrid * 2, CHEIGHT);
+    ctx.moveTo(xGrid * 3, 0);
+    ctx.lineTo(xGrid * 3, CHEIGHT);
+    ctx.moveTo(xGrid * 4, 0);
+    ctx.lineTo(xGrid * 4, CHEIGHT);
+    ctx.moveTo(0, yGrid * 2);
+    ctx.lineTo(width, yGrid * 2);
+    ctx.moveTo(0, yGrid * 3);
+    ctx.lineTo(width, yGrid * 3);
+    ctx.stroke();
+
+    if (!analyser.current) { return; }
+
     analyser.current.getByteFrequencyData(dataArray.current);
+    const barWidth = Math.ceil(width / bufferLength.current) + 1;
 
-    // @ts-ignore
-    const WIDTH = canvasRef.current.width;
-    // @ts-ignore
-    const HEIGHT = canvasRef.current.height;
-
-    const barWidth = WIDTH / bufferLength.current;
-
-    ctx.current.fillStyle = "#fff";
-    ctx.current.fillRect(0, 0, WIDTH, HEIGHT);
-
-    let r, g, b;
-    let bars = 89;
+    let color;
+    const bars = Math.ceil(width / barWidth);
 
     for (let i = 0; i < bars; i++) {
-      barHeight = Math.ceil(dataArray.current[i] * HEIGHT / 255);
+      barHeight = Math.ceil(dataArray.current[i] * CHEIGHT / 255);
 
-      if (dataArray.current[i] > 210){ // pink
-        r = 250;
-        g = 0;
-        b = 0;
-      } else if (dataArray.current[i] > 200){ // yellow
-        r = 40;
-        g = 235;
-        b = 0;
-      } else if (dataArray.current[i] > 190){ // yellow/green
-        r = 5;
-        g = 175;
-        b = 125;
-      } else if (dataArray.current[i] > 180){
-        r = 0;
-        g = 0;
-        b = 250;
+      if (dataArray.current[i] > 210) {
+        color = '#c23d06';
+      } else if (dataArray.current[i] > 200) {
+        color = '#a66f11';
+      } else if (dataArray.current[i] > 190) {
+        color = '#078323';
+      } else if (dataArray.current[i] > 180) {
+        color = '#007dfa';
       } else {
-        r = 25;
-        g = 170;
-        b = 255;
+        color = '#078cd9';
       }
 
-      ctx.current.fillStyle = `rgb(${r},${g},${b})`;
-      ctx.current.fillRect(x, (HEIGHT - barHeight), barWidth, barHeight);
+      ctx.fillStyle = color;
+      ctx.fillRect(x, (CHEIGHT - barHeight), barWidth, barHeight);
 
-      x += barWidth + 2;
+      x += barWidth;
     }
   }
 
@@ -121,13 +154,14 @@ export default function AudioPlayer() {
     setCurrent(pos);
   };
 
-  const renderDuration = useCallback(() => (
-    <Typography variant="caption" sx={{color: theme => theme.palette.text.disabled}}>
-      {`${timeString(duration || 0)}`}
-    </Typography>
-  ), [duration]);
+  const handleRepeat = () => {
+    setRepeat((prevState: boolean) => !prevState);
+  }
+
+  const renderDuration = useCallback(() => <Text>{`${timeString(duration || 0)}`}</Text>, [duration]);
 
   const clear = useCallback(() => {
+    pauseAudio();
     if (interval.current) {
       clearInterval(interval.current);
     }
@@ -137,7 +171,6 @@ export default function AudioPlayer() {
 
   const loader = () => {
     fetch('http://localhost:3001/voltes.mp3')
-    // fetch('http://localhost:3001/tecno.mp3')
       .then(data => data.blob())
       .then(blob => {
         convertBase64(blob) // @ts-ignore
@@ -146,19 +179,11 @@ export default function AudioPlayer() {
             audio.current.src = result;
 
             // @ts-ignore
-            canvasRef.current.width = 270;
-            // @ts-ignore
-            canvasRef.current.height = 70;
-
-            // @ts-ignore
-            ctx.current = canvasRef.current.getContext('2d');
-
-            // @ts-ignore
             const src = audioCtx.current.createMediaElementSource(audio.current); // @ts-ignore
             analyser.current = audioCtx.current.createAnalyser();
             src.connect(analyser.current); // @ts-ignore
             analyser.current.connect(audioCtx.current.destination);
-            analyser.current.fftSize = 512;
+            analyser.current.fftSize = 256;
 
             bufferLength.current = analyser.current.frequencyBinCount;
             dataArray.current = new Uint8Array(bufferLength.current); // values from 0 to 255
@@ -174,8 +199,15 @@ export default function AudioPlayer() {
   }
 
   useEffect(() => {
+    if (audio.current) {
+      audio.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  useEffect(() => {
     if (duration && current && duration > 1 && duration === current) {
       clear();
+      loader();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration, current]);
@@ -183,33 +215,64 @@ export default function AudioPlayer() {
   useEffect(() => { // @ts-ignore
     audioCtx.current =  new (window.AudioContext || window.webkitAudioContext)();
 
+    const calculateContainerWidth = () => {
+      if (containerRef.current && canvasRef.current) {
+        canvasRef.current.width = containerRef.current.clientWidth - 22;
+      }
+    }
+
+    calculateContainerWidth();
+
     loader();
+    updateCanvas();
+
+    window.addEventListener('resize', calculateContainerWidth);
 
     return () => {
+      window.removeEventListener('resize', calculateContainerWidth);
       clear();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Box sx={{ width: '350px', mt: '20px', ml: '20px' }}>
-      <Box sx={{width: '100%', border: 'solid 1px gray', p: 2, borderRadius: '5px'}}>
-        <Box sx={{display: 'flex', mb: '10px'}}>
-          <HeaderHandler />
-          <canvas ref={canvasRef} width={270} height={70} style={{border: 'solid 1px rgb(0 0 0 / 25%)'}} />
-        </Box>
+    <Box sx={{width: {sm: '350px', xs: '100%'}, height: '158px', border: 'solid 1px gray', p: 1, borderRadius: '5px'}} ref={containerRef}>
+      <canvas ref={canvasRef} width={300} height={CHEIGHT} style={{border: 'solid 2px rgb(0 0 0 / 25%)', borderRadius: '5px'}} />
+      <Box sx={{display: 'flex', mt: 1}}>
         <HandlePlayerButtons disabled={audio.current === null} playing={playing} handlePlayPause={handlePlayPause} />
-        <Slider value={current || 0} onChange={handleChange} min={0} max={duration || 0} />
-        {duration !== undefined && (
-          <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', mt: '-8px'}}>
-            <Typography variant="caption" sx={{color: theme => theme.palette.text.disabled}}>
-              {`${timeString(current || 0)}`}
-            </Typography>
+        <Box sx={{width: '100%', ml: '-35px', mt: {sm: '-10px', xs: '-16px'}}}>
+          <Slider
+            value={current || 0}
+            onChange={handleChange}
+            min={0} max={duration || 0}
+            size="small"
+            sx={{ '& .MuiSlider-thumb': {
+              borderRadius: 0,
+              width: '5px'
+            } }} />
+          <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', mt: {sm: '-13px', xs: '-19px'}}}>
+            <Text>{`${timeString(current || 0)}`}</Text>
             {renderDuration()}
           </Box>
-        )}
-        <Box sx={{width: 'calc(100% - 45px)', mx: 'auto'}}>
-          <VolumeHandler volume={volume} setVolume={setVolume} audio={audio.current || undefined} />
+          <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', mt: '-1px'}}>
+            <Box sx={{display: 'flex', ml: '-3px', mt: '5px'}}>
+              <Button disabled>
+                <SkipPreviousIcon />
+              </Button>
+              <Button sx={{ml: '5px'}} disabled>
+                <SkipNextIcon />
+              </Button>
+              <Button sx={{ml: '5px'}} disabled>
+                <ShuffleIcon fontSize="small" />
+              </Button>
+              <Button sx={{ml: '5px'}} onClick={handleRepeat} disabled={audio.current === null}>
+                <RepeatIcon fontSize="small" sx={{color: theme => repeat ? theme.palette.primary.light : theme.palette.text.disabled}} />
+              </Button>
+            </Box>
+            <Box sx={{width: '100%', ml: '5px'}}>
+              <VolumeHandler volume={volume} setVolume={setVolume} />
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

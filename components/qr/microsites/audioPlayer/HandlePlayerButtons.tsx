@@ -3,6 +3,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
+import {indigo} from "@mui/material/colors";
 
 interface Props {
   disabled: boolean;
@@ -15,14 +16,22 @@ interface HandlePlayerButtonsProps extends Props {
 
 const HandlePlayerButtons = ({disabled, playing, handlePlayPause}: HandlePlayerButtonsProps) => {
   return (
-    <Box sx={{width: '100%', textAlign: 'center'}}>
+    <Box sx={{width: '100px'}}>
       <IconButton
-        sx={{background: 'azure', border: theme => `solid 1px ${theme.palette.primary.main}`}}
+        sx={{
+          borderRadius: '5px',
+          width: '40px',
+          height: '50px',
+          background: indigo[400],
+          color: '#fff',
+          '&:hover': {background: indigo[700], color: indigo[200]},
+          border: theme => `solid 1px ${theme.palette.primary.main}`
+        }}
         color="primary"
         disabled={disabled}
         onClick={handlePlayPause}
       >
-        {playing ? <PauseIcon/> : <PlayArrowIcon/>}
+        {playing ? <PauseIcon sx={{fontSize: '35px'}}/> : <PlayArrowIcon sx={{fontSize: '35px'}}/>}
       </IconButton>
     </Box>
   );
