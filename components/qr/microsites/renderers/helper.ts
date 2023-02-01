@@ -161,9 +161,13 @@ export const handleButtons = (data: any, theme: any) => {
       style['&:hover'] = {backgroundImage: `linear-gradient(${angle}, ${color2}, ${color1})`};
     }
   } else { // @ts-ignore
-    style.color = theme.palette.primary.main; // @ts-ignore
     style.background = theme.palette.secondary.main; // @ts-ignore
     style['&:hover'] = {color: theme.palette.secondary.main, background: theme.palette.primary.main};
+  }
+  if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) { // @ts-ignore
+    style.color = `#${data.buttonsFontStyle.split('#')[1]}`;
+  } else { // @ts-ignore
+    style.color = theme.palette.primary.main;
   }
   return style;
 }
