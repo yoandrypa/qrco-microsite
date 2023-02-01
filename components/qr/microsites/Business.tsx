@@ -61,7 +61,11 @@ export default function Business({newData}: BusinessProps) {
             {x === 4 && newData.easiness && (
               !isSections ? <RenderEasiness newData={newData} /> : <RenderSectWrapper><RenderEasiness newData={newData} /></RenderSectWrapper>
             )}
-            {x === 5 && <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>}
+            {x === 5 && (
+              <Box sx={{mt: !isSections ? '5px' : 0, width: '100%'}}>
+                <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>
+              </Box>
+            )}
           </Box>
         ))}
       </Grid>

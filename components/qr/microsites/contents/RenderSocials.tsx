@@ -112,6 +112,7 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
         fullWidth
         margin="dense" // @ts-ignore
         value={value}
+        sx={{width: '100%'}}
         inputProps={{style: {...handleFont(newData, 'm')}}}
         InputProps={{
           disableUnderline: true,
@@ -161,13 +162,13 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
           </Box>
         </Grid>
       ) : (
-        <>
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
           {newData.socials.map((x: SocialNetworksType) => (
             <div key={`sn${x.network}`}>
               {renderSocials(x)}
             </div>
           ))}
-        </>
+        </Box>
       )}
     </>
   );
