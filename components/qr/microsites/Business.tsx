@@ -39,7 +39,7 @@ export default function Business({newData}: BusinessProps) {
       <RenderCompany newData={newData} />
       <RenderPhones newData={newData} />
     </>
-  )
+  );
 
   return (
     <MainMicrosite data={newData}>
@@ -55,13 +55,17 @@ export default function Business({newData}: BusinessProps) {
               !isSections ? renderButton() : <RenderSectWrapper>{renderButton()}</RenderSectWrapper>
             )}
             {x === 2 && <RenderAddress newData={newData} isSections={isSections}/>}
-            {x === 3 && newData.easiness && (
-              !isSections ? <RenderEasiness newData={newData} /> : <RenderSectWrapper><RenderEasiness newData={newData} /></RenderSectWrapper>
-            )}
-            {x === 4 && Object.keys(newData.openingTime || []).length ? (
+            {x === 3 && Object.keys(newData.openingTime || []).length ? (
                 !isSections ? <RenderOpeningTime newData={newData}/> : <RenderSectWrapper><RenderOpeningTime newData={newData}/></RenderSectWrapper>
             ) : null}
-            {x === 5 && <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>}
+            {x === 4 && newData.easiness && (
+              !isSections ? <RenderEasiness newData={newData} /> : <RenderSectWrapper><RenderEasiness newData={newData} /></RenderSectWrapper>
+            )}
+            {x === 5 && (
+              <Box sx={{mt: !isSections ? '5px' : 0, width: '100%'}}>
+                <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>
+              </Box>
+            )}
           </Box>
         ))}
       </Grid>
