@@ -72,7 +72,7 @@ export default function DonationsInfo({ newData }: DonationsProps) {
   const handleClick = async () => {
     setIsLoading(true)
 
-    const url = process.env.REACT_NODE_ENV == 'develop' ?
+    const url = process.env.REACT_NODE_ENV !== 'production' ?
       'https://dev.ebanux.link' :
       'https://ebanux.link';
 
