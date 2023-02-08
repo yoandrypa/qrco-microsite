@@ -3,22 +3,25 @@ import MainMicrosite from "./MainMicrosite";
 import RenderSocials from "./contents/RenderSocials";
 import Grid from "@mui/material/Grid";
 import RenderTitleDesc from "./contents/RenderTitleDesc";
+import {clearDataStyles} from "./renderers/helper";
 
 interface SocialProps {
   newData: any;
 }
 
 export default function SocialInfo({newData}: SocialProps) {
-  const isSections = Boolean(newData.layout?.startsWith('sections'));
+  const data = newData.custom?.length ? newData.custom[0] : newData;
+  const styled = clearDataStyles(newData);
+  const isSections = Boolean(data.layout?.startsWith('sections'));
 
   return (
     <MainMicrosite data={newData}>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <RenderTitleDesc newData={newData} isSections={isSections} />
+            <RenderTitleDesc data={data} styledData={styled} isSections={isSections} />
           </Grid>
-          <RenderSocials newData={newData} isSections={isSections} />
+          <RenderSocials data={newData} styledData={styled} isSections={isSections} />
         </Grid>
       </CardContent>
     </MainMicrosite>

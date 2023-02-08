@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import RenderKeyValueFields from './renderers/RenderKeyValue';
 import RenderContactForm from '../helperComponents/RenderContactForm';
 import RenderPhones from './contents/RenderPhones';
+import {clearDataStyles} from "./renderers/helper";
 
 interface FindMeProps {
   newData: any;
@@ -17,21 +18,23 @@ const RenderName = dynamic(() => import('./contents/RenderName'));
 const RenderSocials = dynamic(() => import('./contents/RenderSocials'));
 
 export default function FindMe({ newData }: FindMeProps) {
-  const isSections = Boolean(newData.layout?.startsWith('sections'));
+  const data = newData.custom?.length ? newData.custom[0] : newData;
+  const styled = clearDataStyles(newData);
+  const isSections = Boolean(data.layout?.startsWith('sections'));
 
   return (
-    <MainMicrosite data={newData}>
+    <MainMicrosite data={data}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
-          {(newData.prefix || newData.firstName || newData.lastName)&&<RenderName newData={newData} />}
-          <RenderPhones newData={newData} />
-          <RenderAddress newData={newData} isSections={isSections} />
+          {(data.prefix || data.firstName || data.lastName)&&<RenderName data={data} styledData={styled} />}
+          <RenderPhones data={data} styledData={styled} />
+          <RenderAddress data={data} stylesData={styled} isSections={isSections} />
           <RenderKeyValueFields
-            newData={newData}
+            newData={data}
             item="otherDetails"
             type="default"
           />
-          <RenderKeyValueFields newData={newData} item="urls" type="link" />
+          <RenderKeyValueFields newData={data} item="urls" type="link" />
           <Box
             sx={{
               width: '100%',
@@ -39,16 +42,16 @@ export default function FindMe({ newData }: FindMeProps) {
               display: 'flex',
               justifyContent: 'center'
             }}>
-            <RenderSocials newData={newData}  />
-          </Box>    
-          {newData.contactForm !== undefined && (
+            <RenderSocials data={data} isSections={isSections} styledData={styled} />
+          </Box>
+          {data.contactForm !== undefined && (
             <Grid item xs={12} alignContent={'center'} alignItems={'center'}>
               <RenderContactForm
-                buttonText={newData.contactForm?.buttonText}
-                title={newData.contactForm.title}
-                messagePlaceholder={newData.contactForm.message}
-                email={newData.contactForm.email}
-                micrositeUrl={newData.shortlinkurl}
+                buttonText={data.contactForm?.buttonText}
+                title={data.contactForm.title}
+                messagePlaceholder={data.contactForm.message}
+                email={data.contactForm.email}
+                micrositeUrl={data.shortlinkurl}
                 index={0}
               />
             </Grid>

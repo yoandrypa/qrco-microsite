@@ -79,6 +79,11 @@ export default function MainComponent({ newData }: MainCompProps) {
   }
 
   const renderMicrositeComponent = () => {
+    // @ts-ignore
+    if (newData.custom?.length && newData.custom.some(x => Object.keys(x).length !== 2)) {
+      return <Custom newData={newData} />;
+    }
+
     if (data?.samples) {
       return <SamplesList newData={data.samples} />;
     }

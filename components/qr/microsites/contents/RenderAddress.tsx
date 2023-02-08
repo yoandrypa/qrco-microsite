@@ -1,28 +1,30 @@
 import Grid from "@mui/material/Grid";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import RenderField from "../renderers/RenderField";
 import Typography from "@mui/material/Typography";
-import {handleFont} from "../renderers/helper";
-import {useTheme} from "@mui/system";
 import Box from "@mui/material/Box";
+import {useTheme} from "@mui/system";
+
+import RenderField from "../renderers/RenderField";
+import {handleFont} from "../renderers/helper";
 
 import dynamic from "next/dynamic";
 
 const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 
 interface RenderAddressProps {
-  newData: any;
+  stylesData: any;
+  data?: any;
   isSections?: boolean;
   sectionName?: string;
 }
 
-export default function RenderAddress({newData, isSections, sectionName}: RenderAddressProps) {
+export default function RenderAddress({data, stylesData, isSections, sectionName}: RenderAddressProps) {
   const theme = useTheme();
-  if (!newData.address && !newData.address2 && !newData.city && !newData.zip && !newData.state && !newData.country) {
+  if (!data?.address && !data?.address2 && !data?.city && !data?.zip && !data?.state && !data?.country) {
     return null;
   }
 
-  const addSect = (item: string, omitComma?: boolean): string => newData[item] ? `${newData[item]}${!omitComma ? ',' : ''} ` : '';
+  const addSect = (item: string, omitComma?: boolean): string => data[item] ? `${data?.[item]}${!omitComma ? ',' : ''} ` : '';
 
   let address = `${addSect('address')}${addSect('address2')}${addSect('city')}${addSect('state', true)}${addSect('zip')}${addSect('country')}`;
   if (address.endsWith(', ')) {
@@ -33,9 +35,9 @@ export default function RenderAddress({newData, isSections, sectionName}: Render
     <Grid item xs={12} sx={{display: 'flex', mt: 2}}>
       <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
       <Box sx={{ml: 1}}>
-        <Typography sx={{...handleFont(newData, 't')}}>{sectionName || 'Address'}</Typography>
+        <Typography sx={{...handleFont(stylesData, 't')}}>{sectionName || 'Address'}</Typography>
         <Grid container spacing={1}>
-          <RenderField value={address} sx={{...handleFont(newData, 'm')}}/>
+          <RenderField value={address} sx={{...handleFont(stylesData, 'm')}}/>
         </Grid>
       </Box>
     </Grid>

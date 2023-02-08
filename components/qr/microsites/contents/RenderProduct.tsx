@@ -1,20 +1,15 @@
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-
-import dynamic from 'next/dynamic';
 import RenderTitleDesc from './RenderTitleDesc';
 import RenderGallery from './RenderGallery';
 import { Grid } from '@mui/material';
 import { handleFont } from '../renderers/helper';
 interface RenderProductProps {
   newData: any;
-  subtitleType?: 't' | 's' | 'm' | 'b';
   isSections?: boolean;
 }
 
 export default function RenderProduct({
   newData,
-  subtitleType,
   isSections
 }: RenderProductProps) {
   const fontSize =
@@ -25,12 +20,12 @@ export default function RenderProduct({
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <RenderTitleDesc
-          newData={{
+          data={{
             ...newData,
             titleAbout: newData?.product?.titleAbout || newData.name,
             descriptionAbout: newData?.product?.descriptionAbout || ''
           }}
-          subtitleType={subtitleType}
+          styledData={newData}
           isSections={isSections}
         />
       </Grid>

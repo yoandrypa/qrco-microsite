@@ -2,7 +2,10 @@ import MainMicrosite from "./MainMicrosite";
 import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
+import {clearDataStyles} from "./renderers/helper";
 
+const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
+const RenderText = dynamic(() => import("./contents/RenderText"));
 const RenderImages = dynamic(() => import("./contents/RenderImages"));
 const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
 const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
@@ -18,76 +21,113 @@ const RenderLinks = dynamic(() => import("./contents/RenderLinks"));
 const RenderDate = dynamic(() => import("./contents/RenderDate"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
-interface CustomProps {
-  newData: any;
-}
-
 interface CustomType {
   component: string;
   name?: string;
+  data?: any;
+  expand: string;
 }
 
-export default function Custom({newData}: CustomProps) {
+export default function Custom({newData}: any) {
   const isSections = Boolean(newData.layout?.startsWith('sections'));
+  const styled = clearDataStyles(newData);
 
   return (
     <MainMicrosite data={newData}>
       <Box sx={{width: '100%', p: 2}}>
         {newData.custom?.map((x: CustomType) => {
-          const {component, name} = x;
+          const {component, name, data, expand} = x;
+
           return (
-            <Box sx={{width: '100%'}} key={`key${component}`}>
-              {component === 'address' && <RenderAddress newData={newData} isSections={isSections} sectionName={name}/>}
-              {component === 'company' && (newData.company || newData.title || newData.subtitle || newData.companyWebSite ||
-                newData.companyEmail || newData.contact || newData.companyPhone || newData.about) && (
-                !isSections ? <RenderCompany newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderCompany newData={newData} sectionName={name}/></RenderSectWrapper>
+            <Box sx={{width: '100%'}} key={`key${expand}`}>
+              {component === 'address' && (
+                <RenderAddress stylesData={styled} data={data} isSections={isSections} sectionName={name}/>
+              )}
+              {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
+                data?.companyEmail || data?.contact || data?.companyPhone || data?.about) && (
+                !isSections ? <RenderCompany dataStyled={styled} sectionName={name} data={data}/> : (
+                  <RenderSectWrapper>
+                    <RenderCompany dataStyled={styled} data={data} sectionName={name}/>
+                  </RenderSectWrapper>
                 )
               )}
-              {component === 'date' && (<Box sx={{ml: '20px', mt: '10px'}}>
-                {!isSections ? <RenderDate newData={newData} message={name || "Date"}/> : (
-                  <RenderSectWrapper><RenderDate newData={newData} message={name || "Date"}/></RenderSectWrapper>
+              {component === 'date' && (<Box sx={{mt: '10px'}}>
+                {!isSections ? <RenderDate data={data} message={name || "Date"} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderDate data={data} message={name || "Date"} styledData={styled}/>
+                  </RenderSectWrapper>
                 )}
               </Box>)}
-              {component === 'easiness' && newData.easiness && (
-                !isSections ? <RenderEasiness newData={newData} sectionName={name} /> : (
-                  <RenderSectWrapper><RenderEasiness newData={newData} sectionName={name}/></RenderSectWrapper>
+              {component === 'easiness' && data?.easiness && (
+                !isSections ? <RenderEasiness data={data} sectionName={name} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderEasiness data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )
               )}
-              {component === 'email' && (newData.email || newData.web) && (
-                !isSections ? <RenderEmailWeb newData={newData} sectionName={name} /> : (
-                  <RenderSectWrapper><RenderEmailWeb newData={newData} sectionName={name}/></RenderSectWrapper>
+              {component === 'email' && (data?.email || data?.web) && (
+                !isSections ? <RenderEmailWeb data={data} sectionName={name} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderEmailWeb data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )
               )}
-              {component === 'links' && newData.links && (<Box sx={{mt: '10px'}}>
-                {!isSections ? <RenderLinks newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderLinks newData={newData} sectionName={name}/></RenderSectWrapper>
+              {component === 'links' && data?.links && (<Box sx={{mt: '10px'}}>
+                {!isSections ? <RenderLinks data={data} sectionName={name} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderLinks data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )}
               </Box>)}
-              {component === 'organization' && (newData.organization || newData.position) && (
-                !isSections ? <RenderOrganization newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderOrganization newData={newData} sectionName={name}/></RenderSectWrapper>
+              {component === 'organization' && (data?.organization || data?.position) && (
+                !isSections ? <RenderOrganization data={data} sectionName={name} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderOrganization data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )
               )}
-              {component === 'phones' && (newData.cell || newData.phone || newData.fax) && (
-                !isSections ? <RenderPhones newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderPhones newData={newData} sectionName={name}/></RenderSectWrapper>
+              {component === 'phones' && (data?.cell || data?.phone || data?.fax) && (
+                !isSections ? <RenderPhones data={data} sectionName={name} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderPhones data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )
               )}
-              {component === 'presentation' && (newData.prefix || newData.firstName || newData.lastName) && (
-                !isSections ? <RenderName newData={newData} sectionName={name} /> : (
-                  <RenderSectWrapper><RenderName newData={newData} sectionName={name} /></RenderSectWrapper>
+              {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && (
+                !isSections ? <RenderName data={data} sectionName={name} styledData={styled}/> : (
+                  <RenderSectWrapper>
+                    <RenderName data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )
               )}
-              {component === 'opening' && Object.keys(newData.openingTime || []).length && (
-                !isSections ? <RenderOpeningTime newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderOpeningTime newData={newData} sectionName={name}/></RenderSectWrapper>
+              {component === 'opening' && Object.keys(data?.openingTime || []).length ? (
+                !isSections ? <RenderOpeningTime data={data} styledData={styled} sectionName={name}/> : (
+                  <RenderSectWrapper>
+                    <RenderOpeningTime data={data} sectionName={name} styledData={styled}/>
+                  </RenderSectWrapper>
                 )
+              ) : null}
+              {component === 'socials' && (
+                <RenderSocials data={data} styledData={styled} isSections={isSections} sectionName={name}/>
               )}
-              {component === 'socials' && <RenderSocials newData={newData} isSections={isSections} sectionName={name}/>}
-              {component === 'title' && <RenderTitleDesc newData={newData} isSections={isSections}/>}
+              {component === 'title' && (
+                <RenderTitleDesc data={data} isSections={isSections} styledData={styled}/>
+              )}
+              {component === 'action' && <RenderActionButton styled={styled} data={data} isSections={isSections} />}
+              {component === 'single' && (
+                <RenderText
+                  stylesData={styled}
+                  text={data.text || ''}
+                  isSections={isSections}
+                  sectionName={data.includeTextDescription ? name || 'Text' : undefined} />
+              )}
               {component === 'photos' && (
-                <RenderImages newData={newData} isSections={isSections} wrapped sectionName={newData.includeDescription ? name || 'Photos' : undefined}/>
+                <RenderImages
+                  data={data}
+                  styled={styled}
+                  isSections={isSections}
+                  wrapped
+                  sectionName={data?.includeDescription ? name || 'Photos' : undefined}/>
               )}
             </Box>
           )

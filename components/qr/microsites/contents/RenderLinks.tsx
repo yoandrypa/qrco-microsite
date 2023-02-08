@@ -12,14 +12,15 @@ const LinkIcon = dynamic(() => import("@mui/icons-material/Link"));
 const RenderSocials = dynamic(() => import("./RenderSocials"));
 
 interface LinksProps {
-  newData: any;
+  data?: any;
+  styledData: any;
   sectionName?: string;
 }
 
-export default function RenderLinks({newData, sectionName}: LinksProps) {
+export default function RenderLinks({data, styledData, sectionName}: LinksProps) {
   const theme = useTheme();
 
-  if (!newData.links?.length) {
+  if (!data?.links?.length) {
     return null;
   }
 
@@ -34,8 +35,8 @@ export default function RenderLinks({newData, sectionName}: LinksProps) {
         mt: !stay ? '10px' : 'unset',
         ml: '25px',
         width: 'calc(100% - 50px)',
-        ...handleFont(newData, 'b'),
-        ...handleButtons(newData, theme)
+        ...handleFont(styledData, 'b'),
+        ...handleButtons(styledData, theme)
       }}
     >{item.label}</Button>
   );
@@ -45,20 +46,20 @@ export default function RenderLinks({newData, sectionName}: LinksProps) {
       {sectionName && (
         <Box sx={{display: 'flex'}}>
           <LinkIcon sx={{ color: theme => theme.palette.primary.main, mt: '2px', mr: '5px' }}/>
-          <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>
+          <Typography sx={{mb: '5px', ...handleFont(styledData, 't')}}>{sectionName}</Typography>
         </Box>
       )}
-      {newData.position !== 'middle' ? newData.links.map((x: LinkType, index: number) => (
+      {data?.position !== 'middle' ? data.links.map((x: LinkType, index: number) => (
         renderBtn(x, `btn${index}`, index === 0)
       )) : (
         <>
-          {newData.links.slice().splice(0, Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
+          {data?.links.slice().splice(0, Math.ceil(data.links.length / 2)).map((x: LinkType, index: number) => (
             renderBtn(x, `btn2n${index}`, index === 0)
           ))}
           <Box sx={{my: 2, display: 'inline-flex'}}>
-            <RenderSocials newData={newData} />
+            <RenderSocials data={data} styledData={styledData} />
           </Box>
-          {newData.links.slice().splice(-Math.ceil(newData.links.length / 2)).map((x: LinkType, index: number) => (
+          {data?.links.slice().splice(-Math.ceil(data.links.length / 2)).map((x: LinkType, index: number) => (
             renderBtn(x, `btn3d${index}`, false)
           ))}
         </>

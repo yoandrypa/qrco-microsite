@@ -8,36 +8,26 @@ import dynamic from "next/dynamic";
 const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 
 interface RenderTitleDescProps {
-  newData: {
-    titleAbout?: string;
-    descriptionAbout?: string;
-    titlesFontSize?: "small" | "medium" | "large";
-  };
-  subtitleType?:  't' | 's' | 'm' | 'b';
+  data?: any;
+  styledData: any;
   isSections?: boolean;
 }
 
-export default function RenderTitleDesc({newData, subtitleType, isSections}: RenderTitleDescProps) {
-  if (!newData.titleAbout && !newData.descriptionAbout) {
+export default function RenderTitleDesc({data, styledData, isSections}: RenderTitleDescProps) {
+  if (!data || (!data.titleAbout && !data.descriptionAbout)) {
     return null;
   }
 
   const renderTitleDesc = () => (
     <Box sx={{ my: '10px', px: 2, textAlign: 'center' }}>
-      {newData.titleAbout && (
-        <Typography sx={{
-          color: theme => theme.palette.primary.main,
-          ...handleFont(newData, 't')
-        }}>
-          {newData.titleAbout}
+      {data.titleAbout && (
+        <Typography sx={{color: theme => theme.palette.primary.main, ...handleFont(styledData, 't')}}>
+          {data.titleAbout}
         </Typography>
       )}
-      {newData.descriptionAbout && (
-        <Typography sx={{
-          color: theme => theme.palette.primary.main,
-          ...handleFont(newData,subtitleType|| 's' )
-        }}>
-          {newData.descriptionAbout}
+      {data.descriptionAbout && (
+        <Typography sx={{color: theme => theme.palette.primary.main, ...handleFont(styledData,'s' )}}>
+          {data.descriptionAbout}
         </Typography>
       )}
     </Box>

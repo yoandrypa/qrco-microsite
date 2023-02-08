@@ -6,22 +6,23 @@ import Grid from "@mui/material/Grid";
 import RenderField from "../renderers/RenderField";
 
 interface OrganizationProps {
-  newData: any;
+  data?: any;
+  styledData: any;
   sectionName?: string;
 }
 
-export default function RenderOrganization({newData, sectionName}: OrganizationProps) {
+export default function RenderOrganization({styledData, data, sectionName}: OrganizationProps) {
   return (
     <Grid item xs={12} sx={{display: 'flex'}}>
       <WorkIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
       <Box sx={{ml: 1}}>
-        <Typography sx={{ ...handleFont(newData, 't') }}>{sectionName || 'Organization info'}</Typography>
+        <Typography sx={{ ...handleFont(styledData, 't') }}>{sectionName || 'Organization info'}</Typography>
         <Grid container spacing={0}>
-          {newData.organization && (
-            <RenderField label="Organization" value={newData.organization} sx={{...handleFont(newData, 'm')}}/>
+          {data?.organization && (
+            <RenderField label="Organization" value={data.organization} sx={{...handleFont(styledData, 'm')}}/>
           )}
-          {newData.position && (
-            <RenderField label="Position" value={newData.position} sx={{...handleFont(newData, 'm')}}/>
+          {data?.position && (
+            <RenderField label="Position" value={data.position} sx={{...handleFont(styledData, 'm')}}/>
           )}
         </Grid>
       </Box>

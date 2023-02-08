@@ -1,13 +1,12 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import {useTheme} from "@mui/system";
 
-import {handleButtons, handleFont} from "./renderers/helper";
+import {clearDataStyles} from "./renderers/helper";
 import MainMicrosite from "./MainMicrosite";
 
 import dynamic from "next/dynamic";
 
+const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
 const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
 const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
 const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
@@ -21,23 +20,15 @@ interface BusinessProps {
 }
 
 export default function Business({newData}: BusinessProps) {
-  const theme = useTheme();
-
+  const styled = clearDataStyles(newData);
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
-  const renderButton = () => (
-    <Grid item xs={12} sx={{textAlign: 'center', pl: '10px'}}>
-      <Button
-        sx={{my: '10px', width: 'calc(100% - 70px)', ...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
-        target="_blank" component="a" href={newData.urlOptionLink}
-        variant="contained">{newData.urlOptionLabel}</Button>
-    </Grid>
-  );
+  const renderButton = () => <RenderActionButton styled={styled} data={newData} />;
 
   const renderCompany = () => (
     <>
-      <RenderCompany newData={newData} />
-      <RenderPhones newData={newData} />
+      <RenderCompany data={newData} dataStyled={styled}/>
+      <RenderPhones data={newData} styledData={styled}/>
     </>
   );
 
@@ -54,16 +45,18 @@ export default function Business({newData}: BusinessProps) {
             {x === 1 && newData.urlOptionLabel && (
               !isSections ? renderButton() : <RenderSectWrapper>{renderButton()}</RenderSectWrapper>
             )}
-            {x === 2 && <RenderAddress newData={newData} isSections={isSections}/>}
+            {x === 2 && <RenderAddress data={newData} stylesData={styled} isSections={isSections}/>}
             {x === 3 && Object.keys(newData.openingTime || []).length ? (
-                !isSections ? <RenderOpeningTime newData={newData}/> : <RenderSectWrapper><RenderOpeningTime newData={newData}/></RenderSectWrapper>
+              !isSections ? <RenderOpeningTime data={newData} styledData={styled}/> :
+                <RenderSectWrapper><RenderOpeningTime data={newData} styledData={styled}/></RenderSectWrapper>
             ) : null}
             {x === 4 && newData.easiness && (
-              !isSections ? <RenderEasiness newData={newData} /> : <RenderSectWrapper><RenderEasiness newData={newData} /></RenderSectWrapper>
+              !isSections ? <RenderEasiness data={newData} styledData={styled}/> :
+                <RenderSectWrapper><RenderEasiness data={newData} styledData={styled}/></RenderSectWrapper>
             )}
             {x === 5 && (
               <Box sx={{mt: !isSections ? '5px' : 0, width: '100%'}}>
-                <RenderSocials newData={newData} desc="Social networks" bold isSections={isSections}/>
+                <RenderSocials data={newData} styledData={styled} desc="Social networks" bold isSections={isSections}/>
               </Box>
             )}
           </Box>

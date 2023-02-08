@@ -6,20 +6,23 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 interface EmailWebProps {
-  newData: any;
+  data?: any;
+  styledData: any;
   sectionName?: string;
 }
 
-export default function RenderEmailWeb({newData, sectionName}: EmailWebProps) {
+export default function RenderEmailWeb({data, styledData, sectionName}: EmailWebProps) {
   return (
     <Grid item xs={12} sx={{display: 'flex', my: 2}}>
       <MarkAsUnreadIcon sx={{ color: theme => theme.palette.primary.main }} />
       <Grid container spacing={1} sx={{ mt: '-16px', ml: '1px' }}>
-        {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}
-        {newData.email && <RenderField icon="emailIcon" value={newData.email} sx={{...handleFont(newData, 'm')}}/>}
-        {newData.web && (
+        {sectionName && <Typography sx={{mb: '5px', ...handleFont(styledData, 't')}}>{sectionName}</Typography>}
+        {data?.email && (
+          <RenderField icon="emailIcon" value={data.email} sx={{...handleFont(styledData, 'm')}}/>
+        )}
+        {data?.web && (
           <Box sx={{width: '100%', mt: '-7px', ml: '7px'}}>
-            <RenderField icon="world" value={newData.web} sx={{...handleFont(newData, 'm')}}/>
+            <RenderField icon="world" value={data.web} sx={{...handleFont(styledData, 'm')}}/>
           </Box>
         )}
       </Grid>

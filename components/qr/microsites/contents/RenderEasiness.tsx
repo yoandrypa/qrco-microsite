@@ -7,11 +7,12 @@ import SquareSelector from "../../helperComponents/SquareSelector";
 import {useEffect, useState} from "react";
 
 interface EasinessProps {
-  newData: any;
+  data?: any;
+  styledData: any;
   sectionName?: string;
 }
 
-export default function RenderEasiness({newData, sectionName}: EasinessProps) {
+export default function RenderEasiness({data, styledData, sectionName}: EasinessProps) {
   const [hideTooltips, setHideTooltips] = useState<boolean>(false);
 
   const renderEasiness = (item: string, label: string) => (
@@ -31,30 +32,30 @@ export default function RenderEasiness({newData, sectionName}: EasinessProps) {
     <Grid item xs={12} sx={{display: 'flex'}}>
       <DoneAllIcon sx={{color: theme => theme.palette.primary.main, mt: '3px'}}/>
       <Box sx={{ml: 1}}>
-        <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName || 'Easiness'}</Typography>
+        <Typography sx={{mb: '5px', ...handleFont(styledData, 't')}}>{sectionName || 'Easiness'}</Typography>
         <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content'}}>
-          {newData.easiness.wifi && renderEasiness('wifi', 'WiFi')}
-          {newData.easiness.accessible && renderEasiness('accessible', 'Accessible')}
-          {newData.easiness.health && renderEasiness('health', 'Health')}
-          {newData.easiness.toilet && renderEasiness('toilet', 'Toilets')}
-          {newData.easiness.seat && renderEasiness('seat', 'Seats')}
-          {newData.easiness.child && renderEasiness('child', 'Children friendly')}
-          {newData.easiness.pets && renderEasiness('pets', 'Pets friendly')}
-          {newData.easiness.park && renderEasiness('park', 'Parks or open spaces')}
-          {newData.easiness.restaurant && renderEasiness('restaurant', 'Restaurant')}
-          {newData.easiness.cafe && renderEasiness('cafe', 'Cafeteria')}
-          {newData.easiness.bar && renderEasiness('bar', 'Bar')}
-          {newData.easiness.fastfood && renderEasiness('fastfood', 'Fast food')}
-          {newData.easiness.bed && renderEasiness('bed', 'Bedrooms')}
-          {newData.easiness.shower && renderEasiness('shower', 'Showers')}
-          {newData.easiness.gym && renderEasiness('gym', 'Sports friendly')}
-          {newData.easiness.smoking && renderEasiness('smoking', 'Smoking areas')}
-          {newData.easiness.climate && renderEasiness('climate', 'Climate')}
-          {newData.easiness.training && renderEasiness('training', 'Training')}
-          {newData.easiness.parking && renderEasiness('parking', 'Parking')}
-          {newData.easiness.train && renderEasiness('train', 'Train')}
-          {newData.easiness.bus && renderEasiness('bus', 'Bus')}
-          {newData.easiness.taxi && renderEasiness('taxi', 'Taxi')}
+          {data?.easiness?.wifi && renderEasiness('wifi', 'WiFi')}
+          {data?.easiness?.accessible && renderEasiness('accessible', 'Accessible')}
+          {data?.easiness?.health && renderEasiness('health', 'Health')}
+          {data?.easiness?.toilet && renderEasiness('toilet', 'Toilets')}
+          {data?.easiness?.seat && renderEasiness('seat', 'Seats')}
+          {data?.easiness?.child && renderEasiness('child', 'Children friendly')}
+          {data?.easiness?.pets && renderEasiness('pets', 'Pets friendly')}
+          {data?.easiness?.park && renderEasiness('park', 'Parks or open spaces')}
+          {data?.easiness?.restaurant && renderEasiness('restaurant', 'Restaurant')}
+          {data?.easiness?.cafe && renderEasiness('cafe', 'Cafeteria')}
+          {data?.easiness?.bar && renderEasiness('bar', 'Bar')}
+          {data?.easiness?.fastfood && renderEasiness('fastfood', 'Fast food')}
+          {data?.easiness?.bed && renderEasiness('bed', 'Bedrooms')}
+          {data?.easiness?.shower && renderEasiness('shower', 'Showers')}
+          {data?.easiness?.gym && renderEasiness('gym', 'Sports friendly')}
+          {data?.easiness?.smoking && renderEasiness('smoking', 'Smoking areas')}
+          {data?.easiness?.climate && renderEasiness('climate', 'Climate')}
+          {data?.easiness?.training && renderEasiness('training', 'Training')}
+          {data?.easiness?.parking && renderEasiness('parking', 'Parking')}
+          {data?.easiness?.train && renderEasiness('train', 'Train')}
+          {data?.easiness?.bus && renderEasiness('bus', 'Bus')}
+          {data?.easiness?.taxi && renderEasiness('taxi', 'Taxi')}
         </Box>
       </Box>
     </Grid>

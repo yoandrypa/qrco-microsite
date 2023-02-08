@@ -153,14 +153,14 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   return (
     <MainMicrosite data={{...newData}}>
       <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
-        <RenderTitleDesc newData={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} />
+        <RenderTitleDesc data={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} styledData={newData} />
       </Box>
       <Grid container >
         {virtualFields.length > 0 && virtualFields.map((field, index) => {
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
-                <RenderTitleDesc newData={{ ...newData, titleAbout: field.title, descriptionAbout: field.text }} />
+                <RenderTitleDesc data={{ ...newData, titleAbout: field.title, descriptionAbout: field.text }} styledData={newData} />
               </Grid>
             );
           }

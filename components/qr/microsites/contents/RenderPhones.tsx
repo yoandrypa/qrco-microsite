@@ -5,15 +5,16 @@ import {handleFont} from "../renderers/helper";
 import Typography from "@mui/material/Typography";
 
 interface PhonesProps {
-  newData: any;
+  data?: any;
+  styledData: any;
   sectionName?: string;
 }
 
-const empty = (newData: any, item: string) => newData[item] === undefined || !newData[item].trim().length;
+const empty = (item: string, newData?: any) => newData?.[item] === undefined || !newData[item].trim().length;
 
-export default function RenderPhones({newData, sectionName}: PhonesProps) {
-  if (empty(newData, 'cell') && empty(newData, 'companyCell') && empty(newData, 'phone') &&
-    empty(newData, 'companyPhone') && empty(newData, 'fax') && empty(newData, 'companyFax')) {
+export default function RenderPhones({data, styledData, sectionName}: PhonesProps) {
+  if (!data || (empty('cell', data) && empty('companyCell', data) && empty('phone', data) &&
+    empty('companyPhone', data) && empty('fax', data) && empty( 'companyFax', data))) {
     return null;
   }
 
@@ -23,30 +24,30 @@ export default function RenderPhones({newData, sectionName}: PhonesProps) {
       <Grid container spacing={1} sx={{ml: '1px'}}>
         {sectionName && (
           <Grid item xs={12} sx={{mb: '-10px'}}>
-            <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>
+            <Typography sx={{mb: '5px', ...handleFont(styledData, 't')}}>{sectionName}</Typography>
           </Grid>
         )}
-        {(newData.cell || newData.companyCell) && (
+        {(data.cell || data.companyCell) && (
           <RenderField
-            value={newData.cell || newData.companyCell}
+            value={data.cell || data.companyCell}
             icon="cell"
-            size={newData.phone || newData.companyPhone ? 6 : 12}
-            sx={{...handleFont(newData, 'm')}}
+            size={data.phone || data.companyPhone ? 6 : 12}
+            sx={{...handleFont(styledData, 'm')}}
           />
         )}
-        {(newData.phone || newData.companyPhone) && (
+        {(data.phone || data.companyPhone) && (
           <RenderField
-            value={newData.phone || newData.companyPhone}
+            value={data.phone || data.companyPhone}
             icon="phone"
-            size={newData.cell || newData.companyCell ? 6 : 12}
-            sx={{...handleFont(newData, 'm')}}
+            size={data.cell || data.companyCell ? 6 : 12}
+            sx={{...handleFont(styledData, 'm')}}
           />
         )}
-        {(newData.fax || newData.companyFax) && (
+        {(data.fax || data.companyFax) && (
           <RenderField
-            value={newData.fax || newData.companyFax}
+            value={data.fax || data.companyFax}
             icon="fax"
-            sx={{...handleFont(newData, 'm')}}
+            sx={{...handleFont(styledData, 'm')}}
           />
         )}
       </Grid>
