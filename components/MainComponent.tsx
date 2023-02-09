@@ -78,10 +78,9 @@ export default function MainComponent({ newData }: MainCompProps) {
     );
   }
 
-  const renderMicrositeComponent = () => {
-    // @ts-ignore
-    if (newData.custom?.length && newData.custom.some(x => Object.keys(x).length !== 2)) {
-      return <Custom newData={newData} />;
+  const renderMicrositeComponent = () => { // @ts-ignore
+    if (data.custom?.length && data.custom.some(x => Object.keys(x).length !== 2)) {
+      return <Custom newData={data} />;
     }
 
     if (data?.samples) {
@@ -131,12 +130,15 @@ export default function MainComponent({ newData }: MainCompProps) {
     if(data?.qrType === "petId"){
       return <PetsId newData={data} />
     }
+
     if(data?.qrType === "linkedLabel"){
       return <LinkedLabel newData={{...data, iframed: iframed.current}} />
     }
+
     if(data?.qrType === "findMe"){
       return <FindMe newData={data} />
     }
+
     if(data?.qrType === "inventory"){
       return <Inventory newData={{...data, iframed: iframed.current}} />
     }

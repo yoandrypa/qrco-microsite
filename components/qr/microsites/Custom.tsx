@@ -3,7 +3,9 @@ import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
 import {clearDataStyles} from "./renderers/helper";
+import {capitalize} from "@mui/material";
 
+const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
 const RenderText = dynamic(() => import("./contents/RenderText"));
 const RenderImages = dynamic(() => import("./contents/RenderImages"));
@@ -20,6 +22,8 @@ const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
 const RenderLinks = dynamic(() => import("./contents/RenderLinks"));
 const RenderDate = dynamic(() => import("./contents/RenderDate"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
+const RenderCouponData = dynamic(() => import("./contents/RenderCouponData"));
+const RenderCouponInfo = dynamic(() => import("./contents/RenderCouponInfo"));
 
 interface CustomType {
   component: string;
@@ -110,9 +114,7 @@ export default function Custom({newData}: any) {
               {component === 'socials' && (
                 <RenderSocials data={data} styledData={styled} isSections={isSections} sectionName={name}/>
               )}
-              {component === 'title' && (
-                <RenderTitleDesc data={data} isSections={isSections} styledData={styled}/>
-              )}
+              {component === 'title' && <RenderTitleDesc data={data} isSections={isSections} styledData={styled}/>}
               {component === 'action' && <RenderActionButton styled={styled} data={data} isSections={isSections} />}
               {component === 'single' && (
                 <RenderText
@@ -121,13 +123,37 @@ export default function Custom({newData}: any) {
                   isSections={isSections}
                   sectionName={data.includeTextDescription ? name || 'Text' : undefined} />
               )}
-              {component === 'photos' && (
+              {component === 'gallery' && (
                 <RenderImages
                   data={data}
                   styled={styled}
                   isSections={isSections}
                   wrapped
                   sectionName={data?.includeDescription ? name || 'Photos' : undefined}/>
+              )}
+              {['pdf', 'audio', 'video'].includes(component) && (
+                <RenderAssets
+                  data={data}
+                  styled={styled}
+                  isSections={isSections}
+                  wrapped
+                  sectionName={data?.includeDescription ? name || capitalize(component) : undefined}/>
+              )}
+              {component === 'couponInfo' && (
+                !isSections ? <RenderCouponData dataStyled={styled} data={data} sectionName={name} /> : (
+                  <RenderSectWrapper>
+                    <RenderCouponData dataStyled={styled} data={data} sectionName={name} />
+                  </RenderSectWrapper>
+                )
+              )}
+              {component === 'couponData' && (
+                !isSections ? (
+                  <RenderCouponInfo dataStyled={styled} isSections={isSections} sectionName={name} data={data} />
+                ) : (
+                  <RenderSectWrapper>
+                    <RenderCouponInfo dataStyled={styled} isSections={isSections} sectionName={name} data={data} />
+                  </RenderSectWrapper>
+                )
               )}
             </Box>
           )

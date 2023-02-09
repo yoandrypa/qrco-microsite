@@ -6,9 +6,7 @@ interface RenderBadgeProps {
 }
 
 export default function RenderBadge({newData}: RenderBadgeProps) {
-  // prefix prop aims to badge
-
-  if (newData.prefix === undefined) {
+  if (newData.badge === undefined) {
     return null;
   }
 
@@ -23,7 +21,7 @@ export default function RenderBadge({newData}: RenderBadgeProps) {
       boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
       marginLeft: '10px'
     }}>
-      <Typography sx={{color: theme => theme.palette.primary.main, fontWeight: 'bold'}}>{newData.prefix}</Typography>
+      <Typography sx={{color: theme => theme.palette.primary.main, fontWeight: 'bold'}}>{newData.badge}</Typography>
     </Box>
   );
 }

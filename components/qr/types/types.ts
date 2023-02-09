@@ -28,6 +28,7 @@ export type DataType = {
   mode?: string;
   userId?: string;
   id?: string;
+  badge?: string;
   qrName?: string;
   number?: string;
   avatarImage?: string;
