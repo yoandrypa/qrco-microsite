@@ -78,9 +78,10 @@ export default function MainComponent({ newData }: MainCompProps) {
     );
   }
 
-  const renderMicrositeComponent = () => { // @ts-ignore
-    if (data.custom?.length && data.custom.some(x => Object.keys(x).length !== 2)) {
-      return <Custom newData={data} />;
+  const renderMicrositeComponent = () => {
+    // @ts-ignore
+    if ((data.custom?.length && data.custom.some(x => Object.keys(x).length > 2)) || data?.qrType === "custom") {
+      return <Custom newData={{ ...data, iframed: iframed.current }} />;
     }
 
     if (data?.samples) {
@@ -93,10 +94,6 @@ export default function MainComponent({ newData }: MainCompProps) {
 
     if (GALLERY.includes(data?.qrType)) {
       return <Images newData={{ ...data, iframed: iframed.current }} />;
-    }
-
-    if (data?.qrType === "custom") {
-      return <Custom newData={{ ...data, iframed: iframed.current }} />;
     }
 
     if (data?.qrType === "business") {
