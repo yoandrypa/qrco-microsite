@@ -55,12 +55,12 @@ export default function RenderImages({data, styled, isSections, wrapped, section
 
   useEffect(() => {
     images.current = [];
-    if (data.files?.length) {
+    if (data?.files?.length) {
       getImages(data.files);
     } else {
       forceUpdate();
     }
-  }, [data.files]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data?.files]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setHideTooltip(window.top !== window);
@@ -69,7 +69,7 @@ export default function RenderImages({data, styled, isSections, wrapped, section
   let colNumber = images.current.length;
   let width = '0';
 
-  if (!data.iframed) {
+  if (!data?.iframed) {
     if (isWide) {
       if (colNumber === 0 || colNumber === 1) {
         colNumber = 12;
