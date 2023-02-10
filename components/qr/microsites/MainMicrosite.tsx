@@ -15,6 +15,7 @@ import {handleFont} from "./renderers/helper";
 import dynamic from "next/dynamic";
 import {useTheme} from "@mui/system";
 import {DEFAULT_COLORS} from "../constants";
+import RenderSectWrapper from "./renderers/RenderSectWrapper";
 
 const Notifications = dynamic(() => import('../helperComponents/Notifications'));
 
@@ -219,7 +220,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           <Box sx={{
             width: '100%',
             minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20)}px)` :
-              `calc(${containerDimensions.parentHeight} + ${230 + (Boolean(foreImg) ? 0 : (data.qrType !== 'custom' ? 8 : 0)) - (!isBorder ? 0 : 20)}px)`}}>
+              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) + (Boolean(foreImg) ? 0 : (data.qrType !== 'custom' ? 8 : 0)) - (!isBorder ? 0 : 20)}px)`}}>
             {foreImg && (
               <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
                 <Box
@@ -240,7 +241,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             <Box sx={{mt: Boolean(foreImg) ? '-70px' : 0, backgroundClip: 'padding-box !important',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent'}}>
-              {children}
+              {!data.layout?.includes('entire') ? children : (
+                <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)'}}>{children}</RenderSectWrapper>
+              )}
             </Box>
           </Box>
         </Box>
