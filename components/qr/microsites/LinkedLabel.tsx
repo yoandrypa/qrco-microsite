@@ -1,19 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import DangerousIcon from '@mui/icons-material/Dangerous';
-import { CircularProgress, useMediaQuery } from "@mui/material";
+import {CircularProgress, useMediaQuery} from "@mui/material";
 
 import MainMicrosite from "./MainMicrosite";
-import { handleFont } from "./renderers/helper";
-import { download } from "../../../handlers/storage";
-import { FileType } from "../types/types";
+import {handleFont} from "./renderers/helper";
+import {download} from "../../../handlers/storage";
+import {FileType} from "../types/types";
 import RenderPreview from "./renderers/RenderPreview";
 import RenderTitleDesc from "./contents/RenderTitleDesc";
 import RenderContactForm from "../helperComponents/RenderContactForm";
-import { randomUUID } from "crypto";
 
 interface LinkedLabelProps {
   newData: any;
@@ -153,14 +152,14 @@ function LinkedLabel({ newData }: LinkedLabelProps) {
   return (
     <MainMicrosite data={{...newData}}>
       <Box sx={{ width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main }}>
-        <RenderTitleDesc data={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} styledData={newData} />
+        <RenderTitleDesc data={{...newData, titleAbout:newData.title, descriptionAbout:newData.about }} stylesData={newData} />
       </Box>
       <Grid container >
         {virtualFields.length > 0 && virtualFields.map((field, index) => {
           if (field.type === "text") {
             return (
               <Grid item xs={12} key={index} >
-                <RenderTitleDesc data={{ ...newData, titleAbout: field.title, descriptionAbout: field.text }} styledData={newData} />
+                <RenderTitleDesc data={{ ...newData, titleAbout: field.title, descriptionAbout: field.text }} stylesData={newData} />
               </Grid>
             );
           }

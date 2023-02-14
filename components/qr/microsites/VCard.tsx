@@ -30,26 +30,26 @@ export default function VCard({newData}: {newData: any;}) {
         {(newData.index || [0, 1, 2]).map((x: number) => (
           <Box key={`item${x}`} sx={{width: '100%', px: 2, my: 2}}>
             {x === 0 && (newData.prefix || newData.firstName || newData.lastName) && (
-              !isSections ? <RenderName data={newData} styledData={styled}/> :
-                <RenderSectWrapper><RenderName data={newData} styledData={styled}/></RenderSectWrapper>
+              !isSections ? <RenderName data={newData} stylesData={styled}/> :
+                <RenderSectWrapper><RenderName data={newData} stylesData={styled}/></RenderSectWrapper>
             )}
             {x === 0 && (newData.cell || newData.phone || newData.fax) && (
-              !isSections ? <RenderPhones data={newData} styledData={styled}/> :
-                <RenderSectWrapper><RenderPhones data={newData} styledData={styled}/></RenderSectWrapper>
+              !isSections ? <RenderPhones data={newData} stylesData={styled}/> :
+                <RenderSectWrapper><RenderPhones data={newData} stylesData={styled}/></RenderSectWrapper>
             )}
             {x === 0 && (newData.organization || newData.position) && (
-              !isSections ? <RenderOrganization data={newData} styledData={styled}/> :
-                <RenderSectWrapper><RenderOrganization data={newData} styledData={styled}/></RenderSectWrapper>
+              !isSections ? <RenderOrganization data={newData} stylesData={styled}/> :
+                <RenderSectWrapper><RenderOrganization data={newData} stylesData={styled}/></RenderSectWrapper>
             )}
             {x === 1 && <Box sx={{mt: '-25px'}}>
-              <RenderAddress data={newData} stylesData={styled} isSections={isSections}/>
+              <RenderAddress data={newData} stylesData={styled}/>
             </Box>}
             {x === 1 && (newData.email || newData.web) && (
-              !isSections ? <RenderEmailWeb data={newData} styledData={styled}/> :
-                <RenderSectWrapper><RenderEmailWeb data={newData} styledData={styled}/></RenderSectWrapper>
+              !isSections ? <RenderEmailWeb data={newData} stylesData={styled}/> :
+                <RenderSectWrapper><RenderEmailWeb data={newData} stylesData={styled}/></RenderSectWrapper>
             )}
             {x === 2 && <Box sx={{width: '100%', mt: !isSections ? '5px' : 0, display: 'flex', justifyContent: 'center'}}>
-              <RenderSocials data={newData} isSections={isSections} styledData={styled}/>
+              <RenderSocials data={newData} stylesData={styled}/>
             </Box>}
           </Box>
         ))}

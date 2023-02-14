@@ -6,25 +6,15 @@ import DangerousIcon from "@mui/icons-material/Dangerous";
 import Tooltip from "@mui/material/Tooltip";
 import {useMediaQuery} from "@mui/material";
 
-import {handleFont} from "../renderers/helper";
+import {CustomProps, handleFont} from "../renderers/helper";
 import {FileType} from "../../types/types";
 import {download} from "../../../../handlers/storage";
 
 import dynamic from "next/dynamic";
 
-const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
-const PhotoSizeSelectActualIcon = dynamic(() => import("@mui/icons-material/PhotoSizeSelectActual"));
 
-interface ImagesProps {
-  data?: any;
-  styled: any;
-  isSections?: boolean;
-  wrapped?: boolean;
-  sectionName?: string;
-}
-
-export default function RenderImages({data, styled, isSections, wrapped, sectionName}: ImagesProps) {
+export default function RenderImages({data, stylesData}: CustomProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
   const [preview, setPreview] = useState<FileType | string | null>(null);
@@ -91,7 +81,7 @@ export default function RenderImages({data, styled, isSections, wrapped, section
   }
 
   const renderGallery = () => (
-    <Grid container spacing={1} sx={{p: 2, mt: wrapped ? '-24px' : 'unset'}}>{/* @ts-ignore */}
+    <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
       {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
         if (!x) {
           return (
@@ -103,7 +93,7 @@ export default function RenderImages({data, styled, isSections, wrapped, section
               border: theme => `solid 1px ${theme.palette.primary.main}`,
               borderRadius: '5px'
             }}>
-              <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(styled, 'm')}}>
+              <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(stylesData, 'm')}}>
                 <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                 {'Error loading image.'}
               </Typography>
@@ -138,21 +128,13 @@ export default function RenderImages({data, styled, isSections, wrapped, section
 
   const renderData = () => (
     <Box sx={{width: '100%', p: 2}}>
-      {sectionName && (
-        <Box sx={{display: 'flex'}}>
-          <PhotoSizeSelectActualIcon color="primary" />
-          <Typography sx={{...handleFont(styled, 't'), ml: '5px'}}>
-          {sectionName}
-        </Typography>
-        </Box>
-      )}
       <Box sx={{width: '100%', textAlign: 'center', color: theme => theme.palette.secondary.main}}>
         {images.current.length ? (
-          <Typography sx={{...handleFont(styled, 'm')}}>
+          <Typography sx={{...handleFont(stylesData, 'm')}}>
             {data.files?.length !== images.current.length ? `Loaded ${images.current.length}/${data.files?.length}...` : `${images.current.length} images`}
           </Typography>
         ) : (
-          <Typography sx={{...handleFont(styled, 'm')}}>{'Please wait...'}</Typography>
+          <Typography sx={{...handleFont(stylesData, 'm')}}>{'Please wait...'}</Typography>
         )}
       </Box>
     </Box>
@@ -160,30 +142,10 @@ export default function RenderImages({data, styled, isSections, wrapped, section
 
   return (
     <>
-      {!wrapped ? (
-        <>
-          {renderData()}
-          {!isSections ? renderGallery() : (
-            <Box sx={{width: 'calc(100% - 30px)', ml: 1}}>
-              <RenderSectWrapper>{renderGallery()}</RenderSectWrapper>
-            </Box>
-          )}
-        </>
-      ) : !isSections ? (
-        <Box>
-          {renderData()}
-          {renderGallery()}
-        </Box>
-      ) : (
-        <Box sx={{width: 'calc(100% - 30px)', ml: 1}}>
-          <RenderSectWrapper>
-            <Box>
-              {renderData()}
-              {renderGallery()}
-            </Box>
-          </RenderSectWrapper>
-        </Box>
-      )}
+      <Box>
+        {renderData()}
+        {renderGallery()}
+      </Box>
       {preview && (
         <RenderPreview
           handleNext={() => {
@@ -201,7 +163,7 @@ export default function RenderImages({data, styled, isSections, wrapped, section
           preview={preview}
           handleClose={() => setPreview(null)}
           type="image"
-          sx={{...handleFont(styled, 'm')}}
+          sx={{...handleFont(stylesData, 'm')}}
         />
       )}
     </>

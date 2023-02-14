@@ -1,25 +1,11 @@
-import Grid from "@mui/material/Grid";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import {useTheme} from "@mui/system";
-
 import RenderField from "../renderers/RenderField";
-import {handleFont} from "../renderers/helper";
+import {CustomProps, handleFont} from "../renderers/helper";
 
-import dynamic from "next/dynamic";
-
-const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
-
-interface RenderAddressProps {
-  stylesData: any;
-  data?: any;
-  isSections?: boolean;
-  sectionName?: string;
+interface AddressProps extends CustomProps {
+  includeIcon?: boolean;
 }
 
-export default function RenderAddress({data, stylesData, isSections, sectionName}: RenderAddressProps) {
-  const theme = useTheme();
+export default function RenderAddress({data, stylesData, includeIcon}: AddressProps) {
   if (!data?.address && !data?.address2 && !data?.city && !data?.zip && !data?.state && !data?.country) {
     return null;
   }
@@ -31,21 +17,5 @@ export default function RenderAddress({data, stylesData, isSections, sectionName
     address = address.slice(0, -2);
   }
 
-  const render = () => (
-    <Grid item xs={12} sx={{display: 'flex', mt: 2}}>
-      <LocationOnIcon sx={{color: theme.palette.primary.main, mt: '5px'}}/>
-      <Box sx={{ml: 1}}>
-        <Typography sx={{...handleFont(stylesData, 't')}}>{sectionName || 'Address'}</Typography>
-        <Grid container spacing={1}>
-          <RenderField value={address} sx={{...handleFont(stylesData, 'm')}}/>
-        </Grid>
-      </Box>
-    </Grid>
-  );
-
-  if (isSections) {
-    return <RenderSectWrapper>{render()}</RenderSectWrapper>;
-  }
-
-  return render();
+  return <RenderField icon={includeIcon ? 'location' : undefined} value={address} sx={{...handleFont(stylesData, 'm')}}/>;
 }

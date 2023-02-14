@@ -67,7 +67,7 @@ export default function Coupons({newData}: {newData: any;}) {
         <Typography sx={{mt: '-2px', ...handleFont(styled, 't')}}>{'Coupon'}</Typography>
         <Grid container spacing={1}>
           {data.name && <RenderField value={data.name} sx={{my: '-30px', ...handleFont(styled, 'm')}} />}
-          {data.value && <Box sx={{ml: '-25px'}}><RenderDate data={data} styledData={styled} message="Valid until" /></Box>}
+          {data.value && <Box sx={{ml: '-25px'}}><RenderDate data={data} stylesData={styled}/></Box>}
           {data.text && (
             <RenderField label="Terms and conditions" value={data.text} sx={{...handleFont(styled, 'm')}} />
           )}
@@ -87,7 +87,7 @@ export default function Coupons({newData}: {newData: any;}) {
           {x === 1 && (data.name || data.value || data.text) && (
             !isSections ? renderCoupon() : <RenderSectWrapper>{renderCoupon()}</RenderSectWrapper>
           )}
-          {x === 2 && <RenderAddress data={data} stylesData={styled} isSections={isSections} />}
+          {x === 2 && <RenderAddress data={data} stylesData={styled} />}
         </Grid>
       ))}
     </MainMicrosite>

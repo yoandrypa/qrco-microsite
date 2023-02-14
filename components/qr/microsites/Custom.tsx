@@ -2,12 +2,12 @@ import MainMicrosite from "./MainMicrosite";
 import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
-import {clearDataStyles} from "./renderers/helper";
-import {capitalize} from "@mui/material";
+import {clearDataStyles, handleFont} from "./renderers/helper";
+import RenderHeadLine from "./renderers/RenderHeadLine";
+import RenderProductSku from "./contents/RenderProductSku";
 
 const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
-const RenderText = dynamic(() => import("./contents/RenderText"));
 const RenderImages = dynamic(() => import("./contents/RenderImages"));
 const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
 const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
@@ -24,6 +24,10 @@ const RenderDate = dynamic(() => import("./contents/RenderDate"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderCouponData = dynamic(() => import("./contents/RenderCouponData"));
 const RenderCouponInfo = dynamic(() => import("./contents/RenderCouponInfo"));
+const TextField = dynamic(() => import("@mui/material/TextField"));
+const RenderDetails = dynamic(() => import("./contents/RenderDetails"));
+const RenderPetsInfo = dynamic(() => import("./contents/RenderPetsInfo"));
+const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
 
 interface CustomType {
   component: string;
@@ -36,128 +40,57 @@ export default function Custom({newData}: any) {
   const isSections = Boolean(newData.layout?.startsWith('sections'));
   const styled = clearDataStyles(newData);
 
+  const renderComponent = (x: CustomType) => {
+    const {component, name, data} = x;
+
+    return (
+      <Box sx={{width: '100%'}}>
+        <Box sx={{width: '50ox'}}>
+          {!['title', 'action', 'sku'].includes(component) && !data.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
+              (component !== 'gallery' || newData.qrType !== 'inventory')) &&
+            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ?
+              (component !== 'keyvalue' || newData.qrType !== 'inventory' ? name : 'Location') : data.petName}/>
+          }
+        </Box>
+        <Box sx={{width: 'calc(100% - 30px)', ml: '30px'}}>
+          {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
+          {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
+              data?.companyEmail || data?.contact || data?.companyPhone || data?.about) &&
+            <RenderCompany stylesData={styled} data={data}/>
+          }
+          {component === 'date' && <RenderDate data={data} stylesData={styled}/>}
+          {component === 'easiness' && data?.easiness && <RenderEasiness data={data} styledData={styled}/>}
+          {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
+          {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled}/>}
+          {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
+          {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
+          {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
+          {component === 'opening' && Object.keys(data?.openingTime || []).length && <RenderOpeningTime data={data} stylesData={styled}/>}
+          {component === 'socials' && <RenderSocials data={data} stylesData={styled}/>}
+          {component === 'title' && <RenderTitleDesc data={data} stylesData={styled}/>}
+          {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
+          {component === 'single' && <TextField sx={{...handleFont(styled, 'm')}}>{data.text || ''}</TextField>}
+          {component === 'gallery' && <RenderImages data={data} stylesData={styled}/>}
+          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={data} stylesData={styled}/>}
+          {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
+          {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
+          {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
+          {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
+          {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
+          {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <MainMicrosite data={newData}>
       <Box sx={{width: '100%', p: 2}}>
-        {newData.custom?.map((x: CustomType) => {
-          const {component, name, data, expand} = x;
-
-          return (
-            <Box sx={{width: '100%'}} key={`key${expand}`}>
-              {component === 'address' && (
-                <RenderAddress stylesData={styled} data={data} isSections={isSections} sectionName={name}/>
-              )}
-              {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
-                data?.companyEmail || data?.contact || data?.companyPhone || data?.about) && (
-                !isSections ? <RenderCompany dataStyled={styled} sectionName={name} data={data}/> : (
-                  <RenderSectWrapper>
-                    <RenderCompany dataStyled={styled} data={data} sectionName={name}/>
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'date' && (<Box sx={{mt: '10px'}}>
-                {!isSections ? <RenderDate data={data} message={name || "Date"} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderDate data={data} message={name || "Date"} styledData={styled}/>
-                  </RenderSectWrapper>
-                )}
-              </Box>)}
-              {component === 'easiness' && data?.easiness && (
-                !isSections ? <RenderEasiness data={data} sectionName={name} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderEasiness data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'email' && (data?.email || data?.web) && (
-                !isSections ? <RenderEmailWeb data={data} sectionName={name} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderEmailWeb data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'links' && data?.links && (<Box sx={{mt: '10px'}}>
-                {!isSections ? <RenderLinks data={data} sectionName={name} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderLinks data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )}
-              </Box>)}
-              {component === 'organization' && (data?.organization || data?.position) && (
-                !isSections ? <RenderOrganization data={data} sectionName={name} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderOrganization data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'phones' && (data?.cell || data?.phone || data?.fax) && (
-                !isSections ? <RenderPhones data={data} sectionName={name} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderPhones data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && (
-                !isSections ? <RenderName data={data} sectionName={name} styledData={styled}/> : (
-                  <RenderSectWrapper>
-                    <RenderName data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'opening' && Object.keys(data?.openingTime || []).length ? (
-                !isSections ? <RenderOpeningTime data={data} styledData={styled} sectionName={name}/> : (
-                  <RenderSectWrapper>
-                    <RenderOpeningTime data={data} sectionName={name} styledData={styled}/>
-                  </RenderSectWrapper>
-                )
-              ) : null}
-              {component === 'socials' && (
-                <RenderSocials data={data} styledData={styled} isSections={isSections} sectionName={name}/>
-              )}
-              {component === 'title' && <RenderTitleDesc data={data} isSections={isSections} styledData={styled}/>}
-              {component === 'action' && <RenderActionButton styled={styled} data={data} isSections={isSections} />}
-              {component === 'single' && (
-                <RenderText
-                  stylesData={styled}
-                  text={data.text || ''}
-                  isSections={isSections}
-                  sectionName={data.includeTextDescription ? name || 'Text' : undefined} />
-              )}
-              {component === 'gallery' && (
-                <RenderImages
-                  data={data}
-                  styled={styled}
-                  isSections={isSections}
-                  wrapped
-                  sectionName={data?.includeDescription ? name || 'Photos' : undefined}/>
-              )}
-              {['pdf', 'audio', 'video'].includes(component) && (
-                <RenderAssets
-                  data={data}
-                  styled={styled}
-                  isSections={isSections}
-                  wrapped
-                  sectionName={data?.includeDescription ? name || capitalize(component) : undefined}/>
-              )}
-              {component === 'couponInfo' && (
-                !isSections ? <RenderCouponData dataStyled={styled} data={data} sectionName={name} /> : (
-                  <RenderSectWrapper>
-                    <RenderCouponData dataStyled={styled} data={data} sectionName={name} />
-                  </RenderSectWrapper>
-                )
-              )}
-              {component === 'couponData' && (
-                !isSections ? (
-                  <RenderCouponInfo dataStyled={styled} isSections={isSections} sectionName={name} data={data} />
-                ) : (
-                  <RenderSectWrapper>
-                    <RenderCouponInfo dataStyled={styled} isSections={isSections} sectionName={name} data={data} />
-                  </RenderSectWrapper>
-                )
-              )}
-            </Box>
-          )
-        })}
+        {newData.custom?.map((x: CustomType) => (
+          <Box sx={{width: '100%'}} key={`key${x.expand}`}>
+            {!isSections ? renderComponent(x) : <RenderSectWrapper>{renderComponent(x)}</RenderSectWrapper>}
+          </Box>
+        ))}
       </Box>
     </MainMicrosite>
   );

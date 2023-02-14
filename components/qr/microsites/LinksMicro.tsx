@@ -17,20 +17,20 @@ export default function LinksMicro({newData}: {
 
   const renderSocials = (sx?: object) => (
     <Box sx={{...sx, display: 'inline-flex'}}>
-      <RenderSocials data={data} styledData={styled} />
+      <RenderSocials data={data} stylesData={styled} />
     </Box>
   );
 
   return (
     <MainMicrosite data={newData}>
       <Box sx={{p: 2, textAlign: 'center', width: 'calc(100% - 15px)'}}>
-        <RenderTitleDesc data={data} styledData={styled} isSections={isSections} />
+        <RenderTitleDesc data={data} stylesData={styled} />
         {newData.position === 'over' && (
           !isSections ? renderSocials({my: 2}) : <RenderSectWrapper>{renderSocials({my: 2})}</RenderSectWrapper>
         )}
-        {!isSections ? <RenderLinks data={data} styledData={styled}/> : (
+        {!isSections ? <RenderLinks data={data} stylesData={styled}/> : (
           <RenderSectWrapper>
-            <RenderLinks data={data} styledData={styled}/>
+            <RenderLinks data={data} stylesData={styled}/>
           </RenderSectWrapper>
         )}
         {(newData.position === undefined || newData.position === 'under') && (

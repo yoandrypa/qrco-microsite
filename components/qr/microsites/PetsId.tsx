@@ -200,7 +200,7 @@ export default function PetsId({ newData }: PetIdProps) {
               display: 'flex',
               justifyContent: 'center'
             }}>
-            <RenderSocials data={newData} styledData={newData} />
+            <RenderSocials data={newData} stylesData={newData} />
           </Box>
         </Grid>
       </Box>
