@@ -25,8 +25,7 @@ export default function RenderProduct({
             titleAbout: newData?.product?.titleAbout || newData.name,
             descriptionAbout: newData?.product?.descriptionAbout || ''
           }}
-          styledData={newData}
-          isSections={isSections}
+          stylesData={newData}
         />
       </Grid>
       {newData?.product?.quantity && (

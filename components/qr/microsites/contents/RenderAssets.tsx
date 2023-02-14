@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DangerousIcon from '@mui/icons-material/Dangerous';
@@ -8,8 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {capitalize, useMediaQuery} from "@mui/material";
 import {useTheme} from "@mui/system";
 
-import MainMicrosite from "../MainMicrosite";
-import {handleFont, handleDownloadFiles, handleButtons, clearDataStyles} from "../renderers/helper";
+import {CustomProps, handleButtons, handleDownloadFiles, handleFont} from "../renderers/helper";
 import {download} from "../../../../handlers/storage";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
@@ -17,12 +16,11 @@ import {getExtension} from "../../../helpers/generalFunctions";
 import dynamic from "next/dynamic";
 
 const PleaseWait = dynamic(() => import("../../../PleaseWait"));
-const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 const RenderPreviewVideo = dynamic(() => import("../renderers/RenderPreviewVideo"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
 const RenderPreviewPdf = dynamic(() => import("../renderers/RenderPreviewPdf"));
 
-export default function RenderAssets({ newData }: any) {
+export default function RenderAssets({ data, stylesData }: CustomProps) {
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const [height, setHeight] = useState<number | undefined>(undefined);
@@ -33,10 +31,6 @@ export default function RenderAssets({ newData }: any) {
 
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
-
-  const data = useMemo(() => newData.custom?.length ? newData.custom[0] : newData, []); // eslint-disable-line react-hooks/exhaustive-deps
-  const styled = useMemo(() => clearDataStyles(newData), []); // eslint-disable-line react-hooks/exhaustive-deps
-  const isSections = useMemo(() => Boolean(newData.layout?.startsWith('sections')), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const theme = useTheme();
 
@@ -59,11 +53,11 @@ export default function RenderAssets({ newData }: any) {
   const renderHint = (type: string, index: number) => {
     const kind = data.qrType === 'audio' ? 'Audio track' : data.qrType === 'video' ? 'Video track' : 'PDF document';
     return (
-      <Typography color="primary" sx={{ width: '100%', textAlign: 'center', ...handleFont(styled, 'm') }}>
+      <Typography color="primary" sx={{ width: '100%', textAlign: 'center', ...handleFont(stylesData, 'm') }}>
         <Typography sx={{ fontWeight: 'bold', display: 'inline-block', mr: 1 }}>
           {kind}
         </Typography>
-        {<Typography sx={{display: 'inline-block', ...handleFont(styled, 'm')}}>
+        {<Typography sx={{display: 'inline-block', ...handleFont(stylesData, 'm')}}>
           {data.files?.length ? `${index}/${data.files.length} (${type.toUpperCase()})` : 'No files to show'}
         </Typography>}
       </Typography>
@@ -137,7 +131,7 @@ export default function RenderAssets({ newData }: any) {
               )}
               <Box sx={{ display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column' }}>
                 <Button
-                  sx={{width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme)}}
+                  sx={{width: '100%', ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme)}}
                   variant="outlined"
                   onClick={() => handleDownloadFiles(x, data.qrType)}
                   startIcon={<DownloadIcon />}
@@ -147,7 +141,7 @@ export default function RenderAssets({ newData }: any) {
                 {['video', 'pdf'].includes(data.qrType) && (
                   <Button
                     sx={{ width: isWide400 ? '30%' : '100%', ml: isWide400 ? '5px' : 0, mt: isWide400 ? 0 : '5px',
-                      ...handleFont(styled, 'b'), ...handleButtons(styled, theme) }}
+                      ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme) }}
                     variant="outlined"
                     onClick={() => setPreview(x)}
                   >
@@ -157,7 +151,7 @@ export default function RenderAssets({ newData }: any) {
               </Box>
             </>
           ) : (
-            <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(styled, 'm') }}>
+            <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(stylesData, 'm') }}>
               <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
               {'Error loading asset.'}
             </Typography>
@@ -189,22 +183,16 @@ export default function RenderAssets({ newData }: any) {
   }
 
   return (
-    <MainMicrosite data={data}>
-      <Box sx={{ p: 2 }}>
-        <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
-          {data.files?.length && <Typography sx={{...handleFont(styled, 'm')}}>{`${data.files.length} item${data.files.length !== 1 ? 's' : ''}`}</Typography>}
-        </Box>
-        {!isSections ? renderAssets() : (
-          <Box sx={{width: 'calc(100% - 5px)', ml: '-5px'}}>
-            <RenderSectWrapper>{renderAssets()}</RenderSectWrapper>
-          </Box>
-        )}
-        {preview && (
-          <RenderPreview
-            isWide={isWide} preview={preview} type={data.qrType} handleClose={() => setPreview(null)}
-            sx={{...handleFont(styled, 'm'), ...handleButtons(styled, theme)}} handleFullScreen={() => setFullScreen(true)} />
-        )}
+    <Box sx={{ p: 2 }}>
+      <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
+        {data.files?.length && <Typography sx={{...handleFont(stylesData, 'm')}}>{`${data.files.length} item${data.files.length !== 1 ? 's' : ''}`}</Typography>}
       </Box>
-    </MainMicrosite>
+      {renderAssets()}
+      {preview && (
+        <RenderPreview
+          isWide={isWide} preview={preview} type={data.qrType} handleClose={() => setPreview(null)}
+          sx={{...handleFont(stylesData, 'm'), ...handleButtons(stylesData, theme)}} handleFullScreen={() => setFullScreen(true)} />
+      )}
+    </Box>
   );
 }

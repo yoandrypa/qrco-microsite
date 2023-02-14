@@ -20,15 +20,14 @@ const RenderSocials = dynamic(() => import('./contents/RenderSocials'));
 export default function FindMe({ newData }: FindMeProps) {
   const data = newData.custom?.length ? newData.custom[0] : newData;
   const styled = clearDataStyles(newData);
-  const isSections = Boolean(data.layout?.startsWith('sections'));
 
   return (
     <MainMicrosite data={data}>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
-          {(data.prefix || data.firstName || data.lastName)&&<RenderName data={data} styledData={styled} />}
-          <RenderPhones data={data} styledData={styled} />
-          <RenderAddress data={data} stylesData={styled} isSections={isSections} />
+          {(data.prefix || data.firstName || data.lastName)&&<RenderName data={data} stylesData={styled} />}
+          <RenderPhones data={data} stylesData={styled} />
+          <RenderAddress data={data} stylesData={styled} />
           <RenderKeyValueFields
             newData={data}
             item="otherDetails"
@@ -42,7 +41,7 @@ export default function FindMe({ newData }: FindMeProps) {
               display: 'flex',
               justifyContent: 'center'
             }}>
-            <RenderSocials data={data} isSections={isSections} styledData={styled} />
+            <RenderSocials data={data} stylesData={styled} />
           </Box>
           {data.contactForm !== undefined && (
             <Grid item xs={12} alignContent={'center'} alignItems={'center'}>

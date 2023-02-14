@@ -3,6 +3,11 @@ export type LinkType = {
   link: string;
 };
 
+export type KeyValues = {
+  key?: string;
+  value: string;
+};
+
 export type OpeningObjType = {
   ini: string;
   end: string;

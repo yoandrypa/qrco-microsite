@@ -21,10 +21,10 @@ function Images({newData}: ImageProps) {
     <MainMicrosite data={newData}>
       <Box sx={{width: '100%', p: 2, textAlign: 'center', color: theme => theme.palette.secondary.main}}>
         <Box sx={isSections ? {width: 'calc(100% + 5px)', ml: '-10px'} : undefined}>
-          <RenderTitleDesc data={data} styledData={styled} isSections={isSections} />
+          <RenderTitleDesc data={data} stylesData={styled} />
         </Box>
       </Box>
-      <RenderImages data={data} styled={styled} isSections={isSections} />
+      <RenderImages data={data} stylesData={styled} />
     </MainMicrosite>
   );
 }

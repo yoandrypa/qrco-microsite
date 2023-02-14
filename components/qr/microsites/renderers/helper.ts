@@ -208,3 +208,8 @@ export const convertBase64 = (file: Blob | File): object => {
     };
   });
 };
+
+export interface CustomProps {
+  stylesData: any;
+  data?: any;
+}

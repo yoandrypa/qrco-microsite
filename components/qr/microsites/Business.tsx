@@ -23,12 +23,12 @@ export default function Business({newData}: BusinessProps) {
   const styled = clearDataStyles(newData);
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
-  const renderButton = () => <RenderActionButton styled={styled} data={newData} />;
+  const renderButton = () => <RenderActionButton stylesData={styled} data={newData} />;
 
   const renderCompany = () => (
     <>
-      <RenderCompany data={newData} dataStyled={styled}/>
-      <RenderPhones data={newData} styledData={styled}/>
+      <RenderCompany data={newData} stylesData={styled}/>
+      <RenderPhones data={newData} stylesData={styled}/>
     </>
   );
 
@@ -45,10 +45,10 @@ export default function Business({newData}: BusinessProps) {
             {x === 1 && newData.urlOptionLabel && (
               !isSections ? renderButton() : <RenderSectWrapper>{renderButton()}</RenderSectWrapper>
             )}
-            {x === 2 && <RenderAddress data={newData} stylesData={styled} isSections={isSections}/>}
+            {x === 2 && <RenderAddress data={newData} stylesData={styled}/>}
             {x === 3 && Object.keys(newData.openingTime || []).length ? (
-              !isSections ? <RenderOpeningTime data={newData} styledData={styled}/> :
-                <RenderSectWrapper><RenderOpeningTime data={newData} styledData={styled}/></RenderSectWrapper>
+              !isSections ? <RenderOpeningTime data={newData} stylesData={styled}/> :
+                <RenderSectWrapper><RenderOpeningTime data={newData} stylesData={styled}/></RenderSectWrapper>
             ) : null}
             {x === 4 && newData.easiness && (
               !isSections ? <RenderEasiness data={newData} styledData={styled}/> :
@@ -56,7 +56,7 @@ export default function Business({newData}: BusinessProps) {
             )}
             {x === 5 && (
               <Box sx={{mt: !isSections ? '5px' : 0, width: '100%'}}>
-                <RenderSocials data={newData} styledData={styled} desc="Social networks" bold isSections={isSections}/>
+                <RenderSocials data={newData} stylesData={styled} desc="Social networks" bold/>
               </Box>
             )}
           </Box>

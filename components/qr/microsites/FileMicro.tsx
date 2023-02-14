@@ -19,10 +19,10 @@ export default function FileMicro({ newData }: FileProps) {
     <MainMicrosite data={data}>
       <Box sx={{ p: 2 }}>
         <Box sx={isSections ? {width: 'calc(100% + 5px)', ml: '-10px'} : undefined}>
-          <RenderTitleDesc data={data} isSections={isSections} styledData={styled} />
+          <RenderTitleDesc data={data} stylesData={styled} />
         </Box>
         <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
-          <RenderAssets newData={data} />
+          <RenderAssets data={data} stylesData={styled} />
         </Box>
       </Box>
     </MainMicrosite>
