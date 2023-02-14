@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
 import {clearDataStyles, handleFont} from "./renderers/helper";
 import RenderHeadLine from "./renderers/RenderHeadLine";
+import RenderProductSku from "./contents/RenderProductSku";
 
 const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
@@ -76,6 +77,7 @@ export default function Custom({newData}: any) {
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
           {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
+          {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
         </Box>
       </Box>
     );
