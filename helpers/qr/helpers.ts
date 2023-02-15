@@ -1,18 +1,4 @@
-import {DataType, SocialNetworksType, SocialsType} from '../../components/qr/types/types';
-
-const exists = (socials: SocialNetworksType[] | undefined, item: SocialsType): boolean => (
-  socials !== undefined && socials.length > 0 && socials.some((x: SocialNetworksType) => x.network === item)
-);
-
-const getValue = (socials: SocialNetworksType[] | undefined, item: SocialsType): string => {
-  if (socials) {
-    const network = socials.find((x: SocialNetworksType) => x.network === item);
-    if (network) {
-      return network.value || '';
-    }
-  }
-  return '';
-};
+import {DataType} from '../../components/qr/types/types';
 
 export const handleDesignerString = (selected: string | null | undefined, data: DataType): string => {
   let designerString = '';
@@ -51,20 +37,12 @@ export const handleDesignerString = (selected: string | null | undefined, data: 
       if (data.fax) { designerString += `TEL;TYPE=fax,VOICE:${data.phone}\n`; }
       if (data.organization) { designerString += `ORG:${data.organization}\n`; }
       if (data.position) { designerString += `TITLE:${data.position}\n`; }
-      if (data.address || data.city || data.zip || data.state || data.country) {
-        designerString += `ADR;TYPE=WORK,PREF:;;${data.address || ''};${data.city || ''};${data.state || ''};${data.zip || ''};${data.country || ''}\n`;
+      if (data.address || data.address2 || data.city || data.zip || data.state || data.country) {
+        designerString += `ADR;TYPE=WORK,PREF:;;${data.address || ''}${data.address2 ? `${data.address ? ', ' : ''}${data.address2}` : ''};${data.city || ''};${data.state || ''};${data.zip || ''};${data.country || ''}\n`;
       }
       if (data.email) { designerString += `EMAIL:${data.email}\n`; }
       if (data.web) { designerString += `URL:${data.web}\n`; }
       designerString += 'VERSION:3.0\nEND:VCARD\n';
-      if (exists(data.socials, 'facebook')) { designerString += `facebook:${getValue(data.socials, 'facebook')}\n` }
-      if (exists(data.socials, 'twitter')) { designerString += `twitter:${getValue(data.socials, 'twitter')}\n` }
-      if (exists(data.socials, 'instagram')) { designerString += `instagram:${getValue(data.socials, 'instagram')}\n` }
-      if (exists(data.socials, 'youtube')) { designerString += `youtube:${getValue(data.socials, 'youtube')}\n` }
-      if (exists(data.socials, 'whatsapp')) { designerString += `whatsapp:${getValue(data.socials, 'whatsapp')}\n` }
-      if (exists(data.socials, 'linkedin')) { designerString += `linkedin:${getValue(data.socials, 'linkedin')}\n` }
-      if (exists(data.socials, 'pinterest')) { designerString += `pinterest:${getValue(data.socials, 'pinterest')}\n` }
-      if (exists(data.socials, 'telegram')) { designerString += `facebook:${getValue(data.socials, 'telegram')}\n` }
       break;
     }
     case 'twitter': {

@@ -1,14 +1,13 @@
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import GetAppIcon from '@mui/icons-material/GetApp';
 import Box from "@mui/material/Box";
 import {useTheme} from "@mui/system";
 
 import MainMicrosite from "./MainMicrosite";
 
-import {clearDataStyles, downloadVCard, handleButtons, handleFont} from "./renderers/helper";
+import {clearDataStyles} from "./renderers/helper";
 
 import dynamic from "next/dynamic";
+import RenderDownloadVCard from "./renderers/RenderDownloadVCard";
 
 const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
 const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
@@ -54,15 +53,7 @@ export default function VCard({newData}: {newData: any;}) {
           </Box>
         ))}
       </Grid>
-      <Box sx={{ textAlign: 'center', mt: '10px' }}>
-        <Button
-          variant="contained"
-          startIcon={<GetAppIcon />}
-          sx={{...handleFont(styled, 'b'), ...handleButtons(styled, theme)}}
-          onClick={() => downloadVCard({...newData})}
-        >{'Get Contact'}</Button>
-        <Box sx={{height: '35px'}}/>
-      </Box>
+      <RenderDownloadVCard styled={styled} data={newData} />
     </MainMicrosite>
   );
 }

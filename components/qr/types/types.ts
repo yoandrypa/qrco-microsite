@@ -56,6 +56,7 @@ export type DataType = {
   organization?: string;
   position?: string;
   address?: string;
+  address2?: string;
   city?: string;
   zip?: string;
   state?: string;

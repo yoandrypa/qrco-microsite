@@ -4,7 +4,8 @@ import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
 import {clearDataStyles, handleFont} from "./renderers/helper";
 import RenderHeadLine from "./renderers/RenderHeadLine";
-import RenderProductSku from "./contents/RenderProductSku";
+
+import {useCallback} from "react";
 
 const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
@@ -28,6 +29,9 @@ const TextField = dynamic(() => import("@mui/material/TextField"));
 const RenderDetails = dynamic(() => import("./contents/RenderDetails"));
 const RenderPetsInfo = dynamic(() => import("./contents/RenderPetsInfo"));
 const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
+const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
+const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
+const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
 
 interface CustomType {
   component: string;
@@ -40,13 +44,20 @@ export default function Custom({newData}: any) {
   const isSections = Boolean(newData.layout?.startsWith('sections'));
   const styled = clearDataStyles(newData);
 
+  const renderDownloadVCard = useCallback(() => (
+    <RenderDownloadVCard data={{
+      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation').data,
+      ...newData.custom.find((x: { component: string; }) => x.component === 'organization').data
+    }} styled={styled} />
+  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const renderComponent = (x: CustomType) => {
     const {component, name, data} = x;
 
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
-          {!['title', 'action', 'sku'].includes(component) && !data.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
+          {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
               (component !== 'gallery' || newData.qrType !== 'inventory')) &&
             <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ?
               (component !== 'keyvalue' || newData.qrType !== 'inventory' ? name : 'Location') : data.petName}/>
@@ -77,6 +88,7 @@ export default function Custom({newData}: any) {
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
           {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
+          {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
         </Box>
       </Box>
@@ -92,6 +104,7 @@ export default function Custom({newData}: any) {
           </Box>
         ))}
       </Box>
+      {newData.qrType === 'vcard+' && renderDownloadVCard()}
     </MainMicrosite>
   );
 }
