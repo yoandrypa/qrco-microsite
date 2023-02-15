@@ -60,7 +60,7 @@ export default function Custom({newData}: any) {
           {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
               (component !== 'gallery' || newData.qrType !== 'inventory')) &&
             <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ?
-              (component !== 'keyvalue' || newData.qrType !== 'inventory' ? name : 'Location') : data.petName}/>
+              (component !== 'keyvalue' || newData.qrType !== 'inventory' ? name : 'Location') : data.petName} centerHeadLine={data?.centerHeadLine}/>
           }
         </Box>
         <Box sx={{width: 'calc(100% - 30px)', ml: '30px'}}>
