@@ -25,13 +25,13 @@ const RenderDate = dynamic(() => import("./contents/RenderDate"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderCouponData = dynamic(() => import("./contents/RenderCouponData"));
 const RenderCouponInfo = dynamic(() => import("./contents/RenderCouponInfo"));
-const TextField = dynamic(() => import("@mui/material/TextField"));
 const RenderDetails = dynamic(() => import("./contents/RenderDetails"));
 const RenderPetsInfo = dynamic(() => import("./contents/RenderPetsInfo"));
 const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
 const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
+const Typography = dynamic(() => import("@mui/material/Typography"));
 
 interface CustomType {
   component: string;
@@ -80,12 +80,13 @@ export default function Custom({newData}: any) {
           {component === 'socials' && <RenderSocials data={data} stylesData={styled}/>}
           {component === 'title' && <RenderTitleDesc data={data} stylesData={styled}/>}
           {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
-          {component === 'single' && <TextField sx={{...handleFont(styled, 'm')}}>{data.text || ''}</TextField>}
+          {component === 'single' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.text || ''}</Typography>}
           {component === 'gallery' && <RenderImages data={data} stylesData={styled}/>}
           {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={data} stylesData={styled}/>}
           {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
           {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
+          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.split(',').join(', ') : ''}</Typography>}
           {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
