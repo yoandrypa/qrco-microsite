@@ -28,9 +28,10 @@ interface HeadLineProps {
   component: string;
   headLine?: string;
   stylesData: object;
+  centerHeadLine?: boolean;
 }
 
-export default function RenderHeadLine({component, headLine, stylesData}: HeadLineProps) {
+export default function RenderHeadLine({component, headLine, stylesData, centerHeadLine}: HeadLineProps) {
   const message = useRef<string | null>(null);
 
   const theme = useTheme();
@@ -85,7 +86,7 @@ export default function RenderHeadLine({component, headLine, stylesData}: HeadLi
   };
 
   return (
-    <Box sx={{display: 'flex', mt: 1}}>
+    <Box sx={{display: 'flex', mt: 1, justifyContent: !Boolean(centerHeadLine) ? 'left' : 'center'}}>
       <Box>{renderIcon()}</Box>
       <Typography sx={{...handleFont(stylesData, 't')}}>
         {headLine || message.current || capitalize(component)}
