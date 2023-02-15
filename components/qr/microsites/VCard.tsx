@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import {useTheme} from "@mui/system";
 
 import MainMicrosite from "./MainMicrosite";
 
@@ -18,8 +17,6 @@ const RenderName = dynamic(() => import("./contents/RenderName"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 
 export default function VCard({newData}: {newData: any;}) {
-  const theme = useTheme();
-
   const styled = clearDataStyles(newData);
   const isSections = Boolean(newData.layout?.startsWith('sections'));
 
