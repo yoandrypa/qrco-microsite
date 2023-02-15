@@ -102,6 +102,9 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
   return (
     <Box sx={{width: '100%'}}>
       {data.links.map((x: LinkType, index: number) => {
+        if (!x.link.trim().length) {
+          return null;
+        }
         if (data.linksOnlyLinks) {
           return renderLink(x.link, `lnk${index}`, index === 0);
         }

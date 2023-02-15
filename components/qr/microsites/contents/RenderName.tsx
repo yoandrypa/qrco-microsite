@@ -5,6 +5,7 @@ import RenderField from "../renderers/RenderField";
 
 import RenderAddress from "./RenderAddress";
 import RenderEmail from "./RenderEmail";
+import RenderWeb from "./RenderWeb";
 
 export default function RenderName({data, stylesData}: CustomProps) {
   return (
@@ -19,8 +20,9 @@ export default function RenderName({data, stylesData}: CustomProps) {
           {data.phone && <RenderField value={data.phone} icon="phone" sx={{...handleFont(stylesData,'m')}}/>}
           {data.cell && <RenderField value={data.cell} icon="cell" sx={{...handleFont(stylesData,'m')}}/>}
           {data.fax && <RenderField value={data.fax} icon="fax" sx={{...handleFont(stylesData,'m')}}/>}
-          <RenderEmail stylesData={stylesData} data={data} />
           <RenderAddress stylesData={stylesData} data={data} includeIcon />
+          <RenderEmail stylesData={stylesData} data={data} />
+          <RenderWeb stylesData={stylesData} data={data} />
         </Box>
       )}
     </>
