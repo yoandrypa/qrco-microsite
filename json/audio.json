@@ -31,23 +31,33 @@
     "opacity": 50,
     "size": 1
   },
-  "isDynamic": true,
-  "qrType": "audio",
-  "files": [
+  "custom": [
     {
-      "ETag": "\"25c1051320d50a1607e60c2ad8804e5a\"",
-      "$metadata": {
-        "totalRetryDelay": 0,
-        "httpStatusCode": 200,
-        "attempts": 1
+      "data": {
+        "titleAbout": "Willy's Song",
+        "descriptionAbout": "The Electronic Music is my passion. Here's an example. Find @luerodbounce on instagram to get more content like this."
       },
-      "Key": "audios/Luerod Bounce - Will i am (Orchrestral mix)mp3.mp3"
+      "component": "title"
+    },
+    {
+      "data": {
+        "files": [{
+          "ETag": "\"25c1051320d50a1607e60c2ad8804e5a\"",
+          "$metadata": {
+            "totalRetryDelay": 0,
+            "httpStatusCode": 200,
+            "attempts": 1
+          },
+          "Key": "audios/Luerod Bounce - Will i am (Orchrestral mix)mp3.mp3"
+        }]
+      },
+      "component": "audio"
     }
   ],
+  "isDynamic": true,
+  "qrType": "audio",
   "image": "",
   "updatedAt": "2022-11-25T18:22:25.321Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "descriptionAbout": "The Electronic Music is my passion. Here's an example. Find @luerodbounce on instagram to get more content like this.",
-  "id": "0407b45a-db2c-4f83-8998-810f5763e9b5",
-  "titleAbout": "Willy's Song"
+  "id": "0407b45a-db2c-4f83-8998-810f5763e9b5"
 }

@@ -54,6 +54,10 @@ export default function Custom({newData}: any) {
   const renderComponent = (x: CustomType) => {
     const {component, name, data} = x;
 
+    if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
+      data.isSample = true;
+    }
+
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
@@ -105,7 +109,7 @@ export default function Custom({newData}: any) {
           </Box>
         ))}
       </Box>
-      {newData.qrType === 'vcard+' && renderDownloadVCard()}
+      {newData.qrType === 'vcard+' && newData.custom?.length && renderDownloadVCard()}
     </MainMicrosite>
   );
 }
