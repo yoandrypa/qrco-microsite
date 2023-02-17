@@ -55,12 +55,13 @@ export default function Custom({newData}: any) {
   const renderComponent = (x: CustomType) => {
     const {component, name, data} = x;
 
-    if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
-      data.isSample = true;
-    }
-
-    if (newData.iframed) {
-      data.iframed = true;
+    if (data) {
+      if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
+        data.isSample = true;
+      }
+      if (newData.iframed) {
+        data.iframed = true;
+      }
     }
 
     return (
