@@ -64,6 +64,8 @@ export default function Custom({newData}: any) {
       }
     }
 
+    console.log(data?.tags)
+
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
@@ -95,7 +97,7 @@ export default function Custom({newData}: any) {
           {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
           {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
-          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.split(',').join(', ') : ''}</Typography>}
+          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.join(', ') : ''}</Typography>}
           {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
