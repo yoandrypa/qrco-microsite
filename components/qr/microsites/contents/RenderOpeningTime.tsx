@@ -29,9 +29,9 @@ export default function RenderOpeningTime({data, stylesData}: CustomProps) {
         if (!data?.openingTime[x]) {
           return null;
         }
-        return (<Box key={`busines${x}`} sx={{m: 1}}> {/* @ts-ignore */}
+        return (<Box key={`opening${x}`} sx={{m: 1}}> {/* @ts-ignore */}
           <Typography sx={{ml: 2, ...handleFont(stylesData, 't')}}>{DAYS[x]}</Typography>
-          {(data ? data.openingTime[x] : []).map((open: OpeningObjType) => (
+          {data.openingTime[x].map((open: OpeningObjType) => (
             <Box sx={{display: 'inline-flex', ml: 2}} key={`day${x}`}>
               <LockClockIcon color="primary" sx={{mr: '5px'}}/>
               <Typography sx={{color: theme => theme.palette.primary.main, ...handleFont(stylesData, 'm')}}>
