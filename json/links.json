@@ -1,26 +1,4 @@
 {
-  "links": [
-    {
-      "link": "https://www.portfolio.com/anniephoto",
-      "label": "My portfolio"
-    },
-    {
-      "link": "https://www.podcast.com/anniephoto",
-      "label": "My podcast"
-    },
-    {
-      "link": "https://www.anniephoto.com/tips",
-      "label": "Tips & Tricks"
-    },
-    {
-      "link": "https://a-qr.link/anniephoto",
-      "label": "Buy me a coffee"
-    },
-    {
-      "link": "https://www.anniephoto.com/gallery",
-      "label": "My Art Gallery"
-    }
-  ],
   "shortLinkId": {
     "banned": false,
     "target": "https://app-dev.theqr.link/qr/48b6a7b1-a5ab-43dd-84cb-e5ede798c9cf",
@@ -55,32 +33,71 @@
   },
   "isDynamic": true,
   "qrType": "link",
-  "descriptionAbout": "Landscapes are my passion.",
   "image": "",
   "updatedAt": "2022-11-25T18:05:37.532Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "foregndImgType": "smooth",
-  "socials": [
-    {
-      "value": "annie.photographer",
-      "network": "facebook"
-    },
-    {
-      "value": "annie.photo",
-      "network": "instagram"
-    },
-    {
-      "value": "anniephoto",
-      "network": "youtube"
-    },
-    {
-      "value": "anniephoto",
-      "network": "telegram"
-    }
-  ],
   "id": "31f4f2e4-6121-459e-a76a-3a877d27d8b1",
   "secondary": "#cef6c9",
-  "socialsOnlyIcons": true,
   "primary": "#187510",
-  "titleAbout": "Annie Photographer"
+  "custom": [
+    {
+      "component": "title",
+      "data": {
+        "titleAbout": "Annie Photographer",
+        "descriptionAbout": "Landscapes are my passion."
+      }
+    },
+    {
+      "component": "links",
+      "data": {
+        "links": [
+          {
+            "link": "https://www.portfolio.com/anniephoto",
+            "label": "My portfolio"
+          },
+          {
+            "link": "https://www.podcast.com/anniephoto",
+            "label": "My podcast"
+          },
+          {
+            "link": "https://www.anniephoto.com/tips",
+            "label": "Tips & Tricks"
+          },
+          {
+            "link": "https://a-qr.link/anniephoto",
+            "label": "Buy me a coffee"
+          },
+          {
+            "link": "https://www.anniephoto.com/gallery",
+            "label": "My Art Gallery"
+          }
+        ]
+      }
+    },
+    {
+      "component": "socials",
+      "data": {
+        "socials": [
+          {
+            "value": "annie.photographer",
+            "network": "facebook"
+          },
+          {
+            "value": "annie.photo",
+            "network": "instagram"
+          },
+          {
+            "value": "anniephoto",
+            "network": "youtube"
+          },
+          {
+            "value": "anniephoto",
+            "network": "telegram"
+          }
+        ],
+        "socialsOnlyIcons": true
+      }
+    }
+  ]
 }

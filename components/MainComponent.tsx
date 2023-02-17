@@ -77,13 +77,13 @@ export default function MainComponent({ newData }: any) {
       return <SamplesList newData={data.samples} />;
     }
 
-    if (["vcard+", "social", "business", "coupon", "findMe", "inventory", "linkedLabel", "link", "petId", ...ASSETS, ...GALLERY].includes(data?.qrType)) {
+    if (["custom", "vcard+", "social", "business", "coupon", "findMe", "inventory", "linkedLabel", "link", "petId", ...ASSETS, ...GALLERY].includes(data?.qrType)) {
       return <Custom newData={{ ...data, iframed: iframed.current }} />;
     }
 
     return (
       <MainMicrosite data={{}}>
-        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", width: "100%", mt: '27px' }}>
           <EngineeringIcon color="primary" sx={{ mx: "auto", fontSize: "50px" }} />
           <Typography sx={{ mx: "auto" }}>{"Work in progress."}</Typography>
           <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>

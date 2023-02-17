@@ -32,6 +32,7 @@ const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
 const Typography = dynamic(() => import("@mui/material/Typography"));
+const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
 
 interface CustomType {
   component: string;
@@ -46,8 +47,8 @@ export default function Custom({newData}: any) {
 
   const renderDownloadVCard = useCallback(() => (
     <RenderDownloadVCard data={{
-      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation').data,
-      ...newData.custom.find((x: { component: string; }) => x.component === 'organization').data
+      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation')?.data,
+      ...newData.custom.find((x: { component: string; }) => x.component === 'organization')?.data
     }} styled={styled} />
   ), []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -58,13 +59,16 @@ export default function Custom({newData}: any) {
       data.isSample = true;
     }
 
+    if (newData.iframed) {
+      data.iframed = true;
+    }
+
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
           {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
               (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ?
-              (component !== 'keyvalue' || newData.qrType !== 'inventory' ? name : 'Location') : data.petName} centerHeadLine={data?.centerHeadLine}/>
+            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
           }
         </Box>
         <Box sx={{width: 'calc(100% - 30px)', ml: '30px'}}>
@@ -102,6 +106,9 @@ export default function Custom({newData}: any) {
 
   return (
     <MainMicrosite data={newData}>
+      {newData.qrType === 'coupon' &&
+        <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
+      }
       <Box sx={{width: '100%', p: 2}}>
         {newData.custom?.map((x: CustomType) => (
           <Box sx={{width: '100%'}} key={`key${x.expand}`}>

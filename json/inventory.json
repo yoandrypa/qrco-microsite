@@ -1,33 +1,53 @@
 {
-    "isDynamic": true,
-    "otherDetails": {
-        "heading": "Location",
-        "items": [
-            {
-                "value": "Row 5 Shelf A23"
-            }
-        ]
-    },
-    "product": {
+  "isDynamic": true,
+  "backgndImg": [
+    {
+      "name": "6a19514d-7a40-4a8d-96de-aaeb3a420c33.jpeg",
+      "Key": "linkedLabels/8.jpeg"
+    }
+  ],
+  "qrName": "Coffee",
+  "qrType": "inventory",
+  "shortlinkurl": "Ebanux",
+  "custom": [
+    {
+      "component": "title",
+      "name": "Product information",
+      "data": {
         "titleAbout": "Joel's Coffee",
-        "descriptionAbout": "The Mayor favorite coffee",
-        "sku": "COF1234EA",
-        "quantity": 7
+        "descriptionAbout": "The Mayor favorite coffee"
+      }
     },
-    "backgndImg": [
-        {
-            "name": "6a19514d-7a40-4a8d-96de-aaeb3a420c33.jpeg",
-            "Key": "linkedLabels/8.jpeg"
-        }
-    ],
-    "files": [
-        {
+    {
+      "component": "gallery",
+      "name": "Coffee supplies",
+      "data": {
+        "files": [
+          {
             "name": "9.jpeg",
             "Key": "linkedLabels/9.jpeg"
-        }
-    ],
-    "qrName": "Coffee",
-    "qrType": "inventory",
-    "shortlinkurl": "Ebanux",
-    "iframed": true
+          }
+        ]
+      }
+    },
+    {
+      "component": "sku",
+      "data": {
+        "sku": "COF1234EA",
+        "quantity": 7
+      }
+    },
+    {
+      "component": "keyvalue",
+      "name": "Details",
+      "data": {
+        "keyValues": [
+          {
+            "value": "Row 5 Shelf A23",
+            "key": "Location"
+          }
+        ]
+      }
+    }
+  ]
 }
