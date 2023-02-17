@@ -32,6 +32,7 @@ const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
 const Typography = dynamic(() => import("@mui/material/Typography"));
+const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
 
 interface CustomType {
   component: string;
@@ -46,21 +47,31 @@ export default function Custom({newData}: any) {
 
   const renderDownloadVCard = useCallback(() => (
     <RenderDownloadVCard data={{
-      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation').data,
-      ...newData.custom.find((x: { component: string; }) => x.component === 'organization').data
+      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation')?.data,
+      ...newData.custom.find((x: { component: string; }) => x.component === 'organization')?.data
     }} styled={styled} />
   ), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderComponent = (x: CustomType) => {
     const {component, name, data} = x;
 
+    if (data) {
+      if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
+        data.isSample = true;
+      }
+      if (newData.iframed) {
+        data.iframed = true;
+      }
+    }
+
+    console.log(data?.tags)
+
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
           {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
               (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ?
-              (component !== 'keyvalue' || newData.qrType !== 'inventory' ? name : 'Location') : data.petName} centerHeadLine={data?.centerHeadLine}/>
+            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
           }
         </Box>
         <Box sx={{width: 'calc(100% - 30px)', ml: '30px'}}>
@@ -76,7 +87,7 @@ export default function Custom({newData}: any) {
           {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
           {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
           {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
-          {component === 'opening' && Object.keys(data?.openingTime || []).length && <RenderOpeningTime data={data} stylesData={styled}/>}
+          {component === 'opening' && Object.keys(data?.openingTime || []).length ? <RenderOpeningTime data={data} stylesData={styled}/> : null}
           {component === 'socials' && <RenderSocials data={data} stylesData={styled}/>}
           {component === 'title' && <RenderTitleDesc data={data} stylesData={styled}/>}
           {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
@@ -86,7 +97,7 @@ export default function Custom({newData}: any) {
           {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
           {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
-          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.split(',').join(', ') : ''}</Typography>}
+          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.join(', ') : ''}</Typography>}
           {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
@@ -98,6 +109,9 @@ export default function Custom({newData}: any) {
 
   return (
     <MainMicrosite data={newData}>
+      {newData.qrType === 'coupon' &&
+        <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
+      }
       <Box sx={{width: '100%', p: 2}}>
         {newData.custom?.map((x: CustomType) => (
           <Box sx={{width: '100%'}} key={`key${x.expand}`}>
@@ -105,7 +119,7 @@ export default function Custom({newData}: any) {
           </Box>
         ))}
       </Box>
-      {newData.qrType === 'vcard+' && renderDownloadVCard()}
+      {newData.qrType === 'vcard+' && newData.custom?.length && renderDownloadVCard()}
     </MainMicrosite>
   );
 }

@@ -13,25 +13,11 @@ import getTheme from "./theming/themeHelper";
 import {DEFAULT_COLORS} from "./qr/constants";
 
 const Custom = dynamic(() => import("./qr/microsites/Custom"));
-const FileMicro = dynamic(() => import("./qr/microsites/FileMicro"));
 const Donations = dynamic(() => import("./qr/microsites/Donations"));
-const LinksMicro = dynamic(() => import("./qr/microsites/LinksMicro"));
-const VCard = dynamic(() => import("./qr/microsites/VCard"));
-const Images = dynamic(() => import("./qr/microsites/Images"));
-const Business = dynamic(() => import("./qr/microsites/Business"));
-const PetsId = dynamic(() => import("./qr/microsites/PetsId"));
-const LinkedLabel = dynamic(() => import("./qr/microsites/LinkedLabel"));
-const Coupons = dynamic(() => import("./qr/microsites/Coupons"));
-const SocialInfo = dynamic(() => import("./qr/microsites/SocialInfo"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
-const FindMe = dynamic(() => import("./qr/microsites/FindMe"));
 const SamplesList = dynamic(() => import("./SamplesList"));
-const Inventory = dynamic(()=> import("./qr/microsites/Inventory"));
-interface MainCompProps {
-  newData: any;
-}
 
-export default function MainComponent({ newData }: MainCompProps) {
+export default function MainComponent({ newData }: any) {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any>(newData.isAnEmptyPreview === undefined ? newData : null);
 
@@ -79,70 +65,25 @@ export default function MainComponent({ newData }: MainCompProps) {
   }
 
   const renderMicrositeComponent = () => {
-    // @ts-ignore
-    if ((data.custom?.length && data.custom.some(x => Object.keys(x).length > 2)) || data?.qrType === "custom") {
-      return <Custom newData={{ ...data, iframed: iframed.current }} />;
-    }
-
-    if (data?.samples) {
-      return <SamplesList newData={data.samples} />;
-    }
-
-    if (data?.qrType === "vcard+") {
-      return <VCard newData={data} />;
-    }
-
-    if (GALLERY.includes(data?.qrType)) {
-      return <Images newData={{ ...data, iframed: iframed.current }} />;
-    }
-
-    if (data?.qrType === "business") {
-      return <Business newData={data} />;
-    }
-
-    if (data?.qrType === "coupon") {
-      return <Coupons newData={data} />;
-    }
-
-    if (data?.qrType === "social") {
-      return <SocialInfo newData={data} />;
+    if (['donation', 'donations'].includes(data?.qrType)) {
+      return <Donations newData={data} />;
     }
 
     if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
       return <Web urlString={handleDesignerString(data.qrType, data)} />;
     }
 
-    if (ASSETS.includes(data?.qrType)) {
-      return <FileMicro newData={data} />;
+    if (data?.samples) {
+      return <SamplesList newData={data.samples} />;
     }
 
-    if (['donation', 'donations'].includes(data?.qrType)) {
-      return <Donations newData={data} />;
-    }
-
-    if (data?.qrType === "link") {
-      return <LinksMicro newData={data} />;
-    }
-
-    if(data?.qrType === "petId"){
-      return <PetsId newData={data} />
-    }
-
-    if(data?.qrType === "linkedLabel"){
-      return <LinkedLabel newData={{...data, iframed: iframed.current}} />
-    }
-
-    if(data?.qrType === "findMe"){
-      return <FindMe newData={data} />
-    }
-
-    if(data?.qrType === "inventory"){
-      return <Inventory newData={{...data, iframed: iframed.current}} />
+    if (["custom", "vcard+", "social", "business", "coupon", "findMe", "inventory", "linkedLabel", "link", "petId", ...ASSETS, ...GALLERY].includes(data?.qrType)) {
+      return <Custom newData={{ ...data, iframed: iframed.current }} />;
     }
 
     return (
       <MainMicrosite data={{}}>
-        <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", width: "100%", mt: '27px' }}>
           <EngineeringIcon color="primary" sx={{ mx: "auto", fontSize: "50px" }} />
           <Typography sx={{ mx: "auto" }}>{"Work in progress."}</Typography>
           <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto" }}>

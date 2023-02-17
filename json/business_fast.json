@@ -1,5 +1,4 @@
 {
-  "zip": "33101",
   "shortLinkId": {
     "banned": false,
     "target": "https://app-dev.theqr.link/qr/a9b8f020-d711-424d-9b6b-bcad72fb9463",
@@ -10,96 +9,114 @@
     "address": "efn9Zw",
     "type": "qr_link"
   },
-  "companyEmail": "contact@jimmysfood.com",
   "foregndImg": [
     {
       "name": "3a33e28d-5d36-4560-8fc6-cc03c4343624.png",
       "Key": "business/design/3a33e28d-5d36-4560-8fc6-cc03c4343624.png"
     }
   ],
-  "country": "US",
-  "state": "Florida",
-  "city": "Miami",
-  "openingTime": {
-    "thu": [
-      {
-        "ini": "0900",
-        "end": "1800"
-      }
-    ],
-    "fri": [
-      {
-        "ini": "0900",
-        "end": "2000"
-      }
-    ],
-    "mon": [
-      {
-        "ini": "0900",
-        "end": "1800"
-      }
-    ],
-    "tue": [
-      {
-        "ini": "0900",
-        "end": "1800"
-      }
-    ],
-    "wed": [
-      {
-        "ini": "0900",
-        "end": "1800"
-      }
-    ]
-  },
-  "company": "Jimmy's",
   "qrType": "business",
-  "about": "We bring the best fast food to your place since 2005",
   "image": "",
   "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
-  "socials": [
-    {
-      "value": "jimmys.food",
-      "network": "facebook"
-    },
-    {
-      "value": "jimmys.f",
-      "network": "instagram"
-    },
-    {
-      "value": "jimmysfood",
-      "network": "telegram"
-    }
-  ],
-  "easiness": {
-    "accessible": true,
-    "cafe": true,
-    "park": true,
-    "fastfood": true,
-    "smoking": true
-  },
   "id": "9fe5fb28-96ef-47d7-93ca-cbe794aebf57",
-  "companyPhone": "+15545545522",
-  "companyCell": "+15545545522",
-  "companyFax": "+15545545522",
   "secondary": "#dba8a8",
-  "contact": "Annie",
   "qrName": "Business Fast Food",
   "createdAt": "2022-11-15T23:18:45.605Z",
-  "subtitle": "The best fast food in the road",
-  "address": "600 NW 2ND",
-  "urlOptionLabel": "Order now",
   "backgndImg": [
     {
       "name": "aff623e3-307e-4c17-af42-ef6513163e37.png",
       "Key": "business/design/aff623e3-307e-4c17-af42-ef6513163e37.png"
     }
   ],
-  "companyWebSite": "https://www.jimmysfood.com",
   "isDynamic": true,
   "updatedAt": "2022-11-15T23:19:32.018Z",
   "foregndImgType": "smooth",
-  "urlOptionLink": "https://www.jimmysfood.com/order",
   "primary": "#b30909",
-  "title": "Food Truck"
+  "custom": [
+    {
+      "component": "company",
+      "data": {
+        "title": "Food Truck",
+        "company": "Jimmy's",
+        "companyWebSite": "https://www.jimmysfood.com",
+        "contact": "Annie",
+        "about": "We bring the best fast food to your place since 2005",
+        "companyEmail": "contact@jimmysfood.com",
+        "companyPhone": "+15545545522",
+        "companyCell": "+15545545522",
+        "companyFax": "+15545545522",
+        "subtitle": "The best fast food in the road"
+      }
+    },
+    {
+      "component": "action",
+      "data": {
+        "urlOptionLink": "https://www.jimmysfood.com/order",
+        "urlOptionLabel": "Order now"
+      }
+    },
+    {
+      "component": "address",
+      "data": {
+        "address": "600 NW 2ND",
+        "country": "US",
+        "state": "Florida",
+        "city": "Miami",
+        "zip": "33101"
+      }
+    },
+    {
+      "component": "opening",
+      "data": {
+        "openingTime": {
+          "thu": [
+            {"ini": "0900", "end": "1800"}
+          ],
+          "fri": [
+            {"ini": "0900", "end": "2000"}
+          ],
+          "mon": [
+            {"ini": "0900", "end": "1800"}
+          ],
+          "tue": [
+            {"ini": "0900", "end": "1800"}
+          ],
+          "wed": [
+            {"ini": "0900", "end": "1800"}
+          ]
+        }
+      }
+    },
+    {
+      "component": "easiness",
+      "data": {
+        "easiness": {
+          "accessible": true,
+          "cafe": true,
+          "park": true,
+          "fastfood": true,
+          "smoking": true
+        }
+      }
+    },
+    {
+      "component": "socials",
+      "data": {
+        "socials": [
+          {
+            "value": "jimmys.food",
+            "network": "facebook"
+          },
+          {
+            "value": "jimmys.f",
+            "network": "instagram"
+          },
+          {
+            "value": "jimmysfood",
+            "network": "telegram"
+          }
+        ]
+      }
+    }
+  ]
 }

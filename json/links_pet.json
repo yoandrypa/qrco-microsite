@@ -1,30 +1,4 @@
 {
-  "links": [
-    {
-      "link": "https://www.youtube.com/c/cooper2022",
-      "label": "My youtube channel"
-    },
-    {
-      "link": "https://www.blog.com/cooper2022",
-      "label": "Cooper's stories"
-    },
-    {
-      "link": "https://www.cooper2022.com/gallery",
-      "label": "Cooper's gallery"
-    },
-    {
-      "link": "https://www.cooper2022.com/store",
-      "label": "Cooper's Store"
-    },
-    {
-      "link": "https://www.cooper2022.com/tips",
-      "label": "Pets cares & tips"
-    },
-    {
-      "link": "https://www.cooper2022.com/shop",
-      "label": "Pets toys & gadgets"
-    }
-  ],
   "shortLinkId": {
     "banned": false,
     "target": "https://app-dev.theqr.link/qr/c47407ac-c484-46c7-9fc6-25f36ba910c6",
@@ -59,31 +33,73 @@
   },
   "isDynamic": true,
   "qrType": "link",
-  "about": "Pets just wanna be in touch",
   "image": "",
   "updatedAt": "2022-11-25T19:45:25.817Z",
   "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
-  "socials": [
-    {
-      "value": "copper2022",
-      "network": "facebook"
-    },
-    {
-      "value": "cooper.22",
-      "network": "instagram"
-    },
-    {
-      "value": "copper22",
-      "network": "telegram"
-    },
-    {
-      "value": "copper22",
-      "network": "pinterest"
-    }
-  ],
   "id": "dbe8922c-eb5a-413a-9e66-cd2151d0b6bb",
-  "position": "under",
   "secondary": "#ecece5",
   "primary": "#06284d",
-  "title": "Cooper"
+  "custom": [
+    {
+      "component": "title",
+      "data": {
+        "titleAbout": "Cooper",
+        "descriptionAbout": "Pets just wanna be in touch"
+      }
+    },
+    {
+      "component": "links",
+      "data": {
+        "links": [
+          {
+            "link": "https://www.youtube.com/c/cooper2022",
+            "label": "My youtube channel"
+          },
+          {
+            "link": "https://www.blog.com/cooper2022",
+            "label": "Cooper's stories"
+          },
+          {
+            "link": "https://www.cooper2022.com/gallery",
+            "label": "Cooper's gallery"
+          },
+          {
+            "link": "https://www.cooper2022.com/store",
+            "label": "Cooper's Store"
+          },
+          {
+            "link": "https://www.cooper2022.com/tips",
+            "label": "Pets cares & tips"
+          },
+          {
+            "link": "https://www.cooper2022.com/shop",
+            "label": "Pets toys & gadgets"
+          }
+        ]
+      }
+    },
+    {
+      "component": "socials",
+      "data": {
+        "socials": [
+          {
+            "value": "copper2022",
+            "network": "facebook"
+          },
+          {
+            "value": "cooper.22",
+            "network": "instagram"
+          },
+          {
+            "value": "copper22",
+            "network": "telegram"
+          },
+          {
+            "value": "copper22",
+            "network": "pinterest"
+          }
+        ]
+      }
+    }
+  ]
 }

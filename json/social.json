@@ -9,8 +9,6 @@
     "address": "VoofYf",
     "type": "qr_link"
   },
-  "descriptionAbout": "Climate Activist. Let's save the planet! Join me now!",
-  "titleAbout": "Grace",
   "qrName": "Social",
   "createdAt": "2022-11-09T18:27:22.290Z",
   "foregndImg": [
@@ -30,29 +28,44 @@
   "image": "",
   "updatedAt": "2022-11-15T23:01:21.929Z",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "socials": [
-    {
-      "value": "grace.climate.activist",
-      "network": "facebook"
-    },
-    {
-      "value": "grace.climate",
-      "network": "instagram"
-    },
-    {
-      "value": "GraceClimate",
-      "network": "youtube"
-    },
-    {
-      "value": "GraceClimate",
-      "network": "twitter"
-    },
-    {
-      "value": "graceclimate",
-      "network": "telegram"
-    }
-  ],
+
   "id": "e0cfad51-97f4-4929-ac83-03f26c766259",
   "secondary": "#a8a6a1",
-  "primary": "#40310f"
+  "primary": "#40310f",
+  "custom": [
+    {
+      "component": "title",
+      "data": {
+        "descriptionAbout": "Climate Activist. Let's save the planet! Join me now!",
+        "titleAbout": "Grace"
+      }
+    }, {
+      "component": "socials",
+      "data": {
+      "socials" :
+        [
+          {
+            "value": "grace.climate.activist",
+            "network": "facebook"
+          },
+          {
+            "value": "grace.climate",
+            "network": "instagram"
+          },
+          {
+            "value": "GraceClimate",
+            "network": "youtube"
+          },
+          {
+            "value": "GraceClimate",
+            "network": "twitter"
+          },
+          {
+            "value": "graceclimate",
+            "network": "telegram"
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -1,5 +1,4 @@
 {
-  "zip": "33101",
   "shortLinkId": {
     "banned": false,
     "target": "https://app-dev.theqr.link/qr/2093e49b-a409-46ce-91a3-9947fb760e38",
@@ -10,8 +9,7 @@
     "address": "wSKJeI",
     "type": "qr_link"
   },
-  "lastName": "Bounce",
-  "email": "luerodbounce@gmail.com",
+
   "foregndImg": [
     {
       "ETag": "\"d2a9f5836e83f0f132d1e869a2e4d997\"",
@@ -23,11 +21,6 @@
       "Key": "vcard+s/design/d4d2afea-efa4-4520-8614-aefa5cbec356.jpg"
     }
   ],
-  "country": "US",
-  "firstName": "Luerod",
-  "state": "Florida",
-  "city": "Miami",
-  "twitter": "LuerodBounce",
   "background": {
     "x": 0,
     "y": 0,
@@ -36,48 +29,65 @@
     "opacity": 50,
     "size": 1
   },
-  "instagram": "luerodbounce",
   "qrType": "vcard+",
   "image": "",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "socials": [
-    {
-      "value": "Luerodbounce",
-      "network": "facebook"
-    },
-    {
-      "value": "luerodbounce",
-      "network": "instagram"
-    },
-    {
-      "value": "luerod",
-      "network": "telegram"
-    },
-    {
-      "value": "LuerodBounce",
-      "network": "twitter"
-    }
-  ],
   "id": "9c6164c3-ac13-4d13-8888-4e8f344abcdc",
   "secondary": "#a8a6a1",
-  "cell": "+1555-444-5654",
-  "facebook": "Luerodbounce",
-  "mode": "edit",
   "qrName": "V Card Luerod Bounce",
   "createdAt": "2022-11-08T21:10:53.472Z",
-  "address": "500 NW 2ND",
-  "telegram": "luerod",
   "backgndImg": [
     {
       "name": "6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg",
-        "Key": "vcard+s/design/6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg"
+      "Key": "vcard+s/design/6d32f329-c84e-4a47-8595-3c5ddf5f33eb.jpg"
     }
   ],
   "web": "https://m.soundcloud.com/user-769018497",
   "organization": "Freelance",
-  "socialsOnlyIcons": true,
+
   "isDynamic": true,
   "updatedAt": "2022-11-25T16:40:05.288Z",
   "position": "Dj Producer",
-  "primary": "#40310f"
+  "primary": "#40310f",
+  "custom": [
+    {
+      "component": "presentation",
+      "data": {
+        "includeExtraInfo": true,
+        "zip": "33101",
+        "address": "500 NW 2ND",
+        "cell": "+1555-444-5654",
+        "lastName": "Bounce",
+        "email": "luerodbounce@gmail.com",
+        "country": "US",
+        "firstName": "Luerod",
+        "state": "Florida",
+        "city": "Miami"
+      }
+    },
+    {
+      "component": "socials",
+      "data": {
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "Luerodbounce",
+            "network": "facebook"
+          },
+          {
+            "value": "luerodbounce",
+            "network": "instagram"
+          },
+          {
+            "value": "luerod",
+            "network": "telegram"
+          },
+          {
+            "value": "LuerodBounce",
+            "network": "twitter"
+          }
+        ]
+      }
+    }
+  ]
 }

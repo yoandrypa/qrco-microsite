@@ -83,7 +83,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     return footerLabel;
   }
 
-
   useEffect(() => {
     if (data.backgndImg) {
       setLoading(true);
@@ -220,7 +219,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           <Box sx={{
             width: '100%',
             minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20)}px)` :
-              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) + (Boolean(foreImg) ? 0 : (data.qrType !== 'custom' ? 8 : 0)) - (!isBorder ? 0 : 20)}px)`}}>
+              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) - (!isBorder ? 0 : 20)}px)`}}>
             {foreImg && (
               <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
                 <Box

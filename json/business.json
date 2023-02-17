@@ -1,5 +1,4 @@
 {
-  "zip": "33101",
   "shortLinkId": {
     "banned": false,
     "target": "https://app-dev.theqr.link/qr/30e4b03b-0d9f-4251-bc1d-eb2fe9493ef5",
@@ -10,48 +9,6 @@
     "address": "fvyVkj",
     "type": "qr_link"
   },
-  "companyEmail": "marys@marysfood.com",
-  "country": "US",
-  "state": "Florida",
-  "city": "Miami",
-  "openingTime": {
-    "thu": [
-      {
-        "ini": "1000",
-        "end": "2200"
-      }
-    ],
-    "fri": [
-      {
-        "ini": "1000",
-        "end": "2200"
-      }
-    ],
-    "sun": [
-      {
-        "ini": "1000",
-        "end": "2300"
-      }
-    ],
-    "tue": [
-      {
-        "ini": "1000",
-        "end": "2200"
-      }
-    ],
-    "wed": [
-      {
-        "ini": "1000",
-        "end": "2200"
-      }
-    ],
-    "sat": [
-      {
-        "ini": "1000",
-        "end": "2300"
-      }
-    ]
-  },
   "background": {
     "x": 0,
     "y": 0,
@@ -60,62 +17,101 @@
     "opacity": 50,
     "size": 1
   },
-  "instagram": "marysfood",
-  "company": "Mary's Food",
-  "qrType": "business",
-  "about": "The best healthy food in town since 2002",
-  "image": "",
-  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-  "socials": [
+  "custom": [
     {
-      "value": "marys.food",
-      "network": "facebook"
+      "component": "company",
+      "data": {
+        "title": "Healthy Food",
+        "about": "The best healthy food in town since 2002",
+        "company": "Mary's Food",
+        "companyEmail": "marys@marysfood.com",
+        "companyPhone": "+12555456544",
+        "companyCell": "+12555456544",
+        "contact": "Ann",
+        "subtitle": "All in healthy food & deserts",
+        "companyWebSite": "https://www.marysfood.com",
+        "companyFax": "+12555456544"
+      }
     },
     {
-      "value": "marysfood",
-      "network": "instagram"
+      "component": "action",
+      "data": {
+        "urlOptionLabel": "View menu",
+        "urlOptionLink": "https://www.marysfood.com/menu"
+      }
     },
     {
-      "value": "MarysFood",
-      "network": "twitter"
+      "component": "address",
+      "data": {
+        "country": "US",
+        "state": "Florida",
+        "city": "Miami",
+        "address": "600 NW 2ND",
+        "zip": "33101"
+      }
     },
     {
-      "value": "marysf",
-      "network": "telegram"
+      "component": "opening",
+      "data": {
+        "openingTime": {
+          "thu": [{ "ini": "1000", "end": "2200" }],
+          "fri": [{ "ini": "1000", "end": "2200" }],
+          "sun": [{ "ini": "1000", "end": "2300" }],
+          "tue": [{ "ini": "1000", "end": "2200" }],
+          "wed": [{ "ini": "1000", "end": "2200" }],
+          "sat": [{ "ini": "1000", "end": "2300" }]
+        }
+      }
+    }, {
+      "component": "easiness",
+      "data": {
+        "easiness": {
+          "seat": true,
+          "accessible": true,
+          "bar": true,
+          "cafe": true,
+          "restaurant": true,
+          "child": true
+        }
+      }
+    }, {
+      "component": "socials",
+      "data": {
+        "socials": [
+          {
+            "value": "marys.food",
+            "network": "facebook"
+          },
+          {
+            "value": "marysfood",
+            "network": "instagram"
+          },
+          {
+            "value": "MarysFood",
+            "network": "twitter"
+          },
+          {
+            "value": "marysf",
+            "network": "telegram"
+          }
+        ]
+      }
     }
   ],
-  "easiness": {
-    "seat": true,
-    "accessible": true,
-    "bar": true,
-    "cafe": true,
-    "restaurant": true,
-    "child": true
-  },
+  "qrType": "business",
+  "image": "",
+  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "id": "0ee53df6-460d-475f-ba29-9d46ae91c227",
-  "companyPhone": "+12555456544",
-  "companyCell": "+12555456544",
-  "companyFax": "+12555456544",
   "secondary": "#9ece99",
-  "facebook": "marys.food",
-  "mode": "edit",
-  "contact": "Ann",
   "qrName": "Business Marys",
   "createdAt": "2022-11-08T23:31:35.376Z",
-  "subtitle": "All in healthy food & deserts",
-  "address": "600 NW 2ND",
-  "urlOptionLabel": "View menu",
-  "telegram": "marysfood",
   "backgndImg": [
     {
       "name": "077b0651-9c02-459b-8f92-b8657bf881af.png",
       "Key": "business/design/077b0651-9c02-459b-8f92-b8657bf881af.png"
     }
   ],
-  "companyWebSite": "https://www.marysfood.com",
   "isDynamic": true,
   "updatedAt": "2022-11-15T23:09:10.942Z",
-  "urlOptionLink": "https://www.marysfood.com/menu",
-  "primary": "#104b0b",
-  "title": "Healthy Food"
+  "primary": "#104b0b"
 }

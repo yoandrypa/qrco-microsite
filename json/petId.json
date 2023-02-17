@@ -1,30 +1,6 @@
 {
-  "country": "US",
-  "petGender": "male",
-  "city": "New York",
-  "otherDetails": {
-    "heading": "Details",
-    "items": [
-      {
-        "value": "Ball",
-        "label": "Favorite Toy"
-      }
-    ]
-  },
   "headingTextText": "Fido is a very active dog who loves to play with toys and go for walks. He is very friendly and loves to meet new people.",
-  "phone": "+53664477",
-  "petName": "Fido",
   "createdAt": "2022-12-14T22:36:00.962Z",
-  "urls": {
-    "heading": "Fido personal Links",
-    "items": [
-      {
-        "value": "fido.store.com",
-        "label": "Store"
-      }
-    ]
-  },
-  "contactTitle": "Owner Info",
   "shortLinkId": {
     "createdAt": "2022-12-14T22:36:00.947Z",
     "paused": false,
@@ -36,33 +12,85 @@
     "target": "http://localhost:3000/qr/b767e422-8163-4c8c-8074-fd7edee1d4e7",
     "updatedAt": "2022-12-14T22:36:00.953Z"
   },
-  "web": "fido.link",
-  "petYearOfBirth": "2019",
-  "state": "NY",
-  "socialsOnlyIcons": true,
-  "fax": "+568877",
-  "socials": [
-    {
-      "value": "fido",
-      "network": "facebook"
-    },
-    {
-      "value": "fido",
-      "network": "twitter"
-    }
-  ],
-  "email": "fido@gmail.com",
   "backgroundType": "single",
   "updatedAt": "2022-12-14T22:36:00.970Z",
-  "zip": "91500",
   "isDynamic": true,
-  "address1": "1234 Main St",
   "userId": "b61cfdcd-507f-40b4-8f9e-b1262a92e8f1",
   "secondary": "#ca9f2a",
   "headingText": "About Fido",
   "qrName": "Test",
-  "petBreed": "Pug",
-  "name": "Jason Mongo Dast Bond",
+  "custom": [
+    {
+      "component": "title",
+      "data": {
+        "titleAbout": "Fido",
+        "descriptionAbout": "Fido is a very active dog who loves to play with toys and go for walks. He is very friendly and loves to meet new people."
+      }
+    },
+    {
+      "component": "petId",
+      "data": {
+        "petBreed": "Pug",
+        "petYearOfBirth": "2019",
+        "petGender": "male",
+        "petName": "Fido"
+      }
+    },
+    {
+      "component": "presentation",
+      "data": {
+        "name": "Jason Mongo Dast Bond",
+        "address": "1234 Main St",
+        "email": "fido@gmail.com",
+        "zip": "91500",
+        "fax": "+568877",
+        "state": "NY",
+        "phone": "+53664477",
+        "web": "fido.link",
+        "country": "US",
+        "city": "New York"
+      }
+    },
+    {
+      "component": "keyvalue",
+      "data": {
+        "keyValues": [
+          {
+            "value": "Ball",
+            "key": "Favorite Toy"
+          }
+        ]
+      }
+    },
+    {
+      "component": "links",
+      "data": {
+        "avoidButtons": true,
+        "links": [
+          {
+            "link": "fido.store.com",
+            "label": "Store"
+          }
+        ]
+      }
+    },
+    {
+      "component": "socials",
+      "data": {
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "fido",
+            "network": "facebook"
+          },
+          {
+            "value": "fido",
+            "network": "twitter"
+          }
+        ]
+      }
+    }
+  ],
   "qrType": "petId",
   "primary": "#2d3a2c",
   "foregndImg": [

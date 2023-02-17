@@ -23,6 +23,7 @@ const ConfirmationNumberIcon = dynamic(() => import("@mui/icons-material/Confirm
 const TextSnippetIcon = dynamic(() => import("@mui/icons-material/TextSnippet"));
 const PetsIcon = dynamic(() => import("@mui/icons-material/Pets"));
 const EmailIcon = dynamic(() => import('@mui/icons-material/Email'));
+const TagIcon = dynamic(() => import("@mui/icons-material/Tag"));
 
 interface HeadLineProps {
   component: string;
@@ -50,6 +51,7 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
       case 'phones': { return <RingVolumeIcon sx={sx} />; }
       case 'socials': { return <GroupsIcon sx={sx} />; }
       case 'gallery': { return <PhotoSizeSelectActualIcon sx={sx} />; }
+      case 'tags': { return <TagIcon sx={sx} />; }
       case 'justEmail': {
         message.current = 'Email address';
         return <EmailIcon sx={sx} />;
@@ -80,7 +82,7 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
       }
       case 'organization': {
         message.current = 'Organization info';
-        return <AccountBoxIcon sx={sx}/>;
+        return <WorkIcon sx={sx}/>;
       }
     }
   };

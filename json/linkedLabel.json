@@ -13,78 +13,6 @@
     "paused": false,
     "type": "qr_link"
   },
-  "fields": [
-    {
-      "type": "text",
-      "title": "Coffee makers",
-      "text": ""
-    },
-    {
-      "type": "media",
-      "files": [
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/2.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/3.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/4.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/5.jpeg"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "title": "Other items",
-      "text": ""
-    },
-    {
-      "type": "media",
-      "files": [
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/6.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/7.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/8.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/9.jpeg"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "title": "Supplies",
-      "text": ""
-    },
-    {
-      "type": "media",
-      "files": [
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/10.jpeg"
-        },
-        {
-          "name": "2.jpeg",
-          "Key": "linkedLabels/11.jpeg"
-        }
-      ]
-    }
-  ],
   "subtitlesFontStyle": "#33691E",
   "background": {
     "x": 0,
@@ -96,7 +24,6 @@
   },
   "buttonsFontStyle": "",
   "qrType": "linkedLabel",
-  "about": "Box 3: Kitchen Items. See the items below",
   "image": "",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "subtitlesFontSize": "medium",
@@ -116,5 +43,77 @@
   "updatedAt": "2023-01-11T22:16:57.862Z",
   "globalFont": "Verdana",
   "primary": "#1B5E20",
-  "title": "What's in this box? "
+  "custom": [
+    {
+      "component": "title",
+      "data": {
+        "titleAbout": "What's in this box?",
+        "descriptionAbout": "Every box is described"
+      }
+    },
+    {
+      "component": "gallery",
+      "name": "Coffee makers",
+      "data": {
+        "files": [
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/2.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/3.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/4.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/5.jpeg"
+          }
+        ]
+      }
+    },
+    {
+      "component": "gallery",
+      "name": "Other items",
+      "data": {
+        "files": [
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/6.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/7.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/8.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/9.jpeg"
+          }
+        ]
+      }
+    },
+    {
+      "component": "gallery",
+      "name": "Supplies",
+      "data": {
+        "files": [
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/10.jpeg"
+          },
+          {
+            "name": "2.jpeg",
+            "Key": "linkedLabels/11.jpeg"
+          }
+        ]
+      }
+    }
+  ]
 }
