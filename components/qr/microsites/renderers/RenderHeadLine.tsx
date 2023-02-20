@@ -24,6 +24,7 @@ const TextSnippetIcon = dynamic(() => import("@mui/icons-material/TextSnippet"))
 const PetsIcon = dynamic(() => import("@mui/icons-material/Pets"));
 const EmailIcon = dynamic(() => import('@mui/icons-material/Email'));
 const TagIcon = dynamic(() => import("@mui/icons-material/Tag"));
+const ContactMailIcon = dynamic(() => import("@mui/icons-material/ContactMail"));
 
 interface HeadLineProps {
   component: string;
@@ -52,6 +53,10 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
       case 'socials': { return <GroupsIcon sx={sx} />; }
       case 'gallery': { return <PhotoSizeSelectActualIcon sx={sx} />; }
       case 'tags': { return <TagIcon sx={sx} />; }
+      case 'contact': {
+        message.current = 'Contact form';
+        return <ContactMailIcon sx={sx} />;
+      }
       case 'justEmail': {
         message.current = 'Email address';
         return <EmailIcon sx={sx} />;

@@ -6,6 +6,7 @@ import {clearDataStyles, handleFont} from "./renderers/helper";
 import RenderHeadLine from "./renderers/RenderHeadLine";
 
 import {useCallback} from "react";
+import RenderContactForm from "./contents/RenderContactForm";
 
 const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
@@ -64,8 +65,6 @@ export default function Custom({newData}: any) {
       }
     }
 
-    console.log(data?.tags)
-
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
@@ -102,6 +101,7 @@ export default function Custom({newData}: any) {
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
+          {component === 'contact' && <RenderContactForm stylesData={styled} data={data}/>}
         </Box>
       </Box>
     );
