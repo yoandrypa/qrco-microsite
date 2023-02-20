@@ -7,38 +7,27 @@ import Tooltip from "@mui/material/Tooltip";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from "@mui/material/IconButton";
 import ForwardIcon from "@mui/icons-material/Forward";
-import GroupsIcon from '@mui/icons-material/Groups';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import {handleFont} from "../renderers/helper";
+import {CustomProps, handleFont} from "../renderers/helper";
 
-import dynamic from "next/dynamic";
-
-const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
-
-interface RenderSocialsProps {
-  newData: any;
+interface RenderSocialsProps extends CustomProps {
   desc?: string;
   bold?: boolean;
-  isSections?: boolean;
-  sectionName?: string;
 }
 
 /**
- * if onlyIcons is true, bold and sectionName will be ignored
- * @param newData
- * @param onlyIcons
+ * @param data
+ * @param styledData
  * @param desc
  * @param bold
- * @param isSections
- * @param sectionName
  * @constructor
  */
-export default function RenderSocials({newData, desc, bold, isSections, sectionName}: RenderSocialsProps) {
+export default function RenderSocials({data, stylesData, desc, bold}: RenderSocialsProps) {
   const theming = useTheme();
 
   const [hideTooltips, setHideToolTips] = useState<boolean>(false);
@@ -94,7 +83,7 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
     url += `${value}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
     let label = item.network !== 'linkedin' ? capitalize(item.network) : 'LinkedIn';
 
-    if (newData.socialsOnlyIcons) {
+    if (data?.socialsOnlyIcons) {
       return (
         <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
           <IconButton target="_blank" component="a" href={url}>
@@ -113,7 +102,7 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
         margin="dense" // @ts-ignore
         value={value}
         sx={{width: '100%'}}
-        inputProps={{style: {...handleFont(newData, 'm')}}}
+        inputProps={{style: {...handleFont(stylesData, 'm')}}}
         InputProps={{
           disableUnderline: true,
           startAdornment: (
@@ -144,16 +133,18 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
     setHideToolTips(window.top !== window);
   }, []);
 
+  if (!data?.socials?.length) {
+    return null;
+  }
+
   const render = () => (
     <>
-      {!newData.socialsOnlyIcons ? (
+      {!data?.socialsOnlyIcons ? (
         <Grid item xs={12} sx={{display: 'flex', my: 2}}>
-          <GroupsIcon sx={{color: theming.palette.primary.main, mt: '5px'}}/>
           <Box sx={{ml: 1}}>
-            {sectionName && <Typography sx={{mb: '5px', ...handleFont(newData, 't')}}>{sectionName}</Typography>}
-            {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(newData, !bold ? 'm' : 't')}}>{desc}</Typography>}
+            {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(stylesData, !bold ? 'm' : 't')}}>{desc}</Typography>}
             <Grid container spacing={1}>
-              {newData.socials.map((x: SocialNetworksType) => (
+              {(data?.socials || []).map((x: SocialNetworksType) => (
                 <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
                   {renderSocials(x)}
                 </Grid>
@@ -163,7 +154,7 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
         </Grid>
       ) : (
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-          {newData.socials.map((x: SocialNetworksType) => (
+          {(data?.socials || []).map((x: SocialNetworksType) => (
             <div key={`sn${x.network}`}>
               {renderSocials(x)}
             </div>
@@ -172,14 +163,6 @@ export default function RenderSocials({newData, desc, bold, isSections, sectionN
       )}
     </>
   );
-
-  if (!newData.socials?.length) {
-    return null;
-  }
-
-  if (isSections) {
-    return <RenderSectWrapper sx={{display: 'flex', justifyContent: 'center'}}>{render()}</RenderSectWrapper>;
-  }
 
   return render();
 }

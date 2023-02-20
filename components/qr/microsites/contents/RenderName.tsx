@@ -1,30 +1,30 @@
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Typography from "@mui/material/Typography";
-import {handleFont} from "../renderers/helper";
-import Grid from "@mui/material/Grid";
+import {CustomProps, handleFont} from "../renderers/helper";
 import Box from "@mui/material/Box";
+import RenderField from "../renderers/RenderField";
 
-interface NameProps {
-  newData: any;
-  sectionName?: string;
-}
+import RenderAddress from "./RenderAddress";
+import RenderEmail from "./RenderEmail";
+import RenderWeb from "./RenderWeb";
 
-export default function RenderName({newData, sectionName}: NameProps) {
+export default function RenderName({data, stylesData}: CustomProps) {
   return (
-    <Grid item xs={12} sx={{display: 'flex', mb: '10px'}}>
-      <AccountBoxIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
-      <Box sx={{ml: 1}}>
-        {sectionName && (
-          <Typography sx={{...handleFont(newData, 't')}}>
-            {sectionName}
-          </Typography>
-        )}
-        <Typography sx={{...handleFont(newData, !sectionName ? 't' : 's')}}>
-          {`${newData.prefix ? newData.prefix +
-            (newData.firstName || newData.lastName ? ', ' : '') : ''}${newData.firstName ?
-            newData.firstName + (newData.lastName ? ' ' : '') : ''}${newData.lastName ? newData.lastName : ''}`}
-        </Typography>
-      </Box>
-    </Grid>
+    <>
+      <Typography sx={{...handleFont(stylesData, 's')}}>
+        {`${data?.prefix ? data.prefix +
+          (data?.firstName || data.lastName ? ', ' : '') : ''}${data?.firstName ?
+          data.firstName + (data?.lastName ? ' ' : '') : ''}${data?.lastName ? data.lastName : ''}`}
+      </Typography>
+      {data.includeExtraInfo && (
+        <Box>
+          {data.phone && <RenderField value={data.phone} icon="phone" sx={{...handleFont(stylesData,'m')}}/>}
+          {data.cell && <RenderField value={data.cell} icon="cell" sx={{...handleFont(stylesData,'m')}}/>}
+          {data.fax && <RenderField value={data.fax} icon="fax" sx={{...handleFont(stylesData,'m')}}/>}
+          <RenderAddress stylesData={stylesData} data={data} includeIcon />
+          <RenderEmail stylesData={stylesData} data={data} />
+          <RenderWeb stylesData={stylesData} data={data} />
+        </Box>
+      )}
+    </>
   );
 }

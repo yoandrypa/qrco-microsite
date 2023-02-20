@@ -2,7 +2,13 @@ import MainMicrosite from "./MainMicrosite";
 import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
+import {clearDataStyles, handleFont} from "./renderers/helper";
+import RenderHeadLine from "./renderers/RenderHeadLine";
 
+import {useCallback} from "react";
+
+const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
+const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
 const RenderImages = dynamic(() => import("./contents/RenderImages"));
 const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
 const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
@@ -17,82 +23,103 @@ const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
 const RenderLinks = dynamic(() => import("./contents/RenderLinks"));
 const RenderDate = dynamic(() => import("./contents/RenderDate"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
-
-interface CustomProps {
-  newData: any;
-}
+const RenderCouponData = dynamic(() => import("./contents/RenderCouponData"));
+const RenderCouponInfo = dynamic(() => import("./contents/RenderCouponInfo"));
+const RenderDetails = dynamic(() => import("./contents/RenderDetails"));
+const RenderPetsInfo = dynamic(() => import("./contents/RenderPetsInfo"));
+const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
+const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
+const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
+const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
+const Typography = dynamic(() => import("@mui/material/Typography"));
+const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
 
 interface CustomType {
   component: string;
   name?: string;
+  data?: any;
+  expand: string;
 }
 
-export default function Custom({newData}: CustomProps) {
+export default function Custom({newData}: any) {
   const isSections = Boolean(newData.layout?.startsWith('sections'));
+  const styled = clearDataStyles(newData);
+
+  const renderDownloadVCard = useCallback(() => (
+    <RenderDownloadVCard data={{
+      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation')?.data,
+      ...newData.custom.find((x: { component: string; }) => x.component === 'organization')?.data
+    }} styled={styled} />
+  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const renderComponent = (x: CustomType) => {
+    const {component, name, data} = x;
+
+    if (data) {
+      if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
+        data.isSample = true;
+      }
+      if (newData.iframed) {
+        data.iframed = true;
+      }
+    }
+
+    console.log(data?.tags)
+
+    return (
+      <Box sx={{width: '100%'}}>
+        <Box sx={{width: '50ox'}}>
+          {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
+              (component !== 'gallery' || newData.qrType !== 'inventory')) &&
+            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
+          }
+        </Box>
+        <Box sx={{width: 'calc(100% - 30px)', ml: '30px'}}>
+          {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
+          {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
+              data?.companyEmail || data?.contact || data?.companyPhone || data?.about) &&
+            <RenderCompany stylesData={styled} data={data}/>
+          }
+          {component === 'date' && <RenderDate data={data} stylesData={styled}/>}
+          {component === 'easiness' && data?.easiness && <RenderEasiness data={data} styledData={styled}/>}
+          {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
+          {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled}/>}
+          {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
+          {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
+          {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
+          {component === 'opening' && Object.keys(data?.openingTime || []).length ? <RenderOpeningTime data={data} stylesData={styled}/> : null}
+          {component === 'socials' && <RenderSocials data={data} stylesData={styled}/>}
+          {component === 'title' && <RenderTitleDesc data={data} stylesData={styled}/>}
+          {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
+          {component === 'single' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.text || ''}</Typography>}
+          {component === 'gallery' && <RenderImages data={data} stylesData={styled}/>}
+          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={data} stylesData={styled}/>}
+          {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
+          {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
+          {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
+          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.join(', ') : ''}</Typography>}
+          {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
+          {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
+          {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
+          {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
+        </Box>
+      </Box>
+    );
+  };
 
   return (
     <MainMicrosite data={newData}>
+      {newData.qrType === 'coupon' &&
+        <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
+      }
       <Box sx={{width: '100%', p: 2}}>
-        {newData.custom?.map((x: CustomType) => {
-          const {component, name} = x;
-          return (
-            <Box sx={{width: '100%'}} key={`key${component}`}>
-              {component === 'address' && <RenderAddress newData={newData} isSections={isSections} sectionName={name}/>}
-              {component === 'company' && (newData.company || newData.title || newData.subtitle || newData.companyWebSite ||
-                newData.companyEmail || newData.contact || newData.companyPhone || newData.about) && (
-                !isSections ? <RenderCompany newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderCompany newData={newData} sectionName={name}/></RenderSectWrapper>
-                )
-              )}
-              {component === 'date' && (<Box sx={{ml: '20px', mt: '10px'}}>
-                {!isSections ? <RenderDate newData={newData} message={name || "Date"}/> : (
-                  <RenderSectWrapper><RenderDate newData={newData} message={name || "Date"}/></RenderSectWrapper>
-                )}
-              </Box>)}
-              {component === 'easiness' && newData.easiness && (
-                !isSections ? <RenderEasiness newData={newData} sectionName={name} /> : (
-                  <RenderSectWrapper><RenderEasiness newData={newData} sectionName={name}/></RenderSectWrapper>
-                )
-              )}
-              {component === 'email' && (newData.email || newData.web) && (
-                !isSections ? <RenderEmailWeb newData={newData} sectionName={name} /> : (
-                  <RenderSectWrapper><RenderEmailWeb newData={newData} sectionName={name}/></RenderSectWrapper>
-                )
-              )}
-              {component === 'links' && newData.links && (<Box sx={{mt: '10px'}}>
-                {!isSections ? <RenderLinks newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderLinks newData={newData} sectionName={name}/></RenderSectWrapper>
-                )}
-              </Box>)}
-              {component === 'organization' && (newData.organization || newData.position) && (
-                !isSections ? <RenderOrganization newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderOrganization newData={newData} sectionName={name}/></RenderSectWrapper>
-                )
-              )}
-              {component === 'phones' && (newData.cell || newData.phone || newData.fax) && (
-                !isSections ? <RenderPhones newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderPhones newData={newData} sectionName={name}/></RenderSectWrapper>
-                )
-              )}
-              {component === 'presentation' && (newData.prefix || newData.firstName || newData.lastName) && (
-                !isSections ? <RenderName newData={newData} sectionName={name} /> : (
-                  <RenderSectWrapper><RenderName newData={newData} sectionName={name} /></RenderSectWrapper>
-                )
-              )}
-              {component === 'opening' && Object.keys(newData.openingTime || []).length && (
-                !isSections ? <RenderOpeningTime newData={newData} sectionName={name}/> : (
-                  <RenderSectWrapper><RenderOpeningTime newData={newData} sectionName={name}/></RenderSectWrapper>
-                )
-              )}
-              {component === 'socials' && <RenderSocials newData={newData} isSections={isSections} sectionName={name}/>}
-              {component === 'title' && <RenderTitleDesc newData={newData} isSections={isSections}/>}
-              {component === 'photos' && (
-                <RenderImages newData={newData} isSections={isSections} wrapped sectionName={newData.includeDescription ? name || 'Photos' : undefined}/>
-              )}
-            </Box>
-          )
-        })}
+        {newData.custom?.map((x: CustomType) => (
+          <Box sx={{width: '100%'}} key={`key${x.expand}`}>
+            {!isSections ? renderComponent(x) : <RenderSectWrapper>{renderComponent(x)}</RenderSectWrapper>}
+          </Box>
+        ))}
       </Box>
+      {newData.qrType === 'vcard+' && newData.custom?.length && renderDownloadVCard()}
     </MainMicrosite>
   );
 }

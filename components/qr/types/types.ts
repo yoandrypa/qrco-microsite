@@ -3,6 +3,11 @@ export type LinkType = {
   link: string;
 };
 
+export type KeyValues = {
+  key?: string;
+  value: string;
+};
+
 export type OpeningObjType = {
   ini: string;
   end: string;
@@ -28,6 +33,7 @@ export type DataType = {
   mode?: string;
   userId?: string;
   id?: string;
+  badge?: string;
   qrName?: string;
   number?: string;
   avatarImage?: string;
@@ -50,6 +56,7 @@ export type DataType = {
   organization?: string;
   position?: string;
   address?: string;
+  address2?: string;
   city?: string;
   zip?: string;
   state?: string;
