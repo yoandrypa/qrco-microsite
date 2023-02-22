@@ -113,8 +113,8 @@ export default function Custom({newData}: any) {
         <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
       }
       <Box sx={{width: '100%', p: 2}}>
-        {newData.custom?.map((x: CustomType) => (
-          <Box sx={{width: '100%'}} key={`key${x.expand}`}>
+        {newData.custom?.map((x: CustomType, index: number) => (
+          <Box sx={{width: '100%'}} key={`key${x.expand || index}`}>
             {!isSections ? renderComponent(x) : <RenderSectWrapper>{renderComponent(x)}</RenderSectWrapper>}
           </Box>
         ))}
