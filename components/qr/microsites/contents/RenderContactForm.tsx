@@ -1,19 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
-import {useState} from 'react'
-import Stack from '@mui/material/Stack';
+import React, {ChangeEvent, useState} from 'react'
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 //@ts-ignore
 import session from "@ebanux/ebanux-utils/sessionStorage";
 import Notifications, {NotificationsProps} from "../../helperComponents/Notifications";
-import RenderField from "../renderers/RenderField";
 import {CustomProps, handleButtons, handleFont} from "../renderers/helper";
 import {useTheme} from "@mui/system";
 import Box from "@mui/material/Box";
+import {TextField} from "@mui/material";
 
 function RenderContactForm({data, stylesData}: CustomProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [notify, setNotify] = useState<NotificationsProps | null>(null);
+  const [email, setEmail] = useState<string>(data?.email || '');
+  const [subject, setSubject] = useState<string>(data?.title || '');
+  const [message, setMessage] = useState<string>(data?.message || '')
 
   const theme = useTheme();
 
@@ -26,10 +28,10 @@ function RenderContactForm({data, stylesData}: CustomProps) {
     const payload = {
       contactEmail: 'info@ebanux.com',
       templateData: {
-        contactEmail: data.email,
-        name: data.title || 'Contact me',
+        contactEmail: email,
+        name: subject,
         micrositeUrl: window.location.href,
-        message: data.message
+        message: message
       }
     }
 
@@ -45,7 +47,7 @@ function RenderContactForm({data, stylesData}: CustomProps) {
       const result = await fetch('/api/sendcontactemail', options);
       if (result.ok) {
         setNotify({
-          message: `Great! Your message it's been sended successfully.`,
+          message: `Great! Your message has been sent successfully.`,
           severity: 'success',
           showProgress: true,
           title: 'Success',
@@ -56,7 +58,7 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         })
       } else {
         setNotify({
-          message: `Ops, could not send the message.`,
+          message: 'Ops, could not send the message.',
           severity: 'error',
           showProgress: false,
           title: 'Error',
@@ -67,7 +69,6 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         });
         console.log(await result.json())
       }
-
     } catch (error) {
       if (error instanceof Error)
         setNotify({
@@ -77,10 +78,12 @@ function RenderContactForm({data, stylesData}: CustomProps) {
           title: 'Error',
           onClose: () => {
             setNotify(null);
-            setIsLoading(false)
+            setIsLoading(false);
           }
         })
       console.log(error)
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -95,11 +98,35 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         onClose={() => setNotify(null)}
       />}
       <Typography sx={{...handleFont(stylesData, 's')}}>Email</Typography>
-      <RenderField value={data.email} sx={{...handleFont(stylesData, 'm')}} />
+      <TextField
+        label=''
+        size='small'
+        type='email'
+        fullWidth
+        placeholder='your@email.com'
+        value={email}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+      />
       <Typography sx={{...handleFont(stylesData, 's')}}>Subject</Typography>
-      <RenderField value={data.title || 'Contact me'} sx={{...handleFont(stylesData, 'm')}} />
+      <TextField
+        label=''
+        size='small'
+        fullWidth
+        placeholder='Contact me'
+        value={subject}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => setSubject(event.target.value)}
+      />
       <Typography sx={{...handleFont(stylesData, 's')}}>Message</Typography>
-      <RenderField value={data.message} sx={{...handleFont(stylesData, 'm')}} />
+      <TextField
+        label=''
+        size='small'
+        fullWidth
+        multiline
+        rows={5}
+        placeholder='Message'
+        value={subject}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)}
+      />
 
       <LoadingButton loading={isLoading} variant='contained' onClick={handleClick}
                      sx={{...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme), width: 'calc(100% - 20px)'}}>
