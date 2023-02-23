@@ -49,21 +49,21 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   const renderSteps = () => (
     <>
       <Typography sx={{mt: 2}}>
-        {'By claiming this QRLynk you can personalize the microsite and customize its content. This is a one-time process and it\'s free in the case of your first QRLynk. To claim your QRLynk, simply follow these easy steps:'}
+        {'By claiming this QRLynk you can personalize the microsite and customize its content. This is a one-time process and it\'s free in the case of your first QRLynk. To claim your QRLynk, follow these steps:'}
       </Typography>
       <ol>
         <li><Typography>Press the CLAIM NOW button</Typography></li>
-        <li><Typography>Register for a new account in QRLynk or log in if you already have a username and password</Typography></li>
+        <li><Typography>Register for a new account in QRLynk or log in if you already have credentials</Typography></li>
         <li><Typography>Select the type of QRLynk that best suits your use case</Typography></li>
-        <li><Typography>Enter the content you would like to share and customize the appearance of your microsite</Typography></li>
-        <li><Typography>Optionally, customize the appearance of  your QR code if you want to share a digital QR code</Typography></li>
+        <li><Typography>Enter the content to share and customize the design of your microsite</Typography></li>
+        <li><Typography>Optionally, customize the appearance of  your QR code</Typography></li>
         <li><Typography>Press SAVE to complete the process</Typography></li>
       </ol>
       <Typography sx={{mt: 2}}>
         {'By completing these steps, you\'ll have full control over the content and appearance of your QRLynk. You can manage all of your QRLynks by visiting this URL: https://app.theqr.link/'}
       </Typography>
       <Typography sx={{mt: 2}}>
-        Thank you for choosing QRLynk. Claim your QR Link now to get started!
+        Thank you for choosing QRLynk. Claim your QRLynk now to get started!
       </Typography>
     </>
   );
