@@ -10,11 +10,7 @@
     "type": "qr_link"
   },
   "qrName": "Coupon",
-  "prefix": "10% OFF",
   "createdAt": "2022-11-09T18:48:32.646Z",
-  "text": "The coupon applies only in purchases over 100 USD",
-  "urlOptionLabel": "Buy & get a discount",
-  "name": "SALES_10_OFF",
   "backgndImg": [
     {
       "ETag": "\"e48ddbff2dcba54d444fc5f8f451f985\"",
@@ -26,15 +22,31 @@
       "Key": "coupons/design/e171bd63-be56-4512-bce8-cd226f24d226.png"
     }
   ],
-  "value": "1669834040000",
   "isDynamic": true,
   "qrType": "coupon",
-  "company": "Unic Electronics",
-  "about": "100% discount in purchases over 100 USD",
   "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "updatedAt": "2022-11-09T18:48:32.648Z",
-  "urlOptionLink": "https://unicelectronics.com/shop",
   "secondary": "#dba8a8",
-  "title": "Get a 100% discount",
-  "primary": "#b30909"
+  "primary": "#b30909",
+  "custom": [
+    {
+      "component": "couponInfo",
+      "data": {
+        "company": "Unic Electronics",
+        "title": "Get a 100% discount",
+        "description":  "100% discount in purchases over 100 USD",
+        "badge": "10% OFF",
+        "urlOptionLabel": "Buy & get a discount",
+        "urlOptionLink": "https://unicelectronics.com/shop"
+      }
+    },
+    {
+      "component": "couponData",
+      "data": {
+        "name": "SALES_10_OFF",
+        "text": "The coupon applies only in purchases over 100 USD",
+        "data": "1669834040000"
+      }
+    }
+  ]
 }

@@ -1,30 +1,26 @@
-import WorkIcon from "@mui/icons-material/Work";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import {handleFont} from "../renderers/helper";
+import {CustomProps, handleFont} from "../renderers/helper";
 import Grid from "@mui/material/Grid";
 import RenderField from "../renderers/RenderField";
+import Typography from "@mui/material/Typography";
 
-interface OrganizationProps {
-  newData: any;
-  sectionName?: string;
-}
-
-export default function RenderOrganization({newData, sectionName}: OrganizationProps) {
+export default function RenderOrganization({stylesData, data}: CustomProps) {
   return (
-    <Grid item xs={12} sx={{display: 'flex'}}>
-      <WorkIcon sx={{ color: theme => theme.palette.primary.main, mt: '5px' }} />
-      <Box sx={{ml: 1}}>
-        <Typography sx={{ ...handleFont(newData, 't') }}>{sectionName || 'Organization info'}</Typography>
-        <Grid container spacing={0}>
-          {newData.organization && (
-            <RenderField label="Organization" value={newData.organization} sx={{...handleFont(newData, 'm')}}/>
-          )}
-          {newData.position && (
-            <RenderField label="Position" value={newData.position} sx={{...handleFont(newData, 'm')}}/>
-          )}
-        </Grid>
-      </Box>
-    </Grid>
+    <Box>
+      <Grid container spacing={0}>
+        {data?.organization && (
+          <Grid item xs={!data?.position ? 12 : 6}>
+            <Typography sx={{...handleFont(stylesData, 's')}}>Organization</Typography>
+            <RenderField value={data.organization} sx={{...handleFont(stylesData, 'm')}}/>
+          </Grid>
+        )}
+        {data?.position && (
+          <Grid item xs={!data.organization ? 12 : 6}>
+            <Typography sx={{...handleFont(stylesData, 's')}}>Position</Typography>
+            <RenderField value={data.position} sx={{...handleFont(stylesData, 'm')}}/>
+          </Grid>
+        )}
+      </Grid>
+    </Box>
   )
 }

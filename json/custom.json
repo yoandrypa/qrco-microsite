@@ -1,10 +1,4 @@
 {
-  "country": "Country",
-  "lastName": "Last Name",
-  "city": "City",
-  "prefix": "Sir",
-  "titleAbout": "This is just an example",
-  "cell": "+1234567890",
   "createdAt": "2023-01-13T22:38:23.225Z",
   "shortLinkId": {
     "createdAt": "2023-01-13T22:38:23.223Z",
@@ -25,32 +19,78 @@
       "Key": "socials/design/b4b665a3-d27b-4762-8c1d-f12f0c96feed.jpg"
     }
   ],
-  "links": [
-    {
-      "link": "https://www.example.com",
-      "label": "My website"
-    },
-    {
-      "link": "https://www.myblog.com",
-      "label": "My blog"
-    }
-  ],
-  "state": "State",
   "fax": "+1234567890",
   "updatedAt": "2023-01-13T22:40:12.659Z",
-  "zip": "12345",
   "image": "",
-  "address": "Address Line 1",
   "isDynamic": true,
-  "address2": "Address Line2",
   "custom": [
-    { "component": "title" },
-    { "component":  "presentation", "name": "Personal information" },
-    { "component": "organization", "name": "Working information" },
-    { "component": "address" },
-    { "component": "links" },
-    { "component": "socials", "name": "My social networks" },
-    { "component": "phones", "name": "Personal phones" }
+    { "component": "title",
+      "data": {
+        "titleAbout": "This is just an example",
+        "descriptionAbout": "This is just an example of how the custom QR Link could be made. You can drag'n'drop the sections to the position you like."
+      }
+    },
+    { "component": "presentation", "name": "Personal information",
+      "data": {
+        "lastName": "Last Name",
+        "prefix": "Sir",
+        "firstName": "First Name"
+      }
+    },
+    { "component": "organization", "name": "Working information",
+      "data": {
+        "organization": "Freelancer",
+        "position": "My own boss"
+      }
+    },
+    { "component": "address",
+      "data": {
+        "address": "Address Line 1",
+        "address2": "Address Line2",
+        "state": "State",
+        "country": "Country",
+        "city": "City",
+        "zip": "12345"
+      }
+    },
+    { "component": "links",
+      "data": {
+        "links": [
+          {
+            "link": "https://www.example.com",
+            "label": "My website"
+          },
+          {
+            "link": "https://www.myblog.com",
+            "label": "My blog"
+          }
+        ]
+      }
+    },
+    { "component": "socials", "name": "My social networks",
+      "data": {
+        "socials": [
+          {
+            "value": "my.facebook",
+            "network": "facebook"
+          },
+          {
+            "value": "my_photo",
+            "network": "instagram"
+          },
+          {
+            "value": "my_youtube_channel",
+            "network": "youtube"
+          }
+        ]
+      }
+    },
+    { "component": "phones", "name": "Personal phones",
+      "data": {
+        "cell": "+1234567890",
+        "phone": "+1234567890"
+      }
+    }
   ],
   "foregndImg": [
     {
@@ -58,26 +98,7 @@
       "Key": "links/design/aca02d01-d921-4464-8581-f9d5521464e4.png"
     }
   ],
-  "socials": [
-    {
-      "value": "my.facebook",
-      "network": "facebook"
-    },
-    {
-      "value": "my_photo",
-      "network": "instagram"
-    },
-    {
-      "value": "my_youtube_channel",
-      "network": "youtube"
-    }
-  ],
   "userId": "4a09f9bd-02cf-438b-bfeb-6da536b29353",
-  "firstName": "First Name",
   "qrName": "Sample",
-  "phone": "+1234567890",
-  "organization": "Freelancer",
-  "qrType": "custom",
-  "descriptionAbout": "This is just an example of how the custom QR Link could be made. You can drag'n'drop the sections to the position you like.",
-  "position": "My own boss"
+  "qrType": "custom"
 }

@@ -19,15 +19,27 @@
   ],
   "isDynamic": true,
   "qrType": "video",
-  "files": [
+  "custom": [
     {
-      "name": "Facebook 5885249707327015(MP4).mp4",
-      "Key": "videos/Facebook 5885249707327015(MP4).mp4"
+      "component": "title",
+      "data": {
+        "descriptionAbout": "Visiting a mediaval town around the lake. Lombardy, Italy.",
+        "titleAbout": "Lake Iseo"
+      }
+    },
+    {
+      "component": "video",
+      "data": {
+        "files": [
+          {
+            "name": "Facebook 5885249707327015(MP4).mp4",
+            "Key": "videos/Facebook 5885249707327015(MP4).mp4"
+          }
+        ]
+      }
     }
   ],
   "image": "",
   "updatedAt": "2022-11-25T19:59:26.464Z",
-  "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0",
-  "descriptionAbout": "Visiting a mediaval town around the lake. Lombardy, Italy.",
-  "titleAbout": "Lake Iseo"
+  "userId": "3da61db5-d5b3-45c1-8bd8-efc62194d8d0"
 }

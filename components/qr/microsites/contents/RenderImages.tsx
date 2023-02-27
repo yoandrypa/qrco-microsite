@@ -6,24 +6,15 @@ import DangerousIcon from "@mui/icons-material/Dangerous";
 import Tooltip from "@mui/material/Tooltip";
 import {useMediaQuery} from "@mui/material";
 
-import {handleFont} from "../renderers/helper";
+import {CustomProps, handleFont} from "../renderers/helper";
 import {FileType} from "../../types/types";
 import {download} from "../../../../handlers/storage";
 
 import dynamic from "next/dynamic";
 
-const RenderSectWrapper = dynamic(() => import("../renderers/RenderSectWrapper"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
-const PhotoSizeSelectActualIcon = dynamic(() => import("@mui/icons-material/PhotoSizeSelectActual"));
 
-interface ImagesProps {
-  newData: any;
-  isSections?: boolean;
-  wrapped?: boolean;
-  sectionName?: string;
-}
-
-export default function RenderImages({newData, isSections, wrapped, sectionName}: ImagesProps) {
+export default function RenderImages({data, stylesData}: CustomProps) {
   const [_, setUnusedState] = useState(); // eslint-disable-line no-unused-vars
   const [hideTooltip, setHideTooltip] = useState<boolean>(false);
   const [preview, setPreview] = useState<FileType | string | null>(null);
@@ -41,9 +32,9 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
   const getImages = (files: object[] | string[]) => {
     try {
       files.forEach(async (x: any) => {
-        const data = typeof x !== "string" ? await download(x.Key, newData.isSample) : x;
-        if (images.current.length < newData.files.length) { // @ts-ignore
-          images.current.push(data);
+        const imgData = typeof x !== "string" ? await download(x.Key, data.isSample) : x;
+        if (images.current.length < data.files.length) { // @ts-ignore
+          images.current.push(imgData);
           forceUpdate();
         }
       });
@@ -54,12 +45,12 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
 
   useEffect(() => {
     images.current = [];
-    if (newData.files?.length) {
-      getImages(newData.files);
+    if (data?.files?.length) {
+      getImages(data.files);
     } else {
       forceUpdate();
     }
-  }, [newData.files]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data?.files]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setHideTooltip(window.top !== window);
@@ -68,7 +59,7 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
   let colNumber = images.current.length;
   let width = '0';
 
-  if (!newData.iframed) {
+  if (!data?.iframed) {
     if (isWide) {
       if (colNumber === 0 || colNumber === 1) {
         colNumber = 12;
@@ -90,7 +81,7 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
   }
 
   const renderGallery = () => (
-    <Grid container spacing={1} sx={{p: 2, mt: wrapped ? '-24px' : 'unset'}}>{/* @ts-ignore */}
+    <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
       {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
         if (!x) {
           return (
@@ -102,7 +93,7 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
               border: theme => `solid 1px ${theme.palette.primary.main}`,
               borderRadius: '5px'
             }}>
-              <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm')}}>
+              <Typography sx={{color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(stylesData, 'm')}}>
                 <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
                 {'Error loading image.'}
               </Typography>
@@ -137,21 +128,13 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
 
   const renderData = () => (
     <Box sx={{width: '100%', p: 2}}>
-      {sectionName && (
-        <Box sx={{display: 'flex'}}>
-          <PhotoSizeSelectActualIcon color="primary" />
-          <Typography sx={{...handleFont(newData, 't'), ml: '5px'}}>
-          {sectionName}
-        </Typography>
-        </Box>
-      )}
       <Box sx={{width: '100%', textAlign: 'center', color: theme => theme.palette.secondary.main}}>
         {images.current.length ? (
-          <Typography sx={{...handleFont(newData, 'm')}}>
-            {newData.files?.length !== images.current.length ? `Loaded ${images.current.length}/${newData.files?.length}...` : `${images.current.length} images`}
+          <Typography sx={{...handleFont(stylesData, 'm')}}>
+            {data.files?.length !== images.current.length ? `Loaded ${images.current.length}/${data.files?.length}...` : `${images.current.length} images`}
           </Typography>
         ) : (
-          <Typography sx={{...handleFont(newData, 'm')}}>{'Please wait...'}</Typography>
+          <Typography sx={{...handleFont(stylesData, 'm')}}>{'Please wait...'}</Typography>
         )}
       </Box>
     </Box>
@@ -159,30 +142,10 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
 
   return (
     <>
-      {!wrapped ? (
-        <>
-          {renderData()}
-          {!isSections ? renderGallery() : (
-            <Box sx={{width: 'calc(100% - 30px)', ml: 1}}>
-              <RenderSectWrapper>{renderGallery()}</RenderSectWrapper>
-            </Box>
-          )}
-        </>
-      ) : !isSections ? (
-        <Box>
-          {renderData()}
-          {renderGallery()}
-        </Box>
-      ) : (
-        <Box sx={{width: 'calc(100% - 30px)', ml: 1}}>
-          <RenderSectWrapper>
-            <Box>
-              {renderData()}
-              {renderGallery()}
-            </Box>
-          </RenderSectWrapper>
-        </Box>
-      )}
+      <Box>
+        {renderData()}
+        {renderGallery()}
+      </Box>
       {preview && (
         <RenderPreview
           handleNext={() => {
@@ -200,7 +163,7 @@ export default function RenderImages({newData, isSections, wrapped, sectionName}
           preview={preview}
           handleClose={() => setPreview(null)}
           type="image"
-          sx={{...handleFont(newData, 'm')}}
+          sx={{...handleFont(stylesData, 'm')}}
         />
       )}
     </>

@@ -62,7 +62,7 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
   let size = '20px';
 
   const handleSize = (item: string): void => {
-    if (!data[item] || data[item] === 'default') {
+    if (!data?.[item] || data[item] === 'default') {
       size = item === 'titlesFontSize' ? '22px' : (item === 'subtitlesFontSize' ? '24px' : '20px');
     } else if (data[item] === 'small') {
       size = item === 'titlesFontSize' ? '20px' : (item === 'subtitlesFontSize' ? '22px' : '18px');
@@ -85,25 +85,25 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
     case 't': {
       property = 'titlesFontStyle';
       handleSize('titlesFontSize'); // @ts-ignore
-      style.fontFamily = FONTS[data.titlesFont || data.globalFont] || 'unset';
+      style.fontFamily = data && FONTS[data.titlesFont || data.globalFont] || 'unset';
       break;
     }
     case 's': {
       property = 'subtitlesFontStyle';
       handleSize('subtitlesFontSize'); // @ts-ignore
-      style.fontFamily = FONTS[data.subtitlesFont || data.globalFont] || 'unset';
+      style.fontFamily = data && FONTS[data.subtitlesFont || data.globalFont] || 'unset';
       break;
     }
     case 'b': {
       property = 'buttonsFontStyle';
       handleSize('buttonsFontSize'); // @ts-ignore
-      style.fontFamily = FONTS[data.buttonsFont || data.globalFont] || 'unset';
+      style.fontFamily = data && FONTS[data.buttonsFont || data.globalFont] || 'unset';
       break;
     }
     default : {
       property = 'messagesFontStyle';
       handleSize('messagesFontSize'); // @ts-ignore
-      style.fontFamily = FONTS[data.messagesFont || data.globalFont] || 'unset';
+      style.fontFamily = data && FONTS[data.messagesFont || data.globalFont] || 'unset';
       break;
     }
   }
@@ -127,6 +127,15 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
 
   // @ts-ignore
   return {...style, fontSize: size, };
+}
+
+export const clearDataStyles = (newData: any) => {
+  if (newData.custom !== undefined) {
+    const cleared = {...newData};
+    delete cleared.custom;
+    return cleared;
+  }
+  return newData;
 }
 
 export const handleButtons = (data: any, theme: any) => {
@@ -199,3 +208,8 @@ export const convertBase64 = (file: Blob | File): object => {
     };
   });
 };
+
+export interface CustomProps {
+  stylesData: any;
+  data?: any;
+}

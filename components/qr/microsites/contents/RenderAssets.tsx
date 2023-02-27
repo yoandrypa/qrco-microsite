@@ -8,26 +8,19 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {capitalize, useMediaQuery} from "@mui/material";
 import {useTheme} from "@mui/system";
 
-import MainMicrosite from "./MainMicrosite";
-import {handleFont, handleDownloadFiles, handleButtons} from "./renderers/helper";
-import {download} from "../../../handlers/storage";
-import {FileType} from "../types/types";
-import {getExtension} from "../../helpers/generalFunctions";
+import {CustomProps, handleButtons, handleDownloadFiles, handleFont} from "../renderers/helper";
+import {download} from "../../../../handlers/storage";
+import {FileType} from "../../types/types";
+import {getExtension} from "../../../helpers/generalFunctions";
 
 import dynamic from "next/dynamic";
 
-const PleaseWait = dynamic(() => import("../../PleaseWait"));
-const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
-const RenderPreviewVideo = dynamic(() => import("./renderers/RenderPreviewVideo"));
-const RenderPreview = dynamic(() => import("./renderers/RenderPreview"));
-const RenderPreviewPdf = dynamic(() => import("./renderers/RenderPreviewPdf"));
-const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
+const PleaseWait = dynamic(() => import("../../../PleaseWait"));
+const RenderPreviewVideo = dynamic(() => import("../renderers/RenderPreviewVideo"));
+const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
+const RenderPreviewPdf = dynamic(() => import("../renderers/RenderPreviewPdf"));
 
-interface FileProps {
-  newData: any;
-}
-
-export default function FileMicro({ newData }: FileProps) {
+export default function RenderAssets({ data, stylesData }: CustomProps) {
   const [preview, setPreview] = useState<FileType | string | null>(null);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const [height, setHeight] = useState<number | undefined>(undefined);
@@ -39,8 +32,6 @@ export default function FileMicro({ newData }: FileProps) {
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
   const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
 
-  const isSections = Boolean(newData.layout?.startsWith('sections'));
-
   const theme = useTheme();
 
   // @ts-ignore
@@ -50,7 +41,7 @@ export default function FileMicro({ newData }: FileProps) {
     try {
       filesInfo.forEach(async (x: any) => {
         const key: string = x.Key;
-        const fileData = typeof x !== "string" ? await download(key, newData.isSample) : x; // @ts-ignore
+        const fileData = typeof x !== "string" ? await download(key, data.isSample) : x; // @ts-ignore
         files.current.push(fileData);
         forceUpdate();
       });
@@ -60,14 +51,14 @@ export default function FileMicro({ newData }: FileProps) {
   }
 
   const renderHint = (type: string, index: number) => {
-    const kind = newData.qrType === 'audio' ? 'Audio track' : newData.qrType === 'video' ? 'Video track' : 'PDF document';
+    const kind = data.qrType === 'audio' ? 'Audio track' : data.qrType === 'video' ? 'Video track' : 'PDF document';
     return (
-      <Typography color="primary" sx={{ width: '100%', textAlign: 'center', ...handleFont(newData, 'm') }}>
+      <Typography color="primary" sx={{ width: '100%', textAlign: 'center', ...handleFont(stylesData, 'm') }}>
         <Typography sx={{ fontWeight: 'bold', display: 'inline-block', mr: 1 }}>
           {kind}
         </Typography>
-        {<Typography sx={{display: 'inline-block', ...handleFont(newData, 'm')}}>
-          {newData.files?.length ? `${index}/${newData.files.length} (${type.toUpperCase()})` : 'No files to show'}
+        {<Typography sx={{display: 'inline-block', ...handleFont(stylesData, 'm')}}>
+          {data.files?.length ? `${index}/${data.files.length} (${type.toUpperCase()})` : 'No files to show'}
         </Typography>}
       </Typography>
     );
@@ -75,8 +66,8 @@ export default function FileMicro({ newData }: FileProps) {
 
   const loadFilesNow = () => {
     files.current = [];
-    if (newData.files?.length) {
-      getFiles(newData.files);
+    if (data.files?.length) {
+      getFiles(data.files);
     } else {
       forceUpdate();
     }
@@ -86,12 +77,12 @@ export default function FileMicro({ newData }: FileProps) {
     if (doneFirstRender.current) {
       loadFilesNow();
     }
-  }, [newData.files]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data.files]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     loadFilesNow();
 
-    if (window && newData.type === 'pdf' && newData.autoOpen && newData.files.length === 1) {
+    if (window && data.type === 'pdf' && data.autoOpen && data.files.length === 1) {
       setHeight(window.innerHeight);
     }
     doneFirstRender.current = true;
@@ -107,7 +98,7 @@ export default function FileMicro({ newData }: FileProps) {
       let type;
       let content;
       if (typeof x === 'string') {
-        type = newData.qrType;
+        type = data.qrType;
         content = x;
       } else {
         type = x.type;
@@ -125,32 +116,32 @@ export default function FileMicro({ newData }: FileProps) {
         }}>
           {x ? (
             <>
-              {renderHint(!directFile ? getExtension(type) : capitalize(newData.qrType), fileNumber)}
-              {newData.qrType === 'audio' && (
+              {renderHint(!directFile ? getExtension(type) : capitalize(data.qrType), fileNumber)}
+              {data.qrType === 'audio' && (
                 <audio preload="none" controls key={`audio${fileNumber}`} style={{ width: '100%' }}>
                   <source src={content} type={type} />
                   {'Your browser can not play audio files. :('}
                 </audio>
               )}
-              {newData.qrType === 'video' && index === 0 && (
+              {data.qrType === 'video' && index === 0 && (
                 <RenderPreviewVideo content={content} type={type} />
               )}
-              {newData.qrType === 'pdf' && index == 0 && (
+              {data.qrType === 'pdf' && index == 0 && (
                 <RenderPreviewPdf content={content} />
               )}
               <Box sx={{ display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column' }}>
                 <Button
-                  sx={{width: '100%', ...handleFont(newData, 'b'), ...handleButtons(newData, theme)}}
+                  sx={{width: '100%', ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme)}}
                   variant="outlined"
-                  onClick={() => handleDownloadFiles(x, newData.qrType)}
+                  onClick={() => handleDownloadFiles(x, data.qrType)}
                   startIcon={<DownloadIcon />}
                 >
-                  {`Download ${newData.qrType} ${fileNumber}`}
+                  {`Download ${data.qrType} ${fileNumber}`}
                 </Button>
-                {['video', 'pdf'].includes(newData.qrType) && (
+                {['video', 'pdf'].includes(data.qrType) && (
                   <Button
                     sx={{ width: isWide400 ? '30%' : '100%', ml: isWide400 ? '5px' : 0, mt: isWide400 ? 0 : '5px',
-                      ...handleFont(newData, 'b'), ...handleButtons(newData, theme) }}
+                      ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme) }}
                     variant="outlined"
                     onClick={() => setPreview(x)}
                   >
@@ -160,7 +151,7 @@ export default function FileMicro({ newData }: FileProps) {
               </Box>
             </>
           ) : (
-            <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(newData, 'm') }}>
+            <Typography sx={{ color: theme => theme.palette.primary.main, width: '100%', textAlign: 'center', ...handleFont(stylesData, 'm') }}>
               <DangerousIcon sx={{ color: theme => theme.palette.secondary.main, mb: '-5px', mr: '5px' }} />
               {'Error loading asset.'}
             </Typography>
@@ -168,7 +159,7 @@ export default function FileMicro({ newData }: FileProps) {
         </Box>
       );
     }) : (
-      newData.files?.length ? (
+      data.files?.length ? (
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2, color: theme => theme.palette.primary.main}}>
           <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
           <Typography sx={{display: 'inline-block', my: 'auto'}}>{'Please wait...'}</Typography>
@@ -177,7 +168,7 @@ export default function FileMicro({ newData }: FileProps) {
     )
   );
 
-  if (newData.qrType === 'pdf' && (newData.autoOpen || fullScreen)) {
+  if (data.qrType === 'pdf' && (data.autoOpen || fullScreen)) {
     if (!files.current.length) {
       return <PleaseWait redirecting />;
     }
@@ -192,24 +183,16 @@ export default function FileMicro({ newData }: FileProps) {
   }
 
   return (
-    <MainMicrosite data={newData}>
-      <Box sx={{ p: 2 }}>
-        <Box sx={isSections ? {width: 'calc(100% + 5px)', ml: '-10px'} : undefined}>
-          <RenderTitleDesc newData={newData} isSections={isSections} />
-        </Box>
-        <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
-          {newData.files?.length && <Typography sx={{...handleFont(newData, 'm')}}>{`${newData.files.length} item${newData.files.length !== 1 ? 's' : ''}`}</Typography>}
-        </Box>
-        {!isSections ? renderAssets() : (
-          <Box sx={{width: 'calc(100% - 5px)', ml: '-5px'}}>
-            <RenderSectWrapper>{renderAssets()}</RenderSectWrapper>
-          </Box>
-        )}
-        {preview && (
-          <RenderPreview isWide={isWide} preview={preview} type={newData.qrType} handleClose={() => setPreview(null)}
-                         sx={{...handleFont(newData, 'm'), ...handleButtons(newData, theme)}} handleFullScreen={() => setFullScreen(true)} />
-        )}
+    <Box sx={{ p: 2 }}>
+      <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
+        {data.files?.length && <Typography sx={{...handleFont(stylesData, 'm')}}>{`${data.files.length} item${data.files.length !== 1 ? 's' : ''}`}</Typography>}
       </Box>
-    </MainMicrosite>
+      {renderAssets()}
+      {preview && (
+        <RenderPreview
+          isWide={isWide} preview={preview} type={data.qrType} handleClose={() => setPreview(null)}
+          sx={{...handleFont(stylesData, 'm'), ...handleButtons(stylesData, theme)}} handleFullScreen={() => setFullScreen(true)} />
+      )}
+    </Box>
   );
 }
