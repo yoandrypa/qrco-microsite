@@ -15,7 +15,7 @@ export default function RenderDownloadVCard({styled, data}: DownloadVCardProps) 
   const theme = useTheme();
 
   const handleDownload = () => {
-    if (window) {
+    if (window && /Android|iPhone/i.test(navigator.userAgent)) {
       const output = encodeURIComponent(handleDesignerString("vcard+", {...data}));
       window.open(`data:text/x-vcard;urlencoded,${output}`);
     } else {
