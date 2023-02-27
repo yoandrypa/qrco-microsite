@@ -14,7 +14,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import dynamic from "next/dynamic";
 
 const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
-const CelebrationIcon = dynamic(() => import('@mui/icons-material/Celebration'));
 const DangerousIcon = dynamic(() => import('@mui/icons-material/Dangerous'));
 
 const renderContactSupport = (message: string) => (
@@ -26,22 +25,23 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   const [route, setRoute] = useState<string>("");
 
   useEffect(() => {
-    setRoute(window.location.href);
+    let location = window.location.href;
+    if (location.toLowerCase().startsWith('https://') || location.toLowerCase().startsWith('http://')) {
+      location = location.slice(location.indexOf('://') + 3);
+    }
+    setRoute(location);
   }, []);
 
-  const renderCommon = (firstLine: string, secondLine: string, thirdLine: string) => (
+  const renderCommon = (firstLine: string, secondLine: string) => (
     <Box>
-      <Typography fontSize="24px">
-        {firstLine}
-      </Typography>
       <Typography sx={{display: 'inline', color: theme => theme.palette.info.dark}}>
-        {secondLine}
+        {firstLine}
       </Typography>
       <Typography sx={{display: 'inline', color: theme => theme.palette.info.dark, fontWeight: 'bold'}}>
         {route}
       </Typography>
       <Typography sx={{display: 'inline', color: theme => theme.palette.info.dark}}>
-        {thirdLine}
+        {secondLine}
       </Typography>
     </Box>
   );
@@ -49,28 +49,39 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   const renderSteps = () => (
     <>
       <Typography sx={{mt: 2}}>
-        {'By claiming this QRLynk you can personalize the microsite and customize its content. This is a one-time process and it\'s free in the case of your first QRLynk. To claim your QRLynk, follow these steps:'}
+        {'By claiming this QRLynk you can customize the microsite and the content. This is a one-time process and it\'s free in the case of your first QRLynk.'}
+      </Typography>
+      <Typography sx={{mt: 2}}>
+        {'To claim your QRLynk, follow these steps:'}
       </Typography>
       <ol>
         <li><Typography>Press the CLAIM NOW button</Typography></li>
-        <li><Typography>Register for a new account in QRLynk or log in if you already have credentials</Typography></li>
+        <li><Typography>Register in QRLynk or log in</Typography></li>
         <li><Typography>Select the type of QRLynk that best suits your use case</Typography></li>
         <li><Typography>Enter the content to share and customize the design of your microsite</Typography></li>
-        <li><Typography>Optionally, customize the appearance of  your QR code</Typography></li>
+        <li><Typography>Customize the QR code</Typography></li>
         <li><Typography>Press SAVE to complete the process</Typography></li>
       </ol>
+      <Box sx={{mt: 2}}>
+        <Typography sx={{display: 'inline'}}>
+          {'You can manage all of your QRLynks by visiting this URL '}
+        </Typography>
+        <Typography sx={{display: 'inline'}}>
+          <a target="_blank" href="https://app.theqr.link/" rel="noopener noreferrer" style={{ color: "royalblue" }}>{'https://app.theqr.link/'}</a>
+        </Typography>
+        <Typography sx={{display: 'inline'}}>
+          {'.'}
+        </Typography>
+      </Box>
       <Typography sx={{mt: 2}}>
-        {'By completing these steps, you\'ll have full control over the content and appearance of your QRLynk. You can manage all of your QRLynks by visiting this URL: https://app.theqr.link/'}
-      </Typography>
-      <Typography sx={{mt: 2}}>
-        Thank you for choosing QRLynk. Claim your QRLynk now to get started!
+        Claim your QRLynk now to get started!
       </Typography>
     </>
   );
 
   const renderClaimNow = () => (
     <Box sx={{textAlign: 'center', width: '100%'}}>
-      <Button variant="outlined" color="info" sx={{ mt: "20px" }} size="small" startIcon={<ThumbUpIcon/>}
+      <Button size="large" variant="outlined" sx={{ mt: "20px", color: theme => theme.palette.info.dark }} startIcon={<ThumbUpIcon/>}
               onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
         {"Claim Now!"}
       </Button>
@@ -112,10 +123,9 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   const renderPreGen = () => (
     <Box sx={{ width: "100%" }}>
       <Box sx={{display: 'flex'}}>
-        <CelebrationIcon sx={{color: theme => theme.palette.info.dark}} fontSize="large" />
+        <InfoIcon sx={{color: theme => theme.palette.info.dark}} fontSize="large" />
         <Box sx={{ml: 1, color: theme => theme.palette.info.dark}}>
-          {renderCommon('Congratulations!', 'You have successfully scanned a QR code (',
-            ') associated with a QRLynk product.')}
+          {renderCommon( 'You have successfully scanned a QR code (', ') associated with a QRLynk product.')}
           {renderSteps()}
         </Box>
       </Box>
@@ -128,7 +138,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
       <Box sx={{display: 'flex'}}>
         <InfoIcon sx={{color: theme => theme.palette.info.dark}} fontSize="large" />
         <Box sx={{ml: 1, color: theme => theme.palette.info.dark}}>
-          {renderCommon('We\'re sorry.', 'The QR Link (',
+          {renderCommon('The QR Link (',
             ') you are trying to access does not exist. However, you can claim it as yours.')}
           {renderSteps()}
         </Box>
@@ -138,7 +148,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   );
 
   const renderKind = () => {
-    if (data === 'PRE-GENERATED') {
+    if (data !== 'PRE-GENERATED') {
       return renderPreGen();
     }
     if (data === 'CLAIMABLE') {
@@ -172,24 +182,15 @@ export const getServerSideProps: GetServerSideProps = async ({
       link = await queries.preGenerated.get(code);
       if (link) {
         return {
-          props: {
-            data: "PRE-GENERATED",
-            code,
-          },
+          props: { data: "PRE-GENERATED", code }
         };
       }
       return {
-        props: {
-          data: "CLAIMABLE",
-          code,
-        },
+        props: { data: "CLAIMABLE", code }
       };
     } else if (link.claimable === true) {
       return {
-        props: {
-          data: "CLAIMABLE",
-          code,
-        },
+        props: { data: "CLAIMABLE", code }
       };
     }
 
@@ -197,8 +198,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       return {
         redirect: {
           destination: "/" + code + "/paused",
-          permanent: false,
-        },
+          permanent: false
+        }
       };
     }
 
@@ -229,8 +230,8 @@ export const getServerSideProps: GetServerSideProps = async ({
           shortLinkId: link,
           shortlinkurl: generateShortLink(link.address,
             link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
-        }),
-      },
+        })
+      }
     };
   } catch (e: any) {
     return {
