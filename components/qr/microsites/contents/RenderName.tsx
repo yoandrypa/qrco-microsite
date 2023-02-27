@@ -15,14 +15,16 @@ export default function RenderName({data, stylesData}: CustomProps) {
           (data?.firstName || data.lastName ? ', ' : '') : ''}${data?.firstName ?
           data.firstName + (data?.lastName ? ' ' : '') : ''}${data?.lastName ? data.lastName : ''}`}
       </Typography>
-      {data.includeExtraInfo && (
+      {data && (data.includeExtraInfo || data.phone !== undefined || data.cell !== undefined || data.fax !== undefined ||
+        data.web !== undefined || data.email !== undefined || data.address !== undefined || data.address2 !== undefined ||
+        data.city !== undefined || data.zip !== undefined || data.state !== undefined || data.country !== undefined) && (
         <Box>
           {data.phone && <RenderField value={data.phone} icon="phone" sx={{...handleFont(stylesData,'m')}}/>}
           {data.cell && <RenderField value={data.cell} icon="cell" sx={{...handleFont(stylesData,'m')}}/>}
           {data.fax && <RenderField value={data.fax} icon="fax" sx={{...handleFont(stylesData,'m')}}/>}
           <RenderAddress stylesData={stylesData} data={data} includeIcon />
-          <RenderEmail stylesData={stylesData} data={data} />
-          <RenderWeb stylesData={stylesData} data={data} />
+          {data.email && <RenderEmail stylesData={stylesData} data={data} />}
+          {data.web && <RenderWeb stylesData={stylesData} data={data} />}
         </Box>
       )}
     </>
