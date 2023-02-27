@@ -70,7 +70,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
       size="small"
       fullWidth
       margin="dense" // @ts-ignore
-      value={value}
+      value={url}
       key={key}
       sx={{width: '100%', mt: !stay ? '10px' : 'unset'}}
       inputProps={{style: {...handleFont(stylesData, 'm')}}}
