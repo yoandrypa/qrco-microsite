@@ -218,8 +218,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           )}
           <Box sx={{
             width: '100%',
+            mt: containerDimensions && !foreImg ? '35px' : 0,
             minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20)}px)` :
-              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) - (!isBorder ? 0 : 20)}px)`}}>
+              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) - (!isBorder ? 0 : 20) - (!foreImg ? 35 : 0)}px)`}}>
             {foreImg && (
               <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
                 <Box
