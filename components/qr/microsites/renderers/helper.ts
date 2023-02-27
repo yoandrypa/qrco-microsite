@@ -30,7 +30,7 @@ export function downloadVCard(data: any) {
     }
   });
 
-  const contents = handleDesignerString("petId", data);
+  const contents = handleDesignerString("vcard+", data);
 
   handleDownload(contents, 'text/plain', 'my vcard.vcf', true);
 }
