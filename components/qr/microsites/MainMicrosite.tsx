@@ -110,14 +110,17 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   useEffect(() => {
     if (window.top !== window) {
       const width = window.innerWidth - 4;
-      setContainerDimensions({parentWidth: `${width}px`, parentHeight: `${window.innerHeight}px`});
+      const height = window.innerHeight;
+      setContainerDimensions({parentWidth: `${width}px`, parentHeight: `${height}px`});
       const percent = Math.ceil(width * 100 / 475);
+
       if (/Chrome/.test(navigator.userAgent)) { // @ts-ignore
         document.body.style.zoom = percent / 100; // zoom is not a standard but works fine for Chrome
       } else {
-        document.body.style.transform = `scale(${percent / 100})`;
+        document.body.style.transform = 'scale(0.65)'; // `scale(${percent / 100})`
         document.body.style.transformOrigin = '0 0';
-        document.body.style.width = `${100 + percent}%`;
+        document.body.style.width = `${100 + percent}%`; // `${100 + percent}%`
+        document.body.style.height = `${height}px`;
       }
       // @ts-ignore
       window.top.postMessage(JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL);
