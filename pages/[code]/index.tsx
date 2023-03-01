@@ -222,6 +222,10 @@ export const getServerSideProps: GetServerSideProps = async ({
       queries.link.incrementVisit(userId, createdAt, link.visitCount)
     ]);
 
+    if (typeof qr.custom === 'string') {
+      qr.custom = JSON.parse(qr.custom);
+    }
+
     // @ts-ignore
     return {
       props: {
