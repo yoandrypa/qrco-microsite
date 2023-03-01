@@ -58,7 +58,11 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
         mt: !stay ? '10px' : 'unset',
         ml: '25px',
         width: 'calc(100% - 50px)',
-        ...handleFont(stylesData, 'm')
+        ...handleFont(stylesData, 'm'),
+        '&:hover': {
+          color: '#4169e1',
+          textDecoration: !stylesData?.messagesFontStyle?.includes('u') ? 'underline' : '#4169e1 wavy underline'
+        }
       }}
     >{item.label}</Typography>
   );
