@@ -61,7 +61,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
         ...handleFont(stylesData, 'm'),
         '&:hover': {
           color: '#4169e1',
-          textDecoration: !stylesData?.messagesFontStyle.includes('u') ? 'underline' : '#4169e1 wavy underline'
+          textDecoration: !stylesData?.messagesFontStyle?.includes('u') ? 'underline' : '#4169e1 wavy underline'
         }
       }}
     >{item.label}</Typography>
