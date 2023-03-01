@@ -50,9 +50,9 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
       case 'company': { return <WorkIcon sx={sx} />; }
       case 'easiness': { return <DoneAllIcon sx={sx} />; }
       case 'phones': { return <RingVolumeIcon sx={sx} />; }
-      case 'socials': { return <GroupsIcon sx={sx} />; }
       case 'gallery': { return <PhotoSizeSelectActualIcon sx={sx} />; }
       case 'tags': { return <TagIcon sx={sx} />; }
+      case 'organization': { return <WorkIcon sx={sx}/>; }
       case 'contact': {
         message.current = 'Contact form';
         return <ContactMailIcon sx={sx} />;
@@ -81,13 +81,13 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
         message.current = 'Opening time';
         return <ScheduleIcon sx={sx} />;
       }
+      case 'socials': {
+        message.current = 'Social networks';
+        return <GroupsIcon sx={sx} />;
+      }
       case 'email': {
         message.current = 'Email and web';
         return <MarkAsUnreadIcon sx={sx} />;
-      }
-      case 'organization': {
-        message.current = 'Organization info';
-        return <WorkIcon sx={sx}/>;
       }
     }
   };
