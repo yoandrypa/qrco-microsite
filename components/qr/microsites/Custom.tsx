@@ -115,7 +115,7 @@ export default function Custom({newData}: any) {
       <Box sx={{width: '100%', p: 2}}>
         {newData.custom?.map((x: CustomType, index: number) => (
           <Box sx={{width: '100%'}} key={`key${x.expand || index}`}>
-            {!isSections ? renderComponent(x) : <RenderSectWrapper>{renderComponent(x)}</RenderSectWrapper>}
+            {!isSections ? renderComponent(x) : <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}}>{renderComponent(x)}</RenderSectWrapper>}
           </Box>
         ))}
       </Box>
