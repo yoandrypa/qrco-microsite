@@ -10,6 +10,8 @@ import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
 import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import Divider from "@mui/material/Divider";
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 import dynamic from "next/dynamic";
 
@@ -17,7 +19,7 @@ const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
 const DangerousIcon = dynamic(() => import('@mui/icons-material/Dangerous'));
 
 const renderContactSupport = (message: string) => (
-  <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer" style={{ color: "royalblue" }}>{message}</a>
+  <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer" style={{ color: "royalblue", zIndex: 1000 }}>{message}</a>
 );
 
 // @ts-ignore
@@ -46,10 +48,20 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
     </Box>
   );
 
+  const renderClaimNow = () => (
+    <Box sx={{textAlign: 'center', width: '100%'}}>
+      <Button size="large" variant="outlined" sx={{ mt: "20px", color: theme => theme.palette.info.dark }} startIcon={<ThumbUpIcon/>}
+              onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
+        {"Claim Now!"}
+      </Button>
+    </Box>
+  );
+
   const renderSteps = () => (
     <>
+      {renderClaimNow()}
       <Typography sx={{mt: 2}}>
-        {'By claiming this QRLynk you can customize the microsite and the content. This is a one-time process and it\'s free in the case of your first QRLynk.'}
+        {`By claiming this QRLynk you can customize the microsite and the content. This is a one-time process and it\'s free${data === 'PRE-GENERATED' ? '' : ' in the case of your first QRLynk'}.`}
       </Typography>
       <Typography sx={{mt: 2}}>
         {'To claim your QRLynk, follow these steps:'}
@@ -67,7 +79,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
           {'You can manage all of your QRLynks by visiting this URL '}
         </Typography>
         <Typography sx={{display: 'inline'}}>
-          <a target="_blank" href="https://app.theqr.link/" rel="noopener noreferrer" style={{ color: "royalblue" }}>{'https://app.theqr.link/'}</a>
+          <a target="_blank" href="https://app.theqr.link/" rel="noopener noreferrer" style={{ color: "royalblue" }}>{'https://app.theqr.link'}</a>
         </Typography>
         <Typography sx={{display: 'inline'}}>
           {'.'}
@@ -77,15 +89,6 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
         Claim your QRLynk now to get started!
       </Typography>
     </>
-  );
-
-  const renderClaimNow = () => (
-    <Box sx={{textAlign: 'center', width: '100%'}}>
-      <Button size="large" variant="outlined" sx={{ mt: "20px", color: theme => theme.palette.info.dark }} startIcon={<ThumbUpIcon/>}
-              onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
-        {"Claim Now!"}
-      </Button>
-    </Box>
   );
 
   const renderNoData = () => (
@@ -158,9 +161,14 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
 
   if (["NO DATA", "CLAIMABLE", "PRE-GENERATED"].includes(data)) {
     return (
-      <MainMicrosite data={{foregndImg: 'logo.png', backgndImg: 'banner.png'}}>
+      <MainMicrosite data={{foregndImg: 'logo.png', backgndImg: 'banner.png', layout: 'gradient', noInfoGradient: true}}>
         <Box sx={{ width: 'calc(100% - 40px)', ml: '20px', mt: '20px' }}>
           {renderKind()}
+        </Box>
+        <Divider sx={{mt: 3}} />
+        <Box sx={{display: 'flex', my: '5px', width: '100%', justifyContent: 'center'}}>
+          <ContactSupportIcon sx={{color: theme => theme.palette.primary.dark}}/>
+          {renderContactSupport('info@ebanux.com')}
         </Box>
       </MainMicrosite>
     );
