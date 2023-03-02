@@ -138,8 +138,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
       <Box sx={{display: 'flex'}}>
         <InfoIcon sx={{color: theme => theme.palette.info.dark}} fontSize="large" />
         <Box sx={{ml: 1, color: theme => theme.palette.info.dark}}>
-          {renderCommon('The QR Link (',
-            ') you are trying to access does not exist. However, you can claim it as yours.')}
+          {renderCommon('The QR Link you are trying to access (', ') does not exist. However, you can claim it as yours.')}
           {renderSteps()}
         </Box>
       </Box>
@@ -148,7 +147,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   );
 
   const renderKind = () => {
-    if (data !== 'PRE-GENERATED') {
+    if (data === 'PRE-GENERATED') {
       return renderPreGen();
     }
     if (data === 'CLAIMABLE') {

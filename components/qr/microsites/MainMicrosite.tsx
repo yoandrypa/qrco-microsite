@@ -185,7 +185,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <Box sx={{ width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
           <Box sx={{height: '200px'}}>
             {!data.layout?.includes('banner') ? (<Box sx={{
-              backgroundClip: 'padding-box !important', width: '475px', left: isScrolling && foreImg ? '-2px' : 'unset',
+              backgroundClip: 'padding-box !important', width: isWide ? '475px' : '100%', left: isScrolling && foreImg ? '-2px' : 'unset',
               height: `${!isInverse ? 200 : 228}px`, position: 'fixed', right: 0,
               borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
