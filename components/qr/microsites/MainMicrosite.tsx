@@ -184,8 +184,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       }}>
         <Box sx={{ width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
           <Box sx={{height: '200px'}}>
-            <Box sx={{
-              backgroundClip: 'padding-box !important', width: '475px', left: isScrolling && foreImg ? '-2px' : 'unset',
+            {!data.layout?.includes('banner') ? (<Box sx={{
+              backgroundClip: 'padding-box !important', width: isWide ? '475px' : '100%', left: isScrolling && foreImg ? '-2px' : 'unset',
               height: `${!isInverse ? 200 : 228}px`, position: 'fixed', right: 0,
               borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
@@ -196,7 +196,12 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               background: theme => !backImg ? theme.palette.primary.main : 'unset',
               clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
                 'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
-            }} component={backImg ? 'img' : 'div'} alt="bannerImg" src={backImg?.content || backImg}/>
+            }} component={backImg ? 'img' : 'div'} alt="bannerImg" src={backImg?.content || backImg}/>) : (
+              <Box sx={{
+                width: '475px', left: isScrolling && foreImg ? '-2px' : 'unset', height: `${!isInverse ? 200 : 228}px`,
+                position: 'fixed', right: 0,
+              }} />
+            )}
             {data.shortlinkurl !== undefined && (
               <RWebShare data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}} onClick={() => {
                 // TODO
