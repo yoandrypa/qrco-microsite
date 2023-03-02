@@ -140,7 +140,7 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
   const render = () => (
     <>
       {!data?.socialsOnlyIcons ? (
-        <Grid item xs={12} sx={{display: 'flex', my: 2}}>
+        <Grid item xs={12} sx={{display: 'flex'}}>
           <Box sx={{ml: 1}}>
             {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(stylesData, !bold ? 'm' : 't')}}>{desc}</Typography>}
             <Grid container spacing={1}>

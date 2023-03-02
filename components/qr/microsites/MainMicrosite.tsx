@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useMemo, useState} from "react";
+import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
 import Fab from '@mui/material/Fab';
 import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
@@ -30,6 +30,7 @@ interface DimsProps {
 export default function MainMicrosite({children, data}: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
+  const [micrositeBackImage, setMicrositeBackImage] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [containerDimensions, setContainerDimensions] = useState<DimsProps | undefined>(undefined);
   const [error, setError] = useState<boolean>(false);
@@ -37,20 +38,28 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const isWide: boolean = useMediaQuery("(min-width:490px)", {noSsr: true});
   const theming = useTheme();
 
+  const counter = useRef<number>(0);
+
   const getFiles = async (key: string, item: string) => {
     try {
       const fileData = await download(key, data.isSample);
-      if (item === 'backgndImg') {
+      if (item === 'micrositeBackImage') {
+        setMicrositeBackImage(fileData);
+      } else if (item === 'backgndImg') {
         setBackImg(fileData);
       } else {
         setForeImg(fileData);
       }
+      counter.current -= 1;
     } catch {
-      if (item === 'backgndImg') {
+      if (item === 'micrositeBackImage') {
+        setMicrositeBackImage(null);
+      } else if (item === 'backgndImg') {
         setBackImg(null);
       } else {
         setForeImg(null);
       }
+      counter.current -= 1;
       setError(true);
     }
   }
@@ -85,8 +94,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   useEffect(() => {
     if (data.backgndImg) {
-      setLoading(true);
       if (Array.isArray(data.backgndImg)) {
+        setLoading(true);
+        counter.current += 1;
         getFiles(data.backgndImg[0].Key, 'backgndImg');
       } else {
         setBackImg(data.backgndImg);
@@ -95,9 +105,22 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       setBackImg(undefined);
     }
 
+    if (data.micrositeBackImage) {
+      if (Array.isArray(data.micrositeBackImage)) {
+        setLoading(true);
+        counter.current += 1;
+        getFiles(data.micrositeBackImage[0].Key, 'micrositeBackImage');
+      } else {
+        setMicrositeBackImage(data.micrositeBackImage);
+      }
+    } else if (micrositeBackImage) {
+      setMicrositeBackImage(undefined);
+    }
+
     if (data.foregndImg) {
-      setLoading(true);
       if (Array.isArray(data.foregndImg)) {
+        setLoading(true);
+        counter.current += 1;
         getFiles(data.foregndImg[0].Key, 'foregndImg');
       } else {
         setForeImg(data.foregndImg);
@@ -105,7 +128,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     } else if (foreImg) {
       setForeImg(undefined);
     }
-  }, [data.backgndImg, data.foregndImg]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data.backgndImg, data.foregndImg, data.micrositeBackImage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (window.top !== window) {
@@ -128,10 +151,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if ((backImg !== undefined && !data.foregndImg) || (foreImg !== undefined && !data.backgndImg) || (foreImg !== undefined && backImg !== undefined)) {
+    if (loading && counter.current === 0) {
       setLoading(false);
     }
-  }, [backImg, foreImg]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [backImg, foreImg, micrositeBackImage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -182,11 +205,16 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         minHeight: '100vh',
         overflowX: 'hidden',
       }}>
-        <Box sx={{ width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
+        {data.backgroundType === 'image' && micrositeBackImage && (
+          <Box component="img" src={micrositeBackImage.content || micrositeBackImage} alt="backgroundImg"
+               sx={{position: 'fixed', top: 0, left: 0, height: '100%', zIndex: -1, marginLeft: '50%', transform: 'translateX(-50%)'}}/>
+        )}
+        <Box sx={{width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
           <Box sx={{height: '200px'}}>
             {!data.layout?.includes('banner') ? (<Box sx={{
               backgroundClip: 'padding-box !important', width: isWide ? '475px' : '100%', left: isScrolling && foreImg ? '-2px' : 'unset',
-              height: `${!isInverse ? 200 : 228}px`, position: 'fixed', right: 0,
+              marginLeft: '50%', transform: 'translateX(-50%)',
+              height: `${!isInverse ? 200 : 228}px`, right: 0,
               borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
