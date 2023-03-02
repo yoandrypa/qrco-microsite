@@ -191,8 +191,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRadius: isBorder || isSoft ? `${isBorder ? '24px 24px' : '0 0'} ${isSoft ? '24px 24px' : '0 0'}` : 'unset',
-              maskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
-              WebkitMaskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
+              maskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
+              WebkitMaskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
               background: theme => !backImg ? theme.palette.primary.main : 'unset',
               clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
                 'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
@@ -217,7 +217,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               </RWebShare>
             )}
           </Box>
-          {(!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
+          {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
             <Box sx={{
               width: '100%',
               background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
