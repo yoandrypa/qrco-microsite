@@ -43,6 +43,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const getFiles = async (key: string, item: string) => {
     try {
       const fileData = await download(key, data.isSample);
+
       if (item === 'micrositeBackImage') {
         setMicrositeBackImage(fileData);
       } else if (item === 'backgndImg') {
@@ -61,6 +62,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       }
       counter.current -= 1;
       setError(true);
+    } finally {
+      if (counter.current === 0) {
+        setLoading(false);
+      }
     }
   }
 
@@ -149,12 +154,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       window.top.postMessage(JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (loading && counter.current === 0) {
-      setLoading(false);
-    }
-  }, [backImg, foreImg, micrositeBackImage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
