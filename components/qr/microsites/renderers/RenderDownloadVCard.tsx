@@ -20,9 +20,9 @@ export default function RenderDownloadVCard({styled, data}: DownloadVCardProps) 
       // window.open(`data:text/x-vcard;urlencoded,${output}`);
       // document.location.href = `data:text/x-vcard,${output}`;
 
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.download = 'vcard.vcf';
-      link.href = `data:text/x-vcard,${output}`;
+      link.href = `data:text/vcard;charset:utf8,${output}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
