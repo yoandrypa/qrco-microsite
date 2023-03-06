@@ -2,6 +2,7 @@ import {DEFAULT_COLORS, FONTS, SOCIALS} from "../../constants";
 import {handleDesignerString} from "../../../../helpers/qr/helpers";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
+import {alpha} from "@mui/material/styles";
 
 function handleDownload(contents: string, type: string, name: string, useFile?: boolean) {
   let url = contents;
@@ -139,20 +140,20 @@ export const clearDataStyles = (newData: any) => {
 }
 
 export const handleButtons = (data: any, theme: any) => {
-  const style = {};
-  if (data?.buttonShape !== undefined && data.buttonShape !== '1') { // @ts-ignore
+  const style = {} as any;
+  if (data?.buttonShape !== undefined && data.buttonShape !== '1') {
     style.borderRadius = data.buttonShape === '0' ? 0 : data.buttonShape === '2' ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
   }
   if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
-    if (data.buttonBack === 'solid') { // @ts-ignore
-      style.background = data.buttonBackColor || DEFAULT_COLORS.s; // @ts-ignore
+    if (data.buttonBack === 'solid') {
+      style.background = data.buttonBackColor || DEFAULT_COLORS.s;
       style['&:hover'] = {background: data.buttonBackColor || DEFAULT_COLORS.s}
     } else if (data.buttonBack === 'two') {
-      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined; // @ts-ignore
-      style.background = colors ? colors[0] : DEFAULT_COLORS.p; // @ts-ignore
+      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
+      style.background = colors ? colors[0] : DEFAULT_COLORS.p;
       style['&:hover'] = {background: colors ? colors[1] : DEFAULT_COLORS.s};
     } else if (data.buttonBack === 'gradient') {
-      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined; // @ts-ignore
+      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
       let angle = '180deg';
       let color1 = DEFAULT_COLORS.p;
       let color2 = DEFAULT_COLORS.s;
@@ -165,18 +166,21 @@ export const handleButtons = (data: any, theme: any) => {
         } else {
           color2 = colors[1];
         }
-      } // @ts-ignore
-      style.backgroundImage = `linear-gradient(${angle}, ${color1}, ${color2})`; // @ts-ignore
+      }
+      style.backgroundImage = `linear-gradient(${angle}, ${color1}, ${color2})`;
       style['&:hover'] = {backgroundImage: `linear-gradient(${angle}, ${color2}, ${color1})`};
     }
-  } else { // @ts-ignore
-    style.background = theme.palette.secondary.main; // @ts-ignore
+  } else {
+    style.background = theme.palette.secondary.main;
     style['&:hover'] = {color: theme.palette.secondary.main, background: theme.palette.primary.main};
   }
-  if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) { // @ts-ignore
+  if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) {
     style.color = `#${data.buttonsFontStyle.split('#')[1]}`;
-  } else { // @ts-ignore
+  } else {
     style.color = theme.palette.primary.main;
+  }
+  if (data?.buttonsOpacity !== undefined) {
+    style.background = alpha(style.background, data.buttonsOpacity);
   }
   return style;
 }
