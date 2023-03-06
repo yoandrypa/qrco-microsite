@@ -17,7 +17,15 @@ export default function RenderDownloadVCard({styled, data}: DownloadVCardProps) 
   const handleDownload = () => {
     if (window && /Android|iPhone/i.test(navigator.userAgent)) {
       const output = encodeURIComponent(handleDesignerString("vcard+", {...data}));
-      window.open(`data:text/x-vcard;urlencoded,${output}`);
+      // window.open(`data:text/x-vcard;urlencoded,${output}`);
+      // document.location.href = `data:text/x-vcard,${output}`;
+
+      const link = document.createElement('a');
+      link.download = 'vcard.vcf';
+      link.href = `data:text/vcard;charset:utf8,${output}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } else {
       downloadVCard({...data});
     }
@@ -30,7 +38,7 @@ export default function RenderDownloadVCard({styled, data}: DownloadVCardProps) 
         startIcon={<GetAppIcon />}
         sx={{...handleFont(styled, 'b'), ...handleButtons(styled, theme)}}
         onClick={handleDownload}
-      >{'Get Contact'}</Button>
+      >{'Add Contact'}</Button>
       <Box sx={{height: '35px'}}/>
     </Box>
   );
