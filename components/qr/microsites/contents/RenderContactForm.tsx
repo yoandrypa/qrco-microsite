@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, useEffect, useMemo, useRef, useState} from 'react'
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 //@ts-ignore
@@ -18,6 +18,36 @@ function RenderContactForm({data, stylesData}: CustomProps) {
   const [message, setMessage] = useState<string>(data?.message || '')
 
   const theme = useTheme();
+
+  const doneFirst = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (doneFirst.current && window.top !== window) {
+      setEmail(data?.email || '');
+    }
+  }, [data?.email]);
+
+  useEffect(() => {
+    if (doneFirst.current && window.top !== window) {
+      setSubject(data?.title || '');
+    }
+  }, [data?.title]);
+
+  useEffect(() => {
+    if (doneFirst.current && window.top !== window) {
+      setMessage(data?.message || '');
+    }
+    if (!doneFirst.current) {
+      doneFirst.current = true;
+    }
+  }, [data?.message]);
+
+  const inputProps = useMemo(() => ({sx:{ background: '#fff', color: theme.palette.primary.main }}), [theme.palette.primary.main]);
+  const sxProps = useMemo(() => ({
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': { borderColor: theme.palette.primary.main }
+    }
+  }), [theme.palette.primary.main]);
 
   if (!data) {
     return null;
@@ -105,6 +135,8 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         fullWidth
         placeholder='your@email.com'
         value={email}
+        sx={sxProps}
+        InputProps={inputProps}
         onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
       />
       <Typography sx={{...handleFont(stylesData, 's')}}>Subject</Typography>
@@ -114,6 +146,8 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         fullWidth
         placeholder='Contact me'
         value={subject}
+        sx={sxProps}
+        InputProps={inputProps}
         onChange={(event: ChangeEvent<HTMLInputElement>) => setSubject(event.target.value)}
       />
       <Typography sx={{...handleFont(stylesData, 's')}}>Message</Typography>
@@ -125,11 +159,13 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         rows={5}
         placeholder='Message'
         value={message}
+        sx={sxProps}
+        InputProps={inputProps}
         onChange={(event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)}
       />
 
       <LoadingButton loading={isLoading} variant='contained' onClick={handleClick}
-                     sx={{...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme), width: 'calc(100% - 20px)'}}>
+                     sx={{...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme), width: '100%', mt: 2}}>
         {data.buttonText || 'Send message'}
       </LoadingButton>
     </Box>
