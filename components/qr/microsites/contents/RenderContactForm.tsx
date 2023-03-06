@@ -124,7 +124,7 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         multiline
         rows={5}
         placeholder='Message'
-        value={subject}
+        value={message}
         onChange={(event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)}
       />
 
