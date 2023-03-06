@@ -38,7 +38,7 @@ export default function RenderDownloadVCard({styled, data}: DownloadVCardProps) 
         startIcon={<GetAppIcon />}
         sx={{...handleFont(styled, 'b'), ...handleButtons(styled, theme)}}
         onClick={handleDownload}
-      >{'Get Contact'}</Button>
+      >{'Add Contact'}</Button>
       <Box sx={{height: '35px'}}/>
     </Box>
   );
