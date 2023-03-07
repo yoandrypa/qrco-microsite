@@ -73,3 +73,5 @@ export function getUuid(): string {
     return (c === 'x' ? r :(r&0x3|0x8)).toString(16);
   });
 }
+
+export const verifyProtocol = (url: string) => !url.toLowerCase().startsWith('https://') && !url.toLowerCase().startsWith('http://') ? `https://${url}` : url;
