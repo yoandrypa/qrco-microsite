@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import PleaseWait from '../../PleaseWait';
+import {verifyProtocol} from "../../../helpers/qr/helpers";
 
 interface WebProps {
   urlString: string;
@@ -7,7 +8,7 @@ interface WebProps {
 
 export default function Web({urlString}: WebProps) {
   useEffect(() => {
-    window.location.replace(urlString);
+    window.location.replace(verifyProtocol(urlString));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
