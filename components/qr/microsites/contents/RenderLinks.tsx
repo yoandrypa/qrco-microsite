@@ -8,6 +8,7 @@ import {CustomProps, handleButtons, handleFont} from "../renderers/helper";
 import {LinkType} from "../../types/types";
 
 import dynamic from "next/dynamic";
+import {verifyProtocol} from "../../../../helpers/qr/helpers";
 
 const InputAdornment = dynamic(() => import("@mui/material/InputAdornment"));
 const RenderIcon = dynamic(() => import("../../helperComponents/RenderIcon"));
@@ -109,6 +110,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
         if (!x.link.trim().length) {
           return null;
         }
+        x.link = verifyProtocol(x.link);
         if (data.linksOnlyLinks) {
           return renderLink(x.link, `lnk${index}`, index === 0);
         }
