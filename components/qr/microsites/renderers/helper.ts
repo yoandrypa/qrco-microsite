@@ -143,6 +143,8 @@ export const handleButtons = (data: any, theme: any) => {
   const style = {} as any;
   if (data?.buttonShape !== undefined && data.buttonShape !== '1') {
     style.borderRadius = data.buttonShape === '0' ? 0 : data.buttonShape === '2' ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
+  } else {
+    style.borderRadius = '8px';
   }
   if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
     if (data.buttonBack === 'solid') {
@@ -179,8 +181,21 @@ export const handleButtons = (data: any, theme: any) => {
   } else {
     style.color = theme.palette.primary.main;
   }
-  if (data?.buttonsOpacity !== undefined) {
+  if (data?.buttonsOpacity !== undefined && style.background) {
     style.background = alpha(style.background, data.buttonsOpacity);
+    if (style['&:hover'] !== undefined) {
+      style['&:hover'].background = alpha(style['&:hover'].background, data.buttonsOpacity);
+    }
+  }
+  if (data?.buttonBorderStyle !== undefined && data.buttonBorderStyle !== 'noBorders') {
+    style.border = `${!data?.buttonBorderType ? 'solid' : data.buttonBorderType} ${!data?.buttonBorderWeight || data.buttonBorderWeight === 'thin' ? 1 : (data.buttonBorderWeight === 'normal' ? 5 : 10)}px`;
+  }
+  if (data?.buttonBorderStyle === 'two') {
+    let colors = data.buttonBorderColors as string;
+    if (!colors) { colors = `${DEFAULT_COLORS.p}|${DEFAULT_COLORS.s}`; }
+    const cols = colors.split('|') as string[];
+    style.borderColor = cols[0];
+    style['&:hover'] = { borderColor: cols[1] };
   }
   return style;
 }
