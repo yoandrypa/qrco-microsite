@@ -51,7 +51,7 @@ export default function Custom({newData}: any) {
       ...newData.custom.find((x: { component: string; }) => x.component === 'presentation')?.data,
       ...newData.custom.find((x: { component: string; }) => x.component === 'organization')?.data
     }} styled={styled} />
-  ), []); // eslint-disable-line react-hooks/exhaustive-deps
+  ), [styled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderComponent = (x: CustomType) => {
     const {component, name, data} = x;
@@ -65,15 +65,21 @@ export default function Custom({newData}: any) {
       }
     }
 
+    const mainStyle = {width: 'calc(100% - 30px)', ml: '30px'};
+    if (component === 'title') {
+      mainStyle.width = '100%';
+      mainStyle.ml = 'unset';
+    }
+
     return (
       <Box sx={{width: '100%'}}>
         <Box sx={{width: '50ox'}}>
-          {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine && ((component !== 'petId' || data?.petName?.length) || // @ts-ignore
-              (component !== 'gallery' || newData.qrType !== 'inventory')) &&
+          {!['title', 'action', 'sku'].includes(component) && ((!data?.hideHeadLine && component !== 'links') || (component === 'links' && data?.hideHeadLine)) // @ts-ignore
+            && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
             <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
           }
         </Box>
-        <Box sx={{width: 'calc(100% - 30px)', ml: '30px'}}>
+        <Box sx={mainStyle}>
           {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
           {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
               data?.companyEmail || data?.contact || data?.companyPhone || data?.about) &&
@@ -82,7 +88,7 @@ export default function Custom({newData}: any) {
           {component === 'date' && <RenderDate data={data} stylesData={styled}/>}
           {component === 'easiness' && data?.easiness && <RenderEasiness data={data} styledData={styled}/>}
           {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
-          {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled}/>}
+          {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled} alternate={newData.alternate}/>}
           {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
           {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
           {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
@@ -92,7 +98,7 @@ export default function Custom({newData}: any) {
           {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
           {component === 'single' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.text || ''}</Typography>}
           {component === 'gallery' && <RenderImages data={data} stylesData={styled}/>}
-          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={data} stylesData={styled}/>}
+          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={{...data,qrType: component}} stylesData={styled}/>}
           {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
           {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}

@@ -17,7 +17,11 @@ const ContentCopyIcon = dynamic(() => import("@mui/icons-material/ContentCopy"))
 const ForwardIcon = dynamic(() => import("@mui/icons-material/Forward"));
 const TextField = dynamic(() => import("@mui/material/TextField"));
 
-export default function RenderLinks({data, stylesData}: CustomProps) {
+interface LinksProps extends CustomProps {
+  alternate?: boolean;
+}
+
+export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
   const theme = useTheme();
 
   if (!data?.links?.length) {
@@ -32,7 +36,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
     }
   }
 
-  const renderBtn = (item: LinkType, key: string, stay: boolean) => (
+  const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean) => (
     <Button
       key={key}
       target="_blank"
@@ -40,11 +44,10 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
       href={item.link}
       variant="contained"
       sx={{
-        mt: !stay ? '10px' : 'unset',
-        ml: '25px',
-        width: 'calc(100% - 50px)',
+        mt: !stay ? '20px' : 'unset',
+        width: 'calc(100% - 20px)',
         ...handleFont(stylesData, 'b'),
-        ...handleButtons(stylesData, theme)
+        ...handleButtons(stylesData, theme, alternate)
       }}
     >{item.label}</Button>
   );
@@ -56,9 +59,8 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
       component="a"
       href={item.link}
       sx={{
-        mt: !stay ? '10px' : 'unset',
-        ml: '25px',
-        width: 'calc(100% - 50px)',
+        mt: !stay ? '20px' : 'unset',
+        width: 'calc(100% - 20px)',
         ...handleFont(stylesData, 'm'),
         '&:hover': {
           color: '#4169e1',
@@ -77,7 +79,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
       margin="dense" // @ts-ignore
       value={url}
       key={key}
-      sx={{width: '100%', mt: !stay ? '10px' : 'unset'}}
+      sx={{width: '100%', mt: !stay ? '20px' : 'unset'}}
       inputProps={{style: {...handleFont(stylesData, 'm')}}}
       InputProps={{
         disableUnderline: true,
@@ -105,7 +107,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
   );
 
   return (
-    <Box sx={{width: '100%', mb: 3}}>
+    <Box sx={{width: '100%', mt: 1, mb: 3}}>
       {data.links.map((x: LinkType, index: number) => {
         if (!x.link.trim().length) {
           return null;
@@ -117,7 +119,7 @@ export default function RenderLinks({data, stylesData}: CustomProps) {
         if (data.avoidButtons) {
           return renderLabel(x, `lbl${index}`, index === 0);
         }
-        return renderBtn(x, `btn${index}`, index === 0);
+        return renderBtn(x, `btn${index}`, index === 0, alternate && index % 2 === 0);
       })}
     </Box>
   );
