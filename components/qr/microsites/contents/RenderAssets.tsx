@@ -19,6 +19,8 @@ const PleaseWait = dynamic(() => import("../../../PleaseWait"));
 const RenderPreviewVideo = dynamic(() => import("../renderers/RenderPreviewVideo"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
 const RenderPreviewPdf = dynamic(() => import("../renderers/RenderPreviewPdf"));
+const PlayArrowIcon = dynamic(() => import("@mui/icons-material/PlayArrow"));
+const LibraryBooksIcon = dynamic(() => import("@mui/icons-material/LibraryBooks"));
 
 export default function RenderAssets({ data, stylesData }: CustomProps) {
   const [preview, setPreview] = useState<FileType | string | null>(null);
@@ -129,7 +131,7 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
               {data.qrType === 'pdf' && index == 0 && (
                 <RenderPreviewPdf content={content} />
               )}
-              <Box sx={{ display: 'flex', mb: 2, flexDirection: isWide400 ? 'row' : 'column' }}>
+              <Box sx={{mb: 2}}>
                 <Button
                   sx={{width: '100%', ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme)}}
                   variant="outlined"
@@ -140,9 +142,9 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
                 </Button>
                 {['video', 'pdf'].includes(data.qrType) && (
                   <Button
-                    sx={{ width: isWide400 ? '30%' : '100%', ml: isWide400 ? '5px' : 0, mt: isWide400 ? 0 : '5px',
+                    sx={{ width: '100%', mt: '5px',
                       ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme) }}
-                    variant="outlined"
+                    variant="outlined" startIcon={data.qrType === 'video' ? <PlayArrowIcon /> : <LibraryBooksIcon />}
                     onClick={() => setPreview(x)}
                   >
                     {'Preview'}

@@ -139,10 +139,38 @@ export const clearDataStyles = (newData: any) => {
   return newData;
 }
 
-export const handleButtons = (data: any, theme: any) => {
+export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
   const style = {} as any;
   if (data?.buttonShape !== undefined && data.buttonShape !== '1') {
-    style.borderRadius = data.buttonShape === '0' ? 0 : data.buttonShape === '2' ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
+    const {buttonShape} = data;
+    if (buttonShape !== undefined && buttonShape !== '0') {
+      if (buttonShape === '1') {
+        style.borderRadius = '15px';
+      } else if (buttonShape === '2') {
+        style.borderRadius = '50px';
+      } else if (buttonShape === '3') {
+        style.borderRadius = '50%';
+      } else if (buttonShape === '4') {
+        style.borderRadius = data.buttonBorders || '50px 10px 15px 0';
+      } else if (buttonShape === '5') {
+        style.borderRadius = !data?.flipVertical ? (!alternate ? '50px 0' : '0 50px') : (!alternate ? '0 50px' : '50px 0');
+      } else if (buttonShape === '6') {
+        let radius = !alternate ? '50px 0 0 50px' : '0 50px 50px 0';
+        if (data?.flipVertical && !data.flipHorizontal) {
+          radius = !alternate ? '50px 50px 0 0' : '0 0 50px 50px';
+        } else if (data?.flipHorizontal && !data.flipVertical) {
+          radius = !alternate ? '0 50px 50px 0' : '50px 0 0 50px';
+        } else if (data?.flipHorizontal && data.flipVertical) {
+          radius = !alternate ? '0 0 50px 50px' : '50px 50px 0 0';
+        }
+        style.borderRadius = radius;
+      } else {
+        let angle = 4;
+        if (data?.flipVertical) { angle *= -1; }
+        if (alternate) { angle *= -1; }
+        style.transform = `perspective(60px) rotateX(${angle}deg)`;
+      }
+    }
   } else {
     style.borderRadius = '8px';
   }
@@ -196,6 +224,18 @@ export const handleButtons = (data: any, theme: any) => {
     const cols = colors.split('|') as string[];
     style.borderColor = cols[0];
     style['&:hover'] = { borderColor: cols[1] };
+  }
+  if (data?.buttonShadow) {
+    const boxShadow = '4px 4px 4px #00000099';
+    style.boxShadow = boxShadow;
+    if (style['&:hover']) {
+      style['&:hover'].boxShadow = boxShadow;
+    } else {
+      style['&:hover'] = {boxShadow};
+    }
+  }
+  if (data?.buttonCase) {
+    style.textTransform = 'inherit';
   }
   return style;
 }
