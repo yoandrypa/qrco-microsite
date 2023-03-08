@@ -66,7 +66,7 @@ export default function Custom({newData}: any) {
     }
 
     const mainStyle = {width: 'calc(100% - 30px)', ml: '30px'};
-    if (component === 'title') {
+    if (['title', 'pdf', 'audio', 'video', 'gallery'].includes(component)) {
       mainStyle.width = '100%';
       mainStyle.ml = 'unset';
     }

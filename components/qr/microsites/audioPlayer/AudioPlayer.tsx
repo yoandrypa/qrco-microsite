@@ -33,7 +33,11 @@ const Button = styled(IconButton)(() => ({
 
 const CHEIGHT = 70;
 
-export default function AudioPlayer() {
+interface AudioProps {
+  audioContent?: string;
+}
+
+export default function AudioPlayer({audioContent}: AudioProps) {
   const interval = useRef<any>(null);
   const containerRef = useRef<HTMLCanvasElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -169,33 +173,41 @@ export default function AudioPlayer() {
     setPlaying(false);
   }, []);
 
+  const audioHandler = (audioData: string) => {
+    audio.current = new Audio();
+    audio.current.src = audioData;
+
+    // @ts-ignore
+    const src = audioCtx.current.createMediaElementSource(audio.current); // @ts-ignore
+    analyser.current = audioCtx.current.createAnalyser();
+    src.connect(analyser.current); // @ts-ignore
+    analyser.current.connect(audioCtx.current.destination);
+    analyser.current.fftSize = 256;
+
+    bufferLength.current = analyser.current.frequencyBinCount;
+    dataArray.current = new Uint8Array(bufferLength.current); // values from 0 to 255
+
+    audio.current.addEventListener('loadedmetadata', () => {
+      setTimeout(() => { // @ts-ignore
+        setDuration(audio.current.duration);
+      }, 250);
+    });
+  }
+
   const loader = () => {
-    fetch('http://localhost:3001/voltes.mp3')
-      .then(data => data.blob())
-      .then(blob => {
-        convertBase64(blob) // @ts-ignore
-          .then((result: string) => {
-            audio.current = new Audio();
-            audio.current.src = result;
-
-            // @ts-ignore
-            const src = audioCtx.current.createMediaElementSource(audio.current); // @ts-ignore
-            analyser.current = audioCtx.current.createAnalyser();
-            src.connect(analyser.current); // @ts-ignore
-            analyser.current.connect(audioCtx.current.destination);
-            analyser.current.fftSize = 256;
-
-            bufferLength.current = analyser.current.frequencyBinCount;
-            dataArray.current = new Uint8Array(bufferLength.current); // values from 0 to 255
-
-            audio.current.addEventListener('loadedmetadata', () => {
-              setTimeout(() => { // @ts-ignore
-                setDuration(audio.current.duration);
-              }, 250);
+    if (audioContent !== undefined) {
+      audioHandler(audioContent);
+    } else {
+      fetch('http://localhost:3001/voltes.mp3')
+        .then(data => data.blob())
+        .then(blob => {
+          convertBase64(blob) // @ts-ignore
+            .then((result: string) => {
+              audioHandler(result);
             });
-          });
-      })
-      .catch(error => console.log('Error',error));
+        })
+        .catch(error => console.log('Error', error));
+    }
   }
 
   useEffect(() => {
@@ -205,9 +217,12 @@ export default function AudioPlayer() {
   }, [volume]);
 
   useEffect(() => {
-    if (duration && current && duration > 1 && duration === current) {
+    if (duration && current && duration > 1 && current >= duration) {
       clear();
       loader();
+      if (repeat) {
+        playAudio();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration, current]);
@@ -236,7 +251,7 @@ export default function AudioPlayer() {
   }, []);
 
   return (
-    <Box sx={{width: {sm: '350px', xs: '100%'}, height: '158px', border: 'solid 1px gray', p: 1, borderRadius: '5px'}} ref={containerRef}>
+    <Box sx={{width: '100%', height: '158px', border: 'solid 1px gray', p: 1, borderRadius: '5px'}} ref={containerRef}>
       <canvas ref={canvasRef} width={300} height={CHEIGHT} style={{border: 'solid 2px rgb(0 0 0 / 25%)', borderRadius: '5px'}} />
       <Box sx={{display: 'flex', mt: 1}}>
         <HandlePlayerButtons disabled={audio.current === null} playing={playing} handlePlayPause={handlePlayPause} />
