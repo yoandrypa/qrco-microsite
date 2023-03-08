@@ -98,7 +98,7 @@ export default function Custom({newData}: any) {
           {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
           {component === 'single' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.text || ''}</Typography>}
           {component === 'gallery' && <RenderImages data={data} stylesData={styled}/>}
-          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={data} stylesData={styled}/>}
+          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={{...data,qrType: component}} stylesData={styled}/>}
           {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
           {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
           {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}

@@ -31,9 +31,7 @@ export default function SampleMicrosite({data}: any) {
     );
   }
 
-  return (
-    <MainComponent newData={{samples: data}} />
-  );
+  return <MainComponent newData={{samples: data}} />;
 }
 
 export const getStaticProps: GetStaticProps = async() => {
