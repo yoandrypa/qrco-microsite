@@ -142,7 +142,14 @@ export const clearDataStyles = (newData: any) => {
 export const handleButtons = (data: any, theme: any) => {
   const style = {} as any;
   if (data?.buttonShape !== undefined && data.buttonShape !== '1') {
-    style.borderRadius = data.buttonShape === '0' ? 0 : data.buttonShape === '2' ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
+    const {buttonShape} = data;
+    if (+buttonShape < 4) {
+      style.borderRadius = buttonShape === '0' ? 0 : buttonShape === '2' ? '50px' : (data.buttonBorders || '25px 10px 15px 0');
+    } else {
+      style.transform = `perspective(60px) rotateX(${buttonShape === '4' ? 4 : -4}deg)`;
+      style.mt = buttonShape === 4 ? '-5px' : '5px';
+      style.mb = '5px';
+    }
   } else {
     style.borderRadius = '8px';
   }
@@ -196,6 +203,15 @@ export const handleButtons = (data: any, theme: any) => {
     const cols = colors.split('|') as string[];
     style.borderColor = cols[0];
     style['&:hover'] = { borderColor: cols[1] };
+  }
+  if (data?.buttonShadow) {
+    const boxShadow = '4px 4px 4px #00000099';
+    style.boxShadow = boxShadow;
+    if (style['&:hover']) {
+      style['&:hover'].boxShadow = boxShadow;
+    } else {
+      style['&:hover'] = {boxShadow};
+    }
   }
   return style;
 }
