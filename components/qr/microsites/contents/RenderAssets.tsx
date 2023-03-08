@@ -15,6 +15,7 @@ import {getExtension} from "../../../helpers/generalFunctions";
 
 import dynamic from "next/dynamic";
 
+const AudioPlayer = dynamic(() => import("../audioPlayer/AudioPlayer"));
 const PleaseWait = dynamic(() => import("../../../PleaseWait"));
 const RenderPreviewVideo = dynamic(() => import("../renderers/RenderPreviewVideo"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
@@ -32,7 +33,6 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
   const doneFirstRender = useRef<boolean>(false);
 
   const isWide: boolean = useMediaQuery("(min-width:600px)", { noSsr: true });
-  const isWide400: boolean = useMediaQuery("(min-width:400px)", { noSsr: true });
 
   const theme = useTheme();
 
@@ -83,7 +83,6 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
 
   useEffect(() => {
     loadFilesNow();
-
     if (window && data.type === 'pdf' && data.autoOpen && data.files.length === 1) {
       setHeight(window.innerHeight);
     }
@@ -95,10 +94,15 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
 
   const renderAssets = () => (
     files.current.length ? files.current.map((x: FileType | string, index: number) => {
+      if (!x) {
+        return null;
+      }
+
       const fileNumber = index + 1;
       let directFile = false;
       let type;
       let content;
+
       if (typeof x === 'string') {
         type = data.qrType;
         content = x;
@@ -120,10 +124,9 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
             <>
               {renderHint(!directFile ? getExtension(type) : capitalize(data.qrType), fileNumber)}
               {data.qrType === 'audio' && (
-                <audio preload="none" controls key={`audio${fileNumber}`} style={{ width: '100%' }}>
-                  <source src={content} type={type} />
-                  {'Your browser can not play audio files. :('}
-                </audio>
+                <Box sx={{width: '100%', mb: 1}}>
+                  <AudioPlayer audioContent={content} />
+                </Box>
               )}
               {data.qrType === 'video' && index === 0 && (
                 <RenderPreviewVideo content={content} type={type} />
