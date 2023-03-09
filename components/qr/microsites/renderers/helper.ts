@@ -151,7 +151,15 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
       } else if (buttonShape === '3') {
         style.borderRadius = '50%';
       } else if (buttonShape === '4') {
-        style.borderRadius = data.buttonBorders || '50px 10px 15px 0';
+        let borders = '50px 10px 15px 0';
+        if (data.buttonBorders) {
+          const bordersTempo = data.buttonBorders.split(' ');
+          const tempo = bordersTempo[2];
+          bordersTempo[2] = bordersTempo[3];
+          bordersTempo[3] = tempo;
+          borders = bordersTempo.join(' ');
+        }
+        style.borderRadius = borders;
       } else if (buttonShape === '5') {
         style.borderRadius = !data?.flipVertical ? (!alternate ? '50px 0' : '0 50px') : (!alternate ? '0 50px' : '50px 0');
       } else if (buttonShape === '6') {
