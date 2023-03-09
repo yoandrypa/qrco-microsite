@@ -48,9 +48,9 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
     </Box>
   );
 
-  const renderClaimNow = () => (
+  const renderClaimNow = (adjust?: boolean) => (
     <Box sx={{textAlign: 'center', width: '100%'}}>
-      <Button size="large" variant="outlined" sx={{ mt: "20px", color: theme => theme.palette.info.dark }} startIcon={<ThumbUpIcon/>}
+      <Button size="large" variant="outlined" sx={{ ml: adjust ? '-35px' : 'unset', mt: "20px", color: theme => theme.palette.info.dark }} startIcon={<ThumbUpIcon/>}
               onClick={() => window.location.href = process.env.REACT_APP_QRCO_URL + "/qr/type?address=" + code}>
         {"Claim Now!"}
       </Button>
@@ -59,7 +59,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
 
   const renderSteps = () => (
     <>
-      {renderClaimNow()}
+      {renderClaimNow(true)}
       <Typography sx={{mt: 2}}>
         {`By claiming this QRLynk you can customize the microsite and the content. This is a one-time process and it\'s free${data === 'PRE-GENERATED' ? '' : ' in the case of your first QRLynk'}.`}
       </Typography>

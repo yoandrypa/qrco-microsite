@@ -65,21 +65,19 @@ export default function Custom({newData}: any) {
       }
     }
 
-    const mainStyle = {width: 'calc(100% - 30px)', ml: '30px'};
+    const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
     if (['title', 'pdf', 'audio', 'video', 'gallery'].includes(component)) {
-      mainStyle.width = '100%';
-      mainStyle.ml = 'unset';
+      sectStyle.width = '100%';
+      sectStyle.ml = 'unset';
     }
 
     return (
       <Box sx={{width: '100%'}}>
-        <Box sx={{width: '50ox'}}>
-          {!['title', 'action', 'sku'].includes(component) && ((!data?.hideHeadLine && component !== 'links') || (component === 'links' && data?.hideHeadLine)) // @ts-ignore
-            && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-            <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
-          }
-        </Box>
-        <Box sx={mainStyle}>
+        {!['title', 'action', 'sku'].includes(component) && ((!data?.hideHeadLine && component !== 'links') || (component === 'links' && data?.hideHeadLine)) // @ts-ignore
+          && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
+          <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
+        }
+        <Box sx={sectStyle}>
           {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
           {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
               data?.companyEmail || data?.contact || data?.companyPhone || data?.about) &&
@@ -119,11 +117,23 @@ export default function Custom({newData}: any) {
         <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
       }
       <Box sx={{width: '100%', p: 2}}>
-        {newData.custom?.map((x: CustomType, index: number) => (
-          <Box sx={{width: '100%'}} key={`key${x.expand || index}`}>
-            {!isSections ? renderComponent(x) : <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}}>{renderComponent(x)}</RenderSectWrapper>}
-          </Box>
-        ))}
+        {newData.custom?.map((x: CustomType, index: number) => {
+          const mainStyle = {width: '100%'} as any;
+          if ((x.data?.topSpacing && x.data.topSpacing !== 'default') || (x.data?.bottomSpacing && x.data.bottomSpacing !== 'default')) {
+            const getValue = (pos: string): string => {
+              if (pos === 'narrow') { return '-10px'; }
+              if (pos === 'medium') { return '20px'; }
+              return '35px';
+            }
+            if (x.data.topSpacing) { mainStyle.mt = getValue(x.data.topSpacing); }
+            if (x.data.bottomSpacing) { mainStyle.mb = getValue(x.data.bottomSpacing); }
+          }
+          return (
+            <Box sx={mainStyle} key={`key${x.expand || index}`}>
+              {!isSections ? renderComponent(x) : <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}}>{renderComponent(x)}</RenderSectWrapper>}
+            </Box>
+          )}
+        )}
       </Box>
       {newData.qrType === 'vcard+' && newData.custom?.length && renderDownloadVCard()}
     </MainMicrosite>
