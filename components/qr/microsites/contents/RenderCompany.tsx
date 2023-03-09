@@ -12,9 +12,9 @@ export default function RenderCompany({stylesData, data}: CustomProps) {
       {data?.subtitle &&
         <RenderField value={data.subtitle} sx={{my: '-10px', ...handleFont(stylesData, 'm')}}/>}
       {data?.companyWebSite &&
-        <RenderField value={data.companyWebSite} icon="world" sx={{...handleFont(stylesData, 'm')}}/>}
+        <RenderField value={data.companyWebSite} icon="world" sx={{...handleFont(stylesData, 'm')}} link={data.companyWebSite}/>}
       {data?.companyEmail &&
-        <RenderField value={data.companyEmail} icon="emailIcon" sx={{...handleFont(stylesData, 'm')}}/>}
+        <RenderField value={data.companyEmail} icon="emailIcon" sx={{...handleFont(stylesData, 'm')}} email/>}
       {data?.contact &&
         <RenderField value={data.contact} icon="contact" sx={{...handleFont(stylesData, 'm')}}/>}
       {data?.about &&

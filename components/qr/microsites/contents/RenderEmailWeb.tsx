@@ -7,11 +7,11 @@ export default function RenderEmailWeb({data, stylesData}: CustomProps) {
   return (
     <Grid container spacing={1}>
       {data?.email && (
-        <RenderField icon="emailIcon" value={data.email} sx={{...handleFont(stylesData, 'm')}}/>
+        <RenderField icon="emailIcon" value={data.email} sx={{...handleFont(stylesData, 'm')}} email/>
       )}
       {data?.web && (
         <Box sx={{width: '100%', mt: '-7px', ml: '7px'}}>
-          <RenderField icon="world" value={data.web} sx={{...handleFont(stylesData, 'm')}}/>
+          <RenderField icon="world" value={data.web} sx={{...handleFont(stylesData, 'm')}} link={data.web}/>
         </Box>
       )}
     </Grid>
