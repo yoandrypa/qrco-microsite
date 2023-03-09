@@ -6,7 +6,7 @@ export default function RenderEmail({data, stylesData}: CustomProps) {
   return (
     <Grid container spacing={1}>
       {data?.email && (
-        <RenderField icon="emailIcon" value={data.email} sx={{...handleFont(stylesData, 'm')}}/>
+        <RenderField icon="emailIcon" value={data.email} sx={{...handleFont(stylesData, 'm')}} email/>
       )}
     </Grid>
   );

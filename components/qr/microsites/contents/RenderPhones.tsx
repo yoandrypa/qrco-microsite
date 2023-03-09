@@ -16,6 +16,7 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
         <RenderField
           value={data.cell || data.companyCell}
           icon="cell"
+          phone
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}
@@ -23,6 +24,7 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
         <RenderField
           value={data.phone || data.companyPhone}
           icon="phone"
+          phone
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}
@@ -30,6 +32,7 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
         <RenderField
           value={data.fax || data.companyFax}
           icon="fax"
+          fax
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}
