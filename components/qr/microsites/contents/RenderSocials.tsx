@@ -84,10 +84,18 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
     let label = item.network !== 'linkedin' ? capitalize(item.network) : 'LinkedIn';
 
     if (data?.socialsOnlyIcons) {
+      const size = !data.iconSize || data.iconSize !== 'default' ? data.iconSize : undefined;
+      const sx = {width: 'unset', height: 'unset'};
+      if (size) {
+        const dimension = size === 'small' ? '40px' : (size === 'medium' ? '57px' : '70px');
+        sx.width = dimension;
+        sx.height = dimension;
+      }
+
       return (
         <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
-          <IconButton target="_blank" component="a" href={url}>
-            <RenderIcon icon={item.network} enabled color={theming.palette.primary.main} />
+          <IconButton target="_blank" component="a" href={url} sx={sx}>
+            <RenderIcon icon={item.network} enabled color={theming.palette.primary.main} size={size} />
           </IconButton>
         </Tooltip>
       );
