@@ -46,6 +46,7 @@ export default function AudioPlayer({audioContent}: AudioProps) {
   const analyser = useRef<AnalyserNode | null>(null);
   const bufferLength = useRef<number>(0);
   const dataArray = useRef<any>([]);
+  const doneInitial = useRef<boolean>(false);
 
   const [duration, setDuration] = useState<number | null>(null);
   const [current, setCurrent] = useState<number | null>(null);
@@ -171,9 +172,11 @@ export default function AudioPlayer({audioContent}: AudioProps) {
     }
     setCurrent(0);
     setPlaying(false);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const audioHandler = (audioData: string) => {
+  const audioHandler = (audioData: string) => { // @ts-ignore
+    audioCtx.current =  new (window.AudioContext || window.webkitAudioContext)();
+
     audio.current = new Audio();
     audio.current.src = audioData;
 
@@ -189,7 +192,11 @@ export default function AudioPlayer({audioContent}: AudioProps) {
 
     audio.current.addEventListener('loadedmetadata', () => {
       setTimeout(() => { // @ts-ignore
+        audioCtx.current.suspend().then(() => audio.current.pause()); // @ts-ignore
         setDuration(audio.current.duration);
+        if (doneInitial.current && repeat) {
+          playAudio();
+        }
       }, 250);
     });
   }
@@ -202,9 +209,7 @@ export default function AudioPlayer({audioContent}: AudioProps) {
         .then(data => data.blob())
         .then(blob => {
           convertBase64(blob) // @ts-ignore
-            .then((result: string) => {
-              audioHandler(result);
-            });
+            .then((result: string) => { audioHandler(result); });
         })
         .catch(error => console.log('Error', error));
     }
@@ -220,16 +225,11 @@ export default function AudioPlayer({audioContent}: AudioProps) {
     if (duration && current && duration > 1 && current >= duration) {
       clear();
       loader();
-      if (repeat) {
-        playAudio();
-      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [duration, current]);
+    if (!doneInitial.current) { doneInitial.current = true; }
+  }, [duration, current, audioContent]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => { // @ts-ignore
-    audioCtx.current =  new (window.AudioContext || window.webkitAudioContext)();
-
+  useEffect(() => {
     const calculateContainerWidth = () => {
       if (containerRef.current && canvasRef.current) {
         canvasRef.current.width = containerRef.current.clientWidth - 22;
@@ -247,8 +247,7 @@ export default function AudioPlayer({audioContent}: AudioProps) {
       window.removeEventListener('resize', calculateContainerWidth);
       clear();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box sx={{width: '100%', height: '158px', border: 'solid 1px gray', p: 1, borderRadius: '5px'}} ref={containerRef}>
