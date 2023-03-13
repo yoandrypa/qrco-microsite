@@ -12,6 +12,7 @@ import {download} from "../../../../handlers/storage";
 
 import dynamic from "next/dynamic";
 
+const CircularProgress = dynamic(() => import("@mui/material/CircularProgress"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
 
 export default function RenderImages({data, stylesData}: CustomProps) {
@@ -126,24 +127,22 @@ export default function RenderImages({data, stylesData}: CustomProps) {
     </Grid>
   );
 
-  const renderData = () => (
-    <Box sx={{width: '100%', p: 2}}>
-      <Box sx={{width: '100%', textAlign: 'center', color: theme => theme.palette.secondary.main}}>
-        {images.current.length ? (
-          <Typography sx={{...handleFont(stylesData, 'm')}}>
-            {data.files?.length !== images.current.length ? `Loaded ${images.current.length}/${data.files?.length}...` : `${images.current.length} images`}
-          </Typography>
-        ) : (
-          <Typography sx={{...handleFont(stylesData, 'm')}}>{'Please wait...'}</Typography>
-        )}
-      </Box>
-    </Box>
-  );
-
   return (
     <>
       <Box>
-        {renderData()}
+        {images.current.length !== data.files?.length && (
+          <Box sx={{width: '100%', p: 2}}>
+            <Box sx={{width: '100%', color: theme => theme.palette.secondary.main, display: 'flex', justifyContent: 'center'}}>
+              <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
+              <Box>
+                <Typography sx={{...handleFont(stylesData, 'm')}}>
+                  {`Loaded ${images.current.length}/${data.files?.length}...`}
+                </Typography>
+                <Typography sx={{...handleFont(stylesData, 'm')}}>{'Please wait...'}</Typography>
+              </Box>
+            </Box>
+          </Box>
+        )}
         {renderGallery()}
       </Box>
       {preview && (

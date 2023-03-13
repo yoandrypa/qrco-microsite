@@ -78,7 +78,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const FooterLabel = () =>{
     let footerLabel;
-    switch (qrType){
+    switch (qrType) {
+      case "custom":
+        footerLabel = "Customized";
+        break;
       case "video":
         footerLabel = "Videos";
         break;
@@ -209,7 +212,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             component="img" src={micrositeBackImage.content || micrositeBackImage} alt="backgroundImg"
             sx={{
               position: 'fixed', top: 0, left: 0, height: '100%', zIndex: -1, marginLeft: '50%',
-              transform: 'translateX(-50%)', opacity: data.micrositeBackImageOpacity !== undefined ? data.micrositeBackImageOpacity : 1 }}/>
+              transform: 'translateX(-50%)', opacity: data.micrositeBackImageOpacity !== undefined ? data.micrositeBackImageOpacity : 1,
+              filter: data.micrositeBackImageBlurness !== undefined ? `blur(${data.micrositeBackImageBlurness}px)` : 'unset'}}/>
         )}
         <Box sx={{width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
           <Box sx={{height: '200px'}}>
@@ -285,7 +289,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             </Box>
           </Box>
         </Box>
-        {Boolean(qrType) && (
+        {data.footerKind !== 'noFooter' && Boolean(qrType) && (
           <Box sx={{width: '100%'}}>
             <Divider sx={{mx: 2}} />
             <Box sx={{
@@ -297,9 +301,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               mb: !isBorder ? 0 : '10px',
               color: theme => theme.palette.secondary.main
             }}>
-              <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>
+              {!data.customFooter?.trim().length && <RenderIcon icon={qrType} enabled color={theming.palette.secondary.main}/>}
               <Typography sx={{ml: '5px', ...handleFont(data, 'm'), fontSize: '17px'}}>
-                {FooterLabel()}
+                {data.customFooter || FooterLabel()}
               </Typography>
             </Box>
           </Box>
