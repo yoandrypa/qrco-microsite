@@ -158,6 +158,52 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const renderProfile = () => {
+    let size = 100 as number;
+    switch (data.profileImageSize) {
+      case 'small': { size = 70; break; }
+      case 'medium': { size = 130; break; }
+      case 'large': { size = 170; break; }
+    }
+    let translation = Math.floor(size / 2);
+    let height = translation - 20;
+
+    if (data.profileImageVertical === 'upper') {
+      height = 10;
+      switch (data.profileImageSize) {
+        case 'small': { translation += 35; break; }
+        case 'medium': { translation += 65; break; }
+        case 'large': { translation += 85; break; }
+        default: { translation += 50; break; }
+      }
+    } else if (data.profileImageVertical === 'top') {
+      height = 10;
+      switch (data.profileImageSize) {
+        case 'small': { translation += 155; break; }
+        case 'medium': { translation += 125; break; }
+        case 'large': { translation += 105; break; }
+        default: { translation += 140; break; }
+      }
+    }
+
+    return (
+      <Box sx={{width: '100%', height: `${height}px`, textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
+        <Box
+          component="img"
+          alt="foregimage"
+          src={foreImg.content || foreImg}
+          sx={{
+            ml: !data.layout || !data.layout.includes('Left') ? 'unset' : '20px',
+            transform: `translate(0, -${translation}px)`,
+            width: `${size}px`,
+            height: `${size}px`,
+            borderRadius: data.foregndImgType === undefined || data.foregndImgType === 'circle' ? `${size / 2}px` : data.foregndImgType === 'smooth' ? '20px' : '3px',
+            border: 'solid 7px #fff'
+          }}
+        />
+      </Box>);
+  }
+
   return (
     <>
       {error && (
@@ -264,27 +310,14 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             width: '100%',
             minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20)}px)` :
               `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) - (!isBorder ? 0 : 20)}px)`}}>
-            {foreImg ? (
-              <Box sx={{width: '100%', textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
-                <Box
-                  component="img"
-                  alt="foregimage"
-                  src={foreImg.content || foreImg}
-                  sx={{
-                    ml: !data.layout || !data.layout.includes('Left') ? 'unset' : '20px',
-                    transform: 'translate(0, -50px)',
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: data.foregndImgType === undefined || data.foregndImgType === 'circle' ? '50px' : data.foregndImgType === 'smooth' ? '20px' : '3px',
-                    border: 'solid 4px #fff'
-                  }}
-                />
-              </Box>) : <Box sx={{width: '37px', height: '37px'}} />}
-            <Box sx={{mt: Boolean(foreImg) ? '-70px' : 0, backgroundClip: 'padding-box !important',
+            {foreImg ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+            <Box sx={{
+
+              backgroundClip: 'padding-box !important',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent'}}>
               {!data.layout?.includes('entire') ? children : (
-                <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)'}}>{children}</RenderSectWrapper>
+                <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', background: 'red'}}>{children}</RenderSectWrapper>
               )}
             </Box>
           </Box>
