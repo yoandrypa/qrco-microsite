@@ -77,6 +77,7 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
 
   useEffect(() => {
     if (doneFirstRender.current) {
+      files.current = [];
       loadFilesNow();
     }
   }, [data.files]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -189,9 +190,9 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
-        {data.files?.length && <Typography sx={{...handleFont(stylesData, 'm')}}>{`${data.files.length} item${data.files.length !== 1 ? 's' : ''}`}</Typography>}
-      </Box>
+      {data.files?.length !== files.current.length && <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
+        <Typography sx={{...handleFont(stylesData, 'm')}}>{`Loading ${data.files.length} item${data.files.length !== 1 ? 's' : ''}...`}</Typography>
+      </Box>}
       {renderAssets()}
       {preview && (
         <RenderPreview

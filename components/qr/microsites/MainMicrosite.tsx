@@ -212,7 +212,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             component="img" src={micrositeBackImage.content || micrositeBackImage} alt="backgroundImg"
             sx={{
               position: 'fixed', top: 0, left: 0, height: '100%', zIndex: -1, marginLeft: '50%',
-              transform: 'translateX(-50%)', opacity: data.micrositeBackImageOpacity !== undefined ? data.micrositeBackImageOpacity : 1 }}/>
+              transform: 'translateX(-50%)', opacity: data.micrositeBackImageOpacity !== undefined ? data.micrositeBackImageOpacity : 1,
+              filter: data.micrositeBackImageBlurness !== undefined ? `blur(${data.micrositeBackImageBlurness}px)` : 'unset'}}/>
         )}
         <Box sx={{width: '100%', minHeight: `calc(100vh - ${(Boolean(qrType) ? 29 : 2) + (!isBorder ? 0 : 10)}px)`, background: 'transparent'}}>
           <Box sx={{height: '200px'}}>
