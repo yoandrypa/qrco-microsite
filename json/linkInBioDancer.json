@@ -1,0 +1,124 @@
+{
+  "buttonBack": "solid",
+  "titlesFontSize": "large",
+  "buttonBorderStyle": "default",
+  "customFooter": "Dancing Instructor",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/1bd00950-17a8-4e39-a79d-7976a5356eab",
+    "updatedAt": "2023-03-09T21:07:02.971Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-09T21:07:02.969Z",
+    "visitCount": 28,
+    "address": "Ht8kYT",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "8c538248-94f8-4e14-90a4-8c0c3e220c50.png",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/links/design/8c538248-94f8-4e14-90a4-8c0c3e220c50.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Anna Miller",
+        "descriptionAbout": "Dancing Instructor"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "www.annamiller.com",
+            "label": "My website"
+          },
+          {
+            "link": "www.annamiller.com/blog",
+            "label": "Read my stories"
+          },
+          {
+            "link": "www.annamiller.com/course",
+            "label": "Online Course"
+          },
+          {
+            "link": "www.annamiller.com/gallery",
+            "label": "Gallery"
+          }
+        ]
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "socials": [
+          {
+            "value": "anna.miller",
+            "network": "facebook"
+          },
+          {
+            "value": "AnnaMiller",
+            "network": "twitter"
+          },
+          {
+            "value": "annamiller",
+            "network": "instagram"
+          },
+          {
+            "value": "AnnaMiller23",
+            "network": "youtube"
+          }
+        ],
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true
+      },
+      "component": "socials"
+    }
+  ],
+  "buttonsOpacity": 0,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "link",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "secondary": "#b0bec5",
+  "buttonShadow": true,
+  "qrName": "Sample Link in bio",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-09T21:07:02.971Z",
+  "backgndImg": [
+    {
+      "name": "c091677f-502f-409e-9e0f-d6ef19637259.png",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/links/design/c091677f-502f-409e-9e0f-d6ef19637259.png"
+    }
+  ],
+  "isDynamic": true,
+  "updatedAt": "2023-03-14T19:41:34.645Z",
+  "buttonBackColor": "#0f4d8c",
+  "micrositeBackImage": [
+    {
+      "name": "26650394-9cd8-416c-ac4a-65a544531244.png",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/links/design/26650394-9cd8-416c-ac4a-65a544531244.png"
+    }
+  ],
+  "backgroundType": "image",
+  "globalFont": "Trebuchet",
+  "primary": "#212121"
+}

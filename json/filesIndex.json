@@ -107,8 +107,36 @@
       "file":"inventory",
       "desc":"A smart label to tag your inventory",
       "name":"Inventory"
+    },
+    {
+      "type":"vcard+",
+      "file":"vcardPlus",
+      "desc":"A way to share your business card with everyone",
+      "name":"vCard Plus"
+    },
+    {
+      "type":"custom",
+      "file":"customPhotographer",
+      "desc":"A practical way to share your work",
+      "name":"Custom"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioDancer",
+      "desc":"An effective way to teach dancing",
+      "name":"Link in Bio"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioFitness",
+      "desc":"A platform to invite your audience to stay healthy",
+      "name":"Link in Bio"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioTennis",
+      "desc":"A way to share your sport activities with everyone",
+      "name":"Link in Bio"
     }
-
-
   ]
 }
