@@ -2,12 +2,13 @@ import MainMicrosite from "./MainMicrosite";
 import Box from "@mui/material/Box";
 
 import dynamic from "next/dynamic";
-import {clearDataStyles, handleFont} from "./renderers/helper";
+import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
 import RenderHeadLine from "./renderers/RenderHeadLine";
 
 import {useCallback} from "react";
-import RenderContactForm from "./contents/RenderContactForm";
 
+const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
+const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
 const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
 const RenderImages = dynamic(() => import("./contents/RenderImages"));
@@ -66,9 +67,9 @@ export default function Custom({newData}: any) {
     }
 
     const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
-    if (['title', 'pdf', 'audio', 'video', 'gallery'].includes(component)) {
+    if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials'].includes(component)) {
       sectStyle.width = '100%';
-      sectStyle.ml = 'unset';
+      delete sectStyle.ml;
     }
 
     return (
@@ -91,7 +92,7 @@ export default function Custom({newData}: any) {
           {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
           {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
           {component === 'opening' && Object.keys(data?.openingTime || []).length ? <RenderOpeningTime data={data} stylesData={styled}/> : null}
-          {component === 'socials' && <RenderSocials data={data} stylesData={styled}/>}
+          {component === 'socials' && <RenderSocials data={data} stylesData={styled} alternate={newData.alternate}/>}
           {component === 'title' && <RenderTitleDesc data={data} stylesData={styled}/>}
           {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
           {component === 'single' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.text || ''}</Typography>}
@@ -106,6 +107,7 @@ export default function Custom({newData}: any) {
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
           {component === 'contact' && <RenderContactForm stylesData={styled} data={data}/>}
+          {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
         </Box>
       </Box>
     );
@@ -120,13 +122,8 @@ export default function Custom({newData}: any) {
         {newData.custom?.map((x: CustomType, index: number) => {
           const mainStyle = {width: '100%'} as any;
           if ((x.data?.topSpacing && x.data.topSpacing !== 'default') || (x.data?.bottomSpacing && x.data.bottomSpacing !== 'default')) {
-            const getValue = (pos: string): string => {
-              if (pos === 'narrow') { return '-10px'; }
-              if (pos === 'medium') { return '20px'; }
-              return '35px';
-            }
-            if (x.data.topSpacing) { mainStyle.mt = getValue(x.data.topSpacing); }
-            if (x.data.bottomSpacing) { mainStyle.mb = getValue(x.data.bottomSpacing); }
+            if (x.data.topSpacing) { mainStyle.mt = getSeparation(x.data.topSpacing, true); }
+            if (x.data.bottomSpacing) { mainStyle.mb = getSeparation(x.data.bottomSpacing, true); }
           }
           return (
             <Box sx={mainStyle} key={`key${x.expand || index}`}>

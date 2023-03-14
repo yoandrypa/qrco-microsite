@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import {useTheme} from "@mui/system";
 
-import {CustomProps, handleButtons, handleFont} from "../renderers/helper";
+import {CustomProps, getSeparation, handleButtons, handleFont} from "../renderers/helper";
 import {LinkType} from "../../types/types";
 
 import dynamic from "next/dynamic";
@@ -44,7 +44,7 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
       href={item.link}
       variant="contained"
       sx={{
-        mt: !stay ? '20px' : 'unset',
+        mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
         width: 'calc(100% - 20px)',
         ...handleFont(stylesData, 'b'),
         ...handleButtons(stylesData, theme, alternate)
