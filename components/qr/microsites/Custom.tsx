@@ -6,8 +6,9 @@ import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
 import RenderHeadLine from "./renderers/RenderHeadLine";
 
 import {useCallback} from "react";
-import RenderContactForm from "./contents/RenderContactForm";
 
+const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
+const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
 const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
 const RenderImages = dynamic(() => import("./contents/RenderImages"));
@@ -106,6 +107,7 @@ export default function Custom({newData}: any) {
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
           {component === 'contact' && <RenderContactForm stylesData={styled} data={data}/>}
+          {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
         </Box>
       </Box>
     );

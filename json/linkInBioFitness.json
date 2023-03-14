@@ -1,0 +1,122 @@
+{
+  "micrositeBackImageOpacity": 1,
+  "titlesFontSize": "large",
+  "buttonBorderStyle": "two",
+  "customFooter": "Laury Health & Fitness",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/ae4817f0-bf7e-4588-bd04-f4f60bfab13b",
+    "updatedAt": "2023-03-13T00:26:31.876Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-03-13T00:26:31.874Z",
+    "visitCount": 9,
+    "address": "oFq7Vm",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonBorderColors": "#f4f5f7|#99c4f0",
+  "buttonShape": "7",
+  "foregndImg": [
+    {
+      "name": "2ac60637-2d62-4963-a558-d71c7e58d005.png",
+      "Key": "eea77e04-08d8-4277-8ca2-b8ba8744a635/links/design/2ac60637-2d62-4963-a558-d71c7e58d005.png"
+    }
+  ],
+  "buttonBorderWeight": "weight",
+  "custom": [
+    {
+      "data": {
+        "socials": [
+          {
+            "value": "https://example.com",
+            "network": "twitter"
+          },
+          {
+            "value": "https://example.com",
+            "network": "instagram"
+          },
+          {
+            "value": "https://example.com",
+            "network": "youtube"
+          },
+          {
+            "value": "https://example.com",
+            "network": "pinterest"
+          }
+        ],
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "titleAbout": "Laury",
+        "descriptionAbout": "Health & Fitness"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://example.com",
+            "label": "My website"
+          },
+          {
+            "link": "https://example.com",
+            "label": "Booking"
+          },
+          {
+            "link": "https://example.com",
+            "label": "Gallery"
+          },
+          {
+            "link": "https://example.com",
+            "label": "Whatsapp"
+          }
+        ]
+      },
+      "component": "links"
+    }
+  ],
+  "buttonsOpacity": 0.38,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "#ffffff",
+  "buttonBorderType": "double",
+  "qrType": "link",
+  "image": "",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "secondary": "#050505",
+  "qrName": "Health & Fitness",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-13T00:26:31.877Z",
+  "layout": "nobanner",
+  "globalFontColor": "#ffffff",
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "isDynamic": true,
+  "updatedAt": "2023-03-14T21:08:51.282Z",
+  "micrositeBackImage": [
+    {
+      "name": "c1b5724e-7522-47c1-841f-dffb84c63be6.png",
+      "Key": "eea77e04-08d8-4277-8ca2-b8ba8744a635/links/design/c1b5724e-7522-47c1-841f-dffb84c63be6.png"
+    }
+  ],
+  "backgroundType": "image",
+  "globalFont": "Default",
+  "primary": "#ffffff"
+}

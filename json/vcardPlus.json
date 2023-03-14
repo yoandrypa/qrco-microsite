@@ -1,0 +1,122 @@
+{
+  "micrositeBackImageOpacity": 0.56,
+  "titlesFontSize": "small",
+  "customFooter": "Peter Smith",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/4b097298-d09c-432a-88bb-0546ba1b09c4",
+    "updatedAt": "2023-03-08T00:44:17.005Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-08T00:44:17.004Z",
+    "visitCount": 11,
+    "address": "zRwVTF",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "foregndImg": [
+    {
+      "name": "9e06f957-0962-438c-b2bd-2f19dd905e91.png",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/vcard+s/design/9e06f957-0962-438c-b2bd-2f19dd905e91.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "lastName": "Smith",
+        "firstName": "Peter",
+        "phone": "+1(305)123-4567",
+        "web": "www.petersmith.com",
+        "bottomSpacing": "medium",
+        "cell": "+1(305)765-4321",
+        "email": "peter.smith.23@gmail.com",
+        "topSpacing": "medium"
+      },
+      "component": "presentation"
+    },
+    {
+      "data": {
+        "zip": "33101",
+        "country": "United States",
+        "address": "500 NW 2ND",
+        "city": "Miami",
+        "bottomSpacing": "medium",
+        "organization": "Data Ser",
+        "state": "Florida"
+      },
+      "component": "address"
+    },
+    {
+      "data": {
+        "bottomSpacing": "medium",
+        "organization": "DS Data Service ",
+        "position": "Analyst"
+      },
+      "component": "organization"
+    },
+    {
+      "data": {
+        "socials": [
+          {
+            "value": "peter.smith.23",
+            "network": "facebook"
+          },
+          {
+            "value": "petersmith23",
+            "network": "instagram"
+          },
+          {
+            "value": "peter.smith.23",
+            "network": "telegram"
+          },
+          {
+            "value": "petersmith23",
+            "network": "linkedin"
+          }
+        ],
+        "socialsOnlyIcons": true
+      },
+      "component": "socials"
+    }
+  ],
+  "subtitlesFontStyle": "",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b",
+  "qrType": "vcard+",
+  "image": "",
+  "buttonsFontSize": "large",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "buttonsFont": "Trebuchet",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "messagesFont": "Trebuchet",
+  "messagesFontSize": "medium",
+  "backgroundColorRight": "#d6f0fe",
+  "subtitlesFont": "Trebuchet",
+  "qrName": "Sample vCard Plus",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-08T00:44:17.006Z",
+  "layout": "gradient",
+  "profileImageSize": "medium",
+  "backgndImg": [
+    {
+      "name": "1fab084c-5d3c-463b-a0fc-f2f99f7fc9b5.png",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/vcard+s/design/1fab084c-5d3c-463b-a0fc-f2f99f7fc9b5.png"
+    }
+  ],
+  "isDynamic": true,
+  "updatedAt": "2023-03-14T16:17:23.669Z",
+  "backgroundType": "gradient",
+  "backgroundColor": "#ffffff",
+  "globalFont": "Trebuchet",
+  "titlesFont": "Trebuchet"
+}
