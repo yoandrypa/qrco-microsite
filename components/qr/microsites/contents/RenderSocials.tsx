@@ -13,11 +13,13 @@ import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import {CustomProps, handleFont} from "../renderers/helper";
+import {CustomProps, getSeparation, handleButtons, handleFont} from "../renderers/helper";
+import Button from "@mui/material/Button";
 
 interface RenderSocialsProps extends CustomProps {
   desc?: string;
   bold?: boolean;
+  alternate?: boolean;
 }
 
 /**
@@ -27,7 +29,7 @@ interface RenderSocialsProps extends CustomProps {
  * @param bold
  * @constructor
  */
-export default function RenderSocials({data, stylesData, desc, bold}: RenderSocialsProps) {
+export default function RenderSocials({data, stylesData, desc, bold, alternate}: RenderSocialsProps) {
   const theming = useTheme();
 
   const [hideTooltips, setHideToolTips] = useState<boolean>(false);
@@ -40,9 +42,11 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
     }
   }
 
-  const renderSocials = (item: SocialNetworksType) => {
+  const renderSocials = (item: SocialNetworksType, stay: boolean, alt?: boolean) => {
     let value = item.value as string;
     value = value.slice(value.indexOf(':') + 1);
+
+    if (!value?.length) { value = 'Not defined'; }
 
     let url = '' as string;
     switch (item.network) {
@@ -101,6 +105,23 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
       );
     }
 
+    if (data?.linksAsButtons) {
+      return (
+        <Button
+          target="_blank"
+          component="a"
+          href={url}
+          variant="contained"
+          startIcon={!data?.hideNetworkIcon && <RenderIcon icon={item.network} enabled />}
+          sx={{
+            mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
+            width: '100%',
+            ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theming, alt)
+          }}
+        >{value}</Button>
+      );
+    }
+
     return (
       <TextField
         variant="standard"
@@ -109,7 +130,7 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
         fullWidth
         margin="dense" // @ts-ignore
         value={value}
-        sx={{width: '100%'}}
+        sx={{width: '100%', mt: !stay ? 1 : 'unset'}}
         inputProps={{style: {...handleFont(stylesData, 'm')}}}
         InputProps={{
           disableUnderline: true,
@@ -145,16 +166,16 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
     return null;
   }
 
-  const render = () => (
+  return (
     <>
       {!data?.socialsOnlyIcons ? (
-        <Grid item xs={12} sx={{display: 'flex'}}>
-          <Box sx={{ml: 1}}>
+        <Grid item xs={12} sx={{display: 'flex', width: '100%'}}>
+          <Box sx={{ml: 1, width: 'calc(100% - 20px)'}}>
             {desc !== undefined && <Typography sx={{mt: '-5px', ...handleFont(stylesData, !bold ? 'm' : 't')}}>{desc}</Typography>}
             <Grid container spacing={1}>
-              {(data?.socials || []).map((x: SocialNetworksType) => (
-                <Grid item xs={12} style={{paddingTop: 0}} key={`socialnw${x.network}`}>
-                  {renderSocials(x)}
+              {(data?.socials || []).map((x: SocialNetworksType, index: number) => (
+                <Grid item xs={12} sx={{pt: 0}} key={`socialnw${x.network}`}>
+                  {renderSocials(x, index === 0, Boolean(alternate) && index % 2 === 0)}
                 </Grid>
               ))}
             </Grid>
@@ -162,15 +183,13 @@ export default function RenderSocials({data, stylesData, desc, bold}: RenderSoci
         </Grid>
       ) : (
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-          {(data?.socials || []).map((x: SocialNetworksType) => (
+          {(data?.socials || []).map((x: SocialNetworksType, index: number) => (
             <div key={`sn${x.network}`}>
-              {renderSocials(x)}
+              {renderSocials(x, index === 0)}
             </div>
           ))}
         </Box>
       )}
     </>
   );
-
-  return render();
 }
