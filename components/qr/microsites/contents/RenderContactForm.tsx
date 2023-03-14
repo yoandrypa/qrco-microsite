@@ -145,7 +145,7 @@ function RenderContactForm({data, stylesData}: CustomProps) {
 
       <LoadingButton loading={isLoading} variant='contained' onClick={handleClick} disabled={error}
                      sx={{...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme), width: '100%', mt: 2}}>
-        {data.buttonText || 'Send message'}
+        {data?.buttonText || 'Send message'}
       </LoadingButton>
     </Box>
   )

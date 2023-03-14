@@ -28,6 +28,7 @@ const ContactMailIcon = dynamic(() => import("@mui/icons-material/ContactMail"))
 const PictureAsPdfIcon = dynamic(() => import("@mui/icons-material/PictureAsPdf"));
 const TheatersIcon = dynamic(() => import("@mui/icons-material/Theaters"));
 const AudiotrackIcon = dynamic(() => import("@mui/icons-material/Audiotrack"));
+const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'));
 
 interface HeadLineProps {
   component: string;
@@ -58,6 +59,10 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
       case 'organization': { return <WorkIcon sx={sx}/>; }
       case 'video': { return <TheatersIcon sx={sx} />; }
       case 'audio': { return <AudiotrackIcon sx={sx} />; }
+      case 'sms': {
+        message.current = 'SMS';
+        return <SmsOutlinedIcon sx={sx} />;
+      }
       case 'pdf': {
         message.current = 'PDF';
         return <PictureAsPdfIcon sx={sx} />;
