@@ -10,12 +10,14 @@ import {useTheme} from "@mui/system";
 import Box from "@mui/material/Box";
 import {TextField} from "@mui/material";
 
+const EMAIL = new RegExp("^\\w+(\\.\\w+)*(\\+\\w+(\\.\\w+)*)?@\\w+(\\.\\w+)+$", "i");
+
 function RenderContactForm({data, stylesData}: CustomProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [notify, setNotify] = useState<NotificationsProps | null>(null);
   const [email, setEmail] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
-  const [message, setMessage] = useState<string>(data?.message || '')
+  const [message, setMessage] = useState<string>('')
 
   const theme = useTheme();
 
@@ -32,26 +34,21 @@ function RenderContactForm({data, stylesData}: CustomProps) {
 
   const handleClick = async () => {
     setIsLoading(true)
-    const payload = {
-      contactEmail: data?.email || '',
-      templateData: {
-        contactEmail: email,
-        name: subject,
-        micrositeUrl: window.location.href,
-        message: message
-      }
-    }
-
-    const options = {
-      method: 'post',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload)
-    };
-
     try {
-      const result = await fetch('/api/sendcontactemail', options);
+      const result = await fetch('/api/sendcontactemail', {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contactEmail: email,
+          subject,
+          templateData: {
+            micrositeUrl: window.location.href,
+            message
+          }
+        })
+      });
       if (result.ok) {
         setNotify({
           message: `Great! Your message has been sent successfully.`,
@@ -94,6 +91,8 @@ function RenderContactForm({data, stylesData}: CustomProps) {
     }
   }
 
+  const error = Boolean(email.trim().length && !EMAIL.test(email));
+
   return (
     <Box>
       {notify && <Notifications
@@ -113,6 +112,8 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         fullWidth
         placeholder='your@email.com'
         value={email}
+        error={error}
+        helperText={error ? "Check the entered email address" : ""}
         sx={sxProps}
         InputProps={inputProps}
         onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
@@ -142,7 +143,7 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         onChange={(event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)}
       />
 
-      <LoadingButton loading={isLoading} variant='contained' onClick={handleClick}
+      <LoadingButton loading={isLoading} variant='contained' onClick={handleClick} disabled={error}
                      sx={{...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme), width: '100%', mt: 2}}>
         {data.buttonText || 'Send message'}
       </LoadingButton>
