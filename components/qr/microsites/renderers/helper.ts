@@ -64,13 +64,13 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
 
   const handleSize = (item: string): void => {
     if (!data?.[item] || data[item] === 'default') {
-      size = item === 'titlesFontSize' ? '22px' : (item === 'subtitlesFontSize' ? '24px' : '20px');
+      size = item === 'titlesFontSize' ? '24px' : (item === 'subtitlesFontSize' ? '22px' : '20px');
     } else if (data[item] === 'small') {
-      size = item === 'titlesFontSize' ? '20px' : (item === 'subtitlesFontSize' ? '22px' : '18px');
+      size = item === 'titlesFontSize' ? '22px' : (item === 'subtitlesFontSize' ? '20px' : '18px');
     } else if (data[item] === 'medium') {
-      size = item === 'titlesFontSize' ? '24px' : (item === 'subtitlesFontSize' ? '25px' : '22px');
+      size = item === 'titlesFontSize' ? '26px' : (item === 'subtitlesFontSize' ? '24px' : '22px');
     } else if (data[item] === 'large') {
-      size = item === 'titlesFontSize' ? '28px' : (item === 'subtitlesFontSize' ? '30px' : '24px');
+      size = item === 'titlesFontSize' ? '30px' : (item === 'subtitlesFontSize' ? '28px' : '24px');
     }
   }
 
@@ -275,6 +275,22 @@ export const convertBase64 = (file: Blob | File): object => {
     };
   });
 };
+
+export const getSeparation = (value?: string, sections?: boolean): string => {
+  if (!value) {
+    return '8px'; // eq to 1
+  }
+
+  let separation = '';
+
+  switch (value) {
+    case 'narrow': { separation = !sections ? '1' : '-10'; break; }
+    case 'medium': { separation = !sections ? '15' : '24'; break; }
+    case 'wide': { separation = !sections ? '25' : '35'; break; }
+  }
+
+  return `${separation}px`;
+}
 
 export interface CustomProps {
   stylesData: any;
