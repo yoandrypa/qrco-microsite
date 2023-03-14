@@ -1,0 +1,180 @@
+{
+  "buttonBack": "two",
+  "titlesFontSize": "medium",
+  "buttonBorderStyle": "default",
+  "customFooter": "Jenny Photographer",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/6abb0935-0c77-45a0-a2c7-58dc495d8006",
+    "updatedAt": "2023-03-08T04:00:22.590Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-08T04:00:22.589Z",
+    "visitCount": 10,
+    "address": "OsEkXn",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "ab66ca85-e41b-40ec-a5e1-b3b79649d8a7.png",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/design/ab66ca85-e41b-40ec-a5e1-b3b79649d8a7.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Jenny Photographer",
+        "bottomSpacing": "medium",
+        "descriptionAbout": "Adventures & landscapes photography are my passion."
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "firstName": "Jenny",
+        "lastName": "Adams",
+        "bottomSpacing": "medium"
+      },
+      "component": "presentation"
+    },
+    {
+      "data": {
+        "cell": "+1(305)123-4567",
+        "phone": "+1(305)765-4321",
+        "bottomSpacing": "medium"
+      },
+      "component": "phones"
+    },
+    {
+      "data": {
+        "zip": "33101",
+        "country": "United States",
+        "address": "500 NW 2ND",
+        "state": "Florida",
+        "city": "Miami",
+        "bottomSpacing": "medium"
+      },
+      "component": "address"
+    },
+    {
+      "data": {
+        "bottomSpacing": "medium",
+        "links": [
+          {
+            "link": "www.portfolio.com/jennyphotographer",
+            "label": "My portfolio"
+          },
+          {
+            "link": "www.podcast.com/jennyphotographer",
+            "label": "My podcast"
+          },
+          {
+            "link": "www.jennyphotographer.com/blog",
+            "label": "My blog"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "name": "Follow me",
+      "component": "links"
+    },
+    {
+      "data": {
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "jennyphotographer",
+            "network": "facebook"
+          },
+          {
+            "value": "jennyphoto",
+            "network": "instagram"
+          },
+          {
+            "value": "jennyphotographer",
+            "network": "pinterest"
+          },
+          {
+            "value": "jennyphotographer",
+            "network": "youtube"
+          }
+        ],
+        "bottomSpacing": "medium",
+        "topSpacing": "medium"
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "descriptionAbout": "Here you can find some samples of my pictures. Follow the links above to watch my entire work.",
+        "topSpacing": "wide"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "custom_pic1.jpg",
+            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic1.jpg"
+          },
+          {
+            "name": "custom_pic2.jpg",
+            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic2.jpg"
+          },
+          {
+            "name": "custom_pic3.jpg",
+            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic3.jpg"
+          },
+          {
+            "name": "custom_pic4.jpg",
+            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic4.jpg"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "gallery"
+    }
+  ],
+  "buttonsOpacity": 0.02,
+  "subtitlesFontStyle": "",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "",
+  "buttonBorderType": "solid",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "custom",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "secondary": "#b0bec5",
+  "qrName": "Sample Custom",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-08T04:00:22.591Z",
+  "profileImageSize": "medium",
+  "backgndImg": [
+    {
+      "name": "a18c8e26-8ffc-4c30-9d2b-0a7556dd7f48.jpg",
+      "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/design/a18c8e26-8ffc-4c30-9d2b-0a7556dd7f48.jpg"
+    }
+  ],
+  "isDynamic": true,
+  "updatedAt": "2023-03-14T16:40:33.886Z",
+  "buttonBackColor": "#120aaf|#99c4f0",
+  "foregndImgType": "smooth",
+  "backgroundColor": "#e9f8e9",
+  "globalFont": "Trebuchet",
+  "primary": "#212121"
+}
