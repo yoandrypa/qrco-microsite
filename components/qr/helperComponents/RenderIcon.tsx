@@ -70,9 +70,8 @@ export default function RenderIcon({ icon, color, enabled, adjust, size }: Rende
   const renderIcon = () => {
     const sx = { mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] } as any;
     if (size) {
-      const sizeValue = size === 'small' ? '25px' : (size === 'medium' ? '37px' : '50px');
-      sx.width = sizeValue;
-      sx.height = sizeValue;
+      sx.width = size;
+      sx.height = size;
     }
     switch (icon) {
       case 'custom': { return <CustomizeIcon sx={sx} />; }

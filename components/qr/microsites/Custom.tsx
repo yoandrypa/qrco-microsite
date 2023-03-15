@@ -68,13 +68,13 @@ export default function Custom({newData}: any) {
 
     const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
     if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials'].includes(component)) {
-      sectStyle.width = '100%';
-      delete sectStyle.ml;
+      sectStyle.width = 'calc(100% - 8px)';
+      sectStyle.ml = 1;
     }
 
     return (
       <Box sx={{width: '100%'}}>
-        {!['title', 'action', 'sku'].includes(component) && ((!data?.hideHeadLine && component !== 'links') || (component === 'links' && data?.hideHeadLine)) // @ts-ignore
+        {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
           && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
           <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
         }
