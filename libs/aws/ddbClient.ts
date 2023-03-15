@@ -21,7 +21,7 @@ if (process.env.REACT_AWS_DYNAMODB_URL) {
 export const ddbClient = new DynamoDBClient(configuration);
 
 export const tableName = (name: string): string => {
-  const prefix = process.env.NODE_ENV === 'production' ? 'prd' : 'dev';
+  const prefix = process.env.REACT_NODE_ENV === 'production' ? 'prd' : 'dev';
 
   return `${prefix}_${name}`;
 }
