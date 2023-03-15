@@ -46,10 +46,10 @@ function RenderContactForm({data, stylesData, index}: ContactProps) {
           contactEmail: email,
           subject,
           index,
-          templateData: {
-            micrositeUrl: window.location.href,
-            message
-          }
+          content: {
+            message,
+            microSiteUrl: window.location.href,
+          },
         })
       });
 
