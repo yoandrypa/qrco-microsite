@@ -1,9 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-import {ChangeEvent, useMemo, useState} from 'react'
+import React, {ChangeEvent, useMemo, useState} from 'react'
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-//@ts-ignore
-import session from "@ebanux/ebanux-utils/sessionStorage";
 import Notifications, {NotificationsProps} from "../../helperComponents/Notifications";
 import {CustomProps, handleButtons, handleFont} from "../renderers/helper";
 import {useTheme} from "@mui/system";
@@ -35,7 +33,7 @@ function RenderContactForm({data, stylesData}: CustomProps) {
   const handleClick = async () => {
     setIsLoading(true)
     try {
-      const result = await fetch('/api/sendcontactemail', {
+      const result = await fetch('/api/send/contact/email', {
         method: 'post',
         headers: {
           "Content-Type": "application/json",
@@ -43,12 +41,13 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         body: JSON.stringify({
           contactEmail: email,
           subject,
-          templateData: {
-            micrositeUrl: window.location.href,
-            message
-          }
+          content: {
+            message,
+            microSiteUrl: window.location.href,
+          },
         })
       });
+
       if (result.ok) {
         setNotify({
           message: `Great! Your message has been sent successfully.`,
