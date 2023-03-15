@@ -54,7 +54,7 @@ export default function Custom({newData}: any) {
     }} styled={styled} />
   ), [styled]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderComponent = (x: CustomType) => {
+  const renderComponent = (x: CustomType, index: number) => {
     const {component, name, data} = x;
 
     if (data) {
@@ -106,7 +106,7 @@ export default function Custom({newData}: any) {
           {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
           {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
-          {component === 'contact' && <RenderContactForm stylesData={styled} data={data}/>}
+          {component === 'contact' && <RenderContactForm stylesData={styled} data={data} index={index}/>}
           {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
         </Box>
       </Box>
@@ -127,7 +127,7 @@ export default function Custom({newData}: any) {
           }
           return (
             <Box sx={mainStyle} key={`key${x.expand || index}`}>
-              {!isSections ? renderComponent(x) : <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}}>{renderComponent(x)}</RenderSectWrapper>}
+              {!isSections ? renderComponent(x, index) : <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}}>{renderComponent(x, index)}</RenderSectWrapper>}
             </Box>
           )}
         )}

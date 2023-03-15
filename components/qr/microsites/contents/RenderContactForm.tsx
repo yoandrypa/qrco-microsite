@@ -10,7 +10,11 @@ import {TextField} from "@mui/material";
 
 const EMAIL = new RegExp("^\\w+(\\.\\w+)*(\\+\\w+(\\.\\w+)*)?@\\w+(\\.\\w+)+$", "i");
 
-function RenderContactForm({data, stylesData}: CustomProps) {
+interface ContactProps extends CustomProps {
+  index: number;
+}
+
+function RenderContactForm({data, stylesData, index}: ContactProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [notify, setNotify] = useState<NotificationsProps | null>(null);
   const [email, setEmail] = useState<string>('');
@@ -41,10 +45,11 @@ function RenderContactForm({data, stylesData}: CustomProps) {
         body: JSON.stringify({
           contactEmail: email,
           subject,
-          content: {
-            message,
-            microSiteUrl: window.location.href,
-          },
+          index,
+          templateData: {
+            micrositeUrl: window.location.href,
+            message
+          }
         })
       });
 
