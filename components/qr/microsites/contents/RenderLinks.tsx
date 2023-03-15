@@ -45,7 +45,7 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
       variant="contained"
       sx={{
         mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
-        width: 'calc(100% - 20px)',
+        width: 'calc(100% - 20px)', ml: 1,
         ...handleFont(stylesData, 'b'),
         ...handleButtons(stylesData, theme, alternate)
       }}

@@ -19,7 +19,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>QRLynk | Smart QR codes</title>
+        <title>QRLynk | Smart QR code + Landing Page</title>
         <link rel="icon" href="/qlIcon.png" />
       </Head>
       <StyledEngineProvider injectFirst>
