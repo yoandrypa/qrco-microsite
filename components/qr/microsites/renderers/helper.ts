@@ -182,6 +182,7 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
   } else {
     style.borderRadius = '8px';
   }
+
   if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
     if (data.buttonBack === 'solid') {
       style.background = data.buttonBackColor || DEFAULT_COLORS.s;
@@ -210,7 +211,10 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
     }
   } else {
     style.background = theme.palette.secondary.main;
-    style['&:hover'] = {color: theme.palette.secondary.main, background: theme.palette.primary.main};
+    style['&:hover'] = {background: theme.palette.primary.main};
+    if (!data?.buttonsFontStyle?.includes('#')) {
+      style['&:hover'].color = theme.palette.secondary.main;
+    }
   }
   if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) {
     style.color = `#${data.buttonsFontStyle.split('#')[1]}`;
