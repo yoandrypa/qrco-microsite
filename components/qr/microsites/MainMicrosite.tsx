@@ -308,11 +308,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           )}
           <Box sx={{
             width: '100%',
-            minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20)}px)` :
-              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) - (!isBorder ? 0 : 20)}px)`}}>
+            minHeight: !containerDimensions ? `calc(100vh - ${229 + (!isBorder ? 0 : 20) + (data.footerKind === 'noFooter' ? 27 : 0)}px)` :
+              `calc(${containerDimensions.parentHeight} + ${(!data.layout?.includes('entire') ? 230 : 210) + (data.footerKind === 'noFooter' ? 27 : 0) - (!isBorder ? 0 : 20)}px)`}}>
             {foreImg ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
             <Box sx={{
-
               backgroundClip: 'padding-box !important',
               borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
               borderRight: !isBorder ? 'unset' : 'solid 10px transparent'}}>
