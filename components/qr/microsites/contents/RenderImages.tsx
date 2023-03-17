@@ -130,13 +130,13 @@ export default function RenderImages({data, stylesData}: CustomProps) {
   return (
     <>
       <Box>
-        {images.current.length !== data.files?.length && (
+        {images.current.length !== data?.files?.length && (
           <Box sx={{width: '100%', p: 2}}>
             <Box sx={{width: '100%', color: theme => theme.palette.secondary.main, display: 'flex', justifyContent: 'center'}}>
               <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
               <Box>
                 <Typography sx={{...handleFont(stylesData, 'm')}}>
-                  {`Loaded ${images.current.length}/${data.files?.length}...`}
+                  {`Loaded ${images.current.length}/${data?.files?.length}...`}
                 </Typography>
                 <Typography sx={{...handleFont(stylesData, 'm')}}>{'Please wait...'}</Typography>
               </Box>
