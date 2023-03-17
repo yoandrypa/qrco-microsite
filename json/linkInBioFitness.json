@@ -20,8 +20,8 @@
   "buttonShape": "7",
   "foregndImg": [
     {
-      "name": "2ac60637-2d62-4963-a558-d71c7e58d005.png",
-      "Key": "eea77e04-08d8-4277-8ca2-b8ba8744a635/links/design/2ac60637-2d62-4963-a558-d71c7e58d005.png"
+      "name": "linksFitnessMain.png",
+      "Key": "links/design/linksFitnessMain.png"
     }
   ],
   "buttonBorderWeight": "weight",
@@ -112,8 +112,8 @@
   "updatedAt": "2023-03-14T21:08:51.282Z",
   "micrositeBackImage": [
     {
-      "name": "c1b5724e-7522-47c1-841f-dffb84c63be6.png",
-      "Key": "eea77e04-08d8-4277-8ca2-b8ba8744a635/links/design/c1b5724e-7522-47c1-841f-dffb84c63be6.png"
+      "name": "linksFitnessBg.png",
+      "Key": "links/design/linksFitnessBg.png"
     }
   ],
   "backgroundType": "image",

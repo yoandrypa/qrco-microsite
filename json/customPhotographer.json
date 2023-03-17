@@ -19,8 +19,8 @@
   "buttonShape": "4",
   "foregndImg": [
     {
-      "name": "ab66ca85-e41b-40ec-a5e1-b3b79649d8a7.png",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/design/ab66ca85-e41b-40ec-a5e1-b3b79649d8a7.png"
+      "name": "customMain.png",
+      "Key": "customs/design/customMain.png"
     }
   ],
   "custom": [
@@ -120,19 +120,19 @@
         "files": [
           {
             "name": "custom_pic1.jpg",
-            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic1.jpg"
+            "Key": "customs/custom_pic1.jpg"
           },
           {
             "name": "custom_pic2.jpg",
-            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic2.jpg"
+            "Key": "customs/custom_pic2.jpg"
           },
           {
             "name": "custom_pic3.jpg",
-            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic3.jpg"
+            "Key": "customs/custom_pic3.jpg"
           },
           {
             "name": "custom_pic4.jpg",
-            "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/custom_pic4.jpg"
+            "Key": "customs/custom_pic4.jpg"
           }
         ],
         "hideHeadLine": true
@@ -166,8 +166,8 @@
   "profileImageSize": "medium",
   "backgndImg": [
     {
-      "name": "a18c8e26-8ffc-4c30-9d2b-0a7556dd7f48.jpg",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/customs/design/a18c8e26-8ffc-4c30-9d2b-0a7556dd7f48.jpg"
+      "name": "customBan.jpg",
+      "Key": "customs/design/customBan.jpg"
     }
   ],
   "isDynamic": true,

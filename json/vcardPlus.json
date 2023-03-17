@@ -17,8 +17,8 @@
   },
   "foregndImg": [
     {
-      "name": "9e06f957-0962-438c-b2bd-2f19dd905e91.png",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/vcard+s/design/9e06f957-0962-438c-b2bd-2f19dd905e91.png"
+      "name": "vCardMain.png",
+      "Key": "vcard+s/design/vCardMain.png"
     }
   ],
   "custom": [
@@ -109,8 +109,8 @@
   "profileImageSize": "medium",
   "backgndImg": [
     {
-      "name": "1fab084c-5d3c-463b-a0fc-f2f99f7fc9b5.png",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/vcard+s/design/1fab084c-5d3c-463b-a0fc-f2f99f7fc9b5.png"
+      "name": "vCardBan.png",
+      "Key": "vcard+s/design/vCardBan.png"
     }
   ],
   "isDynamic": true,
