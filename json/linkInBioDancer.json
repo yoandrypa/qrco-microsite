@@ -50,7 +50,10 @@
             "link": "www.annamiller.com/gallery",
             "label": "Gallery"
           }
-        ]
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "wide",
+        "topSpacing": "wide"
       },
       "component": "links"
     },
