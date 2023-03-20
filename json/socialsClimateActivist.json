@@ -1,0 +1,100 @@
+{
+  "buttonBack": "solid",
+  "titlesFontSize": "large",
+  "buttonBorderStyle": "two",
+  "customFooter": "Help me saving the planet",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/0d7eed98-2147-475a-bf19-cf4ad8d95bf7",
+    "updatedAt": "2023-03-20T18:37:29.720Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-20T18:37:29.719Z",
+    "visitCount": 6,
+    "address": "qqAW7o",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonBorderColors": "#eafc8b|#f1f4ac",
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "SocialClimateMain.png",
+      "Key": "socials/design/SocialClimateMain.png"
+    }
+  ],
+  "buttonBorderWeight": "normal",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Grace",
+        "bottomSpacing": "wide",
+        "descriptionAbout": "Climate Activist. Let's save the planet! Join me know!"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "grace.climate.act",
+            "network": "facebook"
+          },
+          {
+            "value": "grace.climate",
+            "network": "instagram"
+          },
+          {
+            "value": "GraceClimate",
+            "network": "twitter"
+          },
+          {
+            "value": "graceclimate",
+            "network": "telegram"
+          },
+          {
+            "value": "+1(305)123-4567",
+            "network": "whatsapp"
+          }
+        ],
+        "linksAsButtons": true,
+        "topSpacing": "wide"
+      },
+      "component": "socials"
+    }
+  ],
+  "buttonsOpacity": 0,
+  "subtitlesFontStyle": "#ffffff",
+  "buttonsFontStyle": "#ffffff",
+  "buttonBorders": "10px 30px 10px 30px",
+  "qrType": "social",
+  "buttonsFontSize": "large",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "large",
+  "titlesFontStyle": "b#ffffff",
+  "footerKind": "custom",
+  "secondary": "#f0f4c3",
+  "qrName": "Social Networks Sample",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-20T18:37:29.721Z",
+  "layout": "nobanner",
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-03-20T19:31:13.803Z",
+  "buttonBackColor": "#126416",
+  "micrositeBackImage": [
+    {
+      "name": "SocialClimateBg.jpeg",
+      "Key": "socials/design/SocialClimateBg.jpeg"
+    }
+  ],
+  "backgroundType": "image",
+  "buttonCase": true,
+  "backgroundColor": "#0f611f",
+  "globalFont": "Trebuchet",
+  "primary": "#827717"
+}
