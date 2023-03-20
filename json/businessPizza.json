@@ -1,0 +1,168 @@
+{
+  "buttonBack": "solid",
+  "micrositeBackImageOpacity": 0.3,
+  "titlesFontSize": "small",
+  "buttonBorderStyle": "default",
+  "customFooter": "Best pizza in town",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/96b7ab68-1208-4935-ae50-fb5a1fced069",
+    "updatedAt": "2023-03-20T20:34:23.911Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-20T20:34:23.909Z",
+    "visitCount": 14,
+    "address": "hD0XBQ",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "custom": [
+    {
+      "data": {
+        "descriptionAbout": "Jenny's Pizza"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "titleAbout": "Watch the camera & say cheese",
+        "bottomSpacing": "medium",
+        "topSpacing": "narrow"
+      },
+      "component": "title"
+    },
+    {
+      "name": "Phone",
+      "data": {
+        "cell": "+1(305)123-4567",
+        "bottomSpacing": "medium"
+      },
+      "component": "phones"
+    },
+    {
+      "data": {
+        "zip": "33101",
+        "country": "USA",
+        "address": "500 NW 2ND",
+        "state": "Fla",
+        "city": "Miami"
+      },
+      "component": "address"
+    },
+    {
+      "data": {
+        "bottomSpacing": "wide",
+        "links": [
+          {
+            "link": "https://goo.gl/maps/ppgw42tmcprjukwd9",
+            "label": "Google Maps"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "easiness": {
+          "seat": true,
+          "parking": true,
+          "pets": true,
+          "accessible": true,
+          "bus": true,
+          "wifi": true,
+          "cafe": true,
+          "restaurant": true,
+          "taxi": true,
+          "climate": true,
+          "fastfood": true,
+          "child": true
+        }
+      },
+      "component": "easiness"
+    },
+    {
+      "data": {
+        "bottomSpacing": "wide",
+        "links": [
+          {
+            "link": "www.jennyspizza.com/menu",
+            "label": "Menu"
+          },
+          {
+            "link": "www.jennyspizza.com/book",
+            "label": "Book"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "socials": [
+          {
+            "value": "+1(305)123-4567",
+            "network": "whatsapp"
+          },
+          {
+            "value": "jennyspizza",
+            "network": "facebook"
+          },
+          {
+            "value": "jennyspizza",
+            "network": "instagram"
+          },
+          {
+            "value": "jennyspizza",
+            "network": "twitter"
+          }
+        ],
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true
+      },
+      "component": "socials"
+    }
+  ],
+  "subtitlesFontStyle": "b#0b0a0a",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "business",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "large",
+  "titlesFontStyle": "b#060606",
+  "footerKind": "custom",
+  "secondary": "#b0bec5",
+  "qrName": "Business Sample 1",
+  "messagesFontStyle": "b#090909",
+  "createdAt": "2023-03-20T20:34:23.912Z",
+  "backgndImg": [
+    {
+      "name": "BusinessPizzaBan.png",
+      "Key": "businesss/design/BusinessPizzaBan.png"
+    }
+  ],
+  "buttonsSeparation": "medium",
+  "isDynamic": true,
+  "updatedAt": "2023-03-20T22:08:43.037Z",
+  "buttonBackColor": "#f6a46a",
+  "micrositeBackImage": [
+    {
+      "name": "BusinessPizzaBg.png",
+      "Key": "businesss/design/BusinessPizzaBg.png"
+    }
+  ],
+  "backgroundType": "image",
+  "primary": "#212121"
+}
