@@ -118,7 +118,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
             width: '100%',
             ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theming, alt)
           }}
-        >{value}</Button>
+        >{!data?.showOnlyNetworkName ? value : item.network}</Button>
       );
     }
 
