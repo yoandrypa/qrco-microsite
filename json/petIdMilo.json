@@ -1,0 +1,128 @@
+{
+  "buttonBack": "two",
+  "titlesFontSize": "small",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/f110a7fb-8e96-4d0c-baa3-65bf82a7f46e",
+    "updatedAt": "2023-03-16T19:31:50.473Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-16T19:31:50.471Z",
+    "visitCount": 22,
+    "address": "HYuMT3",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "petIdMiloMain.png",
+      "Key": "petIds/design/petIdMiloMain.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "petName": "Miloo",
+        "petYearOfBirth": "2",
+        "descriptionAbout": "Milo",
+        "petGender": "Male",
+        "topSpacing": "narrow"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "petName": "Milo",
+        "linksOnlyLinks": true,
+        "petBreed": "Miniature Pinscher"
+      },
+      "component": "petId"
+    },
+    {
+      "data": {
+        "zip": "33101",
+        "firstName": "John",
+        "lastName": "Smith",
+        "country": "United States",
+        "address": "500 NW 2ND",
+        "address2": "MIAMI",
+        "city": "Miami",
+        "linksOnlyLinks": true,
+        "state": "Florida",
+        "cell": "+1(305)123-4567"
+      },
+      "name": "Owner contact info",
+      "component": "presentation"
+    },
+    {
+      "data": {
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "+1(305)123-4567",
+            "network": "whatsapp"
+          }
+        ],
+        "linksAsButtons": true,
+        "bottomSpacing": "medium",
+        "topSpacing": "medium"
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "keyValues": [
+          {
+            "value": "Fish",
+            "key": "Allergic to"
+          },
+          {
+            "value": "Meat cookies",
+            "key": "Favorite food"
+          }
+        ],
+        "linksOnlyLinks": true
+      },
+      "name": "Basic care",
+      "component": "keyvalue"
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "#ffffff",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "petId",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "footerKind": "noFooter",
+  "secondary": "#b0bec5",
+  "qrName": "Pet Id Sample",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-16T19:31:50.474Z",
+  "layout": "nobanner",
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "isDynamic": true,
+  "updatedAt": "2023-03-17T02:01:39.942Z",
+  "buttonBackColor": "#059d29|#0a6b24",
+  "micrositeBackImage": [
+    {
+      "name": "petIdMiloBg.png",
+      "Key": "petIds/design/petIdMiloBg.png"
+    }
+  ],
+  "backgroundType": "image",
+  "globalFont": "Verdana",
+  "primary": "#212121"
+}

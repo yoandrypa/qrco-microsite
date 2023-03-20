@@ -137,6 +137,18 @@
       "file":"linkInBioTennis",
       "desc":"A way to share your sport activities with everyone",
       "name":"Link in Bio"
+    },
+    {
+      "type":"petId",
+      "file":"petIdMilo",
+      "desc":"Share your pet's details with anyone who scan his smart tag",
+      "name":"Pet Id"
+    },
+    {
+      "type":"petId",
+      "file":"petIdSpike",
+      "desc":"Let your pet introduce himself to anyone who scan his smart tag",
+      "name":"Pet Id"
     }
   ]
 }

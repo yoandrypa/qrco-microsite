@@ -19,8 +19,8 @@
   "buttonShape": "4",
   "foregndImg": [
     {
-      "name": "8c538248-94f8-4e14-90a4-8c0c3e220c50.png",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/links/design/8c538248-94f8-4e14-90a4-8c0c3e220c50.png"
+      "name": "linksDancerMain.png",
+      "Key": "links/design/linksDancerMain.png"
     }
   ],
   "custom": [
@@ -50,7 +50,10 @@
             "link": "www.annamiller.com/gallery",
             "label": "Gallery"
           }
-        ]
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "wide",
+        "topSpacing": "wide"
       },
       "component": "links"
     },
@@ -105,8 +108,8 @@
   "createdAt": "2023-03-09T21:07:02.971Z",
   "backgndImg": [
     {
-      "name": "c091677f-502f-409e-9e0f-d6ef19637259.png",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/links/design/c091677f-502f-409e-9e0f-d6ef19637259.png"
+      "name": "linksBan.png",
+      "Key": "links/design/linksBan.png"
     }
   ],
   "isDynamic": true,
@@ -114,8 +117,8 @@
   "buttonBackColor": "#0f4d8c",
   "micrositeBackImage": [
     {
-      "name": "26650394-9cd8-416c-ac4a-65a544531244.png",
-      "Key": "506480d8-6957-498b-8955-c0efb99253a1/links/design/26650394-9cd8-416c-ac4a-65a544531244.png"
+      "name": "linksDancerBg.png",
+      "Key": "links/design/linksDancerBg.png"
     }
   ],
   "backgroundType": "image",

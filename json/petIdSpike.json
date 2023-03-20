@@ -1,0 +1,141 @@
+{
+  "buttonBack": "solid",
+  "micrositeBackImageOpacity": 0.19,
+  "titlesFontSize": "large",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/294c7b84-18b8-45d0-8732-5bd26799b207",
+    "updatedAt": "2023-03-16T21:03:44.474Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-16T21:03:44.473Z",
+    "visitCount": 25,
+    "address": "1OEI33",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "foregndImg": [
+    {
+      "name": "petIdSpikeMain.png",
+      "Key": "petIds/design/petIdSpikeMain.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Spike",
+        "topSpacing": "narrow",
+        "descriptionAbout": "This is me, your handsome dog! If you ever find me wandering the streets, please contact my owner."
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "petid2_gallery.png",
+            "Key": "petIds/petid2_gallery.png"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "gallery"
+    },
+    {
+      "data": {
+        "titleAbout": "My owner's name is Jimmy"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "hideHeadLine": true,
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "jimmy23",
+            "network": "facebook"
+          },
+          {
+            "value": "Jim23",
+            "network": "instagram"
+          },
+          {
+            "value": "Jim23",
+            "network": "telegram"
+          },
+          {
+            "value": "Jim23",
+            "network": "twitter"
+          }
+        ],
+        "topSpacing": "medium",
+        "linksOnlyLinks": true
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://wa.me/13051234567",
+            "label": "WhatsApp"
+          }
+        ],
+        "topSpacing": "medium",
+        "hideHeadLine": true
+      },
+      "component": "links"
+    },
+    {
+      "name": "Want to drive me home?",
+      "data": {
+        "zip": "33101",
+        "country": "United States",
+        "address": "500 NW 2ND",
+        "address2": "MIAMI",
+        "city": "Miami",
+        "state": "Florida",
+        "topSpacing": "wide"
+      },
+      "component": "address"
+    }
+  ],
+  "subtitlesFontStyle": "",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "#ffffff",
+  "qrType": "petId",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "messagesFontSize": "large",
+  "secondary": "#b0bec5",
+  "qrName": "Pet Id Sample 2",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-16T21:03:44.475Z",
+  "layout": "nobanner",
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "isDynamic": true,
+  "updatedAt": "2023-03-17T01:22:40.415Z",
+  "buttonBackColor": "#0abe09",
+  "micrositeBackImage": [
+    {
+      "name": "petIdSpikeBg.png",
+      "Key": "petIds/design/petIdSpikeBg.png"
+    }
+  ],
+  "backgroundType": "image",
+  "foregndImgType": "smooth",
+  "globalFont": "Trebuchet",
+  "primary": "#212121"
+}
