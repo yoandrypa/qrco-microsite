@@ -1,12 +1,11 @@
 import Grid from "@mui/material/Grid";
 import RenderField from "../renderers/RenderField";
-import {CustomProps, handleFont} from "../renderers/helper";
 
-const empty = (item: string, newData?: any) => newData?.[item] === undefined || !newData[item].trim().length;
+import {CustomProps, empty, handleFont} from "../renderers/helper";
 
 export default function RenderPhones({data, stylesData}: CustomProps) {
   if (!data || (empty('cell', data) && empty('companyCell', data) && empty('phone', data) &&
-    empty('companyPhone', data) && empty('fax', data) && empty( 'companyFax', data))) {
+    empty('companyPhone', data) && empty('fax', data) && empty( 'companyFax', data) && empty('whatsapp', data))) {
     return null;
   }
 
@@ -25,6 +24,14 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
           value={data.phone || data.companyPhone}
           icon="phone"
           phone
+          sx={{...handleFont(stylesData, 'm')}}
+        />
+      )}
+      {data.whatsapp && (
+        <RenderField
+          value={data.whatsapp}
+          icon="whatsapp"
+          whatsapp
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}

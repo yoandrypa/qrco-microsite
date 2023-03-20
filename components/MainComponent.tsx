@@ -43,7 +43,10 @@ export default function MainComponent({ newData }: any) {
         }
       }
     }
-    window.addEventListener('message', handler);
+
+    if (window) {
+      window.addEventListener('message', handler);
+    }
     setLoading(false);
     return () => window.removeEventListener('message', handler);
   }, []);
