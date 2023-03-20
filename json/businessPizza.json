@@ -150,7 +150,7 @@
   "backgndImg": [
     {
       "name": "BusinessPizzaBan.png",
-      "Key": "businesss/design/BusinessPizzaBan.png"
+      "Key": "business/design/BusinessPizzaBan.png"
     }
   ],
   "buttonsSeparation": "medium",
@@ -160,7 +160,7 @@
   "micrositeBackImage": [
     {
       "name": "BusinessPizzaBg.png",
-      "Key": "businesss/design/BusinessPizzaBg.png"
+      "Key": "business/design/BusinessPizzaBg.png"
     }
   ],
   "backgroundType": "image",
