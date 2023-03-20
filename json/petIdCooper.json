@@ -1,0 +1,134 @@
+{
+  "buttonBack": "solid",
+  "titlesFontSize": "large",
+  "buttonBorderStyle": "default",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/93349eb8-3a00-4192-bd59-a61e0c99071d",
+    "updatedAt": "2023-03-20T17:14:17.562Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-20T17:14:17.561Z",
+    "visitCount": 6,
+    "address": "SukyJq",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "CooperMain.png",
+      "Key": "petIds/design/CooperMain.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Cooper",
+        "descriptionAbout": "Pets also want to be in touch."
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://youtube.com/cooper23",
+            "label": "Youtube channel"
+          },
+          {
+            "link": "https://www.cooper.com/blog",
+            "label": "Cooper's Stories"
+          },
+          {
+            "link": "https://www.cooper.com/gallery",
+            "label": "Cooper's Gallery"
+          },
+          {
+            "link": "https://www.cooper.com/tips",
+            "label": "Pet Cares & Tips"
+          },
+          {
+            "link": "https://www.cooper.com/shop",
+            "label": "Pets Shop"
+          },
+          {
+            "link": "https://wa.me/134578945",
+            "label": "Owner Contact"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "wide",
+        "topSpacing": "wide"
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "iconSize": "medium",
+        "hideHeadLine": true,
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "cooper23",
+            "network": "facebook"
+          },
+          {
+            "value": "cooper23",
+            "network": "instagram"
+          },
+          {
+            "value": "cooper23",
+            "network": "pinterest"
+          },
+          {
+            "value": "cooper23",
+            "network": "youtube"
+          }
+        ],
+        "topSpacing": "wide",
+        "linksOnlyLinks": true
+      },
+      "component": "socials"
+    }
+  ],
+  "buttonsOpacity": 0,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "petId",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "medium",
+  "titlesFontStyle": "b",
+  "secondary": "#b0bec5",
+  "backgroundColorRight": "#dddddd",
+  "buttonShadow": true,
+  "qrName": "Pet Id Sample 3",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-20T17:14:17.563Z",
+  "layout": "gradient",
+  "backgndImg": [
+    {
+      "name": "CooperBan.png",
+      "Key": "petIds/design/CooperBan.png"
+    }
+  ],
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-03-20T18:30:10.783Z",
+  "buttonBackColor": "#b5b9bd",
+  "backgroundType": "gradient",
+  "backgroundColor": "#ffffff",
+  "globalFont": "Default",
+  "primary": "#212121"
+}

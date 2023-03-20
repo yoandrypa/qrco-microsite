@@ -149,6 +149,24 @@
       "file":"petIdSpike",
       "desc":"Let your pet introduce himself to anyone who scan his smart tag",
       "name":"Pet Id"
+    },
+    {
+      "type":"petId",
+      "file":"petIdCooper",
+      "desc":"Let your pet share his link in bio",
+      "name":"Pet Id"
+    },
+    {
+      "type": "social",
+      "file": "socialsClimateActivist",
+      "name": "Social Networks",
+      "desc": "Sharing your social links"
+    },
+    {
+      "type": "business",
+      "file": "businessPizza",
+      "name": "Pizza Business",
+      "desc": "A mobile-friendly landing page for a pizza business"
     }
   ]
 }
