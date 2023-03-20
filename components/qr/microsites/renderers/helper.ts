@@ -280,6 +280,8 @@ export const convertBase64 = (file: Blob | File): object => {
   });
 };
 
+export const empty = (item: string, newData?: any) => newData?.[item] === undefined || !newData[item].trim().length;
+
 export const getSeparation = (value?: string, sections?: boolean): string => {
   if (!value) {
     return '8px'; // eq to 1
