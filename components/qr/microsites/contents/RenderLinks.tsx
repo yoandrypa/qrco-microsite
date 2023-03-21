@@ -45,7 +45,7 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
       variant="contained"
       sx={{
         mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
-        width: 'calc(100% - 20px)', ml: 1,
+        width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
         ...handleFont(stylesData, 'b'),
         ...handleButtons(stylesData, theme, alternate)
       }}
@@ -59,7 +59,7 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
       component="a"
       href={item.link}
       sx={{
-        mt: !stay ? '20px' : 'unset',
+        mt: !stay ? '20px' : 'unset', zIndex: 1000,
         width: 'calc(100% - 20px)',
         ...handleFont(stylesData, 'm'),
         '&:hover': {
@@ -79,7 +79,7 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
       margin="dense" // @ts-ignore
       value={url}
       key={key}
-      sx={{width: '100%', mt: !stay ? '20px' : 'unset'}}
+      sx={{zIndex: 1000, width: '100%', mt: !stay ? '20px' : 'unset'}}
       inputProps={{style: {...handleFont(stylesData, 'm')}}}
       InputProps={{
         disableUnderline: true,

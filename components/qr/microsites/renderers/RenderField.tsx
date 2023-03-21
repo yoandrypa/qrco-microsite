@@ -79,6 +79,7 @@ export default function RenderField({label, value, icon, link, sx, phone, fax, e
         style={{
           cursor: 'pointer',
           width: '100%',
+          zIndex: 1000,
           textDecoration: 'none',
           marginLeft: link || email ? (sx?.ml ? sx.ml : '7px') : 'unset'
         }}>
