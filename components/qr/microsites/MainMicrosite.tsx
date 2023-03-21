@@ -134,23 +134,28 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const height = useMemo(() => !containerDimensions ? '100vh' : '993px', []); // eslint-disable-line react-hooks/exhaustive-deps
-  const omitBanner = useMemo(() => data.layout?.includes('banner') || false, [data.layout]);
+  const minHeight = !containerDimensions ? '100vh' : '993px';
+  const omitBanner = data.layout?.includes('banner') || false;
 
-  const renderProfile = () => {
-    let size = 100 as number;
+  const size = useMemo(() => {
+    let size = 100 as number; // aims to the default size
 
     switch (data.profileImageSize) {
       case 'small': { size = 70; break; }
       case 'medium': { size = 130; break; }
       case 'large': { size = 170; break; }
     }
+
+    return size;
+  }, [data.profileImageSize]);
+
+  const renderProfile = () => {
     let translation = Math.floor(size / 2);
-    let height = translation - 20;
+    let profileHeight = translation - 20;
     let mb = 'unset';
 
     if (data.profileImageVertical === 'upper') {
-      height = 10;
+      profileHeight = 10;
       switch (data.profileImageSize) {
         case 'small': { translation += 35; break; }
         case 'medium': { translation += 65; break; }
@@ -158,7 +163,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         default: { translation += 50; break; }
       }
     } else if (data.profileImageVertical === 'top') {
-      height = 10;
+      profileHeight = 10;
       switch (data.profileImageSize) {
         case 'small': {
           translation += 155;
@@ -188,8 +193,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     let mt = Math.floor(size / 2);
 
     if (data.profileImageVertical === 'upper') {
-      height = 0;
-      outTop = '-24px';
+      profileHeight = 0;
+      outTop = '-15px';
       top = 'unset';
       switch (data.profileImageSize) {
         case 'small': { mt += 35; break;}
@@ -198,15 +203,15 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         default: { mt = 84; break; }
       }
     } else if (data.profileImageVertical === 'top') {
-      outTop = '-24px';
-      height = 0;
+      outTop = '-15px';
+      profileHeight = 0;
       mt = 0;
       top = '-178px';
     }
     mt *= -1;
 
     return (
-      <Box sx={{width: '100%', mb, mt: outTop, height: `${height}px`, textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
+      <Box sx={{width: '100%', mb, mt: outTop, height: `${profileHeight}px`, textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
         <Box
           component="img"
           alt="foregimage"
@@ -216,7 +221,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             position: 'relative',
             mt: `${mt}px`,
             top,
-            // transform: `translate(0, -${translation}px)`,
             width: `${size}px`, height: `${size}px`,
             borderRadius: data.foregndImgType === undefined || data.foregndImgType === 'circle' ? `${size / 2}px` : data.foregndImgType === 'smooth' ? '20px' : '3px'
           }}
@@ -224,6 +228,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       </Box>
     );
   }
+
+  const correctPos = useMemo(() => foreImg && (data.profileImageVertical === undefined || data.profileImageVertical === 'default'), [foreImg, data.profileImageVertical]);
 
   return (
     <>
@@ -243,7 +249,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           </Typography>
         </Box>
       )}
-      {!containerDimensions && <RenderBackgroundIfWideScreen backImg={backImg} />}
+      {!containerDimensions && <RenderBackgroundIfWideScreen backImg={backImg || micrositeBackImage} />}
       <Box sx={{
         top: 0, position: 'relative', left: '50%', transform: 'translate(-50%, 0)',
         border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
@@ -251,7 +257,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
         backgroundImage: !data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
           (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'),
-        maxWidth: isWide ? '475px' : '100%', minHeight: height, overflowX: 'hidden'
+        maxWidth: isWide ? '475px' : '100%', minHeight, overflowX: 'hidden'
       }}>
         {data.backgroundType === 'image' && micrositeBackImage && (
           <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} />
@@ -289,7 +295,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             borderRadius: isBorder || isSoft ? `${isBorder ? '24px 24px' : '0 0'} ${isSoft ? '24px 24px' : '0 0'}` : 'unset',
             maskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
             WebkitMaskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
-            background: theme => !backImg ? theme.palette.primary.main : 'unset',
+            background: theme => !backImg && !omitBanner ? theme.palette.primary.main : 'unset',
             clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
              'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
             }}
@@ -301,7 +307,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           backgroundClip: 'padding-box !important',
           borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
           borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
-          minHeight: `calc(${height} - ${(data.footerKind !== 'noFooter' ? 27 : 0) + 189 + (!foreImg ? 25 : 0)}px)`
+          minHeight: `calc(${minHeight} - ${(data.footerKind !== 'noFooter' ? 27 : 0) + 180 + (minHeight === '100vh' ? (correctPos ? 10 : 2) : 0) +
+            (correctPos ? Math.floor(size / 2) : (foreImg ? 5 : 25))            
+          }px)`
         }}>
           {!data.layout?.includes('entire') ? children : (
             <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)'}}>{children}</RenderSectWrapper>
