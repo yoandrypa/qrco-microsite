@@ -54,35 +54,71 @@ export function handleDownloadFiles(data: FileType | string, kind: string) {
 }
 
 /**
- * kind = t: title, s: subtitle, m: message, b: button
+ * kind = t: title, s: subtitle, m: message, b: button, T: section Title title, S: section Title subtitle
  * @param data
  * @param kind
  */
-export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
+export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
   let property: string;
   let size = '20px';
 
   const handleSize = (item: string): void => {
     if (!data?.[item] || data[item] === 'default') {
-      size = item === 'titlesFontSize' ? '24px' : (item === 'subtitlesFontSize' ? '22px' : '20px');
+      switch (item) {
+        case 'sectionTitleFontSize': { size = '28px'; break; }
+        case 'sectionDescFontSize': { size = '26px'; break; }
+        case 'titlesFontSize': { size = '24px'; break; }
+        case 'subtitlesFontSize': { size = '22px'; break; }
+        default: { size = '20px'; break; }
+      }
     } else if (data[item] === 'small') {
-      size = item === 'titlesFontSize' ? '22px' : (item === 'subtitlesFontSize' ? '20px' : '18px');
+      switch (item) {
+        case 'sectionTitleFontSize': { size = '26px'; break; }
+        case 'sectionDescFontSize': { size = '24px'; break; }
+        case 'titlesFontSize': { size = '22px'; break; }
+        case 'subtitlesFontSize': { size = '20px'; break; }
+        default: { size = '18px'; break; }
+      }
     } else if (data[item] === 'medium') {
-      size = item === 'titlesFontSize' ? '26px' : (item === 'subtitlesFontSize' ? '24px' : '22px');
+      switch (item) {
+        case 'sectionTitleFontSize': { size = '30px'; break; }
+        case 'sectionDescFontSize': { size = '28px'; break; }
+        case 'titlesFontSize': { size = '26px'; break; }
+        case 'subtitlesFontSize': { size = '24px'; break; }
+        default: { size = '22px'; break; }
+      }
     } else if (data[item] === 'large') {
-      size = item === 'titlesFontSize' ? '30px' : (item === 'subtitlesFontSize' ? '28px' : '24px');
+      switch (item) {
+        case 'sectionTitleFontSize': { size = '34px'; break; }
+        case 'sectionDescFontSize': { size = '32px'; break; }
+        case 'titlesFontSize': { size = '30px'; break; }
+        case 'subtitlesFontSize': { size = '28px'; break; }
+        default: { size = '24px'; break; }
+      }
     }
   }
 
-  const style = {};
+  const style = {} as any;
   if (data?.globalFont) { // @ts-ignore
     style.fontFamily = FONTS[data.globalFont] || 'Default';
   }
-  if (data?.globalFontColor) { // @ts-ignore
+  if (data?.globalFontColor) {
     style.color = data.globalFontColor || '#000';
   }
 
   switch (kind) {
+    case 'T': {
+      property = 'sectionTitleFontStyle';
+      handleSize('sectionTitleFontSize'); // @ts-ignore
+      style.fontFamily = data && FONTS[data.sectionTitleFont || data.globalFont] || 'unset';
+      break;
+    }
+    case 'S': {
+      property = 'sectionDescFontStyle';
+      handleSize('sectionDescFontSize'); // @ts-ignore
+      style.fontFamily = data && FONTS[data.sectionDescFont || data.globalFont] || 'unset';
+      break;
+    }
     case 't': {
       property = 'titlesFontStyle';
       handleSize('titlesFontSize'); // @ts-ignore
@@ -110,19 +146,19 @@ export function handleFont(data: any, kind: 't' | 's' | 'm' | 'b') {
   }
 
   if (data?.[property] !== undefined) {
-    if (data[property].includes('#') && (property !== 'buttonsFontStyle' || !data[property].endsWith('#-1'))) { // @ts-ignore
+    if (data[property].includes('#') && (property !== 'buttonsFontStyle' || !data[property].endsWith('#-1'))) {
       style.color = `#${data[property].split('#')[1]}`;
     }
-    if (data[property].includes('b')) { // @ts-ignore
+    if (data[property].includes('b')) {
       style.fontWeight = 'bold';
     }
-    if (data[property].includes('i')) { // @ts-ignore
+    if (data[property].includes('i')) {
       style.fontStyle = 'italic';
     }
-    if (data[property].includes('u')) { // @ts-ignore
+    if (data[property].includes('u')) {
       style.textDecoration = 'underline';
     }
-  } else if (['t', 's'].includes(kind)) { // @ts-ignore
+  } else if (['t', 's'].includes(kind)) {
     style.fontWeight = 'bold';
   }
 
