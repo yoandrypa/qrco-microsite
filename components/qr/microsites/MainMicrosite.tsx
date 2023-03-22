@@ -136,6 +136,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const minHeight = !containerDimensions ? '100vh' : '993px';
   const omitBanner = data.layout?.includes('banner') || false;
+  const width = isWide ? '475px' : '100%';
 
   const renderProfile = () => {
     let size = 100 as number; // aims to the default size
@@ -247,7 +248,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       )}
       {!containerDimensions && <RenderBackgroundIfWideScreen backImg={backImg || micrositeBackImage} />}
       {isBackgroundImg && (
-        <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} />
+        <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
       <Box sx={{
         position: 'relative',
@@ -257,7 +258,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         backgroundColor: isBackgroundImg ? 'transparent' : (!data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff'),
         backgroundImage: isBackgroundImg ? undefined : (!data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
           (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff')),
-        maxWidth: isWide ? '475px' : '100%', minHeight, overflowX: 'hidden'
+        maxWidth: width, minHeight, overflowX: 'hidden'
       }}>
 
         <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
@@ -284,7 +285,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           )}
           <Box
             sx={{
-              backgroundClip: 'padding-box !important', width: isWide ? '475px' : '100%', left: isScrolling && foreImg ? '-2px' : 'unset',
+              backgroundClip: 'padding-box !important', width, left: isScrolling && foreImg ? '-2px' : 'unset',
               marginLeft: '50%',
               transform: 'translateX(-50%)',
               height: `${!isInverse ? 200 : 228}px`, right: 0,
