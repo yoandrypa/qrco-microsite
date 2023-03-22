@@ -225,6 +225,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     );
   }
 
+  const isBackgroundImg = useMemo(() => data.backgroundType === 'image' && Boolean(micrositeBackImage), [data.backgroundType, micrositeBackImage]);
+
   return (
     <>
       {error && (
@@ -244,19 +246,21 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         </Box>
       )}
       {!containerDimensions && <RenderBackgroundIfWideScreen backImg={backImg || micrositeBackImage} />}
+      {isBackgroundImg && (
+        <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} />
+      )}
       <Box sx={{
-        top: 0, position: 'relative', left: '50%', transform: 'translate(-50%, 0)',
+        position: 'relative',
+        top: 0, left: '50%', transform: 'translate(-50%, 0)',
         border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
         boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
-        backgroundColor: !data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff',
-        backgroundImage: !data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'),
+        backgroundColor: isBackgroundImg ? 'transparent' : (!data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff'),
+        backgroundImage: isBackgroundImg ? undefined : (!data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff')),
         maxWidth: isWide ? '475px' : '100%', minHeight, overflowX: 'hidden'
       }}>
+
         <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
-          {data.backgroundType === 'image' && micrositeBackImage && (
-            <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} />
-          )}
           {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
             <Box sx={{
               width: '100%',

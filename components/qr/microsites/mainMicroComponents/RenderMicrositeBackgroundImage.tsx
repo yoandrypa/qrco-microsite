@@ -3,9 +3,10 @@ import Box from "@mui/material/Box";
 interface Props {
   micrositeBackImage?: any;
   data?: any;
+  height: string;
 }
 
-export default function RenderMicrositeBackgroundImage({micrositeBackImage, data}: Props) {
+export default function RenderMicrositeBackgroundImage({micrositeBackImage, data, height}: Props) {
   return (
     <Box
       component="img"
@@ -15,8 +16,8 @@ export default function RenderMicrositeBackgroundImage({micrositeBackImage, data
         position: 'fixed',
         top: 0,
         left: 0,
-        height: '100%',
-        zIndex: -1,
+        height,
+        zIndex: -10,
         marginLeft: '50%',
         transform: 'translateX(-50%)',
         opacity: data.micrositeBackImageOpacity !== undefined ? data.micrositeBackImageOpacity : 1,
