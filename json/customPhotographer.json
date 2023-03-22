@@ -11,7 +11,7 @@
     "updatedAt": "2023-03-08T04:00:22.590Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
     "createdAt": "2023-03-08T04:00:22.589Z",
-    "visitCount": 10,
+    "visitCount": 13,
     "address": "OsEkXn",
     "paused": false,
     "type": "qr_link"
@@ -160,6 +160,7 @@
   "titlesFontStyle": "b",
   "footerKind": "custom",
   "secondary": "#b0bec5",
+  "sectionDescFontStyle": "",
   "qrName": "Sample Custom",
   "messagesFontStyle": "",
   "createdAt": "2023-03-08T04:00:22.591Z",
@@ -170,8 +171,9 @@
       "Key": "customs/design/customBan.jpg"
     }
   ],
+  "sectionTitleFontStyle": "b",
   "isDynamic": true,
-  "updatedAt": "2023-03-14T16:40:33.886Z",
+  "updatedAt": "2023-03-22T21:30:49.242Z",
   "buttonBackColor": "#120aaf|#99c4f0",
   "foregndImgType": "smooth",
   "backgroundColor": "#e9f8e9",

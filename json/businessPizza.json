@@ -12,24 +12,18 @@
     "updatedAt": "2023-03-20T20:34:23.911Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
     "createdAt": "2023-03-20T20:34:23.909Z",
-    "visitCount": 14,
+    "visitCount": 21,
     "address": "hD0XBQ",
     "paused": false,
     "type": "qr_link"
   },
   "buttonShape": "4",
+  "sectionTitleFontSize": "large",
   "custom": [
     {
       "data": {
-        "descriptionAbout": "Jenny's Pizza"
-      },
-      "component": "title"
-    },
-    {
-      "data": {
-        "titleAbout": "Watch the camera & say cheese",
-        "bottomSpacing": "medium",
-        "topSpacing": "narrow"
+        "titleAbout": "Jenny's Pizza",
+        "descriptionAbout": "Watch the camera & say cheese"
       },
       "component": "title"
     },
@@ -144,6 +138,7 @@
   "titlesFontStyle": "b#060606",
   "footerKind": "custom",
   "secondary": "#b0bec5",
+  "sectionDescFontStyle": "b",
   "qrName": "Business Sample 1",
   "messagesFontStyle": "b#090909",
   "createdAt": "2023-03-20T20:34:23.912Z",
@@ -153,9 +148,10 @@
       "Key": "business/design/BusinessPizzaBan.png"
     }
   ],
+  "sectionTitleFontStyle": "b",
   "buttonsSeparation": "medium",
   "isDynamic": true,
-  "updatedAt": "2023-03-20T22:08:43.037Z",
+  "updatedAt": "2023-03-22T21:01:56.222Z",
   "buttonBackColor": "#f6a46a",
   "micrositeBackImage": [
     {
@@ -164,5 +160,6 @@
     }
   ],
   "backgroundType": "image",
+  "sectionDescFontSize": "medium",
   "primary": "#212121"
 }

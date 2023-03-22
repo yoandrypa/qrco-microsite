@@ -9,7 +9,7 @@
     "updatedAt": "2023-03-16T19:31:50.473Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
     "createdAt": "2023-03-16T19:31:50.471Z",
-    "visitCount": 22,
+    "visitCount": 24,
     "address": "HYuMT3",
     "paused": false,
     "type": "qr_link"
@@ -21,20 +21,21 @@
       "Key": "petIds/design/petIdMiloMain.png"
     }
   ],
+  "sectionTitleFontSize": "large",
   "custom": [
     {
       "data": {
         "petName": "Miloo",
+        "titleAbout": "Milo",
         "petYearOfBirth": "2",
-        "descriptionAbout": "Milo",
-        "petGender": "Male",
-        "topSpacing": "narrow"
+        "petGender": "Male"
       },
       "component": "title"
     },
     {
       "data": {
         "petName": "Milo",
+        "petYearOfBirth": "2019",
         "linksOnlyLinks": true,
         "petBreed": "Miniature Pinscher"
       },
@@ -107,14 +108,16 @@
   "titlesFontStyle": "b",
   "footerKind": "noFooter",
   "secondary": "#b0bec5",
+  "sectionDescFontStyle": "",
   "qrName": "Pet Id Sample",
   "messagesFontStyle": "",
   "createdAt": "2023-03-16T19:31:50.474Z",
   "layout": "nobanner",
   "profileImageSize": "medium",
   "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "b",
   "isDynamic": true,
-  "updatedAt": "2023-03-17T02:01:39.942Z",
+  "updatedAt": "2023-03-22T21:19:48.074Z",
   "buttonBackColor": "#059d29|#0a6b24",
   "micrositeBackImage": [
     {
