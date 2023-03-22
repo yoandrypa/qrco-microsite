@@ -11,7 +11,7 @@
     "updatedAt": "2023-03-09T21:07:02.971Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
     "createdAt": "2023-03-09T21:07:02.969Z",
-    "visitCount": 28,
+    "visitCount": 35,
     "address": "Ht8kYT",
     "paused": false,
     "type": "qr_link"
@@ -23,6 +23,7 @@
       "Key": "links/design/linksDancerMain.png"
     }
   ],
+  "sectionTitleFontSize": "large",
   "custom": [
     {
       "data": {
@@ -93,7 +94,7 @@
     "opacity": 50,
     "size": 1
   },
-  "buttonsFontStyle": "",
+  "buttonsFontStyle": "b",
   "buttonBorders": "15px 15px 15px 15px",
   "qrType": "link",
   "image": "",
@@ -102,6 +103,7 @@
   "titlesFontStyle": "b",
   "footerKind": "custom",
   "secondary": "#b0bec5",
+  "sectionDescFontStyle": "",
   "buttonShadow": true,
   "qrName": "Sample Link in bio",
   "messagesFontStyle": "",
@@ -112,8 +114,9 @@
       "Key": "links/design/linksBan.png"
     }
   ],
+  "sectionTitleFontStyle": "b",
   "isDynamic": true,
-  "updatedAt": "2023-03-14T19:41:34.645Z",
+  "updatedAt": "2023-03-22T21:27:16.722Z",
   "buttonBackColor": "#0f4d8c",
   "micrositeBackImage": [
     {
@@ -122,6 +125,7 @@
     }
   ],
   "backgroundType": "image",
+  "sectionDescFontSize": "medium",
   "globalFont": "Trebuchet",
   "primary": "#212121"
 }

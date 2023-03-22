@@ -10,7 +10,7 @@
     "updatedAt": "2023-03-16T21:03:44.474Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
     "createdAt": "2023-03-16T21:03:44.473Z",
-    "visitCount": 25,
+    "visitCount": 26,
     "address": "1OEI33",
     "paused": false,
     "type": "qr_link"
@@ -21,6 +21,7 @@
       "Key": "petIds/design/petIdSpikeMain.png"
     }
   ],
+  "sectionTitleFontSize": "large",
   "custom": [
     {
       "data": {
@@ -111,7 +112,7 @@
     "opacity": 50,
     "size": 1
   },
-  "buttonsFontStyle": "#ffffff",
+  "buttonsFontStyle": "b#ffffff",
   "qrType": "petId",
   "image": "",
   "userId": "506480d8-6957-498b-8955-c0efb99253a1",
@@ -119,14 +120,16 @@
   "titlesFontStyle": "b",
   "messagesFontSize": "large",
   "secondary": "#b0bec5",
+  "sectionDescFontStyle": "",
   "qrName": "Pet Id Sample 2",
   "messagesFontStyle": "",
   "createdAt": "2023-03-16T21:03:44.475Z",
   "layout": "nobanner",
   "profileImageSize": "medium",
   "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "b",
   "isDynamic": true,
-  "updatedAt": "2023-03-17T01:22:40.415Z",
+  "updatedAt": "2023-03-22T21:14:03.257Z",
   "buttonBackColor": "#0abe09",
   "micrositeBackImage": [
     {
