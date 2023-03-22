@@ -68,7 +68,8 @@ export default function Custom({newData}: any) {
 
     const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
     if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials'].includes(component)) {
-      sectStyle.width = 'calc(100% - 8px)';
+      sectStyle.width = 'calc(100% - 16px)';
+      sectStyle.px = '10px';
       sectStyle.ml = 1;
     }
 
@@ -89,7 +90,7 @@ export default function Custom({newData}: any) {
           {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
           {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled} alternate={newData.alternate}/>}
           {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
-          {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
+          {component === 'phones' && (data?.cell || data?.phone || data?.fax || data?.whatsapp) && <RenderPhones data={data} stylesData={styled}/>}
           {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
           {component === 'opening' && Object.keys(data?.openingTime || []).length ? <RenderOpeningTime data={data} stylesData={styled}/> : null}
           {component === 'socials' && <RenderSocials data={data} stylesData={styled} alternate={newData.alternate}/>}
