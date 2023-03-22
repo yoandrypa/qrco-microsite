@@ -34,7 +34,7 @@ export default function MainComponent({ newData }: any) {
     const handler = (event: any) => {
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
         try {
-          const data = typeof data === 'string' ? JSON.parse(event.data) : event.data;
+          const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
           if (data.previewData !== undefined) {
             setData(data.previewData);
           }
