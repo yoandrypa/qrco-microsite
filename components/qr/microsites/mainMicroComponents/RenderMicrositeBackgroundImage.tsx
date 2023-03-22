@@ -28,6 +28,7 @@ export default function RenderMicrositeBackgroundImage({micrositeBackImage, data
           top: 0,
           left: 0,
           height,
+          width,
           zIndex: -10,
           marginLeft: '50%',
           transform: 'translateX(-50%)',
