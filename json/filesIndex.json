@@ -167,6 +167,18 @@
       "file": "businessPizza",
       "name": "Pizza Business",
       "desc": "A mobile-friendly landing page for a pizza business"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linInBioCoffeeBusiness1",
+      "desc":"A way to share your business links",
+      "name":"Link in Bio"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linInBioCoffeeBusiness2",
+      "desc":"A way to share your business links",
+      "name":"Link in Bio"
     }
   ]
 }
