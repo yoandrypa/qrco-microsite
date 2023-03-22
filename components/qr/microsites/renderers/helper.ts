@@ -166,6 +166,8 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
   return {...style, fontSize: size, };
 }
 
+export const onlyNumeric = (value: string) => value.replace(/[^0-9.]/g, '');
+
 export const clearDataStyles = (newData: any) => {
   if (newData.custom !== undefined) {
     const cleared = {...newData};
