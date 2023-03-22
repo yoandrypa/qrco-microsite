@@ -8,9 +8,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { handleDesignerString } from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
 import MainMicrosite from "./qr/microsites/MainMicrosite";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import getTheme from "./theming/themeHelper";
-import {DEFAULT_COLORS} from "./qr/constants";
+import { DEFAULT_COLORS } from "./qr/constants";
 
 const Custom = dynamic(() => import("./qr/microsites/Custom"));
 const Donations = dynamic(() => import("./qr/microsites/Donations"));
@@ -34,7 +34,7 @@ export default function MainComponent({ newData }: any) {
     const handler = (event: any) => {
       if (event.origin === process.env.REACT_APP_QRCO_URL) {
         try {
-          const data = JSON.parse(event.data);
+          const data = typeof data === 'string' ? JSON.parse(event.data) : event.data;
           if (data.previewData !== undefined) {
             setData(data.previewData);
           }
@@ -60,8 +60,8 @@ export default function MainComponent({ newData }: any) {
         transform: "translate(-50%, -50%)",
       }}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-          <Typography sx={{mx: "auto"}}>{"Loading..."}</Typography>
-          <Typography sx={{color: theme => theme.palette.text.disabled, mx: "auto",}}>{"Please wait..."}</Typography>
+          <Typography sx={{ mx: "auto" }}>{"Loading..."}</Typography>
+          <Typography sx={{ color: theme => theme.palette.text.disabled, mx: "auto", }}>{"Please wait..."}</Typography>
         </Box>
       </Box>
     );
@@ -69,7 +69,7 @@ export default function MainComponent({ newData }: any) {
 
   const renderMicrositeComponent = () => {
     if (['donation', 'donations'].includes(data?.qrType)) {
-      return <Donations newData={data} />;
+      return <Donations data={data} />;
     }
 
     if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
@@ -100,13 +100,13 @@ export default function MainComponent({ newData }: any) {
   return (
     <>
       {!data && newData.isAnEmptyPreview ? (
-       <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-         <Typography sx={{ textAlign: 'center' }}>{'Preparing preview...'}</Typography>
+        <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+          <Typography sx={{ textAlign: 'center' }}>{'Preparing preview...'}</Typography>
         </Box>
       ) : (
         <ThemeProvider
           theme={createTheme(getTheme(data?.primary || DEFAULT_COLORS.p, data?.secondary || DEFAULT_COLORS.s, iframed.current))}>
-          <CssBaseline/>
+          <CssBaseline />
           {renderMicrositeComponent()}
         </ThemeProvider>
       )}
