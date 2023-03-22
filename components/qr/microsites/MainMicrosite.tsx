@@ -137,7 +137,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const minHeight = !containerDimensions ? '100vh' : '993px';
   const omitBanner = data.layout?.includes('banner') || false;
 
-  const size = useMemo(() => {
+  const renderProfile = () => {
     let size = 100 as number; // aims to the default size
 
     switch (data.profileImageSize) {
@@ -146,10 +146,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       case 'large': { size = 170; break; }
     }
 
-    return size;
-  }, [data.profileImageSize]);
-
-  const renderProfile = () => {
     let translation = Math.floor(size / 2);
     let profileHeight = translation - 20;
     let mb = 'unset';
@@ -229,8 +225,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     );
   }
 
-  const correctPos = useMemo(() => foreImg && (data.profileImageVertical === undefined || data.profileImageVertical === 'default'), [foreImg, data.profileImageVertical]);
-
   return (
     <>
       {error && (
@@ -259,65 +253,62 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'),
         maxWidth: isWide ? '475px' : '100%', minHeight, overflowX: 'hidden'
       }}>
-        {data.backgroundType === 'image' && micrositeBackImage && (
-          <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} />
-        )}
-        {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
-          <Box sx={{
-            width: '100%',
-            background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
-            height: '250px',
-            position: 'absolute',
-            bottom: 0
-          }} />
-        )}
-        {data.shortlinkurl !== undefined && (
-          <RWebShare data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}}>
-            <Fab
-              size="small" color="secondary" aria-label="add"
-              sx={{position: 'fixed', top: 147, right: 16, color:  theme => theme.palette.secondary.main,
-                backgroundColor:  theme => theme.palette.primary.main, border: 'solid 3px #fff',
-                '&:hover': {color:  theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}
-              }}>
-              <ShareIcon/>
-            </Fab>
-          </RWebShare>
-        )}
-        <Box
-          sx={{
-            backgroundClip: 'padding-box !important', width: isWide ? '475px' : '100%', left: isScrolling && foreImg ? '-2px' : 'unset',
-            marginLeft: '50%',
-            transform: 'translateX(-50%)',
-            height: `${!isInverse ? 200 : 228}px`, right: 0,
-            borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
-            borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
-            borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
-            borderRadius: isBorder || isSoft ? `${isBorder ? '24px 24px' : '0 0'} ${isSoft ? '24px 24px' : '0 0'}` : 'unset',
-            maskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
-            WebkitMaskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
-            background: theme => !backImg && !omitBanner ? theme.palette.primary.main : 'unset',
-            clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
-             'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
-            }}
-            component={backImg && !omitBanner ? 'img' : 'div'}
-            alt={!omitBanner ? "bannerImg" : undefined}
-            src={!omitBanner ? backImg?.content || backImg : undefined} />
-        {foreImg ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
-        <Box sx={{
-          backgroundClip: 'padding-box !important',
-          borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
-          borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
-          minHeight: `calc(${minHeight} - ${(data.footerKind !== 'noFooter' ? 27 : 0) + 180 + (minHeight === '100vh' ? (correctPos ? 10 : 2) : 0) +
-            (correctPos ? Math.floor(size / 2) : (foreImg ? 5 : 25))            
-          }px)`
-        }}>
-          {!data.layout?.includes('entire') ? children : (
-            <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)'}}>{children}</RenderSectWrapper>
+        <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
+          {data.backgroundType === 'image' && micrositeBackImage && (
+            <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} />
           )}
+          {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
+            <Box sx={{
+              width: '100%',
+              background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
+              height: '250px',
+              position: 'absolute',
+              bottom: 0
+            }} />
+          )}
+          {data.shortlinkurl !== undefined && (
+            <RWebShare data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}}>
+              <Fab
+                size="small" color="secondary" aria-label="add"
+                sx={{position: 'fixed', top: 147, right: 16, color:  theme => theme.palette.secondary.main,
+                  backgroundColor:  theme => theme.palette.primary.main, border: 'solid 3px #fff',
+                  '&:hover': {color:  theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}
+                }}>
+                <ShareIcon/>
+              </Fab>
+            </RWebShare>
+          )}
+          <Box
+            sx={{
+              backgroundClip: 'padding-box !important', width: isWide ? '475px' : '100%', left: isScrolling && foreImg ? '-2px' : 'unset',
+              marginLeft: '50%',
+              transform: 'translateX(-50%)',
+              height: `${!isInverse ? 200 : 228}px`, right: 0,
+              borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderRadius: isBorder || isSoft ? `${isBorder ? '24px 24px' : '0 0'} ${isSoft ? '24px 24px' : '0 0'}` : 'unset',
+              maskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
+              WebkitMaskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
+              background: theme => !backImg && !omitBanner ? theme.palette.primary.main : 'unset',
+              clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
+               'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
+              }}
+              component={backImg && !omitBanner ? 'img' : 'div'}
+              alt={!omitBanner ? "bannerImg" : undefined}
+              src={!omitBanner ? backImg?.content || backImg : undefined} />
+          {foreImg ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+          <Box sx={{
+            backgroundClip: 'padding-box !important',
+            borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+            borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
+          }}>
+            {!data.layout?.includes('entire') ? children : (
+              <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
+            )}
+          </Box>
         </Box>
-        {data.footerKind !== 'noFooter' && Boolean(qrType) && (
-          <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />
-        )}
+        {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
       </Box>
     </>
   );

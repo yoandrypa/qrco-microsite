@@ -6,6 +6,7 @@ import {useTheme} from "@mui/system";
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import {onlyNumeric} from "./helper";
 
 const Typography = dynamic(() => import("@mui/material/Typography"));
 const Box = dynamic(() => import("@mui/material/Box"));
@@ -67,7 +68,7 @@ export default function RenderField({label, value, icon, link, sx, phone, fax, e
     } else if (fax) {
       url = `fax:${value}`;
     } else if (whatsapp) {
-      url = `https://wa.me/${value}`;
+      url = `https://wa.me/${onlyNumeric(value)}`;
     } else if (email) {
       url = `mailto:${value}`;
     } else if (link && !url.toLowerCase().startsWith('https://') && !url.toLowerCase().startsWith('http://')) {

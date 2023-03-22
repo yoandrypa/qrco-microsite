@@ -13,7 +13,7 @@ import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import {CustomProps, getSeparation, handleButtons, handleFont} from "../renderers/helper";
+import {CustomProps, getSeparation, handleButtons, handleFont, onlyNumeric} from "../renderers/helper";
 import Button from "@mui/material/Button";
 
 interface RenderSocialsProps extends CustomProps {
@@ -64,6 +64,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
       }
       case 'whatsapp': {
         url = 'https://wa.me/';
+        value = onlyNumeric(value);
         break;
       }
       case 'telegram': {
