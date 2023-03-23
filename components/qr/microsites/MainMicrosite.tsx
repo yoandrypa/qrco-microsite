@@ -39,6 +39,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const isWide: boolean = useMediaQuery("(min-width:490px)", {noSsr: true});
 
   const counter = useRef<number>(0);
+  const baseURL = useRef<string>('');
 
   const getFiles = async (key: string, item: string) => {
     try {
@@ -115,6 +116,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }, [data.backgndImg, data.foregndImg, data.micrositeBackImage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    baseURL.current = window.location.href;
+
     if (window.top !== window) {
       const width = window.innerWidth - 4;
       const height = window.innerHeight;
@@ -272,7 +275,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             }} />
           )}
           {data.shortlinkurl !== undefined && (
-            <RWebShare data={{text: "(Shared from theqr.link)", url: data.shortlinkurl, title: "The QR Link"}}>
+            <RWebShare data={{text: "Shared from QRLynk", url: baseURL.current, title: "Share this QRLynk"}}>
               <Fab
                 size="small" color="secondary" aria-label="add"
                 sx={{position: 'fixed', top: 147, right: 16, color:  theme => theme.palette.secondary.main,
