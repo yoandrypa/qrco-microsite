@@ -1,28 +1,55 @@
 import React from "react";
+import messaging from "@ebanux/ebanux-utils/messaging";
+import { createAxiosInstance } from "@ebanux/ebanux-utils/request";
 
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography';
-import CofeeIcon from '@mui/icons-material/Coffee';
-import SvgIcon from '@mui/material/SvgIcon'
-import Button from '@mui/material/Button';
 
 import MainMicroSite from "../MainMicrosite";
-import CountField from "./CountField";
+import QuantityField from "./QuantityField";
 
 import { handleFont } from "../renderers/helper";
 import { DonationsProps } from "./types";
 
+import Notification, { setError } from "../../../Notification";
+import Waiting, { startWaiting, releaseWaiting } from "../../../Waiting";
+import AmountUnits from "./AmountUnits";
+import ButtonDonate from "./ButtonDonate";
+
+const getTotalAmount = (data: any): number => (data.donationUnitAmount || 1) * (data.quantity || 1);
+
 export default function BeforeDonation({ data }: DonationsProps) {
-  const onDonate = async () => window.open(data.payLynk.url, '_blank');
-  const onChangeCount = (value) => {
-    data.quantity = value;
-    console.log(data);
+  const onDonate = async () => {
+    const callbackUrl = window.location.href.replace(/\?.*/, '');
+    const axios = createAxiosInstance(`${process.env.PAYLINK_BASE_URL}/api/v2.0`, false);
+
+    startWaiting();
+    axios.post('checkout/sessions', {
+      mode: 'payment',
+      submit_type: 'donate',
+      success_url: `${callbackUrl}?thanks=1`,
+      cancel_url: callbackUrl,
+      line_items: [{ price: data.priceId, quantity: data.quantity }],
+      ownerId: data.ownerId,
+    }).then(({ data: { result: checkoutSession } }) => {
+      window.open(checkoutSession.url, '_blank');
+    }).catch((ex: any) => {
+      setError(ex);
+    }).finally(() => {
+      releaseWaiting();
+    });
   }
-  console.log(11,data);
+
+  const onChangeQuantity = (value) => {
+    data.quantity = value;
+    messaging.emitMessage('setTotalAmount', getTotalAmount(data));
+  }
 
   return (
     <MainMicroSite data={data}>
+      <Notification />
+      <Waiting />
       <CardContent sx={{ height: '100%' }}>
         <Grid container textAlign='center' justifyContent="center" alignItems="center" spacing={1}>
           <Grid item xs={12}>
@@ -31,33 +58,23 @@ export default function BeforeDonation({ data }: DonationsProps) {
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sx={{ m: 2, p: 0, ...handleFont(data, 'm') }}>
+          <Grid item xs={12} sx={{ m: 2, p: '0 !important', ...handleFont(data, 'm') }}>
             <Typography sx={{ ...handleFont(data, 'm') }}>{data?.message}</Typography>
           </Grid>
 
-          <Grid item xs={3} sx={{ textAlign: 'center' }}>
-            <Grid container>
-              <Grid item xs={12}>
-                <SvgIcon sx={{ width: 35, height: 35 }}>
-                  <CofeeIcon color='primary' />
-                </SvgIcon>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography sx={{ ...handleFont(data, 'm') }}>${data.donationUnitAmount || 1}</Typography>
-              </Grid>
-            </Grid>
+          <Grid item xs={5} sx={{ p: '0 !important' }}>
+            <AmountUnits amount={data.donationUnitAmount || 1} coffeeSize={40} sx={{ ...handleFont(data, 'm') }} />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} sx={{ p: '0 !important' }}>
             <Typography textAlign='center' sx={{ ...handleFont(data, 'm') }}>x</Typography>
           </Grid>
-          <Grid item xs={7} sx={{ textAlign: 'left' }}>
-            <CountField value={data.quantity || 1} onChange={onChangeCount} />
+          <Grid item xs={5} sx={{ p: '0 !important' }}>
+            <QuantityField value={data.quantity || 1} onChange={onChangeQuantity} />
           </Grid>
 
           <Grid item xs={12} sx={{ mt: 2, textAlign: 'center' }}>
-            <Button variant="contained" sx={{ borderRadius: 45, ...handleFont(data, 'b') }} onClick={onDonate}>
-              {data.urlOptionLabel || 'Donate'}
-            </Button>
+            <ButtonDonate label={data.urlOptionLabel} sx={{ ...handleFont(data, 'b') }} onClick={onDonate}
+                          totalAmount={getTotalAmount(data)} />
           </Grid>
         </Grid>
       </CardContent>
