@@ -177,8 +177,53 @@ export const clearDataStyles = (newData: any) => {
   return newData;
 }
 
-export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
+const getBorder = (data: any) => !data?.buttonBorderWeight || data.buttonBorderWeight === 'thin' ? 1 : (data.buttonBorderWeight === 'normal' ? 5 : 10);
+const buttonBackHandler = (data: any, theme: any) => {
   const style = {} as any;
+  if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
+    if (data.buttonBack === 'solid') {
+      style.background = data.buttonBackColor || DEFAULT_COLORS.s;
+      style['&:hover'] = {background: data.buttonBackColor || DEFAULT_COLORS.s}
+    } else if (data.buttonBack === 'two') {
+      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
+      style.background = colors ? colors[0] : DEFAULT_COLORS.p;
+      style['&:hover'] = {background: colors ? colors[1] : DEFAULT_COLORS.s};
+    } else if (data.buttonBack === 'gradient') {
+      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
+      let angle = '180deg';
+      let color1 = DEFAULT_COLORS.p;
+      let color2 = DEFAULT_COLORS.s;
+      if (colors) {
+        color1 = colors[0];
+        if (colors[1].includes('@')) {
+          const x = colors[1].split('@');
+          color2 = x[0];
+          angle = x[1];
+        } else {
+          color2 = colors[1];
+        }
+      }
+      style.backgroundImage = `linear-gradient(${angle}, ${color1}, ${color2})`;
+      style['&:hover'] = {backgroundImage: `linear-gradient(${angle}, ${color2}, ${color1})`};
+    }
+  } else {
+    style.background = theme.palette.secondary.main;
+    style['&:hover'] = {background: theme.palette.primary.main};
+    if (!data?.buttonsFontStyle?.includes('#')) {
+      style['&:hover'].color = theme.palette.secondary.main;
+    }
+  }
+  return style;
+};
+const getBtnTextColor = (data: any, theme: any) => {
+  if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) {
+    return `#${data.buttonsFontStyle.split('#')[1]}`;
+  }
+  return theme.palette.primary.main;
+}
+
+export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
+  let style = {} as any;
   if (data?.buttonShape !== undefined && data.buttonShape !== '1') {
     const {buttonShape} = data;
     if (buttonShape !== undefined && buttonShape !== '0') {
@@ -221,52 +266,81 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
     style.borderRadius = '8px';
   }
 
-  if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
-    if (data.buttonBack === 'solid') {
-      style.background = data.buttonBackColor || DEFAULT_COLORS.s;
-      style['&:hover'] = {background: data.buttonBackColor || DEFAULT_COLORS.s}
-    } else if (data.buttonBack === 'two') {
-      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
-      style.background = colors ? colors[0] : DEFAULT_COLORS.p;
-      style['&:hover'] = {background: colors ? colors[1] : DEFAULT_COLORS.s};
-    } else if (data.buttonBack === 'gradient') {
-      const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
-      let angle = '180deg';
-      let color1 = DEFAULT_COLORS.p;
-      let color2 = DEFAULT_COLORS.s;
-      if (colors) {
-        color1 = colors[0];
-        if (colors[1].includes('@')) {
-          const x = colors[1].split('@');
-          color2 = x[0];
-          angle = x[1];
-        } else {
-          color2 = colors[1];
-        }
+  style.color = getBtnTextColor(data, theme);
+
+  if (!data?.buttonShadowDisplacement) {
+    const backStyle = buttonBackHandler(data, theme);
+    style = {...style, ...backStyle};
+    if (data?.buttonsOpacity !== undefined && style.background) {
+      style.background = alpha(style.background, data.buttonsOpacity);
+      if (style['&:hover'] !== undefined) {
+        style['&:hover'].background = alpha(style['&:hover'].background, data.buttonsOpacity);
       }
-      style.backgroundImage = `linear-gradient(${angle}, ${color1}, ${color2})`;
-      style['&:hover'] = {backgroundImage: `linear-gradient(${angle}, ${color2}, ${color1})`};
     }
   } else {
-    style.background = theme.palette.secondary.main;
-    style['&:hover'] = {background: theme.palette.primary.main};
-    if (!data?.buttonsFontStyle?.includes('#')) {
-      style['&:hover'].color = theme.palette.secondary.main;
+    const backStyle = buttonBackHandler(data, theme);
+    const borderWidth = getBorder(data);
+
+    style.background = '#ffffff00';
+    style.position = 'relative';
+    style.zIndex = undefined;
+    style.mb = `${borderWidth + 5}px`;
+
+    const handleCorrection = (): string => {
+      let value = 7;
+      if (borderWidth === 5) {
+        value = 8;
+      } else if (borderWidth === 10) {
+        value = 9;
+      }
+      return `${value}px`;
+    }
+
+    let top = handleCorrection();
+    let left = handleCorrection();
+
+    switch (data.buttonShadowDisplacement) {
+      case 'upLeft': {
+        top = `-${handleCorrection()}`;
+        left = `-${handleCorrection()}`;
+        break;
+      }
+      case 'upRight': {
+        top = `-${handleCorrection()}`;
+        left = handleCorrection();
+        break;
+      }
+      case 'downLeft': {
+        top = handleCorrection();
+        left = `-${handleCorrection()}`;
+      }
+    }
+
+
+    const after = {
+      background: backStyle.background,
+      backgroundImage: backStyle.backgroundImage,
+      content: '""',
+      position: 'absolute',
+      top,
+      left,
+      width: `calc(100% + ${borderWidth}px)`,
+      height: `calc(100% + ${borderWidth}px)`,
+      borderRadius: 'inherit',
+      zIndex: -1,
+      boxSizing: 'border-box'
+    };
+
+    style['&:after'] = {...after};
+    style['&:hover'] = {
+      color: backStyle['&:hover']?.color,
+      background: style.background, // same as the button, an empty background
+      '&:after': {...after, background: backStyle['&:hover']?.background, backgroundImage: backStyle['&:hover']?.backgroundImage }
     }
   }
-  if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) {
-    style.color = `#${data.buttonsFontStyle.split('#')[1]}`;
-  } else {
-    style.color = theme.palette.primary.main;
-  }
-  if (data?.buttonsOpacity !== undefined && style.background) {
-    style.background = alpha(style.background, data.buttonsOpacity);
-    if (style['&:hover'] !== undefined) {
-      style['&:hover'].background = alpha(style['&:hover'].background, data.buttonsOpacity);
-    }
-  }
+
   if (data?.buttonBorderStyle !== undefined && data.buttonBorderStyle !== 'noBorders') {
-    style.border = `${!data?.buttonBorderType ? 'solid' : data.buttonBorderType} ${!data?.buttonBorderWeight || data.buttonBorderWeight === 'thin' ? 1 : (data.buttonBorderWeight === 'normal' ? 5 : 10)}px`;
+    style.border = `${!data?.buttonBorderType ? 'solid' : data.buttonBorderType} ${getBorder(data)}px`;
   }
   if (data?.buttonBorderStyle === 'two') {
     let colors = data.buttonBorderColors as string;
