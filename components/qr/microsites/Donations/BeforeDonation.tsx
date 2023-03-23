@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import messaging from "@ebanux/ebanux-utils/messaging";
 import { createAxiosInstance } from "@ebanux/ebanux-utils/request";
 
@@ -41,7 +41,7 @@ export default function BeforeDonation({ data }: DonationsProps) {
     });
   }
 
-  const onChangeQuantity = (value) => {
+  const onChangeQuantity = (value: number) => {
     data.quantity = value;
     messaging.emitMessage('setTotalAmount', getTotalAmount(data));
   }

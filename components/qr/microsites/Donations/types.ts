@@ -1,3 +1,5 @@
+import { MouseEvent } from "react";
+
 export interface DonationsProps {
   data: any;
 }
@@ -14,8 +16,8 @@ export interface AmountUnitsProps {
 }
 
 export interface ButtonDonateProps {
-  initTotalAmount: number;
-  onClick: Function
+  totalAmount: number;
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   label?: string;
   sx?: any;
 }
