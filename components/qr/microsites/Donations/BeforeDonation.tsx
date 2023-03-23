@@ -17,7 +17,7 @@ import Waiting, { startWaiting, releaseWaiting } from "../../../Waiting";
 import AmountUnits from "./AmountUnits";
 import ButtonDonate from "./ButtonDonate";
 
-const getTotalAmount = (data: any): number => (data.donationUnitAmount) * (data.quantity);
+const getTotalAmount = (data: any): number => (data.unitAmount) * (data.quantity);
 
 export default function BeforeDonation({ data }: DonationsProps) {
   const onDonate = async () => {
@@ -46,7 +46,7 @@ export default function BeforeDonation({ data }: DonationsProps) {
     messaging.emitMessage('setTotalAmount', getTotalAmount(data));
   }
 
-  data.donationUnitAmount = data.donationUnitAmount || 1;
+  data.unitAmount = data.unitAmount || 1;
   data.quantity = data.quantity || 1;
 
   return (
@@ -66,7 +66,7 @@ export default function BeforeDonation({ data }: DonationsProps) {
           </Grid>
 
           <Grid item xs={5} sx={{ p: '0 !important' }}>
-            <AmountUnits amount={data.donationUnitAmount} coffeeSize={40} sx={{ ...handleFont(data, 'm') }} />
+            <AmountUnits amount={data.unitAmount} coffeeSize={40} sx={{ ...handleFont(data, 'm') }} />
           </Grid>
           <Grid item xs={2} sx={{ p: '0 !important' }}>
             <Typography textAlign='center' sx={{ ...handleFont(data, 'm') }}>x</Typography>
