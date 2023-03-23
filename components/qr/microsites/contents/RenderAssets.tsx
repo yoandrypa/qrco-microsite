@@ -22,6 +22,7 @@ const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
 const RenderPreviewPdf = dynamic(() => import("../renderers/RenderPreviewPdf"));
 const PlayArrowIcon = dynamic(() => import("@mui/icons-material/PlayArrow"));
 const LibraryBooksIcon = dynamic(() => import("@mui/icons-material/LibraryBooks"));
+const WarningAmberIcon = dynamic(() => import("@mui/icons-material/WarningAmber"));
 
 export default function RenderAssets({ data, stylesData }: CustomProps) {
   const [preview, setPreview] = useState<FileType | string | null>(null);
@@ -190,9 +191,15 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
 
   return (
     <Box sx={{ p: 2 }}>
-      {data.files?.length !== files.current.length && <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
-        <Typography sx={{...handleFont(stylesData, 'm')}}>{`Loading ${data.files.length} item${data.files.length !== 1 ? 's' : ''}...`}</Typography>
+      {data.files && data.files?.length !== files.current.length && <Box sx={{ color: theme => theme.palette.secondary.main, textAlign: 'center' }}>
+        <Typography sx={{...handleFont(stylesData, 'm')}}>{`Loading ${data.files?.length} item${data.files?.length !== 1 ? 's' : ''}...`}</Typography>
       </Box>}
+      {!data.files?.length && (
+        <Box sx={{width: '100%', textAlign: 'center'}}>
+          <WarningAmberIcon color="warning" fontSize="large" />
+          <Typography sx={{...handleFont(stylesData, 'm')}}>{`No ${data.qrType} files...`}</Typography>
+        </Box>
+      )}
       {renderAssets()}
       {preview && (
         <RenderPreview
