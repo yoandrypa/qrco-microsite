@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 
 import Grid from "@mui/material/Grid";
 import Button from '@mui/material/Button';
@@ -29,7 +29,7 @@ export default function QuantityField({ value: initValue, onChange }: CountField
     }
   }
 
-  function onInputChange(e) {
+  function onInputChange(e: ChangeEvent<HTMLInputElement>) {
     const value = Math.min(maxValue, parseInt(e.target.value || '1', 10));
     setValue(value);
     onChange(value);

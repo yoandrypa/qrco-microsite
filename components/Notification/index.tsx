@@ -44,7 +44,8 @@ const Index = () => {
       message = notification;
       severity = 'info';
     } else if (notification instanceof Error) {
-      message = notification['response']?.data.message || notification.message;
+      // @ts-ignore
+      message = notification.response?.data.message || notification.message;
       severity = 'error';
     } else {
       message = notification.message;
