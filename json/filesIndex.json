@@ -170,15 +170,33 @@
     },
     {
       "type":"link-in-bio",
-      "file":"linInBioCoffeeBusiness1",
+      "file":"linkInBioCoffeeBusiness1",
       "desc":"A way to share your business links",
       "name":"Link in Bio"
     },
     {
       "type":"link-in-bio",
-      "file":"linInBioCoffeeBusiness2",
+      "file":"linkInBioCoffeeBusiness2",
       "desc":"A way to share your business links",
       "name":"Link in Bio"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioCoffeeBusiness3",
+      "desc":"A way to share your business links",
+      "name":"Link in Bio"
+    },
+    {
+      "type":"audio",
+      "file":"audioMattDj",
+      "desc":"Share you favorite audio track together with links, social media and more",
+      "name":"Audio"
+    },
+    {
+      "type": "donation",
+      "file": "donationLove&Colors",
+      "name": "Donation",
+      "desc": "A kindly invitation to make a donation"
     }
   ]
 }

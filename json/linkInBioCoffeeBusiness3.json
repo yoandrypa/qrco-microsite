@@ -1,0 +1,137 @@
+{
+  "titlesFontSize": "large",
+  "buttonBorderStyle": "two",
+  "customFooter": "Keep calm & drink coffee",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/31dc67e4-f844-42dd-b51d-7b95fa59e39d",
+    "updatedAt": "2023-03-21T00:26:05.218Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-03-21T00:26:05.216Z",
+    "visitCount": 23,
+    "address": "sgiPsw",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonBorderColors": "#fff|#1d1e1f",
+  "foregndImg": [
+    {
+      "name": "businessCoffeeMain3.png",
+      "Key": "links/design/businessCoffeeMain3.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "buttonBorderWeight": "thin",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Brewtopia",
+        "bottomSpacing": "wide",
+        "descriptionAbout": "Discover the paradise of specialty coffee at Brewtopia"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "https://example.com",
+            "network": "instagram"
+          },
+          {
+            "value": "https://example.com",
+            "network": "twitter"
+          },
+          {
+            "value": "https://example.com",
+            "network": "linkedin"
+          }
+        ],
+        "bottomSpacing": "wide"
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://example.com",
+            "label": "Digital menu"
+          },
+          {
+            "link": "https://example.com",
+            "label": "Store"
+          },
+          {
+            "link": "https://example.com",
+            "label": "Podcast"
+          },
+          {
+            "link": "https://example.com",
+            "label": "Youtube channel"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "medium",
+        "topSpacing": "medium"
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "zip": "12345",
+        "country": "US",
+        "address": "123 Main Street",
+        "state": "CA",
+        "city": "Anytown"
+      },
+      "component": "address"
+    }
+  ],
+  "buttonsOpacity": 0.33,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b#ffffff",
+  "buttonBorderType": "solid",
+  "qrType": "link",
+  "image": "",
+  "buttonsFontSize": "medium",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "subtitlesFontSize": "default",
+  "titlesFontStyle": "b#ffffff",
+  "footerKind": "custom",
+  "messagesFontSize": "large",
+  "secondary": "#0a0a0a",
+  "sectionDescFontStyle": "b#ffffff",
+  "buttonShadow": true,
+  "qrName": "Coffee 3",
+  "messagesFontStyle": "#ffffff",
+  "createdAt": "2023-03-21T00:26:05.219Z",
+  "layout": "nobannerLeft",
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "b#ffffff",
+  "buttonsSeparation": "medium",
+  "isDynamic": true,
+  "updatedAt": "2023-03-23T15:34:17.772Z",
+  "micrositeBackImage": [
+    {
+      "name": "businessCoffeeBg3.png",
+      "Key": "links/design/businessCoffeeBg3.png"
+    }
+  ],
+  "backgroundType": "image",
+  "globalFont": "Courier",
+  "primary": "#fff"
+}
