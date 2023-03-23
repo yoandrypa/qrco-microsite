@@ -284,7 +284,8 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
     style.background = '#ffffff00';
     style.position = 'relative';
     style.zIndex = undefined;
-    style.mb = `${borderWidth + 5}px`;
+    style.m = `${borderWidth + 7}px`;
+    style.width = `calc(100% - ${style.m})`;
 
     const handleCorrection = (): string => {
       let value = 7;
@@ -315,7 +316,6 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
         left = `-${handleCorrection()}`;
       }
     }
-
 
     const after = {
       background: backStyle.background,
