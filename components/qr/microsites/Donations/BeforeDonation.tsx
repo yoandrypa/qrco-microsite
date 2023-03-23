@@ -17,7 +17,7 @@ import Waiting, { startWaiting, releaseWaiting } from "../../../Waiting";
 import AmountUnits from "./AmountUnits";
 import ButtonDonate from "./ButtonDonate";
 
-const getTotalAmount = (data: any): number => (data.donationUnitAmount || 1) * (data.quantity || 1);
+const getTotalAmount = (data: any): number => (data.donationUnitAmount) * (data.quantity);
 
 export default function BeforeDonation({ data }: DonationsProps) {
   const onDonate = async () => {
@@ -46,6 +46,9 @@ export default function BeforeDonation({ data }: DonationsProps) {
     messaging.emitMessage('setTotalAmount', getTotalAmount(data));
   }
 
+  data.donationUnitAmount = data.donationUnitAmount || 1;
+  data.quantity = data.quantity || 1;
+
   return (
     <MainMicroSite data={data}>
       <Notification />
@@ -63,13 +66,13 @@ export default function BeforeDonation({ data }: DonationsProps) {
           </Grid>
 
           <Grid item xs={5} sx={{ p: '0 !important' }}>
-            <AmountUnits amount={data.donationUnitAmount || 1} coffeeSize={40} sx={{ ...handleFont(data, 'm') }} />
+            <AmountUnits amount={data.donationUnitAmount} coffeeSize={40} sx={{ ...handleFont(data, 'm') }} />
           </Grid>
           <Grid item xs={2} sx={{ p: '0 !important' }}>
             <Typography textAlign='center' sx={{ ...handleFont(data, 'm') }}>x</Typography>
           </Grid>
           <Grid item xs={5} sx={{ p: '0 !important' }}>
-            <QuantityField value={data.quantity || 1} onChange={onChangeQuantity} />
+            <QuantityField value={data.quantity} onChange={onChangeQuantity} />
           </Grid>
 
           <Grid item xs={12} sx={{ mt: 2, textAlign: 'center' }}>
