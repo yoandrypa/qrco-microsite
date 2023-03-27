@@ -77,7 +77,11 @@ export default function Custom({newData}: any) {
       <Box sx={{width: '100%'}}>
         {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
           && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-          <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
+          <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
+                          centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon}
+                          customFont={!data?.customFont ? undefined : {
+                            headlineFont: data.headlineFont, headlineFontSize: data.headlineFontSize, headLineFontStyle: data.headLineFontStyle
+                          }} />
         }
         <Box sx={sectStyle}>
           {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
