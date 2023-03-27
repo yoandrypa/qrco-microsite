@@ -57,13 +57,15 @@ export function handleDownloadFiles(data: FileType | string, kind: string) {
  * kind = t: title, s: subtitle, m: message, b: button, T: section Title title, S: section Title subtitle
  * @param data
  * @param kind
+ * @param headline (optional, only for headline)
  */
-export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
+export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b',
+                           headline?: {headlineFont?: string, headlineFontSize?: string, headLineFontStyle?: string}) {
   let property: string;
   let size = '20px';
 
   const handleSize = (item: string): void => {
-    if (!data?.[item] || data[item] === 'default') {
+    if (headline?.headlineFontSize === undefined && (!data?.[item] || data[item] === 'default')) {
       switch (item) {
         case 'sectionTitleFontSize': { size = '28px'; break; }
         case 'sectionDescFontSize': { size = '26px'; break; }
@@ -71,7 +73,7 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
         case 'subtitlesFontSize': { size = '22px'; break; }
         default: { size = '20px'; break; }
       }
-    } else if (data[item] === 'small') {
+    } else if (headline?.headlineFontSize === 'small' || data[item] === 'small') {
       switch (item) {
         case 'sectionTitleFontSize': { size = '26px'; break; }
         case 'sectionDescFontSize': { size = '24px'; break; }
@@ -79,7 +81,7 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
         case 'subtitlesFontSize': { size = '20px'; break; }
         default: { size = '18px'; break; }
       }
-    } else if (data[item] === 'medium') {
+    } else if (headline?.headlineFontSize === 'medium' || data[item] === 'medium') {
       switch (item) {
         case 'sectionTitleFontSize': { size = '30px'; break; }
         case 'sectionDescFontSize': { size = '28px'; break; }
@@ -87,7 +89,7 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
         case 'subtitlesFontSize': { size = '24px'; break; }
         default: { size = '22px'; break; }
       }
-    } else if (data[item] === 'large') {
+    } else if (headline?.headlineFontSize === 'large' || data[item] === 'large') {
       switch (item) {
         case 'sectionTitleFontSize': { size = '34px'; break; }
         case 'sectionDescFontSize': { size = '32px'; break; }
@@ -110,55 +112,57 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b') {
     case 'T': {
       property = 'sectionTitleFontStyle';
       handleSize('sectionTitleFontSize'); // @ts-ignore
-      style.fontFamily = data && FONTS[data.sectionTitleFont || data.globalFont] || 'unset';
+      style.fontFamily = data && (FONTS[data.sectionTitleFont || data.globalFont] || 'unset');
       break;
     }
     case 'S': {
       property = 'sectionDescFontStyle';
       handleSize('sectionDescFontSize'); // @ts-ignore
-      style.fontFamily = data && FONTS[data.sectionDescFont || data.globalFont] || 'unset';
+      style.fontFamily = data && (FONTS[data.sectionDescFont || data.globalFont] || 'unset');
       break;
     }
     case 't': {
       property = 'titlesFontStyle';
       handleSize('titlesFontSize'); // @ts-ignore
-      style.fontFamily = data && FONTS[data.titlesFont || data.globalFont] || 'unset';
+      style.fontFamily = headline?.headlineFont ? FONTS[headline.headlineFont] : (data && (FONTS[data.titlesFont || data.globalFont] || 'unset'));
       break;
     }
     case 's': {
       property = 'subtitlesFontStyle';
       handleSize('subtitlesFontSize'); // @ts-ignore
-      style.fontFamily = data && FONTS[data.subtitlesFont || data.globalFont] || 'unset';
+      style.fontFamily = data && (FONTS[data.subtitlesFont || data.globalFont] || 'unset');
       break;
     }
     case 'b': {
       property = 'buttonsFontStyle';
       handleSize('buttonsFontSize'); // @ts-ignore
-      style.fontFamily = data && FONTS[data.buttonsFont || data.globalFont] || 'unset';
+      style.fontFamily = data && (FONTS[data.buttonsFont || data.globalFont] || 'unset');
       break;
     }
     default : {
       property = 'messagesFontStyle';
       handleSize('messagesFontSize'); // @ts-ignore
-      style.fontFamily = data && FONTS[data.messagesFont || data.globalFont] || 'unset';
+      style.fontFamily = data && (FONTS[data.messagesFont || data.globalFont] || 'unset');
       break;
     }
   }
 
-  if (data?.[property] !== undefined) {
-    if (data[property].includes('#') && (property !== 'buttonsFontStyle' || !data[property].endsWith('#-1'))) {
-      style.color = `#${data[property].split('#')[1]}`;
+  const textStyle = headline?.headLineFontStyle || data?.[property];
+
+  if (textStyle !== undefined) {
+    if (textStyle.includes('#') && (property !== 'buttonsFontStyle' || !textStyle.endsWith('#-1'))) {
+      style.color = `#${textStyle.split('#')[1]}`;
     }
-    if (data[property].includes('b')) {
+    if (textStyle.includes('b')) {
       style.fontWeight = 'bold';
     }
-    if (data[property].includes('i')) {
+    if (textStyle.includes('i')) {
       style.fontStyle = 'italic';
     }
-    if (data[property].includes('u')) {
+    if (textStyle.includes('u')) {
       style.textDecoration = 'underline';
     }
-  } else if (['t', 's'].includes(kind)) {
+  } else if (['t', 's'].includes(kind) && !headline) {
     style.fontWeight = 'bold';
   }
 

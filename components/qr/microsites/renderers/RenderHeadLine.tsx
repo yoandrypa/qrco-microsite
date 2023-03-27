@@ -33,17 +33,34 @@ const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'))
 interface HeadLineProps {
   component: string;
   headLine?: string;
+  hideIcon?: boolean;
   stylesData: object;
   centerHeadLine?: boolean;
+  customFont?: {
+    headlineFont?: string;
+    headlineFontSize?: string;
+    headLineFontStyle?: string;
+  }
 }
 
-export default function RenderHeadLine({component, headLine, stylesData, centerHeadLine}: HeadLineProps) {
+export default function RenderHeadLine(
+  {component, headLine, stylesData, centerHeadLine, hideIcon, customFont}
+    : HeadLineProps) {
   const message = useRef<string | null>(null);
 
   const theme = useTheme();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const sx = useMemo(() => ({color: theme.palette.primary.main, mt: '5px', mr: '5px'}), []);
+  const sx = useMemo(() => {
+    let size = undefined as undefined | string;
+    if (customFont?.headlineFontSize) {
+      switch (customFont.headlineFontSize) {
+        case 'small' : { size = '22px'; break; }
+        case 'medium' : { size = '26px'; break; }
+        case 'large' : { size = '30px'; break; }
+      }
+    }
+    return {color: theme.palette.primary.main, mt: '5px', mr: '5px', width: size, height: size}
+  }, [customFont?.headlineFontSize]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderIcon = () => {
     switch (component) {
@@ -108,8 +125,12 @@ export default function RenderHeadLine({component, headLine, stylesData, centerH
 
   return (
     <Box sx={{display: 'flex', mt: 1, justifyContent: !Boolean(centerHeadLine) ? 'left' : 'center'}}>
-      <Box>{renderIcon()}</Box>
-      <Typography sx={{...handleFont(stylesData, 't')}}>
+      {!hideIcon && <Box>{renderIcon()}</Box>}
+      <Typography sx={{...handleFont(stylesData, 't', customFont !== undefined ? {
+        headlineFont: customFont.headlineFont,
+        headlineFontSize: customFont.headlineFontSize,
+        headLineFontStyle: customFont.headLineFontStyle
+      } : undefined)}}>
         {headLine || message.current || capitalize(component)}
       </Typography>
     </Box>
