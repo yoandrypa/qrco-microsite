@@ -1,4 +1,4 @@
-import {DEFAULT_COLORS, FONTS, SOCIALS} from "../../constants";
+import {FONTS, SOCIALS} from "../../constants";
 import {handleDesignerString} from "../../../../helpers/qr/helpers";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
@@ -186,17 +186,17 @@ const buttonBackHandler = (data: any, theme: any) => {
   const style = {} as any;
   if (data?.buttonBack !== undefined && data.buttonBack !== 'default') {
     if (data.buttonBack === 'solid') {
-      style.background = data.buttonBackColor || DEFAULT_COLORS.s;
-      style['&:hover'] = {background: data.buttonBackColor || DEFAULT_COLORS.s}
+      style.background = data.buttonBackColor || theme.palette.secondary.main;
+      style['&:hover'] = {background: data.buttonBackColor || theme.palette.selected.main}
     } else if (data.buttonBack === 'two') {
       const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
-      style.background = colors ? colors[0] : DEFAULT_COLORS.p;
-      style['&:hover'] = {background: colors ? colors[1] : DEFAULT_COLORS.s};
+      style.background = colors ? colors[0] : theme.palette.primary.main;
+      style['&:hover'] = {background: colors ? colors[1] : theme.palette.secondary.main};
     } else if (data.buttonBack === 'gradient') {
       const colors = data.buttonBackColor?.includes('|') ? data.buttonBackColor?.split('|') : undefined;
       let angle = '180deg';
-      let color1 = DEFAULT_COLORS.p;
-      let color2 = DEFAULT_COLORS.s;
+      let color1 = theme.palette.primary.main;
+      let color2 = theme.palette.secondary.main;
       if (colors) {
         color1 = colors[0];
         if (colors[1].includes('@')) {
@@ -219,6 +219,7 @@ const buttonBackHandler = (data: any, theme: any) => {
   }
   return style;
 };
+
 const getBtnTextColor = (data: any, theme: any) => {
   if (data?.buttonsFontStyle && data.buttonsFontStyle.includes('#')) {
     return `#${data.buttonsFontStyle.split('#')[1]}`;
@@ -348,7 +349,7 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
   }
   if (data?.buttonBorderStyle === 'two') {
     let colors = data.buttonBorderColors as string;
-    if (!colors) { colors = `${DEFAULT_COLORS.p}|${DEFAULT_COLORS.s}`; }
+    if (!colors) { colors = `${theme.palette.primary.main}|${theme.palette.secondary.main}`; }
     const cols = colors.split('|') as string[];
     style.borderColor = cols[0];
     style['&:hover'] = { borderColor: cols[1] };
