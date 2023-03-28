@@ -1,17 +1,14 @@
 import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
-import Fab from '@mui/material/Fab';
-import ShareIcon from '@mui/icons-material/Share';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {useMediaQuery} from "@mui/material";
 import {alpha} from "@mui/material/styles";
-
-import {RWebShare} from "react-web-share";
 import dynamic from "next/dynamic";
 
 import {download} from "../../../handlers/storage";
 import {handleFont} from "./renderers/helper";
 import {DEFAULT_COLORS} from "../constants";
+import RenderSharer from "./mainMicroComponents/RenderSharer";
 
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderFooter = dynamic(() => import("./mainMicroComponents/RenderFooter"));
@@ -253,6 +250,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       {isBackgroundImg && (
         <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
+      {data.shortlinkurl !== undefined && (data.sharerPosition === 'downLeft' || data.sharerPosition === 'downRight') && (
+        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} />
+      )}
       <Box sx={{
         position: 'relative',
         top: 0, left: '50%', transform: 'translate(-50%, 0)',
@@ -274,17 +274,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               bottom: 0
             }} />
           )}
-          {data.shortlinkurl !== undefined && (
-            <RWebShare data={{text: "Shared from QRLynk", url: baseURL.current, title: "Share this QRLynk"}}>
-              <Fab
-                size="small" color="secondary" aria-label="add"
-                sx={{position: 'fixed', top: 147, right: 16, color:  theme => theme.palette.secondary.main,
-                  backgroundColor:  theme => theme.palette.primary.main, border: 'solid 3px #fff',
-                  '&:hover': {color:  theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}
-                }}>
-                <ShareIcon/>
-              </Fab>
-            </RWebShare>
+          {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
+            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} />
           )}
           <Box
             sx={{
