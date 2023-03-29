@@ -44,7 +44,6 @@ interface CustomType {
 }
 
 export default function Custom({newData}: any) {
-  const isSections = Boolean(newData.layout?.startsWith('sections'));
   const styled = clearDataStyles(newData);
 
   const renderDownloadVCard = useCallback(() => (
@@ -132,7 +131,9 @@ export default function Custom({newData}: any) {
           }
           return (
             <Box sx={mainStyle} key={`key${x.expand || index}`}>
-              {!isSections ? renderComponent(x, index) : <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}}>{renderComponent(x, index)}</RenderSectWrapper>}
+              {!Boolean(newData.layout?.startsWith('sections')) ? renderComponent(x, index) : (
+                <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={newData.layout}>{renderComponent(x, index)}</RenderSectWrapper>
+              )}
             </Box>
           )}
         )}
