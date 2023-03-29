@@ -6,9 +6,10 @@ interface SharerProps {
   baseURL: string;
   position: string;
   height: string;
+  topHeight?: string;
 }
 
-export default function RenderSharer({baseURL, position, height}: SharerProps) {
+export default function RenderSharer({baseURL, position, height, topHeight}: SharerProps) {
   let pos: any;
 
   if (position === 'upLeft') {
@@ -21,6 +22,11 @@ export default function RenderSharer({baseURL, position, height}: SharerProps) {
     pos = {top: `calc(${height} - 52px)`, right: '16px'};
   } else {
     pos = {top: '147px', right: '16px'};
+    if (topHeight === 'medium') {
+      pos.top = '207px';
+    } else if (topHeight === 'wide') {
+      pos.top = '265px';
+    }
   }
 
   return (

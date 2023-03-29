@@ -6,9 +6,10 @@ import {alpha} from "@mui/material/styles";
 import dynamic from "next/dynamic";
 
 import {download} from "../../../handlers/storage";
-import {handleFont} from "./renderers/helper";
+import {DimsProps, handleFont} from "./renderers/helper";
 import {DEFAULT_COLORS} from "../constants";
 import RenderSharer from "./mainMicroComponents/RenderSharer";
+import RenderTop from "./mainMicroComponents/RenderTop";
 
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderFooter = dynamic(() => import("./mainMicroComponents/RenderFooter"));
@@ -19,10 +20,6 @@ const CircularProgress = dynamic(() => import("@mui/material/CircularProgress"))
 
 interface MicrositesProps {
   children: ReactNode; data: any;
-}
-
-interface DimsProps {
-  parentWidth: string; parentHeight: string;
 }
 
 export default function MainMicrosite({children, data}: MicrositesProps) {
@@ -69,10 +66,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const qrType = useMemo(() => data.type || data.qrType, []); // eslint-disable-line react-hooks/exhaustive-deps
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
-  const isInverse = useMemo(() => data.layout?.toLowerCase().includes('inverse'), [data.layout]);
-  const isSoft = useMemo(() => data.layout?.toLowerCase().includes('soft'), [data.layout]);
-
-  const isScrolling = containerDimensions && isBorder && window ? window.visualViewport?.width !== window.innerWidth : false;
 
   useEffect(() => {
     if (data.backgndImg) {
@@ -227,6 +220,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }
 
   const isBackgroundImg = useMemo(() => data.backgroundType === 'image' && Boolean(micrositeBackImage), [data.backgroundType, micrositeBackImage]);
+  console.log(data);
 
   return (
     <>
@@ -251,7 +245,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
       {data.shortlinkurl !== undefined && (data.sharerPosition === 'downLeft' || data.sharerPosition === 'downRight') && (
-        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} />
+        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} />
       )}
       <Box sx={{
         position: 'relative',
@@ -275,27 +269,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             }} />
           )}
           {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
-            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} />
+            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} />
           )}
-          <Box
-            sx={{
-              backgroundClip: 'padding-box !important', width, left: isScrolling && foreImg ? '-2px' : 'unset',
-              marginLeft: '50%',
-              transform: 'translateX(-50%)',
-              height: `${!isInverse ? 200 : 228}px`, right: 0,
-              borderTop: !isBorder ? 'unset' : 'solid 10px transparent',
-              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
-              borderRight: !isBorder ? 'unset' : 'solid 10px transparent',
-              borderRadius: isBorder || isSoft ? `${isBorder ? '24px 24px' : '0 0'} ${isSoft ? '24px 24px' : '0 0'}` : 'unset',
-              maskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
-              WebkitMaskImage: !data.layout?.includes('radient') ? 'unset' : 'linear-gradient(to bottom, rgba(255,255,255,1) 80%, rgba(0,0,0,0) 100%)',
-              background: theme => !backImg && !omitBanner ? theme.palette.primary.main : 'unset',
-              clipPath: !isInverse ? 'unset' : (!isBorder ? 'path("M 0 0 H 475 V 230 Q 465 201 440 200 L 35 200 Q 8 202 0 230 z")' :
-               'path("M 10 0 H 465 V 230 Q 465 201 440 200 L 35 200 Q 8 202 10 230 z")')
-              }}
-              component={backImg && !omitBanner ? 'img' : 'div'}
-              alt={!omitBanner ? "bannerImg" : undefined}
-              src={!omitBanner ? backImg?.content || backImg : undefined} />
+          <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
+                     isBorder={isBorder} omitBanner={omitBanner} data={data} />
           {foreImg ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
           <Box sx={{
             backgroundClip: 'padding-box !important',
