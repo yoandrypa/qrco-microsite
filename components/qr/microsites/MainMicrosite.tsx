@@ -220,7 +220,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }
 
   const isBackgroundImg = useMemo(() => data.backgroundType === 'image' && Boolean(micrositeBackImage), [data.backgroundType, micrositeBackImage]);
-  console.log(data);
 
   return (
     <>
