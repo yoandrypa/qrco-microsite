@@ -135,7 +135,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const minHeight = !containerDimensions ? '100vh' : '993px';
-  const omitBanner = data.layout?.includes('banner') || false;
+  const omitBanner = data.layout?.includes('banner') || data.layout?.includes('empty') || false;
   const width = isWide ? '475px' : '100%';
 
   const renderProfile = () => {
