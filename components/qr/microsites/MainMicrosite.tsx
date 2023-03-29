@@ -220,7 +220,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   }
 
   const isBackgroundImg = useMemo(() => data.backgroundType === 'image' && Boolean(micrositeBackImage), [data.backgroundType, micrositeBackImage]);
-  console.log(data);
 
   return (
     <>
@@ -280,7 +279,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
           }}>
             {!data.layout?.includes('entire') ? children : (
-              <RenderSectWrapper sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
+              <RenderSectWrapper layout={data.layout} sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
             )}
           </Box>
         </Box>
