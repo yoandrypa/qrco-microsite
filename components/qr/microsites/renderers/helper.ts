@@ -416,6 +416,9 @@ export const getSeparation = (value?: string, sections?: boolean): string => {
 }
 
 export interface CustomProps {
-  stylesData: any;
-  data?: any;
+  stylesData: any; data?: any;
+}
+
+export interface DimsProps {
+  parentWidth: string; parentHeight: string;
 }
