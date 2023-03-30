@@ -70,7 +70,7 @@ export default function Custom({newData}: any) {
     }
 
     const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
-    if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials'].includes(component)) {
+    if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials', 'donation'].includes(component)) {
       sectStyle.width = 'calc(100% - 16px)';
       sectStyle.px = '10px';
       sectStyle.ml = 1;
@@ -143,7 +143,7 @@ export default function Custom({newData}: any) {
     );
   }
 
-  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }) => component === 'couponInfo') : null;
+  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }: any) => component === 'couponInfo') : null;
   const badge = couponInfo?.data?.badge;
 
   return (

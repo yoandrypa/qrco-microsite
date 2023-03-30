@@ -71,7 +71,7 @@ const Index = () => {
   const autoHide = typeof closeOption === 'number';
 
   return (
-    <Snackbar open={open} spacing={2}
+    <Snackbar open={open}
               autoHideDuration={autoHide ? closeOption : undefined}
               onClose={autoHide ? closeHandle : undefined}
               sx={{ zIndex: 3000, width: "calc(100% - 24px)" }}

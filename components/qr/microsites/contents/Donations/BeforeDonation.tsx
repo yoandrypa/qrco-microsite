@@ -21,8 +21,6 @@ export default function BeforeDonation({ data, stylesData }: DonationsProps) {
   const onDonate = async () => {
     const callbackUrl = microSiteUrl();
 
-    console.log(data);
-
     startWaiting();
     payLynkRequest({
       url: 'checkout/sessions',
@@ -65,17 +63,17 @@ export default function BeforeDonation({ data, stylesData }: DonationsProps) {
       </Grid>
 
       <Grid item xs={5} sx={{ p: '0 !important' }}>
-        <AmountUnits amount={data.unitAmount} coffeeSize={40} sx={{ ...handleFont(stylesData, 'm') }} />
+        <AmountUnits amount={data.unitAmount} coffeeSize={40} stylesData={stylesData} />
       </Grid>
       <Grid item xs={2} sx={{ p: '0 !important' }}>
         <Typography textAlign='center' sx={{ ...handleFont(stylesData, 'm') }}>x</Typography>
       </Grid>
       <Grid item xs={5} sx={{ p: '0 !important' }}>
-        <QuantityField value={data.quantity} onChange={onChangeQuantity} />
+        <QuantityField value={data.quantity} stylesData={stylesData} onChange={onChangeQuantity} />
       </Grid>
 
       <Grid item xs={12} sx={{ mt: 2, textAlign: 'center' }}>
-        <ButtonDonate label={data.urlOptionLabel} sx={{ ...handleFont(stylesData, 'b') }} onClick={onDonate}
+        <ButtonDonate label={data.urlOptionLabel} stylesData={stylesData} onClick={onDonate}
                       totalAmount={getTotalAmount(data)} />
       </Grid>
     </Grid>

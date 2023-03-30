@@ -6,7 +6,7 @@ export function parseCodeFormUrl(url: string): string {
   return url.split('/').pop() as string
 }
 
-export async function getEmailRecipient(microSiteUrl: string, index?: number): Promise<string> {
+export async function getEmailRecipient(microSiteUrl: string, index: number): Promise<string> {
   const code = parseCodeFormUrl(microSiteUrl);
   const link = await queries.link.getByAddress(code);
   const qr: any = await queries.qr.getByLinkId(link);

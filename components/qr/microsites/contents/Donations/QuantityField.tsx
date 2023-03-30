@@ -4,16 +4,24 @@ import Grid from "@mui/material/Grid";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+import { useTheme } from "@mui/system";
 import { CountFieldProps } from "./types";
+import { handleButtons, handleFont } from "../../renderers/helper";
 
 const maxValue = 100;
 const btSize = 35;
-const btSx = { borderRadius: 45, backgroundColor: 'secondary.main', width: btSize, height: 24 };
-const clSx = { mr: `calc(50% - ${btSize}px)` };
-const inSx = { textAlign: 'center', width: 35, height: 16 };
 
-export default function QuantityField({ value: initValue, onChange }: CountFieldProps) {
+export default function QuantityField({ value: initValue, stylesData, onChange }: CountFieldProps) {
+  const theme = useTheme();
   const [value, setValue] = useState<number>(initValue);
+
+  const clSx = { mr: `calc(50% - ${btSize}px)` };
+  const inSx = { textAlign: 'center', width: 35, height: 16 };
+  const btSx = {
+    borderRadius: 45, backgroundColor: 'secondary.main', width: btSize, height: 24,
+    ...handleFont(stylesData, 'b'),
+    ...handleButtons(stylesData, theme),
+  };
 
   function onInc() {
     if (value < maxValue) {
