@@ -5,10 +5,10 @@ import BeforeDonation from "./BeforeDonation";
 
 import { DonationsProps } from "./types";
 
-export default function DonationsInfo({ data }: DonationsProps) {
+export default function DonationsInfo(props: DonationsProps) {
   const router = useRouter();
 
   const { thanks } = router.query;
 
-  return thanks ? <AfterDonation data={data} /> : <BeforeDonation data={data} />;
+  return thanks ? <AfterDonation {...props} /> : <BeforeDonation {...props} />;
 }

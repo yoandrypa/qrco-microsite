@@ -71,10 +71,10 @@ const Index = () => {
   const autoHide = typeof closeOption === 'number';
 
   return (
-    <Snackbar open={open}
+    <Snackbar open={open} spacing={2}
               autoHideDuration={autoHide ? closeOption : undefined}
               onClose={autoHide ? closeHandle : undefined}
-              sx={{ zIndex: 3000 }}
+              sx={{ zIndex: 3000, width: "calc(100% - 24px)" }}
               anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
       <Alert variant="standard" sx={{ width: "100%" }} severity={severity} onClose={closeHandle}>
         {parseHtml(message as string)}
@@ -88,7 +88,7 @@ export const setNotification = (notification: NotificationType, closeOption: Clo
 }
 
 export const setError = (message: Error | string | string[], closeOption: CloseOptionType = 8000) => {
-  setNotification(typeof message === 'string' ? new Error(message) : message, closeOption);
+  setNotification(message instanceof Error ? message : { message, severity: 'error' }, closeOption);
 }
 
 export const setWarning = (message: string | string[], closeOption: CloseOptionType = 8000) => {

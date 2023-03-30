@@ -2,6 +2,8 @@ import { MouseEvent } from "react";
 
 export interface DonationsProps {
   data: any;
+  stylesData: any;
+  index: number;
 }
 
 export interface CountFieldProps {
