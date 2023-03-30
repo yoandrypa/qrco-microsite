@@ -197,6 +197,13 @@
       "file": "donationLove&Colors",
       "name": "Donation",
       "desc": "A kindly invitation to make a donation"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioGirl&Bike",
+      "desc":"A way to keep in touch with your followers",
+      "name":"Link in Bio"
     }
   ]
 }
+
