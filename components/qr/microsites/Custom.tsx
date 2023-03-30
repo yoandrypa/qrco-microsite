@@ -1,15 +1,11 @@
-import React, {useCallback} from "react";
-import dynamic from "next/dynamic";
-
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-
-import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
-
 import MainMicrosite from "./MainMicrosite";
+import Box from "@mui/material/Box";
+
+import dynamic from "next/dynamic";
+import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
 import RenderHeadLine from "./renderers/RenderHeadLine";
-import Waiting from "../../Waiting";
-import Notification from "../../Notification";
+
+import {useCallback} from "react";
 
 const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
@@ -37,8 +33,8 @@ const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
 const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
+const Typography = dynamic(() => import("@mui/material/Typography"));
 const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
-const RenderDonation = dynamic(() => import("./contents/Donations"));
 
 interface CustomType {
   component: string;
@@ -48,7 +44,6 @@ interface CustomType {
 }
 
 export default function Custom({newData}: any) {
-  const isSections = Boolean(newData.layout?.startsWith('sections'));
   const styled = clearDataStyles(newData);
 
   const renderDownloadVCard = useCallback(() => (
@@ -72,7 +67,8 @@ export default function Custom({newData}: any) {
 
     const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
     if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials'].includes(component)) {
-      sectStyle.width = 'calc(100% - 8px)';
+      sectStyle.width = 'calc(100% - 16px)';
+      sectStyle.px = '10px';
       sectStyle.ml = 1;
     }
 
@@ -80,7 +76,11 @@ export default function Custom({newData}: any) {
       <Box sx={{width: '100%'}}>
         {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
           && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-          <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName} centerHeadLine={data?.centerHeadLine}/>
+          <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
+                          centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon}
+                          customFont={!data?.customFont ? undefined : {
+                            headlineFont: data.headlineFont, headlineFontSize: data.headlineFontSize, headLineFontStyle: data.headLineFontStyle
+                          }} />
         }
         <Box sx={sectStyle}>
           {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
@@ -93,7 +93,7 @@ export default function Custom({newData}: any) {
           {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
           {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled} alternate={newData.alternate}/>}
           {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
-          {component === 'phones' && (data?.cell || data?.phone || data?.fax) && <RenderPhones data={data} stylesData={styled}/>}
+          {component === 'phones' && (data?.cell || data?.phone || data?.fax || data?.whatsapp) && <RenderPhones data={data} stylesData={styled}/>}
           {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
           {component === 'opening' && Object.keys(data?.openingTime || []).length ? <RenderOpeningTime data={data} stylesData={styled}/> : null}
           {component === 'socials' && <RenderSocials data={data} stylesData={styled} alternate={newData.alternate}/>}
@@ -112,43 +112,33 @@ export default function Custom({newData}: any) {
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
           {component === 'contact' && <RenderContactForm stylesData={styled} data={data} index={index}/>}
           {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
-          {component === 'donation' && <RenderDonation stylesData={styled} data={data} index={index}/>}
         </Box>
       </Box>
     );
   };
 
-  function renderSection(section: CustomType, index: number) {
-    const { topSpacing: tSpacing, bottomSpacing: bSpacing } = section.data;
-    const sSx = { width: 'calc(100% - 10px)' };
-    const mSx = {
-      width: '100%',
-      mt: (tSpacing && tSpacing !== 'default') ? getSeparation(tSpacing, true) : undefined,
-      mb: (bSpacing && bSpacing !== 'default') ? getSeparation(bSpacing, true) : undefined,
-    };
-
-    const component = renderComponent(section, index);
-
-    return (
-      <Box sx={mSx} key={`key${section.expand || index}`}>
-        {isSections ? <RenderSectWrapper sx={sSx}>{component}</RenderSectWrapper> : component}
-      </Box>
-    )
-  }
-
-  const { qrType, custom: sections } = newData;
-  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }) => component === 'couponInfo') : null;
-  const badge = couponInfo?.data?.badge;
-
   return (
     <MainMicrosite data={newData}>
-      <Waiting />
-      <Notification />
-      <RenderBadge badge={badge} stylesData={styled} />
+      {newData.qrType === 'coupon' &&
+        <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
+      }
       <Box sx={{width: '100%', p: 2}}>
-        {sections?.map(renderSection)}
+        {newData.custom?.map((x: CustomType, index: number) => {
+          const mainStyle = {width: '100%'} as any;
+          if ((x.data?.topSpacing && x.data.topSpacing !== 'default') || (x.data?.bottomSpacing && x.data.bottomSpacing !== 'default')) {
+            if (x.data.topSpacing) { mainStyle.mt = getSeparation(x.data.topSpacing, true); }
+            if (x.data.bottomSpacing) { mainStyle.mb = getSeparation(x.data.bottomSpacing, true); }
+          }
+          return (
+            <Box sx={mainStyle} key={`key${x.expand || index}`}>
+              {!Boolean(newData.layout?.startsWith('sections')) ? renderComponent(x, index) : (
+                <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={newData.layout}>{renderComponent(x, index)}</RenderSectWrapper>
+              )}
+            </Box>
+          )}
+        )}
       </Box>
-      {qrType === 'vcard+' && sections?.length && renderDownloadVCard()}
+      {newData.qrType === 'vcard+' && newData.custom?.length && renderDownloadVCard()}
     </MainMicrosite>
   );
 }

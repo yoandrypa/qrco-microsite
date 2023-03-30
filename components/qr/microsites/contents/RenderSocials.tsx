@@ -13,7 +13,7 @@ import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import {CustomProps, getSeparation, handleButtons, handleFont} from "../renderers/helper";
+import {CustomProps, getSeparation, handleButtons, handleFont, onlyNumeric} from "../renderers/helper";
 import Button from "@mui/material/Button";
 
 interface RenderSocialsProps extends CustomProps {
@@ -64,6 +64,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
       }
       case 'whatsapp': {
         url = 'https://wa.me/';
+        value = onlyNumeric(value);
         break;
       }
       case 'telegram': {
@@ -89,7 +90,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
 
     if (data?.socialsOnlyIcons) {
       const size = !data.iconSize || data.iconSize === 'default' ? undefined : data.iconSize;
-      const sx = {width: '45px', height: '45px', ml: stay ? 'unset' : 2};
+      const sx = {width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000};
       if (size) {
         const dimension = size === 'small' ? '35px' : (size === 'medium' ? '57px' : '70px');
         sx.width = dimension;
@@ -116,6 +117,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
           sx={{
             mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
             width: '100%',
+            zIndex: 1000,
             ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theming, alt)
           }}
         >{!data?.showOnlyNetworkName ? value : item.network}</Button>
@@ -130,7 +132,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
         fullWidth
         margin="dense" // @ts-ignore
         value={value}
-        sx={{width: '100%', mt: !stay ? 1 : 'unset'}}
+        sx={{width: '100%', mt: !stay ? 1 : 'unset', zIndex: 1000}}
         inputProps={{style: {...handleFont(stylesData, 'm')}}}
         InputProps={{
           disableUnderline: true,

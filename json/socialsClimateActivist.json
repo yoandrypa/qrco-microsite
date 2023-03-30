@@ -24,6 +24,7 @@
       "Key": "socials/design/SocialClimateMain.png"
     }
   ],
+  "sectionTitleFontSize": "large",
   "buttonBorderWeight": "normal",
   "custom": [
     {
@@ -67,24 +68,35 @@
   ],
   "buttonsOpacity": 0,
   "subtitlesFontStyle": "#ffffff",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
   "buttonsFontStyle": "#ffffff",
   "buttonBorders": "10px 30px 10px 30px",
   "qrType": "social",
+  "image": "",
   "buttonsFontSize": "large",
   "userId": "506480d8-6957-498b-8955-c0efb99253a1",
   "subtitlesFontSize": "large",
   "titlesFontStyle": "b#ffffff",
   "footerKind": "custom",
   "secondary": "#f0f4c3",
+  "sectionDescFontStyle": "#ffffff",
   "qrName": "Social Networks Sample",
   "messagesFontStyle": "",
   "createdAt": "2023-03-20T18:37:29.721Z",
   "layout": "nobanner",
   "profileImageSize": "medium",
   "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "#ffffff",
   "buttonsSeparation": "wide",
   "isDynamic": true,
-  "updatedAt": "2023-03-20T19:31:13.803Z",
+  "updatedAt": "2023-03-22T20:47:53.605Z",
   "buttonBackColor": "#126416",
   "micrositeBackImage": [
     {

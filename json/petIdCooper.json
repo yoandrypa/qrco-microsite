@@ -10,7 +10,7 @@
     "updatedAt": "2023-03-20T17:14:17.562Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
     "createdAt": "2023-03-20T17:14:17.561Z",
-    "visitCount": 6,
+    "visitCount": 8,
     "address": "SukyJq",
     "paused": false,
     "type": "qr_link"
@@ -22,6 +22,7 @@
       "Key": "petIds/design/CooperMain.png"
     }
   ],
+  "sectionTitleFontSize": "large",
   "custom": [
     {
       "data": {
@@ -111,6 +112,7 @@
   "subtitlesFontSize": "medium",
   "titlesFontStyle": "b",
   "secondary": "#b0bec5",
+  "sectionDescFontStyle": "",
   "backgroundColorRight": "#dddddd",
   "buttonShadow": true,
   "qrName": "Pet Id Sample 3",
@@ -123,11 +125,13 @@
       "Key": "petIds/design/CooperBan.png"
     }
   ],
+  "sectionTitleFontStyle": "b",
   "buttonsSeparation": "wide",
   "isDynamic": true,
-  "updatedAt": "2023-03-20T18:30:10.783Z",
+  "updatedAt": "2023-03-22T21:08:29.284Z",
   "buttonBackColor": "#b5b9bd",
   "backgroundType": "gradient",
+  "sectionDescFontSize": "medium",
   "backgroundColor": "#ffffff",
   "globalFont": "Default",
   "primary": "#212121"

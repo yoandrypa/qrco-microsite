@@ -1,0 +1,131 @@
+{
+  "buttonBack": "solid",
+  "buttonBorderStyle": "default",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/bdbfb2a5-ff10-4dcb-b197-37931666dcde",
+    "updatedAt": "2023-03-23T18:53:42.053Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-03-23T18:53:42.048Z",
+    "visitCount": 5,
+    "address": "9dOpUd",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "7",
+  "foregndImg": [
+    {
+      "name": "audioMain.png",
+      "Key": "audios/design/audioMain.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "buttonBorderWeight": "weight",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Matt Dj"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://www.mattdj.com/last",
+            "label": "Last Album"
+          },
+          {
+            "link": "https://www.mattdj.com/playlist",
+            "label": "My Favorite Playlist"
+          },
+          {
+            "link": "https://www.youtube.com/mattdj23",
+            "label": "My youtube channel"
+          }
+        ],
+        "topSpacing": "wide",
+        "hideHeadLine": true
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "mattdj.23",
+            "network": "facebook"
+          },
+          {
+            "value": "mattdj",
+            "network": "instagram"
+          },
+          {
+            "value": "MattDj23",
+            "network": "twitter"
+          },
+          {
+            "value": "13325455214",
+            "network": "whatsapp"
+          }
+        ],
+        "bottomSpacing": "wide"
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "LuerodBounce",
+            "Key": "audios/LuerodBounce.mp3"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "audio"
+    }
+  ],
+  "buttonsOpacity": 0.5,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b#131313",
+  "forceChange": false,
+  "buttonBorderType": "double",
+  "qrType": "audio",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "secondary": "#212121",
+  "sectionDescFontStyle": "",
+  "qrName": "Audio Sample",
+  "messagesFontStyle": "",
+  "createdAt": "2023-03-23T18:53:42.054Z",
+  "layout": "nobanner",
+  "globalFontColor": "#ffffff",
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "",
+  "isDynamic": true,
+  "updatedAt": "2023-03-23T19:23:03.283Z",
+  "buttonBackColor": "#ffffff",
+  "micrositeBackImage": [
+    {
+      "name": "AudioBg.png",
+      "Key": "audios/design/AudioBg.png"
+    }
+  ],
+  "backgroundType": "image",
+  "primary": "#ffffff"
+}
