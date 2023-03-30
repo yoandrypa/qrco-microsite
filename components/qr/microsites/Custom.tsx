@@ -1,11 +1,15 @@
-import MainMicrosite from "./MainMicrosite";
-import Box from "@mui/material/Box";
-
+import React, {useCallback} from "react";
 import dynamic from "next/dynamic";
-import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
-import RenderHeadLine from "./renderers/RenderHeadLine";
 
-import {useCallback} from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
+import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
+
+import MainMicrosite from "./MainMicrosite";
+import RenderHeadLine from "./renderers/RenderHeadLine";
+import Waiting from "../../Waiting";
+import Notification from "../../Notification";
 
 const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
@@ -33,7 +37,7 @@ const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
 const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
-const Typography = dynamic(() => import("@mui/material/Typography"));
+const RenderDonation = dynamic(() => import("./contents/Donations"));
 const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
 
 interface CustomType {
@@ -112,33 +116,45 @@ export default function Custom({newData}: any) {
           {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
           {component === 'contact' && <RenderContactForm stylesData={styled} data={data} index={index}/>}
           {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
+          {component === 'donation' && <RenderDonation stylesData={styled} data={data} index={index}/>}
         </Box>
       </Box>
     );
   };
 
+  const { qrType, custom: sections, layout } = newData;
+  const startSections = Boolean(layout?.startsWith('sections'));
+
+  function renderSection(section: CustomType, index: number) {
+    const { topSpacing: tSpacing, bottomSpacing: bSpacing } = section.data;
+    const sSx = { width: 'calc(100% - 10px)' };
+    const mSx = {
+      width: '100%',
+      mt: (tSpacing && tSpacing !== 'default') ? getSeparation(tSpacing, true) : undefined,
+      mb: (bSpacing && bSpacing !== 'default') ? getSeparation(bSpacing, true) : undefined,
+    };
+
+    const component = renderComponent(section, index);
+
+    return (
+      <Box sx={mSx} key={`key${section.expand || index}`}>
+        {startSections ? <RenderSectWrapper sx={sSx} layout={layout}>{component}</RenderSectWrapper> : component}
+      </Box>
+    );
+  }
+
+  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }) => component === 'couponInfo') : null;
+  const badge = couponInfo?.data?.badge;
+
   return (
     <MainMicrosite data={newData}>
-      {newData.qrType === 'coupon' &&
-        <RenderBadge badge={newData.custom.find((x: { component: string; }) => x.component === 'couponInfo')?.data?.badge} stylesData={styled} />
-      }
+      <Waiting />
+      <Notification />
+      <RenderBadge badge={badge} stylesData={styled} />
       <Box sx={{width: '100%', p: 2}}>
-        {newData.custom?.map((x: CustomType, index: number) => {
-          const mainStyle = {width: '100%'} as any;
-          if ((x.data?.topSpacing && x.data.topSpacing !== 'default') || (x.data?.bottomSpacing && x.data.bottomSpacing !== 'default')) {
-            if (x.data.topSpacing) { mainStyle.mt = getSeparation(x.data.topSpacing, true); }
-            if (x.data.bottomSpacing) { mainStyle.mb = getSeparation(x.data.bottomSpacing, true); }
-          }
-          return (
-            <Box sx={mainStyle} key={`key${x.expand || index}`}>
-              {!Boolean(newData.layout?.startsWith('sections')) ? renderComponent(x, index) : (
-                <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={newData.layout}>{renderComponent(x, index)}</RenderSectWrapper>
-              )}
-            </Box>
-          )}
-        )}
+        {sections?.map(renderSection)}
       </Box>
-      {newData.qrType === 'vcard+' && newData.custom?.length && renderDownloadVCard()}
+      {qrType === 'vcard+' && sections?.length && renderDownloadVCard()}
     </MainMicrosite>
   );
 }
