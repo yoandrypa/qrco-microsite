@@ -16,9 +16,7 @@ interface ThankYouProps {
     qrData: any
 }
 
-
 function ThankYou({ qrData }: ThankYouProps) {
-
     const [reviewMessage, setReviewMessage] = useState<string>('');
     const [isAnonymous, setisAnonymous] = useState<boolean>(false);
     const [loading, setIsLoading] = useState<boolean>(false);
@@ -45,7 +43,7 @@ function ThankYou({ qrData }: ThankYouProps) {
     const handleButtonClick = async () => {
         setIsLoading(true)
         await sendThanksEmail(isAnonymous ? reviewerName : 'An Anonymous user', reviewMessage, qrData.email, `${qrData.shortlinkurl}`)
-        window.location.href = qrData?.web || microUrl
+        // window.location.href = qrData?.web || microUrl
     }
 
     async function sendThanksEmail(
@@ -71,7 +69,7 @@ function ThankYou({ qrData }: ThankYouProps) {
         };
 
         try {
-            const response = await fetch(`${microUrl}/api/review`, options)
+            const response = await fetch(`${microUrl}/api/send/review/email`, options)
             if (!response.ok) {
                 // TODO
                 setDisplayMessage('Ops, there has been an error. Try again later.');
@@ -85,10 +83,7 @@ function ThankYou({ qrData }: ThankYouProps) {
             //TODO
             console.error(error)
             setDisplayMessage('Ops, there has been an error. Try again later.');
-
         }
-
-
     }
 
     return (
