@@ -143,7 +143,7 @@ export default function Custom({newData}: any) {
     );
   }
 
-  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }) => component === 'couponInfo') : null;
+  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }: any) => component === 'couponInfo') : null;
   const badge = couponInfo?.data?.badge;
 
   return (
