@@ -1,0 +1,111 @@
+{
+  "buttonBack": "two",
+  "buttonBorderStyle": "two",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app.theqr.link/qr/b4fd894d-1b67-4c23-b203-d2cfc74b9323",
+    "updatedAt": "2023-03-28T00:59:51.466Z",
+    "userId": "dfd7a53e-4f55-45fe-ab3b-605054b1bb7a",
+    "createdAt": "2023-03-28T00:59:51.464Z",
+    "visitCount": 7,
+    "address": "lZGG2r",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "alternate": true,
+  "buttonShape": "6",
+  "buttonBorderWeight": "normal",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Sophie Dupont",
+        "descriptionAbout": "Movie Lover"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "iconSize": "medium",
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "7777777777",
+            "network": "whatsapp"
+          },
+          {
+            "value": "https://example.com",
+            "network": "twitter"
+          },
+          {
+            "value": "https://example.com",
+            "network": "instagram"
+          }
+        ]
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "http://example.com",
+            "label": "My podcast"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Personal website"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Favorite Movies"
+          },
+          {
+            "link": "http://example.com",
+            "label": "whatsapp"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "medium",
+        "topSpacing": "wide"
+      },
+      "name": "Links",
+      "component": "links"
+    }
+  ],
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "#111111",
+  "forceChange": false,
+  "qrType": "link",
+  "image": "",
+  "userId": "dfd7a53e-4f55-45fe-ab3b-605054b1bb7a",
+  "buttonShadowDisplacement": "downRight",
+  "secondary": "#000",
+  "buttonShadow": true,
+  "qrName": "byke",
+  "createdAt": "2023-03-28T00:59:51.467Z",
+  "layout": "nobanner",
+  "globalFontColor": "#fff",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-03-30T19:04:27.957Z",
+  "buttonBackColor": "#f4f6f8|#111",
+  "micrositeBackImage": [
+    {
+      "name": "girl&bikeBg.png",
+      "Key": "links/design/girl&bikeBg.png"
+    }
+  ],
+  "backgroundType": "image",
+  "globalFont": "Arial Black",
+  "primary": "#ffffff"
+}
