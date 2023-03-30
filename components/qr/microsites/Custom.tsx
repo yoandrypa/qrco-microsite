@@ -137,13 +137,14 @@ export default function Custom({newData}: any) {
   }
 
   const { qrType, custom: sections } = newData;
-  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }) => component === 'couponInfo') : {};
+  const couponInfo = (qrType === 'coupon') ? sections.find(({ component }) => component === 'couponInfo') : null;
+  const badge = couponInfo?.data?.badge;
 
   return (
     <MainMicrosite data={newData}>
       <Waiting />
       <Notification />
-      <RenderBadge badge={couponInfo.data?.badge} stylesData={styled} />
+      <RenderBadge badge={badge} stylesData={styled} />
       <Box sx={{width: '100%', p: 2}}>
         {sections?.map(renderSection)}
       </Box>
