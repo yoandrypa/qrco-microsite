@@ -16,21 +16,21 @@ export {
 export async function parseFromPostRequest(req: NextApiRequest): Promise<any> {
   const schema = Joi.object({
     index: Joi.number().min(0).required(),
-    contactEmail: Joi.string().required().regex(/^\w+([.+]\w+)?@(\w+\.)+([a-z]{2,3})/),
     subject: Joi.string().required(),
     content: Joi.object({
+      contactName: Joi.string().optional(),
       message: Joi.string().required(),
       microSiteUrl: Joi.string().required(),
     }).required(),
   });
 
-  const { index, contactEmail, ...data } = Joi.attempt(req.body, schema, { abortEarly: false });
+  const { index, ...data } = Joi.attempt(req.body, schema, { abortEarly: false });
+  data.content.dashboardUrl =  `${process.env.PAYLINK_BASE_URL}/dashboards`;
 
   return {
     ...data,
     fromAddresses: 'info@ebanux.com',
     toAddresses: await getEmailRecipient(data.content.microSiteUrl, index),
-    replyToAddresses: contactEmail,
-    template: 'contact-form-message',
+    template: 'donation-review-message',
   }
 }

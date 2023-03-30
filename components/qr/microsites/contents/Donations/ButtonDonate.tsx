@@ -19,7 +19,6 @@ export default function ButtonDonate({ label, totalAmount: initTotalAmount, sx, 
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-
   return (
     <Button variant="contained" sx={{ borderRadius: 45, ...sx }} onClick={onClick}>
       {label || 'Donate'} ${totalAmount}

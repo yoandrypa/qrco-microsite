@@ -13,7 +13,6 @@ import getTheme from "./theming/themeHelper";
 import { DEFAULT_COLORS } from "./qr/constants";
 
 const Custom = dynamic(() => import("./qr/microsites/Custom"));
-const Donations = dynamic(() => import("./qr/microsites/Donations"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
 const SamplesList = dynamic(() => import("./SamplesList"));
 
@@ -68,10 +67,6 @@ export default function MainComponent({ newData }: any) {
   }
 
   const renderMicrositeComponent = () => {
-    if (['donation', 'donations'].includes(data?.qrType)) {
-      return <Donations data={data} />;
-    }
-
     if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
       return <Web urlString={handleDesignerString(data.qrType, data)} />;
     }
