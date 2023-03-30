@@ -16,6 +16,8 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
           value={data.cell || data.companyCell}
           icon="cell"
           phone
+          stylesData={data?.extras?.phoneButton ? stylesData : undefined}
+          extras={data?.extras?.phoneButton ? {...data.extras, text: data.cell_Custom || data.companyCell_Custom, icon: 'phoneButtonIcon'} : undefined}
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}
@@ -24,6 +26,8 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
           value={data.phone || data.companyPhone}
           icon="phone"
           phone
+          extras={data?.extras?.phoneButton ? {...data.extras, text: data.phone_Custom || data.companyPhone_Custom, icon: 'phoneButtonIcon'} : undefined}
+          stylesData={data?.extras?.phoneButton ? stylesData : undefined}
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}
@@ -32,6 +36,8 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
           value={data.whatsapp}
           icon="whatsapp"
           whatsapp
+          extras={data?.extras?.phoneButton ? {...data.extras, text: data.whatsapp_Custom, icon: 'phoneButtonIcon'} : undefined}
+          stylesData={data?.extras?.phoneButton ? stylesData : undefined}
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}
@@ -40,6 +46,8 @@ export default function RenderPhones({data, stylesData}: CustomProps) {
           value={data.fax || data.companyFax}
           icon="fax"
           fax
+          extras={data?.extras?.phoneButton ? {...data.extras, text: data.fax_Custom || data.companyFax_Custom, icon: 'phoneButtonIcon'} : undefined}
+          stylesData={data?.extras?.phoneButton ? stylesData : undefined}
           sx={{...handleFont(stylesData, 'm')}}
         />
       )}

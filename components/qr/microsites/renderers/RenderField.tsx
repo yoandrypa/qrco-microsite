@@ -6,7 +6,8 @@ import {useTheme} from "@mui/system";
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import {onlyNumeric} from "./helper";
+import {handleButtons, handleFont, onlyNumeric} from "./helper";
+import Button from "@mui/material/Button";
 
 const Typography = dynamic(() => import("@mui/material/Typography"));
 const Box = dynamic(() => import("@mui/material/Box"));
@@ -21,10 +22,12 @@ interface RenderFieldProps {
   whatsapp?: boolean;
   fax?: boolean;
   email?: boolean;
+  extras?: any;
+  stylesData?: any;
   sx?: any;
 }
 
-export default function RenderField({label, value, icon, link, sx, phone, fax, email, whatsapp}: RenderFieldProps) {
+export default function RenderField({label, value, icon, link, sx, phone, fax, email, whatsapp, extras, stylesData}: RenderFieldProps) {
   const theme = useTheme();
 
   const component = (wrapped?: boolean) => {
@@ -73,6 +76,22 @@ export default function RenderField({label, value, icon, link, sx, phone, fax, e
       url = `mailto:${value}`;
     } else if (link && !url.toLowerCase().startsWith('https://') && !url.toLowerCase().startsWith('http://')) {
       url = `https://${url}`;
+    }
+
+    if (extras) {
+      return (<Button
+        target="_blank"
+        component="a"
+        href={url}
+        variant="contained"
+        startIcon={Object.keys(extras || {}).some(
+          (x: string) => x.includes(extras?.icon || 'Icon')
+        ) ? <RenderIcon icon={icon || ''} enabled /> : undefined}
+        sx={{ width: 'calc(100% - 20px)', zIndex: 1000, my: 1,
+          ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme)
+        }}
+      >{extras.text || value}</Button>
+      )
     }
 
     return (
