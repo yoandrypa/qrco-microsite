@@ -7,7 +7,14 @@ export default function RenderWeb({data, stylesData}: CustomProps) {
   return (
     <Grid container spacing={1}>
       {data?.web && (
-        <RenderField icon="web" value={data.web} sx={{...handleFont(stylesData, 'm')}} link={data.web}/>
+        <RenderField
+          icon="web"
+          value={data.web}
+          sx={{...handleFont(stylesData, 'm')}}
+          stylesData={data?.extras ? stylesData : undefined}
+          extras={data?.extras ? {...data.extras, text: data.web_Custom} : undefined}
+          link={data.web}
+        />
       )}
     </Grid>
   );

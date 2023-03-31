@@ -89,7 +89,8 @@ export default function Custom({newData}: any) {
         <Box sx={sectStyle}>
           {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
           {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
-              data?.companyEmail || data?.contact || data?.companyPhone || data?.about) &&
+              data?.companyEmail || data?.contact || data?.companyPhone || data?.about || data?.companyCell ||
+              data?.companyFax || data?.whatsapp) &&
             <RenderCompany stylesData={styled} data={data}/>
           }
           {component === 'date' && <RenderDate data={data} stylesData={styled}/>}
