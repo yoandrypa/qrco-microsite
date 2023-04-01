@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import {useCallback} from "react";
 import dynamic from "next/dynamic";
 
 import Box from "@mui/material/Box";
@@ -127,7 +127,14 @@ export default function Custom({newData}: any) {
   const startSections = Boolean(layout?.startsWith('sections'));
 
   function renderSection(section: CustomType, index: number) {
-    const { topSpacing: tSpacing, bottomSpacing: bSpacing } = section.data;
+    let tSpacing = undefined;
+    let bSpacing = undefined;
+
+    if (section.data) {
+      tSpacing = section.data.tSpacing;
+      bSpacing = section.data.bSpacing;
+    }
+
     const sSx = { width: 'calc(100% - 10px)' };
     const mSx = {
       width: '100%',
