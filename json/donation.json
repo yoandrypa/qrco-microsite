@@ -1,19 +1,4 @@
 {
-  "shortLinkId": {
-    "banned": false,
-    "target": "https://app-dev.theqr.link/qr/dec73657-29da-456c-af45-2bb7b52fd53f",
-    "updatedAt": "2022-11-10T16:50:10.163Z",
-    "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
-    "visitCount": 30,
-    "createdAt": "2022-11-10T16:50:10.158Z",
-    "address": "2POQRk",
-    "type": "qr_link"
-  },
-  "donationProductId": "prod_MmCLf4bl4vR672",
-  "qrName": "Donation",
-  "createdAt": "2022-11-10T16:50:10.167Z",
-  "message": "Hi there! I'm a Dj Producer, a passionate Electronic Music lover. Your support will be highly appreciated. Would you like to buy me a coffee?",
-  "urlOptionLabel": "Donate",
   "foregndImg": [
     {
       "name": "1f789837-c56d-4fbd-b8ec-1b3552b15f83.png",
@@ -26,7 +11,6 @@
       "Key": "donations/design/a9cc6ef1-e74d-4ef0-b7eb-bbf2fa466a92.png"
     }
   ],
-  "donationUnitAmount": "3",
   "background": {
     "x": 0,
     "y": 0,
@@ -35,15 +19,24 @@
     "opacity": 50,
     "size": 1
   },
+  "qrType": "custom",
+  "qrName": "Donation",
   "isDynamic": true,
-  "qrType": "donations",
   "image": "",
-  "updatedAt": "2022-11-16T02:48:51.427Z",
-  "userId": "7da855eb-b000-46d8-991c-2e734a3f7be5",
   "foregndImgType": "smooth",
-  "donationPriceId": "price_1M2dwmHZ2XGD5ROs3KItOvTU",
-  "id": "ef906018-9ac6-401e-9547-6e9d22911b11",
   "secondary": "#d7c89a",
   "primary": "#6e5408",
-  "title": "Luerod Bounce"
+  "custom": [
+    {
+      "component": "donation",
+      "data": {
+        "sample": true,
+        "title": "Luerod Bounce",
+        "message": "Hi there! I'm a Dj Producer, a passionate Electronic Music lover. Your support will be highly appreciated. Would you like to buy me a coffee?",
+        "urlOptionLabel": "Donate",
+        "unitAmount": "3",
+        "priceId": "price_1M2dwmHZ2XGD5ROs3KItOvTU"
+      }
+    }
+  ]
 }
