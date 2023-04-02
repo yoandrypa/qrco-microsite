@@ -30,7 +30,7 @@
     {
       "component": "donation",
       "data": {
-        "sample": true,
+        "isSample": true,
         "title": "Luerod Bounce",
         "message": "Hi there! I'm a Dj Producer, a passionate Electronic Music lover. Your support will be highly appreciated. Would you like to buy me a coffee?",
         "urlOptionLabel": "Donate",
