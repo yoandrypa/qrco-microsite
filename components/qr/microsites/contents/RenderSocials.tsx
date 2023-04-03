@@ -13,7 +13,13 @@ import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {SocialNetworksType} from "../../types/types";
-import {CustomProps, getSeparation, handleButtons, handleFont, onlyNumeric} from "../renderers/helper";
+import {
+  CustomProps,
+  getSeparation,
+  handleButtons,
+  handleFont,
+  onlyNumeric
+} from "../renderers/helper";
 import Button from "@mui/material/Button";
 
 interface RenderSocialsProps extends CustomProps {
@@ -83,24 +89,46 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
         url = 'https://www.youtube.com/';
         break;
       }
+      case 'tiktok': {
+        url = 'https://www.tiktok.com/@';
+        break;
+      }
     }
 
-    url += `${value}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
+    url += `${encodeURIComponent(value)}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
     let label = item.network !== 'linkedin' ? capitalize(item.network) : 'LinkedIn';
 
     if (data?.socialsOnlyIcons) {
       const size = !data.iconSize || data.iconSize === 'default' ? undefined : data.iconSize;
-      const sx = {width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000};
+      const sx = {
+        width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000,
+        '&:hover': {
+          color: theming.palette.primary.main, background: theming.palette.secondary.main,
+        }
+      };
       if (size) {
         const dimension = size === 'small' ? '35px' : (size === 'medium' ? '57px' : '70px');
         sx.width = dimension;
         sx.height = dimension;
       }
 
+      let color = theming.palette.primary.main;
+
+      if (stylesData.buttonBack) {
+        if (stylesData.buttonBack === 'solid') {
+          color = stylesData.buttonBackColor; // @ts-ignore
+          delete sx['&:hover'];
+        } else if (['two', 'gradient'].includes(stylesData.buttonBack)) {
+          const colors = stylesData.buttonBackColor?.split('|') || [theming.palette.primary.main, theming.palette.secondary.main];
+          color = colors[0];
+          sx['&:hover'] = { color: colors[0], background: colors[1] };
+        }
+      }
+
       return (
         <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
-          <IconButton target="_blank" component="a" href={url} sx={sx}>
-            <RenderIcon icon={item.network} enabled color={theming.palette.primary.main} size={sx.width} />
+          <IconButton target="_blank" component="a" href={url} sx={sx} >
+            <RenderIcon icon={item.network} enabled color={color} size={sx.width} />
           </IconButton>
         </Tooltip>
       );
