@@ -75,7 +75,7 @@ export default function MainComponent({ newData }: any) {
       return <SamplesList newData={data.samples} />;
     }
 
-    if (["custom", "vcard+", "social", "business", "coupon", "findMe", "inventory", "linkedLabel", "link", "petId", ...ASSETS, ...GALLERY].includes(data?.qrType)) {
+    if (["custom", "donation", "vcard+", "social", "business", "coupon", "findMe", "inventory", "linkedLabel", "link", "petId", ...ASSETS, ...GALLERY].includes(data?.qrType)) {
       return <Custom newData={{ ...data, iframed: iframed.current }} />;
     }
 
