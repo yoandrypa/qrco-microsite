@@ -64,19 +64,26 @@ type RenderIconProp = {
   enabled: boolean;
   adjust?: boolean;
   color?: string;
+  colorSec?: string;
   size?: string;
 };
 
-export default function RenderIcon({ icon, color, enabled, adjust, size }: RenderIconProp) {
+export default function RenderIcon({ icon, color, colorSec, enabled, adjust, size }: RenderIconProp) {
   const renderIcon = () => {
-    if (icon === 'tiktok') {
-      return <TikTokIcon color={color} size={size} />;
-    }
-
     const sx = { mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] } as any;
     if (size) {
       sx.width = size;
       sx.height = size;
+    }
+
+    if (colorSec) {
+      sx['&:hover'] = {
+        color: colorSec, background: color, borderRadius: '25%'
+      }
+    }
+
+    if (icon === 'tiktok') {
+      return <TikTokIcon color={color} size={size} sx={sx} />;
     }
 
     switch (icon) {
