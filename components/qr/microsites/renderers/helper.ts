@@ -422,3 +422,10 @@ export interface CustomProps {
 export interface DimsProps {
   parentWidth: string; parentHeight: string;
 }
+
+export interface CustomType {
+  component: string;
+  name?: string;
+  data?: any;
+  expand: string;
+}
