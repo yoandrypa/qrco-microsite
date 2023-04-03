@@ -1,5 +1,4 @@
 import {useCallback} from "react";
-import dynamic from "next/dynamic";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -10,6 +9,8 @@ import MainMicrosite from "./MainMicrosite";
 import RenderHeadLine from "./renderers/RenderHeadLine";
 import Waiting from "../../Waiting";
 import Notification from "../../Notification";
+
+import dynamic from "next/dynamic";
 
 const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
@@ -47,7 +48,7 @@ interface CustomType {
   expand: string;
 }
 
-export default function Custom({newData}: any) {
+const Custom = ({newData}: any) => {
   const styled = clearDataStyles(newData);
 
   const renderDownloadVCard = useCallback(() => (
@@ -126,13 +127,13 @@ export default function Custom({newData}: any) {
   const { qrType, custom: sections, layout } = newData;
   const startSections = Boolean(layout?.startsWith('sections'));
 
-  function renderSection(section: CustomType, index: number) {
+  const renderSection = (section: CustomType, index: number) => {
     let tSpacing = undefined;
     let bSpacing = undefined;
 
     if (section.data) {
-      tSpacing = section.data.tSpacing;
-      bSpacing = section.data.bSpacing;
+      tSpacing = section.data.topSpacing;
+      bSpacing = section.data.bottomSpacing;
     }
 
     const sSx = { width: 'calc(100% - 10px)' };
@@ -166,3 +167,5 @@ export default function Custom({newData}: any) {
     </MainMicrosite>
   );
 }
+
+export default Custom;
