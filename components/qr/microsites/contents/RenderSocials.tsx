@@ -113,6 +113,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
       }
 
       let color = theming.palette.primary.main;
+      let colorSec = theming.palette.secondary.main;
 
       if (stylesData.buttonBack) {
         if (stylesData.buttonBack === 'solid') {
@@ -121,6 +122,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
         } else if (['two', 'gradient'].includes(stylesData.buttonBack)) {
           const colors = stylesData.buttonBackColor?.split('|') || [theming.palette.primary.main, theming.palette.secondary.main];
           color = colors[0];
+          colorSec = colors[1];
           sx['&:hover'] = { color: colors[0], background: colors[1] };
         }
       }
@@ -128,7 +130,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
       return (
         <Tooltip title={`Go to ${label}`} disableHoverListener={hideTooltips || false}>
           <IconButton target="_blank" component="a" href={url} sx={sx} >
-            <RenderIcon icon={item.network} enabled color={color} size={sx.width} />
+            <RenderIcon icon={item.network} enabled color={color} size={sx.width} colorSec={colorSec} />
           </IconButton>
         </Tooltip>
       );
