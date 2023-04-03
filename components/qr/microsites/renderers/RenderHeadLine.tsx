@@ -63,6 +63,18 @@ export default function RenderHeadLine(
   }, [customFont?.headlineFontSize]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderIcon = () => {
+    console.log(customFont)
+    if (customFont !== undefined) {
+      let color = theme.palette.primary.main;
+      let index = -1;
+      if (customFont?.headLineFontStyle !== undefined) { index = customFont?.headLineFontStyle?.indexOf('#'); }
+      if (index !== -1) { // @ts-ignore
+        color = customFont.headLineFontStyle.slice(index);
+      }
+      sx.color = color;
+    }
+
+
     switch (component) {
       case 'address': { return <LocationOnIcon sx={sx}/>; }
       case 'links': { return <LinkIcon sx={sx} />; }
