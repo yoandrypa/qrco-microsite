@@ -12,6 +12,7 @@ import {download} from "../../../../handlers/storage";
 
 import dynamic from "next/dynamic";
 
+const RenderNoAssets = dynamic(() => import("../../helperComponents/RenderNoAssets"));
 const CircularProgress = dynamic(() => import("@mui/material/CircularProgress"));
 const RenderPreview = dynamic(() => import("../renderers/RenderPreview"));
 
@@ -130,7 +131,8 @@ export default function RenderImages({data, stylesData}: CustomProps) {
   return (
     <>
       <Box>
-        {images.current.length !== data?.files?.length && (
+        {!data?.files?.length && <RenderNoAssets type="image" stylesData={stylesData} />}
+        {Boolean(data?.files?.length) && images.current.length !== data?.files?.length && (
           <Box sx={{width: '100%', p: 2}}>
             <Box sx={{width: '100%', color: theme => theme.palette.secondary.main, display: 'flex', justifyContent: 'center'}}>
               <CircularProgress sx={{color: theme => theme.palette.primary.main, mr: '10px', my: 'auto'}}/>
