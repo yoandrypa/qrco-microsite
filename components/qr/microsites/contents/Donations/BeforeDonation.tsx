@@ -9,7 +9,7 @@ import QuantityField from "./QuantityField";
 import { handleFont } from "../../renderers/helper";
 import { DonationsProps } from "./types";
 import { microSiteUrl, payLynkRequest } from "../../../../../utils/requests";
-import { setError } from "../../../../Notification";
+import { setError, setWarning } from "../../../../Notification";
 import { startWaiting, releaseWaiting } from "../../../../Waiting";
 
 import AmountUnits from "./AmountUnits";
@@ -19,6 +19,10 @@ const getTotalAmount = (data: any): number => (data.unitAmount) * (data.quantity
 
 export default function BeforeDonation({ data, stylesData }: DonationsProps) {
   const onDonate = async () => {
+    if (data.isSample) return setWarning(
+      'This action is not available in this example.<br/>This is just a preview.'
+    );
+
     const callbackUrl = microSiteUrl();
 
     startWaiting();
