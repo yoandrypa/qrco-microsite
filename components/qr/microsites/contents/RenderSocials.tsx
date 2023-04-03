@@ -143,7 +143,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
           component="a"
           href={url}
           variant="contained"
-          startIcon={!data?.hideNetworkIcon && <RenderIcon icon={item.network} enabled />}
+          startIcon={!data?.hideNetworkIcon && <RenderIcon icon={item.network} enabled size="30px" />}
           sx={{
             mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
             width: '100%',
