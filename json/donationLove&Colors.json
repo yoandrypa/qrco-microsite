@@ -1,47 +1,58 @@
 {
   "titlesFontSize": "large",
+  "customFooter": "Bringing color to the grey",
   "shortLinkId": {
     "claimable": false,
     "banned": false,
     "preGenerated": false,
-    "target": "https://app-dev.theqr.link/qr/c8b28729-a61c-45bd-981c-ba3fda10d0a2",
-    "updatedAt": "2023-03-23T20:33:07.426Z",
+    "target": "https://app-dev.theqr.link/qr/b261fffe-fc52-4dbb-a727-c91454146285",
+    "updatedAt": "2023-04-03T14:42:19.468Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
-    "createdAt": "2023-03-23T20:32:56.587Z",
-    "visitCount": 3,
-    "address": "fDsgGI",
+    "createdAt": "2023-04-03T14:42:19.466Z",
+    "visitCount": 1,
+    "address": "SQuaAM",
     "paused": false,
     "type": "qr_link"
   },
+  "buttonShape": "4",
   "foregndImg": [
     {
       "name": "DonationMain.png",
       "Key": "donations/design/DonationMain.png"
     }
   ],
-  "ownerId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "custom": [
+    {
+      "data": {
+        "buttonText": "Donate",
+        "unitAmount": 5,
+        "hideHeadLine": true,
+        "ownerId": "506480d8-6957-498b-8955-c0efb99253a1",
+        "title": "Love & Colors",
+        "message": "Help us bring some color to the grey world of homelessness by buying a cup of coffee for someone in need.",
+        "priceId": "price_1MsojpHZ2XGD5ROsF3KVSPyB",
+        "email": "jarencub+vcard@gmail.com"
+      },
+      "component": "donation"
+    }
+  ],
   "subtitlesFontStyle": "b",
-  "buttonsFontStyle": "",
   "forceChange": false,
-  "qrType": "donation",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "custom",
   "image": "",
   "userId": "506480d8-6957-498b-8955-c0efb99253a1",
-  "unitAmount": "5",
   "titlesFontStyle": "b",
-  "messagesFontSize": "large",
-  "secondary": "#b0bec5",
-  "sectionDescFontStyle": "",
-  "qrName": "Donation Sample",
-  "messagesFontStyle": "",
-  "createdAt": "2023-03-23T20:33:07.426Z",
+  "footerKind": "custom",
+  "messagesFontSize": "medium",
+  "secondary": "#212121",
+  "qrName": "Custom Donation Sample",
+  "createdAt": "2023-04-03T14:42:19.468Z",
   "layout": "nobanner",
-  "message": "Help us bring some color to the grey world of homelessness by buying a cup of coffee for someone in need.",
-  "urlOptionLabel": "Donate",
   "profileImageSize": "medium",
   "profileImageVertical": "upper",
-  "sectionTitleFontStyle": "",
   "isDynamic": true,
-  "updatedAt": "2023-03-23T20:39:26.945Z",
+  "updatedAt": "2023-04-03T14:52:14.407Z",
   "micrositeBackImage": [
     {
       "name": "DonationBg.png",
@@ -49,9 +60,7 @@
     }
   ],
   "backgroundType": "image",
-  "foregndImgType": "smooth",
-  "priceId": "price_1MoutoHZ2XGD5ROstTstST19",
+  "foregndImgType": "square",
   "globalFont": "Comic Sans",
-  "primary": "#212121",
-  "title": "Love & Colors"
+  "primary": "#b0bec5"
 }
