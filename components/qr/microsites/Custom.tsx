@@ -1,15 +1,11 @@
-import {useCallback} from "react";
-import dynamic from "next/dynamic";
-
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
-import {clearDataStyles, getSeparation, handleFont} from "./renderers/helper";
+import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderers/helper";
 
 import MainMicrosite from "./MainMicrosite";
 import RenderHeadLine from "./renderers/RenderHeadLine";
-import Waiting from "../../Waiting";
-import Notification from "../../Notification";
+
+import dynamic from "next/dynamic";
 
 const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
@@ -39,23 +35,10 @@ const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCar
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
 const RenderDonation = dynamic(() => import("./contents/Donations"));
 const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
+const Typography = dynamic(() => import("@mui/material/Typography"));
 
-interface CustomType {
-  component: string;
-  name?: string;
-  data?: any;
-  expand: string;
-}
-
-export default function Custom({newData}: any) {
+const Custom = ({newData}: any) => {
   const styled = clearDataStyles(newData);
-
-  const renderDownloadVCard = useCallback(() => (
-    <RenderDownloadVCard data={{
-      ...newData.custom.find((x: { component: string; }) => x.component === 'presentation')?.data,
-      ...newData.custom.find((x: { component: string; }) => x.component === 'organization')?.data
-    }} styled={styled} />
-  ), [styled]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderComponent = (x: CustomType, index: number) => {
     const {component, name, data} = x;
@@ -80,11 +63,15 @@ export default function Custom({newData}: any) {
       <Box sx={{width: '100%'}}>
         {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
           && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-          <RenderHeadLine component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
-                          centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon}
-                          customFont={!data?.customFont ? undefined : {
-                            headlineFont: data.headlineFont, headlineFontSize: data.headlineFontSize, headLineFontStyle: data.headLineFontStyle
-                          }} />
+          <RenderHeadLine
+            component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
+            centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon}
+            customFont={!data?.customFont ? undefined : {
+              headlineFont: data.headlineFont,
+              headlineFontSize: data.headlineFontSize,
+              headLineFontStyle: data.headLineFontStyle
+            }}
+          />
         }
         <Box sx={sectStyle}>
           {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
@@ -126,13 +113,13 @@ export default function Custom({newData}: any) {
   const { qrType, custom: sections, layout } = newData;
   const startSections = Boolean(layout?.startsWith('sections'));
 
-  function renderSection(section: CustomType, index: number) {
+  const renderSection = (section: CustomType, index: number) => {
     let tSpacing = undefined;
     let bSpacing = undefined;
 
     if (section.data) {
-      tSpacing = section.data.tSpacing;
-      bSpacing = section.data.bSpacing;
+      tSpacing = section.data.topSpacing;
+      bSpacing = section.data.bottomSpacing;
     }
 
     const sSx = { width: 'calc(100% - 10px)' };
@@ -156,13 +143,18 @@ export default function Custom({newData}: any) {
 
   return (
     <MainMicrosite data={newData}>
-      <Waiting />
-      <Notification />
-      <RenderBadge badge={badge} stylesData={styled} />
+      {badge && <RenderBadge badge={badge} stylesData={styled} />}
       <Box sx={{width: '100%', p: 2}}>
         {sections?.map(renderSection)}
       </Box>
-      {qrType === 'vcard+' && sections?.length && renderDownloadVCard()}
+      {qrType === 'vcard+' && sections?.length && (
+        <RenderDownloadVCard data={{
+          ...newData.custom.find((x: { component: string; }) => x.component === 'presentation')?.data,
+          ...newData.custom.find((x: { component: string; }) => x.component === 'organization')?.data
+        }} styled={styled} />
+      )}
     </MainMicrosite>
   );
 }
+
+export default Custom;

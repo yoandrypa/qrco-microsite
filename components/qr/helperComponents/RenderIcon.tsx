@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 
 import { grey } from "@mui/material/colors";
 
+const TikTokIcon = dynamic(() => import("./TikTokIcon"));
 const WebIcon = dynamic(() => import('@mui/icons-material/Web'));
 const AlternateEmailIcon = dynamic(() => import('@mui/icons-material/AlternateEmail'));
 const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'));
@@ -68,11 +69,16 @@ type RenderIconProp = {
 
 export default function RenderIcon({ icon, color, enabled, adjust, size }: RenderIconProp) {
   const renderIcon = () => {
+    if (icon === 'tiktok') {
+      return <TikTokIcon color={color} size={size} />;
+    }
+
     const sx = { mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] } as any;
     if (size) {
       sx.width = size;
       sx.height = size;
     }
+
     switch (icon) {
       case 'custom': { return <CustomizeIcon sx={sx} />; }
       case 'copy': { return <ContentCopyIcon sx={sx} />; }
@@ -138,5 +144,5 @@ export default function RenderIcon({ icon, color, enabled, adjust, size }: Rende
     }
   };
 
-  return (<>{renderIcon()}</>);
+  return renderIcon();
 };
