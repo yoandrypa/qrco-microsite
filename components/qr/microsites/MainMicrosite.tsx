@@ -272,7 +272,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           )}
           <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
                      isBorder={isBorder} omitBanner={omitBanner} data={data} />
-          {foreImg ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+          {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
           <Box sx={{
             backgroundClip: 'padding-box !important',
             borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
