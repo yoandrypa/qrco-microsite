@@ -122,19 +122,21 @@ const Custom = ({newData}: any) => {
       bSpacing = section.data.bottomSpacing;
     }
 
-    const sSx = { width: 'calc(100% - 10px)' };
     const mSx = {
       width: '100%',
       mt: (tSpacing && tSpacing !== 'default') ? getSeparation(tSpacing, true) : undefined,
       mb: (bSpacing && bSpacing !== 'default') ? getSeparation(bSpacing, true) : undefined,
     };
 
-    const component = renderComponent(section, index);
-
     return (
-      <Box sx={mSx} key={`key${section.expand || index}`}>
-        {startSections ? <RenderSectWrapper sx={sSx} layout={layout}>{component}</RenderSectWrapper> : component}
-      </Box>
+      <>
+        <Box sx={mSx} key={`key${section.expand || index}`}>
+          {startSections ? (<RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={layout}>
+            {renderComponent(section, index)}
+          </RenderSectWrapper>) : renderComponent(section, index)}
+        </Box>
+        <Box sx={{width: '100%', height: '1px'}} />
+      </>
     );
   }
 

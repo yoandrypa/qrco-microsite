@@ -83,7 +83,7 @@ export default function RenderImages({data, stylesData}: CustomProps) {
   }
 
   const renderGallery = () => (
-    <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
+    <Grid container spacing={2} sx={{p: 2}}>{/* @ts-ignore */}
       {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
         if (!x) {
           return (
@@ -106,21 +106,25 @@ export default function RenderImages({data, stylesData}: CustomProps) {
         return (
           <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
             <Tooltip title="Click to enlarge" disableHoverListener={hideTooltip}>
-              <Box
-                key={`img${img}`}
-                component="img"
-                src={img}
-                alt="image"
-                sx={{
-                  width,
-                  cursor: 'pointer',
-                  borderRadius: '4px',
-                  '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
-                }}
-                onClick={() => {
-                  index.current = fileNumber;
-                  setPreview(x)
-                }}/>
+              <Box sx={{textAlign: 'center'}}>
+                <Box
+                  key={`img${img}`}
+                  component="img"
+                  src={img}
+                  alt="image"
+                  sx={{
+                    width,
+                    objectFit: 'cover',
+                    height: '230px',
+                    cursor: 'pointer',
+                    borderRadius: '4px',
+                    '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
+                  }}
+                  onClick={() => {
+                    index.current = fileNumber;
+                    setPreview(x)
+                  }}/>
+              </Box>
             </Tooltip>
           </Grid>
         )}
