@@ -93,6 +93,14 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
         url = 'https://www.tiktok.com/@';
         break;
       }
+      case 'reddit': {
+        url = 'https://www.reddit.com/r/';
+        break;
+      }
+      case 'quora': {
+        url = 'https://www.quora.com/profile/';
+        break;
+      }
     }
 
     url += `${encodeURIComponent(value)}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
