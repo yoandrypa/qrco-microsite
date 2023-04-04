@@ -108,10 +108,13 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
 
     if (data?.socialsOnlyIcons) {
       const size = !data.iconSize || data.iconSize === 'default' ? undefined : data.iconSize;
+      const invert = data?.invertIconColors || false;
+
       const sx = {
         width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000,
         '&:hover': {
-          color: theming.palette.primary.main, background: theming.palette.secondary.main,
+          color: theming.palette[!invert ? 'primary' : 'secondary'].main,
+          background: theming.palette[!invert ? 'secondary' : 'primary'].main
         }
       };
       if (size) {
@@ -120,15 +123,16 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
         sx.height = dimension;
       }
 
-      let color = theming.palette.primary.main;
-      let colorSec = theming.palette.secondary.main;
+      let color = theming.palette[!invert ? 'secondary' : 'primary'].main;
+      let colorSec = theming.palette[!invert ? 'primary' : 'secondary'].main;
 
       if (stylesData.buttonBack) {
         if (stylesData.buttonBack === 'solid') {
           color = stylesData.buttonBackColor; // @ts-ignore
           delete sx['&:hover'];
         } else if (['two', 'gradient'].includes(stylesData.buttonBack)) {
-          const colors = stylesData.buttonBackColor?.split('|') || [theming.palette.primary.main, theming.palette.secondary.main];
+          const colors = stylesData.buttonBackColor?.split('|') ||
+            [theming.palette[!invert ? 'secondary' : 'primary'].main, theming.palette[!invert ? 'primary' : 'secondary'].main];
           color = colors[0];
           colorSec = colors[1];
           sx['&:hover'] = { color: colors[0], background: colors[1] };
