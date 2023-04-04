@@ -19,9 +19,11 @@ export interface AmountUnitsProps {
 }
 
 export interface ButtonDonateProps {
-  totalAmount: number;
+  amount: number;
+  quantity: number;
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   label?: string;
   stylesData?: any;
+  msgSenderId: string;
 }
 

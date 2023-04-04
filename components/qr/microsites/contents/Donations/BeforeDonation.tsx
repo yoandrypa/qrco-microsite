@@ -15,9 +15,9 @@ import { startWaiting, releaseWaiting } from "../../../../Waiting";
 import AmountUnits from "./AmountUnits";
 import ButtonDonate from "./ButtonDonate";
 
-const getTotalAmount = (data: any): number => (data.unitAmount) * (data.quantity);
+export default function BeforeDonation({ data, index, stylesData }: DonationsProps) {
+  const msgSenderId = `qr_section_${index}`;
 
-export default function BeforeDonation({ data, stylesData }: DonationsProps) {
   const onDonate = async () => {
     if (data.isSample) return setWarning(
       'This action is not available in this example.<br/>This is just a preview.'
@@ -48,7 +48,7 @@ export default function BeforeDonation({ data, stylesData }: DonationsProps) {
 
   const onChangeQuantity = (value: number) => {
     data.quantity = value;
-    messaging.emitMessage('setTotalAmount', getTotalAmount(data));
+    messaging.emit('onChangeQuantity', value, msgSenderId);
   }
 
   data.unitAmount = data.unitAmount || 1;
@@ -78,7 +78,10 @@ export default function BeforeDonation({ data, stylesData }: DonationsProps) {
 
       <Grid item xs={12} sx={{ mt: 2, textAlign: 'center' }}>
         <ButtonDonate label={data.urlOptionLabel} stylesData={stylesData} onClick={onDonate}
-                      totalAmount={getTotalAmount(data)} />
+                      amount={data.unitAmount}
+                      quantity={data.quantity}
+                      msgSenderId={msgSenderId}
+        />
       </Grid>
     </Grid>
   );
