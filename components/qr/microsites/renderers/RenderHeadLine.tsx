@@ -64,7 +64,6 @@ export default function RenderHeadLine(
   }, [customFont?.headlineFontSize]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const renderIcon = () => {
-    console.log(customFont)
     if (customFont !== undefined) {
       let color = theme.palette.primary.main;
       let index = -1;

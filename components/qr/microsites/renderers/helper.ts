@@ -408,7 +408,7 @@ export const getSeparation = (value?: string, sections?: boolean): string => {
 
   switch (value) {
     case 'narrow': { separation = !sections ? '1' : '-10'; break; }
-    case 'medium': { separation = !sections ? '15' : '24'; break; }
+    case 'medium': { separation = !sections ? '15' : '25'; break; }
     case 'wide': { separation = !sections ? '25' : '35'; break; }
   }
 
