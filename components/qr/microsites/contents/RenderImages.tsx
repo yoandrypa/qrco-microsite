@@ -106,25 +106,23 @@ export default function RenderImages({data, stylesData}: CustomProps) {
         return (
           <Grid item xs={colNumber} sx={{mx: 'auto', my: 'auto', textAlign: 'center', zIndex: 1000}} key={`item${img}`}>
             <Tooltip title="Click to enlarge" disableHoverListener={hideTooltip}>
-              <Box sx={{textAlign: 'center'}}>
-                <Box
-                  key={`img${img}`}
-                  component="img"
-                  src={img}
-                  alt="image"
-                  sx={{
-                    width,
-                    objectFit: 'cover',
-                    height: '230px',
-                    cursor: 'pointer',
-                    borderRadius: '4px',
-                    '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
-                  }}
-                  onClick={() => {
-                    index.current = fileNumber;
-                    setPreview(x)
-                  }}/>
-              </Box>
+              <Box
+                key={`img${img}`}
+                component="img"
+                src={img}
+                alt="image"
+                sx={{
+                  width,
+                  objectFit: 'cover',
+                  height: data?.iframed ? '230px' : '185px',
+                  cursor: 'pointer',
+                  borderRadius: '4px',
+                  '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
+                }}
+                onClick={() => {
+                  index.current = fileNumber;
+                  setPreview(x)
+                }}/>
             </Tooltip>
           </Grid>
         )}
