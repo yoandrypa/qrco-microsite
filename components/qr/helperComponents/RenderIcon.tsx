@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 
 import { grey } from "@mui/material/colors";
+import QuoraIcon from "./QuoraIcon";
 
 const TikTokIcon = dynamic(() => import("./TikTokIcon"));
 const WebIcon = dynamic(() => import('@mui/icons-material/Web'));
@@ -58,6 +59,7 @@ const EmojiFoodBeverageIcon = dynamic(() => import('@mui/icons-material/EmojiFoo
 const HttpIcon = dynamic(() => import('@mui/icons-material/Http'));
 const PublicIcon = dynamic(() => import('@mui/icons-material/Public'));
 const CustomizeIcon = dynamic(() => import('@mui/icons-material/DashboardCustomize'));
+const RedditIcon = dynamic(() => import('@mui/icons-material/Reddit'));
 
 type RenderIconProp = {
   icon: string;
@@ -84,6 +86,10 @@ export default function RenderIcon({ icon, color, colorSec, enabled, adjust, siz
 
     if (icon === 'tiktok') {
       return <TikTokIcon color={color} size={size} sx={sx} />;
+    }
+
+    if (icon === 'quora') {
+      return <QuoraIcon color={color} size={size} sx={sx} />;
     }
 
     switch (icon) {
@@ -147,6 +153,7 @@ export default function RenderIcon({ icon, color, colorSec, enabled, adjust, siz
       case 'link': { return <LinkIcon sx={sx} />; }
       case 'fax': { return <FaxIcon sx={sx} />; }
       case 'petId': { return <PetsIcon sx={sx} />; }
+      case 'reddit': { return <RedditIcon sx={sx} />; }
       default: { return <TextSnippetOutlinedIcon sx={sx} />; }
     }
   };
