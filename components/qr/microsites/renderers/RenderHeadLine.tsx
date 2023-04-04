@@ -29,6 +29,7 @@ const PictureAsPdfIcon = dynamic(() => import("@mui/icons-material/PictureAsPdf"
 const TheatersIcon = dynamic(() => import("@mui/icons-material/Theaters"));
 const AudiotrackIcon = dynamic(() => import("@mui/icons-material/Audiotrack"));
 const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'));
+const DonationIcon = dynamic(() => import('@mui/icons-material/EmojiFoodBeverage'));
 
 interface HeadLineProps {
   component: string;
@@ -88,6 +89,7 @@ export default function RenderHeadLine(
       case 'organization': { return <WorkIcon sx={sx}/>; }
       case 'video': { return <TheatersIcon sx={sx} />; }
       case 'audio': { return <AudiotrackIcon sx={sx} />; }
+      case 'donation': { return <DonationIcon sx={sx} />; }
       case 'sms': {
         message.current = 'SMS';
         return <SmsOutlinedIcon sx={sx} />;

@@ -19,7 +19,7 @@
     "opacity": 50,
     "size": 1
   },
-  "qrType": "custom",
+  "qrType": "donation",
   "qrName": "Donation",
   "isDynamic": true,
   "image": "",
