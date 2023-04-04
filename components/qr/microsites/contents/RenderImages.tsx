@@ -83,7 +83,7 @@ export default function RenderImages({data, stylesData}: CustomProps) {
   }
 
   const renderGallery = () => (
-    <Grid container spacing={1} sx={{p: 2}}>{/* @ts-ignore */}
+    <Grid container spacing={2} sx={{p: 2}}>{/* @ts-ignore */}
       {images.current.length ? images.current.map((x: FileType | string, fileNumber: number) => {
         if (!x) {
           return (
@@ -113,6 +113,8 @@ export default function RenderImages({data, stylesData}: CustomProps) {
                 alt="image"
                 sx={{
                   width,
+                  objectFit: 'cover',
+                  height: data?.iframed ? '230px' : '185px',
                   cursor: 'pointer',
                   borderRadius: '4px',
                   '&:hover': { boxShadow: '0 0 5px 5px #849abb' }
