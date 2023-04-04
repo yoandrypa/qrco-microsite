@@ -9,13 +9,14 @@ import { handleButtons, handleFont } from "../../renderers/helper";
 
 const mSubscriptions: any[] = [];
 
-export default function ButtonDonate({ label, totalAmount: initTotalAmount, stylesData, onClick }: ButtonDonateProps) {
+export default function ButtonDonate(props: ButtonDonateProps) {
   const theme = useTheme();
-  const [totalAmount, setTotalAmount] = useState<number>(initTotalAmount);
+  const { label, amount, quantity: initQuantity, stylesData, onClick, msgSenderId } = props;
+  const [quantity, setQuantity] = useState<number>(initQuantity);
 
   useEffect(() => {
     // Anything in here is fired on component mount.
-    mSubscriptions.push(messaging.setListener('setTotalAmount', setTotalAmount));
+    mSubscriptions.push(messaging.setListener('onChangeQuantity', setQuantity, msgSenderId));
 
     return () => {
       // Anything in here is fired on component unmount.
@@ -31,7 +32,7 @@ export default function ButtonDonate({ label, totalAmount: initTotalAmount, styl
 
   return (
     <Button variant="contained" sx={bSx} onClick={onClick}>
-      {label || 'Donate'} ${totalAmount}
+      {label || 'Donate'} ${amount * quantity}
     </Button>
   )
 }
