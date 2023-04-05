@@ -19,7 +19,7 @@ export default function RenderEasiness({data}: any) {
   }, []);
 
   return (
-    <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content'}}>
+    <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 'fit-content', margin: '0 auto'}}>
       {data?.easiness?.wifi && renderEasiness('wifi', 'WiFi')}
       {data?.easiness?.accessible && renderEasiness('accessible', 'Accessible')}
       {data?.easiness?.health && renderEasiness('health', 'Health')}

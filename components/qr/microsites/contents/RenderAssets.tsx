@@ -116,11 +116,11 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
       return (
         <Box key={`mainIt${fileNumber}`} sx={{
           mt: '5px',
-          width: 'calc(100% - 10px)',
-          ml: '5px',
-          p: 2,
-          border: theme => `solid 1px ${theme.palette.primary.main}`,
-          borderRadius: '5px'
+          width: '100%'
+          // ml: '5px',      // extra borders removed
+          // p: 2,
+          // border: theme => `solid 1px ${theme.palette.primary.main}`,
+          // borderRadius: '5px'
         }}>
           {x ? (
             <>
