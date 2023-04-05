@@ -22,7 +22,8 @@ export default function RenderTop(
   const height = useMemo(() => {
     let size = 200 as number;
     if (data.upperHeight === 'medium') { size = 260; }
-    if (data.upperHeight === 'wide') { size = 320; }
+    else if (data.upperHeight === 'wide') { size = 320; }
+    else if (data.upperHeight === 'narrow') { size = 10; }
 
     if (isInverse) { size += 28; }
     return size;
