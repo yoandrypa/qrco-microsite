@@ -15,7 +15,7 @@ export default function RenderSMSData({data, stylesData}: CustomProps) {
   return (
     <Box sx={{width: 'calc(100% - 20px)'}}>
       {data?.visibleReceipt && <Typography sx={{...handleFont(stylesData, 's'), mb: 1}}>{`Receipt: ${data?.cell || ''}`}</Typography>}
-      <Typography sx={{...handleFont(stylesData, 's')}}>SMS</Typography>
+      <Typography sx={{...handleFont(stylesData, 'm')}}>SMS</Typography>
       <TextField
         label=''
         size='small'

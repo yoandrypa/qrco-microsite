@@ -53,7 +53,7 @@ const Custom = ({newData}: any) => {
     }
 
     const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
-    if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials', 'donation'].includes(component)) {
+    if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials', 'donation', 'easiness'].includes(component) || data?.hideHeadLine) {
       sectStyle.width = 'calc(100% - 16px)';
       sectStyle.px = '10px';
       sectStyle.ml = 1;
