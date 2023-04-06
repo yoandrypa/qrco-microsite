@@ -77,7 +77,7 @@ export default function BeforeDonation({ data, index, stylesData }: DonationsPro
       </Grid>
 
       <Grid item xs={12} sx={{ mt: 2, textAlign: 'center' }}>
-        <ButtonDonate label={data.urlOptionLabel} stylesData={stylesData} onClick={onDonate}
+        <ButtonDonate label={data.buttonText} stylesData={stylesData} onClick={onDonate}
                       amount={data.unitAmount}
                       quantity={data.quantity}
                       msgSenderId={msgSenderId}
