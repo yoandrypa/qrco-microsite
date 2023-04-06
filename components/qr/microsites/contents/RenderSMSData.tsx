@@ -16,23 +16,6 @@ export default function RenderSMSData({data, stylesData}: CustomProps) {
     <Box sx={{width: 'calc(100% - 20px)'}}>
       {data?.visibleReceipt && <Typography sx={{...handleFont(stylesData, 's'), mb: 1}}>{`Receipt: ${data?.cell || ''}`}</Typography>}
       <Typography sx={{...handleFont(stylesData, 'm')}}>SMS</Typography>
-      <TextField
-        label=''
-        size='small'
-        fullWidth
-        multiline
-        rows={5}
-        placeholder={data?.message || ''}
-        value={message}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '&:hover fieldset': { borderColor: theme.palette.primary.main }
-          }
-        }}
-        InputProps={{sx:{ background: '#fff', color: theme.palette.primary.main }}}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)}
-      />
-
       <Button
         variant='contained'
         disabled={!message.trim().length}
