@@ -6,6 +6,7 @@ import MainMicrosite from "./MainMicrosite";
 import RenderHeadLine from "./renderers/RenderHeadLine";
 
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
 const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
@@ -39,9 +40,14 @@ const Typography = dynamic(() => import("@mui/material/Typography"));
 
 const Custom = ({newData}: any) => {
   const styled = clearDataStyles(newData);
+  const router = useRouter();
+  const { idx } = router.query;
+  const only = (typeof idx === 'string' ? idx.split(/[,\s]+/) : idx)?.map((i) => parseInt(i, 10));
 
   const renderComponent = (x: CustomType, index: number) => {
     const {component, name, data = {}} = x;
+
+    if (only && !only.includes(index)) return null;
 
     if (data) {
       if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
