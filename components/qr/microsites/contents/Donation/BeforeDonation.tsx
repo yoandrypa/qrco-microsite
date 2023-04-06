@@ -32,7 +32,7 @@ export default function BeforeDonation({ data, index, stylesData }: DonationsPro
       data: {
         mode: 'payment',
         submit_type: 'donate',
-        success_url: `${callbackUrl}?thanks=1`,
+        success_url: `${callbackUrl}?thanks=1&idx=${index}`,
         cancel_url: callbackUrl,
         line_items: [{ price: data.priceId, quantity: data.quantity }],
         ownerId: data.ownerId,
