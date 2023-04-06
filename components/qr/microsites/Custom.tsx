@@ -33,7 +33,7 @@ const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
 const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
-const RenderDonation = dynamic(() => import("./contents/Donations"));
+const RenderDonation = dynamic(() => import("./contents/Donation"));
 const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
 const Typography = dynamic(() => import("@mui/material/Typography"));
 
@@ -41,7 +41,7 @@ const Custom = ({newData}: any) => {
   const styled = clearDataStyles(newData);
 
   const renderComponent = (x: CustomType, index: number) => {
-    const {component, name, data} = x;
+    const {component, name, data = {}} = x;
 
     if (data) {
       if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {

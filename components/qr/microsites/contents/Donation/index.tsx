@@ -5,7 +5,7 @@ import BeforeDonation from "./BeforeDonation";
 
 import { DonationsProps } from "./types";
 
-export default function DonationsInfo(props: DonationsProps) {
+export default function Donation(props: DonationsProps) {
   const router = useRouter();
 
   const { thanks } = router.query;
