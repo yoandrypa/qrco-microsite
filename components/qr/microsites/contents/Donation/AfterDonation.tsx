@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import { DonationsProps } from "./types";
 import { handleFont } from "../../renderers/helper";
 import { microSiteUrl, msRequest } from "../../../../../utils/requests";
+import { setSuccess } from "../../../../Notification";
 
 const boxSx = { display: 'flex', justifyContent: 'center' };
 
@@ -20,6 +21,7 @@ export default function AfterDonation({ data, stylesData, index }: DonationsProp
 
   function onSend() {
     const { contactName, message } = data.review;
+    const mSiteUrl = microSiteUrl();
     const options = {
       url: 'send/review/email',
       method: 'post',
@@ -30,13 +32,15 @@ export default function AfterDonation({ data, stylesData, index }: DonationsProp
         content: {
           contactName: contactName || 'An Anonymous user',
           message,
-          microSiteUrl: microSiteUrl(),
+          microSiteUrl: mSiteUrl,
         }
       }
     }
 
     msRequest(options).then((response) => {
-      console.log(response);
+      const timeout = 5000;
+      setSuccess('Your message was sent successfully.', timeout);
+      setTimeout(() => window.location.replace(data.website || mSiteUrl), timeout);
     });
   }
 
