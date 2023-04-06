@@ -94,7 +94,7 @@ export default function AudioPlayer({audioContent}: AudioProps) {
     if (!analyser.current) { return; }
 
     analyser.current.getByteFrequencyData(dataArray.current);
-    const barWidth = Math.ceil(width / bufferLength.current) + 1;
+    const barWidth = Math.ceil(width / bufferLength.current) + 2;
 
     let color;
     const bars = Math.ceil(width / barWidth);
