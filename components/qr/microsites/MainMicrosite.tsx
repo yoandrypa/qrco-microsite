@@ -25,6 +25,7 @@ interface MicrositesProps {
 export default function MainMicrosite({children, data}: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
+  const [qrCodeImg, setQrCodeImg] = useState<any>(undefined);
   const [micrositeBackImage, setMicrositeBackImage] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [containerDimensions, setContainerDimensions] = useState<DimsProps | undefined>(undefined);
@@ -38,8 +39,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const getFiles = async (key: string, item: string) => {
     try {
       const fileData = await download(key, data.isSample);
-
-      if (item === 'micrositeBackImage') {
+      if (item === 'qrCodeImg') {
+        setQrCodeImg(fileData);
+      } else if (item === 'micrositeBackImage') {
         setMicrositeBackImage(fileData);
       } else if (item === 'backgndImg') {
         setBackImg(fileData);
@@ -48,7 +50,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       }
       counter.current -= 1;
     } catch {
-      if (item === 'micrositeBackImage') {
+      if (item === 'qrCodeImg') {
+        setQrCodeImg(null);
+      } else if (item === 'micrositeBackImage') {
         setMicrositeBackImage(null);
       } else if (item === 'backgndImg') {
         setBackImg(null);
@@ -68,6 +72,15 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
 
   useEffect(() => {
+    if (data.qrForSharing) {
+      if (Array.isArray(data.qrForSharing)) {
+        counter.current += 1;
+        getFiles(data.qrForSharing[0].Key, 'qrCodeImg');
+      } else {
+        setQrCodeImg(data.qrCodeImg);
+      }
+    }
+
     if (data.backgndImg) {
       if (Array.isArray(data.backgndImg)) {
         setLoading(true);
@@ -244,7 +257,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
       {data.shortlinkurl !== undefined && (data.sharerPosition === 'downLeft' || data.sharerPosition === 'downRight') && (
-        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} />
+        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} qrCode={qrCodeImg?.content} width={width} />
       )}
       <Box sx={{
         position: 'relative',
@@ -268,7 +281,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             }} />
           )}
           {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
-            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} />
+            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} qrCode={qrCodeImg?.content} />
           )}
           <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
                      isBorder={isBorder} omitBanner={omitBanner} data={data} />
