@@ -15,6 +15,7 @@ export async function getEmailRecipient(microSiteUrl: string, index: number): Pr
 }
 
 export async function sendEmail(data: any) {
+  console.log(data);
   const url = 'https://eyk58kso8i.execute-api.us-east-1.amazonaws.com/ebanux-prod/email';
   const options = {
     method: 'post',

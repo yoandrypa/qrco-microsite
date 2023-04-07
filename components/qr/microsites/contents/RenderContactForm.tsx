@@ -43,11 +43,11 @@ function RenderContactForm({data, stylesData, index}: ContactProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contactEmail: email,
-          subject,
           index,
+          subject,
           content: {
             message,
+            contactEmail: email,
             microSiteUrl: window.location.href,
           },
         })
