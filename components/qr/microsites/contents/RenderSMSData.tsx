@@ -1,15 +1,11 @@
-import {ChangeEvent, useState} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import {CustomProps, handleButtons, handleFont} from "../renderers/helper";
 import {useTheme} from "@mui/system";
 
 export default function RenderSMSData({data, stylesData}: CustomProps) {
-  const [message, setMessage] = useState<string>('');
-
   const theme = useTheme();
 
   return (
@@ -18,11 +14,10 @@ export default function RenderSMSData({data, stylesData}: CustomProps) {
       <Typography sx={{...handleFont(stylesData, 'm')}}>SMS</Typography>
       <Button
         variant='contained'
-        disabled={!message.trim().length}
         sx={{...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme), width: '100%', mt: 2}}
         target="_blank"
         component="a"
-        href={`sms:${data?.cell}&body=${encodeURIComponent(message)}`}
+        href={`sms:${data?.cell}`}
       >
         {data?.buttonText || 'Send SMS'}
       </Button>
