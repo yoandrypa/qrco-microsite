@@ -24,13 +24,14 @@ export async function parseFromPostRequest(req: NextApiRequest): Promise<any> {
     }).required(),
   });
 
-  const { index, ...data } = Joi.attempt(req.body, schema, { abortEarly: false });
-  data.content.dashboardUrl =  `${process.env.PAYLINK_BASE_URL}/dashboards`;
+  const { index, content, subject } = Joi.attempt(req.body, schema, { abortEarly: false });
 
   return {
-    ...data,
+    subject,
     fromAddresses: 'info@ebanux.com',
-    toAddresses: await getEmailRecipient(data.content.microSiteUrl, index),
+    toAddresses: await getEmailRecipient(content.microSiteUrl, index),
+    replyToAddresses: 'no-reply@ebanux.com',
+    content: { ...content, dashboardUrl: `${process.env.PAYLINK_BASE_URL}/dashboards` },
     template: 'donation-review-message',
   }
 }
