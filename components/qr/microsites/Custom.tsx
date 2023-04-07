@@ -4,6 +4,8 @@ import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderer
 
 import MainMicrosite from "./MainMicrosite";
 import RenderHeadLine from "./renderers/RenderHeadLine";
+import Waiting from "../../Waiting";
+import Notification from "../../Notification";
 
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -120,14 +122,7 @@ const Custom = ({newData}: any) => {
   const startSections = Boolean(layout?.startsWith('sections'));
 
   const renderSection = (section: CustomType, index: number) => {
-    let tSpacing = undefined;
-    let bSpacing = undefined;
-
-    if (section.data) {
-      tSpacing = section.data.topSpacing;
-      bSpacing = section.data.bottomSpacing;
-    }
-
+    const { topSpacing: tSpacing, bottomSpacing: bSpacing } = section.data || {};
     const mSx = {
       width: '100%',
       mt: (tSpacing && tSpacing !== 'default') ? getSeparation(tSpacing, true) : undefined,
@@ -151,6 +146,8 @@ const Custom = ({newData}: any) => {
 
   return (
     <MainMicrosite data={newData}>
+      <Waiting />
+      <Notification />
       {badge && <RenderBadge badge={badge} stylesData={styled} />}
       <Box sx={{width: '100%', p: 2}}>
         {sections?.map(renderSection)}
