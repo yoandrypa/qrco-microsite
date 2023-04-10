@@ -384,6 +384,18 @@ export const getBase64FromUrl = async (url: string) => {
   });
 };
 
+export const blobUrlToFile = (url: string, name: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        const file = new File([blob], name);
+        resolve(file);
+      })
+      .catch(e => reject(e));
+  })
+};
+
 export const convertBase64 = (file: Blob | File): object => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();

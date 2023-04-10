@@ -17,6 +17,7 @@ const RenderMicrositeBackgroundImage = dynamic(() => import("./mainMicroComponen
 const Notifications = dynamic(() => import("../helperComponents/Notifications"));
 const RenderBackgroundIfWideScreen = dynamic(() => import("./mainMicroComponents/RenderBackgroundIfWideScreen"));
 const CircularProgress = dynamic(() => import("@mui/material/CircularProgress"));
+const RenderShowQr = dynamic(() => import("./mainMicroComponents/RenderShowQr"));
 
 interface MicrositesProps {
   children: ReactNode; data: any;
@@ -26,6 +27,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const [backImg, setBackImg] = useState<any>(undefined);
   const [foreImg, setForeImg] = useState<any>(undefined);
   const [qrCodeImg, setQrCodeImg] = useState<any>(undefined);
+  const [showQr, setShowQr] = useState<boolean>(false);
   const [micrositeBackImage, setMicrositeBackImage] = useState<any>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [containerDimensions, setContainerDimensions] = useState<DimsProps | undefined>(undefined);
@@ -72,13 +74,13 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
   const isBorder = useMemo(() => data.layout?.includes('Border'), [data.layout]);
 
   useEffect(() => {
-    if (data.qrForSharing) {
+    if (!data.iframed && data.qrForSharing) {
       if (Array.isArray(data.qrForSharing)) {
         counter.current += 1;
         getFiles(data.qrForSharing[0].Key, 'qrCodeImg');
-      } else {
-        setQrCodeImg(data.qrCodeImg);
       }
+    } else if (data.qrCodeImg) {
+      setQrCodeImg(data.qrCodeImg);
     }
 
     if (data.backgndImg) {
@@ -234,6 +236,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
   const isBackgroundImg = useMemo(() => data.backgroundType === 'image' && Boolean(micrositeBackImage), [data.backgroundType, micrositeBackImage]);
 
+  const handleQrPreview = () => {
+    setShowQr((prev: boolean) => !prev);
+  };
+
   return (
     <>
       {error && (
@@ -257,46 +263,47 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
       {data.shortlinkurl !== undefined && (data.sharerPosition === 'downLeft' || data.sharerPosition === 'downRight') && (
-        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} qrCode={qrCodeImg?.content} width={width} />
+        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} width={width} />
       )}
       <Box sx={{
         position: 'relative',
         top: 0, left: '50%', transform: 'translate(-50%, 0)',
         border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
         boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
-        backgroundColor: isBackgroundImg ? 'transparent' : (!data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff'),
-        backgroundImage: isBackgroundImg ? undefined : (!data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
+        backgroundColor: isBackgroundImg || showQr ? 'transparent' : (!data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff'),
+        backgroundImage: isBackgroundImg || showQr ? undefined : (!data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
           (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff')),
         maxWidth: width, minHeight, overflowX: 'hidden'
       }}>
-
-        <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
-          {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
-            <Box sx={{
-              width: '100%',
-              background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
-              height: '250px',
-              position: 'absolute',
-              bottom: 0
-            }} />
-          )}
-          {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
-            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} qrCode={qrCodeImg?.content} />
-          )}
-          <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
-                     isBorder={isBorder} omitBanner={omitBanner} data={data} />
-          {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
-          <Box sx={{
-            backgroundClip: 'padding-box !important',
-            borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
-            borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
-          }}>
-            {!data.layout?.includes('entire') ? children : (
-              <RenderSectWrapper layout={data.layout} sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
+        {!showQr ? (<>
+          <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
+            {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
+              <Box sx={{
+                width: '100%',
+                background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
+                height: '250px',
+                position: 'absolute',
+                bottom: 0
+              }} />
             )}
+            {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
+              <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} />
+            )}
+            <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
+                       isBorder={isBorder} omitBanner={omitBanner} data={data} />
+            {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+            <Box sx={{
+              backgroundClip: 'padding-box !important',
+              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+              borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
+            }}>
+              {!data.layout?.includes('entire') ? children : (
+                <RenderSectWrapper layout={data.layout} sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
+              )}
+            </Box>
           </Box>
-        </Box>
-        {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
+          {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
+        </>) : <RenderShowQr qrImg={qrCodeImg} handlePreviewQr={handleQrPreview} height={minHeight} iframed={data?.iframed || false} />}
       </Box>
     </>
   );

@@ -1,29 +1,28 @@
-import {MouseEvent, useEffect, useState} from "react";
 import {RWebShare} from "react-web-share";
 import Fab from "@mui/material/Fab";
 import ShareIcon from "@mui/icons-material/Share";
-import Button from '@mui/material/Button';
-
-import Box from "@mui/material/Box";
-import Popover from "@mui/material/Popover";
-
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Menu from "@mui/material/Menu";
+import QrCodeIcon from '@mui/icons-material/QrCode';
+import {useTheme} from "@mui/system";
 
 interface SharerProps {
   baseURL: string;
-  position: string;
+  position?: string;
   height: string;
   width?: string;
   topHeight?: string;
-  qrCode?: any;
+  handlePreviewQr?: () => void;
 }
 
-export default function RenderSharer({baseURL, position, height, width, topHeight, qrCode}: SharerProps) {
-  const [anchor, setAnchor] = useState<undefined | HTMLElement>(undefined);
-  const [showQr, setShowQr] = useState<boolean>(false);
+const getSx = (pos: any, theme: any) => ({
+  position: 'fixed', border: 'solid 3px #fff', ...pos,
+  color: theme.palette.secondary.main, backgroundColor: theme.palette.primary.main,
+  '&:hover': {color: theme.palette.primary.main, background: theme.palette.secondary.main}
+});
+
+
+export default function RenderSharer({baseURL, position, height, width, topHeight, handlePreviewQr}: SharerProps) {
+  const theme = useTheme();
+
   let pos: any;
 
   if (position === 'upLeft') {
@@ -43,76 +42,36 @@ export default function RenderSharer({baseURL, position, height, width, topHeigh
     }
   }
 
-  const renderButton = (command?: (event: MouseEvent<HTMLElement>) => void) => {
+  const renderQR = () => {
+    if (!handlePreviewQr) {
+      return undefined;
+    }
+
+    const sx = getSx(pos, theme);
+    if (position === undefined || position === 'upRight') {
+      sx.right = '63px';
+    } else if (position === 'upLeft') {
+      sx.left = '63px';
+    } else if (position === 'downLeft') {
+      sx.left = !width ? '63px' : `calc(50% - ${width} / 2 + 63px)`;
+    } else if (position === 'downRight') {
+      sx.right = !width ? '63px' : `calc(50% - ${width} / 2 + 63px)`;
+    }
     return (
-      <Fab
-        size="small" color="secondary" aria-label="add"
-        onClick={command}
-        sx={{
-          position: 'fixed', ...pos, color: theme => theme.palette.secondary.main,
-          backgroundColor: theme => theme.palette.primary.main, border: 'solid 3px #fff',
-          '&:hover': {color: theme => theme.palette.primary.main, background: theme => theme.palette.secondary.main}
-        }}>
-        <ShareIcon/>
+      <Fab size="small" color="secondary" aria-label="add" sx={sx} onClick={handlePreviewQr}>
+        <QrCodeIcon/>
       </Fab>
-    );
+    )
   }
-
-  useEffect(() => {
-    if (showQr) { setAnchor(undefined); }
-  }, [showQr]);
-
-  if (!qrCode) {
-    return (
-      <RWebShare data={{text: "Shared from QRLynk", url: baseURL, title: "Share this QRLynk"}}>
-        {renderButton()}
-      </RWebShare>
-    );
-  }
-
-  const handleOpen = (event: MouseEvent<HTMLElement>) => {
-    setAnchor(event.currentTarget);
-  };
 
   return (
     <>
-      {renderButton(handleOpen)}
-      {anchor && (
-        <Menu
-          id="menuButton"
-          MenuListProps={{ 'aria-labelledby': 'menuButton' }}
-          anchorEl={anchor}
-          open
-          onClose={() => setAnchor(undefined)}
-        >
-          <MenuItem key="qrOption" onClick={() => setShowQr(true)}>
-            <ListItemIcon><Box component="img" alt="qr" src={qrCode.content || qrCode} sx={{width: '28px'}}/></ListItemIcon>
-            <ListItemText>Show QR Code</ListItemText>
-          </MenuItem>
-          <RWebShare data={{text: "Shared from QRLynk", url: baseURL, title: "Share this QRLynk"}}>
-            <MenuItem key="shareOption">
-              <ListItemIcon><ShareIcon /></ListItemIcon>
-              <ListItemText>Share</ListItemText>
-            </MenuItem>
-          </RWebShare>
-        </Menu>
-      )}
-        {showQr && (
-          <Popover
-            open
-            anchorOrigin={{vertical: 'center', horizontal: 'center'}}
-            transformOrigin={{vertical: 'center', horizontal: 'center'}}
-            onClose={() => setShowQr(false)}
-          >
-            <Box sx={{width: {sm: '450px', xs: '100%'}, p: 2, textAlign: 'center'}}>
-              <Box component="img" alt="qr" src={qrCode.content || qrCode}/>
-              <Button sx={{mt: 2}} color="primary" variant="outlined" onClick={() => setShowQr(false)}>
-                {'Close'}
-              </Button>
-            </Box>
-          </Popover>
-        )
-      }
+      <RWebShare data={{text: "Shared from QRLynk", url: baseURL, title: "Share this QRLynk"}}>
+        <Fab size="small" color="secondary" aria-label="add" sx={getSx(pos, theme)}>
+          <ShareIcon/>
+        </Fab>
+      </RWebShare>
+      {renderQR()}
     </>
   );
 }
