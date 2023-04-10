@@ -23,6 +23,7 @@ export default function RenderTop(
     let size = 200 as number;
     if (data.upperHeight === 'medium') { size = 260; }
     else if (data.upperHeight === 'wide') { size = 320; }
+    else if (data.upperHeight === 'small') { size = 100; }
     else if (data.upperHeight === 'narrow') { size = 10; }
 
     if (isInverse) { size += 28; }
