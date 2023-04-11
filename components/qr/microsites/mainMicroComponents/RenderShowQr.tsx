@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {memo, useEffect, useState} from 'react';
-import {handleButtons, handleFont} from "../renderers/helper";
+import {clearDataStyles, handleButtons, handleFont} from "../renderers/helper";
 import {useTheme} from "@mui/system";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -88,7 +88,7 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2}}>
           <Button
             variant="outlined" startIcon={<DownloadIcon />} onClick={async () => downloadAsSVG(qrImg)}
-            sx={{...handleFont(data, 'd'), ...handleButtons(data, theme)}}>
+            sx={{...handleFont(data, 'd'), ...handleButtons(clearDataStyles(data), theme)}}>
             {'Download as SVG'}
           </Button>
         </Box>
