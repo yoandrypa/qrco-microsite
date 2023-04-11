@@ -51,7 +51,7 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
   return (
     <Box sx={{width: '100%', p: 2, background: '#fff'}}>
       <Box sx={{textAlign: 'center'}}>
-        <Box component="img" src="/logo.svg" sx={{width: '130px', mt: 2, mb: '10px', py: '5px', px: 3}} />
+        <Box component="img" src="/logo.svg" sx={{width: '130px', mt: 2, mb: 1, py: '5px', px: 3}} />
         {url.length > 0 && (
           <Box sx={{display: 'flex', width: '100%', borderRadius: '4px 4px 0 0', pt: 1, justifyContent: 'center'}}>
             <Typography sx={{my: 'auto'}}>{url}</Typography>
@@ -85,11 +85,6 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
           </Button>
         </Box>
       </Box>
-      {(data?.iframed || false) && (
-        <Typography sx={{bottom: '40px', position: 'fixed', textAlign: 'center', color: theme => theme.palette.text.disabled}}>
-          {'You are seeing the embedded version of this app. Some widgets might differ from their final functionality. Be advised.'}
-        </Typography>
-      )}
       {copied && (
         <Notifications
           autoHideDuration={2500}
