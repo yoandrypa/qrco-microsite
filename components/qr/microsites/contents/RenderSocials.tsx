@@ -101,6 +101,18 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
         url = 'https://www.quora.com/profile/';
         break;
       }
+      case 'twitch': {
+        url = 'https://www.twitch.tv/';
+        break;
+      }
+      case 'discord': {
+        url = 'https://discord.com/channels/';
+        break;
+      }
+      case 'snapchat': {
+        url = 'https://www.snapchat.com/add/';
+        break;
+      }
     }
 
     url += `${encodeURIComponent(value)}${item.network !== 'youtube' ? '' : '?sub_confirmation=1'}`;
@@ -111,7 +123,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
       const invert = data?.invertIconColors || false;
 
       const sx = {
-        width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000,
+        width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000, mt: '10px',
         '&:hover': {
           color: theming.palette[!invert ? 'primary' : 'secondary'].main,
           background: theming.palette[!invert ? 'secondary' : 'primary'].main
@@ -226,7 +238,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
           </Box>
         </Grid>
       ) : (
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <Box sx={{width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
           {(data?.socials || []).map((x: SocialNetworksType, index: number) => (
             <div key={`sn${x.network}`}>
               {renderSocials(x, index === 0)}

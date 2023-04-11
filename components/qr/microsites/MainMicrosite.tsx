@@ -275,35 +275,35 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff')),
         maxWidth: width, minHeight, overflowX: 'hidden'
       }}>
-        {!showQr ? (<>
-          <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
-            {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
-              <Box sx={{
-                width: '100%',
-                background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
-                height: '250px',
-                position: 'absolute',
-                bottom: 0
-              }} />
-            )}
-            {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
-              <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} />
-            )}
-            <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
-                       isBorder={isBorder} omitBanner={omitBanner} data={data} />
-            {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+        <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
+          {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
             <Box sx={{
-              backgroundClip: 'padding-box !important',
-              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
-              borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
-            }}>
+              width: '100%',
+              background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
+              height: '250px',
+              position: 'absolute',
+              bottom: 0
+            }} />
+          )}
+          {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
+            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} />
+          )}
+          <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
+                     isBorder={isBorder} omitBanner={omitBanner} data={data} />
+          {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+          <Box sx={{
+            backgroundClip: 'padding-box !important',
+            borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+            borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
+          }}>
+            {!showQr ? (<>
               {!data.layout?.includes('entire') ? children : (
                 <RenderSectWrapper layout={data.layout} sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
               )}
-            </Box>
+            </>) : <RenderShowQr qrImg={qrCodeImg} handlePreviewQr={handleQrPreview} height={minHeight} iframed={data?.iframed || false} />}
           </Box>
-          {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
-        </>) : <RenderShowQr qrImg={qrCodeImg} handlePreviewQr={handleQrPreview} height={minHeight} iframed={data?.iframed || false} />}
+        </Box>
+        {data.footerKind !== 'noFooter' && Boolean(qrType) && !showQr && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
       </Box>
     </>
   );
