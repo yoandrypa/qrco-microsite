@@ -51,6 +51,7 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
         setURL(window.location.href);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // noinspection JSDeprecatedSymbols
