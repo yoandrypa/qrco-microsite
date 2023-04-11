@@ -1,11 +1,12 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Image from "next/image";
-import TextField from "@mui/material/TextField";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
+
+import TextBox from "../../../../forms/fields/TextBox";
 
 import { useTheme } from "@mui/system";
 import { DonationsProps } from "./types";
@@ -15,9 +16,13 @@ import { setSuccess } from "../../../../Notification";
 
 export default function AfterDonation({ data, stylesData, index }: DonationsProps) {
   const theme = useTheme();
+  const [valid, setValid] = useState<boolean>(false);
 
   function onChange(attr: string) {
-    return (e: ChangeEvent<HTMLInputElement>) => data.review[attr] = e.target.value;
+    return (value: any, valid: boolean) => {
+      data.review[attr] = value;
+      setValid(valid);
+    }
   }
 
   function onSend() {
@@ -67,28 +72,26 @@ export default function AfterDonation({ data, stylesData, index }: DonationsProp
         Would you want to say something nice?
       </Typography>
       <Box sx={boxSx}>
-        <TextField
+        <TextBox
           label='Your name'
-          variant='outlined'
-          fullWidth
-          size='small'
+          focused
           sx={tSx}
           placeholder='Anonymous'
           onChange={onChange('contactName')}
         />
       </Box>
       <Box sx={boxSx}>
-        <TextField
-          fullWidth
-          multiline
-          onChange={onChange('message')}
+        <TextBox
           placeholder="I was blown away by the generosity of everyone involved. Thank you for making the difference in the world... "
           rows={4}
           sx={tSx}
+          required
+          onChange={onChange('message')}
         />
       </Box>
       <Box sx={boxSx}>
-        <Button variant="contained" sx={bSx} onClick={onSend} startIcon={<FavoriteIcon />}>
+        <Button variant="contained" sx={bSx} onClick={onSend}
+                disabled={!valid} startIcon={<FavoriteIcon />}>
           Send message
         </Button>
       </Box>
