@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import DownloadIcon from "@mui/icons-material/Download";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -12,7 +11,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Notifications from "../../helperComponents/Notifications";
 
 interface RenderQrProps {
-  handlePreviewQr: () => void;
   qrImg: any;
   data: any;
 }
@@ -37,7 +35,7 @@ const downloadAsSVG = async (imageSrc: any) => {
   element.remove();
 };
 
-function RenderShowQr({handlePreviewQr, qrImg, data}: RenderQrProps) {
+function RenderShowQr({qrImg, data}: RenderQrProps) {
   const [url, setURL] = useState<string>('');
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -53,7 +51,7 @@ function RenderShowQr({handlePreviewQr, qrImg, data}: RenderQrProps) {
   return (
     <Box sx={{width: '100%', p: 2, background: '#fff'}}>
       <Box sx={{textAlign: 'center'}}>
-        <Box component="img" src="/logo.svg" sx={{width: '130px', mt: 2, mb: '10px', py: '5px', px: 3}} />
+        <Box component="img" src="/logo.svg" sx={{width: '130px', mt: 2, mb: 1, py: '5px', px: 3}} />
         {url.length > 0 && (
           <Box sx={{display: 'flex', width: '100%', borderRadius: '4px 4px 0 0', pt: 1, justifyContent: 'center'}}>
             <Typography sx={{my: 'auto'}}>{url}</Typography>
@@ -79,12 +77,7 @@ function RenderShowQr({handlePreviewQr, qrImg, data}: RenderQrProps) {
             position: 'relative'
           }}
         />
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', mt: 2}}>
-          <Button
-            variant="outlined" startIcon={<ArrowBackIcon />} onClick={handlePreviewQr}
-            sx={{...handleFont(data, 'd'), ...handleButtons(data, theme)}}>
-            {'Back'}
-          </Button>
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2}}>
           <Button
             variant="outlined" startIcon={<DownloadIcon />} onClick={async () => downloadAsSVG(qrImg)}
             sx={{...handleFont(data, 'd'), ...handleButtons(data, theme)}}>
@@ -92,11 +85,6 @@ function RenderShowQr({handlePreviewQr, qrImg, data}: RenderQrProps) {
           </Button>
         </Box>
       </Box>
-      {(data?.iframed || false) && (
-        <Typography sx={{bottom: '40px', position: 'fixed', textAlign: 'center', color: theme => theme.palette.text.disabled}}>
-          {'You are seeing the embedded version of this app. Some widgets might differ from their final functionality. Be advised.'}
-        </Typography>
-      )}
       {copied && (
         <Notifications
           autoHideDuration={2500}
