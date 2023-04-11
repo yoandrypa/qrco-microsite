@@ -123,7 +123,7 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
       const invert = data?.invertIconColors || false;
 
       const sx = {
-        width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000, flex: 1, mt: '10px',
+        width: '45px', height: '45px', ml: stay ? 'unset' : 2, zIndex: 1000, mt: '10px',
         '&:hover': {
           color: theming.palette[!invert ? 'primary' : 'secondary'].main,
           background: theming.palette[!invert ? 'secondary' : 'primary'].main
