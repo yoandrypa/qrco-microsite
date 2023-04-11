@@ -217,11 +217,6 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
 
     const profileSX = {width: '100%', mb, mt: outTop, height: `${profileHeight}px`, textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'} as any;
 
-    // if (showQr) {
-    //   profileSX.background = '#fff';
-    //   profileSX.mt = '-6px';
-    // }
-
     return (
       <Box sx={profileSX}>
         <Box
@@ -270,7 +265,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
       {data.shortlinkurl !== undefined && (data.sharerPosition === 'downLeft' || data.sharerPosition === 'downRight') && (
-        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} width={width} />
+        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight}
+                      handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} width={width} isShowing={showQr} />
       )}
       <Box sx={{
         position: 'relative',
@@ -293,7 +289,8 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
             }} />
           )}
           {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
-            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} />
+            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight}
+                          handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} isShowing={showQr} />
           )}
           <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
                      isBorder={isBorder} omitBanner={omitBanner} data={data} />
@@ -307,7 +304,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
               {!data.layout?.includes('entire') ? children : (
                 <RenderSectWrapper layout={data.layout} sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
               )}
-            </>) : <RenderShowQr qrImg={qrCodeImg} handlePreviewQr={handleQrPreview} data={data} />}
+            </>) : <RenderShowQr qrImg={qrCodeImg} data={data} />}
           </Box>
         </Box>
         {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
