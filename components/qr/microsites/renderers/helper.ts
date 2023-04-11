@@ -388,18 +388,6 @@ export const getBase64FromUrl = async (url: string) => {
   });
 };
 
-export const blobUrlToFile = (url: string, name: string) => {
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(response => response.blob())
-      .then(blob => {
-        const file = new File([blob], name);
-        resolve(file);
-      })
-      .catch(e => reject(e));
-  })
-};
-
 export const convertBase64 = (file: Blob | File): object => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -414,6 +402,31 @@ export const convertBase64 = (file: Blob | File): object => {
 };
 
 export const empty = (item: string, newData?: any) => newData?.[item] === undefined || !newData[item].trim().length;
+
+const isObject = (item: any) => item !== null && typeof item === 'object';
+
+export function areEquals(object1: any, object2: any) {
+  if ((!Boolean(object1) && Boolean(object2)) || (Boolean(object1) && !Boolean(object2))) {
+    return false;
+  }
+  if (!Boolean(object1) && !Boolean(object2)) {
+    return true;
+  }
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (const key of keys1) {
+    const val1 = object1[key];
+    const val2 = object2[key];
+    const areObjects = isObject(val1) && isObject(val2);
+    if (areObjects && !areEquals(val1, val2) || !areObjects && val1 !== val2) {
+      return false;
+    }
+  }
+  return true;
+}
 
 export const getSeparation = (value?: string, sections?: boolean): string => {
   if (!value) {
