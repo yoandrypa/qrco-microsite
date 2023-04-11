@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import {capitalize, useMediaQuery} from "@mui/material";
 import {useTheme} from "@mui/system";
 
-import {CustomProps, handleButtons, handleDownloadFiles, handleFont} from "../renderers/helper";
+import {areEquals, CustomProps, handleButtons, handleDownloadFiles, handleFont} from "../renderers/helper";
 import {download} from "../../../../handlers/storage";
 import {FileType} from "../../types/types";
 import {getExtension} from "../../../helpers/generalFunctions";
@@ -77,7 +77,7 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
   }
 
   useEffect(() => {
-    if (doneFirstRender.current) {
+    if (doneFirstRender.current && !areEquals(files.current, data.files)) {
       files.current = [];
       loadFilesNow();
     }
@@ -114,14 +114,7 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
       }
 
       return (
-        <Box key={`mainIt${fileNumber}`} sx={{
-          mt: '5px',
-          width: '100%'
-          // ml: '5px',      // extra borders removed
-          // p: 2,
-          // border: theme => `solid 1px ${theme.palette.primary.main}`,
-          // borderRadius: '5px'
-        }}>
+        <Box key={`mainIt${fileNumber}`} sx={{ mt: '5px', width: '100%' }}>
           {x ? (
             <>
               {renderHint(!directFile ? getExtension(type) : capitalize(data.qrType), fileNumber)}
