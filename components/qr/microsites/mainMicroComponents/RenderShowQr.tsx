@@ -43,7 +43,13 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
 
   useEffect(() => {
     if (window) {
-      setURL(window.location.href);
+      const index = data.shortlinkurl.lastIndexOf('/');
+      if (index !== -1) {
+        const {origin} = window.location;
+        setURL(`${origin}${!origin.endsWith('/') ? '/' : ''}${data.shortlinkurl.slice(index + 1)}`);
+      } else {
+        setURL(window.location.href);
+      }
     }
   }, []);
 
