@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
 
 import { grey } from "@mui/material/colors";
-import QuoraIcon from "./QuoraIcon";
 
+const QuoraIcon = dynamic(() => import("./QuoraIcon"));
+const DiscordIcon = dynamic(() => import("./DiscordIcon"));
+const Snapchat = dynamic(() => import("./Snapchat"));
+const Twitch = dynamic(() => import("./Twitch"));
 const TikTokIcon = dynamic(() => import("./TikTokIcon"));
 const WebIcon = dynamic(() => import('@mui/icons-material/Web'));
 const AlternateEmailIcon = dynamic(() => import('@mui/icons-material/AlternateEmail'));
@@ -90,6 +93,18 @@ export default function RenderIcon({ icon, color, colorSec, enabled, adjust, siz
 
     if (icon === 'quora') {
       return <QuoraIcon color={color} size={size} sx={sx} />;
+    }
+
+    if (icon === 'twitch') {
+      return <Twitch color={color} size={size} sx={sx} />;
+    }
+
+    if (icon === 'snapchat') {
+      return <Snapchat color={color} size={size} sx={sx} />;
+    }
+
+    if (icon === 'discord') {
+      return <DiscordIcon color={color} size={size} sx={sx} />;
     }
 
     switch (icon) {

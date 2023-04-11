@@ -36,9 +36,9 @@ function RenderShowQr({handlePreviewQr, qrImg, height, iframed}: RenderQrProps) 
 
   // noinspection JSDeprecatedSymbols
   return (
-    <Box sx={{width: '100%', p: 2, height: `calc(${height} - 5px)`, background: '#fff'}}>
-      <Box sx={{ translate: '0 calc(50% - 135px)', textAlign: 'center'}}>
-        <Box component="img" src="logo.svg" sx={{width: '70%', mb: '45px'}} />
+    <Box sx={{width: '100%', p: 2, background: '#fff'}}>
+      <Box sx={{textAlign: 'center'}}>
+        <Box component="img" src="/logo.svg" sx={{width: '70%', mb: '25px'}} />
         <Box
           component="img"
           alt="qrLynkImage"
@@ -55,7 +55,7 @@ function RenderShowQr({handlePreviewQr, qrImg, height, iframed}: RenderQrProps) 
         </Box>
       </Box>
       {iframed && (
-        <Typography sx={{position: 'absolute', bottom: '20px', textAlign: 'center', color: theme => theme.palette.text.disabled}}>
+        <Typography sx={{bottom: '40px', position: 'fixed', textAlign: 'center', color: theme => theme.palette.text.disabled}}>
           {'You are seeing the embedded version of this app. Some widgets might differ from their final functionality. Be advised.'}
         </Typography>
       )}

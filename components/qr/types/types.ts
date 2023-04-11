@@ -116,7 +116,8 @@ export type HeadAndItemsType = {
 }
 export type validTypes = 'text' | 'email' | 'phone' | 'web' | 'number'| 'date' | 'fax'|'url' | 'string';
 
-export type SocialsType = 'facebook' | 'whatsapp' | 'twitter' | 'instagram' | 'youtube' | 'linkedin' | 'pinterest' | 'telegram' | 'tiktok' | 'reddit' | 'quora';
+export type SocialsType = 'facebook' | 'whatsapp' | 'twitter' | 'instagram' | 'youtube' | 'linkedin' | 'pinterest' | 'telegram' | 'tiktok' |
+  'reddit' | 'quora' | 'discord' | 'twitch' | 'snapchat';
 
 export type FileType = {
   content: string;
