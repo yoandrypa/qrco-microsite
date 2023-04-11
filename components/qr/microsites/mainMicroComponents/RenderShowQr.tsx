@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import DownloadIcon from "@mui/icons-material/Download";
+import PublicIcon from '@mui/icons-material/Public';
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -58,9 +59,9 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
   return (
     <Box sx={{width: '100%', p: 2, background: '#fff'}}>
       <Box sx={{textAlign: 'center'}}>
-        <Box component="img" src="/logo.svg" sx={{width: '130px', mt: 2, mb: 1, py: '5px', px: 3}} />
         {url.length > 0 && (
-          <Box sx={{display: 'flex', width: '100%', borderRadius: '4px 4px 0 0', pt: 1, justifyContent: 'center'}}>
+          <Box sx={{display: 'flex', width: '100%', borderRadius: '4px 4px 0 0', mt: 2, justifyContent: 'center'}}>
+            <PublicIcon sx={{mt: 1, mr: '2px', color: theme.palette.text.disabled}} fontSize="small" />
             <Typography sx={{my: 'auto'}}>{url}</Typography>
             <Tooltip title="Copy URL">
               <IconButton onClick={() => {
