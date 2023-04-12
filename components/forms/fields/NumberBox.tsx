@@ -15,7 +15,7 @@ interface PropsType {
   placeholder?: string;
   onChange: Function;
   isError?: boolean;
-  value: number;
+  value?: number;
   item?: string;
   sx?: any;
   index?: number;
@@ -34,7 +34,7 @@ export default function NumberBox(props: PropsType) {
 
   const format = (value: number) => (value >= min && value <= max)
 
-  const [value, setValue] = useState<number>(initValue);
+  const [value, setValue] = useState<number>(initValue !== undefined ? initValue : min || 0);
   const [valid, setValid] = useState<boolean>(checkValidity(initValue, false, 'number', format));
 
   const onBaseChange = (event: ChangeEvent<HTMLInputElement>) => {

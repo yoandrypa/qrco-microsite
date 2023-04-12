@@ -14,7 +14,7 @@ interface RenderTextFieldsProps {
   onChange: Function;
   isError?: boolean;
   multiline?: boolean;
-  value: string;
+  value?: string;
   item?: string;
   sx?: any;
   index?: number;
@@ -27,7 +27,7 @@ export default function TextBox(props: RenderTextFieldsProps) {
   const { value: initValue, onChange, multiline, startAdornment, format, isError, ...staticProps } = props;
   const { required } = staticProps;
 
-  const [value, setValue] = useState<string>(initValue);
+  const [value, setValue] = useState<string>(initValue || '');
   const [valid, setValid] = useState<boolean>(checkValidity(initValue, false, 'string', format));
 
   const onBaseChange = (event: ChangeEvent<HTMLInputElement>) => {
