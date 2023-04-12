@@ -5,6 +5,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import RequiredAdornment from "../helpers/RequiredAdornment";
 
 import { checkValidity, FormatType } from "../helpers/validations";
+import { parseFormFieldSx, parseFormFieldInputSx } from "../helpers/styles";
+import { useTheme } from "@mui/system";
 
 interface RenderTextFieldsProps {
   label?: string;
@@ -12,10 +14,8 @@ interface RenderTextFieldsProps {
   focused?: boolean;
   placeholder?: string;
   onChange: Function;
-  isError?: boolean;
   multiline?: boolean;
   value?: string;
-  item?: string;
   sx?: any;
   index?: number;
   rows?: number;
@@ -24,7 +24,8 @@ interface RenderTextFieldsProps {
 }
 
 export default function TextBox(props: RenderTextFieldsProps) {
-  const { value: initValue, onChange, multiline, startAdornment, format, isError, ...staticProps } = props;
+  const theme = useTheme();
+  const { value: initValue, onChange, multiline, startAdornment, format, sx, ...staticProps } = props;
   const { required } = staticProps;
 
   const [value, setValue] = useState<string>(initValue || '');
@@ -42,8 +43,9 @@ export default function TextBox(props: RenderTextFieldsProps) {
   return (
     <TextField
       {...staticProps}
+      sx={parseFormFieldSx(sx, theme)}
       value={value || ''}
-      error={isError || !valid}
+      error={!valid}
       multiline={multiline || (staticProps.rows && staticProps.rows > 1) || false}
       fullWidth
       margin="dense"
@@ -52,6 +54,7 @@ export default function TextBox(props: RenderTextFieldsProps) {
       InputProps={{
         startAdornment: startAdornment && <InputAdornment position="start">{startAdornment}</InputAdornment>,
         endAdornment: required && <RequiredAdornment value={String(value)} />,
+        sx: parseFormFieldInputSx(sx, theme),
       }}
     />
   );

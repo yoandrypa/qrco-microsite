@@ -369,7 +369,7 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
 
   style['&.Mui-disabled'] = {
     bgcolor: 'text.disabled',
-    color: style.color,
+    color: alpha(style.color, 0.35),
     cursor: 'not-allowed'
   }
 
