@@ -16,9 +16,9 @@ export default function QuantityField({ value: initValue, stylesData, onChange }
   const [value, setValue] = useState<number>(initValue);
 
   const clSx = { mr: `calc(50% - ${btSize}px)` };
-  const inSx = { textAlign: 'center', width: 35, height: 16 };
+  const inSx = { textAlign: 'center', width: 35, height: 16, bgcolor: 'background.paper', color: 'primary.main' };
   const btSx = {
-    borderRadius: 45, backgroundColor: 'secondary.main', width: btSize, height: 24,
+    width: btSize, height: 24,
     ...handleFont(stylesData, 'b'),
     ...handleButtons(stylesData, theme),
   };

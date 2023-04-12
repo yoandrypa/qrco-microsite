@@ -366,6 +366,13 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
   if (data?.buttonCase) {
     style.textTransform = 'inherit';
   }
+
+  style['&.Mui-disabled'] = {
+    bgcolor: 'text.disabled',
+    color: style.color,
+    cursor: 'not-allowed'
+  }
+
   return style;
 }
 
