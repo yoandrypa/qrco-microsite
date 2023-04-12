@@ -131,7 +131,7 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
               )}
               <Box sx={{mb: 2}}>
                 <Button
-                  sx={{width: '100%', ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme)}}
+                  sx={{width: '100%', ...handleButtons(stylesData, theme)}}
                   variant="outlined"
                   onClick={() => handleDownloadFiles(x, data.qrType)}
                   startIcon={<DownloadIcon />}
@@ -139,9 +139,7 @@ export default function RenderAssets({ data, stylesData }: CustomProps) {
                   {`Download ${data.qrType} ${fileNumber}`}
                 </Button>
                 {['video', 'pdf'].includes(data.qrType) && (
-                  <Button
-                    sx={{ width: '100%', mt: '5px',
-                      ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme) }}
+                  <Button sx={{ width: '100%', mt: '5px', ...handleButtons(stylesData, theme) }}
                     variant="outlined" startIcon={data.qrType === 'video' ? <PlayArrowIcon /> : <LibraryBooksIcon />}
                     onClick={() => setPreview(x)}
                   >
