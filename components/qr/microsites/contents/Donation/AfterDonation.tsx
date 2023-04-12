@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -82,6 +82,7 @@ export default function AfterDonation({ data, stylesData, index }: DonationsProp
       </Box>
       <Box sx={boxSx}>
         <TextBox
+          label='Message'
           placeholder="I was blown away by the generosity of everyone involved. Thank you for making the difference in the world... "
           rows={4}
           sx={tSx}

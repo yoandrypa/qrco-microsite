@@ -7,6 +7,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import RequiredAdornment from "../helpers/RequiredAdornment";
 
 import { checkValidity } from "../helpers/validations";
+import { parseFormFieldInputSx, parseFormFieldSx } from "../helpers/styles";
+import { useTheme } from "@mui/system";
 
 interface PropsType {
   label?: string;
@@ -14,9 +16,7 @@ interface PropsType {
   focused?: boolean;
   placeholder?: string;
   onChange: Function;
-  isError?: boolean;
   value?: number;
-  item?: string;
   sx?: any;
   index?: number;
   min?: number;
@@ -25,8 +25,9 @@ interface PropsType {
 }
 
 export default function NumberBox(props: PropsType) {
+  const theme = useTheme();
   const {
-    value: initValue, onChange, startAdornment, isError,
+    value: initValue, onChange, startAdornment, sx,
     min = Number.MIN_VALUE, max = Number.MAX_VALUE,
     ...staticProps
   } = props;
@@ -49,9 +50,10 @@ export default function NumberBox(props: PropsType) {
   return (
     <TextField
       {...staticProps}
+      sx={parseFormFieldSx(sx, theme)}
       type="number"
       value={isEmpty(value) ? '' : value}
-      error={isError || !valid}
+      error={!valid}
       fullWidth
       margin="dense"
       size="small"
@@ -61,6 +63,7 @@ export default function NumberBox(props: PropsType) {
         inputMode: 'numeric', step: "any", pattern: ' ^[-,0-9]+$', min, max,
         startAdornment: startAdornment && <InputAdornment position="start">{startAdornment}</InputAdornment>,
         endAdornment: required && <RequiredAdornment value={String(value)} />,
+        sx: parseFormFieldInputSx(sx, theme),
       }}
     />
   );
