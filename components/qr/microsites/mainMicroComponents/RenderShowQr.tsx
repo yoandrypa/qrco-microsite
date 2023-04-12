@@ -88,7 +88,7 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2}}>
           <Button
             variant="outlined" startIcon={<DownloadIcon />} onClick={async () => downloadAsSVG(qrImg)}
-            sx={{...handleFont(data, 'd'), ...handleButtons(clearDataStyles(data), theme)}}>
+            sx={{...handleFont(data, 'b'), ...handleButtons(clearDataStyles(data), theme), fontSize: '16px'}}>
             {'Download as SVG'}
           </Button>
         </Box>
