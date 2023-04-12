@@ -6,6 +6,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import RequiredAdornment from "../helpers/RequiredAdornment";
 
 import { checkValidity, FormatType } from "../helpers/validations";
+import { parseFormFieldSx, parseFormFieldInputSx } from "../helpers/styles";
+import { useTheme } from "@mui/system";
 
 interface PropsType {
   label?: string;
@@ -13,9 +15,8 @@ interface PropsType {
   focused?: boolean;
   placeholder?: string;
   onChange: Function;
-  isError?: boolean;
   value?: string;
-  item?: string;
+  sx?: any;
   index?: number;
   options: string[];
   format?: FormatType;
@@ -23,7 +24,8 @@ interface PropsType {
 }
 
 export default function ProposalsTextBox(props: PropsType) {
-  const { value: initValue, onChange, options, startAdornment, format, isError, ...staticProps } = props;
+  const theme = useTheme();
+  const { value: initValue, onChange, options, startAdornment, format, sx, ...staticProps } = props;
   const { required } = staticProps;
 
   const [value, setValue] = useState<string>(initValue || '');
@@ -49,15 +51,17 @@ export default function ProposalsTextBox(props: PropsType) {
         <TextField
           {...staticProps}
           {...params}
+          sx={parseFormFieldSx(sx, theme)}
           value={value}
           fullWidth
           size="small"
           margin="dense"
-          error={isError || !valid}
+          error={!valid}
           InputProps={{
             ...params.InputProps,
             startAdornment: startAdornment && <InputAdornment position="start">{startAdornment}</InputAdornment>,
             endAdornment: (required && <RequiredAdornment value={value} />),
+            sx: parseFormFieldInputSx(sx, theme),
           }}
         />
       )}
