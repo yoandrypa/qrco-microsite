@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
-import RequiredAdornment from "../helpers/RequiredAdornment";
+import ReqAdornment from "../helpers/RequiredAdornment";
 
 import { checkValidity, FormatType } from "../helpers/validations";
 import { parseFormFieldSx, parseFormFieldInputSx } from "../helpers/styles";
@@ -12,7 +12,7 @@ import { useTheme } from "@mui/system";
 interface PropsType {
   label?: string;
   required?: boolean;
-  focused?: boolean;
+  shrink?: boolean;
   placeholder?: string;
   onChange: Function;
   value?: string;
@@ -21,12 +21,17 @@ interface PropsType {
   options: string[];
   format?: FormatType;
   startAdornment?: ReactNode;
+  requiredAdornment?: boolean | string | ReactNode;
 }
 
 export default function ProposalsTextBox(props: PropsType) {
   const theme = useTheme();
-  const { value: initValue, onChange, options, startAdornment, format, sx, ...staticProps } = props;
-  const { required } = staticProps;
+  const {
+    value: initValue, onChange, options, format, sx, shrink,
+    startAdornment: sAdornment, requiredAdornment: rAdornment,
+    ...staticProps
+  } = props;
+  const { required = !!rAdornment } = staticProps;
 
   const [value, setValue] = useState<string>(initValue || '');
   const [valid, setValid] = useState<boolean>(checkValidity(initValue, false, 'string', format));
@@ -51,16 +56,18 @@ export default function ProposalsTextBox(props: PropsType) {
         <TextField
           {...staticProps}
           {...params}
+          required={required}
           sx={parseFormFieldSx(sx, theme)}
           value={value}
           fullWidth
           size="small"
           margin="dense"
           error={!valid}
+          InputLabelProps={{ shrink }}
           InputProps={{
             ...params.InputProps,
-            startAdornment: startAdornment && <InputAdornment position="start">{startAdornment}</InputAdornment>,
-            endAdornment: (required && <RequiredAdornment value={value} />),
+            startAdornment: sAdornment && <InputAdornment position="start">{sAdornment}</InputAdornment>,
+            endAdornment: required && rAdornment && <ReqAdornment value={value}>{rAdornment}</ReqAdornment>,
             sx: parseFormFieldInputSx(sx, theme),
           }}
         />
