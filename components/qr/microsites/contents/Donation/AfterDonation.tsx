@@ -74,7 +74,7 @@ export default function AfterDonation({ data, stylesData, index }: DonationsProp
       <Box sx={boxSx}>
         <TextBox
           label='Your name'
-          focused
+          shrink
           sx={tSx}
           placeholder='Anonymous'
           onChange={onChange('contactName')}
