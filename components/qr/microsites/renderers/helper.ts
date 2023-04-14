@@ -346,6 +346,9 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
 
   if (data?.buttonBorderStyle !== undefined && data.buttonBorderStyle !== 'noBorders') {
     style.border = `${!data?.buttonBorderType ? 'solid' : data.buttonBorderType} ${getBorder(data)}px`;
+    if (style['&:hover'] && !style['&:hover'].border) {
+      style['&:hover'].border = style.border;
+    }
   }
   if (data?.buttonBorderStyle === 'two') {
     let colors = data.buttonBorderColors as string;

@@ -3,10 +3,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {useTheme} from "@mui/system";
 
-import {handleFont} from "./helper";
+import {handleButtons, handleFont} from "./helper";
 import {capitalize} from "@mui/material";
 
 import dynamic from "next/dynamic";
+import Button from "@mui/material/Button";
 
 const CalendarMonthIcon = dynamic(() => import("@mui/icons-material/CalendarMonth"));
 const LocationOnIcon = dynamic(() => import("@mui/icons-material/LocationOn"));
@@ -32,21 +33,21 @@ const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'))
 const DonationIcon = dynamic(() => import('@mui/icons-material/EmojiFoodBeverage'));
 
 interface HeadLineProps {
+  collapsed?: boolean;
+  handleCollapse?: () => void;
   component: string;
   headLine?: string;
   hideIcon?: boolean;
   stylesData: object;
   centerHeadLine?: boolean;
-  customFont?: {
-    headlineFont?: string;
-    headlineFontSize?: string;
-    headLineFontStyle?: string;
-  }
+  customFont?: { headlineFont?: string; headlineFontSize?: string; headLineFontStyle?: string; };
+  renderAsButton?: boolean;
 }
 
 export default function RenderHeadLine(
-  {component, headLine, stylesData, centerHeadLine, hideIcon, customFont}
-    : HeadLineProps) {
+  {
+    component, headLine, stylesData, centerHeadLine, hideIcon, customFont, renderAsButton, collapsed, handleCollapse
+  } : HeadLineProps) {
   const message = useRef<string | null>(null);
 
   const theme = useTheme();
@@ -63,18 +64,7 @@ export default function RenderHeadLine(
     return {color: theme.palette.primary.main, mt: '5px', mr: '5px', width: size, height: size}
   }, [customFont?.headlineFontSize]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const renderIcon = () => {
-    if (customFont !== undefined) {
-      let color = theme.palette.primary.main;
-      let index = -1;
-      if (customFont?.headLineFontStyle !== undefined) { index = customFont?.headLineFontStyle?.indexOf('#'); }
-      if (index !== -1) { // @ts-ignore
-        color = customFont.headLineFontStyle.slice(index);
-      }
-      sx.color = color;
-    }
-
-
+  const getIcon = (sx?: any) => {
     switch (component) {
       case 'address': { return <LocationOnIcon sx={sx}/>; }
       case 'links': { return <LinkIcon sx={sx} />; }
@@ -89,61 +79,66 @@ export default function RenderHeadLine(
       case 'video': { return <TheatersIcon sx={sx} />; }
       case 'audio': { return <AudiotrackIcon sx={sx} />; }
       case 'donation': { return <DonationIcon sx={sx} />; }
-      case 'sms': {
-        message.current = 'SMS';
-        return <SmsOutlinedIcon sx={sx} />;
-      }
-      case 'pdf': {
-        message.current = 'PDF';
-        return <PictureAsPdfIcon sx={sx} />;
-      }
-      case 'contact': {
-        message.current = 'Contact form';
-        return <ContactMailIcon sx={sx} />;
-      }
-      case 'justEmail': {
-        message.current = 'Email address';
-        return <EmailIcon sx={sx} />;
-      }
-      case 'petId': {
-        message.current = 'Pet info';
-        return <PetsIcon sx={sx} />;
-      }
-      case 'keyvalue': {
-        message.current = 'Details';
-        return <TextSnippetIcon sx={sx} />;
-      }
-      case 'couponInfo': {
-        message.current = 'Coupon info';
-        return <WorkIcon sx={sx} />;
-      }
-      case 'couponData': {
-        message.current = 'Coupon data';
-        return <ConfirmationNumberIcon sx={sx} />;
-      }
-      case 'opening': {
-        message.current = 'Opening time';
-        return <ScheduleIcon sx={sx} />;
-      }
-      case 'socials': {
-        message.current = 'Social networks';
-        return <GroupsIcon sx={sx} />;
-      }
-      case 'email': {
-        message.current = 'Email and web';
-        return <MarkAsUnreadIcon sx={sx} />;
-      }
+      case 'sms': { return <SmsOutlinedIcon sx={sx} />; }
+      case 'pdf': { return <PictureAsPdfIcon sx={sx} />; }
+      case 'contact': { return <ContactMailIcon sx={sx} />; }
+      case 'justEmail': { return <EmailIcon sx={sx} />; }
+      case 'petId': { return <PetsIcon sx={sx} />; }
+      case 'keyvalue': { return <TextSnippetIcon sx={sx} />; }
+      case 'couponInfo': { return <WorkIcon sx={sx} />; }
+      case 'couponData': { return <ConfirmationNumberIcon sx={sx} />; }
+      case 'opening': { return <ScheduleIcon sx={sx} />; }
+      case 'socials': { return <GroupsIcon sx={sx} />; }
+      case 'email': { return <MarkAsUnreadIcon sx={sx} />; }
     }
+  }
+
+  const renderIcon = () => {
+    if (customFont !== undefined) {
+      let color = theme.palette.primary.main;
+      let index = -1;
+      if (customFont?.headLineFontStyle !== undefined) { index = customFont?.headLineFontStyle?.indexOf('#'); }
+      if (index !== -1) { // @ts-ignore
+        color = customFont.headLineFontStyle.slice(index);
+      }
+      sx.color = color;
+    }
+
+    switch (component) {
+      case 'sms': { message.current = 'SMS'; break; }
+      case 'pdf': { message.current = 'PDF'; break; }
+      case 'contact': { message.current = 'Contact form'; break; }
+      case 'justEmail': { message.current = 'Email address'; break; }
+      case 'petId': { message.current = 'Pet info'; break; }
+      case 'keyvalue': { message.current = 'Details'; break; }
+      case 'couponInfo': { message.current = 'Coupon info'; break; }
+      case 'couponData': { message.current = 'Coupon data'; break; }
+      case 'opening': { message.current = 'Opening time'; break; }
+      case 'socials': { message.current = 'Social networks'; break; }
+      case 'email': { message.current = 'Email and web'; break; }
+    }
+    return getIcon(sx);
   };
 
+  const fontStyle = {...handleFont(stylesData, 't', customFont !== undefined ? {
+      headlineFont: customFont.headlineFont, headlineFontSize: customFont.headlineFontSize,
+      headLineFontStyle: customFont.headLineFontStyle
+    } : undefined)}
+
+  if (renderAsButton) {
+     return (
+       <Button onClick={handleCollapse}
+         sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
+         width: '100%', ...handleButtons(stylesData, theme), ...fontStyle}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
+         {`${headLine || message.current || capitalize(component)}${collapsed ? '...' : ''}`}
+       </Button>
+     );
+  }
+
   return (
-    <Box sx={{display: 'flex', mt: 1, justifyContent: !Boolean(centerHeadLine) ? 'left' : 'center'}}>
+    <Box sx={{width: '100%', display: 'flex', mt: 1, justifyContent: !Boolean(centerHeadLine) ? 'left' : 'center'}}>
       {!hideIcon && <Box>{renderIcon()}</Box>}
-      <Typography sx={{...handleFont(stylesData, 't', customFont !== undefined ? {
-        headlineFont: customFont.headlineFont,
-        headlineFontSize: customFont.headlineFontSize,
-        headLineFontStyle: customFont.headLineFontStyle
-      } : undefined)}}>
+      <Typography sx={fontStyle}>
         {headLine || message.current || capitalize(component)}
       </Typography>
     </Box>
