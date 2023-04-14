@@ -27,11 +27,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   const [route, setRoute] = useState<string>("");
 
   useEffect(() => {
-    let location = window.location.href;
-    if (location.toLowerCase().startsWith('https://') || location.toLowerCase().startsWith('http://')) {
-      location = location.slice(location.indexOf('://') + 3);
-    }
-    setRoute(location);
+    setRoute(window.location.href.toLowerCase());
   }, []);
 
   const renderCommon = (firstLine: string, secondLine: string) => (
@@ -57,39 +53,42 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
     </Box>
   );
 
-  const renderSteps = () => (
-    <>
-      {renderClaimNow(true)}
-      <Typography sx={{mt: 2}}>
-        {`By claiming this QRLynk you can customize the microsite and the content. This is a one-time process and it\'s free${data === 'PRE-GENERATED' ? '' : ' in the case of your first QRLynk'}.`}
-      </Typography>
-      <Typography sx={{mt: 2}}>
-        {'To claim your QRLynk, follow these steps:'}
-      </Typography>
-      <ol>
-        <li><Typography>Press the CLAIM NOW button</Typography></li>
-        <li><Typography>Register in QRLynk or log in</Typography></li>
-        <li><Typography>Select the type of QRLynk that best suits your use case</Typography></li>
-        <li><Typography>Enter the content to share and customize the design of your microsite</Typography></li>
-        <li><Typography>Customize the QR code</Typography></li>
-        <li><Typography>Press SAVE to complete the process</Typography></li>
-      </ol>
-      <Box sx={{mt: 2}}>
-        <Typography sx={{display: 'inline'}}>
-          {'You can manage all of your QRLynks by visiting this URL '}
+  const renderSteps = () => {
+    const link = route.slice(0, route.lastIndexOf('/'));
+    return (
+      <>
+        {renderClaimNow(true)}
+        <Typography sx={{mt: 2}}>
+          {`By claiming this QRLynk you can customize the microsite and the content. This is a one-time process and it\'s free${data === 'PRE-GENERATED' ? '' : ' in the case of your first QRLynk'}.`}
         </Typography>
-        <Typography sx={{display: 'inline'}}>
-          <a target="_blank" href="https://app.theqr.link/" rel="noopener noreferrer" style={{ color: "royalblue" }}>{'https://app.theqr.link'}</a>
+        <Typography sx={{mt: 2}}>
+          {'To claim your QRLynk, follow these steps:'}
         </Typography>
-        <Typography sx={{display: 'inline'}}>
-          {'.'}
+        <ol>
+          <li><Typography>Press the CLAIM NOW button</Typography></li>
+          <li><Typography>Register in QRLynk or log in</Typography></li>
+          <li><Typography>Select the type of QRLynk that best suits your use case</Typography></li>
+          <li><Typography>Enter the content to share and customize the design of your microsite</Typography></li>
+          <li><Typography>Customize the QR code</Typography></li>
+          <li><Typography>Press SAVE to complete the process</Typography></li>
+        </ol>
+        <Box sx={{mt: 2}}>
+          <Typography sx={{display: 'inline'}}>
+            {'You can manage all of your QRLynks by visiting this URL '}
+          </Typography>
+          <Typography sx={{display: 'inline'}}>
+            <a target="_blank" href={link} rel="noopener noreferrer" style={{color: "royalblue"}}>{link}</a>
+          </Typography>
+          <Typography sx={{display: 'inline'}}>
+            {'.'}
+          </Typography>
+        </Box>
+        <Typography sx={{mt: 2}}>
+          Claim your QRLynk now to get started!
         </Typography>
-      </Box>
-      <Typography sx={{mt: 2}}>
-        Claim your QRLynk now to get started!
-      </Typography>
-    </>
-  );
+      </>
+    );
+  };
 
   const renderNoData = () => (
     <Box sx={{ width: "100%", mt: 2 }}>

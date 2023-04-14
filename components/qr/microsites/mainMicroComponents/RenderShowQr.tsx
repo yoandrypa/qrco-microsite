@@ -131,7 +131,7 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2}}>
           <Button
             variant="outlined" startIcon={<DownloadIcon />} onClick={handleOpenAnchor}
-            sx={{...handleButtons(styled, theme), fontSize: '16px'}}>
+            sx={{...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}>
             {'Download'}
           </Button>
         </Box>
@@ -154,17 +154,17 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
               <Button
                 id="buttonPNG"
                 variant="outlined"
-                sx={{width: '100%', ...handleButtons(styled, theme), fontSize: '16px'}}
+                sx={{width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}
                 onClick={async () => downloadAsImage(qrImg, true)}>PNG</Button>
               <Button
                 id="buttonJPG"
                 variant="outlined"
-                sx={{ml: '5px', width: '100%', ...handleButtons(styled, theme), fontSize: '16px'}}
+                sx={{ml: '5px', width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}
                 onClick={async () => downloadAsImage(qrImg, false)}>JPG</Button>
               <Button
                 id="buttonSVG"
                 variant="outlined"
-                sx={{ml: '5px', width: '100%', ...handleButtons(styled, theme), fontSize: '16px'}}
+                sx={{ml: '5px', width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}
                 onClick={async () => downloadAsSVG(qrImg)}>SVG</Button>
             </Box>
           </Box>
