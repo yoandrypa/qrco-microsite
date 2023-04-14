@@ -1,53 +1,45 @@
+import {useState} from "react";
 import Box from "@mui/material/Box";
-
-import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderers/helper";
 
 import MainMicrosite from "./MainMicrosite";
 import RenderHeadLine from "./renderers/RenderHeadLine";
 import Waiting from "../../Waiting";
 import Notification from "../../Notification";
+import RenderComponent from "./customComponents/RenderComponent";
+import {clearDataStyles, CustomType, getSeparation} from "./renderers/helper";
+import {useRouter} from "next/router";
 
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 
-const RenderContactForm = dynamic(() => import("./contents/RenderContactForm"));
-const RenderSMSData = dynamic(() => import("./contents/RenderSMSData"));
-const RenderAssets = dynamic(() => import("./contents/RenderAssets"));
-const RenderActionButton = dynamic(() => import("./contents/RenderActionButton"));
-const RenderImages = dynamic(() => import("./contents/RenderImages"));
-const RenderPhones = dynamic(() => import("./contents/RenderPhones"));
-const RenderTitleDesc = dynamic(() => import("./contents/RenderTitleDesc"));
-const RenderOpeningTime = dynamic(() => import("./contents/RenderOpeningTime"));
-const RenderAddress = dynamic(() => import("./contents/RenderAddress"));
-const RenderCompany = dynamic(() => import("./contents/RenderCompany"));
-const RenderEasiness = dynamic(() => import("./contents/RenderEasiness"));
-const RenderEmailWeb = dynamic(() => import("./contents/RenderEmailWeb"));
-const RenderOrganization = dynamic(() => import("./contents/RenderOrganization"));
-const RenderName = dynamic(() => import("./contents/RenderName"));
-const RenderSocials = dynamic(() => import("./contents/RenderSocials"));
-const RenderLinks = dynamic(() => import("./contents/RenderLinks"));
-const RenderDate = dynamic(() => import("./contents/RenderDate"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
-const RenderCouponData = dynamic(() => import("./contents/RenderCouponData"));
-const RenderCouponInfo = dynamic(() => import("./contents/RenderCouponInfo"));
-const RenderDetails = dynamic(() => import("./contents/RenderDetails"));
-const RenderPetsInfo = dynamic(() => import("./contents/RenderPetsInfo"));
-const RenderEmail = dynamic(() => import("./contents/RenderEmail"));
-const RenderProductSku = dynamic(() => import("./contents/RenderProductSku"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
-const RenderWeb = dynamic(() => import("./contents/RenderWeb"));
-const RenderDonation = dynamic(() => import("./contents/Donation"));
 const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
-const Typography = dynamic(() => import("@mui/material/Typography"));
+const IconButton = dynamic(() => import("@mui/material/IconButton"));
+const ExpandLessIcon = dynamic(() => import("@mui/icons-material/ExpandLess"));
+const ExpandMoreIcon = dynamic(() => import("@mui/icons-material/ExpandMore"));
 
 const Custom = ({newData}: any) => {
-  const styled = clearDataStyles(newData);
+  const [expander, setExpander] = useState<string[]>([]);
+
   const router = useRouter();
   const { idx } = router.query;
+
   const only = (typeof idx === 'string' ? idx.split(/[,\s]+/) : idx)?.map((i) => parseInt(i, 10));
+  const styled = clearDataStyles(newData);
+
+  const handleExpand = (item: string) => () => {
+    setExpander((prev: string[]) => {
+      const newExpander = [...prev];
+      const index = newExpander.indexOf(item);
+      if (index !== -1) { newExpander.splice(index, 1); }
+      else { newExpander.push(item); }
+      return newExpander;
+    });
+  }
 
   const renderComponent = (x: CustomType, index: number) => {
     const {component, name, data = {}} = x;
+    const expand = x.expand || `${component}${index}`;
 
     if (only && !only.includes(index)) return null;
 
@@ -67,53 +59,35 @@ const Custom = ({newData}: any) => {
       sectStyle.ml = 1;
     }
 
+    const renderHeadLine = !['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
+      && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory'));
+
+    const isCollapsible = data.sectionArrangement === 'collapsible';
+    const isButtonCollapsible = data.sectionArrangement === 'collapseButton';
+    const expanded = (isCollapsible || isButtonCollapsible) && expander.includes(expand);
+
     return (
       <Box sx={{width: '100%'}}>
-        {!['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
-          && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory')) &&
-          <RenderHeadLine
-            component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
-            centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon}
-            customFont={!data?.customFont ? undefined : {
-              headlineFont: data.headlineFont,
-              headlineFontSize: data.headlineFontSize,
-              headLineFontStyle: data.headLineFontStyle
-            }}
-          />
-        }
-        <Box sx={sectStyle}>
-          {component === 'address' && <RenderAddress stylesData={styled} data={data}/>}
-          {component === 'company' && (data?.company || data?.title || data?.subtitle || data?.companyWebSite ||
-              data?.companyEmail || data?.contact || data?.companyPhone || data?.about || data?.companyCell ||
-              data?.companyFax || data?.whatsapp) &&
-            <RenderCompany stylesData={styled} data={data}/>
-          }
-          {component === 'date' && <RenderDate data={data} stylesData={styled}/>}
-          {component === 'easiness' && data?.easiness && <RenderEasiness data={data} styledData={styled}/>}
-          {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
-          {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled} alternate={newData.alternate}/>}
-          {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
-          {component === 'phones' && (data?.cell || data?.phone || data?.fax || data?.whatsapp) && <RenderPhones data={data} stylesData={styled}/>}
-          {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}
-          {component === 'opening' && Object.keys(data?.openingTime || []).length ? <RenderOpeningTime data={data} stylesData={styled}/> : null}
-          {component === 'socials' && <RenderSocials data={data} stylesData={styled} alternate={newData.alternate}/>}
-          {component === 'title' && <RenderTitleDesc data={data} stylesData={styled}/>}
-          {component === 'action' && <RenderActionButton stylesData={styled} data={data}/>}
-          {component === 'single' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.text || ''}</Typography>}
-          {component === 'gallery' && <RenderImages data={data} stylesData={styled}/>}
-          {['pdf', 'audio', 'video'].includes(component) && <RenderAssets data={{...data,qrType: component}} stylesData={styled}/>}
-          {component === 'couponData' && <RenderCouponData stylesData={styled} data={data}/>}
-          {component === 'couponInfo' && <RenderCouponInfo stylesData={styled} data={data}/>}
-          {component === 'keyvalue' && <RenderDetails stylesData={styled} data={data}/>}
-          {component === 'tags' && <Typography sx={{...handleFont(styled, 'm')}}>{data?.tags?.length ? data.tags.join(', ') : ''}</Typography>}
-          {component === 'petId' && <RenderPetsInfo stylesData={styled} data={data}/>}
-          {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
-          {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
-          {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
-          {component === 'contact' && <RenderContactForm stylesData={styled} data={data} index={index}/>}
-          {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
-          {component === 'donation' && <RenderDonation stylesData={styled} data={data} index={index}/>}
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+          {renderHeadLine && (
+            <RenderHeadLine
+              renderAsButton={isButtonCollapsible} collapsed={!expanded}
+              handleCollapse={isButtonCollapsible ? () => handleExpand(expand)() : undefined}
+              component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
+              centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon} customFont={!data?.customFont ? undefined : {
+                headlineFont: data.headlineFont, headlineFontSize: data.headlineFontSize, headLineFontStyle: data.headLineFontStyle
+              }}
+            />
+          )}
+          {isCollapsible && (
+            <IconButton onClick={handleExpand(expand)}>
+              {!expander.includes(expand) ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+            </IconButton>
+          )}
         </Box>
+        {((!isCollapsible && !isButtonCollapsible) || expanded) && (
+          <RenderComponent component={component} index={index} data={data} styled={styled} alternate={newData.alternate} />
+        )}
       </Box>
     );
   };
