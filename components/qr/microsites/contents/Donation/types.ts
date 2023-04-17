@@ -14,8 +14,9 @@ export interface CountFieldProps {
 
 export interface AmountUnitsProps {
   amount: number;
-  coffeeSize?: number;
+  iconSize?: number;
   stylesData?: any;
+  iconId?: string;
 }
 
 export interface ButtonDonateProps {

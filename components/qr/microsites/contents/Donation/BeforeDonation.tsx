@@ -51,35 +51,37 @@ export default function BeforeDonation({ data, index, stylesData }: DonationsPro
     messaging.emit('onChangeQuantity', value, msgSenderId);
   }
 
-  data.unitAmount = data.unitAmount || 1;
-  data.quantity = data.quantity || 1;
+  data.unitAmount ??= 1;
+  data.quantity ??= 1;
+
+  const { title, unitAmount, quantity, message, iconId, buttonText } = data;
 
   return (
     <Grid container textAlign='center' justifyContent="center" alignItems="center" spacing={1}>
       <Grid item xs={12}>
         <Typography variant='h6' sx={{ mt: 2, p: 0, ...handleFont(stylesData, 't') }}>
-          {data.title}
+          {title}
         </Typography>
       </Grid>
 
       <Grid item xs={12} sx={{ m: 2, p: '0 !important', ...handleFont(stylesData, 'm') }}>
-        <Typography sx={{ ...handleFont(stylesData, 'm') }}>{data.message}</Typography>
+        <Typography sx={{ ...handleFont(stylesData, 'm') }}>{message}</Typography>
       </Grid>
 
       <Grid item xs={5} sx={{ p: '0 !important' }}>
-        <AmountUnits amount={data.unitAmount} coffeeSize={40} stylesData={stylesData} />
+        <AmountUnits amount={unitAmount} iconSize={40} stylesData={stylesData} iconId={iconId} />
       </Grid>
       <Grid item xs={2} sx={{ p: '0 !important' }}>
         <Typography textAlign='center' sx={{ ...handleFont(stylesData, 'm') }}>x</Typography>
       </Grid>
       <Grid item xs={5} sx={{ p: '0 !important' }}>
-        <QuantityField value={data.quantity} stylesData={stylesData} onChange={onChangeQuantity} />
+        <QuantityField value={quantity} stylesData={stylesData} onChange={onChangeQuantity} />
       </Grid>
 
       <Grid item xs={12} sx={{ mt: 2, textAlign: 'center' }}>
-        <ButtonDonate label={data.buttonText} stylesData={stylesData} onClick={onDonate}
-                      amount={data.unitAmount}
-                      quantity={data.quantity}
+        <ButtonDonate label={buttonText} stylesData={stylesData} onClick={onDonate}
+                      amount={unitAmount}
+                      quantity={quantity}
                       msgSenderId={msgSenderId}
         />
       </Grid>
