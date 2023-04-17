@@ -5,12 +5,13 @@ import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import { handleDesignerString } from "../helpers/qr/helpers";
+import {handleDesignerString} from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
 import MainMicrosite from "./qr/microsites/MainMicrosite";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import getTheme from "./theming/themeHelper";
 import { DEFAULT_COLORS } from "./qr/constants";
+import {TabsType} from "./qr/types/types";
 
 const Custom = dynamic(() => import("./qr/microsites/Custom"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
@@ -76,7 +77,10 @@ export default function MainComponent({ newData }: any) {
     }
 
     if (["custom", "donation", "vcard+", "social", "business", "coupon", "findMe", "inventory", "linkedLabel", "link", "petId", ...ASSETS, ...GALLERY].includes(data?.qrType)) {
-      return <Custom newData={{ ...data, iframed: iframed.current }} />;
+      return (
+        <Custom tabs={data?.custom?.length > 1 ? data?.custom?.filter((x: TabsType) => x.data?.sectionArrangement === 'tabbed')?.length : undefined}
+                newData={{ ...data, iframed: iframed.current }} />
+      );
     }
 
     return (
