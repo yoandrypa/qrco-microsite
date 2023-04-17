@@ -1,96 +1,29 @@
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 import Box from "@mui/material/Box";
 
 import MainMicrosite from "./MainMicrosite";
-import RenderHeadLine from "./renderers/RenderHeadLine";
 import Waiting from "../../Waiting";
 import Notification from "../../Notification";
-import RenderComponent from "./customComponents/RenderComponent";
-import {clearDataStyles, CustomType, getSeparation} from "./renderers/helper";
-import {useRouter} from "next/router";
+import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderers/helper";
 
 import dynamic from "next/dynamic";
+import RenderCompItem from "./customComponents/RenderCompItem";
+import {TabsProps, TabsType} from "../types/types";
+import HomeIcon from "@mui/icons-material/Home";
+import {capitalize} from "@mui/material";
+import TabPanel from "./customComponents/TabPanel";
 
+const Tabs = dynamic(() => import("@mui/material/Tabs"));
+const Tab = dynamic(() => import("@mui/material/Tab"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderDownloadVCard = dynamic(() => import("./renderers/RenderDownloadVCard"));
 const RenderBadge = dynamic(() => import("./renderers/RenderBadge"));
-const IconButton = dynamic(() => import("@mui/material/IconButton"));
-const ExpandLessIcon = dynamic(() => import("@mui/icons-material/ExpandLess"));
-const ExpandMoreIcon = dynamic(() => import("@mui/icons-material/ExpandMore"));
 
-const Custom = ({newData}: any) => {
+const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
   const [expander, setExpander] = useState<string[]>([]);
+  const [selectedTab, setSelectedTab] = useState<string>(tabs !== newData.custom.length ? 'home' : (newData.custom?.[0]?.expand || ''));
 
-  const router = useRouter();
-  const { idx } = router.query;
-
-  const only = (typeof idx === 'string' ? idx.split(/[,\s]+/) : idx)?.map((i) => parseInt(i, 10));
   const styled = clearDataStyles(newData);
-
-  const handleExpand = (item: string) => () => {
-    setExpander((prev: string[]) => {
-      const newExpander = [...prev];
-      const index = newExpander.indexOf(item);
-      if (index !== -1) { newExpander.splice(index, 1); }
-      else { newExpander.push(item); }
-      return newExpander;
-    });
-  }
-
-  const renderComponent = (x: CustomType, index: number) => {
-    const {component, name, data = {}} = x;
-    const expand = x.expand || `${component}${index}`;
-
-    if (only && !only.includes(index)) return null;
-
-    if (data) {
-      if (['gallery', 'pdf', 'audio', 'video'].includes(component) && newData.isSample) {
-        data.isSample = true;
-      }
-      if (newData.iframed) {
-        data.iframed = true;
-      }
-    }
-
-    const sectStyle = {width: 'calc(100% - 30px)', ml: '30px'} as any;
-    if (['title', 'pdf', 'audio', 'video', 'gallery', 'links', 'socials', 'donation', 'easiness'].includes(component) || data?.hideHeadLine) {
-      sectStyle.width = 'calc(100% - 16px)';
-      sectStyle.px = '10px';
-      sectStyle.ml = 1;
-    }
-
-    const renderHeadLine = !['title', 'action', 'sku'].includes(component) && !data?.hideHeadLine // @ts-ignore
-      && ((component !== 'petId' || data?.petName?.length) || (component !== 'gallery' || newData.qrType !== 'inventory'));
-
-    const isCollapsible = data.sectionArrangement === 'collapsible';
-    const isButtonCollapsible = data.sectionArrangement === 'collapseButton';
-    const expanded = (isCollapsible || isButtonCollapsible) && expander.includes(expand);
-
-    return (
-      <Box sx={{width: '100%'}}>
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-          {renderHeadLine && (
-            <RenderHeadLine
-              renderAsButton={isButtonCollapsible} collapsed={!expanded}
-              handleCollapse={isButtonCollapsible ? () => handleExpand(expand)() : undefined}
-              component={component} stylesData={styled} headLine={component !== 'petId' ? name : data.petName}
-              centerHeadLine={data?.centerHeadLine} hideIcon={data?.hideHeadLineIcon} customFont={!data?.customFont ? undefined : {
-                headlineFont: data.headlineFont, headlineFontSize: data.headlineFontSize, headLineFontStyle: data.headLineFontStyle
-              }}
-            />
-          )}
-          {isCollapsible && (
-            <IconButton onClick={handleExpand(expand)}>
-              {!expander.includes(expand) ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-            </IconButton>
-          )}
-        </Box>
-        {((!isCollapsible && !isButtonCollapsible) || expanded) && (
-          <RenderComponent component={component} index={index} data={data} styled={styled} alternate={newData.alternate} />
-        )}
-      </Box>
-    );
-  };
 
   const { qrType, custom: sections, layout } = newData;
   const startSections = Boolean(layout?.startsWith('sections'));
@@ -106,9 +39,13 @@ const Custom = ({newData}: any) => {
     return (
       <>
         <Box sx={mSx} key={`key${section.expand || index}`}>
-          {startSections ? (<RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={layout}>
-            {renderComponent(section, index)}
-          </RenderSectWrapper>) : renderComponent(section, index)}
+          {startSections ? (
+            <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={layout}>
+              <RenderCompItem newData={newData} x={section} index={index} expander={expander} styled={styled} setExpander={setExpander} />
+            </RenderSectWrapper>
+          ) : (
+            <RenderCompItem newData={newData} x={section} index={index} expander={expander} styled={styled} setExpander={setExpander} />
+          )}
         </Box>
         <Box sx={{width: '100%', height: '1px'}} />
       </>
@@ -118,13 +55,52 @@ const Custom = ({newData}: any) => {
   const couponInfo = (qrType === 'coupon') ? sections.find(({ component }: any) => component === 'couponInfo') : null;
   const badge = couponInfo?.data?.badge;
 
+  const handleChngTabs = (_: any, newValue: string) => {
+    setSelectedTab(newValue);
+  };
+
+  const renderTab = (label: string, value: string, icon?: ReactNode) => ( // @ts-ignore
+    <Tab icon={icon || undefined} iconPosition="start"  sx={{ mt: "-10px", mb: "-15px" }} value={value}
+         label={<Box component="span" sx={{...handleFont(styled, 't', !newData?.customFont ? undefined : {
+             headlineFont: newData.headlineFont,
+             headlineFontSize: newData.headlineFontSize,
+             headLineFontStyle: newData.headLineFontStyle
+         })}}>{label}</Box>}
+    />
+  );
+
   return (
     <MainMicrosite data={newData}>
       <Waiting />
       <Notification />
       {badge && <RenderBadge badge={badge} stylesData={styled} />}
       <Box sx={{width: '100%', p: 2}}>
-        {sections?.map(renderSection)}
+        {tabs === undefined || tabs === 0 ? sections?.map(renderSection) : (
+          <Tabs value={selectedTab} onChange={handleChngTabs} sx={{
+            minHeight: '40px', height: '40px', mt: 2,
+            '& .MuiButtonBase-root': {background: '#ffffff10', mt: '-15px'},'& .Mui-selected': {background: '#ffffff25'}
+          }}>
+            {tabs !== sections.length && renderTab('Home', 'home', <HomeIcon />)}
+            {sections.filter((x: TabsType) => x.data?.sectionArrangement === 'tabbed') // @ts-ignore
+              .map((x: TabsProps) => renderTab(x.name || capitalize(x.component), x.expand))}
+          </Tabs>
+        )}
+        {!!tabs && (
+          <>
+            {tabs !== sections.length && (
+              <TabPanel showMe={selectedTab === 'home'} key="home">
+                {sections.filter((x: TabsType) => x.data?.sectionArrangement !== 'tabbed').map(renderSection)}
+              </TabPanel>
+            )}
+            {sections.filter((x: TabsType) => x.data?.sectionArrangement === 'tabbed').map((x: CustomType) => {
+              return (
+                <TabPanel key={x.expand} showMe={x.expand === selectedTab}>
+                  {renderSection(x, sections.findIndex((x: TabsProps) => x.expand === selectedTab))}
+                </TabPanel>
+              )
+            })}
+          </>
+        )}
       </Box>
       {qrType === 'vcard+' && sections?.length && (
         <RenderDownloadVCard data={{

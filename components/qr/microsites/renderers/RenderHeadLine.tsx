@@ -1,14 +1,15 @@
 import {useMemo, useRef} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {handleButtons, handleFont} from "./helper";
-import {capitalize} from "@mui/material";
+import {CustomFont} from "../../types/types";
 
 import dynamic from "next/dynamic";
-import Button from "@mui/material/Button";
 
+const Button = dynamic(() => import("@mui/material/Button"));
 const CalendarMonthIcon = dynamic(() => import("@mui/icons-material/CalendarMonth"));
 const LocationOnIcon = dynamic(() => import("@mui/icons-material/LocationOn"));
 const AccountBoxIcon = dynamic(() => import("@mui/icons-material/AccountBox"));
@@ -40,7 +41,7 @@ interface HeadLineProps {
   hideIcon?: boolean;
   stylesData: object;
   centerHeadLine?: boolean;
-  customFont?: { headlineFont?: string; headlineFontSize?: string; headLineFontStyle?: string; };
+  customFont?: CustomFont;
   renderAsButton?: boolean;
 }
 
