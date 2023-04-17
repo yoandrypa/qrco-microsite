@@ -6,17 +6,17 @@ import { AmountUnitsProps } from "./types";
 import { handleFont } from "../../renderers/helper";
 
 import SvgIcon from "@mui/material/SvgIcon";
-import CoffeeIcon from "@mui/icons-material/Coffee";
 import Typography from "@mui/material/Typography";
 
-export default function AmountUnits({ amount, stylesData, coffeeSize = 35 }: AmountUnitsProps) {
-  const tSx = { ...handleFont(stylesData, 'm') };
+import EbxIcon from "../../../../icons";
 
+export default function AmountUnits({ amount, stylesData, iconSize = 35, iconId = 'Default' }: AmountUnitsProps) {
+  const tSx = { ...handleFont(stylesData, 'm') };
   return (
-    <Grid container sx={{ ml: `calc(50% - ${coffeeSize}px)` }}>
+    <Grid container sx={{ ml: `calc(50% - ${iconSize}px)` }}>
       <Grid item xs={12}>
-        <SvgIcon sx={{ width: coffeeSize, height: coffeeSize }}>
-          <CoffeeIcon color='secondary' />
+        <SvgIcon sx={{ width: iconSize, height: iconSize }}>
+          <EbxIcon iconId={iconId} />
         </SvgIcon>
       </Grid>
       <Grid item xs={12}>
