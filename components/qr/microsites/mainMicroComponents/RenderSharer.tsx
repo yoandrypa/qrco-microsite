@@ -2,6 +2,7 @@ import {RWebShare} from "react-web-share";
 import Fab from "@mui/material/Fab";
 import ShareIcon from "@mui/icons-material/Share";
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {useTheme} from "@mui/system";
 
 interface SharerProps {
@@ -10,6 +11,7 @@ interface SharerProps {
   height: string;
   width?: string;
   topHeight?: string;
+  isShowing: boolean;
   handlePreviewQr?: () => void;
 }
 
@@ -20,7 +22,7 @@ const getSx = (pos: any, theme: any) => ({
 });
 
 
-export default function RenderSharer({baseURL, position, height, width, topHeight, handlePreviewQr}: SharerProps) {
+export default function RenderSharer({baseURL, position, height, width, topHeight, handlePreviewQr, isShowing}: SharerProps) {
   const theme = useTheme();
 
   let pos: any;
@@ -59,7 +61,7 @@ export default function RenderSharer({baseURL, position, height, width, topHeigh
     }
     return (
       <Fab size="small" color="secondary" aria-label="add" sx={sx} onClick={handlePreviewQr}>
-        <QrCodeIcon/>
+        {!isShowing ? <QrCodeIcon/> : <ArrowBackIcon />}
       </Fab>
     )
   }

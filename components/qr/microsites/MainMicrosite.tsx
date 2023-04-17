@@ -215,8 +215,10 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
     }
     mt *= -1;
 
+    const profileSX = {width: '100%', mb, mt: outTop, height: `${profileHeight}px`, textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'} as any;
+
     return (
-      <Box sx={{width: '100%', mb, mt: outTop, height: `${profileHeight}px`, textAlign: !data.layout || !data.layout.includes('Left') ? 'center' : 'unset'}}>
+      <Box sx={profileSX}>
         <Box
           component="img"
           alt="foregimage"
@@ -263,47 +265,49 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
         <RenderMicrositeBackgroundImage micrositeBackImage={micrositeBackImage} data={data} height={minHeight} width={width} />
       )}
       {data.shortlinkurl !== undefined && (data.sharerPosition === 'downLeft' || data.sharerPosition === 'downRight') && (
-        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} width={width} />
+        <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight}
+                      handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} width={width} isShowing={showQr} />
       )}
       <Box sx={{
         position: 'relative',
         top: 0, left: '50%', transform: 'translate(-50%, 0)',
         border: !containerDimensions ? theme => `solid 1px ${theme.palette.text.disabled}` : 'none',
         boxShadow: !containerDimensions ? '0px 7px 25px 0px rgb(0 0 0 / 50%)' : 'none',
-        backgroundColor: isBackgroundImg || showQr ? 'transparent' : (!data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff'),
-        backgroundImage: isBackgroundImg || showQr ? undefined : (!data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
-          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff')),
+        backgroundColor: !showQr ? (isBackgroundImg ? 'transparent' : (!data.backgroundType || data.backgroundType === 'single' ? (data.backgroundColor || '#fff') : '#fff')) : '#fff',
+        backgroundImage: !showQr ? (isBackgroundImg ? undefined : (!data.backgroundType ? 'unset' : (data.backgroundType === 'gradient' ?
+          (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'))) : undefined,
         maxWidth: width, minHeight, overflowX: 'hidden'
       }}>
-        {!showQr ? (<>
-          <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
-            {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
-              <Box sx={{
-                width: '100%',
-                background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
-                height: '250px',
-                position: 'absolute',
-                bottom: 0
-              }} />
-            )}
-            {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
-              <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight} handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} />
-            )}
-            <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
-                       isBorder={isBorder} omitBanner={omitBanner} data={data} />
-            {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+        <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
+          {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
             <Box sx={{
-              backgroundClip: 'padding-box !important',
-              borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
-              borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
-            }}>
+              width: '100%',
+              background: theme => `linear-gradient(rgba(0,0,0,0), ${alpha(theme.palette.secondary.main, 0.25)})`,
+              height: '250px',
+              position: 'absolute',
+              bottom: 0
+            }} />
+          )}
+          {data.shortlinkurl !== undefined && data.sharerPosition !== 'no' && data.sharerPosition !== 'downLeft' && data.sharerPosition !== 'downRight' && (
+            <RenderSharer baseURL={baseURL.current} height={minHeight} position={data.sharerPosition} topHeight={data.upperHeight}
+                          handlePreviewQr={qrCodeImg ? handleQrPreview : undefined} isShowing={showQr} />
+          )}
+          <RenderTop backImg={backImg} foreImg={foreImg} width={width} containerDimensions={containerDimensions}
+                     isBorder={isBorder} omitBanner={omitBanner} data={data} />
+          {foreImg && !data?.layout?.includes('empty') ? renderProfile() : <Box sx={{width: '37px', height: '5px'}} />}
+          <Box sx={{
+            backgroundClip: 'padding-box !important',
+            borderLeft: !isBorder ? 'unset' : 'solid 10px transparent',
+            borderRight: !isBorder ? 'unset' : 'solid 10px transparent'
+          }}>
+            {!showQr ? (<>
               {!data.layout?.includes('entire') ? children : (
                 <RenderSectWrapper layout={data.layout} sx={{ml: '20px', mt: '20px', width: 'calc(100% - 37px)', pt: 2}}>{children}</RenderSectWrapper>
               )}
-            </Box>
+            </>) : <RenderShowQr qrImg={qrCodeImg} data={data} />}
           </Box>
-          {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
-        </>) : <RenderShowQr qrImg={qrCodeImg} handlePreviewQr={handleQrPreview} height={minHeight} iframed={data?.iframed || false} />}
+        </Box>
+        {data.footerKind !== 'noFooter' && Boolean(qrType) && <RenderFooter data={data} qrType={qrType} isBorder={isBorder} />}
       </Box>
     </>
   );

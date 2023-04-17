@@ -112,37 +112,37 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b',
     case 'T': {
       property = 'sectionTitleFontStyle';
       handleSize('sectionTitleFontSize'); // @ts-ignore
-      style.fontFamily = data && (FONTS[data.sectionTitleFont || data.globalFont] || 'unset');
+      style.fontFamily = data && (FONTS[data.sectionTitleFont || data.globalFont] || undefined);
       break;
     }
     case 'S': {
       property = 'sectionDescFontStyle';
       handleSize('sectionDescFontSize'); // @ts-ignore
-      style.fontFamily = data && (FONTS[data.sectionDescFont || data.globalFont] || 'unset');
+      style.fontFamily = data && (FONTS[data.sectionDescFont || data.globalFont] || undefined);
       break;
     }
     case 't': {
       property = 'titlesFontStyle';
       handleSize('titlesFontSize'); // @ts-ignore
-      style.fontFamily = headline?.headlineFont ? FONTS[headline.headlineFont] : (data && (FONTS[data.titlesFont || data.globalFont] || 'unset'));
+      style.fontFamily = headline?.headlineFont ? FONTS[headline.headlineFont] : (data && (FONTS[data.titlesFont || data.globalFont] || undefined));
       break;
     }
     case 's': {
       property = 'subtitlesFontStyle';
       handleSize('subtitlesFontSize'); // @ts-ignore
-      style.fontFamily = data && (FONTS[data.subtitlesFont || data.globalFont] || 'unset');
+      style.fontFamily = data && (FONTS[data.subtitlesFont || data.globalFont] || undefined);
       break;
     }
     case 'b': {
       property = 'buttonsFontStyle';
       handleSize('buttonsFontSize'); // @ts-ignore
-      style.fontFamily = data && (FONTS[data.buttonsFont || data.globalFont] || 'unset');
+      style.fontFamily = data && (FONTS[data.buttonsFont || data.globalFont] || undefined);
       break;
     }
     default : {
       property = 'messagesFontStyle';
       handleSize('messagesFontSize'); // @ts-ignore
-      style.fontFamily = data && (FONTS[data.messagesFont || data.globalFont] || 'unset');
+      style.fontFamily = data && (FONTS[data.messagesFont || data.globalFont] || undefined);
       break;
     }
   }
@@ -167,7 +167,7 @@ export function handleFont(data: any, kind: 'T' | 'S' | 't' | 's' | 'm' | 'b',
   }
 
   // @ts-ignore
-  return {...style, fontSize: size, };
+  return {...style, fontSize: size};
 }
 
 export const onlyNumeric = (value: string) => value.replace(/[^0-9.]/g, '');
@@ -346,6 +346,9 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
 
   if (data?.buttonBorderStyle !== undefined && data.buttonBorderStyle !== 'noBorders') {
     style.border = `${!data?.buttonBorderType ? 'solid' : data.buttonBorderType} ${getBorder(data)}px`;
+    if (style['&:hover'] && !style['&:hover'].border) {
+      style['&:hover'].border = style.border;
+    }
   }
   if (data?.buttonBorderStyle === 'two') {
     let colors = data.buttonBorderColors as string;
@@ -391,18 +394,6 @@ export const getBase64FromUrl = async (url: string) => {
   });
 };
 
-export const blobUrlToFile = (url: string, name: string) => {
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(response => response.blob())
-      .then(blob => {
-        const file = new File([blob], name);
-        resolve(file);
-      })
-      .catch(e => reject(e));
-  })
-};
-
 export const convertBase64 = (file: Blob | File): object => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -417,6 +408,31 @@ export const convertBase64 = (file: Blob | File): object => {
 };
 
 export const empty = (item: string, newData?: any) => newData?.[item] === undefined || !newData[item].trim().length;
+
+const isObject = (item: any) => item !== null && typeof item === 'object';
+
+export function areEquals(object1: any, object2: any) {
+  if ((!Boolean(object1) && Boolean(object2)) || (Boolean(object1) && !Boolean(object2))) {
+    return false;
+  }
+  if (!Boolean(object1) && !Boolean(object2)) {
+    return true;
+  }
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  for (const key of keys1) {
+    const val1 = object1[key];
+    const val2 = object2[key];
+    const areObjects = isObject(val1) && isObject(val2);
+    if (areObjects && !areEquals(val1, val2) || !areObjects && val1 !== val2) {
+      return false;
+    }
+  }
+  return true;
+}
 
 export const getSeparation = (value?: string, sections?: boolean): string => {
   if (!value) {
