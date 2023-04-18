@@ -76,7 +76,7 @@ const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
       <Box sx={{width: '100%', p: 2}}>
         {tabs === undefined || tabs === 0 ? sections?.map(renderSection) : (
           <Tabs value={selectedTab} onChange={handleChngTabs} sx={{
-            minHeight: '40px', height: '40px', mt: 2,
+            minHeight: '40px', height: '40px', mt: 2, borderBottom: 'solid 1px #0000002b',
             '& .MuiButtonBase-root': {background: '#ffffff10', mt: '-15px'},'& .Mui-selected': {background: '#ffffff25'}
           }}>
             {tabs !== sections.length && renderTab('Home', 'home')}
