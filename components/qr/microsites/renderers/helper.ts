@@ -355,7 +355,7 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
     if (!colors) { colors = `${theme.palette.primary.main}|${theme.palette.secondary.main}`; }
     const cols = colors.split('|') as string[];
     style.borderColor = cols[0];
-    style['&:hover'] = { borderColor: cols[1] };
+    style['&:hover'] = { ...style['&:hover'], borderColor: cols[1] };
   }
   if (data?.buttonShadow) {
     const boxShadow = '4px 4px 4px #00000099';
