@@ -129,7 +129,7 @@ export default function RenderHeadLine(
   if (renderAsButton) {
      return (
        <Box sx={{width: '100%'}}>
-         <Button onClick={handleCollapse}
+         <Button onClick={handleCollapse} variant="contained"
            sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
              mx: 'auto', width: 'calc(100% - 55px)',
              ...handleButtons(stylesData, theme), ...fontStyle('b')}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
