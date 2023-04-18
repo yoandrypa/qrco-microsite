@@ -46,7 +46,7 @@ export default function AfterDonation({ data, stylesData, index }: DonationsProp
     msRequest(options).then((response) => {
       const timeout = 5000;
       setSuccess('Your message was sent successfully.', timeout);
-      setTimeout(() => window.location.replace(data.website || mSiteUrl), timeout);
+      setTimeout(() => window.location.replace(mSiteUrl), timeout);
     });
   }
 
