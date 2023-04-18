@@ -1,4 +1,4 @@
-import {MouseEvent, memo, useEffect, useState} from 'react';
+import {MouseEvent, useEffect, useState} from 'react';
 import Box from "@mui/material/Box";
 import DownloadIcon from "@mui/icons-material/Download";
 import PublicIcon from '@mui/icons-material/Public';
@@ -128,13 +128,11 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
             position: 'relative'
           }}
         />
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', mt: 2}}>
-          <Button
-            variant="outlined" startIcon={<DownloadIcon />} onClick={handleOpenAnchor}
-            sx={{...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}>
-            {'Download'}
-          </Button>
-        </Box>
+        <Button
+          variant="contained" startIcon={<DownloadIcon />} onClick={handleOpenAnchor}
+          sx={{...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}>
+          {'Download'}
+        </Button>
       </Box>
       {anchor && (
         <Popover
@@ -153,17 +151,17 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
             <Box sx={{ display: 'flex' }}>
               <Button
                 id="buttonPNG"
-                variant="outlined"
+                variant="contained"
                 sx={{width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}
                 onClick={async () => downloadAsImage(qrImg, true)}>PNG</Button>
               <Button
                 id="buttonJPG"
-                variant="outlined"
+                variant="contained"
                 sx={{ml: '5px', width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}
                 onClick={async () => downloadAsImage(qrImg, false)}>JPG</Button>
               <Button
                 id="buttonSVG"
-                variant="outlined"
+                variant="contained"
                 sx={{ml: '5px', width: '100%', ...handleFont(styled, 'b'), ...handleButtons(styled, theme), fontSize: '16px'}}
                 onClick={async () => downloadAsSVG(qrImg)}>SVG</Button>
             </Box>
@@ -183,6 +181,4 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
   );
 }
 
-const notIf = (current: RenderQrProps, next: RenderQrProps) => current.qrImg === next.qrImg;
-
-export default memo(RenderShowQr, notIf);
+export default RenderShowQr;

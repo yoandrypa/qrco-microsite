@@ -121,25 +121,28 @@ export default function RenderHeadLine(
     return getIcon(sx);
   };
 
-  const fontStyle = {...handleFont(stylesData, 't', customFont !== undefined ? {
+  const fontStyle = (kind: 't' | 'b') => ({...handleFont(stylesData, kind, customFont !== undefined ? {
       headlineFont: customFont.headlineFont, headlineFontSize: customFont.headlineFontSize,
       headLineFontStyle: customFont.headLineFontStyle
-    } : undefined)}
+    } : undefined)});
 
   if (renderAsButton) {
      return (
-       <Button onClick={handleCollapse}
-         sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
-         width: '100%', ...handleButtons(stylesData, theme), ...fontStyle}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
-         {`${headLine || message.current || capitalize(component)}${collapsed ? '...' : ''}`}
-       </Button>
+       <Box sx={{width: '100%'}}>
+         <Button onClick={handleCollapse}
+           sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
+             mx: 'auto', width: 'calc(100% - 55px)',
+             ...handleButtons(stylesData, theme), ...fontStyle('b')}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
+           {`${headLine || message.current || capitalize(component)}${collapsed ? '...' : ''}`}
+         </Button>
+       </Box>
      );
   }
 
   return (
     <Box sx={{width: '100%', display: 'flex', mt: 1, justifyContent: !Boolean(centerHeadLine) ? 'left' : 'center'}}>
       {!hideIcon && <Box>{renderIcon()}</Box>}
-      <Typography sx={fontStyle}>
+      <Typography sx={fontStyle('t')}>
         {headLine || message.current || capitalize(component)}
       </Typography>
     </Box>

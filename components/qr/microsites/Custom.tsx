@@ -1,4 +1,4 @@
-import {ReactNode, useState} from "react";
+import {useState} from "react";
 import Box from "@mui/material/Box";
 
 import MainMicrosite from "./MainMicrosite";
@@ -9,10 +9,9 @@ import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderer
 import dynamic from "next/dynamic";
 import RenderCompItem from "./customComponents/RenderCompItem";
 import {TabsProps, TabsType} from "../types/types";
-import HomeIcon from "@mui/icons-material/Home";
 import {capitalize} from "@mui/material";
-import TabPanel from "./customComponents/TabPanel";
 
+const TabPanel = dynamic(() => import("./customComponents/TabPanel"));
 const Tabs = dynamic(() => import("@mui/material/Tabs"));
 const Tab = dynamic(() => import("@mui/material/Tab"));
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
@@ -59,13 +58,13 @@ const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
     setSelectedTab(newValue);
   };
 
-  const renderTab = (label: string, value: string, icon?: ReactNode) => ( // @ts-ignore
-    <Tab icon={icon || undefined} iconPosition="start"  sx={{ mt: "-10px", mb: "-15px" }} value={value}
+  const renderTab = (label: string, value: string) => ( // @ts-ignore
+    <Tab sx={{ mt: "-10px", mb: "-15px" }} value={value}
          label={<Box component="span" sx={{...handleFont(styled, 't', !newData?.customFont ? undefined : {
              headlineFont: newData.headlineFont,
              headlineFontSize: newData.headlineFontSize,
              headLineFontStyle: newData.headLineFontStyle
-         })}}>{label}</Box>}
+         }), textTransform: 'none'}}>{label}</Box>}
     />
   );
 
@@ -77,10 +76,10 @@ const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
       <Box sx={{width: '100%', p: 2}}>
         {tabs === undefined || tabs === 0 ? sections?.map(renderSection) : (
           <Tabs value={selectedTab} onChange={handleChngTabs} sx={{
-            minHeight: '40px', height: '40px', mt: 2,
+            minHeight: '40px', height: '40px', mt: 2, borderBottom: 'solid 1px #0000002b',
             '& .MuiButtonBase-root': {background: '#ffffff10', mt: '-15px'},'& .Mui-selected': {background: '#ffffff25'}
           }}>
-            {tabs !== sections.length && renderTab('Home', 'home', <HomeIcon />)}
+            {tabs !== sections.length && renderTab('Home', 'home')}
             {sections.filter((x: TabsType) => x.data?.sectionArrangement === 'tabbed') // @ts-ignore
               .map((x: TabsProps) => renderTab(x.name || capitalize(x.component), x.expand))}
           </Tabs>
