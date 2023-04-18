@@ -44,10 +44,10 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
       href={item.link}
       variant="contained"
       sx={{
-        mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
         width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
         ...handleFont(stylesData, 'b'),
-        ...handleButtons(stylesData, theme, alternate)
+        ...handleButtons(stylesData, theme, alternate),
+        mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset'
       }}
     >{item.label}</Button>
   );

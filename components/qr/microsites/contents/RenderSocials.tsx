@@ -169,10 +169,9 @@ export default function RenderSocials({data, stylesData, desc, bold, alternate}:
           variant="contained"
           startIcon={!data?.hideNetworkIcon && <RenderIcon icon={item.network} enabled size="30px" />}
           sx={{
-            mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset',
-            width: '100%',
-            zIndex: 1000,
-            ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theming, alt)
+            width: '100%', zIndex: 1000,
+            ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theming, alt),
+            mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset'
           }}
         >{!data?.showOnlyNetworkName ? value : item.network}</Button>
       );
