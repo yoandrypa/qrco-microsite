@@ -131,7 +131,7 @@ export default function RenderHeadLine(
        <Box sx={{width: '100%'}}>
          <Button onClick={handleCollapse} variant="contained"
            sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
-             mx: 'auto', width: 'calc(100% - 55px)',
+             mx: 'auto', width: 'calc(100% - 55px)', ml: '26px',
              ...handleButtons(stylesData, theme), ...fontStyle('b')}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
            {`${headLine || message.current || capitalize(component)}${collapsed ? '...' : ''}`}
          </Button>
