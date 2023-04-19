@@ -82,7 +82,12 @@ export default function RenderCompItem({newData, x, index, expander, setExpander
         )}
       </Box>
       {((!isCollapsible && !isButtonCollapsible) || expanded) && (
-        <RenderComponent component={component} index={index} data={data} styled={styled} alternate={newData.alternate} />
+        <RenderComponent
+          component={component}
+          index={index}
+          data={data}
+          styled={styled}
+          alternate={newData.alternate} />
       )}
     </Box>
   );
