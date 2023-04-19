@@ -59,27 +59,22 @@ export default function RenderImages({data, stylesData}: CustomProps) {
   }, []);
 
   let colNumber = images.current.length;
-  let width = '0';
 
   if (!data?.iframed) {
     if (isWide) {
       if (colNumber === 0 || colNumber === 1) {
         colNumber = 12;
-        width = '200px';
       } else if (colNumber === 2) {
         colNumber = 6;
-        width = '150px';
       } else if (colNumber >= 3) {
         colNumber = 4;
-        width = '120px';
       }
+
     } else {
       colNumber = isWide400 ? 6 : 12;
-      width = '100%'
     }
   } else {
     colNumber = 6;
-    width = '100%';
   }
 
   const renderGallery = () => (
@@ -112,7 +107,7 @@ export default function RenderImages({data, stylesData}: CustomProps) {
                 src={img}
                 alt="image"
                 sx={{
-                  width,
+                  width: '100%',
                   objectFit: 'cover',
                   height: data?.iframed ? '230px' : '185px',
                   cursor: 'pointer',
