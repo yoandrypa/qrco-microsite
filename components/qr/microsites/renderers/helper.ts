@@ -376,6 +376,8 @@ export const handleButtons = (data: any, theme: any, alternate?: boolean) => {
     cursor: 'not-allowed'
   }
 
+  style.textAlign = 'center';
+
   return style;
 }
 
