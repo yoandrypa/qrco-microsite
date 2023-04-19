@@ -3,7 +3,6 @@ import Tooltip from "@mui/material/Tooltip";
 import CloseIcon from "@mui/icons-material/Close";
 import ZoomInMapIcon from "@mui/icons-material/ZoomInMap";
 import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
-import ShareIcon from "@mui/icons-material/Share";
 import {handleDownloadFiles} from "./helper";
 import DownloadIcon from "@mui/icons-material/Download";
 import Typography from "@mui/material/Typography";
@@ -136,17 +135,12 @@ export default function RenderPreviewImage({position, amount, isWide, isHeight, 
           </IconBtn>
         </Tooltip>
         <Tooltip title={zoom ? 'Zoom in' : 'Zoom out'}>
-          <IconBtn sx={{top: '90px', left: '10px'}} onClick={handleZoom}>
+          <IconBtn sx={{top: '50px', left: '10px'}} onClick={handleZoom}>
             {zoom ? <ZoomInMapIcon /> : <ZoomOutMapIcon />}
           </IconBtn>
         </Tooltip>
-        <Tooltip title="Share">
-          <IconBtn sx={{top: '10px', left: '10px'}} onClick={handleZoom}>
-            <ShareIcon />
-          </IconBtn>
-        </Tooltip>
         <Tooltip title="Download">
-          <IconBtn sx={{top: '50px', left: '10px'}} onClick={() => {
+          <IconBtn sx={{top: '10px', left: '10px'}} onClick={() => {
             if (typeof preview !== 'string') { handleDownloadFiles(preview, type); }
           }}>
             <DownloadIcon />
