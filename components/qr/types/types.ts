@@ -1,6 +1,7 @@
 export type LinkType = {
   label: string;
   link: string;
+  type?: string;
 };
 
 export type KeyValues = {

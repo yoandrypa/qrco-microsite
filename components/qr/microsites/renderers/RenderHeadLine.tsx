@@ -30,8 +30,9 @@ const ContactMailIcon = dynamic(() => import("@mui/icons-material/ContactMail"))
 const PictureAsPdfIcon = dynamic(() => import("@mui/icons-material/PictureAsPdf"));
 const TheatersIcon = dynamic(() => import("@mui/icons-material/Theaters"));
 const AudiotrackIcon = dynamic(() => import("@mui/icons-material/Audiotrack"));
-const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'));
-const DonationIcon = dynamic(() => import('@mui/icons-material/EmojiFoodBeverage'));
+const SmsOutlinedIcon = dynamic(() => import("@mui/icons-material/SmsOutlined"));
+const DonationIcon = dynamic(() => import("@mui/icons-material/EmojiFoodBeverage"));
+const ButtonsIcon = dynamic(() => import("@mui/icons-material/Crop75Rounded"));
 
 interface HeadLineProps {
   collapsed?: boolean;
@@ -91,6 +92,7 @@ export default function RenderHeadLine(
       case 'opening': { return <ScheduleIcon sx={sx} />; }
       case 'socials': { return <GroupsIcon sx={sx} />; }
       case 'email': { return <MarkAsUnreadIcon sx={sx} />; }
+      case 'buttons': { return <ButtonsIcon sx={sx} />; }
     }
   }
 
