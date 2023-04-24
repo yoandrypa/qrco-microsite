@@ -55,7 +55,9 @@ export default function RenderComponent({component, index, data, styled, alterna
       {component === 'date' && <RenderDate data={data} stylesData={styled}/>}
       {component === 'easiness' && data?.easiness && <RenderEasiness data={data} styledData={styled}/>}
       {component === 'email' && (data?.email || data?.web) && <RenderEmailWeb data={data} stylesData={styled}/>}
-      {component === 'links' && data?.links && <RenderLinks data={data} stylesData={styled} alternate={alternate}/>}
+      {['links', 'buttons'].includes(component) && data?.links && (
+        <RenderLinks data={data} stylesData={styled} alternate={alternate} isButtons={component==='buttons'}/>
+      )}
       {component === 'organization' && (data?.organization || data?.position) && <RenderOrganization data={data} stylesData={styled}/>}
       {component === 'phones' && (data?.cell || data?.phone || data?.fax || data?.whatsapp) && <RenderPhones data={data} stylesData={styled}/>}
       {component === 'presentation' && (data?.prefix || data?.firstName || data?.lastName) && <RenderName data={data} stylesData={styled}/>}

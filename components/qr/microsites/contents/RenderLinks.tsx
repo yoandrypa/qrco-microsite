@@ -19,9 +19,10 @@ const TextField = dynamic(() => import("@mui/material/TextField"));
 
 interface LinksProps extends CustomProps {
   alternate?: boolean;
+  isButtons?: boolean;
 }
 
-export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
+export default function RenderLinks({data, stylesData, alternate, isButtons}: LinksProps) {
   const theme = useTheme();
 
   if (!data?.links?.length) {
@@ -36,21 +37,32 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
     }
   }
 
-  const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean) => (
-    <Button
-      key={key}
-      target="_blank"
-      component="a"
-      href={item.link}
-      variant="contained"
-      sx={{
-        width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
-        ...handleFont(stylesData, 'b'),
-        ...handleButtons(stylesData, theme, alternate),
-        mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset'
-      }}
-    >{item.label}</Button>
-  );
+  const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string) => {
+    let link = item.link;
+    if (isButtons) {
+      if (type === 'email') { link = `mailto:${link}`; }
+      else if (type === 'call') { link = `tel:${link}`; }
+      else if (type === 'whatsapp') { link = `https://wa.me/:${link}`; }
+      else if (type === 'sms') { link = `sms:${link}`; }
+      else { link = verifyProtocol(link); }
+    }
+
+    return (
+      <Button
+        key={key}
+        target="_blank"
+        component="a"
+        href={link}
+        variant="contained"
+        sx={{
+          width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
+          ...handleFont(stylesData, 'b'),
+          ...handleButtons(stylesData, theme, alternate),
+          mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset'
+        }}
+      >{item.label}</Button>
+    )
+  };
 
   const renderLabel = (item: LinkType, key: string, stay: boolean) => (
     <Typography
@@ -112,14 +124,16 @@ export default function RenderLinks({data, stylesData, alternate}: LinksProps) {
         if (!x.link.trim().length) {
           return null;
         }
-        x.link = verifyProtocol(x.link);
-        if (data.linksOnlyLinks) {
-          return renderLink(x.link, `lnk${index}`, index === 0);
+        if (!isButtons) {
+          x.link = verifyProtocol(x.link);
+          if (data.linksOnlyLinks) {
+            return renderLink(x.link, `lnk${index}`, index === 0);
+          }
+          if (data.avoidButtons) {
+            return renderLabel(x, `lbl${index}`, index === 0);
+          }
         }
-        if (data.avoidButtons) {
-          return renderLabel(x, `lbl${index}`, index === 0);
-        }
-        return renderBtn(x, `btn${index}`, index === 0, alternate && index % 2 === 0);
+        return renderBtn(x, `btn${index}`, index === 0, alternate && index % 2 === 0, x.type);
       })}
     </Box>
   );
