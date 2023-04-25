@@ -1,13 +1,14 @@
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
-import RenderIcon from "../../helperComponents/RenderIcon";
-
+import Button from "@mui/material/Button";
 import {useTheme} from "@mui/system";
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
+
+import RenderIcon from "../../helperComponents/RenderIcon";
 import {handleButtons, handleFont, onlyNumeric} from "./helper";
-import Button from "@mui/material/Button";
+import {verifyProtocol} from "../../../../helpers/qr/helpers";
 
 const Typography = dynamic(() => import("@mui/material/Typography"));
 const Box = dynamic(() => import("@mui/material/Box"));
@@ -74,8 +75,8 @@ export default function RenderField({label, value, icon, link, sx, phone, fax, e
       url = `https://wa.me/${onlyNumeric(value)}`;
     } else if (email) {
       url = `mailto:${value}`;
-    } else if (link && !url.toLowerCase().startsWith('https://') && !url.toLowerCase().startsWith('http://')) {
-      url = `https://${url}`;
+    } else if (link) {
+      url = verifyProtocol(url);
     }
 
     if (extras) {

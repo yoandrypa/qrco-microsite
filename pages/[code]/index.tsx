@@ -176,9 +176,7 @@ export default function Handler ({ data, code }: InferGetServerSidePropsType<typ
   return <MainComponent newData={JSON.parse(data)}/>;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params, req,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, req}) => {
   // @ts-ignore
   const { code } = params;
   try {
@@ -202,10 +200,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     if (link.paused) {
       return {
-        redirect: {
-          destination: "/" + code + "/paused",
-          permanent: false
-        }
+        redirect: { destination: "/" + code + "/paused", permanent: false }
       };
     }
 
@@ -219,10 +214,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     Promise.all([
       // Create visit data
-      VisitHandler.create({
-        headers: req.headers,
-        shortLinkId: qr.shortLinkId,
-      }),
+      VisitHandler.create({ headers: req.headers, shortLinkId: qr.shortLinkId }),
 
       // Increment the visit count
       queries.link.incrementVisit(userId, createdAt, link.visitCount)
@@ -236,10 +228,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     return {
       props: {
         data: JSON.stringify({
-          ...qr,
-          shortLinkId: link,
-          shortlinkurl: generateShortLink(link.address,
-            link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
+          ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         })
       }
     };

@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import {useTheme} from "@mui/system";
 
-import {CustomProps, getSeparation, handleButtons, handleFont} from "../renderers/helper";
+import {CustomProps, getSeparation, handleButtons, handleFont, onlyNumeric} from "../renderers/helper";
 import {LinkType} from "../../types/types";
 
 import dynamic from "next/dynamic";
@@ -48,7 +48,7 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
         link = `tel:${link}`;
         if (showIcons) { icon = 'phone'; }
       } else if (type === 'whatsapp') {
-        link = `https://wa.me/:${link}`;
+        link = `https://wa.me/:${onlyNumeric(link)}`;
         if (showIcons) { icon = 'whatsapp'; }
       } else if (type === 'sms') {
         link = `sms:${link}`;
