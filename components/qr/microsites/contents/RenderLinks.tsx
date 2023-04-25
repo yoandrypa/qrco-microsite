@@ -37,14 +37,26 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
     }
   }
 
-  const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string) => {
+  const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string, showIcons?: boolean) => {
     let link = item.link;
+    let icon = undefined as string | undefined;
     if (isButtons) {
-      if (type === 'email') { link = `mailto:${link}`; }
-      else if (type === 'call') { link = `tel:${link}`; }
-      else if (type === 'whatsapp') { link = `https://wa.me/:${link}`; }
-      else if (type === 'sms') { link = `sms:${link}`; }
-      else { link = verifyProtocol(link); }
+      if (type === 'email') {
+        link = `mailto:${link}`;
+        if (showIcons) { icon = 'email'; }
+      } else if (type === 'call') {
+        link = `tel:${link}`;
+        if (showIcons) { icon = 'phone'; }
+      } else if (type === 'whatsapp') {
+        link = `https://wa.me/:${link}`;
+        if (showIcons) { icon = 'whatsapp'; }
+      } else if (type === 'sms') {
+        link = `sms:${link}`;
+        if (showIcons) { icon = 'sms'; }
+      } else {
+        link = verifyProtocol(link);
+        if (showIcons) { icon = 'link'; }
+      }
     }
 
     return (
@@ -54,6 +66,7 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
         component="a"
         href={link}
         variant="contained"
+        startIcon={icon !== undefined ? <RenderIcon icon={icon} enabled /> : undefined}
         sx={{
           width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
           ...handleFont(stylesData, 'b'),
@@ -133,7 +146,7 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
             return renderLabel(x, `lbl${index}`, index === 0);
           }
         }
-        return renderBtn(x, `btn${index}`, index === 0, alternate && index % 2 === 0, x.type);
+        return renderBtn(x, `btn${index}`, index === 0, alternate && index % 2 === 0, x.type, data.showIcons);
       })}
     </Box>
   );
