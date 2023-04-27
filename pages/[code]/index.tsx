@@ -17,18 +17,35 @@ import dynamic from "next/dynamic";
 
 const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
 const DangerousIcon = dynamic(() => import('@mui/icons-material/Dangerous'));
+const EnterSecretCode = dynamic(() => import("../../components/qr/helperComponents/EnterSecretCode"));
 
 const renderContactSupport = (message: string) => (
   <a target="_blank" href="mailto:info@ebanux.com" rel="noopener noreferrer" style={{ color: "royalblue", zIndex: 1000 }}>{message}</a>
 );
 
 // @ts-ignore
-export default function Handler ({ data, code }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
+  const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
   useEffect(() => {
     setRoute(window.location.href.toLowerCase());
   }, []);
+
+  if (locked !== undefined && !proceed) {
+    return (
+      <MainMicrosite data={{foregndImg: 'logo.png', backgndImg: 'banner.png', layout: 'gradient', noInfoGradient: true}}>
+        <Box sx={{ width: 'calc(100% - 70px)', height: 'calc(100vh - 330px)', ml: '35px', mt: '35px' }}>
+          <EnterSecretCode locked={locked} setProceed={setProceed} />
+        </Box>
+        <Divider sx={{mt: 3}} />
+        <Box sx={{display: 'flex', my: '5px', width: '100%', justifyContent: 'center'}}>
+          <ContactSupportIcon sx={{color: theme => theme.palette.primary.dark}}/>
+          {renderContactSupport('info@ebanux.com')}
+        </Box>
+      </MainMicrosite>
+    );
+  }
 
   const renderCommon = (firstLine: string, secondLine: string) => (
     <Box>
@@ -229,7 +246,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       props: {
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
-        })
+        }),
+        locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
   } catch (e: any) {
