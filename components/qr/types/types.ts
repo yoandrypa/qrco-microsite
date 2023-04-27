@@ -1,6 +1,7 @@
 export type LinkType = {
   label: string;
   link: string;
+  type?: string;
 };
 
 export type KeyValues = {
@@ -123,3 +124,7 @@ export type FileType = {
   content: string;
   type: string;
 };
+
+export interface TabsType {data?: {sectionArrangement?: string;}}
+export interface TabsProps {component: string; name?: string; expand: string;}
+export interface CustomFont {headlineFont?: string; headlineFontSize?: string; headLineFontStyle?: string;}

@@ -1,14 +1,15 @@
 import {useMemo, useRef} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import {capitalize} from "@mui/material";
 import {useTheme} from "@mui/system";
 
 import {handleButtons, handleFont} from "./helper";
-import {capitalize} from "@mui/material";
+import {CustomFont} from "../../types/types";
 
 import dynamic from "next/dynamic";
-import Button from "@mui/material/Button";
 
+const Button = dynamic(() => import("@mui/material/Button"));
 const CalendarMonthIcon = dynamic(() => import("@mui/icons-material/CalendarMonth"));
 const LocationOnIcon = dynamic(() => import("@mui/icons-material/LocationOn"));
 const AccountBoxIcon = dynamic(() => import("@mui/icons-material/AccountBox"));
@@ -29,8 +30,9 @@ const ContactMailIcon = dynamic(() => import("@mui/icons-material/ContactMail"))
 const PictureAsPdfIcon = dynamic(() => import("@mui/icons-material/PictureAsPdf"));
 const TheatersIcon = dynamic(() => import("@mui/icons-material/Theaters"));
 const AudiotrackIcon = dynamic(() => import("@mui/icons-material/Audiotrack"));
-const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'));
-const DonationIcon = dynamic(() => import('@mui/icons-material/EmojiFoodBeverage'));
+const SmsOutlinedIcon = dynamic(() => import("@mui/icons-material/SmsOutlined"));
+const DonationIcon = dynamic(() => import("@mui/icons-material/EmojiFoodBeverage"));
+const ButtonsIcon = dynamic(() => import("@mui/icons-material/Crop75Rounded"));
 
 interface HeadLineProps {
   collapsed?: boolean;
@@ -40,7 +42,7 @@ interface HeadLineProps {
   hideIcon?: boolean;
   stylesData: object;
   centerHeadLine?: boolean;
-  customFont?: { headlineFont?: string; headlineFontSize?: string; headLineFontStyle?: string; };
+  customFont?: CustomFont;
   renderAsButton?: boolean;
 }
 
@@ -90,6 +92,7 @@ export default function RenderHeadLine(
       case 'opening': { return <ScheduleIcon sx={sx} />; }
       case 'socials': { return <GroupsIcon sx={sx} />; }
       case 'email': { return <MarkAsUnreadIcon sx={sx} />; }
+      case 'buttons': { return <ButtonsIcon sx={sx} />; }
     }
   }
 
@@ -120,25 +123,28 @@ export default function RenderHeadLine(
     return getIcon(sx);
   };
 
-  const fontStyle = {...handleFont(stylesData, 't', customFont !== undefined ? {
+  const fontStyle = (kind: 't' | 'b') => ({...handleFont(stylesData, kind, customFont !== undefined ? {
       headlineFont: customFont.headlineFont, headlineFontSize: customFont.headlineFontSize,
       headLineFontStyle: customFont.headLineFontStyle
-    } : undefined)}
+    } : undefined)});
 
   if (renderAsButton) {
      return (
-       <Button onClick={handleCollapse}
-         sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
-         width: '100%', ...handleButtons(stylesData, theme), ...fontStyle}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
-         {`${headLine || message.current || capitalize(component)}${collapsed ? '...' : ''}`}
-       </Button>
+       <Box sx={{width: '100%'}}>
+         <Button onClick={handleCollapse} variant="contained"
+           sx={{display: !centerHeadLine ? 'flex' : undefined, justifyContent: !centerHeadLine ? 'flex-start' : undefined,
+             mx: 'auto', width: 'calc(100% - 55px)', ml: '26px',
+             ...handleButtons(stylesData, theme), ...fontStyle('b')}} startIcon={!hideIcon && getIcon({ml: '10px'})}>
+           {`${headLine || message.current || capitalize(component)}${collapsed ? '...' : ''}`}
+         </Button>
+       </Box>
      );
   }
 
   return (
     <Box sx={{width: '100%', display: 'flex', mt: 1, justifyContent: !Boolean(centerHeadLine) ? 'left' : 'center'}}>
       {!hideIcon && <Box>{renderIcon()}</Box>}
-      <Typography sx={fontStyle}>
+      <Typography sx={fontStyle('t')}>
         {headLine || message.current || capitalize(component)}
       </Typography>
     </Box>
