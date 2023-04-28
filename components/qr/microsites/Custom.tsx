@@ -70,8 +70,6 @@ const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
 
   return (
     <MainMicrosite data={newData}>
-      <Waiting />
-      <Notification />
       {badge && <RenderBadge badge={badge} stylesData={styled} />}
       <Box sx={{width: '100%', p: 2}}>
         {tabs === undefined || tabs === 0 ? sections?.map(renderSection) : (
