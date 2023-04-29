@@ -2,8 +2,6 @@ import {useState} from "react";
 import Box from "@mui/material/Box";
 
 import MainMicrosite from "./MainMicrosite";
-import Waiting from "../../Waiting";
-import Notification from "../../Notification";
 import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderers/helper";
 
 import dynamic from "next/dynamic";

@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react'
+
 import { useRouter } from "next/router";
+import { IViewProps, ISectionData } from "../types";
+
 import AfterDonation from "./AfterDonation";
 import BeforeDonation from "./BeforeDonation";
 
-import { DonationsProps } from "./types";
-
-export default function Donation(props: DonationsProps) {
+export default function Form(props: IViewProps<ISectionData>) {
   const router = useRouter();
 
   const { thanks } = router.query;

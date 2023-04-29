@@ -9,6 +9,7 @@ export interface IIconProps {
 export interface IViewProps<IQrData> {
   index?: number;
   data: IQrData;
+  stylesData?: any;
 }
 
 export interface IQrSetting<IQrData> {

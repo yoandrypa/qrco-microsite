@@ -6,16 +6,16 @@ import Typography from '@mui/material/Typography';
 
 import QuantityField from "./QuantityField";
 
-import { handleFont } from "../../renderers/helper";
-import { DonationsProps } from "./types";
-import { microSiteUrl, payLynkRequest } from "../../../../../utils/requests";
-import { setError, setWarning } from "../../../../Notification";
-import { startWaiting, releaseWaiting } from "../../../../Waiting";
+import { handleFont } from "../../../../renderers/helper";
+import { microSiteUrl, payLynkRequest } from "../../../../../../../utils/requests";
+import { setError, setWarning } from "../../../../../../Notification";
+import { startWaiting, releaseWaiting } from "../../../../../../Waiting";
+import { ISectionData, IViewProps } from "../types";
 
 import AmountUnits from "./AmountUnits";
 import ButtonDonate from "./ButtonDonate";
 
-export default function BeforeDonation({ data, index, stylesData }: DonationsProps) {
+export default function BeforeDonation({ data, index, stylesData }: IViewProps<ISectionData>) {
   const msgSenderId = `qr_section_${index}`;
 
   const onDonate = async () => {

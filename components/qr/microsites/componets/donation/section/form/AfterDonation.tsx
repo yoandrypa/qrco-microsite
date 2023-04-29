@@ -6,15 +6,15 @@ import Image from "next/image";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
 
-import TextBox from "../../../../forms/fields/TextBox";
+import TextBox from "../../../../../../forms/fields/TextBox";
 
 import { useTheme } from "@mui/system";
-import { DonationsProps } from "./types";
-import { handleButtons, handleFont } from "../../renderers/helper";
-import { microSiteUrl, msRequest } from "../../../../../utils/requests";
-import { setSuccess } from "../../../../Notification";
+import { handleButtons, handleFont } from "../../../../renderers/helper";
+import { microSiteUrl, msRequest } from "../../../../../../../utils/requests";
+import { setSuccess } from "../../../../../../Notification";
+import { IViewProps, ISectionData } from "../types";
 
-export default function AfterDonation({ data, stylesData, index }: DonationsProps) {
+export default function AfterDonation({ data, stylesData, index }: IViewProps<ISectionData>) {
   const theme = useTheme();
   const [valid, setValid] = useState<boolean>(false);
 
