@@ -3,10 +3,8 @@ import qrSection from "./section";
 
 import { IViewProps, IQrSetting, IQrData } from './types';
 
-const componentId = 'sendMeMoney';
-
 const setting: IQrSetting<IQrData> = {
-  id: componentId,
+  id: 'sendMeMoney',
   name: 'Send Me Money',
   renderView: ({ data, ...props }: IViewProps<IQrData>) => {
     return qrSection.renderView({
