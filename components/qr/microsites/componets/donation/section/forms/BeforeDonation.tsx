@@ -19,10 +19,6 @@ export default function BeforeDonation({ data, index, stylesData }: IViewProps<I
   const msgSenderId = `qr_section_${index}`;
 
   const onDonate = async () => {
-    if (data.isSample) return setWarning(
-      'This action is not available in this example.<br/>This is just a preview.'
-    );
-
     const callbackUrl = microSiteUrl();
 
     startWaiting();

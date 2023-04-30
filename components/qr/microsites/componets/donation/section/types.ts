@@ -7,6 +7,7 @@ export interface ISectionData {
   buttonText: string;
   message: string;
   unitAmount: number;
+  quantity: number;
   email: string;
   ownerId: string;
   iconId: string;
