@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
 
 const Typography = dynamic(() => import("@mui/material/Typography"));
-const RenderContactForm = dynamic(() => import("../contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("../contents/RenderSMSData"));
 const RenderAssets = dynamic(() => import("../contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("../contents/RenderActionButton"));
@@ -84,7 +83,6 @@ export default function RenderComponent({component, index, data, styled, alterna
       {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
       {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
       {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
-      {component === 'contact' && <RenderContactForm stylesData={styled} data={data} index={index}/>}
       {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
     </Box>
   )

@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Waiting from "./Waiting";
-import Notification from "./Notification";
 import {handleDesignerString} from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
 import MainMicrosite from "./qr/microsites/MainMicrosite";
@@ -115,7 +114,6 @@ export default function MainComponent({ newData }: any) {
           theme={createTheme(getTheme(data?.primary || DEFAULT_COLORS.p, data?.secondary || DEFAULT_COLORS.s, iframed.current))}>
           <CssBaseline />
           <Waiting />
-          <Notification />
           {renderMicrositeComponent()}
         </ThemeProvider>
       )}
