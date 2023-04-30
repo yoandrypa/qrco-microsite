@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Box from "@mui/material/Box";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import Typography from "@mui/material/Typography";
 import CssBaseline from "@mui/material/CssBaseline";
 
+import Waiting from "./Waiting";
 import {handleDesignerString} from "../helpers/qr/helpers";
 import { ASSETS, GALLERY } from "./helpers/generalFunctions";
 import MainMicrosite from "./qr/microsites/MainMicrosite";
@@ -12,6 +13,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import getTheme from "./theming/themeHelper";
 import { DEFAULT_COLORS } from "./qr/constants";
 import {TabsType} from "./qr/types/types";
+import { qrTypes } from "../components/qr/microsites/componets";
+
 
 const Custom = dynamic(() => import("./qr/microsites/Custom"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
@@ -68,6 +71,10 @@ export default function MainComponent({ newData }: any) {
   }
 
   const renderMicrositeComponent = () => {
+    const qrType = qrTypes[data.qrType];
+
+    if (qrType?.renderView) return qrType.renderView({ data });
+
     if (["web", "twitter", "whatsapp", "facebook"].includes(data?.qrType)) {
       return <Web urlString={handleDesignerString(data.qrType, data)} />;
     }
@@ -106,6 +113,7 @@ export default function MainComponent({ newData }: any) {
         <ThemeProvider
           theme={createTheme(getTheme(data?.primary || DEFAULT_COLORS.p, data?.secondary || DEFAULT_COLORS.s, iframed.current))}>
           <CssBaseline />
+          <Waiting />
           {renderMicrositeComponent()}
         </ThemeProvider>
       )}

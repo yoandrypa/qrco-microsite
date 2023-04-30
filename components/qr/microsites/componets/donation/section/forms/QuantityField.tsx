@@ -5,13 +5,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 import { useTheme } from "@mui/system";
-import { CountFieldProps } from "./types";
-import { handleButtons, handleFont } from "../../renderers/helper";
+import { handleButtons, handleFont } from "../../../../renderers/helper";
+import { ICountField } from "../types";
 
 const maxValue = 100;
 const btSize = 35;
 
-export default function QuantityField({ value: initValue, stylesData, onChange }: CountFieldProps) {
+export default function QuantityField({ value: initValue, stylesData, onChange }: ICountField) {
   const theme = useTheme();
   const [value, setValue] = useState<number>(initValue);
 
