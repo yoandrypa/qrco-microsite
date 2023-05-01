@@ -6,12 +6,9 @@ import {
 } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
-export const incrementVisit = (
-  userId: string, createdAt: number, currenValue: number) => {
+export const incrementVisit = (userId: string, createdAt: number, currenValue: number) => {
   try {
-    const prefix: string = process.env.REACT_NODE_ENV === "production"
-      ? "prd_"
-      : "dev_";
+    const prefix: string = process.env.REACT_NODE_ENV === "production" ? "prd_" : "dev_";
     const input: ExecuteStatementCommandInput = {
       Statement: `UPDATE ${prefix}links SET visitCount=${currenValue + 1} WHERE userId='${userId}' and createdAt=${createdAt}`,
     };
