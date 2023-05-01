@@ -20,15 +20,9 @@ export const create = async (params: Create) => {
   try {
     let visit = await getByShortLink({ ...params.shortLinkId });
 
-    const data = {
-      ...params,
-      country: params.country,
-      referrer: params.referrer,
-    };
+    const data = { ...params, country: params.country, referrer: params.referrer };
 
-    const prefix: string = process.env.REACT_NODE_ENV === "production"
-      ? "prd"
-      : "dev";
+    const prefix: string = process.env.REACT_NODE_ENV === "production" ? "prd" : "dev";
 
     let input;
     if (visit) {
@@ -65,6 +59,9 @@ export const create = async (params: Create) => {
         ],
       };
     } else {
+      const creationDate = Date.now();
+      console.log(creationDate, creationDate.toString())
+
       input = <ExecuteStatementCommandInput>{
         Statement: `INSERT INTO ${prefix}_visits VALUE {
             'br_${data.browser}':?,
@@ -94,7 +91,7 @@ export const create = async (params: Create) => {
             }),
           },
           // @ts-ignore
-          { "N": Date.now().toString() },
+          { "N": creationDate.toString() },
         ],
       };
     }
