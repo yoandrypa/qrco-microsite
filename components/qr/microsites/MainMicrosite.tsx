@@ -1,8 +1,8 @@
-import {ReactNode, useEffect, useMemo, useRef, useState} from "react";
+import React, {ReactNode, useEffect, useMemo, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {useMediaQuery} from "@mui/material";
-import {alpha} from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
+import { alpha, ThemeProvider } from "@mui/material/styles";
 import dynamic from "next/dynamic";
 
 import {download} from "../../../handlers/storage";
@@ -10,6 +10,7 @@ import {DimsProps, handleFont} from "./renderers/helper";
 import {DEFAULT_COLORS} from "../constants";
 import RenderSharer from "./mainMicroComponents/RenderSharer";
 import RenderTop from "./mainMicroComponents/RenderTop";
+import Notification from "../../Notification";
 
 const RenderSectWrapper = dynamic(() => import("./renderers/RenderSectWrapper"));
 const RenderFooter = dynamic(() => import("./mainMicroComponents/RenderFooter"));
@@ -278,6 +279,7 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
           (`linear-gradient(${data.backgroundDirection || '180deg'}, ${data.backgroundColor || DEFAULT_COLORS.s}, ${data.backgroundColorRight || DEFAULT_COLORS.p})`) : '#fff'))) : undefined,
         maxWidth: width, minHeight, overflowX: 'hidden'
       }}>
+        <Notification />
         <Box sx={{ minHeight: data.footerKind !== 'noFooter' ? `calc(${minHeight} - 30px)` : minHeight }}> {/* this is the content holder */}
           {!data.noInfoGradient && (!data.backgroundType || (data.backgroundType === 'single' && (!data.backgroundColor || ['#fff', '#ffffff'].includes(data.backgroundColor)))) && (
             <Box sx={{

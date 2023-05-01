@@ -1,9 +1,10 @@
-import {handleFont} from "../renderers/helper";
+import { handleFont } from "../renderers/helper";
+import { sectionsQrTypes } from "../componets";
+
 import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
 
 const Typography = dynamic(() => import("@mui/material/Typography"));
-const RenderContactForm = dynamic(() => import("../contents/RenderContactForm"));
 const RenderSMSData = dynamic(() => import("../contents/RenderSMSData"));
 const RenderAssets = dynamic(() => import("../contents/RenderAssets"));
 const RenderActionButton = dynamic(() => import("../contents/RenderActionButton"));
@@ -27,7 +28,6 @@ const RenderPetsInfo = dynamic(() => import("../contents/RenderPetsInfo"));
 const RenderEmail = dynamic(() => import("../contents/RenderEmail"));
 const RenderProductSku = dynamic(() => import("../contents/RenderProductSku"));
 const RenderWeb = dynamic(() => import("../contents/RenderWeb"));
-const RenderDonation = dynamic(() => import("../contents/Donation"));
 
 interface RenderCompProps {
   component: string;
@@ -44,6 +44,13 @@ export default function RenderComponent({component, index, data, styled, alterna
     sectStyle.px = '10px';
     sectStyle.ml = 1;
   }
+
+  const sQrType = sectionsQrTypes[component];
+  if (sQrType?.renderView) return (
+    <Box sx={sectStyle}>
+      {sQrType?.renderView({ data, index, stylesData: styled })}
+    </Box>
+  );
 
   return (
     <Box sx={sectStyle}>
@@ -76,9 +83,7 @@ export default function RenderComponent({component, index, data, styled, alterna
       {component === 'justEmail' && <RenderEmail stylesData={styled} data={data}/>}
       {component === 'web' && (data?.web) && <RenderWeb data={data} stylesData={styled}/>}
       {component === 'sku' && <RenderProductSku stylesData={styled} data={data}/>}
-      {component === 'contact' && <RenderContactForm stylesData={styled} data={data} index={index}/>}
       {component === 'sms' && <RenderSMSData stylesData={styled} data={data}/>}
-      {component === 'donation' && <RenderDonation stylesData={styled} data={data} index={index}/>}
     </Box>
   )
 }

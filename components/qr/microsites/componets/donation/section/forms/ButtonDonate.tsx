@@ -4,12 +4,12 @@ import messaging from "@ebanux/ebanux-utils/messaging";
 import Button from "@mui/material/Button";
 
 import { useTheme } from "@mui/system";
-import { ButtonDonateProps } from "./types";
-import { handleButtons, handleFont } from "../../renderers/helper";
+import { handleButtons, handleFont } from "../../../../renderers/helper";
+import { IButtonDonate } from "../types";
 
 const mSubscriptions: any[] = [];
 
-export default function ButtonDonate(props: ButtonDonateProps) {
+export default function ButtonDonate(props: IButtonDonate) {
   const theme = useTheme();
   const { label, amount, quantity: initQuantity, stylesData, onClick, msgSenderId } = props;
   const [quantity, setQuantity] = useState<number>(initQuantity);

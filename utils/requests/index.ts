@@ -35,7 +35,7 @@ export function payLynkRequest(options: any): Promise<any> {
 }
 
 export function qrLynkRequest(options: any): Promise<any> {
-  return request({ ...options, baseURL: `${process.env.QRLINK_BASE_URL}/api/v2.0` });
+  return request({ ...options, baseURL: `${process.env.QRLINK_BASE_URL}/api` });
 }
 
 export function msRequest(options: any): Promise<any> {
