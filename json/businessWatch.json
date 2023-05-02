@@ -1,0 +1,202 @@
+{
+  "buttonBack": "solid",
+  "micrositeBackImageOpacity": 0.91,
+  "sharerPosition": "upRight",
+  "titlesFontSize": "small",
+  "buttonBorderStyle": "two",
+  "customFooter": "Time is money",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/614e6249-6daa-43c2-9c8f-d9153a32e497",
+    "updatedAt": "2023-03-30T13:55:57.815Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-03-30T13:55:57.812Z",
+    "visitCount": 66,
+    "address": "eMG4aZ",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "5",
+  "upperHeight": "small",
+  "sectionTitleFontSize": "large",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Iron ClockHand"
+      },
+      "component": "title",
+      "expand": "95f02933-0ab7-4b8b-ae78-8734e0d0f2b1"
+    },
+    {
+      "data": {
+        "zip": "33327",
+        "country": "US ",
+        "address": "812 Crestview",
+        "city": "Weston",
+        "bottomSpacing": "wide",
+        "state": "Florida",
+        "topSpacing": "wide"
+      },
+      "component": "address",
+      "expand": "f12b4500-7652-47c4-bf69-449b37fbc7c4"
+    },
+    {
+      "data": {
+        "bottomSpacing": "wide",
+        "openingTime": {
+          "thu": [
+            {
+              "ini": "0900",
+              "end": "2100"
+            }
+          ],
+          "fri": [
+            {
+              "ini": "0900",
+              "end": "2100"
+            }
+          ],
+          "mon": [
+            {
+              "ini": "0900",
+              "end": "2100"
+            }
+          ],
+          "tue": [
+            {
+              "ini": "2256",
+              "end": "2256"
+            }
+          ],
+          "wed": [
+            {
+              "ini": "0900",
+              "end": "2100"
+            }
+          ],
+          "sat": [
+            {
+              "ini": "0900",
+              "end": "2100"
+            }
+          ]
+        },
+        "sectionArrangement": "tabbed"
+      },
+      "component": "opening",
+      "expand": "79885990-1072-4f62-b930-a8126ef4da89"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://store.com",
+            "label": "Online store"
+          },
+          {
+            "link": "https://store.com",
+            "label": "Classic collection"
+          },
+          {
+            "link": "https://store.com",
+            "label": "Make an order"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "links",
+      "expand": "8e5b4f6f-4557-4968-ad01-0498e180c768"
+    },
+    {
+      "data": {
+        "easiness": {
+          "seat": true,
+          "parking": true,
+          "pets": true,
+          "accessible": true,
+          "bus": true,
+          "toilet": true,
+          "smoking": true,
+          "climate": true,
+          "child": true
+        },
+        "topSpacing": "wide",
+        "hideHeadLine": true
+      },
+      "component": "easiness",
+      "expand": "ec12e877-1438-4b94-a464-cee01411e8b1"
+    },
+    {
+      "data": {
+        "hideHeadLine": true,
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "http://store.facebook.com",
+            "network": "facebook"
+          },
+          {
+            "value": "+285961462",
+            "network": "whatsapp"
+          },
+          {
+            "value": "http://store.instagram.com",
+            "network": "instagram"
+          }
+        ],
+        "bottomSpacing": "narrow",
+        "topSpacing": "medium"
+      },
+      "component": "socials",
+      "expand": "8c24eed7-ac1d-4cc3-9a30-64f5faf34d89"
+    }
+  ],
+  "buttonsOpacity": 0.19,
+  "subtitlesFontStyle": "b#ffffff",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b#ffffff",
+  "forceChange": false,
+  "qrType": "business",
+  "image": "",
+  "buttonsFontSize": "medium",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "subtitlesFontSize": "medium",
+  "micrositeBackImageBlurness": 3,
+  "titlesFontStyle": "b#ffffff",
+  "footerKind": "custom",
+  "messagesFontSize": "medium",
+  "secondary": "#000b11",
+  "qrForSharing": [
+    {
+      "name": "0d3a6fc9-2246-4247-b2d1-9d161bf5d077QR.svg",
+      "Key": "businesss/design/0d3a6fc9-2246-4247-b2d1-9d161bf5d077QR.svg"
+    }
+  ],
+  "qrName": "(JY) Watch Store",
+  "messagesFontStyle": "b#ffffff",
+  "createdAt": "2023-03-30T13:55:57.816Z",
+  "layout": "empty",
+  "globalFontColor": "#ffffff",
+  "sectionTitleFontStyle": "b",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-02T03:04:45.065Z",
+  "buttonBackColor": "#f5f8fc",
+  "micrositeBackImage": [
+    {
+      "name": "16197ce3-2505-4cd6-8af5-be8a36304250.jpg",
+      "Key": "businesss/design/16197ce3-2505-4cd6-8af5-be8a36304250.jpg"
+    }
+  ],
+  "backgroundType": "image",
+  "primary": "#fdf7f7"
+}
