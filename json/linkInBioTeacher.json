@@ -99,8 +99,8 @@
   "backgroundColorRight": "#e8f4fa",
   "qrForSharing": [
     {
-      "name": "qrCodeImageFile.svg",
-      "Key": "links/design/qrCodeImageFile.svg"
+      "name": "qrCodeImageFileTeacher.svg",
+      "Key": "links/design/qrCodeImageFileTeacher.svg"
     }
   ],
   "qrName": "(JY) Teacher",
