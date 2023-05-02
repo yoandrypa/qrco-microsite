@@ -203,7 +203,98 @@
       "file":"linkInBioGirl&Bike",
       "desc":"A way to keep in touch with your followers",
       "name":"Link in Bio"
+    },
+    {
+      "type":"audio",
+      "file":"audioAndDonation",
+      "desc":"Share you favorite audio track and ask for contributions in the same page",
+      "name":"Audio & Donation"
+    },
+    {
+      "type": "donation",
+      "file": "donationAndGallery",
+      "name": "Donation",
+      "desc": "Show your target in a gallery and ask to make a donation"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"businessBrushstrokesStudio",
+      "desc":"A way to share your business links",
+      "name":"Link in Bio"
+    },
+    {
+      "type": "donation",
+      "file": "donationLittleSteps",
+      "name": "Donation",
+      "desc": "A kindly invitation to make a donation"
+    },
+    {
+      "type": "business",
+      "file": "businessCars",
+      "name": "Cars Business",
+      "desc": "A mobile-friendly landing page for a cars business"
+    },
+    {
+      "type": "smart-label",
+      "file": "smartLabelMuseum",
+      "name": "Museum",
+      "desc": "A mobile-friendly landing page for promoting your museum exhibition"
+    },
+    {
+      "type": "custom",
+      "file": "customHotelBusiness",
+      "name": "Hotel",
+      "desc": "Promote your hotel facilities in a mobile-friendly landing page"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioNailsBusiness",
+      "desc":"A way to share your business links",
+      "name":"Link in Bio"
+    },
+    {
+      "type": "custom",
+      "file": "customPhotoBusiness",
+      "name": "Photo Studio",
+      "desc": "Promote your Photo Studio in a mobile-friendly landing page"
+    },
+    {
+      "type": "custom",
+      "file": "customCosmeticBusiness",
+      "name": "Cosmetic Business",
+      "desc": "Promote your Cosmetic Business in a mobile-friendly landing page"
+    },
+    {
+      "type": "business",
+      "file": "businessKindergarten",
+      "name": "Kindergarten",
+      "desc": "A mobile-friendly landing page to promote your kindergarten business"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioDesignBusiness",
+      "desc":"A way to share your business links",
+      "name":"Business Link in Bio"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioTeacher",
+      "desc":"A way to share your online courses",
+      "name":"Link in Bio"
+    },
+    {
+      "type":"link-in-bio",
+      "file":"linkInBioModel",
+      "desc":"A mobile-friendly landing page as elegant as yourself",
+      "name":"Link in Bio"
+    },
+    {
+      "type": "business",
+      "file": "businessWatch",
+      "name": "Watch Business",
+      "desc": "A mobile-friendly landing page to promote your watch business"
     }
   ]
 }
+
 

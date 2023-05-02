@@ -1,0 +1,122 @@
+{
+  "buttonBack": "two",
+  "sharerPosition": "downRight",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/ab215486-8bfd-4fa2-8fad-566f334d9f19",
+    "updatedAt": "2023-04-14T17:48:52.083Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-04-14T17:48:52.077Z",
+    "visitCount": 14,
+    "address": "pC1DGh",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Abraham's Photo",
+        "descriptionAbout": "We immortalize your moments",
+        "bottomSpacing": "narrow",
+        "topSpacing": "narrow"
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "behrouz-sasani-Pue62zujmJI-unsplash.jpg",
+            "Key": "customs/behrouz-sasani-Pue62zujmJI-unsplash.jpg"
+          },
+          {
+            "name": "behrouz-sasani-YMPpOr8GALs-unsplash.jpg",
+            "Key": "customs/behrouz-sasani-YMPpOr8GALs-unsplash.jpg"
+          },
+          {
+            "name": "blake-carpenter-lHjOUTlsC4U-unsplash.jpg",
+            "Key": "customs/blake-carpenter-lHjOUTlsC4U-unsplash.jpg"
+          },
+          {
+            "name": "danial-shoorangiz-BCbaILjH_LI-unsplash.jpg",
+            "Key": "customs/danial-shoorangiz-BCbaILjH_LI-unsplash.jpg"
+          },
+          {
+            "name": "pooja-chaudhary-bqnbKxiIGZI-unsplash.jpg",
+            "Key": "customs/pooja-chaudhary-bqnbKxiIGZI-unsplash.jpg"
+          },
+          {
+            "name": "yehor-milohrodskyi-ijIIMsVuJXo-unsplash.jpg",
+            "Key": "customs/yehor-milohrodskyi-ijIIMsVuJXo-unsplash.jpg"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "gallery",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "socials": [
+          {
+            "value": "username",
+            "network": "facebook"
+          },
+          {
+            "value": "55632463056",
+            "network": "whatsapp"
+          },
+          {
+            "value": "username",
+            "network": "instagram"
+          }
+        ],
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true
+      },
+      "component": "socials",
+      "isMonetized": false
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "qrType": "custom",
+  "image": "",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "titlesFontStyle": "b",
+  "secondary": "#ffe0b2",
+  "sectionDescFontStyle": "b#f57f17",
+  "qrForSharing": [
+    {
+      "name": "2b1bb0bd-1ac9-464d-b3ad-a658d09f51a4QR.svg",
+      "Key": "customs/design/2b1bb0bd-1ac9-464d-b3ad-a658d09f51a4QR.svg"
+    }
+  ],
+  "qrName": "(JY) Photographer",
+  "createdAt": "2023-04-14T17:48:52.086Z",
+  "layout": "gradient",
+  "isMonetized": false,
+  "backgndImg": [
+    {
+      "name": "c423eba2-b6d4-4fe7-9fb2-9c13485b9be9.jpg",
+      "Key": "customs/design/c423eba2-b6d4-4fe7-9fb2-9c13485b9be9.jpg"
+    }
+  ],
+  "sectionTitleFontStyle": "b#cc6220",
+  "isDynamic": true,
+  "updatedAt": "2023-05-02T01:06:28.865Z",
+  "buttonBackColor": "#e77c42|#866048",
+  "sectionDescFontSize": "small",
+  "globalFont": "Gill Sans",
+  "primary": "#e65100"
+}

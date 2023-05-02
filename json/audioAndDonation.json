@@ -1,0 +1,166 @@
+{
+  "buttonBack": "solid",
+  "buttonBorderStyle": "two",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/8256a0a3-aebe-4989-95fc-eae683b46305",
+    "updatedAt": "2023-04-11T19:58:24.739Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-04-11T19:58:24.738Z",
+    "visitCount": 30,
+    "address": "9T2imT",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonBorderColors": "#ffffff|#ffffff",
+  "buttonShape": "7",
+  "foregndImg": [
+    {
+      "name": "audioMain.png",
+      "Key": "audios/design/audioMain.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "buttonBorderWeight": "thin",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Matt Dj"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "mattdj.23",
+            "network": "facebook"
+          },
+          {
+            "value": "mattdj",
+            "network": "instagram"
+          },
+          {
+            "value": "MattDj23",
+            "network": "twitter"
+          },
+          {
+            "value": "13325455214",
+            "network": "whatsapp"
+          }
+        ],
+        "bottomSpacing": "wide"
+      },
+      "component": "socials"
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "LuerodBounce.mp3",
+            "Key": "audios/LuerodBounce.mp3"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "audio"
+    },
+    {
+      "data": {
+        "iconId": "Coffee1",
+        "buttonText": "Donate",
+        "productId": "prod_NogDZkH2osF3a5",
+        "unitAmount": 3,
+        "hideHeadLine": true,
+        "ownerId": "506480d8-6957-498b-8955-c0efb99253a1",
+        "priceId": "price_1Mvo8PHZ2XGD5ROsxOxwdaVk",
+        "message": "If you like my work, you can help me to continue making good music. Would you like to buy me a coffee?",
+        "email": "jarencub+vcard@gmail.com"
+      },
+      "component": "donation",
+      "isMonetized": true
+    },
+    {
+      "data": {
+        "descriptionAbout": "Get More Content",
+        "topSpacing": "wide"
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://www.mattdj.com/last",
+            "label": "Last Album"
+          },
+          {
+            "link": "https://www.mattdj.com/playlist",
+            "label": "My Favorite Playlist"
+          },
+          {
+            "link": "https://www.youtube.com/mattdj23",
+            "label": "My youtube channel"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "name": "Get More Content",
+      "component": "links"
+    }
+  ],
+  "buttonsOpacity": 0.8,
+  "subtitlesFontStyle": "b#ffffff",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b#070707",
+  "forceChange": false,
+  "buttonBorderType": "solid",
+  "qrType": "audio",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "messagesFontSize": "medium",
+  "secondary": "#080808",
+  "sectionDescFontStyle": "",
+  "qrForSharing": [
+    {
+      "name": "63e6fcc5-2ea9-41c7-87ca-28d1e75f7872QR.svg",
+      "Key": "audios/design/63e6fcc5-2ea9-41c7-87ca-28d1e75f7872QR.svg"
+    }
+  ],
+  "mode": "clone",
+  "qrName": "Audio Sample copy with Donation",
+  "messagesFontStyle": "#ffffff",
+  "createdAt": "2023-04-11T19:58:24.741Z",
+  "layout": "nobanner",
+  "globalFontColor": "#090909",
+  "isMonetized": true,
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-01T21:02:27.666Z",
+  "buttonBackColor": "#dae7f6",
+  "micrositeBackImage": [
+    {
+      "name": "ee3ca4e1-3886-4444-a74f-f08eaa5f3d2f.png",
+      "Key": "audios/design/ee3ca4e1-3886-4444-a74f-f08eaa5f3d2f.png"
+    }
+  ],
+  "backgroundType": "image",
+  "globalFont": "Comic Sans",
+  "primary": "#a8a6a6"
+}

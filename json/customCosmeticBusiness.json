@@ -1,0 +1,146 @@
+{
+  "flipHorizontal": true,
+  "buttonBack": "two",
+  "micrositeBackImageOpacity": 0.33,
+  "sharerPosition": "upLeft",
+  "buttonBorderStyle": "two",
+  "customFooter": "Show your skin shiny and new",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/8cc6d34e-4358-4fc3-af08-b5b6cc3e0a35",
+    "updatedAt": "2023-04-14T18:20:02.241Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-04-14T18:20:02.237Z",
+    "visitCount": 24,
+    "address": "xhOeZp",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonBorderColors": "#075f09|#55864e",
+  "buttonShape": "6",
+  "upperHeight": "small",
+  "sectionTitleFontSize": "large",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "COSMETIC",
+        "bottomSpacing": "wide",
+        "descriptionAbout": "Take care of your skin with the best products"
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "bottomSpacing": "medium",
+        "iconSize": "medium",
+        "hideHeadLine": true,
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "cosmetic.us",
+            "network": "facebook"
+          },
+          {
+            "value": "cosmeticus",
+            "network": "instagram"
+          },
+          {
+            "value": "cosmeticUS",
+            "network": "twitter"
+          }
+        ],
+        "topSpacing": "medium",
+        "invertIconColors": true
+      },
+      "component": "socials",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "http://example.com",
+            "label": "Web"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Discounts"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Contact"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Reviews"
+          }
+        ],
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "",
+            "network": "twitter"
+          },
+          {
+            "value": "",
+            "network": "facebook"
+          }
+        ],
+        "topSpacing": "wide"
+      },
+      "component": "links",
+      "isMonetized": false
+    }
+  ],
+  "buttonsOpacity": 0.04,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b#3a7a21",
+  "forceChange": false,
+  "qrType": "custom",
+  "image": "",
+  "buttonsFontSize": "large",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "secondary": "#c8e6c9",
+  "sectionDescFontStyle": "#0b0b0b",
+  "buttonShadow": true,
+  "qrForSharing": [
+    {
+      "name": "c2ec82f0-095d-4cbc-ab86-3328d6d2c797QR.svg",
+      "Key": "customs/design/c2ec82f0-095d-4cbc-ab86-3328d6d2c797QR.svg"
+    }
+  ],
+  "qrName": "(JY) Cosmetic",
+  "messagesFontStyle": "b#9cc0b6",
+  "createdAt": "2023-04-14T18:20:02.244Z",
+  "layout": "empty",
+  "globalFontColor": "#075207",
+  "isMonetized": false,
+  "sectionTitleFontStyle": "b#010101",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-02T01:38:49.676Z",
+  "buttonBackColor": "#0d4e06|#d8f1ca",
+  "micrositeBackImage": [
+    {
+      "name": "6264e9ff-9fbc-4c01-ab0f-73fcb7ccc504.jpg",
+      "Key": "customs/design/6264e9ff-9fbc-4c01-ab0f-73fcb7ccc504.jpg"
+    }
+  ],
+  "backgroundType": "image",
+  "sectionDescFontSize": "medium",
+  "globalFont": "Arial Black",
+  "primary": "#1b5e20"
+}
