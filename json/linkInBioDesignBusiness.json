@@ -1,0 +1,138 @@
+{
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/bba4da1e-17f5-4170-b891-0621c79cbdfe",
+    "updatedAt": "2023-03-28T16:01:55.146Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-03-28T16:01:55.143Z",
+    "visitCount": 43,
+    "address": "rjaMcc",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "alternate": true,
+  "buttonShape": "6",
+  "foregndImg": [
+    {
+      "name": "ee6c23ff-f1a7-4bde-8660-1211353bb1e4.jpg",
+      "Key": "links/design/ee6c23ff-f1a7-4bde-8660-1211353bb1e4.jpg"
+    }
+  ],
+  "sectionTitleFontSize": "medium",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Creating unique environments",
+        "descriptionAbout": "We design sites that inspire",
+        "topSpacing": "narrow"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "http://2design.facebook.com",
+            "label": "Email"
+          },
+          {
+            "link": "http://2design.facebook.com",
+            "label": "Facebook"
+          },
+          {
+            "link": "http://2design.facebook.com",
+            "label": "New Collection"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "narrow",
+        "topSpacing": "wide"
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "alberto-castillo-q-mx4mSkK9zeo-unsplash.jpg",
+            "Key": "links/alberto-castillo-q-mx4mSkK9zeo-unsplash.jpg"
+          },
+          {
+            "name": "jason-briscoe-GliaHAJ3_5A-unsplash.jpg",
+            "Key": "links/jason-briscoe-GliaHAJ3_5A-unsplash.jpg"
+          },
+          {
+            "name": "r-architecture-P_0tnQ8hb70-unsplash.jpg",
+            "Key": "links/r-architecture-P_0tnQ8hb70-unsplash.jpg"
+          },
+          {
+            "name": "r-architecture-TRCJ-87Yoh0-unsplash.jpg",
+            "Key": "links/r-architecture-TRCJ-87Yoh0-unsplash.jpg"
+          },
+          {
+            "name": "sidekix-media-g51F6-WYzyU-unsplash (1).jpg",
+            "Key": "links/sidekix-media-g51F6-WYzyU-unsplash (1).jpg"
+          },
+          {
+            "name": "sidekix-media-oCw5_evbWyI-unsplash.jpg",
+            "Key": "links/sidekix-media-oCw5_evbWyI-unsplash.jpg"
+          },
+          {
+            "name": "steven-ungermann-Aac7IlKnYX8-unsplash.jpg",
+            "Key": "links/steven-ungermann-Aac7IlKnYX8-unsplash.jpg"
+          },
+          {
+            "name": "toa-heftiba-FV3GConVSss-unsplash.jpg",
+            "Key": "links/toa-heftiba-FV3GConVSss-unsplash.jpg"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "wide",
+        "topSpacing": "narrow"
+      },
+      "component": "gallery"
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "",
+  "forceChange": false,
+  "qrType": "link",
+  "image": "",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "titlesFontStyle": "b",
+  "footerKind": "noFooter",
+  "secondary": "#004d40",
+  "qrForSharing": [
+    {
+      "name": "222da18a-33a8-4061-b53e-319f87840a81QR.svg",
+      "Key": "links/design/222da18a-33a8-4061-b53e-319f87840a81QR.svg"
+    }
+  ],
+  "qrName": "(JY) Design",
+  "createdAt": "2023-03-28T16:01:55.147Z",
+  "layout": "entireGradient",
+  "backgndImg": [
+    {
+      "name": "e8464dce-0f58-47b2-9ee6-e39b798aa3cc.jpg",
+      "Key": "links/design/e8464dce-0f58-47b2-9ee6-e39b798aa3cc.jpg"
+    }
+  ],
+  "sectionTitleFontStyle": "b",
+  "buttonsSeparation": "medium",
+  "isDynamic": true,
+  "updatedAt": "2023-05-02T02:18:27.241Z",
+  "sectionDescFontSize": "medium",
+  "backgroundColor": "#cfd8dc",
+  "globalFont": "Georgia",
+  "primary": "#f0fffc"
+}

@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import getTheme from "./theming/themeHelper";
 import { DEFAULT_COLORS } from "./qr/constants";
 import {TabsType} from "./qr/types/types";
-import { qrTypes } from "../components/qr/microsites/componets";
+import { qrTypes } from "./qr/microsites/componets";
 
 
 const Custom = dynamic(() => import("./qr/microsites/Custom"));

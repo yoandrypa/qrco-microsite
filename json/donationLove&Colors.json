@@ -5,16 +5,15 @@
     "claimable": false,
     "banned": false,
     "preGenerated": false,
-    "target": "https://app-dev.theqr.link/qr/b261fffe-fc52-4dbb-a727-c91454146285",
-    "updatedAt": "2023-04-03T14:42:19.468Z",
+    "target": "https://app-dev.theqr.link/qr/fd25d41f-52bd-4d0f-a332-2407ab61121b",
+    "updatedAt": "2023-04-03T14:39:00.630Z",
     "userId": "506480d8-6957-498b-8955-c0efb99253a1",
-    "createdAt": "2023-04-03T14:42:19.466Z",
-    "visitCount": 1,
-    "address": "SQuaAM",
+    "createdAt": "2023-04-03T14:39:00.628Z",
+    "visitCount": 22,
+    "address": "tEEtmI",
     "paused": false,
     "type": "qr_link"
   },
-  "buttonShape": "4",
   "foregndImg": [
     {
       "name": "DonationMain.png",
@@ -24,35 +23,52 @@
   "custom": [
     {
       "data": {
+        "iconId": "SoupKitchen1",
         "buttonText": "Donate",
+        "productId": "prod_Noi7kkkDCk650b",
         "unitAmount": 5,
         "hideHeadLine": true,
         "ownerId": "506480d8-6957-498b-8955-c0efb99253a1",
+        "message": "Help us bring some color to the grey world of homelessness by buying a soup for someone in need.",
         "title": "Love & Colors",
-        "message": "Help us bring some color to the grey world of homelessness by buying a cup of coffee for someone in need.",
-        "priceId": "price_1MsojpHZ2XGD5ROsF3KVSPyB",
+        "priceId": "price_1N34gyHZ2XGD5ROsK9yZueII",
         "email": "jarencub+vcard@gmail.com"
       },
       "component": "donation"
     }
   ],
   "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b",
   "forceChange": false,
-  "buttonBorders": "15px 15px 15px 15px",
-  "qrType": "custom",
+  "qrType": "donation",
   "image": "",
   "userId": "506480d8-6957-498b-8955-c0efb99253a1",
   "titlesFontStyle": "b",
   "footerKind": "custom",
   "messagesFontSize": "medium",
-  "secondary": "#212121",
-  "qrName": "Custom Donation Sample",
-  "createdAt": "2023-04-03T14:42:19.468Z",
+  "secondary": "#e2dfdf",
+  "qrForSharing": [
+    {
+      "name": "69b088ad-ee3c-43e4-9e8a-cebf7aa4e715QR.svg",
+      "Key": "donations/design/69b088ad-ee3c-43e4-9e8a-cebf7aa4e715QR.svg"
+    }
+  ],
+  "qrName": "Donation Sample",
+  "messagesFontStyle": "",
+  "createdAt": "2023-04-03T14:39:00.630Z",
   "layout": "nobanner",
-  "profileImageSize": "medium",
+  "isMonetized": true,
   "profileImageVertical": "upper",
   "isDynamic": true,
-  "updatedAt": "2023-04-03T14:52:14.407Z",
+  "updatedAt": "2023-05-01T21:59:14.970Z",
   "micrositeBackImage": [
     {
       "name": "DonationBg.png",
@@ -60,7 +76,7 @@
     }
   ],
   "backgroundType": "image",
-  "foregndImgType": "square",
+  "foregndImgType": "smooth",
   "globalFont": "Comic Sans",
-  "primary": "#b0bec5"
+  "primary": "#000000"
 }
