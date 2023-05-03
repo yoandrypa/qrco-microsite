@@ -16,7 +16,7 @@ export const deviceListHeaders = [
 ];
 
 export const filterInHeaders = (headers: any) => (item: string) => {
-  console.log('!!!!',headers, item);
+  console.log('>>>>',headers, item, headers[item], '<<<<');
   return headers[item] === "true";
 }
 
