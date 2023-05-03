@@ -15,8 +15,10 @@ export const deviceListHeaders = [
   "cloudfront-is-desktop-viewer",
 ];
 
-export const filterInHeaders = (headers: any) => (item: string) =>
-  headers[item] === "true";
+export const filterInHeaders = (headers: any) => (item: string) => {
+  console.log('!!!!',headers, item);
+  return headers[item] === "true";
+}
 
 export const realIp = (headers: any) => {
   return headers["x-forwarded-for"].split(", ")[0];
