@@ -15,7 +15,7 @@ export const create = async (data: any) => {
   try {
     if (data.headers["user-agent"] === "Amazon CloudFront") {
 
-      console.log('HEADERS',data.headers);
+      console.log('HEADERS',data.headers,'<======<<<<');
 
       const [browser = "Other"] = browsersList.filter(filterInHeaders(data.headers));
       const [os = "cloudfront-os-other-viewer"] = osList.filter(filterInHeaders(data.headers));
