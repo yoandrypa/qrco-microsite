@@ -15,7 +15,6 @@ import { DEFAULT_COLORS } from "./qr/constants";
 import {TabsType} from "./qr/types/types";
 import { qrTypes } from "./qr/microsites/componets";
 
-
 const Custom = dynamic(() => import("./qr/microsites/Custom"));
 const Web = dynamic(() => import("./qr/microsites/Web"));
 const SamplesList = dynamic(() => import("./SamplesList"));
@@ -60,7 +59,7 @@ export default function MainComponent({ newData }: any) {
         position: "absolute",
         top: "50%",
         left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-50%, -50%)"
       }}>
         <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
           <Typography sx={{ mx: "auto" }}>{"Loading..."}</Typography>
