@@ -1,13 +1,13 @@
-import {useState} from "react";
+import { Fragment, useState } from "react";
 import Box from "@mui/material/Box";
 
 import MainMicrosite from "./MainMicrosite";
-import {clearDataStyles, CustomType, getSeparation, handleFont} from "./renderers/helper";
+import { clearDataStyles, CustomType, getSeparation, handleFont } from "./renderers/helper";
 
 import dynamic from "next/dynamic";
 import RenderCompItem from "./customComponents/RenderCompItem";
-import {TabsProps, TabsType} from "../types/types";
-import {capitalize} from "@mui/material";
+import { TabsProps, TabsType } from "../types/types";
+import { capitalize } from "@mui/material";
 
 const TabPanel = dynamic(() => import("./customComponents/TabPanel"));
 const Tabs = dynamic(() => import("@mui/material/Tabs"));
@@ -34,8 +34,8 @@ const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
     };
 
     return (
-      <>
-        <Box sx={mSx} key={`key${section.expand || index}`}>
+      <Fragment key={`key${section.expand || index}`}>
+        <Box sx={mSx}>
           {startSections ? (
             <RenderSectWrapper sx={{width: 'calc(100% - 10px)'}} layout={layout}>
               <RenderCompItem newData={newData} x={section} index={index} expander={expander} styled={styled} setExpander={setExpander} />
@@ -45,7 +45,7 @@ const Custom = ({newData, tabs}: {newData: any; tabs?: number}) => {
           )}
         </Box>
         <Box sx={{width: '100%', height: '1px'}} />
-      </>
+      </Fragment>
     );
   }
 
