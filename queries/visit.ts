@@ -16,6 +16,31 @@ interface Create {
   referrer: string;
 }
 
+export const prepare = async (params: Create) => {
+  try {
+    let visit = await getByShortLink({ ...params.shortLinkId });
+
+    const data = { ...params, country: params.country, referrer: params.referrer };
+
+    let countries = undefined;
+    let cities = undefined;
+    let referrers = undefined;
+    let creationDate = undefined;
+
+    if (visit) {
+      countries = Object.assign({}, visit.countries, {[data.country]: (visit.countries[data.country] || 0) + 1});
+      cities = Object.assign({}, visit.cities, {[data.city]: (visit.cities[data.city] || 0) + 1});
+      referrers = Object.assign({}, visit.referrers, {[data.referrer]: (visit.referrers[data.referrer] || 0) + 1});
+    } else {
+      creationDate = Date.now();
+    }
+
+    return { countries, cities, referrers, creationDate };
+  } catch (e) {
+    throw e;
+  }
+}
+
 export const create = async (params: Create) => {
   try {
     let visit = await getByShortLink({ ...params.shortLinkId });
@@ -35,6 +60,8 @@ export const create = async (params: Create) => {
       let referrers = Object.assign({}, visit.referrers, {
         [data.referrer]: (visit.referrers[data.referrer] || 0) + 1,
       });
+
+
 
       input = <ExecuteStatementCommandInput>{
         Statement: `UPDATE ${prefix}_visits
