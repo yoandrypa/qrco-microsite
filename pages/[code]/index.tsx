@@ -24,7 +24,7 @@ import {
 
 import dynamic from "next/dynamic";
 import {create} from "../../queries/visit";
-import geoip from "fast-geoip";
+// import geoip from "fast-geoip";
 
 const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
 const DangerousIcon = dynamic(() => import('@mui/icons-material/Dangerous'));
@@ -39,7 +39,7 @@ export default function Handler ({ data, code, locked, preparedData, headers }: 
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
-  console.log(headers);
+  console.log(headers, preparedData);
 
   useEffect(() => {
     const update = async () => {
@@ -246,9 +246,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
   try {
     let link = await queries.link.getByAddress(code);
 
-    const ip = '152.206.186.213';
-    const location = await geoip.lookup(ip);
-    console.log(location);
+    // const ip = '152.206.186.213';
+    // const location = await geoip.lookup(ip);
+    // console.log(location);
 
     if (!link) {
       link = await queries.preGenerated.get(code);
