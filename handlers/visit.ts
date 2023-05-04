@@ -11,6 +11,17 @@ import URL from "url";
 import { CustomError, removeWww } from "../utils";
 import * as Visit from "../queries/visit";
 
+export const createNew = async (data: any) => {
+
+}
+
+export const getLocation = async (data: any) => {
+  if (data.headers["user-agent"] === "Amazon CloudFront") {
+    const location = await geoip.lookup(realIp(data.headers));
+    return location?.city || "Unknown";
+  }
+}
+
 export const create = async (data: any) => {
   try {
     if (data.headers["user-agent"] === "Amazon CloudFront") {

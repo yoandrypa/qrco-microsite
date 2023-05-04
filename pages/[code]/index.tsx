@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {generateShortLink} from "../../utils";
 import queries from "../../queries";
-import * as VisitHandler from "../../handlers/visit";
+import {create, getLocation} from "../../handlers/visit";
 import MainComponent from "../../components/MainComponent";
 import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
 import {useEffect, useState} from "react";
@@ -12,6 +12,15 @@ import Button from "@mui/material/Button";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Divider from "@mui/material/Divider";
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+
+import {
+  // os
+  android, chromeos, tizen, ios, windows, macos, linux,
+  // form
+  tv, phone, tablet, laptop, desktop, hybrid,
+  // browsers
+  chrome, firefox, edge, samsungBrowser, opera, safari, ie // @ts-ignore
+} from 'platform-detect';
 
 import dynamic from "next/dynamic";
 
@@ -28,10 +37,16 @@ export default function Handler ({ data, code, locked, headers }: InferGetServer
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
-  console.log(headers, JSON.stringify(headers));
-
   useEffect(() => {
+
+    console.log(headers);
+
+    console.log(android, chromeos, tizen, ios, windows, macos, linux);
+    console.log(chrome, firefox, edge, samsungBrowser, opera, safari, ie);
+    console.log(tv, phone, tablet, laptop, desktop, hybrid)
+
     setRoute(window.location.href.toLowerCase());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (locked !== undefined && !proceed) {
@@ -233,11 +248,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
 
     Promise.all([
       // Create visit data
-      VisitHandler.create({ headers: req.headers, shortLinkId: qr.shortLinkId }),
+      create({ headers: req.headers, shortLinkId: qr.shortLinkId }),
 
       // Increment the visit count
       queries.link.incrementVisit(userId, createdAt, link.visitCount)
     ]);
+
+    const location = await getLocation(req.headers);
+
+    // queries.link.incrementVisit(userId, createdAt, link.visitCount);
 
     if (typeof qr.custom === 'string') {
       qr.custom = JSON.parse(qr.custom);
@@ -249,7 +268,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
-        headers: req.headers,
+        headers: req.headers, location,
         locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
