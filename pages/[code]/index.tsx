@@ -39,7 +39,7 @@ export default function Handler ({ data, code, locked, headers, respData }: Infe
 
   useEffect(() => {
 
-    console.log('Location', respData);
+    console.log('RESPDATA', respData);
     console.log(headers);
 
     console.log(android, chromeos, tizen, ios, windows, macos, linux);
