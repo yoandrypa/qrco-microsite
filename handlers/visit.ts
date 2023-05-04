@@ -16,7 +16,7 @@ export const createNew = async (data: any) => {
 }
 
 export const getLocation = async (data: any) => {
-  if (data.headers?.["user-agent"] === "Amazon CloudFront") {
+  if (data.headers?.['forwarded-for'] !== undefined) {
     const location = await geoip.lookup(realIp(data.headers));
     return location?.city || "Unknown";
   }
