@@ -16,15 +16,16 @@ export const createNew = async (data: any) => {
 }
 
 export const getLocation = async (data: any) => {
-  if (data.headers["user-agent"] === "Amazon CloudFront") {
+  if (data.headers?.["user-agent"] === "Amazon CloudFront") {
     const location = await geoip.lookup(realIp(data.headers));
     return location?.city || "Unknown";
   }
+  return null;
 }
 
 export const create = async (data: any) => {
   try {
-    if (data.headers["user-agent"] === "Amazon CloudFront") {
+    if (data.headers?.["user-agent"] === "Amazon CloudFront") {
       const [browser = "Other"] = browsersList.filter(filterInHeaders(data.headers));
       const [os = "cloudfront-os-other-viewer"] = osList.filter(filterInHeaders(data.headers));
       const [device = "cloudfront-device-other-viewer"] = deviceListHeaders.filter(filterInHeaders(data.headers));
