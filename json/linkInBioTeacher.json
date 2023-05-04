@@ -1,0 +1,131 @@
+{
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/532d24b2-2bb7-46ac-8f93-2bfe15799691",
+    "updatedAt": "2023-03-29T15:28:20.750Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-03-29T15:28:20.747Z",
+    "visitCount": 28,
+    "address": "QDY2mv",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "7",
+  "upperHeight": "wide",
+  "foregndImg": [
+    {
+      "name": "f8ce5a50-c3b4-464f-b976-77ac09eff9e5.jpg",
+      "Key": "links/design/f8ce5a50-c3b4-464f-b976-77ac09eff9e5.jpg"
+    }
+  ],
+  "sectionTitleFontSize": "medium",
+  "backgroundDirection": "180deg",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Kate Sullivan Drake",
+        "descriptionAbout": "Making math add up to success!"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "http://algebra.com",
+            "label": "Algebra"
+          },
+          {
+            "link": "http://maths.com",
+            "label": "Mathematics"
+          },
+          {
+            "link": "http://trigonometry.com",
+            "label": "Trigonometry"
+          },
+          {
+            "link": "http://trigonometry.com",
+            "label": "Buy me a coffee"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "wide",
+        "topSpacing": "wide"
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "hideHeadLine": true,
+        "socialsOnlyIcons": true,
+        "socials": [
+          {
+            "value": "+1563248952",
+            "network": "whatsapp"
+          },
+          {
+            "value": "http://teacher.facebook.com",
+            "network": "facebook"
+          },
+          {
+            "value": "http://teacher.linnkedin.com",
+            "network": "linkedin"
+          }
+        ],
+        "invertIconColors": true
+      },
+      "component": "socials"
+    }
+  ],
+  "buttonsOpacity": 0.32,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "qrType": "link",
+  "image": "",
+  "buttonsFontSize": "small",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "titlesFontStyle": "b",
+  "secondary": "#b0bec5",
+  "sectionDescFontStyle": "",
+  "backgroundColorRight": "#e8f4fa",
+  "qrForSharing": [
+    {
+      "name": "qrCodeImageFileTeacher.svg",
+      "Key": "links/design/qrCodeImageFileTeacher.svg"
+    }
+  ],
+  "qrName": "(JY) Teacher",
+  "createdAt": "2023-03-29T15:28:20.751Z",
+  "profileImageSize": "large",
+  "backgndImg": [
+    {
+      "name": "c2f7b686-7f9f-41c5-ad08-b6a8ad815aec.jpg",
+      "Key": "links/design/c2f7b686-7f9f-41c5-ad08-b6a8ad815aec.jpg"
+    }
+  ],
+  "sectionTitleFontStyle": "b",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-02T02:28:26.653Z",
+  "micrositeBackImage": [
+    {
+      "name": "e7c39076-5261-4bad-8240-421d28875911.jpg",
+      "Key": "links/design/e7c39076-5261-4bad-8240-421d28875911.jpg"
+    }
+  ],
+  "backgroundType": "gradient",
+  "sectionDescFontSize": "small",
+  "foregndImgType": "circle",
+  "backgroundColor": "#ffffff",
+  "globalFont": "Arial Black",
+  "primary": "#212121"
+}

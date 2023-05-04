@@ -87,7 +87,7 @@ function RenderShowQr({qrImg, data}: RenderQrProps) {
   useEffect(() => {
     if (window) {
       const index = data.shortlinkurl.lastIndexOf('/');
-      if (index !== -1) {
+      if (index !== -1 && !data.isSample) {
         const {origin} = window.location;
         setURL(`${origin}${!origin.endsWith('/') ? '/' : ''}${data.shortlinkurl.slice(index + 1)}`);
       } else {

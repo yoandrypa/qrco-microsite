@@ -1,0 +1,132 @@
+{
+  "buttonBack": "two",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/4fb178d5-8c97-4a89-be40-5ec78cc86c6d",
+    "updatedAt": "2023-03-30T15:39:17.250Z",
+    "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+    "createdAt": "2023-03-30T15:39:17.248Z",
+    "visitCount": 16,
+    "address": "lbaFSt",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "0",
+  "foregndImg": [
+    {
+      "name": "bd28bc6b-4e5c-4b80-ad70-b11916dd2505.png",
+      "Key": "links/design/bd28bc6b-4e5c-4b80-ad70-b11916dd2505.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Defne Wilson",
+        "bottomSpacing": "wide",
+        "descriptionAbout": "Top model"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "bottomSpacing": "narrow",
+        "links": [
+          {
+            "link": "http://example.com",
+            "label": "My store"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Go to my website"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Book a call"
+          },
+          {
+            "link": "http://example.com",
+            "label": "Follow me"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "links"
+    },
+    {
+      "data": {
+        "bottomSpacing": "medium",
+        "descriptionAbout": "Elegance is more a matter of personality than of someone's clothes",
+        "topSpacing": "medium"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "http://example.com",
+            "network": "facebook"
+          },
+          {
+            "value": "+2589641235",
+            "network": "whatsapp"
+          },
+          {
+            "value": "http://example.com",
+            "network": "twitter"
+          },
+          {
+            "value": "http://example.com",
+            "network": "instagram"
+          },
+          {
+            "value": "http://example.com",
+            "network": "linkedin"
+          }
+        ],
+        "invertIconColors": true
+      },
+      "component": "socials"
+    }
+  ],
+  "buttonsOpacity": 0.44,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b#0a0a0a",
+  "qrType": "link",
+  "image": "",
+  "buttonsFontSize": "medium",
+  "userId": "eea77e04-08d8-4277-8ca2-b8ba8744a635",
+  "titlesFontStyle": "b",
+  "secondary": "#8b8e92",
+  "qrForSharing": [
+    {
+      "name": "224c9c82-a122-4cbf-9349-87c73955e53fQR.svg",
+      "Key": "links/design/224c9c82-a122-4cbf-9349-87c73955e53fQR.svg"
+    }
+  ],
+  "qrName": "(JY) Model",
+  "createdAt": "2023-03-30T15:39:17.252Z",
+  "profileImageSize": "large",
+  "sectionTitleFontStyle": "b",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-02T02:42:49.282Z",
+  "buttonBackColor": "#756866|#f5e3de",
+  "sectionDescFontSize": "medium",
+  "backgroundColor": "#fffdf2",
+  "globalFont": "Trebuchet",
+  "primary": "#353a3f"
+}

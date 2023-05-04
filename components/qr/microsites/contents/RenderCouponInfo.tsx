@@ -1,4 +1,3 @@
-import Grid from "@mui/material/Grid";
 import {CustomProps, handleFont} from "../renderers/helper";
 import RenderField from "../renderers/RenderField";
 import RenderActionButton from "./RenderActionButton";
@@ -6,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 export default function RenderCouponInfo({stylesData, data}: CustomProps) {
   return (
-    <Grid container spacing={1} sx={{ml: 1}}>
+    <>
       {data?.company && (
         <>
           <Typography sx={{...handleFont(stylesData, 's')}}>Company</Typography>
@@ -26,7 +25,7 @@ export default function RenderCouponInfo({stylesData, data}: CustomProps) {
             value={data.description} sx={{my: '-10px', ...handleFont(stylesData, 'm')}}/>
         </>
       )}
-      {data?.urlOptionLabel && <RenderActionButton stylesData={stylesData} data={data} />}
-    </Grid>
+      {data?.urlOptionLabel && <RenderActionButton stylesData={stylesData} data={data} avoidPl />}
+    </>
   );
 }

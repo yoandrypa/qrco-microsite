@@ -25,7 +25,7 @@ export default function RenderBadge({badge, stylesData}: RenderBadgeProps) {
       borderRadius: '5px', // @ts-ignore
       boxShadow: theme => `5px 5px 2px 1px ${theme.palette.text.disabled}`,
       marginLeft: '25px',
-      ...handleFont(stylesData, 'b'), ...handleButtons(stylesData, theme)
+      ...handleFont(stylesData, 'b')
     }}>
       <Typography sx={{color: theme => theme.palette.primary.main, fontWeight: 'bold'}}>{badge}</Typography>
     </Box>

@@ -1,0 +1,106 @@
+{
+  "titlesFontSize": "large",
+  "customFooter": "Bringing color to the grey",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/b261fffe-fc52-4dbb-a727-c91454146285",
+    "updatedAt": "2023-04-03T14:42:19.468Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-04-03T14:42:19.466Z",
+    "visitCount": 25,
+    "address": "SQuaAM",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "DonationMain.png",
+      "Key": "donations/design/DonationMain.png"
+    }
+  ],
+  "custom": [
+    {
+      "data": {
+        "iconId": "LunchDining1",
+        "buttonText": "Donate",
+        "productId": "prod_Noi1ojtyMf78gy",
+        "unitAmount": 3,
+        "hideHeadLine": true,
+        "ownerId": "506480d8-6957-498b-8955-c0efb99253a1",
+        "title": "Love & Colors",
+        "message": "Help us bring some color to the grey world of homelessness by buying a lunch for someone in need.",
+        "priceId": "price_1N358vHZ2XGD5ROsJXILtS3q",
+        "email": "jarencub+vcard@gmail.com"
+      },
+      "component": "donation"
+    },
+    {
+      "data": {
+        "titleAbout": "Faces that inspire our job",
+        "topSpacing": "medium"
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "donación.png",
+            "Key": "customs/donación.png"
+          },
+          {
+            "name": "niños.png",
+            "Key": "customs/niños.png"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "gallery",
+      "isMonetized": false
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b",
+  "forceChange": false,
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "custom",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "messagesFontSize": "medium",
+  "secondary": "#b0bec5",
+  "backgroundColorRight": "#ffe0b2",
+  "qrForSharing": [
+    {
+      "name": "5b310094-eeab-45e4-9b15-fbe19d97da63QR.svg",
+      "Key": "customs/design/5b310094-eeab-45e4-9b15-fbe19d97da63QR.svg"
+    }
+  ],
+  "qrName": "Custom Donation Sample",
+  "createdAt": "2023-04-03T14:42:19.468Z",
+  "layout": "nobanner",
+  "isMonetized": true,
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "b",
+  "isDynamic": true,
+  "updatedAt": "2023-05-01T22:24:26.881Z",
+  "backgroundType": "gradient",
+  "foregndImgType": "square",
+  "backgroundColor": "#ffffff",
+  "globalFont": "Comic Sans",
+  "primary": "#000000"
+}
