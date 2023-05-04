@@ -24,13 +24,18 @@ export const incrementVisit = (userId: string, createdAt: number, currenValue: n
 export const getByAddress = async (address: string) => {
   try {
     const prefix: string = process.env.REACT_NODE_ENV === "production" ? "prd_" : "dev_";
-    const input: ExecuteStatementCommandInput = {
-      Statement: "SELECT * FROM " + prefix + "links.addressIndex WHERE address=?",
-      Parameters: [{ "S": address }],
-    };
+    // const input: ExecuteStatementCommandInput = {
+    //   Statement: "SELECT * FROM " + prefix + "links.addressIndex WHERE address=?",
+    //   Parameters: [{ "S": address }],
+    // };
+    //
+    // const command: ExecuteStatementCommand = new ExecuteStatementCommand(input);
+    // const response: ExecuteStatementCommandOutput = await ddbClient.send(command);
 
-    const command: ExecuteStatementCommand = new ExecuteStatementCommand(input);
-    const response: ExecuteStatementCommandOutput = await ddbClient.send(command);
+    const statement = `SELECT * FROM ${prefix}links.addressIndex WHERE address='${address}'`;
+
+    const response = await ddbClient.send(new ExecuteStatementCommand({Statement: statement}));
+
     // @ts-ignore
     return response.Items[0] ? unmarshall(response.Items[0]) : null;
   } catch (e) {
