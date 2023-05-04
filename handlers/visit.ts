@@ -15,14 +15,6 @@ export const createNew = async (data: any) => {
 
 }
 
-export const getLocation = async (data: any) => {
-  if (data.headers?.['forwarded-for'] !== undefined) {
-    const location = await geoip.lookup(realIp(data.headers));
-    return location?.city || "Unknown";
-  }
-  return null;
-}
-
 export const create = async (data: any) => {
   try {
     if (data.headers?.["user-agent"] === "Amazon CloudFront") {
@@ -45,7 +37,9 @@ export const create = async (data: any) => {
         visit.city = location.city || "Unknown";
       }
 
-      await Visit.create(visit);
+      return await Visit.prepare(visit);
+
+      // await Visit.create(visit);
     }
   } catch (e: any) {
     throw new CustomError(e.message, e.statusCode || 500, e);

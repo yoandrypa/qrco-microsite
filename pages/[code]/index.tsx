@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {generateShortLink} from "../../utils";
 import queries from "../../queries";
-import {create, getLocation} from "../../handlers/visit";
+import {create} from "../../handlers/visit";
 import MainComponent from "../../components/MainComponent";
 import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
 import {useEffect, useState} from "react";
@@ -33,13 +33,13 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, headers, location }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, headers, respData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
   useEffect(() => {
 
-    console.log('Location', location);
+    console.log('Location', respData);
     console.log(headers);
 
     console.log(android, chromeos, tizen, ios, windows, macos, linux);
@@ -247,17 +247,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       return { props: { data: "NO DATA" } };
     }
 
-    Promise.all([
+    /*Promise.all([
       // Create visit data
       create({ headers: req.headers, shortLinkId: qr.shortLinkId }),
 
       // Increment the visit count
       queries.link.incrementVisit(userId, createdAt, link.visitCount)
-    ]);
+    ]);*/
 
-    const location = await getLocation(req.headers);
-
-    // queries.link.incrementVisit(userId, createdAt, link.visitCount);
+    const respData = await create({ headers: req.headers, shortLinkId: qr.shortLinkId });
+    queries.link.incrementVisit(userId, createdAt, link.visitCount);
 
     if (typeof qr.custom === 'string') {
       qr.custom = JSON.parse(qr.custom);
@@ -269,7 +268,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
-        headers: req.headers, location,
+        headers: req.headers, respData: respData ? JSON.parse(JSON.stringify(respData)) : null,
         locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
