@@ -32,6 +32,8 @@ export const prepare = async (params: Create) => {
       cities = Object.assign({}, visit.cities, {[data.city]: (visit.cities[data.city] || 0) + 1});
       referrers = Object.assign({}, visit.referrers, {[data.referrer]: (visit.referrers[data.referrer] || 0) + 1});
     } else {
+      countries = { [params.country]: 1 };
+      cities = { [params.city]: 1 };
       creationDate = Date.now();
     }
 

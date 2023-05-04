@@ -23,10 +23,3 @@ export const deviceListHeaders = [
 export const filterInHeaders = (headers: any) => (item: string) => {
   return headers[item] === "true";
 }
-
-export const realIp = (headers: any) => {
-  if (headers["x-forwarded-for"]) {
-    return headers["x-forwarded-for"].split(", ")[0];
-  }
-  return null;
-};

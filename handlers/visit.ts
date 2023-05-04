@@ -2,11 +2,12 @@
 import {
   //filterInBrowser,
   //filterInOs,
-  filterInHeaders, browsersList, osList, deviceListHeaders, realIp
+  filterInHeaders, browsersList, osList, deviceListHeaders
 } from "../helpers/visits/headersFilters/amazon_cloudfront";
 
 //const parser = require("ua-parser-js");
 const geoip = require("fast-geoip");
+
 import URL from "url";
 import { CustomError, removeWww } from "../utils";
 import { prepare } from "../queries/visit";
@@ -29,15 +30,23 @@ export const handlePrepare = async (data: any) => {
         city: ""
       };
 
-      const ip = realIp(data.headers);
 
-      if (ip) {
-        const location = await geoip.lookup(ip);
-        if (location) {
-          visit.city = location.city || "Unknown";
+      if (data.headers["x-forwarded-for"]) {
+        const ip = data.headers["x-forwarded-for"].split(",")?.[0]?.trim();
+        if (ip !== undefined) {
+          const location = await geoip.lookup(ip);
+
+          if (location) {
+            visit.city = location.city || "Unknown";
+            visit.country = location.country || "Unknown";
+          }
+        } else {
+          visit.city = "Unknown";
+          visit.country = "Unknown";
         }
       } else {
         visit.city = "Unknown";
+        visit.country = "Unknown";
       }
 
       return await prepare(visit);
