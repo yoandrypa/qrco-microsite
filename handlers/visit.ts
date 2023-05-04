@@ -19,7 +19,7 @@ export const handlePrepare = async (data: any) => {
       const [os = "Other"] = osList.filter(filterInHeaders(data.headers));
       const [device = "Other"] = deviceListHeaders.filter(filterInHeaders(data.headers));
 
-      const referrer = data.referrer && removeWww(URL.parse(data.referrer).hostname);
+      const referrer = data.headers.referrer && removeWww(URL.parse(data.headers.referrer).hostname);
       let visit = {
         browser: browser.toLowerCase(),
         country: data.headers["cloudfront-viewer-country"] || "Unknown",
@@ -30,9 +30,9 @@ export const handlePrepare = async (data: any) => {
         city: ""
       };
 
-
       if (data.headers["x-forwarded-for"]) {
         const ip = data.headers["x-forwarded-for"].split(",")?.[0]?.trim();
+
         if (ip !== undefined) {
           const location = await geoip.lookup(ip);
 
