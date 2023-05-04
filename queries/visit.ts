@@ -1,6 +1,5 @@
 import {
-  ExecuteStatementCommand,
-  ExecuteStatementCommandInput, ExecuteStatementCommandOutput,
+  ExecuteStatementCommand, ExecuteStatementCommandInput, ExecuteStatementCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { ddbClient } from "../libs";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
@@ -88,9 +87,9 @@ export const create = async (params: Create) => {
       const creationDate = Date.now();
       input = <ExecuteStatementCommandInput>{
         Statement: `INSERT INTO ${prefix}_visits VALUE {
-            'br_${data.browser}':?,
-            'os_${data.os}':?,
-            'dv_${data.dv}':?,
+            'br_${data.browser}': 1,
+            'os_${data.os}': 1,
+            'dv_${data.dv}': 1,
             'countries':?,
             'cities':?,
             'referrers':?,
@@ -100,9 +99,6 @@ export const create = async (params: Create) => {
             'createdAt':?
         }`,
         Parameters: [
-          { "N": "1" },
-          { "N": "1" },
-          { "N": "1" },
           { "M": marshall({ [data.country]: 1 }) },
           { "M": marshall({ [data.city]: 1 }) },
           { "M": marshall({ [data.referrer]: 1 }) },
@@ -128,20 +124,16 @@ export const create = async (params: Create) => {
 
 const getByShortLink = async (shortLinkId: { userId: string, createdAt: number }) => {
   try {
-    const prefix: string = process.env.REACT_NODE_ENV === "production"
-      ? "prd"
-      : "dev";
+    const prefix: string = process.env.REACT_NODE_ENV === "production" ? "prd" : "dev";
     const input: ExecuteStatementCommandInput = {
       Statement: `SELECT * FROM ${prefix}_visits WHERE userId=? and shortLinkId=?`,
       Parameters: [
         // @ts-ignore
-        marshall(shortLinkId.userId),
-        { "M": marshall(shortLinkId) }],
+        marshall(shortLinkId.userId), { "M": marshall(shortLinkId) }]
     };
 
     const command: ExecuteStatementCommand = new ExecuteStatementCommand(input);
-    const response: ExecuteStatementCommandOutput = await ddbClient.send(
-      command);
+    const response: ExecuteStatementCommandOutput = await ddbClient.send(command);
     // @ts-ignore
     return response.Items[0] ? unmarshall(response.Items[0]) : undefined;
   } catch (e) {

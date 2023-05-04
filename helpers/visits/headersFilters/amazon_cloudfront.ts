@@ -25,5 +25,8 @@ export const filterInHeaders = (headers: any) => (item: string) => {
 }
 
 export const realIp = (headers: any) => {
-  return headers["x-forwarded-for"].split(", ")[0];
+  if (headers["x-forwarded-for"]) {
+    return headers["x-forwarded-for"].split(", ")[0];
+  }
+  return null;
 };
