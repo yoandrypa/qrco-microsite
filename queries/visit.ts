@@ -13,6 +13,7 @@ interface Create {
   shortLinkId: { userId: string, createdAt: number };
   os: string;
   dv: string;
+  creationDate?: number;
   referrer: string;
 }
 
@@ -35,7 +36,7 @@ export const prepare = async (params: Create) => {
       creationDate = Date.now();
     }
 
-    return { countries, cities, referrers, creationDate };
+    return { countries, cities, referrers, creationDate, shortLinkId: params.shortLinkId };
   } catch (e) {
     throw e;
   }
@@ -61,8 +62,6 @@ export const create = async (params: Create) => {
         [data.referrer]: (visit.referrers[data.referrer] || 0) + 1,
       });
 
-
-
       input = <ExecuteStatementCommandInput>{
         Statement: `UPDATE ${prefix}_visits
         SET br_${data.browser}=?
@@ -87,8 +86,6 @@ export const create = async (params: Create) => {
       };
     } else {
       const creationDate = Date.now();
-      console.log(creationDate, creationDate.toString())
-
       input = <ExecuteStatementCommandInput>{
         Statement: `INSERT INTO ${prefix}_visits VALUE {
             'br_${data.browser}':?,

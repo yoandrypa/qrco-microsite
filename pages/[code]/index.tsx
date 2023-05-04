@@ -33,15 +33,13 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, headers, respData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, respData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
   useEffect(() => {
 
     console.log('RESPDATA', respData);
-    console.log(headers);
-
     console.log(android, chromeos, tizen, ios, windows, macos, linux);
     console.log(chrome, firefox, edge, samsungBrowser, opera, safari, ie);
     console.log(tv, phone, tablet, laptop, desktop, hybrid)
@@ -268,7 +266,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
-        headers: req.headers, respData: respData ? JSON.parse(JSON.stringify(respData)) : null,
+        respData: respData ? JSON.parse(JSON.stringify(respData)) : null,
         locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
