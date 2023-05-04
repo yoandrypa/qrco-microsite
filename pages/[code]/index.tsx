@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {generateShortLink} from "../../utils";
 import queries from "../../queries";
-import * as VisitHandler from "../../handlers/visit";
+import {handlePrepare} from "../../handlers/visit";
 import MainComponent from "../../components/MainComponent";
 import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
 import {useEffect, useState} from "react";
@@ -13,7 +13,18 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Divider from "@mui/material/Divider";
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
+import {
+  // os
+  android, chromeos, tizen, ios, windows, macos, linux,
+  // form
+  tv, phone, tablet, laptop, desktop, hybrid,
+  // browsers
+  chrome, firefox, edge, samsungBrowser, opera, safari, ie // @ts-ignore
+} from 'platform-detect';
+
 import dynamic from "next/dynamic";
+import {create} from "../../queries/visit";
+// import geoip from "fast-geoip";
 
 const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
 const DangerousIcon = dynamic(() => import('@mui/icons-material/Dangerous'));
@@ -24,12 +35,46 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, preparedData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
   useEffect(() => {
+    const update = async () => {
+      let browser = 'other';
+      let os = 'other';
+      let dv = 'other';
+
+      if (chrome) { browser = 'chrome'; }
+      else if (firefox) { browser = 'firefox'; }
+      else if (edge) { browser = 'edge'; }
+      else if (samsungBrowser) { browser = 'samsungBrowser'; }
+      else if (opera) { browser = 'opera'; }
+      else if (safari) { browser = 'safari'; }
+      else if (ie) { browser = 'ie'; }
+
+      if (android) { os = 'android'; }
+      else if (chromeos) { os = 'chromeos'; }
+      else if (tizen) { os = 'tizen'; }
+      else if (ios) { os = 'ios'; }
+      else if (windows) { os = 'windows'; }
+      else if (macos) { os = 'macos'; }
+      else if (linux) { os = 'linux'; }
+
+      if (tv) { dv = 'smarttv'; }
+      else if (phone) { dv = 'mobile'; }
+      else if (tablet) { dv = 'tablet'; }
+      else if (laptop) { dv = 'laptop'; }
+      else if (desktop) { dv = 'desktop'; }
+      else if (hybrid) { dv = 'hybrid'; }
+
+      await create({...preparedData, browser, os, dv});
+    }
+
+    update();
+
     setRoute(window.location.href.toLowerCase());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (locked !== undefined && !proceed) {
@@ -199,6 +244,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
   try {
     let link = await queries.link.getByAddress(code);
 
+    // const ip = '152.206.186.213, 65.4.1.2';
+    // const location = await geoip.lookup(ip);
+    // console.log(location);
+
     if (!link) {
       link = await queries.preGenerated.get(code);
       if (link) {
@@ -229,13 +278,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       return { props: { data: "NO DATA" } };
     }
 
-    Promise.all([
+    /*Promise.all([
       // Create visit data
-      VisitHandler.create({ headers: req.headers, shortLinkId: qr.shortLinkId }),
+      create({ headers: req.headers, shortLinkId: qr.shortLinkId }),
 
       // Increment the visit count
       queries.link.incrementVisit(userId, createdAt, link.visitCount)
-    ]);
+    ]);*/
+
+    const respData = await handlePrepare({ headers: req.headers, shortLinkId: qr.shortLinkId });
+    queries.link.incrementVisit(userId, createdAt, link.visitCount);
 
     if (typeof qr.custom === 'string') {
       qr.custom = JSON.parse(qr.custom);
@@ -247,7 +299,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
-        locked: qr.secretOps?.includes('l') ? qr.secret : null
+        preparedData: respData ? JSON.parse(JSON.stringify(respData)) : null, locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
   } catch (e: any) {
