@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {generateShortLink} from "../../utils";
 import queries from "../../queries";
-import {create} from "../../handlers/visit";
+import {handlePrepare} from "../../handlers/visit";
 import MainComponent from "../../components/MainComponent";
 import MainMicrosite from "../../components/qr/microsites/MainMicrosite";
 import {useEffect, useState} from "react";
@@ -23,6 +23,7 @@ import {
 } from 'platform-detect';
 
 import dynamic from "next/dynamic";
+import {create} from "../../queries/visit";
 
 const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
 const DangerousIcon = dynamic(() => import('@mui/icons-material/Dangerous'));
@@ -33,16 +34,44 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, respData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, preparedData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
   useEffect(() => {
 
-    console.log('RESPDATA', respData);
-    console.log(android, chromeos, tizen, ios, windows, macos, linux);
-    console.log(chrome, firefox, edge, samsungBrowser, opera, safari, ie);
-    console.log(tv, phone, tablet, laptop, desktop, hybrid)
+    const update = async () => {
+      let browser = 'other';
+      let os = 'other';
+      let dv = 'other';
+
+      if (chrome) { browser = 'chrome'; }
+      else if (firefox) { browser = 'firefox'; }
+      else if (edge) { browser = 'edge'; }
+      else if (samsungBrowser) { browser = 'samsungBrowser'; }
+      else if (opera) { browser = 'opera'; }
+      else if (safari) { browser = 'safari'; }
+      else if (ie) { browser = 'ie'; }
+
+      if (android) { os = 'android'; }
+      else if (chromeos) { os = 'chromeos'; }
+      else if (tizen) { os = 'tizen'; }
+      else if (ios) { os = 'ios'; }
+      else if (windows) { os = 'windows'; }
+      else if (macos) { os = 'macos'; }
+      else if (linux) { os = 'linux'; }
+
+      if (tv) { dv = 'smarttv'; }
+      else if (phone) { dv = 'mobile'; }
+      else if (tablet) { dv = 'tablet'; }
+      else if (laptop) { dv = 'laptop'; }
+      else if (desktop) { dv = 'desktop'; }
+      else if (hybrid) { dv = 'hybrid'; }
+
+      await create({...preparedData, browser, os, dv});
+    }
+
+    update();
 
     setRoute(window.location.href.toLowerCase());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -253,7 +282,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       queries.link.incrementVisit(userId, createdAt, link.visitCount)
     ]);*/
 
-    const respData = await create({ headers: req.headers, shortLinkId: qr.shortLinkId });
+    const respData = await handlePrepare({ headers: req.headers, shortLinkId: qr.shortLinkId });
     queries.link.incrementVisit(userId, createdAt, link.visitCount);
 
     if (typeof qr.custom === 'string') {
@@ -266,7 +295,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
         }),
-        respData: respData ? JSON.parse(JSON.stringify(respData)) : null,
+        preparedData: respData ? JSON.parse(JSON.stringify(respData)) : null,
         locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
