@@ -33,12 +33,13 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, headers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, headers, location }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
   useEffect(() => {
 
+    conseole.log('Location', location);
     console.log(headers);
 
     console.log(android, chromeos, tizen, ios, windows, macos, linux);
