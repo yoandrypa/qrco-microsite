@@ -1,0 +1,234 @@
+{
+  "titlesFontSize": "small",
+  "customFooter": "AI, Cybersecurity, Blockchain, and More",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/141e62a6-e7bb-4f3e-8a38-b52c32030cb9",
+    "updatedAt": "2023-05-03T21:08:27.806Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-05-03T21:08:27.803Z",
+    "visitCount": 8,
+    "address": "kqGHuG",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "foregndImg": [
+    {
+      "name": "df12e447-1198-4e9f-8ce0-0e15d3a812ef.png",
+      "Key": "customs/design/df12e447-1198-4e9f-8ce0-0e15d3a812ef.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "custom": [
+    {
+      "component": "title",
+      "expand": "47fb5783-0bed-40ec-a6e9-9826562e3eca",
+      "data": {
+        "titleAbout": "TechConnect 2023",
+        "descriptionAbout": "The premier technology conference of the year. "
+      },
+      "isMonetized": false
+    },
+    {
+      "name": "Day 1",
+      "component": "keyvalue",
+      "expand": "af55c352-dee2-4454-80ba-b2356aa89279",
+      "data": {
+        "customFont": true,
+        "sectionArrangement": "tabbed",
+        "headLineFontStyle": "b",
+        "headlineFontSize": "medium",
+        "keyValues": [
+          {
+            "value": "Registration and Welcome Reception",
+            "key": "9:00 AM"
+          },
+          {
+            "value": "Keynote Speaker - \"The Future of AI in Business\"",
+            "key": "10:00 AM:"
+          },
+          {
+            "value": "Breakout Sessions - \"Blockchain for Beginners\" and \"Cybersecurity in the Age of the Cloud\"",
+            "key": "11:00 AM:"
+          },
+          {
+            "value": "Lunch Break",
+            "key": "12:30 PM:"
+          },
+          {
+            "value": "Panel Discussion - \"The Ethics of AI\"",
+            "key": "2:00 PM:"
+          },
+          {
+            "value": "Networking Session",
+            "key": "3:30 PM:"
+          }
+        ],
+        "hideHeadLineIcon": true,
+        "centerHeadLine": true
+      },
+      "isMonetized": false
+    },
+    {
+      "name": "Day 2",
+      "component": "keyvalue",
+      "expand": "48354652-b6b2-4d3a-8552-455cf78c8ca9",
+      "data": {
+        "customFont": true,
+        "sectionArrangement": "tabbed",
+        "headLineFontStyle": "b",
+        "headlineFontSize": "medium",
+        "keyValues": [
+          {
+            "value": "Breakfast and Networking",
+            "key": "9:00 AM:"
+          },
+          {
+            "value": "Keynote Speaker - \"The State of Cybersecurity in 2023\"",
+            "key": "10:00 AM:"
+          },
+          {
+            "value": "Breakout Sessions - \"The Future of Cloud Computing\" and \"Digital Transformation in the Enterprise\"",
+            "key": "11:00 AM:"
+          },
+          {
+            "value": "Lunch Break",
+            "key": "12:30 PM:"
+          },
+          {
+            "value": "Panel Discussion - \"The Role of Diversity in Tech\"",
+            "key": "2:00 PM:"
+          },
+          {
+            "value": "Networking Session",
+            "key": "3:30 PM:"
+          }
+        ],
+        "centerHeadLine": true,
+        "hideHeadLineIcon": true
+      },
+      "isMonetized": false
+    },
+    {
+      "name": "Day 3",
+      "component": "keyvalue",
+      "expand": "02ab817d-a7aa-4b41-a78b-a89f664ce385",
+      "data": {
+        "customFont": true,
+        "sectionArrangement": "tabbed",
+        "headLineFontStyle": "b",
+        "headlineFontSize": "medium",
+        "keyValues": [
+          {
+            "value": "Breakfast and Networking",
+            "key": "9:00 AM:"
+          },
+          {
+            "value": "Keynote Speaker - \"Innovations in AI and Machine Learning\"",
+            "key": "10:00 AM:"
+          },
+          {
+            "value": "Breakout Sessions - \"Building Resilient Systems\" and \"The Rise of the Internet of Things\"",
+            "key": "11:00 AM:"
+          },
+          {
+            "value": "Lunch Break",
+            "key": "12:30 PM:"
+          },
+          {
+            "value": "Panel Discussion - \"The Future of Tech\"",
+            "key": "2:00 PM:"
+          },
+          {
+            "value": "Closing Remarks and Farewell Reception",
+            "key": "3:30 PM:"
+          }
+        ],
+        "centerHeadLine": true,
+        "hideHeadLineIcon": true
+      },
+      "isMonetized": false
+    },
+    {
+      "component": "title",
+      "expand": "33272e98-5d13-4a27-b11c-dc078db07013",
+      "data": {
+        "titleAbout": "Committee"
+      },
+      "isMonetized": false
+    },
+    {
+      "name": "Organizing Committee",
+      "component": "keyvalue",
+      "expand": "b73a6430-143e-47d9-b92d-13cb1ac09e2c",
+      "data": {
+        "keyValues": [
+          {
+            "value": "Jane Smith",
+            "key": "Conference Chair"
+          },
+          {
+            "value": "Mark Johnson",
+            "key": "Program Director"
+          },
+          {
+            "value": "Sarah Lee",
+            "key": "Marketing Coordinator"
+          },
+          {
+            "value": "David Chen",
+            "key": "Finance Manager"
+          },
+          {
+            "value": "Emily Davis",
+            "key": "Sponsorship Coordinator"
+          },
+          {
+            "value": "Michael Rodriguez",
+            "key": "Technical Director"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "isMonetized": false
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "forceChange": false,
+  "qrType": "custom",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "messagesFontSize": "large",
+  "secondary": "#000000",
+  "qrForSharing": [
+    {
+      "name": "9f17c356-ac6b-403d-907c-c2da012ed463QR.svg",
+      "Key": "customs/design/9f17c356-ac6b-403d-907c-c2da012ed463QR.svg"
+    }
+  ],
+  "qrName": "Event Sample",
+  "messagesFontStyle": "b",
+  "createdAt": "2023-05-03T21:08:27.810Z",
+  "layout": "nobanner",
+  "globalFontColor": "#ffffff",
+  "isMonetized": false,
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "b#fef271",
+  "isDynamic": true,
+  "updatedAt": "2023-05-03T21:32:51.712Z",
+  "micrositeBackImage": [
+    {
+      "name": "91f736a7-7156-459d-b522-fc5c0c924ee0.png",
+      "Key": "customs/design/91f736a7-7156-459d-b522-fc5c0c924ee0.png"
+    }
+  ],
+  "backgroundType": "image",
+  "foregndImgType": "circle",
+  "sectionTitleFont": "none",
+  "globalFont": "Trebuchet",
+  "primary": "#ffffff"
+}
