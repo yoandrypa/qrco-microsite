@@ -10,8 +10,8 @@ export async function getEmailRecipient(microSiteUrl: string, index: number): Pr
   const code = parseCodeFormUrl(microSiteUrl);
   const link = await queries.link.getByAddress(code);
   const qr: any = await queries.qr.getByLinkId(link);
-
-  return qr.custom[index].data.email;
+  const data = qr.custom[index].data;
+  return data.recipientEmail || data.email;
 }
 
 export async function sendEmail(data: any) {
