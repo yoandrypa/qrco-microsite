@@ -1,0 +1,105 @@
+{
+  "shortLinkId": {
+    "claimable": false,
+    "preGenerated": false,
+    "banned": false,
+    "userId": "dfd7a53e-4f55-45fe-ab3b-605054b1bb7a",
+    "target": "https://app.theqr.link/qr/4421b1bb-765c-4934-920e-afac13ecabca",
+    "updatedAt": "2023-05-08T21:52:14.574Z",
+    "createdAt": "2023-05-08T21:52:14.574Z",
+    "visitCount": 0,
+    "address": "L5le20",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "foregndImg": [
+    {
+      "name": "5.fa0706a462cbe.757c58b655933.2a68314a2d56b.b0360dde4996b.4aea07a160e9d.dec0fa48391ff.8c107230738de.e30e5963bff7-9.563eb072405e5.a2ef442fb8eb9.bbddea9e14cb2.2a5d1c66d378-4f.e7dee8ecb7ac8.8764ca95c3b65.fb230537352a-33.d9f957d15859.e2afcfe247e5.64205ebee7b2-c.7c3d21f569e5d.d00969902133d.6e0e998474098.23c3f13b88baa.9732ffb5fa67b.5d82f3d2e54ba.fb58ad74f0581.1eab4895745bf.b53ca8a1957f4.023235534506b.f928e09c474f1.0217bdf2152e.jpeg",
+      "Key": "links/design/5.fa0706a462cbe.757c58b655933.2a68314a2d56b.b0360dde4996b.4aea07a160e9d.dec0fa48391ff.8c107230738de.e30e5963bff7-9.563eb072405e5.a2ef442fb8eb9.bbddea9e14cb2.2a5d1c66d378-4f.e7dee8ecb7ac8.8764ca95c3b65.fb230537352a-33.d9f957d15859.e2afcfe247e5.64205ebee7b2-c.7c3d21f569e5d.d00969902133d.6e0e998474098.23c3f13b88baa.9732ffb5fa67b.5d82f3d2e54ba.fb58ad74f0581.1eab4895745bf.b53ca8a1957f4.023235534506b.f928e09c474f1.0217bdf2152e.jpeg"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Mango Honey (Ataulfo)",
+        "descriptionAbout": "Ataulfo mangos are golden yellow and generally weigh between 6 and 10 ounces (170 and 280 g)"
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "https://letsgrowflorida.com/pages/mango-tree-instructions-care",
+            "label": "Instructions care"
+          },
+          {
+            "link": "https://letsgrowflorida.com/collections/all",
+            "label": "Order Online"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "links",
+      "isMonetized": false
+    },
+    {
+      "name": "As tasty as they look like",
+      "component": "gallery",
+      "data": {
+        "files": [
+          {
+            "name": "Screen Shot 2023-04-23 at 9.05.20 PM.png",
+            "Key": "links/Screen Shot 2023-04-23 at 9.05.20 PM.png"
+          },
+          {
+            "name": "Screen Shot 2023-04-23 at 9.07.47 PM.png",
+            "Key": "links/Screen Shot 2023-04-23 at 9.07.47 PM.png"
+          }
+        ]
+      },
+      "isMonetized": false
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "buttonsFontStyle": "b",
+  "forceChange": false,
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "qrType": "link",
+  "image": "",
+  "userId": "dfd7a53e-4f55-45fe-ab3b-605054b1bb7a",
+  "titlesFontStyle": "b",
+  "secondary": "#f0f4c3",
+  "qrForSharing": [
+    {
+      "name": "74b398ea-906d-4f9f-be59-5f31dd13e980QR.svg",
+      "Key": "links/design/74b398ea-906d-4f9f-be59-5f31dd13e980QR.svg"
+    }
+  ],
+  "qrName": "Mango Honey (Ataulfo) COPY TO SAMPLE",
+  "createdAt": "2023-05-08T21:52:14.576Z",
+  "isMonetized": false,
+  "sectionTitleFontStyle": "b",
+  "backgndImg": [
+    {
+      "name": "b.d6524b276711e.3add511edf978.9e49fae5882a9.4d87ffd220081.b055a0c7369c5.7a03bb0fab35d.4c75330c42995.131cfa4adcd4-1.fd40b3445aa94.459a8157897e2.3e418f0d32cf.848113feb241-43.dfeabcca59fd7.290996e4c8292.488cad7cdbfb-37.f384c4d78f42e.e1581d8423987.49a9dcb6e31e-c.c69d4adcd0bc6.9f339a2005917.b2dc7bd6ef0c7.07340c55b6f5e.8b897c7cc2a1b.7047c5f9fced.68323127fcefc.e0ba55f1995cc.aacdda448af36.62b9ac519c0b1.7c65b76829497.d45081951e2b.jpeg",
+      "Key": "links/design/b.d6524b276711e.3add511edf978.9e49fae5882a9.4d87ffd220081.b055a0c7369c5.7a03bb0fab35d.4c75330c42995.131cfa4adcd4-1.fd40b3445aa94.459a8157897e2.3e418f0d32cf.848113feb241-43.dfeabcca59fd7.290996e4c8292.488cad7cdbfb-37.f384c4d78f42e.e1581d8423987.49a9dcb6e31e-c.c69d4adcd0bc6.9f339a2005917.b2dc7bd6ef0c7.07340c55b6f5e.8b897c7cc2a1b.7047c5f9fced.68323127fcefc.e0ba55f1995cc.aacdda448af36.62b9ac519c0b1.7c65b76829497.d45081951e2b.jpeg"
+    }
+  ],
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-08T21:52:14.577Z",
+  "backgroundType": "image",
+  "sectionDescFontSize": "medium",
+  "globalFont": "Trebuchet",
+  "primary": "#58510d"
+}

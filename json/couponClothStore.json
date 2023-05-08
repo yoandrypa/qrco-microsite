@@ -1,0 +1,82 @@
+{
+  "buttonBack": "solid",
+  "titlesFontSize": "small",
+  "buttonBorderStyle": "default",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/d8e4be08-4101-4b32-9b07-f6de3ad31650",
+    "updatedAt": "2023-05-03T18:41:22.217Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-05-03T18:41:22.216Z",
+    "visitCount": 3,
+    "address": "4W0kLG",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "hideQrForSharing": true,
+  "custom": [
+    {
+      "data": {
+        "urlOptionLink": "www.fabulousthreads.com",
+        "description": "Get your wardrobe ready for the season with Fabulous Threads! Enjoy a 50% discount on all items storewide. From trendy tops to fashionable dresses, we've got you covered.",
+        "company": "Fabulous Threads",
+        "title": "50% off Spring Fling Sale",
+        "urlOptionLabel": "Buy online"
+      },
+      "component": "couponInfo",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "name": "SALES_50_OFF",
+        "value": "1685468482000",
+        "text": "All the products included. Valid for both online and physical stores."
+      },
+      "component": "couponData",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "zip": "33101",
+        "country": "US",
+        "address": "500 NW 2ND",
+        "state": "Florida",
+        "city": "Miami"
+      },
+      "component": "address",
+      "isMonetized": false
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "buttonsFontStyle": "b#ffffff",
+  "buttonBorderType": "dashed",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "coupon",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "subtitlesFontSize": "small",
+  "titlesFontStyle": "b",
+  "secondary": "#ffcdd2",
+  "backgroundColorRight": "#f2f6f8",
+  "qrName": "Sample Coupon",
+  "messagesFontStyle": "",
+  "createdAt": "2023-05-03T18:41:22.218Z",
+  "layout": "gradient",
+  "isMonetized": false,
+  "backgndImg": [
+    {
+      "name": "73ecc864-8e27-4570-b3f9-1a763beb6726.png",
+      "Key": "coupons/design/73ecc864-8e27-4570-b3f9-1a763beb6726.png"
+    }
+  ],
+  "isDynamic": true,
+  "updatedAt": "2023-05-03T19:31:38.889Z",
+  "buttonBackColor": "#d20f0f",
+  "backgroundType": "gradient",
+  "backgroundColor": "#ced4d6",
+  "globalFont": "Verdana",
+  "primary": "#d50000"
+}

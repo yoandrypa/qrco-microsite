@@ -1,0 +1,94 @@
+{
+  "sharerPosition": "no",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/8b4de14e-03f6-4cc0-9d0a-01d93a2b3a96",
+    "updatedAt": "2023-05-08T18:44:07.266Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-05-08T18:44:07.260Z",
+    "visitCount": 3,
+    "address": "bUvoxS",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "hideQrForSharing": true,
+  "sectionTitleFontSize": "large",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "What's in this box?",
+        "descriptionAbout": "This box contains tools."
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "files": [
+          {
+            "name": "carpenter 1.png",
+            "Key": "linkedLabels/carpenter 1.png"
+          },
+          {
+            "name": "carpenter 2.png",
+            "Key": "linkedLabels/carpenter 2.png"
+          },
+          {
+            "name": "draw.png",
+            "Key": "linkedLabels/draw.png"
+          },
+          {
+            "name": "llaves.png",
+            "Key": "linkedLabels/llaves.png"
+          },
+          {
+            "name": "pinzas.png",
+            "Key": "linkedLabels/pinzas.png"
+          },
+          {
+            "name": "repair.png",
+            "Key": "linkedLabels/repair.png"
+          }
+        ],
+        "hideHeadLine": true
+      },
+      "component": "gallery",
+      "isMonetized": false
+    }
+  ],
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "qrType": "linkedLabel",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "secondary": "#d7ccc8",
+  "backgroundColorRight": "#ffffff",
+  "qrName": "Smart Label Sample 1",
+  "createdAt": "2023-05-08T18:44:07.266Z",
+  "layout": "gradient",
+  "isMonetized": false,
+  "backgndImg": [
+    {
+      "name": "5aced0c2-3270-416d-aadd-5dcb267d8fc6.png",
+      "Key": "linkedLabels/design/5aced0c2-3270-416d-aadd-5dcb267d8fc6.png"
+    }
+  ],
+  "sectionTitleFontStyle": "b",
+  "isDynamic": true,
+  "updatedAt": "2023-05-08T19:09:14.234Z",
+  "backgroundType": "gradient",
+  "sectionDescFontSize": "medium",
+  "backgroundColor": "#d2d1ae",
+  "globalFont": "Trebuchet",
+  "primary": "#3e2723"
+}

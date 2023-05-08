@@ -1,0 +1,138 @@
+{
+  "micrositeBackImageOpacity": 0.25,
+  "buttonBorderStyle": "two",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/d421e363-b5ad-4101-ac5d-7d19a4a7ac43",
+    "updatedAt": "2023-04-25T20:39:06.171Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-04-25T20:39:06.170Z",
+    "visitCount": 10,
+    "address": "iU91Ln",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonShape": "4",
+  "foregndImg": [
+    {
+      "name": "ea519c8c-f098-4ac1-bbae-75733a1544c2.png",
+      "Key": "businesss/design/ea519c8c-f098-4ac1-bbae-75733a1544c2.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "buttonBorderWeight": "normal",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Wine Nature",
+        "descriptionAbout": "Wine Nature is a beautifully crafted, organic red wine that's perfect for any occasion. "
+      },
+      "component": "title",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "winenature.com/more",
+            "label": "More about us"
+          },
+          {
+            "link": "winenature.com/stories",
+            "label": "Stories"
+          },
+          {
+            "link": "shop.winenature.com",
+            "label": "Order Online"
+          }
+        ],
+        "hideHeadLine": true,
+        "bottomSpacing": "medium",
+        "topSpacing": "medium"
+      },
+      "component": "links",
+      "isMonetized": false
+    },
+    {
+      "data": {
+        "socialsOnlyIcons": true,
+        "hideHeadLine": true,
+        "socials": [
+          {
+            "value": "+15545554554",
+            "network": "whatsapp"
+          },
+          {
+            "value": "wineNature",
+            "network": "facebook"
+          },
+          {
+            "value": "wineNature",
+            "network": "instagram"
+          },
+          {
+            "value": "wineNature",
+            "network": "twitter"
+          },
+          {
+            "value": "wineNature",
+            "network": "youtube"
+          }
+        ],
+        "invertIconColors": true
+      },
+      "component": "socials",
+      "isMonetized": false
+    }
+  ],
+  "buttonsOpacity": 0.57,
+  "subtitlesFontStyle": "b",
+  "background": {
+    "x": 0,
+    "y": 0,
+    "file": null,
+    "type": "solid",
+    "opacity": 50,
+    "size": 1
+  },
+  "buttonsFontStyle": "b",
+  "forceChange": false,
+  "buttonBorderType": "double",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "business",
+  "image": "",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "secondary": "#ffcdd2",
+  "sectionDescFontStyle": "b",
+  "buttonShadow": true,
+  "qrForSharing": [
+    {
+      "name": "0f754fd2-3847-4d0f-beb5-cb07ca200ef3QR.svg",
+      "Key": "businesss/design/0f754fd2-3847-4d0f-beb5-cb07ca200ef3QR.svg"
+    }
+  ],
+  "qrName": "Wine Business",
+  "createdAt": "2023-04-25T20:39:06.172Z",
+  "layout": "nobannerLeft",
+  "isMonetized": false,
+  "profileImageSize": "medium",
+  "profileImageVertical": "upper",
+  "sectionTitleFontStyle": "b#7c0202",
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-05-01T17:52:11.196Z",
+  "micrositeBackImage": [
+    {
+      "name": "3ca00889-20e8-40d2-a6f8-4c83b75909ef.png",
+      "Key": "businesss/design/3ca00889-20e8-40d2-a6f8-4c83b75909ef.png"
+    }
+  ],
+  "backgroundType": "image",
+  "sectionDescFontSize": "medium",
+  "foregndImgType": "smooth",
+  "globalFont": "Comic Sans",
+  "primary": "#d50000"
+}
