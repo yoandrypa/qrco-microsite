@@ -1,12 +1,16 @@
 //const useragent = require("useragent");
-import {
+// import {
   //filterInBrowser,
   //filterInOs,
-  filterInHeaders, browsersList, osList, deviceListHeaders
-} from "../helpers/visits/headersFilters/amazon_cloudfront";
+  //filterInHeaders, browsersList, osList, deviceListHeaders
+// } from "../helpers/visits/headersFilters/amazon_cloudfront";
 
 //const parser = require("ua-parser-js");
-const geoip = require("fast-geoip");
+// const geoip = require("fast-geoip");
+// import geoip from "fast-geoip";
+
+// @ts-ignore
+import { getIPInfo } from 'ip-info-finder';
 
 import URL from "url";
 import { CustomError, removeWww } from "../utils";
@@ -15,38 +19,49 @@ import { prepare } from "../queries/visit";
 export const handlePrepare = async (data: any) => {
   try {
     // if (data.headers?.["user-agent"] === "Amazon CloudFront") {
-      const [browser = "Other"] = browsersList.filter(filterInHeaders(data.headers));
-      const [os = "Other"] = osList.filter(filterInHeaders(data.headers));
-      const [device = "Other"] = deviceListHeaders.filter(filterInHeaders(data.headers));
+    //   const [browser = "Other"] = browsersList.filter(filterInHeaders(data.headers));
+    //   const [os = "Other"] = osList.filter(filterInHeaders(data.headers));
+    //   const [device = "Other"] = deviceListHeaders.filter(filterInHeaders(data.headers));
 
       const referrer = data.headers.referrer && removeWww(URL.parse(data.headers.referrer).hostname);
       let visit = {
-        browser: browser.toLowerCase(),
+        browser: '',
         country: data.headers["cloudfront-viewer-country"] || "Unknown",
         shortLinkId: data.shortLinkId,
-        os: os.split("-")[2],
-        dv: device.split("-")[2],
+        os: '',
+        dv: '',
         referrer: (referrer && referrer.replace(/\./gi, "[dot]")) || "Direct",
-        city: ""
+        city: '',
+        region: ''
       };
 
-      if (data.headers["x-forwarded-for"]) {
-        const ip = data.headers["x-forwarded-for"].split(",")?.[0]?.trim();
+      let ip = data.headers["x-forwarded-for"] as string;
 
-        if (ip !== undefined) {
-          const location = await geoip.lookup(ip);
+      if (ip !== undefined) {
+        ip = ip.split(",")?.[0]?.trim();
+        // "fast-geoip": "^1.1.88",
+        // const location = await geoip.lookup(ip);
 
-          if (location) {
-            visit.city = location.city || "Unknown";
-            visit.country = location.country || "Unknown";
+        const location = await getIPInfo(ip, {cors: false});
+
+        if (location) {
+          let country = location.country || location.Country || "Unknown" as string;
+
+          if (country.endsWith(')') && country.indexOf('(') !== -1) {
+            const index = country.lastIndexOf('(');
+            if (index !== -1 && index < country.length -1) {
+              country = country.slice(index + 1, -1);
+            }
           }
-        } else {
-          visit.city = "Unknown";
-          visit.country = "Unknown";
+
+          visit.city = location.city || location.City || "Unknown";
+          visit.country = country;
+          visit.region = location.region || location.RegionName || "Unknown";
         }
       } else {
         visit.city = "Unknown";
         visit.country = "Unknown";
+        visit.region = "Unknown";
       }
 
       return await prepare(visit);

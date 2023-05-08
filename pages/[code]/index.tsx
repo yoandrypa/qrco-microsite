@@ -13,6 +13,9 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Divider from "@mui/material/Divider";
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
+// @ts-ignore
+import { getIPInfo } from 'ip-info-finder';
+
 import {
   // os
   android, chromeos, tizen, ios, windows, macos, linux,
@@ -35,7 +38,7 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, preparedData, headers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, preparedData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
@@ -67,8 +70,6 @@ export default function Handler ({ data, code, locked, preparedData, headers }: 
       else if (laptop) { dv = 'laptop'; }
       else if (desktop) { dv = 'desktop'; }
       else if (hybrid) { dv = 'hybrid'; }
-
-      console.log(headers);
 
       await create({...preparedData, browser, os, dv});
     }
@@ -246,7 +247,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
   try {
     let link = await queries.link.getByAddress(code);
 
-    // const ip = '152.206.186.213, 65.4.1.2';
+    // getIPInfo('73.0.56.214', {cors: false}).then((data: any) => {
+    //   console.log(data);
+    // })
+    //   .catch((err: any) => console.log(err));
+
+    // "fast-geoip": "^1.1.88",
+    // const ip = '73.0.56.214, 64.252.69.204';
     // const location = await geoip.lookup(ip);
     // console.log(location);
 
@@ -300,7 +307,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       props: {
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
-        }), headers: req.headers,
+        }),
         preparedData: respData ? JSON.parse(JSON.stringify(respData)) : null, locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };

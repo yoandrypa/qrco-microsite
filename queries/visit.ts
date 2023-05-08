@@ -8,6 +8,7 @@ interface Prepare {
   browser: string;
   country: string;
   city: string;
+  region: string;
   domain?: string;
   shortLinkId: { userId: string, createdAt: number };
   os: string;
@@ -25,6 +26,8 @@ export const prepare = async (params: Prepare) => {
     let referrers = undefined;
     let creationDate = undefined;
 
+    const city = params.city !== params.region ? `${params.city}${params.region ? `, ${params.region}` : ''}` : params.city;
+
     if (visit) {
       countries = {...visit.countries};
       if (countries[params.country]) {
@@ -34,10 +37,10 @@ export const prepare = async (params: Prepare) => {
       }
 
       cities = {...visit.cities};
-      if (cities[params.city]) {
-        cities[params.city] += 1;
+      if (cities[city]) {
+        cities[city] += 1;
       } else {
-        cities[params.city] = 1;
+        cities[city] = 1;
       }
 
       referrers = {...visit.referrers};
@@ -52,7 +55,7 @@ export const prepare = async (params: Prepare) => {
       // referrers = Object.assign({}, visit.referrers, {[data.referrer]: (visit.referrers[data.referrer] || 0) + 1});
     } else {
       countries = { [params.country]: 1 };
-      cities = { [params.city]: 1 };
+      cities = { [city]: 1 };
       creationDate = Date.now();
     }
 
