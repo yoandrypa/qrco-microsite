@@ -110,6 +110,7 @@ export default function RenderIcon({ icon, color, colorSec, enabled, adjust, siz
     switch (icon) {
       case 'custom': { return <CustomizeIcon sx={sx} />; }
       case 'copy': { return <ContentCopyIcon sx={sx} />; }
+      case 'call':
       case 'phone': { return <PhoneIcon sx={sx} />; }
       case 'cell': { return <SmartphoneIcon sx={sx} />; }
       case 'location': { return <LocationOnIcon sx={sx} />; }

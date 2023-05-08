@@ -10,6 +10,7 @@ import { handleButtons, handleFont } from "../../../renderers/helper";
 import { msRequest } from "../../../../../../utils/requests";
 import { releaseWaiting, startWaiting } from "../../../../../Waiting";
 import { setError, setSuccess } from "../../../../../Notification";
+import { parseFormFieldStyle } from "../../commons/helpers";
 import { IViewProps, ISectionData } from "./types";
 
 
@@ -19,7 +20,7 @@ export default function Form({ data: designData, stylesData, index }: IViewProps
   const [formData] = useState<any>({});
   const [disabled, setDisabled] = useState<boolean>(true);
 
-  const tSx = { ...handleFont(stylesData, 'm'), '& .Mui-disabled': { cursor: 'not-allowed' } };
+  const tSx = parseFormFieldStyle(stylesData);
   const bSx = {
     backgroundColor: 'secondary.main',
     ...handleFont(stylesData, 'b'),

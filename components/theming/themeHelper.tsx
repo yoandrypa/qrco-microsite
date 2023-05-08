@@ -1,3 +1,10 @@
+import { Theme } from "@mui/material/styles";
+
+interface IBaseProps {
+  ownerState: any;
+  theme: Theme;
+}
+
 const getTheme = (primary: string, secondary: string, isFramed?: boolean) => {
   return {
     palette: {
@@ -23,7 +30,36 @@ const getTheme = (primary: string, secondary: string, isFramed?: boolean) => {
             }
           }
         }
-      }
+      },
+
+      MuiFormLabel: {
+        styleOverrides: {
+          root: ({ theme }: IBaseProps) => {
+            return {
+              color: 'inherit',
+              '&.Mui-focused': { color: 'inherit' },
+              '&.Mui-error': { color: theme.palette.error.main },
+              '&.Mui-disabled': { color: 'inherit' },
+            }
+          }
+        }
+      },
+
+      MuiFormControl: {
+        styleOverrides: {
+          root: ({ theme }: IBaseProps) => {
+            return {
+              '& .MuiInputBase-root': { color: 'inherit' },
+              '& .Mui-disabled': {
+                '-webkit-text-fill-color': 'inherit !important',
+                cursor: 'not-allowed',
+                opacity: 0.7,
+              },
+              '& .MuiOutlinedInput-notchedOutline': { borderColor: 'inherit !important' },
+            }
+          }
+        }
+      },
     }
   }
 }
