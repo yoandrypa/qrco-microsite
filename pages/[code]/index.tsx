@@ -27,7 +27,6 @@ import {
 
 import dynamic from "next/dynamic";
 import {create} from "../../queries/visit";
-import geoip from "fast-geoip";
 // import geoip from "fast-geoip";
 
 const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
@@ -39,7 +38,7 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, preparedData, info }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, preparedData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
@@ -71,8 +70,6 @@ export default function Handler ({ data, code, locked, preparedData, info }: Inf
       else if (laptop) { dv = 'laptop'; }
       else if (desktop) { dv = 'desktop'; }
       else if (hybrid) { dv = 'hybrid'; }
-
-      console.log(preparedData, info);
 
       await create({...preparedData, browser, os, dv});
     }
@@ -250,11 +247,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
   try {
     let link = await queries.link.getByAddress(code);
 
-    getIPInfo('73.0.56.214', {cors: false}).then((data: any) => {
-      console.log(data);
-    })
-      .catch((err: any) => console.log(err));
+    // getIPInfo('73.0.56.214', {cors: false}).then((data: any) => {
+    //   console.log(data);
+    // })
+    //   .catch((err: any) => console.log(err));
 
+    // "fast-geoip": "^1.1.88",
     // const ip = '73.0.56.214, 64.252.69.204';
     // const location = await geoip.lookup(ip);
     // console.log(location);
@@ -304,40 +302,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       qr.custom = JSON.parse(qr.custom);
     }
 
-    let info = {} as any;
-    if (req.headers["x-forwarded-for"]) {
-      let ip = req.headers["x-forwarded-for"] as string;
-
-      try {
-        if (ip !== undefined) {
-          ip = ip.split(",")?.[0]?.trim();
-
-          const location = await geoip.lookup(ip);
-
-          if (location) {
-            info.city = location.city || "Unknown";
-            info.country = location.country || "Unknown";
-            info.region = location.region || "Unknown";
-            info.timezone = location.timezone || "Unknown";
-          }
-        } else {
-          info.city = "Unknown";
-          info.country = "Unknown";
-          info.region = "Unknown";
-        }
-      } catch {
-        info.city = "Unknown";
-        info.country = "Unknown";
-        info.region = "Unknown";
-      }
-    }
-
     // @ts-ignore
     return {
       props: {
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
-        }), info,
+        }),
         preparedData: respData ? JSON.parse(JSON.stringify(respData)) : null, locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
