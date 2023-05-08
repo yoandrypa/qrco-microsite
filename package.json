@@ -19,7 +19,6 @@
     "@mui/icons-material": "^5.10.15",
     "@mui/lab": "^5.0.0-alpha.109",
     "@mui/material": "^5.10.15",
-    "fast-geoip": "^1.1.88",
     "html-react-parser": "^3.0.13",
     "inflection": "^2.0.1",
     "ip-info-finder": "^3.0.2",

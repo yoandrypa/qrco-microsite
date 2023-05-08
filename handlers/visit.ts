@@ -2,7 +2,7 @@
 // import {
   //filterInBrowser,
   //filterInOs,
-  // filterInHeaders, browsersList, osList, deviceListHeaders
+  //filterInHeaders, browsersList, osList, deviceListHeaders
 // } from "../helpers/visits/headersFilters/amazon_cloudfront";
 
 //const parser = require("ua-parser-js");
@@ -35,22 +35,19 @@ export const handlePrepare = async (data: any) => {
         region: ''
       };
 
-      if (data.headers["x-forwarded-for"]) {
-        const ip = data.headers["x-forwarded-for"].split(",")?.[0]?.trim();
+      let ip = data.headers["x-forwarded-for"] as string;
 
-        if (ip !== undefined) {
-          // const location = await geoip.lookup(ip);
-          const location = await getIPInfo(ip, {cors: false});
+      if (ip !== undefined) {
+        ip = ip.split(",")?.[0]?.trim();
+        // "fast-geoip": "^1.1.88",
+        // const location = await geoip.lookup(ip);
 
-          if (location) {
-            visit.city = location.city || location.City || "Unknown";
-            visit.country = location.country || location.Country || "Unknown";
-            visit.region = location.region || location.RegionName || "Unknown";
-          }
-        } else {
-          visit.city = "Unknown";
-          visit.country = "Unknown";
-          visit.region = "Unknown";
+        const location = await getIPInfo(ip, {cors: false});
+
+        if (location) {
+          visit.city = location.city || location.City || "Unknown";
+          visit.country = location.country || location.Country || "Unknown";
+          visit.region = location.region || location.RegionName || "Unknown";
         }
       } else {
         visit.city = "Unknown";
