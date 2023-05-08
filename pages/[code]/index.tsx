@@ -310,6 +310,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
             info.city = location.city || "Unknown";
             info.country = location.country || "Unknown";
             info.region = location.region || "Unknown";
+            info.location = location;
           }
         } else {
           info.city = "Unknown";
