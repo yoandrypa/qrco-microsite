@@ -3,6 +3,7 @@ import React, { ReactElement } from "react";
 import RenderIcon from "../../../helperComponents/RenderIcon";
 
 import { grey } from "@mui/material/colors";
+import { handleFont } from "../../renderers/helper";
 import { IIconProps, IQrSetting } from "./types";
 
 export function parseIconStyle({ color, enabled, sx }: IIconProps) {
@@ -16,4 +17,8 @@ export function renderQrIcon(qrType: IQrSetting<any>, iconProps: IIconProps): Re
 
   // Render using legacy qr-icon method
   return <RenderIcon icon={qrTypeId} {...iconProps} />;
+}
+
+export function parseFormFieldStyle(stylesData: any) {
+  return { ...handleFont(stylesData, 'm') }
 }
