@@ -6,7 +6,8 @@ import {
 } from "../helpers/visits/headersFilters/amazon_cloudfront";
 
 //const parser = require("ua-parser-js");
-const geoip = require("fast-geoip");
+// const geoip = require("fast-geoip");
+import geoip from "fast-geoip";
 
 import URL from "url";
 import { CustomError, removeWww } from "../utils";
