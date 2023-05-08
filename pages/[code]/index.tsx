@@ -35,7 +35,7 @@ const renderContactSupport = (message: string) => (
 );
 
 // @ts-ignore
-export default function Handler ({ data, code, locked, preparedData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Handler ({ data, code, locked, preparedData, headers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [route, setRoute] = useState<string>("");
   const [proceed, setProceed] = useState<boolean>(!Boolean(locked));
 
@@ -67,6 +67,8 @@ export default function Handler ({ data, code, locked, preparedData }: InferGetS
       else if (laptop) { dv = 'laptop'; }
       else if (desktop) { dv = 'desktop'; }
       else if (hybrid) { dv = 'hybrid'; }
+
+      console.log(headers);
 
       await create({...preparedData, browser, os, dv});
     }
@@ -298,7 +300,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
       props: {
         data: JSON.stringify({
           ...qr, shortLinkId: link, shortlinkurl: generateShortLink(link.address, link.domain || process.env.REACT_APP_SHORT_URL_DOMAIN)
-        }),
+        }), headers: req.headers,
         preparedData: respData ? JSON.parse(JSON.stringify(respData)) : null, locked: qr.secretOps?.includes('l') ? qr.secret : null
       }
     };
