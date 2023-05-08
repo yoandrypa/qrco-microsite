@@ -45,8 +45,17 @@ export const handlePrepare = async (data: any) => {
         const location = await getIPInfo(ip, {cors: false});
 
         if (location) {
+          let country = location.country || location.Country || "Unknown" as string;
+
+          if (country.endsWith(')') && country.indexOf('(') !== -1) {
+            const index = country.lastIndexOf('(');
+            if (index !== -1 && index < country.length -1) {
+              country = country.slice(index + 1, -1);
+            }
+          }
+
           visit.city = location.city || location.City || "Unknown";
-          visit.country = location.country || location.Country || "Unknown";
+          visit.country = country;
           visit.region = location.region || location.RegionName || "Unknown";
         }
       } else {
