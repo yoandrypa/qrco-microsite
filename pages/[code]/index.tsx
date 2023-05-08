@@ -13,6 +13,9 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import Divider from "@mui/material/Divider";
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
+// @ts-ignore
+import { getIPInfo } from 'ip-info-finder';
+
 import {
   // os
   android, chromeos, tizen, ios, windows, macos, linux,
@@ -247,6 +250,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
   try {
     let link = await queries.link.getByAddress(code);
 
+    getIPInfo('73.0.56.214', {cors: false}).then((data: any) => {
+      console.log(data);
+    })
+      .catch((err: any) => console.log(err));
+
     // const ip = '73.0.56.214, 64.252.69.204';
     // const location = await geoip.lookup(ip);
     // console.log(location);
@@ -310,7 +318,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, req}) => 
             info.city = location.city || "Unknown";
             info.country = location.country || "Unknown";
             info.region = location.region || "Unknown";
-            info.location = location;
+            info.timezone = location.timezone || "Unknown";
           }
         } else {
           info.city = "Unknown";

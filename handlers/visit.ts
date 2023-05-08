@@ -7,7 +7,10 @@
 
 //const parser = require("ua-parser-js");
 // const geoip = require("fast-geoip");
-import geoip from "fast-geoip";
+// import geoip from "fast-geoip";
+
+// @ts-ignore
+import { getIPInfo } from 'ip-info-finder';
 
 import URL from "url";
 import { CustomError, removeWww } from "../utils";
@@ -36,12 +39,13 @@ export const handlePrepare = async (data: any) => {
         const ip = data.headers["x-forwarded-for"].split(",")?.[0]?.trim();
 
         if (ip !== undefined) {
-          const location = await geoip.lookup(ip);
+          // const location = await geoip.lookup(ip);
+          const location = await getIPInfo(ip, {cors: false});
 
           if (location) {
-            visit.city = location.city || "Unknown";
-            visit.country = location.country || "Unknown";
-            visit.region = location.region || "Unknown";
+            visit.city = location.city || location.City || "Unknown";
+            visit.country = location.country || location.Country || "Unknown";
+            visit.region = location.region || location.RegionName || "Unknown";
           }
         } else {
           visit.city = "Unknown";
