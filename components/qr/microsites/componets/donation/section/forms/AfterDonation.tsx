@@ -12,6 +12,7 @@ import { useTheme } from "@mui/system";
 import { handleButtons, handleFont } from "../../../../renderers/helper";
 import { microSiteUrl, msRequest } from "../../../../../../../utils/requests";
 import { setSuccess } from "../../../../../../Notification";
+import { parseFormFieldStyle } from "../../../commons/helpers";
 import { IViewProps, ISectionData } from "../types";
 
 export default function AfterDonation({ data, stylesData, index }: IViewProps<ISectionData>) {
@@ -53,7 +54,7 @@ export default function AfterDonation({ data, stylesData, index }: IViewProps<IS
   data.review = data.review || {};
 
   const boxSx = { display: 'flex', justifyContent: 'center', mt: 2 };
-  const tSx = { ...handleFont(stylesData, 'm') };
+  const tSx = parseFormFieldStyle(stylesData);
   const bSx = {
     backgroundColor: 'secondary.main',
     ...handleFont(stylesData, 'b'),
