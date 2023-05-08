@@ -28,7 +28,8 @@ export const handlePrepare = async (data: any) => {
         os: os.split("-")[2],
         dv: device.split("-")[2],
         referrer: (referrer && referrer.replace(/\./gi, "[dot]")) || "Direct",
-        city: ""
+        city: "",
+        region: ""
       };
 
       if (data.headers["x-forwarded-for"]) {
@@ -40,14 +41,17 @@ export const handlePrepare = async (data: any) => {
           if (location) {
             visit.city = location.city || "Unknown";
             visit.country = location.country || "Unknown";
+            visit.region = location.region || "Unknown";
           }
         } else {
           visit.city = "Unknown";
           visit.country = "Unknown";
+          visit.region = "Unknown";
         }
       } else {
         visit.city = "Unknown";
         visit.country = "Unknown";
+        visit.region = "Unknown";
       }
 
       return await prepare(visit);
