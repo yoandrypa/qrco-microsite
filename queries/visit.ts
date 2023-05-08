@@ -26,7 +26,7 @@ export const prepare = async (params: Prepare) => {
     let referrers = undefined;
     let creationDate = undefined;
 
-    const city = `${params.city}${params.region ? `, ${params.region}` : ''}`;
+    const city = params.city !== params.region ? `${params.city}${params.region ? `, ${params.region}` : ''}` : params.city;
 
     if (visit) {
       countries = {...visit.countries};
