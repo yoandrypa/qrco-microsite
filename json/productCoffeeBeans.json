@@ -1,0 +1,94 @@
+{
+  "micrositeBackImageOpacity": 1,
+  "buttonBorderStyle": "two",
+  "customFooter": "Transporting you to a state of pure bliss",
+  "shortLinkId": {
+    "claimable": false,
+    "banned": false,
+    "preGenerated": false,
+    "target": "https://app-dev.theqr.link/qr/5c9ee59a-3306-48f1-b0cd-693bd3769a99",
+    "updatedAt": "2023-04-04T18:26:42.341Z",
+    "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+    "createdAt": "2023-04-04T18:26:42.339Z",
+    "visitCount": 7,
+    "address": "wQ25FA",
+    "paused": false,
+    "type": "qr_link"
+  },
+  "buttonBorderColors": "#f0eaea|#b0bec5",
+  "buttonShape": "7",
+  "foregndImg": [
+    {
+      "name": "898fb000-c4e1-4155-85c3-9e08b7298969.png",
+      "Key": "customs/design/898fb000-c4e1-4155-85c3-9e08b7298969.png"
+    }
+  ],
+  "sectionTitleFontSize": "large",
+  "buttonBorderWeight": "weight",
+  "custom": [
+    {
+      "data": {
+        "titleAbout": "Midnight Bliss",
+        "descriptionAbout": "A luxurious blend of Arabica and Robusta beans sourced from the lush, high-altitude forests of Ethiopia and Brazil"
+      },
+      "component": "title"
+    },
+    {
+      "data": {
+        "links": [
+          {
+            "link": "mbliss.com/features",
+            "label": "Know More"
+          },
+          {
+            "link": "mbliss.com/tips",
+            "label": "Tips & Tricks"
+          },
+          {
+            "link": "mbliss.com/shop",
+            "label": "Buy Online"
+          }
+        ],
+        "topSpacing": "wide",
+        "hideHeadLine": true
+      },
+      "component": "links"
+    }
+  ],
+  "buttonsOpacity": 1,
+  "subtitlesFontStyle": "b",
+  "buttonsFontStyle": "b",
+  "forceChange": false,
+  "buttonBorderType": "double",
+  "buttonBorders": "15px 15px 15px 15px",
+  "qrType": "custom",
+  "userId": "506480d8-6957-498b-8955-c0efb99253a1",
+  "titlesFontStyle": "b",
+  "footerKind": "custom",
+  "secondary": "#d7ccc8",
+  "qrName": "Coffee Custom",
+  "messagesFontStyle": "b#ffffff",
+  "createdAt": "2023-04-04T18:26:42.341Z",
+  "layout": "gradient",
+  "globalFontColor": "#000000",
+  "profileImageSize": "large",
+  "backgndImg": [
+    {
+      "name": "b6d079d4-a2e5-4ed4-bc0f-ed779ff41a2d.jpg",
+      "Key": "customs/design/b6d079d4-a2e5-4ed4-bc0f-ed779ff41a2d.jpg"
+    }
+  ],
+  "buttonsSeparation": "wide",
+  "isDynamic": true,
+  "updatedAt": "2023-04-04T19:34:06.752Z",
+  "micrositeBackImage": [
+    {
+      "name": "779f9bd5-0d85-453a-9083-740a8d76cd99.png",
+      "Key": "customs/design/779f9bd5-0d85-453a-9083-740a8d76cd99.png"
+    }
+  ],
+  "backgroundType": "image",
+  "foregndImgType": "smooth",
+  "globalFont": "Comic Sans",
+  "primary": "#3e2723"
+}

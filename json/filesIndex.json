@@ -293,6 +293,48 @@
       "file": "businessWatch",
       "name": "Watch Business",
       "desc": "A mobile-friendly landing page to promote your watch business"
+    },
+    {
+      "type": "link-in-bio",
+      "file": "businessMango",
+      "name": "Mango Business",
+      "desc": "A mobile-friendly page to promote your business"
+    },
+    {
+      "type": "custom",
+      "file": "productCoffeeBeans",
+      "name": "Coffee Beans Product",
+      "desc": "A mobile-friendly page to Share information about your product"
+    },
+    {
+      "type": "link-in-bio",
+      "file": "productWine",
+      "name": "Wine Product",
+      "desc": "A mobile-friendly page to Share information about your product"
+    },
+    {
+      "type": "link-in-bio",
+      "file": "productWater",
+      "name": "Water Product",
+      "desc": "A mobile-friendly page to Share information about your product"
+    },
+    {
+      "type": "coupon",
+      "file": "couponClothStore",
+      "name": "Coupon",
+      "desc": "Announcing a sales promotion with a discount coupon"
+    },
+    {
+      "type": "custom",
+      "file": "eventTech",
+      "name": "Technology Conference",
+      "desc": "A mobile-friendly page to Share information about a conference"
+    },
+    {
+      "type": "Smart Label",
+      "file": "smartLabelToolsBox",
+      "name": "Inspecting a tool box",
+      "desc": "A mobile-friendly page to inspect the content of a tool box"
     }
   ]
 }
