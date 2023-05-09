@@ -1,3 +1,4 @@
+import {useCallback, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -9,13 +10,17 @@ import {LinkType} from "../../types/types";
 
 import dynamic from "next/dynamic";
 import {verifyProtocol} from "../../../../helpers/qr/helpers";
+import {download} from "../../../../handlers/storage";
 
+const CircularProgress = dynamic(() => import("@mui/material/CircularProgress"));
 const InputAdornment = dynamic(() => import("@mui/material/InputAdornment"));
 const RenderIcon = dynamic(() => import("../../helperComponents/RenderIcon"));
 const Tooltip = dynamic(() => import("@mui/material/Tooltip"));
 const ContentCopyIcon = dynamic(() => import("@mui/icons-material/ContentCopy"));
 const ForwardIcon = dynamic(() => import("@mui/icons-material/Forward"));
 const TextField = dynamic(() => import("@mui/material/TextField"));
+const Avatar = dynamic(() => import("@mui/material/Avatar"));
+const CloseIcon = dynamic(() => import("@mui/icons-material/Close"));
 
 interface LinksProps extends CustomProps {
   alternate?: boolean;
@@ -23,7 +28,35 @@ interface LinksProps extends CustomProps {
 }
 
 export default function RenderLinks({data, stylesData, alternate, isButtons}: LinksProps) {
+  const [, setUnusedState] = useState();
+
+  const externalIcons = useRef<{name: string, f: string}[]>([]);
+
   const theme = useTheme();
+
+  // @ts-ignore
+  const forceUpdate = useCallback(() => setUnusedState({}), []);
+
+  const getFiles = (key: string) => {
+    const index = externalIcons.current.findIndex(x => x.name === key);
+
+    const populate = (item: any) => {
+      if (index === -1) {
+        externalIcons.current.push(item);
+      } else {
+        externalIcons.current[index] = item;
+      }
+      forceUpdate();
+    }
+
+    download(key, false)
+      .then(fileData => { // @ts-ignore
+        populate({name: key, f: fileData.content});
+      })
+      .catch(() => {
+        populate({name: key, f: 'error'});
+      });
+  }
 
   if (!data?.links?.length) {
     return null;
@@ -37,9 +70,25 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
     }
   }
 
+  const renderIcon = (isExternal: boolean, icon: any) => {
+    if (icon?.Key) {
+      const current = externalIcons.current.find(x => x.name === icon.Key);
+      if (!current) {
+        getFiles(icon.Key);
+        return <CircularProgress color="inherit" sx={{ mx: 'auto' }} size={20} />;
+      } else {
+        if (current.f === 'error') { return <CloseIcon color="error" fontSize="large" />; }
+        return <Avatar src={current.f} />;
+      }
+    }
+    return icon !== undefined ? isExternal ? <Avatar src={icon} /> : <RenderIcon icon={icon} enabled/> : undefined
+  }
+
   const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string, showIcons?: boolean) => {
     let link = item.link;
-    let icon = undefined as string | undefined;
+    let icon = undefined as string | undefined; // @ts-ignore
+    const isExternal = item.icon && typeof item.icon === 'string';
+
     if (isButtons) {
       if (type === 'email') {
         link = `mailto:${link}`;
@@ -56,7 +105,9 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
       } else {
         link = verifyProtocol(link);
         if (showIcons) { icon = 'link'; }
-      }
+      } // @ts-ignore
+      if (isExternal) { icon = item.icon; } // @ts-ignore
+      if (Array.isArray(item.icon)) { icon = item.icon[0]; }
     }
 
     return (
@@ -66,7 +117,7 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
         component="a"
         href={link}
         variant="contained"
-        startIcon={icon !== undefined ? <RenderIcon icon={icon} enabled /> : undefined}
+        startIcon={renderIcon(isExternal, icon)}
         sx={{
           width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
           ...handleFont(stylesData, 'b'),
