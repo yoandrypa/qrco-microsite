@@ -71,11 +71,12 @@ type RenderIconProp = {
   color?: string;
   colorSec?: string;
   size?: string;
+  style?: object;
 };
 
-export default function RenderIcon({ icon, color, colorSec, enabled, adjust, size }: RenderIconProp) {
+export default function RenderIcon({ icon, color, colorSec, enabled, adjust, size, style }: RenderIconProp) {
   const renderIcon = () => {
-    const sx = { mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600] } as any;
+    const sx = { mb: adjust ? '-5px' : 0, color: enabled ? color : grey[600], ...style } as any;
     if (size) {
       sx.width = size;
       sx.height = size;

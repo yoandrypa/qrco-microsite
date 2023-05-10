@@ -75,13 +75,13 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
       const current = externalIcons.current.find(x => x.name === icon.Key);
       if (!current) {
         getFiles(icon.Key);
-        return <CircularProgress color="inherit" sx={{ mx: 'auto' }} size={20} />;
+        return <CircularProgress color="inherit" sx={{my: 'auto'}} size={20} />;
       } else {
-        if (current.f === 'error') { return <CloseIcon color="error" fontSize="large" />; }
+        if (current.f === 'error') { return <CloseIcon color="error" fontSize="large" sx={{my: 'auto'}} />; }
         return <Avatar src={current.f} />;
       }
     }
-    return icon !== undefined ? isExternal ? <Avatar src={icon} /> : <RenderIcon icon={icon} enabled/> : undefined
+    return icon !== undefined ? isExternal ? <Avatar src={icon} sx={{my: 'auto'}}/> : <RenderIcon icon={icon} enabled style={{my: 'auto'}}/> : undefined
   }
 
   const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string, showIcons?: boolean) => {
@@ -117,14 +117,19 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
         component="a"
         href={link}
         variant="contained"
-        startIcon={renderIcon(isExternal, icon)}
         sx={{
           width: 'calc(100% - 20px)', ml: 1, zIndex: 1000,
           ...handleFont(stylesData, 'b'),
           ...handleButtons(stylesData, theme, alternate),
           mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset'
         }}
-      >{item.label}</Button>
+      >
+        <Box component="span" sx={{width: '100%', display: 'flex', justifyContent: data.leftAligned ? 'space-between' : 'center'}}>
+          {renderIcon(isExternal, icon)}
+          <Box component="span" sx={{ml: '5px', my: 'auto'}}>{item.label}</Box>
+          {data.leftAligned && <Box />}
+        </Box>
+      </Button>
     )
   };
 
