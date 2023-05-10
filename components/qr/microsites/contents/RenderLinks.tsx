@@ -71,6 +71,9 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
   }
 
   const renderIcon = (isExternal: boolean, icon: any) => {
+    if (icon === undefined) {
+      return undefined;
+    }
     if (icon?.Key) {
       const current = externalIcons.current.find(x => x.name === icon.Key);
       if (!current) {
@@ -81,7 +84,7 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
         return <Avatar src={current.f} />;
       }
     }
-    return icon !== undefined ? isExternal ? <Avatar src={icon} sx={{my: 'auto'}}/> : <RenderIcon icon={icon} enabled style={{my: 'auto'}}/> : undefined
+    return isExternal ? <Avatar src={icon} sx={{my: 'auto'}}/> : <RenderIcon icon={icon} enabled style={{my: 'auto'}}/>;
   }
 
   const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string, showIcons?: boolean) => {
@@ -124,10 +127,10 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
           mt: !stay ? getSeparation(stylesData?.buttonsSeparation) : 'unset'
         }}
       >
-        <Box component="span" sx={{width: '100%', display: 'flex', justifyContent: data.leftAligned ? 'space-between' : 'center'}}>
+        <Box component="span" sx={{width: '100%', display: 'flex', justifyContent: data.leftAligned && icon !== undefined ? 'space-between' : 'center'}}>
           {renderIcon(isExternal, icon)}
           <Box component="span" sx={{ml: '5px', my: 'auto'}}>{item.label}</Box>
-          {data.leftAligned && <Box />}
+          {data.leftAligned && icon !== undefined && <Box />}
         </Box>
       </Button>
     )
