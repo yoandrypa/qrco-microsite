@@ -1,68 +1,7 @@
-import dynamic from "next/dynamic";
-
 import { grey } from "@mui/material/colors";
-
-const QuoraIcon = dynamic(() => import("./QuoraIcon"));
-const DiscordIcon = dynamic(() => import("./DiscordIcon"));
-const Snapchat = dynamic(() => import("./Snapchat"));
-const Twitch = dynamic(() => import("./Twitch"));
-const TikTokIcon = dynamic(() => import("./TikTokIcon"));
-const WebIcon = dynamic(() => import('@mui/icons-material/Web'));
-const AlternateEmailIcon = dynamic(() => import('@mui/icons-material/AlternateEmail'));
-const SmsOutlinedIcon = dynamic(() => import('@mui/icons-material/SmsOutlined'));
-const ContactPhoneOutlinedIcon = dynamic(() => import('@mui/icons-material/ContactPhoneOutlined'));
-const ContactPhoneIcon = dynamic(() => import('@mui/icons-material/ContactPhone'));
-const WifiIcon = dynamic(() => import('@mui/icons-material/Wifi'));
-const TwitterIcon = dynamic(() => import('@mui/icons-material/Twitter'));
-const TextSnippetOutlinedIcon = dynamic(() => import('@mui/icons-material/TextSnippetOutlined'));
-const WhatsAppIcon = dynamic(() => import('@mui/icons-material/WhatsApp'));
-const FacebookIcon = dynamic(() => import('@mui/icons-material/Facebook'));
-const PictureAsPdfIcon = dynamic(() => import('@mui/icons-material/PictureAsPdf'));
-const InstagramIcon = dynamic(() => import('@mui/icons-material/Instagram'));
-const VolumeUpIcon = dynamic(() => import('@mui/icons-material/VolumeUp'));
-const LinkIcon = dynamic(() => import('@mui/icons-material/Link'));
-const PhotoIcon = dynamic(() => import('@mui/icons-material/Photo'));
-const LinkedInIcon = dynamic(() => import('@mui/icons-material/LinkedIn'));
-const PinterestIcon = dynamic(() => import('@mui/icons-material/Pinterest'));
-const YouTubeIcon = dynamic(() => import('@mui/icons-material/YouTube'));
-const TelegramIcon = dynamic(() => import('@mui/icons-material/Telegram'));
-const BusinessIcon = dynamic(() => import('@mui/icons-material/Business'));
-const MovieIcon = dynamic(() => import('@mui/icons-material/Movie'));
-const ChairIcon = dynamic(() => import('@mui/icons-material/Chair'));
-const AccessibleIcon = dynamic(() => import('@mui/icons-material/Accessible'));
-const InfoIcon = dynamic(() => import('@mui/icons-material/Info'));
-const WcIcon = dynamic(() => import('@mui/icons-material/Wc'));
-const RestaurantIcon = dynamic(() => import('@mui/icons-material/Restaurant'));
-const ChildFriendlyIcon = dynamic(() => import('@mui/icons-material/ChildFriendly'));
-const ContentCopyIcon = dynamic(() => import('@mui/icons-material/ContentCopy'));
-const EmailIcon = dynamic(() => import('@mui/icons-material/Email'));
-const PetsIcon = dynamic(() => import('@mui/icons-material/Pets'));
-const LocalParkingIcon = dynamic(() => import('@mui/icons-material/LocalParking'));
-const ParkIcon = dynamic(() => import('@mui/icons-material/Park'));
-const TrainIcon = dynamic(() => import('@mui/icons-material/Train'));
-const DirectionsBusIcon = dynamic(() => import('@mui/icons-material/DirectionsBus'));
-const LocalTaxiIcon = dynamic(() => import('@mui/icons-material/LocalTaxi'));
-const LocalCafeIcon = dynamic(() => import('@mui/icons-material/LocalCafe'));
-const HotelIcon = dynamic(() => import('@mui/icons-material/Hotel'));
-const SmokingRoomsIcon = dynamic(() => import('@mui/icons-material/SmokingRooms'));
-const LocalBarIcon = dynamic(() => import('@mui/icons-material/LocalBar'));
-const FastfoodIcon = dynamic(() => import('@mui/icons-material/Fastfood'));
-const FitnessCenterIcon = dynamic(() => import('@mui/icons-material/FitnessCenter'));
-const AcUnitIcon = dynamic(() => import('@mui/icons-material/AcUnit'));
-const SchoolIcon = dynamic(() => import('@mui/icons-material/School'));
-const ShowerIcon = dynamic(() => import('@mui/icons-material/Shower'));
-const LocalHospitalIcon = dynamic(() => import('@mui/icons-material/LocalHospital'));
-const ConfirmationNumberIcon = dynamic(() => import('@mui/icons-material/ConfirmationNumber'));
-const ShareIcon = dynamic(() => import('@mui/icons-material/Share'));
-const LocationOnIcon = dynamic(() => import('@mui/icons-material/LocationOn'));
-const FaxIcon = dynamic(() => import('@mui/icons-material/Fax'));
-const PhoneIcon = dynamic(() => import('@mui/icons-material/Phone'));
-const SmartphoneIcon = dynamic(() => import('@mui/icons-material/Smartphone'));
-const EmojiFoodBeverageIcon = dynamic(() => import('@mui/icons-material/EmojiFoodBeverage'));
-const HttpIcon = dynamic(() => import('@mui/icons-material/Http'));
-const PublicIcon = dynamic(() => import('@mui/icons-material/Public'));
-const CustomizeIcon = dynamic(() => import('@mui/icons-material/DashboardCustomize'));
-const RedditIcon = dynamic(() => import('@mui/icons-material/Reddit'));
+import {capitalize} from "@mui/material";
+import * as MUIIcons from './Icons';
+import * as systemIcons from "../../icons/system";
 
 type RenderIconProp = {
   icon: string;
@@ -89,90 +28,60 @@ export default function RenderIcon({ icon, color, colorSec, enabled, adjust, siz
     }
 
     if (icon === 'tiktok') {
-      return <TikTokIcon color={color} size={size} sx={sx} />;
+      return <MUIIcons.TikTok color={color} size={size} sx={sx} />;
     }
 
     if (icon === 'quora') {
-      return <QuoraIcon color={color} size={size} sx={sx} />;
+      return <MUIIcons.Quora color={color} size={size} sx={sx} />;
     }
 
     if (icon === 'twitch') {
-      return <Twitch color={color} size={size} sx={sx} />;
+      return <MUIIcons.Twitch color={color} size={size} sx={sx} />;
     }
 
     if (icon === 'snapchat') {
-      return <Snapchat color={color} size={size} sx={sx} />;
+      return <MUIIcons.Snapchat color={color} size={size} sx={sx} />;
     }
 
     if (icon === 'discord') {
-      return <DiscordIcon color={color} size={size} sx={sx} />;
+      return <MUIIcons.Discord color={color} size={size} sx={sx} />;
     }
 
-    switch (icon) {
-      case 'custom': { return <CustomizeIcon sx={sx} />; }
-      case 'copy': { return <ContentCopyIcon sx={sx} />; }
-      case 'call':
-      case 'phone': { return <PhoneIcon sx={sx} />; }
-      case 'cell': { return <SmartphoneIcon sx={sx} />; }
-      case 'location': { return <LocationOnIcon sx={sx} />; }
-      case 'email': { return <AlternateEmailIcon sx={sx} />; }
-      case 'emailIcon': { return <EmailIcon sx={sx} />; }
-      case 'facebook': { return <FacebookIcon sx={sx} /> }
-      case 'sms': { return <SmsOutlinedIcon sx={sx} />; }
-      case 'twitter': { return <TwitterIcon sx={sx} /> }
-      case 'vcard': { return <ContactPhoneOutlinedIcon sx={sx} />; }
-      case 'contact':
-      case 'vcard+': { return <ContactPhoneIcon sx={sx} />; }
-      case 'web': { return <WebIcon sx={sx} />; }
-      case 'whatsapp': { return <WhatsAppIcon sx={sx} />; }
-      case 'pinterest': { return <PinterestIcon sx={sx} />; }
-      case 'linkedin': { return <LinkedInIcon sx={sx} />; }
-      case 'telegram': { return <TelegramIcon sx={sx} />; }
-      case 'instagram': { return <InstagramIcon sx={sx} />; }
-      case 'youtube': { return <YouTubeIcon sx={sx} />; }
-      case 'wifi': { return <WifiIcon sx={sx} />; }
-      case 'pdf': { return <PictureAsPdfIcon sx={sx} />; }
-      case 'audio': { return <VolumeUpIcon sx={sx} />; }
-      case 'videos':
-      case 'video': { return <MovieIcon sx={sx} />; }
-      case 'gallery':
-      case 'image': { return <PhotoIcon sx={sx} />; }
-      case 'business': { return <BusinessIcon sx={sx} />; }
-      case 'health': { return <LocalHospitalIcon sx={sx} />; }
-      case 'seat': { return <ChairIcon sx={sx} />; }
-      case 'accessible': { return <AccessibleIcon sx={sx} />; }
-      case 'toilet': { return <WcIcon sx={sx} />; }
-      case 'restaurant': { return <RestaurantIcon sx={sx} />; }
-      case 'social': { return <ShareIcon sx={sx} />; }
-      case 'child': { return <ChildFriendlyIcon sx={sx} />; }
-      case 'pets': { return <PetsIcon sx={sx} />; }
-      case 'parking': { return <LocalParkingIcon sx={sx} />; }
-      case 'park': { return <ParkIcon sx={sx} />; }
-      case 'train': { return <TrainIcon sx={sx} />; }
-      case 'bus': { return <DirectionsBusIcon sx={sx} />; }
-      case 'taxi': { return <LocalTaxiIcon sx={sx} />; }
-      case 'cafe': { return <LocalCafeIcon sx={sx} />; }
-      case 'bed': { return <HotelIcon sx={sx} />; }
-      case 'smoking': { return <SmokingRoomsIcon sx={sx} />; }
-      case 'bar': { return <LocalBarIcon sx={sx} />; }
-      case 'coupon': { return <ConfirmationNumberIcon sx={sx} />; }
-      case 'fastfood': { return <FastfoodIcon sx={sx} />; }
-      case 'gym': { return <FitnessCenterIcon sx={sx} />; }
-      case 'climate': { return <AcUnitIcon sx={sx} />; }
-      case 'shower': { return <ShowerIcon sx={sx} />; }
-      case 'training': { return <SchoolIcon sx={sx} />; }
-      case 'http': { return <HttpIcon sx={sx} />; }
-      case 'donation':
-      case 'donations': { return <EmojiFoodBeverageIcon sx={sx} />; }
-      case 'about': { return <InfoIcon sx={sx} />; }
-      case 'world': { return <PublicIcon sx={sx} />; }
-      case 'links':
-      case 'link': { return <LinkIcon sx={sx} />; }
-      case 'fax': { return <FaxIcon sx={sx} />; }
-      case 'petId': { return <PetsIcon sx={sx} />; }
-      case 'reddit': { return <RedditIcon sx={sx} />; }
-      default: { return <TextSnippetOutlinedIcon sx={sx} />; }
+    let iconName = capitalize(icon);
+    switch (iconName) {
+      case 'Call':
+      case 'CompanyPhone': { iconName = 'Phone'; break; }
+      case 'CompanyCell':
+      case 'Cell': { iconName = 'CellPhone'; break; }
+      case 'CompanyFax': { iconName = 'Fax'; break; }
+      case 'Contact':
+      case 'Vcard': { iconName = 'VCard'; break; }
+      case 'Vcard+': { iconName = 'VCardPlus'; break; }
+      case 'Email': { iconName = 'AltEmail'; break; }
+      case 'EmailIcon': { iconName = 'Email'; break; }
+      case 'Gallery': { iconName = 'Image'; break; }
+      case 'PetId': { iconName = 'Pets'; break; }
+      case 'Fastfood': { iconName = 'FastFood'; break; }
+      case 'Fundme': { iconName = 'FundMe'; break; }
+      case 'Paylink': { iconName = 'PayLink'; break; }
+      case 'LinkedLabel': { iconName = 'QrCode'; break; }
+      case 'Tiktok': { iconName = 'TikTok'; break; }
+      case 'Whatsapp': { iconName = 'WhatsApp'; break; }
+      case 'Linkedin': { iconName = 'LinkedIn'; break; }
+      case 'Youtube': { iconName = 'YouTube'; break; }
     }
+
+    // @ts-ignore
+    let Icon = MUIIcons[iconName];
+    if (!Icon) { // @ts-ignore
+      Icon = systemIcons[iconName];
+    }
+
+    if (!Icon) {
+      return <MUIIcons.Text sx={sx} />;
+    }
+
+    return <Icon sx={sx} />;
   };
 
   return renderIcon();
