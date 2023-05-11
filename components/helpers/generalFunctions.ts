@@ -21,7 +21,7 @@ export function humanDate(date: number | string, locale: string = 'en', long?: b
     day: 'numeric'
   });
 
-  return `${returning}${`, ${d.getFullYear()}`}`;
+  return `${returning}, ${d.getFullYear()}`;
 }
 
 export function getExtension(mimeType: string): string {

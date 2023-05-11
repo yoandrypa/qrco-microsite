@@ -81,10 +81,13 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
         return <CircularProgress color="inherit" sx={{my: 'auto'}} size={20} />;
       } else {
         if (current.f === 'error') { return <CloseIcon color="error" fontSize="large" sx={{my: 'auto'}} />; }
-        return <Avatar src={current.f} />;
+        return <Avatar src={current.f} sx={{my: 'auto'}} variant={data.iconShape === 'smooth' ? 'rounded' : (data.iconShape === 'square' ? 'square' : 'circular')} />;
       }
     }
-    return isExternal ? <Avatar src={icon} sx={{my: 'auto'}}/> : <RenderIcon icon={icon} enabled style={{my: 'auto'}}/>;
+
+    return isExternal && icon.toLowerCase().startsWith('data:image/') ?
+      <Avatar src={icon} sx={{my: 'auto'}} variant={data.iconShape === 'smooth' ? 'rounded' : (data.iconShape === 'square' ? 'square' : 'circular')} /> :
+      <RenderIcon icon={icon} enabled style={{my: 'auto'}}/>;
   }
 
   const renderBtn = (item: LinkType, key: string, stay: boolean, alternate?: boolean, type?: string, showIcons?: boolean) => {
@@ -129,8 +132,12 @@ export default function RenderLinks({data, stylesData, alternate, isButtons}: Li
       >
         <Box component="span" sx={{width: '100%', display: 'flex', justifyContent: data.leftAligned && icon !== undefined ? 'space-between' : 'center'}}>
           {renderIcon(isExternal, icon)}
-          <Box component="span" sx={{ml: '5px', my: 'auto'}}>{item.label}</Box>
-          {data.leftAligned && icon !== undefined && <Box />}
+          <Box component="span" sx={{ml: !data.leftAligned || icon === undefined ? '5px' : undefined, my: 'auto'}}>
+            <Box sx={{mt: '2px'}}>
+              {item.label}
+            </Box>
+          </Box>
+          {data.leftAligned && icon !== undefined && <Box sx={{width: 3}} />}
         </Box>
       </Button>
     )
