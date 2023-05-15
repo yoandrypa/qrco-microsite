@@ -71,6 +71,8 @@ export default function Handler ({ data, code, locked, preparedData }: InferGetS
       // else if (desktop) { dv = 'desktop'; }
       // else if (hybrid) { dv = 'hybrid'; }
 
+      debugger;
+
       await create({...preparedData, browser, os, dv});
     }
 
