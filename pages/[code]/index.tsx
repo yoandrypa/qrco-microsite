@@ -16,14 +16,14 @@ import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 // @ts-ignore
 import { getIPInfo } from 'ip-info-finder';
 
-import {
-  // os
-  android, chromeos, tizen, ios, windows, macos, linux,
-  // form
-  tv, phone, tablet, laptop, desktop, hybrid,
-  // browsers
-  chrome, firefox, edge, samsungBrowser, opera, safari, ie // @ts-ignore
-} from 'platform-detect';
+// import {
+//   // os
+//   android, chromeos, tizen, ios, windows, macos, linux,
+//   // form
+//   tv, phone, tablet, laptop, desktop, hybrid,
+//   // browsers
+//   chrome, firefox, edge, samsungBrowser, opera, safari, ie // @ts-ignore
+// } from 'platform-detect';
 
 import dynamic from "next/dynamic";
 import {create} from "../../queries/visit";
@@ -48,28 +48,28 @@ export default function Handler ({ data, code, locked, preparedData }: InferGetS
       let os = 'other';
       let dv = 'other';
 
-      if (chrome) { browser = 'chrome'; }
-      else if (firefox) { browser = 'firefox'; }
-      else if (edge) { browser = 'edge'; }
-      else if (samsungBrowser) { browser = 'samsungBrowser'; }
-      else if (opera) { browser = 'opera'; }
-      else if (safari) { browser = 'safari'; }
-      else if (ie) { browser = 'ie'; }
-
-      if (android) { os = 'android'; }
-      else if (chromeos) { os = 'chromeos'; }
-      else if (tizen) { os = 'tizen'; }
-      else if (ios) { os = 'ios'; }
-      else if (windows) { os = 'windows'; }
-      else if (macos) { os = 'macos'; }
-      else if (linux) { os = 'linux'; }
-
-      if (tv) { dv = 'smarttv'; }
-      else if (phone) { dv = 'mobile'; }
-      else if (tablet) { dv = 'tablet'; }
-      else if (laptop) { dv = 'laptop'; }
-      else if (desktop) { dv = 'desktop'; }
-      else if (hybrid) { dv = 'hybrid'; }
+      // if (chrome) { browser = 'chrome'; }
+      // else if (firefox) { browser = 'firefox'; }
+      // else if (edge) { browser = 'edge'; }
+      // else if (samsungBrowser) { browser = 'samsungBrowser'; }
+      // else if (opera) { browser = 'opera'; }
+      // else if (safari) { browser = 'safari'; }
+      // else if (ie) { browser = 'ie'; }
+      //
+      // if (android) { os = 'android'; }
+      // else if (chromeos) { os = 'chromeos'; }
+      // else if (tizen) { os = 'tizen'; }
+      // else if (ios) { os = 'ios'; }
+      // else if (windows) { os = 'windows'; }
+      // else if (macos) { os = 'macos'; }
+      // else if (linux) { os = 'linux'; }
+      //
+      // if (tv) { dv = 'smarttv'; }
+      // else if (phone) { dv = 'mobile'; }
+      // else if (tablet) { dv = 'tablet'; }
+      // else if (laptop) { dv = 'laptop'; }
+      // else if (desktop) { dv = 'desktop'; }
+      // else if (hybrid) { dv = 'hybrid'; }
 
       await create({...preparedData, browser, os, dv});
     }

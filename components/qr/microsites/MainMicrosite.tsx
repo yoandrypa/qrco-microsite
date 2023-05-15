@@ -2,7 +2,9 @@ import React, {ReactNode, useEffect, useMemo, useRef, useState} from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
-import { alpha, ThemeProvider } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
+
+import ReactGA from "react-ga4";
 import dynamic from "next/dynamic";
 
 import {download} from "../../../handlers/storage";
@@ -140,6 +142,9 @@ export default function MainMicrosite({children, data}: MicrositesProps) {
       }
       // @ts-ignore
       window.top.postMessage(JSON.stringify({ready: true}), process.env.REACT_APP_QRCO_URL);
+    } else if (data.trackingId) { // Google Tracking Id
+      ReactGA.initialize(data.trackingId);
+      ReactGA.send("pageview");
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
