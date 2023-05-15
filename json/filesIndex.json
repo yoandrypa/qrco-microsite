@@ -25,12 +25,6 @@
       "desc": "A mobile-friendly landing page for a fast food business"
     },
     {
-      "type": "coupon",
-      "file": "coupon",
-      "name": "Coupon",
-      "desc": "Announcing a sales promotion with a discount coupon"
-    },
-    {
       "type": "custom",
       "file": "custom",
       "name": "Custom",
@@ -317,12 +311,6 @@
       "file": "productWater",
       "name": "Water Product",
       "desc": "A mobile-friendly page to Share information about your product"
-    },
-    {
-      "type": "coupon",
-      "file": "couponClothStore",
-      "name": "Coupon",
-      "desc": "Announcing a sales promotion with a discount coupon"
     },
     {
       "type": "custom",
